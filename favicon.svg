@@ -1,19 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
-  <rect width="40" height="40" rx="8" fill="#0A0D14"/>
-  <circle cx="20" cy="20" r="17.5" stroke="#FF6B00" stroke-opacity="0.35" stroke-width="1.5" />
-  <circle cx="20" cy="20" r="11.5" stroke="#FF6B00" stroke-opacity="0.75" stroke-width="2" />
-  <circle cx="20" cy="20" r="5" stroke="#FF8533" stroke-width="2.2" />
-  <line x1="20" y1="2" x2="20" y2="7" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-  <line x1="20" y1="33" x2="20" y2="38" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-  <line x1="2" y1="20" x2="7" y2="20" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-  <line x1="33" y1="20" x2="38" y2="20" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
+  <circle cx="20" cy="20" r="17.5" stroke="#FF6B00" stroke-opacity="0.45" stroke-width="1.8" />
+  <circle cx="20" cy="20" r="11.5" stroke="#FF6B00" stroke-opacity="0.85" stroke-width="2.2" />
+  <circle cx="20" cy="20" r="5" stroke="#FF8533" stroke-width="2.5" />
+  <line x1="20" y1="2" x2="20" y2="7" stroke="#FF6B00" stroke-width="2.2" stroke-linecap="round" />
+  <line x1="20" y1="33" x2="20" y2="38" stroke="#FF6B00" stroke-width="2.2" stroke-linecap="round" />
+  <line x1="2" y1="20" x2="7" y2="20" stroke="#FF6B00" stroke-width="2.2" stroke-linecap="round" />
+  <line x1="33" y1="20" x2="38" y2="20" stroke="#FF6B00" stroke-width="2.2" stroke-linecap="round" />
   <defs>
     <linearGradient id="navSweep" x1="20" y1="20" x2="33" y2="7" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FF6B00" stop-opacity="0.3" />
+      <stop stop-color="#FF6B00" stop-opacity="0.4" />
       <stop offset="1" stop-color="#FFFFFF" />
     </linearGradient>
   </defs>
-  <line x1="20" y1="20" x2="33" y2="7" stroke="url(#navSweep)" stroke-width="2.5" stroke-linecap="round" />
-  <circle cx="20" cy="20" r="2.5" fill="#FFFFFF" />
-  <circle cx="33" cy="7" r="2.2" fill="#FFA366" />
+  <line x1="20" y1="20" x2="33" y2="7" stroke="url(#navSweep)" stroke-width="2.8" stroke-linecap="round" />
+  <circle cx="20" cy="20" r="2.8" fill="#FFFFFF" />
+  <circle cx="33" cy="7" r="2.4" fill="#FFA366" />
 </svg>

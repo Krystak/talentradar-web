@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="cs" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalentRadar — Automatický BD radar pro české headhuntery</title>
+  <meta name="description" content="Automatický monitoring kariérních stránek firem pro personální a headhunting agentury v ČR. Zjistěte o nových pozicích dříve než konkurence.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: #0A0D14;
+      color: #F3F4F6;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #FFFFFF 30%, #FF6B00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .orange-glow {
+      box-shadow: 0 0 40px rgba(255, 107, 0, 0.2);
+    }
+    .glass-card {
+      background: rgba(17, 22, 34, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+    }
+    .glass-card:hover {
+      border-color: rgba(255, 107, 0, 0.35);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#FF6B00] selection:text-white">
+
+  <!-- Header / Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-6 py-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF6B00] to-[#E65A00] flex items-center justify-center font-bold text-white text-lg shadow-lg shadow-[#FF6B00]/30">
+          ⚡
+        </div>
+        <span class="font-extrabold text-xl tracking-tight text-white">TALENT<span class="text-[#FF6B00]">RADAR</span></span>
+      </div>
+      <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+        <a href="#funkce" class="hover:text-white transition">Jak to funguje</a>
+        <a href="#pribeh" class="hover:text-white transition">Můj příběh</a>
+        <a href="#srovnani" class="hover:text-white transition">Proč ne Datacruit?</a>
+        <a href="#kontakt" class="hover:text-white transition">Kontakt</a>
+      </div>
+      <a href="#kontakt" class="px-4 py-2 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25">
+        DOMLUVIT UKÁZKU (15 MIN)
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="pt-36 pb-20 px-6 relative overflow-hidden">
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#FF6B00]/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+      <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-medium text-[#FF8533]">
+        <span>⚡ Vyvinuto na míru pro české a slovenské headhuntery</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight text-white">
+        Zjistěte o nových pozicích klientů <span class="text-[#FF6B00]">dříve než konkurence.</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        Automatický radar kariérních portálů a ATS systémů. Konec ručního proklikávání desítek webů každé pondělí ráno. Získejte okamžité leady k oslovení s vašimi kandidáty.
+      </p>
+
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#kontakt" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5">
+          Vyzkoušet na 15 dní zdarma →
+        </a>
+        <a href="#funkce" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card text-slate-200 font-semibold text-sm hover:text-white transition-all">
+          Prohlédnout funkce platformy
+        </a>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="pt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-mono">
+        <div class="flex items-center space-x-1.5">
+          <span class="text-emerald-400 font-bold">✓</span>
+          <span>Blesková rychlost (SQLite engine)</span>
+        </div>
+        <div class="flex items-center space-x-1.5">
+          <span class="text-emerald-400 font-bold">✓</span>
+          <span>Greenhouse, Lever &amp; firemní weby</span>
+        </div>
+        <div class="flex items-center space-x-1.5">
+          <span class="text-emerald-400 font-bold">✓</span>
+          <span>Bez vázanosti a drahých licencí</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive App Preview Mockup -->
+  <section class="py-12 px-6 max-w-5xl mx-auto">
+    <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-2xl border border-[rgba(255,255,255,0.1)] orange-glow">
+      <div class="flex items-center justify-between pb-4 border-b border-[rgba(255,255,255,0.06)] text-xs text-slate-400">
+        <div class="flex items-center space-x-2">
+          <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+          <span class="ml-2 font-mono text-slate-300">TalentRadar — Dashboard trhu v reálném čase</span>
+        </div>
+        <span class="px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-400 font-mono">● LIVE RADAR</span>
+      </div>
+
+      <!-- Mock rows -->
+      <div class="mt-4 space-y-3">
+        <div class="p-3.5 rounded-xl bg-[#0A0D14] border border-[rgba(255,255,255,0.05)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-sm text-white">Senior Java / Kotlin Backend Architect</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">NOVÉ DNES</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-[#FF6B00]/20 text-[#FF8533] font-mono font-bold">CORE TECH</span>
+            </div>
+            <div class="text-xs text-slate-400 mt-1">Livesport s.r.o. • 📍 Praha / Hybrid • 130 000 - 160 000 Kč</div>
+          </div>
+          <span class="text-xs px-3 py-1 rounded bg-[#1A2234] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium">
+            K oslovení →
+          </span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-[#0A0D14] border border-[rgba(255,255,255,0.05)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-sm text-white">Lead DevOps Engineer (Kubernetes &amp; AWS)</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">PŘED 3H</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-[#FF6B00]/20 text-[#FF8533] font-mono font-bold">CORE TECH</span>
+            </div>
+            <div class="text-xs text-slate-400 mt-1">Rohlik Group • 📍 Praha / Brno • 115 000 - 145 000 Kč</div>
+          </div>
+          <span class="text-xs px-3 py-1 rounded bg-[#1A2234] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium">
+            K oslovení →
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Pillars Section -->
+  <section id="funkce" class="py-24 px-6 max-w-6xl mx-auto space-y-12">
+    <div class="text-center space-y-3 max-w-2xl mx-auto">
+      <h2 class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold">Architektura úspěchu</h2>
+      <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Tři pilíře pro váš každodenní business</h3>
+      <p class="text-slate-400 text-sm">Žádný složitý balast. Pouze čistá data, rychlost a přímé leady pro váš tým.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Pillar 1 -->
+      <div class="glass-card rounded-2xl p-7 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/30 flex items-center justify-center text-xl text-[#FF6B00] font-bold">
+          📊
+        </div>
+        <h4 class="text-xl font-bold text-white">1. Dashboard trhu</h4>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Každé ráno uvidíte přesný souhrn: které firmy v ČR včera vypsaly nové pozice, kolik rolí přibylo v IT/Techu a které z vašich prioritních firem právě masivně nabírají.
+        </p>
+        <ul class="text-xs text-slate-300 space-y-2 pt-2 font-mono">
+          <li class="flex items-center space-x-2"><span class="text-emerald-400">✓</span><span>Přehled za posledních 24 hodin</span></li>
+          <li class="flex items-center space-x-2"><span class="text-emerald-400">✓</span><span>Metriky nejaktivnějších firem</span></li>
+        </ul>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="glass-card rounded-2xl p-7 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/30 flex items-center justify-center text-xl text-[#FF6B00] font-bold">
+          📡
+        </div>
+        <h4 class="text-xl font-bold text-white">2. BD Scanner</h4>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Náš scraper monitoruje stovky kariérních webů a ATS systémů (Greenhouse, Lever, Teamio). Vyfiltruje nerelevantní pozice (stáže, brigády) a nechá jen role s vysokou marží.
+        </p>
+        <ul class="text-xs text-slate-300 space-y-2 pt-2 font-mono">
+          <li class="flex items-center space-x-2"><span class="text-emerald-400">✓</span><span>Chytré filtry pro český trh</span></li>
+          <li class="flex items-center space-x-2"><span class="text-emerald-400">✓</span><span>Automatické vyřazení nechtěných rolí</span></li>
+        </ul>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div class="glass-card rounded-2xl p-7 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/30 flex items-center justify-center text-xl text-[#FF6B00] font-bold">
+          📑
+        </div>
+        <h4 class="text-xl font-bold text-white">3. BD Master (Leady)</h4>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Centrální tabulka všech otevřených příležitostí. Filtrujte podle měst (Praha, Brno, Remote), oborů či firem. Exportujte jedním kliknutím do CSV pro import do vašeho CRM nebo tabulky.
+        </p>
+        <ul class="text-xs text-slate-300 space-y-2 pt-2 font-mono">
+          <li class="flex items-center space-x-2"><span class="text-emerald-400">✓</span><span>Okamžitý export do CSV</span></li>
+          <li class="flex items-center space-x-2"><span class="text-emerald-400">✓</span><span>Správa stavu (K oslovení / Osloveno)</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Founder Story Section -->
+  <section id="pribeh" class="py-20 px-6 bg-[#0E131F] border-y border-[rgba(255,255,255,0.06)]">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <div class="space-y-3">
+        <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold">Kdo za tím stojí</span>
+        <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Příběh z Irska do České republiky</h3>
+      </div>
+
+      <div class="space-y-5 text-slate-300 text-base leading-relaxed">
+        <p>
+          Ahoj, jmenuji se Kryštof. V 18 letech jsem dostal příležitost stavět interní automatizační a BD platformu pro technologickou headhunterskou agenturu v irském Dublinu.
+        </p>
+        <p>
+          Viděl jsem zblízka, jak funguje mezinárodní headhunting: agentury, které mají rychlý přístup k nově vypsaným pozicím na trhu, vyhrávají ty nejzajímavější zakázky a získávají klienty dříve, než se o pozicích dozví zbytek trhu.
+        </p>
+        <p>
+          Když jsem se vrátil do Česka, zjistil jsem, že menší české agentury a nezávislí freelance recruiteři mají jen dvě možnosti: buď platit přemrštěné korporátní licence za obří a neohrabané ATS systémy typu Datacruit či Teamio, nebo trávit desítky hodin týdně manuálním klikáním na kariérní weby firem.
+        </p>
+        <p class="font-semibold text-white">
+          Proto jsem vytvořil TalentRadar – jednoduchý, extrémně rychlý a cenově dostupný systém, který vám vrátí čas na to nejdůležitější: budování vztahů s klienty a kandidáty.
+        </p>
+      </div>
+
+      <div class="pt-4 flex items-center space-x-4">
+        <div class="w-12 h-12 rounded-full bg-[#FF6B00] flex items-center justify-center font-bold text-white text-lg">
+          K
+        </div>
+        <div>
+          <div class="font-bold text-white">Kryštof</div>
+          <div class="text-xs text-slate-400">Zakladatel TalentRadar • Vývojář &amp; konzultant</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison vs Datacruit/Teamio -->
+  <section id="srovnani" class="py-20 px-6 max-w-5xl mx-auto space-y-10">
+    <div class="text-center space-y-2">
+      <h3 class="text-2xl sm:text-3xl font-bold text-white">Proč TalentRadar a ne korporátní systémy?</h3>
+      <p class="text-slate-400 text-sm">Navrženo speciálně pro aktivní headhunting a business development.</p>
+    </div>
+
+    <div class="glass-card rounded-2xl overflow-hidden">
+      <div class="grid grid-cols-3 p-4 bg-[#141A28] border-b border-[rgba(255,255,255,0.08)] font-bold text-xs sm:text-sm">
+        <div class="text-slate-400">Parametr</div>
+        <div class="text-[#FF6B00]">TalentRadar</div>
+        <div class="text-slate-400">Velká korporátní ATS</div>
+      </div>
+      <div class="divide-y divide-[rgba(255,255,255,0.04)] text-xs sm:text-sm">
+        <div class="grid grid-cols-3 p-4 items-center">
+          <div class="font-medium text-slate-300">Účel systému</div>
+          <div class="text-white font-semibold">Aktivní BD &amp; vyhledávání leadů</div>
+          <div class="text-slate-400">Správa uchazečů z inzerce</div>
+        </div>
+        <div class="grid grid-cols-3 p-4 items-center">
+          <div class="font-medium text-slate-300">Rychlost nasazení</div>
+          <div class="text-white font-semibold">Do 24 hodin hotovo</div>
+          <div class="text-slate-400">Týdny až měsíce školení</div>
+        </div>
+        <div class="grid grid-cols-3 p-4 items-center">
+          <div class="font-medium text-slate-300">Odezva aplikace</div>
+          <div class="text-emerald-400 font-mono font-bold">&lt; 2 ms (okamžitá)</div>
+          <div class="text-slate-400">Pomalé korporátní webové rozhraní</div>
+        </div>
+        <div class="grid grid-cols-3 p-4 items-center">
+          <div class="font-medium text-slate-300">Cenová dostupnost</div>
+          <div class="text-white font-semibold">Zlomek běžné ceny, bez závazků</div>
+          <div class="text-slate-400">Desetitisíce měsíčně + roční smlouvy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Lead Form CTA -->
+  <section id="kontakt" class="py-24 px-6 max-w-4xl mx-auto">
+    <div class="glass-card rounded-3xl p-8 sm:p-12 border border-[#FF6B00]/40 orange-glow text-center space-y-6">
+      <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold">Nezávazné představení</span>
+      <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Chcete vidět TalentRadar na vašich klientech?</h3>
+      <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+        Domluvme si krátký 15minutový online hovor. Připravím pro vás ukázku skenování firem, které vás zajímají, a uvidíte, kolik příležitostí vám systém dokáže přinést.
+      </p>
+
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="mailto:krystof@talentradar.cz?subject=Poptávka%20TalentRadar%20ukázky" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#FF6B00] hover:bg-[#E65A00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all">
+          ✉️ Napsat e-mail na krystof@talentradar.cz
+        </a>
+      </div>
+
+      <div class="pt-4 text-xs text-slate-400">
+        Nebo mi zavolejte přímo na: <span class="text-white font-semibold font-mono">+420 730 000 000</span> (Kryštof)
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-white">TALENT<span class="text-[#FF6B00]">RADAR</span></span>
+        <span>— Czech B2B Recruitment Intelligence</span>
+      </div>
+      <div>
+        © 2026 TalentRadar. Všechna práva vyhrazena.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

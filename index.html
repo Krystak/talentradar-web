@@ -530,11 +530,11 @@
       </p>
     </div>
 
-    <!-- Pricing Grid: 2 Primary Variants + Custom -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    <!-- Pricing Grid: 3 Centered Symmetric Columns -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch max-w-5xl mx-auto">
       
       <!-- Varianta 1: Základní (do 20 firem, 1 490 Kč) -->
-      <div class="lg:col-span-4 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6">
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 px-2.5 py-1 rounded bg-slate-800 border border-slate-700">Základní</span>
@@ -579,19 +579,18 @@
         </a>
       </div>
 
-      <!-- Varianta 2: Pro (až 150 firem, 3 500 Kč — ZVÝRAZNĚNÁ, VĚTŠÍ, DEALBREAKER) -->
-      <div class="lg:col-span-5 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-2 shadow-2xl">
+      <!-- Varianta 2: Pro (až 150 firem, 3 500 Kč — ZVÝRAZNĚNÁ, VYCENTROVANÁ) -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-2 shadow-2xl">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-gradient-to-r from-[#FF6B00] to-[#E65A00] shadow-md shadow-[#FF6B00]/40 flex items-center space-x-1.5">
-              <span>🔥</span>
-              <span>NEJPOPULÁRNĚJŠÍ · DEALBREAKER</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-[#FF6B00] shadow-md shadow-[#FF6B00]/40">
+              Doporučujeme
             </span>
             <span class="text-xs text-[#FF8533] font-bold font-mono">až 150 firem</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
-              <span class="text-4xl sm:text-5xl font-black text-white font-mono">3 500 Kč</span>
+              <span class="text-3xl sm:text-4xl font-black text-white font-mono">3 500 Kč</span>
               <span class="text-xs text-slate-300">/ měsíc</span>
             </div>
             <p class="text-xs text-slate-300 mt-1 font-medium">
@@ -599,14 +598,13 @@
             </p>
           </div>
 
-          <!-- Highlighted Dealbreaker Feature Box -->
-          <div class="p-3.5 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/40 text-xs text-[#FF8533] space-y-1">
+          <!-- Feature Box: LinkedIn Careers -->
+          <div class="p-3.5 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs text-[#FF8533] space-y-1">
             <div class="font-bold text-white flex items-center space-x-1.5">
-              <span>⚡</span>
-              <span>Procházení LinkedIn kariérních stránek</span>
+              <span>Skenování LinkedIn kariérních stránek</span>
             </div>
             <p class="text-slate-300 leading-relaxed text-[11px]">
-              Místo pouhých běžných stránek prochází systém i <strong>LinkedIn Careers page</strong> vybraných firem. Zachytíte tak pozice, které firmy nevypisují na svém webu, ale inzerují výhradně na LinkedInu.
+              Systém prochází i <strong>LinkedIn Careers page</strong> vybraných firem. Zachytíte tak pozice, které firmy nevypisují na svém webu, ale inzerují přímo na LinkedInu.
             </p>
           </div>
 
@@ -637,13 +635,13 @@
             </li>
           </ul>
         </div>
-        <a href="#demo" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-sm font-bold tracking-wide text-center shadow-xl shadow-[#FF6B00]/30 transition block transform hover:-translate-y-0.5">
+        <a href="#demo" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide text-center shadow-xl shadow-[#FF6B00]/30 transition block transform hover:-translate-y-0.5">
           Chci demo na svých firmách →
         </a>
       </div>
 
       <!-- Varianta 3: Custom (nad 150 firem / individuální domluva) -->
-      <div class="lg:col-span-3 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-slate-500 transition space-y-6">
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-slate-500 transition space-y-6">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 px-2.5 py-1 rounded bg-slate-800 border border-slate-700">Custom</span>
@@ -651,7 +649,7 @@
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
-              <span class="text-2xl sm:text-3xl font-black text-white">Na míru</span>
+              <span class="text-3xl sm:text-4xl font-black text-white">Na míru</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">Pro velké agenturní týmy a specifické integrační požadavky.</p>
           </div>

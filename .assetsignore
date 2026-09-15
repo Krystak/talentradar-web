@@ -1,0 +1,5 @@
+.git
+wrangler.toml
+worker.js
+functions
+.assetsignore

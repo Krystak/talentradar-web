@@ -2,6 +2,7 @@
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/
 
 name = "talentradar-web"
+main = "worker.js"
 compatibility_date = "2026-09-15"
 
 # Assets / Static Directory

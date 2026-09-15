@@ -520,41 +520,45 @@
     </div>
   </section>
 
-  <!-- ÚKOL 8: Cena (Tři přehledné tarify) -->
+  <!-- ÚKOL 8: Cena (Dvě hlavní varianty + Custom) -->
   <section id="cena" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
     <div class="text-center space-y-3 max-w-2xl mx-auto">
       <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold">Přehledné tarify</span>
       <h2 class="text-3xl sm:text-4xl font-black text-white">Cena</h2>
       <p class="text-slate-300 text-sm sm:text-base">
-        Bez zaváděcích poplatků a bez roční smlouvy — skončit můžete kdykoliv. První nastavení je v ceně všech tarifů a uděláme ho spolu během jednoho odpoledne.
+        Bez zaváděcích poplatků a bez roční smlouvy — skončit můžete kdykoliv. První nastavení je v ceně a uděláme ho spolu během jednoho odpoledne.
       </p>
     </div>
 
-    <!-- 3 Pricing Cards Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+    <!-- Pricing Grid: 2 Primary Variants + Custom -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
       
-      <!-- Tarif 1: Starter (do 25 firem) -->
-      <div class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6">
+      <!-- Varianta 1: Základní (do 20 firem, 1 490 Kč) -->
+      <div class="lg:col-span-4 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 px-2.5 py-1 rounded bg-slate-800">Starter</span>
-            <span class="text-xs text-slate-400 font-medium">do 25 firem</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 px-2.5 py-1 rounded bg-slate-800 border border-slate-700">Základní</span>
+            <span class="text-xs text-slate-400 font-medium">do 20 firem</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
               <span class="text-3xl sm:text-4xl font-black text-white font-mono">1 490 Kč</span>
               <span class="text-xs text-slate-400">/ měsíc</span>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Ideální pro menší týmy a začínající headhuntery.</p>
+            <p class="text-xs text-slate-400 mt-1">Skenování klasických webových kariérních stránek a ATS systémů.</p>
           </div>
           <ul class="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[rgba(255,255,255,0.06)]">
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
-              <span><strong>Až 25 sledovaných firem</strong></span>
+              <span><strong>Až 20 sledovaných firem</strong></span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Ranní přehled nových rolí na webu</span>
+              <span>Skenování firemních kariérních webů &amp; ATS (Teamio, Recruitis, Greenhouse, Lever...)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span>Ranní přehled nových pozic na homepage</span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
@@ -562,7 +566,7 @@
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Interní poznámky &amp; statusy k rolím</span>
+              <span>Interní poznámky &amp; správa statusů k rolím</span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
@@ -575,74 +579,53 @@
         </a>
       </div>
 
-      <!-- Tarif 2: Pro (do 75 firem) -->
-      <div class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-[rgba(255,255,255,0.12)] hover:border-[#FF6B00]/60 transition space-y-6">
+      <!-- Varianta 2: Pro (až 150 firem, 3 500 Kč — ZVÝRAZNĚNÁ, VĚTŠÍ, DEALBREAKER) -->
+      <div class="lg:col-span-5 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-2 shadow-2xl">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30">Pro</span>
-            <span class="text-xs text-slate-400 font-medium">do 75 firem</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-gradient-to-r from-[#FF6B00] to-[#E65A00] shadow-md shadow-[#FF6B00]/40 flex items-center space-x-1.5">
+              <span>🔥</span>
+              <span>NEJPOPULÁRNĚJŠÍ · DEALBREAKER</span>
+            </span>
+            <span class="text-xs text-[#FF8533] font-bold font-mono">až 150 firem</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
-              <span class="text-3xl sm:text-4xl font-black text-white font-mono">2 490 Kč</span>
-              <span class="text-xs text-slate-400">/ měsíc</span>
+              <span class="text-4xl sm:text-5xl font-black text-white font-mono">3 500 Kč</span>
+              <span class="text-xs text-slate-300">/ měsíc</span>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Pro aktivní agentury vyhledávající nové obchodní příležitosti.</p>
+            <p class="text-xs text-slate-300 mt-1 font-medium">
+              Kompletní pokrytí trhu včetně firemních LinkedIn kariérních stránek.
+            </p>
           </div>
-          <ul class="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[rgba(255,255,255,0.06)]">
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span><strong>Až 75 sledovaných firem</strong></span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Vše z tarifu Starter</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Prioritní filtry a rychlé notifikace</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Neomezené poznámky a auditní log rolí</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>První nastavení společně se mnou</span>
-            </li>
-          </ul>
-        </div>
-        <a href="#demo" class="w-full py-3 rounded-xl bg-[#1A2234] hover:bg-[#242E46] text-white text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.1)] transition block">
-          Chci demo na svých firmách
-        </a>
-      </div>
 
-      <!-- Tarif 3: Agency / LinkedIn Intelligence (až 150 firem) -->
-      <div class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow relative space-y-6 bg-gradient-to-b from-[#172033] to-[#0E131F]">
-        <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-white px-2.5 py-1 rounded bg-[#FF6B00] shadow-md shadow-[#FF6B00]/30">Agency</span>
-            <span class="text-xs text-[#FF8533] font-bold">až 150 firem</span>
-          </div>
-          <div>
-            <div class="flex items-baseline space-x-1">
-              <span class="text-3xl sm:text-4xl font-black text-white font-mono">3 500 Kč</span>
-              <span class="text-xs text-slate-400">/ měsíc</span>
+          <!-- Highlighted Dealbreaker Feature Box -->
+          <div class="p-3.5 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/40 text-xs text-[#FF8533] space-y-1">
+            <div class="font-bold text-white flex items-center space-x-1.5">
+              <span>⚡</span>
+              <span>Procházení LinkedIn kariérních stránek</span>
             </div>
-            <p class="text-xs text-slate-300 mt-1">Maximální výkon s vyhledáváním decision makerů.</p>
+            <p class="text-slate-300 leading-relaxed text-[11px]">
+              Místo pouhých běžných stránek prochází systém i <strong>LinkedIn Careers page</strong> vybraných firem. Zachytíte tak pozice, které firmy nevypisují na svém webu, ale inzerují výhradně na LinkedInu.
+            </p>
           </div>
-          <ul class="space-y-2.5 text-xs text-slate-200 pt-2 border-t border-[rgba(255,255,255,0.1)]">
+
+          <ul class="space-y-2.5 text-xs text-slate-200 pt-1">
             <li class="flex items-start space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
               <span><strong>Až 150 sledovaných firem</strong></span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
-              <span>Vše z tarifu Pro</span>
+              <span>Vše z varianty Základní</span>
             </li>
-            <li class="flex items-start space-x-2 p-2 rounded-lg bg-[#FF6B00]/15 border border-[#FF6B00]/35 text-[#FF8533]">
-              <span class="font-bold">⚡</span>
-              <span><strong>Procházení LinkedIn profilů:</strong> automatické dohledávání hiring managerů a decision makerů pro každou otevřenou pozici</span>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Prioritní frekvence skenování a filtrace</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Neomezené interní poznámky &amp; týmový auditní log</span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
@@ -654,20 +637,54 @@
             </li>
           </ul>
         </div>
-        <a href="#demo" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs font-bold tracking-wide text-center shadow-lg shadow-[#FF6B00]/30 transition block">
-          Chci demo na svých firmách
+        <a href="#demo" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-sm font-bold tracking-wide text-center shadow-xl shadow-[#FF6B00]/30 transition block transform hover:-translate-y-0.5">
+          Chci demo na svých firmách →
+        </a>
+      </div>
+
+      <!-- Varianta 3: Custom (nad 150 firem / individuální domluva) -->
+      <div class="lg:col-span-3 glass-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-slate-500 transition space-y-6">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 px-2.5 py-1 rounded bg-slate-800 border border-slate-700">Custom</span>
+            <span class="text-xs text-slate-400 font-medium">150+ firem</span>
+          </div>
+          <div>
+            <div class="flex items-baseline space-x-1">
+              <span class="text-2xl sm:text-3xl font-black text-white">Na míru</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Pro velké agenturní týmy a specifické integrační požadavky.</p>
+          </div>
+          <ul class="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[rgba(255,255,255,0.06)]">
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span><strong>Neomezený počet firem</strong> podle vašich potřeb</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span>Vše z varianty Pro (včetně LinkedIn kariérních stránek)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span>Individuální scrapovací adaptéry na nestandardní portály</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span>Vyhrazená přímá podpora</span>
+            </li>
+          </ul>
+        </div>
+        <a href="#demo" class="w-full py-3 rounded-xl bg-[#141A28] hover:bg-[#1E273C] text-slate-200 text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.12)] transition block">
+          Domluvit individuální řešení
         </a>
       </div>
 
     </div>
 
     <!-- Doplňující informace -->
-    <div class="text-center text-xs text-slate-400 max-w-xl mx-auto space-y-2 pt-4">
+    <div class="text-center text-xs text-slate-400 max-w-xl mx-auto space-y-2 pt-2">
       <p>
-        Firmy na běžných systémech (Teamio, Recruitis, Greenhouse, Lever) naběhnou hned. U vlastních firemních webů si dopředu řekneme, jestli to jde, ještě než začnete platit.
-      </p>
-      <p>
-        Potřebujete sledovat více než 150 firem? <a href="#demo" class="text-white underline hover:text-[#FF6B00]">Napište mi</a> pro individuální domluvu.
+        Běžné systémy (Teamio, Recruitis, Greenhouse, Lever i LinkedIn Careers) naběhnou ihned. U atypických vlastních webů si dopředu řekneme proveditelnost, ještě než cokoliv zaplatíte.
       </p>
     </div>
   </section>

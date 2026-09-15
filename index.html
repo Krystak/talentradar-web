@@ -43,7 +43,34 @@
   <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-6 py-4">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <img src="logo.jpg" alt="TalentRadar Logo" class="w-9 h-9 rounded-xl shadow-lg shadow-[#FF6B00]/30 border border-[#FF6B00]/40 object-cover" />
+        <div class="relative flex items-center justify-center w-10 h-10">
+          <svg class="w-10 h-10 filter drop-shadow-[0_0_14px_rgba(255,107,0,0.6)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Radar concentric rings -->
+            <circle cx="20" cy="20" r="17.5" stroke="#FF6B00" stroke-opacity="0.35" stroke-width="1.5" />
+            <circle cx="20" cy="20" r="11.5" stroke="#FF6B00" stroke-opacity="0.75" stroke-width="2" />
+            <circle cx="20" cy="20" r="5" stroke="#FF8533" stroke-width="2.2" />
+            
+            <!-- Crosshairs subtle tick marks -->
+            <line x1="20" y1="2" x2="20" y2="7" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
+            <line x1="20" y1="33" x2="20" y2="38" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
+            <line x1="2" y1="20" x2="7" y2="20" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
+            <line x1="33" y1="20" x2="38" y2="20" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
+
+            <!-- Radar Sweep Ray with Gradient -->
+            <defs>
+              <linearGradient id="sweepGrad" x1="20" y1="20" x2="33" y2="7" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF6B00" stop-opacity="0.3" />
+                <stop offset="1" stop-color="#FFFFFF" />
+              </linearGradient>
+            </defs>
+            <line x1="20" y1="20" x2="33" y2="7" stroke="url(#sweepGrad)" stroke-width="2.5" stroke-linecap="round" />
+
+            <!-- Center Talent Pulse Beacon -->
+            <circle cx="20" cy="20" r="2.5" fill="#FFFFFF" />
+            <!-- Detected talent blip -->
+            <circle cx="33" cy="7" r="2.2" fill="#FFA366" />
+          </svg>
+        </div>
         <span class="font-extrabold text-xl tracking-tight text-white">TALENT<span class="text-[#FF6B00]">RADAR</span></span>
       </div>
       <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">

@@ -1,0 +1,30 @@
+# Cloudflare Worker / Pages Configuration for TalentRadar
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "talentradar-web"
+compatibility_date = "2026-09-15"
+
+# Assets / Static Directory
+[assets]
+directory = "."
+binding = "ASSETS"
+
+# Custom Domain Routing for Production
+# TODO: Po zakoupení domény talentradar.cz aktivujte custom domain v Cloudflare Dashboardu:
+# routes = [
+#   { pattern = "talentradar.cz/*", zone_name = "talentradar.cz" },
+#   { pattern = "www.talentradar.cz/*", zone_name = "talentradar.cz" }
+# ]
+
+# Environment Variables & Secrets:
+# Pro e-mailové notifikace nastavte secret přes CLI:
+#   npx wrangler secret put RESEND_API_KEY
+#
+# Pro perzistenci formuláře (KV nebo D1):
+# [[kv_namespaces]]
+# binding = "TALENT_RADAR_KV"
+# id = "your-kv-namespace-id"
+
+# DŮLEŽITÉ UPOZORNĚNÍ:
+# Dočasnou adresu *.workers.dev neposílejte klientům. 
+# Pro produkční B2B oslovování používejte vždy vlastní doménu talentradar.cz s profesionálním e-mailem.

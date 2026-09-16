@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- 1. SEO & Titulek -->
-  <title>TalentRadar — nové pozice u vašich klientů dřív než konkurence</title>
+  <title>TalentRadar — nové pozice u vašich klientů v den, kdy se objeví</title>
   <meta name="description" content="Automatické sledování kariérních stránek firem pro české personální agentury. Zjistěte o nových pozicích klientů v den, kdy se objeví na jejich webu.">
   
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://talentradar.cz/">
-  <meta property="og:title" content="TalentRadar — nové pozice u vašich klientů dřív než konkurence">
+  <meta property="og:title" content="TalentRadar — nové pozice u vašich klientů v den, kdy se objeví">
   <meta property="og:description" content="Automatický monitoring kariérních stránek firem pro headhuntery. Konec ručního proklikávání a přepisování do Excelu.">
   <meta property="og:image" content="https://talentradar.cz/favicon.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="TalentRadar — nové pozice u vašich klientů dřív než konkurence">
+  <meta name="twitter:title" content="TalentRadar — nové pozice u vašich klientů v den, kdy se objeví">
   <meta name="twitter:description" content="Automatický monitoring kariérních stránek firem pro headhuntery. Konec ručního proklikávání a přepisování do Excelu.">
   <meta name="twitter:image" content="https://talentradar.cz/favicon.png">
 
@@ -50,11 +50,32 @@
     .glass-card:hover {
       border-color: rgba(255, 107, 0, 0.35);
     }
-    /* Details summary styling */
+    /* Details summary & smooth FAQ accordion */
     details summary::-webkit-details-marker {
       display: none;
     }
-    details[open] summary svg {
+    details summary {
+      outline: none;
+    }
+    .faq-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.30s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      opacity: 0;
+    }
+    details.is-open .faq-body,
+    details[open]:not(.is-closing) .faq-body {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+    .faq-inner {
+      overflow: hidden;
+    }
+    details summary svg {
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    details.is-open summary svg,
+    details[open]:not(.is-closing) summary svg {
       transform: rotate(180deg);
     }
     /* Focus accessibility */
@@ -145,19 +166,19 @@
 
       <!-- Main Headline -->
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
-        Zjistěte o nových pozicích klientů <span class="text-[#FF6B00]">dříve než konkurence</span>
+        Zjistěte o nových pozicích klientů <span class="text-[#FF6B00]">v den, kdy se objeví</span>
       </h1>
 
       <!-- Exactly Two Sentences -->
       <p class="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-        Nové pozice uvidíte v den, kdy se objeví na webu — u stávajících klientů i u firem, které teprve chcete získat. Bez ručního proklikávání a bez přepisování do Excelu.
+        Konec ručního proklikávání kariérních stránek a přepisování do Excelu. O nových rolích víte hned, jakmile je klient zveřejní — bez zpoždění a bez ruční práce.
       </p>
 
       <!-- Single Action Button + Micro-copy -->
       <div class="pt-2 flex flex-col items-center justify-center space-y-3">
         <a href="#demo" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm sm:text-base tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5">
-          <span class="hidden sm:inline">Pošlete mi 10 firem — do 3 dnů vám ukážu demo na vašich datech</span>
-          <span class="sm:hidden">Chci demo na svých firmách</span>
+          <span class="hidden sm:inline">Pošlete mi 10 vašich vlastních klientů — do 3 dnů vám ukážu demo na vašich datech</span>
+          <span class="sm:hidden">Chci demo na svých klientech</span>
         </a>
         <p class="text-xs text-slate-400">
           Zdarma a nezávazně. Nemusíte nic instalovat ani se registrovat.
@@ -538,7 +559,7 @@
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 px-2.5 py-1 rounded bg-slate-800 border border-slate-700">Základní</span>
-            <span class="text-xs text-slate-400 font-medium">do 20 firem</span>
+            <span class="text-xs text-slate-400 font-medium">do 25 firem</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
@@ -550,7 +571,7 @@
           <ul class="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[rgba(255,255,255,0.06)]">
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
-              <span><strong>Až 20 sledovaných firem</strong></span>
+              <span><strong>Až 25 sledovaných firem</strong></span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
@@ -594,17 +615,17 @@
               <span class="text-xs text-slate-300">/ měsíc</span>
             </div>
             <p class="text-xs text-slate-300 mt-1 font-medium">
-              Kompletní pokrytí trhu včetně firemních LinkedIn kariérních stránek.
+              Maximální rychlost a kapacita pro aktivní agenturní týmy.
             </p>
           </div>
 
-          <!-- Feature Box: LinkedIn Careers -->
+          <!-- Feature Box: 2x Daily Speed Advantage -->
           <div class="p-3.5 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs text-[#FF8533] space-y-1">
             <div class="font-bold text-white flex items-center space-x-1.5">
-              <span>Skenování LinkedIn kariérních stránek</span>
+              <span>⚡ Rychlostní náskok: Skenování 2× denně</span>
             </div>
             <p class="text-slate-300 leading-relaxed text-[11px]">
-              Systém prochází i <strong>LinkedIn Careers page</strong> vybraných firem. Zachytíte tak pozice, které firmy nevypisují na svém webu, ale inzerují přímo na LinkedInu.
+              Systém monitoruje klienty <strong>ráno i odpoledne</strong>. O nových pozicích víte v řádu hodin od jejich vypsání na webu klienta.
             </p>
           </div>
 
@@ -612,6 +633,14 @@
             <li class="flex items-start space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
               <span><strong>Až 150 sledovaných firem</strong></span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span><strong>Skenování 2× denně</strong> (ráno i odpoledne)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Až 3 uživatelské účty pro tým</span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
@@ -660,7 +689,7 @@
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Vše z varianty Pro (včetně LinkedIn kariérních stránek)</span>
+              <span>Vše z varianty Pro (skenování 2× denně a týmové účty)</span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
@@ -737,66 +766,90 @@
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
           <span>Je sledování kariérních stránek legální?</span>
-          <svg class="w-5 h-5 text-[#FF8533] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
-        <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-          Pracuji výhradně s veřejně dostupnými inzeráty, které firmy samy zveřejňují na svém webu. Neukládám žádné údaje o kandidátech a respektuji pravidla, která si firmy na webu nastaví.
-        </p>
+        <div class="faq-body">
+          <div class="faq-inner">
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
+              Pracuji výhradně s veřejně dostupnými inzeráty, které firmy samy zveřejňují na svém webu. Neukládám žádné údaje o kandidátech a respektuji pravidla, která si firmy na webu nastaví.
+            </p>
+          </div>
+        </div>
       </details>
 
       <!-- FAQ 2 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
           <span>Máme Datacruit, Recruitis nebo Teamio. Nahradí to?</span>
-          <svg class="w-5 h-5 text-[#FF8533] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
-        <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-          Ne a ani nemá. Váš systém řeší nábor a kandidáty, kteří už se vám ozvali. TalentRadar řeší krok předtím — koho oslovit a kdy. Běží vedle sebe.
-        </p>
+        <div class="faq-body">
+          <div class="faq-inner">
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
+              Ne a ani nemá. Váš systém řeší nábor a kandidáty, kteří už se vám ozvali. TalentRadar řeší krok předtím — koho oslovit a kdy. Běží vedle sebe.
+            </p>
+          </div>
+        </div>
       </details>
 
       <!-- FAQ 3 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
           <span>Co když klient nemá kariérní stránku?</span>
-          <svg class="w-5 h-5 text-[#FF8533] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
-        <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-          Pak ho sledovat nejde a řeknu vám to rovnou. U většiny firem nad pár desítek zaměstnanců ale nějaká stránka s pozicemi existuje.
-        </p>
+        <div class="faq-body">
+          <div class="faq-inner">
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
+              Pak ho sledovat nejde a řeknu vám to rovnou. U většiny firem nad pár desítek zaměstnanců ale nějaká stránka s pozicemi existuje.
+            </p>
+          </div>
+        </div>
       </details>
 
       <!-- FAQ 4 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
           <span>Jak dlouho trvá, než to naběhne?</span>
-          <svg class="w-5 h-5 text-[#FF8533] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
-        <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-          Demo z vašich firem do tří pracovních dnů. Ostré nasazení uděláme spolu během jednoho odpoledne.
-        </p>
+        <div class="faq-body">
+          <div class="faq-inner">
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
+              Demo z vašich firem do tří pracovních dnů. Ostré nasazení uděláme spolu během jednoho odpoledne.
+            </p>
+          </div>
+        </div>
       </details>
 
       <!-- FAQ 5 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
           <span>Musím se vám ozvat pokaždé, když chci přidat firmu?</span>
-          <svg class="w-5 h-5 text-[#FF8533] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
-        <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-          Ne. První nastavení projdeme spolu, dál si firmy a kariérní stránky přidáváte sami, kdykoliv se vám hodí. Ozvat se mi potřebujete jen u webů, které se chovají nestandardně.
-        </p>
+        <div class="faq-body">
+          <div class="faq-inner">
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
+              Ne. První nastavení projdeme spolu, dál si firmy a kariérní stránky přidáváte sami, kdykoliv se vám hodí. Ozvat se mi potřebujete jen u webů, které se chovají nestandardně.
+            </p>
+          </div>
+        </div>
       </details>
 
       <!-- FAQ 6 (Klíčová otázka na studenta) -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition border border-[#FF6B00]/30">
         <summary class="font-bold text-sm sm:text-base text-[#FF8533] flex justify-between items-center list-none select-none">
           <span>Jste student — co se stane, když s tím skončíte?</span>
-          <svg class="w-5 h-5 text-[#FF8533] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
-        <p class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-          Rozumná otázka a nebudu kolem ní chodit. Neplatíte dopředu na rok a skončit můžete kdykoliv, takže neriskujete víc než jeden měsíc. Firmy si navíc po prvním nastavení spravujete sami, takže na mně v každodenním provozu nejste závislí. A data si můžete kdykoliv vyexportovat do CSV a odejít s nimi.
-        </p>
+        <div class="faq-body">
+          <div class="faq-inner">
+            <p class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
+              Rozumná otázka a nebudu kolem ní chodit. Neplatíte dopředu na rok a skončit můžete kdykoliv, takže neriskujete víc než jeden měsíc. Firmy si navíc po prvním nastavení spravujete sami, takže na mně v každodenním provozu nejste závislí. A data si můžete kdykoliv vyexportovat do CSV a odejít s nimi.
+            </p>
+          </div>
+        </div>
       </details>
 
     </div>
@@ -1007,6 +1060,35 @@
         }
       });
     }
+
+    // 4. Smooth FAQ Accordion Handler (eliminates snapping / ticking)
+    document.querySelectorAll('#faq details').forEach(details => {
+      const summary = details.querySelector('summary');
+      const body = details.querySelector('.faq-body');
+      if (!summary || !body) return;
+
+      summary.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (details.open) {
+          // Smooth closing
+          details.classList.add('is-closing');
+          details.classList.remove('is-open');
+          body.style.gridTemplateRows = '0fr';
+          body.style.opacity = '0';
+          setTimeout(() => {
+            details.open = false;
+            details.classList.remove('is-closing');
+            body.style.gridTemplateRows = '';
+            body.style.opacity = '';
+          }, 260);
+        } else {
+          // Smooth opening
+          details.open = true;
+          details.classList.add('is-open');
+          void body.offsetHeight;
+        }
+      });
+    });
   </script>
 
 </body>

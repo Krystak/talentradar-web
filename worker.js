@@ -137,7 +137,7 @@ async function handleDemoSubmission(request, env) {
     }
   }
 
-  // Email Notification via Resend API (if configured)
+  // 1. Email Notification via Resend API (if configured)
   if (env.RESEND_API_KEY) {
     try {
       await fetch("https://api.resend.com/emails", {
@@ -155,6 +155,39 @@ async function handleDemoSubmission(request, env) {
       });
     } catch (emailErr) {
       console.error("Resend notification error:", emailErr);
+    }
+  }
+
+  // 2. Instant Discord Webhook Notification (Free & instant to phone)
+  if (env.DISCORD_WEBHOOK_URL) {
+    try {
+      await fetch(env.DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: `🚨 **Nová poptávka DEMO z webu TalentRadar!**\n\n👤 **Jméno:** ${leadRecord.name}\n✉️ **E-mail:** ${leadRecord.email}\n🏢 **Firma:** ${leadRecord.company || "Neuvedeno"}\n🔗 **Klienti ke sledování:**\n\`\`\`\n${leadRecord.clients || "Nevyplněno"}\n\`\`\`\n🕒 **Čas:** ${leadRecord.timestamp}`
+        }),
+      });
+    } catch (discordErr) {
+      console.error("Discord webhook error:", discordErr);
+    }
+  }
+
+  // 3. Instant Telegram Notification (if configured)
+  if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) {
+    try {
+      const tgText = `🚨 *Nová poptávka DEMO TalentRadar*\n\n*Jméno:* ${leadRecord.name}\n*E-mail:* ${leadRecord.email}\n*Firma:* ${leadRecord.company || "Neuvedeno"}\n*Klienti:*\n${leadRecord.clients || "Nevyplněno"}`;
+      await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: env.TELEGRAM_CHAT_ID,
+          text: tgText,
+          parse_mode: "Markdown"
+        }),
+      });
+    } catch (tgErr) {
+      console.error("Telegram notification error:", tgErr);
     }
   }
 

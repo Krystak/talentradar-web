@@ -44,13 +44,13 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  const { name, email, company, clients, website, timestamp } = data;
+  const { name, email, company, clients, fileName, fileData, website, timestamp } = data;
   const clientIp = request.headers.get("cf-connecting-ip") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";
 
   // Anti-spam 1: Honeypot check (field 'website' must be empty)
   if (website && website.trim().length > 0) {
-    return new Response(JSON.stringify({ success: true, message: "Díky, ozvu se do 24 hodin." }), {
+    return new Response(JSON.stringify({ success: true, message: "Díky, zkušební verzi aktivujeme do 24 hodin." }), {
       status: 200,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
@@ -60,7 +60,7 @@ async function handleDemoSubmission(request, env) {
   const now = Date.now();
   const pageLoadTime = parseInt(timestamp, 10);
   if (!pageLoadTime || (now - pageLoadTime) < 3000) {
-    return new Response(JSON.stringify({ success: true, message: "Díky, ozvu se do 24 hodin." }), {
+    return new Response(JSON.stringify({ success: true, message: "Díky, zkušební verzi aktivujeme do 24 hodin." }), {
       status: 200,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
@@ -82,8 +82,15 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  if (clients && typeof clients === "string" && clients.length > 5000) {
-    return new Response(JSON.stringify({ error: "Text s odkazy na klienty je příliš dlouhý (maximum je 5 000 znaků)." }), {
+  if (clients && typeof clients === "string" && clients.length > 10000) {
+    return new Response(JSON.stringify({ error: "Text se seznamem firem je příliš dlouhý (maximum je 10 000 znaků)." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    });
+  }
+
+  if (fileData && typeof fileData === "string" && fileData.length > 8 * 1024 * 1024) {
+    return new Response(JSON.stringify({ error: "Nahraný soubor je příliš velký (maximum je 5 MB)." }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
@@ -108,6 +115,7 @@ async function handleDemoSubmission(request, env) {
   }
 
   // Save Lead Record
+  const cleanFileName = fileName ? String(fileName).trim().slice(0, 150) : null;
   const leadRecord = {
     id: crypto.randomUUID(),
     timestamp: new Date().toISOString(),
@@ -115,6 +123,8 @@ async function handleDemoSubmission(request, env) {
     email: email.trim(),
     company: (company || "").trim(),
     clients: (clients || "").trim(),
+    fileName: cleanFileName,
+    hasFile: !!fileData,
     ip: clientIp,
     userAgent: userAgent,
   };
@@ -131,7 +141,7 @@ async function handleDemoSubmission(request, env) {
     try {
       await env.DB.prepare(
         "INSERT INTO leads (id, created_at, name, email, company, clients, ip) VALUES (?, ?, ?, ?, ?, ?, ?)"
-      ).bind(leadRecord.id, leadRecord.timestamp, leadRecord.name, leadRecord.email, leadRecord.company, leadRecord.clients, clientIp).run();
+      ).bind(leadRecord.id, leadRecord.timestamp, leadRecord.name, leadRecord.email, leadRecord.company, leadRecord.clients || leadRecord.fileName || "", clientIp).run();
     } catch (d1Err) {
       console.error("D1 save error:", d1Err);
     }
@@ -140,18 +150,30 @@ async function handleDemoSubmission(request, env) {
   // 1. Email Notification via Resend API (if configured)
   if (env.RESEND_API_KEY) {
     try {
+      const emailPayload = {
+        from: "TalentRadar Web <onboarding@resend.dev>",
+        to: ["krystof@talentradar.cz"],
+        subject: `⚡ Nová 14denní zkušební verze: ${leadRecord.name} (${leadRecord.company || "Nezadáno"})`,
+        text: `Nová registrace do 14denní zkušební verze:\n\nJméno: ${leadRecord.name}\nE-mail: ${leadRecord.email}\nFirma / Agentura: ${leadRecord.company || "Neuvedeno"}\n\nPřiložený soubor: ${cleanFileName || "Žádný"}\n\nFirmy zadané textem:\n${leadRecord.clients || "(Zadáno přes soubor)"}\n\nČas: ${leadRecord.timestamp}\nIP: ${leadRecord.ip}`,
+      };
+
+      if (fileData && cleanFileName) {
+        const rawBase64 = fileData.includes(",") ? fileData.split(",")[1] : fileData;
+        emailPayload.attachments = [
+          {
+            filename: cleanFileName,
+            content: rawBase64,
+          },
+        ];
+      }
+
       await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${env.RESEND_API_KEY}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          from: "TalentRadar Web <onboarding@resend.dev>",
-          to: ["krystof@talentradar.cz"],
-          subject: `⚡ Nová poptávka dema: ${leadRecord.name} (${leadRecord.company || "Nezadáno"})`,
-          text: `Nová poptávka dema z webu TalentRadar:\n\nJméno: ${leadRecord.name}\nE-mail: ${leadRecord.email}\nFirma: ${leadRecord.company}\n\nOdkazy na klienty:\n${leadRecord.clients}\n\nČas: ${leadRecord.timestamp}\nIP: ${leadRecord.ip}`,
-        }),
+        body: JSON.stringify(emailPayload),
       });
     } catch (emailErr) {
       console.error("Resend notification error:", emailErr);
@@ -161,11 +183,15 @@ async function handleDemoSubmission(request, env) {
   // 2. Instant Discord Webhook Notification (Free & instant to phone)
   if (env.DISCORD_WEBHOOK_URL) {
     try {
+      const clientsPreview = leadRecord.clients
+        ? (leadRecord.clients.length > 800 ? leadRecord.clients.slice(0, 800) + "…" : leadRecord.clients)
+        : "Zadáno přes přiložený soubor";
+
       await fetch(env.DISCORD_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          content: `🚨 **Nová poptávka DEMO z webu TalentRadar!**\n\n👤 **Jméno:** ${leadRecord.name}\n✉️ **E-mail:** ${leadRecord.email}\n🏢 **Firma:** ${leadRecord.company || "Neuvedeno"}\n🔗 **Klienti ke sledování:**\n\`\`\`\n${leadRecord.clients || "Nevyplněno"}\n\`\`\`\n🕒 **Čas:** ${leadRecord.timestamp}`
+          content: `🚨 **Nová registrace 14DENNÍ ZKUŠEBNÍ VERZE!**\n\n👤 **Jméno:** ${leadRecord.name}\n✉️ **E-mail:** ${leadRecord.email}\n🏢 **Firma:** ${leadRecord.company || "Neuvedeno"}\n📁 **Soubor:** ${cleanFileName ? `\`${cleanFileName}\` (přiložen v e-mailu)` : "Žádný"}\n🔗 **Firmy:**\n\`\`\`\n${clientsPreview}\n\`\`\`\n🕒 **Čas:** ${leadRecord.timestamp}`
         }),
       });
     } catch (discordErr) {
@@ -176,7 +202,7 @@ async function handleDemoSubmission(request, env) {
   // 3. Instant Telegram Notification (if configured)
   if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) {
     try {
-      const tgText = `🚨 *Nová poptávka DEMO TalentRadar*\n\n*Jméno:* ${leadRecord.name}\n*E-mail:* ${leadRecord.email}\n*Firma:* ${leadRecord.company || "Neuvedeno"}\n*Klienti:*\n${leadRecord.clients || "Nevyplněno"}`;
+      const tgText = `🚨 *Nová 14denní zkušební verze*\n\n*Jméno:* ${leadRecord.name}\n*E-mail:* ${leadRecord.email}\n*Firma:* ${leadRecord.company || "Neuvedeno"}\n*Soubor:* ${cleanFileName || "žádný"}\n*Firmy:* ${leadRecord.clients ? leadRecord.clients.slice(0, 200) : "V souboru"}`;
       await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -192,7 +218,7 @@ async function handleDemoSubmission(request, env) {
   }
 
   return new Response(
-    JSON.stringify({ success: true, message: "Díky, ozvu se do 24 hodin." }),
+    JSON.stringify({ success: true, message: "Díky, login posíláme do 15 minut a firmy zprovozníme do 24 hodin." }),
     {
       status: 200,
       headers: { "Content-Type": "application/json; charset=utf-8" },

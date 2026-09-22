@@ -114,7 +114,7 @@ async function handleDemoSubmission(request, env) {
     }
   }
 
-  // Save Lead Record
+  // ── Save the lead ────────────────────────────────────────────────────────
   const cleanFileName = fileName ? String(fileName).trim().slice(0, 150) : null;
   const leadRecord = {
     id: crypto.randomUUID(),
@@ -129,9 +129,19 @@ async function handleDemoSubmission(request, env) {
     userAgent: userAgent,
   };
 
+  // The uploaded client list is the whole point of onboarding, so it is stored
+  // under its own key rather than only riding along as an e-mail attachment.
+  let stored = false;
   if (env.TALENT_RADAR_KV) {
     try {
       await env.TALENT_RADAR_KV.put(`lead:${leadRecord.id}`, JSON.stringify(leadRecord));
+      if (fileData && cleanFileName) {
+        await env.TALENT_RADAR_KV.put(`leadfile:${leadRecord.id}`, String(fileData), {
+          expirationTtl: 90 * 24 * 3600,
+          metadata: { fileName: cleanFileName, email: leadRecord.email },
+        });
+      }
+      stored = true;
     } catch (saveErr) {
       console.error("KV save error:", saveErr);
     }
@@ -142,86 +152,136 @@ async function handleDemoSubmission(request, env) {
       await env.DB.prepare(
         "INSERT INTO leads (id, created_at, name, email, company, clients, ip) VALUES (?, ?, ?, ?, ?, ?, ?)"
       ).bind(leadRecord.id, leadRecord.timestamp, leadRecord.name, leadRecord.email, leadRecord.company, leadRecord.clients || leadRecord.fileName || "", clientIp).run();
+      stored = true;
     } catch (d1Err) {
       console.error("D1 save error:", d1Err);
     }
   }
 
-  // 1. Email Notification via Resend API (if configured)
-  if (env.RESEND_API_KEY) {
-    try {
-      const emailPayload = {
-        from: "TalentRadar Web <onboarding@resend.dev>",
-        to: ["krystof@talentradar.eu"],
-        subject: `⚡ Nová 14denní zkušební verze: ${leadRecord.name} (${leadRecord.company || "Nezadáno"})`,
-        text: `Nová registrace do 14denní zkušební verze:\n\nJméno: ${leadRecord.name}\nE-mail: ${leadRecord.email}\nFirma / Agentura: ${leadRecord.company || "Neuvedeno"}\n\nPřiložený soubor: ${cleanFileName || "Žádný"}\n\nFirmy zadané textem:\n${leadRecord.clients || "(Zadáno přes soubor)"}\n\nČas: ${leadRecord.timestamp}\nIP: ${leadRecord.ip}`,
-      };
+  // ── Notify ───────────────────────────────────────────────────────────────
+  // Every channel reports whether it actually delivered. A channel that is not
+  // configured is skipped; one that fails is logged and counted as failed.
+  const results = await Promise.all([
+    notifyResend(env, leadRecord, fileData, cleanFileName),
+    notifyDiscord(env, leadRecord, cleanFileName),
+    notifyTelegram(env, leadRecord, cleanFileName),
+  ]);
 
-      if (fileData && cleanFileName) {
-        const rawBase64 = fileData.includes(",") ? fileData.split(",")[1] : fileData;
-        emailPayload.attachments = [
-          {
-            filename: cleanFileName,
-            content: rawBase64,
-          },
-        ];
-      }
+  const configured = results.filter((r) => r.configured);
+  const delivered = configured.filter((r) => r.ok);
 
-      await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${env.RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailPayload),
-      });
-    } catch (emailErr) {
-      console.error("Resend notification error:", emailErr);
-    }
+  for (const r of configured) {
+    if (!r.ok) console.error(`Notification failed [${r.channel}]:`, r.detail);
   }
 
-  // 2. Instant Discord Webhook Notification (Free & instant to phone)
-  if (env.DISCORD_WEBHOOK_URL) {
-    try {
-      const clientsPreview = leadRecord.clients
-        ? (leadRecord.clients.length > 800 ? leadRecord.clients.slice(0, 800) + "…" : leadRecord.clients)
-        : "Zadáno přes přiložený soubor";
-
-      await fetch(env.DISCORD_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: `🚨 **Nová registrace 14DENNÍ ZKUŠEBNÍ VERZE!**\n\n👤 **Jméno:** ${leadRecord.name}\n✉️ **E-mail:** ${leadRecord.email}\n🏢 **Firma:** ${leadRecord.company || "Neuvedeno"}\n📁 **Soubor:** ${cleanFileName ? `\`${cleanFileName}\` (přiložen v e-mailu)` : "Žádný"}\n🔗 **Firmy:**\n\`\`\`\n${clientsPreview}\n\`\`\`\n🕒 **Čas:** ${leadRecord.timestamp}`
-        }),
-      });
-    } catch (discordErr) {
-      console.error("Discord webhook error:", discordErr);
-    }
+  // Storage alone is not an alert: the lead would sit in KV unread. Say so.
+  if (configured.length === 0) {
+    console.error(
+      `Lead ${leadRecord.id} stored but nobody was notified - no notification channel is configured. ` +
+      `Set TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID, DISCORD_WEBHOOK_URL or RESEND_API_KEY.`
+    );
   }
 
-  // 3. Instant Telegram Notification (if configured)
-  if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) {
-    try {
-      const tgText = `🚨 *Nová 14denní zkušební verze*\n\n*Jméno:* ${leadRecord.name}\n*E-mail:* ${leadRecord.email}\n*Firma:* ${leadRecord.company || "Neuvedeno"}\n*Soubor:* ${cleanFileName || "žádný"}\n*Firmy:* ${leadRecord.clients ? leadRecord.clients.slice(0, 200) : "V souboru"}`;
-      await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: env.TELEGRAM_CHAT_ID,
-          text: tgText,
-          parse_mode: "Markdown"
-        }),
-      });
-    } catch (tgErr) {
-      console.error("Telegram notification error:", tgErr);
-    }
+  // Nothing reached the inbox and nothing was written down — refuse rather than
+  // hand the visitor a confirmation for a lead that no longer exists anywhere.
+  if (delivered.length === 0 && !stored) {
+    console.error("Lead dropped, no channel delivered and no storage bound:", leadRecord.email);
+    return new Response(
+      JSON.stringify({
+        error: "We couldn't register your request automatically. Please e-mail krystof@talentradar.eu directly — we'll set the pilot up by hand.",
+      }),
+      { status: 502, headers: { "Content-Type": "application/json; charset=utf-8" } }
+    );
   }
 
   return new Response(
-    JSON.stringify({ success: true, message: "Díky, login posíláme do 15 minut a firmy zprovozníme do 24 hodin." }),
-    {
-      status: 200,
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-    }
+    JSON.stringify({ success: true, message: "Thanks — your login is on its way and your companies go live within 24 hours." }),
+    { status: 200, headers: { "Content-Type": "application/json; charset=utf-8" } }
   );
+}
+
+/** Wrap a channel so one failure can never take the request down. */
+async function runChannel(channel, enabled, fn) {
+  if (!enabled) return { channel, configured: false, ok: false };
+  try {
+    const res = await fn();
+    if (res && res.ok === false) {
+      return { channel, configured: true, ok: false, detail: `HTTP ${res.status} ${await safeBody(res)}` };
+    }
+    return { channel, configured: true, ok: true };
+  } catch (err) {
+    return { channel, configured: true, ok: false, detail: String(err) };
+  }
+}
+
+async function safeBody(res) {
+  try {
+    return (await res.text()).slice(0, 300);
+  } catch (err) {
+    return "(body unavailable)";
+  }
+}
+
+function notifyResend(env, lead, fileData, cleanFileName) {
+  return runChannel("resend", !!env.RESEND_API_KEY, () => {
+    const payload = {
+      from: env.RESEND_FROM || "TalentRadar <onboarding@resend.dev>",
+      to: [env.LEAD_INBOX || "krystof@talentradar.eu"],
+      subject: `New 14-day trial: ${lead.name} (${lead.company || "no agency given"})`,
+      text: `New trial sign-up\n\nName: ${lead.name}\nE-mail: ${lead.email}\nAgency: ${lead.company || "not given"}\n\nAttached file: ${cleanFileName || "none"}\n\nCompanies pasted as text:\n${lead.clients || "(submitted as a file)"}\n\nTime: ${lead.timestamp}\nIP: ${lead.ip}\nLead ID: ${lead.id}`,
+    };
+
+    if (fileData && cleanFileName) {
+      const rawBase64 = fileData.includes(",") ? fileData.split(",")[1] : fileData;
+      payload.attachments = [{ filename: cleanFileName, content: rawBase64 }];
+    }
+
+    return fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  });
+}
+
+function notifyDiscord(env, lead, cleanFileName) {
+  return runChannel("discord", !!env.DISCORD_WEBHOOK_URL, () => {
+    const clientsPreview = lead.clients
+      ? lead.clients.length > 800
+        ? lead.clients.slice(0, 800) + "…"
+        : lead.clients
+      : "submitted as an attached file";
+
+    return fetch(env.DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: `**New trial sign-up**\n\n**Name:** ${lead.name}\n**E-mail:** ${lead.email}\n**Agency:** ${lead.company || "not given"}\n**File:** ${cleanFileName ? `\`${cleanFileName}\` (stored as leadfile:${lead.id})` : "none"}\n**Companies:**\n\`\`\`\n${clientsPreview}\n\`\`\`\n**Time:** ${lead.timestamp}`,
+      }),
+    });
+  });
+}
+
+function notifyTelegram(env, lead, cleanFileName) {
+  return runChannel("telegram", !!(env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID), () => {
+    const text = [
+      "New 14-day trial sign-up",
+      "",
+      `Name: ${lead.name}`,
+      `E-mail: ${lead.email}`,
+      `Agency: ${lead.company || "not given"}`,
+      `File: ${cleanFileName || "none"}`,
+      `Companies: ${lead.clients ? lead.clients.slice(0, 200) : "in the attached file"}`,
+      `Lead ID: ${lead.id}`,
+    ].join("\n");
+
+    return fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: text }),
+    });
+  });
 }

@@ -5,27 +5,28 @@ name = "talentradar-web"
 main = "worker.js"
 compatibility_date = "2026-09-15"
 
-# Assets / Static Directory
+# Static assets (HTML, images, data) served straight from the repo root.
 [assets]
 directory = "."
 binding = "ASSETS"
 
-# Custom Domain Routing for Production
-# TODO: Po zakoupení domény talentradar.cz aktivujte custom domain v Cloudflare Dashboardu:
-# routes = [
-#   { pattern = "talentradar.cz/*", zone_name = "talentradar.cz" },
-#   { pattern = "www.talentradar.cz/*", zone_name = "talentradar.cz" }
-# ]
+# Lead storage for the /api/demo trial form.
+# Keys written by worker.js:
+#   lead:<uuid>      - the submission itself (name, e-mail, agency, companies)
+#   leadfile:<uuid>  - the uploaded CSV/Excel, base64, kept for 90 days
+#   rate_limit:<ip>  - submission counter, 1 hour TTL
+[[kv_namespaces]]
+binding = "TALENT_RADAR_KV"
+id = "b33b5939becc4f21a8d9d824fae467b1"
 
-# Environment Variables & Secrets:
-# Pro e-mailové notifikace nastavte secret přes CLI:
-#   npx wrangler secret put RESEND_API_KEY
+# Secrets - set via CLI, never committed:
+#   npx wrangler secret put TELEGRAM_BOT_TOKEN
+#   npx wrangler secret put TELEGRAM_CHAT_ID
+#   npx wrangler secret put DISCORD_WEBHOOK_URL
+#   npx wrangler secret put RESEND_API_KEY      (needs a verified sender domain)
 #
-# Pro perzistenci formuláře (KV nebo D1):
-# [[kv_namespaces]]
-# binding = "TALENT_RADAR_KV"
-# id = "your-kv-namespace-id"
+# At least one notification channel must be configured, otherwise /api/demo
+# refuses the submission and tells the visitor to e-mail directly instead of
+# silently swallowing the lead.
 
-# DŮLEŽITÉ UPOZORNĚNÍ:
-# Dočasnou adresu *.workers.dev neposílejte klientům. 
-# Pro produkční B2B oslovování používejte vždy vlastní doménu talentradar.cz s profesionálním e-mailem.
+# Production domain is talentradar.eu, wired up in the Cloudflare dashboard.

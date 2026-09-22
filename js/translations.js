@@ -55,7 +55,7 @@ const TRANSLATIONS = {
     how_step3_badge: "KROK 3",
     how_step3_title: "3. Detail role & poznámky (Plná náhrada Excelu)",
     how_step3_body: "Rozklikněte si jakoukoliv roli pro zobrazení detailu a originálního inzerátu. Přímo u pozice si můžete psát interní poznámky, evidovat stav oslovení a synchronizovat práci s kolegy.",
-    how_step3_tip: "💡 Plně nahradí Excel: žádné zdlouhavé přepisování do tabulek, žádné duplicity — vše si evidujete přímo u konkrétní role.",
+    how_step3_tip: "Plně nahradí Excel: žádné zdlouhavé přepisování do tabulek, žádné duplicity — vše si evidujete přímo u konkrétní role.",
     how_onboarding_title: "Nulové tření — 100% asynchronní onboarding",
     how_onboarding_body: "Vložte domény vašich klientů nebo nahrajte CSV/Excel soubor při registraci. Náš engine indexuje cílové účty a ATS kariérní stránky do 24 hodin. Žádné konfigurační hovory nejsou nutné.",
 
@@ -64,7 +64,7 @@ const TRANSLATIONS = {
     compare_subtext: "Přímé porovnání každodenní práce headhuntera.",
     compare_col_activity: "Činnost",
     compare_col_manual: "Manuální chaos agentury",
-    compare_col_radar: "⚡ TalentRadar",
+    compare_col_radar: "TalentRadar",
     compare_row1_label: "Seznam klientských firem",
     compare_row1_manual: "Excel, který někdo kdysi založil",
     compare_row1_radar: "V aplikaci — přidání firmy = vložení odkazu",
@@ -88,7 +88,7 @@ const TRANSLATIONS = {
     compare_row7_radar: "Ráno pár minut",
 
     /* ── Pricing ── */
-    pricing_badge: "🎁 14denní bezplatný pilot pro až 200 firem • Bez platební karty",
+    pricing_badge: "14denní bezplatný pilot pro až 200 firem • Bez platební karty",
     pricing_headline: "Přehledné tarify",
     pricing_subtext: "Každý tarif si můžete nejdříve na 14 dní zdarma vyzkoušet. Bez závazků, bez platební karty — skončit můžete kdykoliv.",
     pricing_monthly_note: "Pouze měsíční fakturace — žádné roční závazky",
@@ -112,7 +112,7 @@ const TRANSLATIONS = {
     pricing_tier2_price: "€289",
     pricing_tier2_period: "/ měsíc",
     pricing_tier2_desc: "Maximální rychlost a kapacita pro aktivní agenturní týmy.",
-    pricing_tier2_speed_title: "⚡ Rychlostní náskok: 2× denně",
+    pricing_tier2_speed_title: "Rychlostní náskok: 2× denně",
     pricing_tier2_speed_body: "Systém monitoruje klienty ráno i odpoledne. O nových pozicích víte v řádu hodin od jejich vypsání.",
     pricing_tier2_f1: "Až 200 sledovaných firem",
     pricing_tier2_f2: "2× denní automatické skeny (06:00 & 12:00 UTC)",
@@ -166,7 +166,7 @@ const TRANSLATIONS = {
     faq_a5: "Ano. Jedním klikem exportujte kompletní BD pipeline, poznámky a metadata rolí do CSV kdykoli — vaše data jsou vždy vaše.",
 
     /* ── Trial / CTA section ── */
-    trial_badge: "🎁 14denní bezplatný pilot • Bez platební karty",
+    trial_badge: "14denní bezplatný pilot • Bez platební karty",
     trial_headline: "Vyzkoušejte TalentRadar na svých klientech",
     trial_subtext: "Nahrajte seznam vašich klientů nebo vložte jejich domény. Do 15 minut vám pošleme přihlašovací údaje a do 24 hodin garantujeme plné napojení vašich firem a spuštění ranního skenu.",
     trial_label_name: "Jméno a příjmení *",
@@ -188,7 +188,7 @@ const TRANSLATIONS = {
     trial_pill4: "Start do 24 hod",
     trial_submit: "Aktivovat 14denní bezplatný pilot →",
     trial_submitting: "Aktivuji pilotní verzi…",
-    trial_speed_note: "⚡ Login do aplikace pošleme do 15 minut. Plnou funkčnost vašich firem garantujeme do 24 hodin.",
+    trial_speed_note: "Login do aplikace pošleme do 15 minut. Plnou funkčnost vašich firem garantujeme do 24 hodin.",
     trial_gdpr_html: "Odesláním souhlasíte se zpracováním kontaktních údajů pro vytvoření zkušebního účtu. Údaje nikomu nepředávám. (<a href=\"gdpr.html\" class=\"underline hover:text-[#FF8533]\">Zásady zpracování</a>)",
     trial_contact_prefix: "Nebo napište přímo:",
     trial_success_headline: "Váš pilot je na cestě!",

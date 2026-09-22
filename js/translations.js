@@ -23,7 +23,7 @@ const TRANSLATIONS = {
 
     /* ── Hero ── */
     hero_badge: "Vyvinuto na míru pro personální agentury v Evropě",
-    hero_headline_html: "Know about new client mandates <span class=\"text-[#FF6B00]\">the day they go live</span>",
+    hero_headline_html: "Nové pozice u vašich klientů <span class=\"text-[#FF6B00]\">v den, kdy se objeví</span>",
     hero_body: "Konec ručního proklikávání kariérních stránek a přepisování do Excelu. O nových rolích víte hned, jakmile je klient zveřejní — bez zpoždění a bez ruční práce.",
     hero_cta_full: "Zahájit 14denní bezplatný pilot — až 200 firem",
     hero_cta_short: "Zahájit 14denní bezplatný pilot",

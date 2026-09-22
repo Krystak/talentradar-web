@@ -1,31 +1,35 @@
 <!DOCTYPE html>
-<html lang="cs" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- 1. SEO & Titulek -->
-  <title>TalentRadar — nové pozice u vašich klientů v den, kdy se objeví</title>
-  <meta name="description" content="Automatické sledování kariérních stránek firem pro české personální agentury. Zjistěte o nových pozicích klientů v den, kdy se objeví na jejich webu.">
-  
-  <!-- Open Graph / Facebook / LinkedIn -->
+
+  <!-- SEO & Title -->
+  <title>TalentRadar — Know About New Client Mandates the Day They Go Live</title>
+  <meta name="description" content="Autonomous career-page monitoring for recruitment agencies across Europe. Discover new client mandates hours before they hit job boards. Powered by Gemini AI.">
+
+  <!-- Open Graph / LinkedIn / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://talentradar.cz/">
-  <meta property="og:title" content="TalentRadar — nové pozice u vašich klientů v den, kdy se objeví">
-  <meta property="og:description" content="Automatický monitoring kariérních stránek firem pro headhuntery. Konec ručního proklikávání a přepisování do Excelu.">
-  <meta property="og:image" content="https://talentradar.cz/favicon.png">
+  <meta property="og:url" content="https://talentradar.eu/">
+  <meta property="og:title" content="TalentRadar — Know About New Client Mandates the Day They Go Live">
+  <meta property="og:description" content="Autonomous ATS & career-page monitoring for headhunters. Stop manually checking client websites — TalentRadar does it for you, every morning.">
+  <meta property="og:image" content="https://talentradar.eu/favicon.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="TalentRadar — nové pozice u vašich klientů v den, kdy se objeví">
-  <meta name="twitter:description" content="Automatický monitoring kariérních stránek firem pro headhuntery. Konec ručního proklikávání a přepisování do Excelu.">
-  <meta name="twitter:image" content="https://talentradar.cz/favicon.png">
+  <meta name="twitter:title" content="TalentRadar — Know About New Client Mandates the Day They Go Live">
+  <meta name="twitter:description" content="Autonomous ATS & career-page monitoring for headhunters. Full 2-stage Gemini AI classification across 6 verticals.">
+  <meta name="twitter:image" content="https://talentradar.eu/favicon.png">
 
-  <!-- Favicon matching the vector radar navbar icon -->
+  <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="128x128" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+
+  <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -36,27 +40,23 @@
       background-color: #0A0D14;
       color: #F3F4F6;
     }
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .orange-glow {
-      box-shadow: 0 0 40px rgba(255, 107, 0, 0.18);
-    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Glow effects */
+    .orange-glow { box-shadow: 0 0 40px rgba(255, 107, 0, 0.18); }
+    .orange-glow-lg { box-shadow: 0 0 80px rgba(255, 107, 0, 0.22); }
+
+    /* Glass card */
     .glass-card {
       background: rgba(17, 22, 34, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
     }
-    .glass-card:hover {
-      border-color: rgba(255, 107, 0, 0.35);
-    }
-    /* Details summary & smooth FAQ accordion */
-    details summary::-webkit-details-marker {
-      display: none;
-    }
-    details summary {
-      outline: none;
-    }
+    .glass-card:hover { border-color: rgba(255, 107, 0, 0.35); }
+
+    /* FAQ smooth accordion */
+    details summary::-webkit-details-marker { display: none; }
+    details summary { outline: none; }
     .faq-body {
       display: grid;
       grid-template-rows: 0fr;
@@ -64,36 +64,104 @@
       opacity: 0;
     }
     details.is-open .faq-body,
-    details[open]:not(.is-closing) .faq-body {
-      grid-template-rows: 1fr;
-      opacity: 1;
-    }
-    .faq-inner {
-      overflow: hidden;
-    }
-    details summary svg {
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    details[open]:not(.is-closing) .faq-body { grid-template-rows: 1fr; opacity: 1; }
+    .faq-inner { overflow: hidden; }
+    details summary svg { transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
     details.is-open summary svg,
-    details[open]:not(.is-closing) summary svg {
-      transform: rotate(180deg);
-    }
-    /* Focus accessibility */
-    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible {
+    details[open]:not(.is-closing) summary svg { transform: rotate(180deg); }
+
+    /* Focus ring */
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    textarea:focus-visible, summary:focus-visible {
       outline: 2px solid #FF6B00;
       outline-offset: 2px;
     }
+
+    /* Radar card category badge colours */
+    .badge-tech    { background: rgba(99,102,241,0.18); color: #a5b4fc; }
+    .badge-sales   { background: rgba(16,185,129,0.18); color: #6ee7b7; }
+    .badge-exec    { background: rgba(245,158,11,0.18); color: #fcd34d; }
+    .badge-finance { background: rgba(236,72,153,0.18); color: #f9a8d4; }
+    .badge-new     { background: rgba(16,185,129,0.18); color: #34d399; }
+
+    /* Language switcher */
+    .lang-switcher {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(17, 22, 34, 0.92);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 5px 10px;
+      backdrop-filter: blur(14px);
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    .lang-btn {
+      padding: 3px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .lang-btn:hover { color: #fff; }
+    .lang-btn--active { background: #FF6B00; color: #fff !important; }
+    .lang-divider { color: rgba(255,255,255,0.2); margin: 0 2px; font-size: 10px; }
+
+    /* Radar filter tabs */
+    .radar-tab {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: transparent;
+      color: #94a3b8;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .radar-tab:hover { color: #fff; border-color: rgba(255,107,0,0.4); }
+    .radar-tab.active {
+      background: rgba(255,107,0,0.18);
+      border-color: rgba(255,107,0,0.5);
+      color: #FF8533;
+    }
+
+    /* Pulse animation for live dot */
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+    .live-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+    /* Pricing card hover state */
+    .pricing-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .pricing-card:hover { transform: translateY(-2px); }
   </style>
 
-  <!-- Cloudflare Web Analytics (bez cookies) -->
-  <!-- TODO: Vložit Cloudflare Web Analytics JS kód po aktivaci domény -->
+  <!-- Cloudflare Web Analytics -->
+  <!-- TODO: Add Cloudflare Analytics snippet after domain activation -->
 </head>
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
 
-  <!-- ÚKOL 2: Navigace (Sticky, nová struktura, CTA přilepené vždy) -->
+  <!-- ═══════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════ -->
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3 transition-all">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
-      
+
       <!-- Brand Logo -->
       <a href="#" class="flex items-center space-x-2.5 group">
         <div class="relative flex items-center justify-center w-8 h-8">
@@ -121,21 +189,20 @@
 
       <!-- Desktop Links -->
       <div class="hidden lg:flex items-center space-x-7 text-sm font-medium text-slate-300">
-        <a href="#jak-to-funguje" class="hover:text-white transition">Jak to funguje</a>
-        <a href="#zivy-radar" class="hover:text-white transition">Živý radar</a>
-        <a href="#cena" class="hover:text-white transition">Cena</a>
-        <a href="#pribeh" class="hover:text-white transition">Můj příběh</a>
-        <a href="#faq" class="hover:text-white transition">Časté dotazy</a>
+        <a href="#how-it-works" class="hover:text-white transition" data-i18n="nav_how_it_works">How It Works</a>
+        <a href="#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Radar</a>
+        <a href="#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
+        <a href="#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
+        <a href="#faq" class="hover:text-white transition" data-i18n="nav_faq">FAQ</a>
       </div>
 
       <!-- Header CTA & Mobile Hamburger -->
       <div class="flex items-center space-x-3">
-        <a href="#trial" class="px-4 py-2 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap">
-          Vyzkoušet na 14 dní zdarma
+        <a href="#trial" class="px-4 py-2 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+          Start 14-Day Free Pilot
         </a>
-
-        <!-- Mobile Menu Toggle Button -->
-        <button id="mobileMenuBtn" aria-label="Otevřít menu" class="lg:hidden p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800">
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileMenuBtn" aria-label="Open menu" class="lg:hidden p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path id="menuIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -145,635 +212,561 @@
 
     <!-- Mobile Nav Dropdown -->
     <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-2 border-t border-[rgba(255,255,255,0.06)] mt-3 flex flex-col space-y-3 text-sm font-medium text-slate-200">
-      <a href="#jak-to-funguje" class="hover:text-[#FF6B00] transition py-1">Jak to funguje</a>
-      <a href="#zivy-radar" class="hover:text-[#FF6B00] transition py-1">Živý radar</a>
-      <a href="#cena" class="hover:text-[#FF6B00] transition py-1">Cena</a>
-      <a href="#pribeh" class="hover:text-[#FF6B00] transition py-1">Můj příběh</a>
-      <a href="#faq" class="hover:text-[#FF6B00] transition py-1">Časté dotazy</a>
+      <a href="#how-it-works" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_how_it_works">How It Works</a>
+      <a href="#live-radar" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_live_radar">Live Radar</a>
+      <a href="#pricing" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_pricing">Pricing</a>
+      <a href="#story" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_story">Our Story</a>
+      <a href="#faq" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_faq">FAQ</a>
     </div>
   </nav>
 
-  <!-- ÚKOL 3: Hero sekce (Nadpis, dvě věty, jedno tlačítko) -->
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
   <section class="pt-24 sm:pt-32 pb-16 px-4 sm:px-6 relative overflow-hidden">
-    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#FF6B00]/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#FF6B00]/8 rounded-full blur-[160px] pointer-events-none"></div>
 
     <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
-      
-      <!-- Subtitle badge -->
+
+      <!-- Badge -->
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
-        <span>Vyvinuto na míru pro české a slovenské headhuntery</span>
+        <span data-i18n="hero_badge">Built for recruitment agencies across Europe</span>
       </div>
 
       <!-- Main Headline -->
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
-        Zjistěte o nových pozicích klientů <span class="text-[#FF6B00]">v den, kdy se objeví</span>
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white" data-i18n="hero_headline_html" data-i18n-html="true">
+        Know about new client mandates <span class="text-[#FF6B00]">the day they go live</span>
       </h1>
 
-      <!-- Exactly Two Sentences -->
-      <p class="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-        Konec ručního proklikávání kariérních stránek a přepisování do Excelu. O nových rolích víte hned, jakmile je klient zveřejní — bez zpoždění a bez ruční práce.
+      <!-- Two sentences -->
+      <p class="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed" data-i18n="hero_body">
+        Stop manually checking client career pages and copying roles into spreadsheets. TalentRadar monitors every ATS and career site on your list — so you know the moment a new mandate appears, with zero manual effort.
       </p>
 
-      <!-- Single Action Button + Micro-copy -->
+      <!-- CTA -->
       <div class="pt-2 flex flex-col items-center justify-center space-y-3">
         <a href="#trial" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm sm:text-base tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5">
-          <span class="hidden sm:inline">Vyzkoušet na 14 dní zdarma — až 150 vašich firem</span>
-          <span class="sm:hidden">Vyzkoušet na 14 dní zdarma</span>
+          <span class="hidden sm:inline" data-i18n="hero_cta_full">Start Your 14-Day Free Pilot — up to 200 companies</span>
+          <span class="sm:hidden" data-i18n="hero_cta_short">Start Your 14-Day Free Pilot</span>
         </a>
-        <p class="text-xs text-slate-400">
-          Bez platební karty a bez závazků. Přístup do 15 minut, plné spuštění do 24 hodin.
+        <p class="text-xs text-slate-400" data-i18n="hero_microcopy">
+          No credit card. No commitment. Access within 15 minutes, full scan live within 24 hours.
         </p>
       </div>
 
     </div>
   </section>
 
-  <!-- ÚKOL 4: Živý radar (Jasně označená ukázka reálného výstupu) -->
-  <section id="zivy-radar" class="py-16 px-4 sm:px-6 max-w-5xl mx-auto">
-    <div class="text-center space-y-2 mb-8">
+
+  <!-- ═══════════════════════════════════════════════
+       LIVE RADAR  (#live-radar)
+  ═══════════════════════════════════════════════ -->
+  <section id="live-radar" class="py-16 px-4 sm:px-6 max-w-5xl mx-auto">
+    <div class="text-center space-y-2 mb-6">
       <div class="inline-flex items-center space-x-2 text-xs font-bold text-[#FF6B00] tracking-widest uppercase">
-        <span class="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse"></span>
-        <span>Živý radar</span>
+        <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
+        <span data-i18n="radar_label">Live Radar</span>
       </div>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
-        Tohle se objevilo na kariérních stránkách českých firem za posledních 24 hodin
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="radar_headline">
+        Roles discovered across client career pages in the last 24 hours
       </h2>
-      <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
-        Seznam se aktualizuje sám, nikdo do něj ručně nesahá.
+      <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto" data-i18n="radar_subtext">
+        Updated automatically — no one touches this feed manually.
       </p>
-      <div class="pt-1 text-xs text-emerald-400 font-mono">
-        Poslední aktualizace: dnes 06:14
-      </div>
-      <div class="text-[11px] text-slate-400 italic">
-        (Ukázka toho, jak výstup vypadá)
+      <div class="pt-1 text-xs text-emerald-400 font-mono" data-i18n="radar_updated">Last scan: today at 06:22 UTC</div>
+      <div class="text-[11px] text-slate-400 italic" data-i18n="radar_disclaimer">
+        (Live output sample — your client data populates after sign-up)
       </div>
     </div>
 
-    <!-- Radar Feed Table Container -->
+    <!-- Category Filter Tabs -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-5">
+      <button class="radar-tab active" data-filter="all" data-i18n="radar_filter_all">All Signals</button>
+      <button class="radar-tab" data-filter="tech" data-i18n="radar_filter_tech">Tech &amp; Cloud</button>
+      <button class="radar-tab" data-filter="sales" data-i18n="radar_filter_sales">B2B Sales</button>
+      <button class="radar-tab" data-filter="executive" data-i18n="radar_filter_exec">Executive &amp; C-Level</button>
+    </div>
+
+    <!-- Radar Feed -->
     <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-2xl border border-[rgba(255,255,255,0.1)] orange-glow">
-      <div class="divide-y divide-[rgba(255,255,255,0.05)]">
-        
-        <!-- Live Item 1 -->
-        <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
+      <div id="radarFeed" class="divide-y divide-[rgba(255,255,255,0.05)]">
+
+        <!-- Fallback card 1: Tines -->
+        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="tech">
           <div class="space-y-1">
             <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Senior Java / Kotlin Backend Architect</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">NOVÉ DNES</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-[#FF6B00]/20 text-[#FF8533] font-mono font-bold">TECH</span>
+              <span class="font-bold text-sm text-white">Staff Security Engineer</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">NEW TODAY</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-tech">TECH &amp; CLOUD</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">Lead</span>
             </div>
-            <div class="text-xs text-slate-400 flex items-center space-x-2 sm:space-x-3">
-              <span class="text-slate-200 font-semibold">Livesport</span>
+            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
+              <span class="text-slate-200 font-semibold">Tines</span>
               <span>•</span>
-              <span>Praha / Hybrid</span>
+              <span>Dublin, Ireland</span>
               <span>•</span>
-              <span class="text-slate-300 font-mono">před 2h</span>
+              <span class="text-slate-300 font-mono">Discovered today at 06:12</span>
+              <span>•</span>
+              <span class="text-slate-400">Greenhouse ATS</span>
             </div>
           </div>
-          <a href="#demo" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
-            Sledovat firmu →
+          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
+            Track company →
           </a>
         </div>
 
-        <!-- Live Item 2 -->
-        <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
+        <!-- Fallback card 2: Intercom -->
+        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="sales">
           <div class="space-y-1">
             <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Head of Engineering</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">PŘED 3H</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-[#FF6B00]/20 text-[#FF8533] font-mono font-bold">LEADERSHIP</span>
+              <span class="font-bold text-sm text-white">Enterprise Account Executive</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">NEW TODAY</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-sales">B2B SALES</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">Senior</span>
             </div>
-            <div class="text-xs text-slate-400 flex items-center space-x-2 sm:space-x-3">
+            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
+              <span class="text-slate-200 font-semibold">Intercom</span>
+              <span>•</span>
+              <span>Dublin, Ireland</span>
+              <span>•</span>
+              <span class="text-slate-300 font-mono">Discovered today at 06:14</span>
+              <span>•</span>
+              <span class="text-slate-400">Greenhouse ATS</span>
+            </div>
+          </div>
+          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
+            Track company →
+          </a>
+        </div>
+
+        <!-- Fallback card 3: Mews -->
+        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="tech">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+              <span class="font-bold text-sm text-white">Senior Backend Architect (Go/Node)</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">NEW TODAY</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-tech">TECH &amp; CLOUD</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">Senior</span>
+            </div>
+            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
               <span class="text-slate-200 font-semibold">Mews</span>
               <span>•</span>
-              <span>Praha / Remote</span>
+              <span>Remote EU / Prague</span>
               <span>•</span>
-              <span class="text-slate-300 font-mono">před 3h</span>
+              <span class="text-slate-300 font-mono">Discovered today at 06:18</span>
+              <span>•</span>
+              <span class="text-slate-400">Direct ATS</span>
             </div>
           </div>
-          <a href="#demo" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
-            Sledovat firmu →
+          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
+            Track company →
           </a>
         </div>
 
-        <!-- Live Item 3 -->
-        <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
+        <!-- Fallback card 4: Stripe -->
+        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="executive">
           <div class="space-y-1">
             <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Lead DevOps Engineer (Kubernetes &amp; AWS)</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">PŘED 5H</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-[#FF6B00]/20 text-[#FF8533] font-mono font-bold">CLOUD</span>
+              <span class="font-bold text-sm text-white">Head of FinTech Compliance</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">NEW TODAY</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-exec">EXECUTIVE</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">Executive</span>
             </div>
-            <div class="text-xs text-slate-400 flex items-center space-x-2 sm:space-x-3">
-              <span class="text-slate-200 font-semibold">Rohlik Group</span>
+            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
+              <span class="text-slate-200 font-semibold">Stripe</span>
               <span>•</span>
-              <span>Praha / Brno</span>
+              <span>Dublin / Remote</span>
               <span>•</span>
-              <span class="text-slate-300 font-mono">před 5h</span>
-            </div>
-          </div>
-          <a href="#demo" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
-            Sledovat firmu →
-          </a>
-        </div>
-
-        <!-- Live Item 4 -->
-        <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
-          <div class="space-y-1">
-            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Staff Frontend Engineer (React / TypeScript)</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">PŘED 7H</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-[#FF6B00]/20 text-[#FF8533] font-mono font-bold">FRONTEND</span>
-            </div>
-            <div class="text-xs text-slate-400 flex items-center space-x-2 sm:space-x-3">
-              <span class="text-slate-200 font-semibold">Productboard</span>
+              <span class="text-slate-300 font-mono">Discovered today at 06:22</span>
               <span>•</span>
-              <span>Praha / Remote</span>
-              <span>•</span>
-              <span class="text-slate-300 font-mono">před 7h</span>
+              <span class="text-slate-400">Direct ATS</span>
             </div>
           </div>
-          <a href="#demo" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
-            Sledovat firmu →
-          </a>
-        </div>
-
-        <!-- Live Item 5 -->
-        <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
-          <div class="space-y-1">
-            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Senior Data Engineer (Snowflake &amp; dbt)</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold">PŘED 8H</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-[#FF6B00]/20 text-[#FF8533] font-mono font-bold">DATA</span>
-            </div>
-            <div class="text-xs text-slate-400 flex items-center space-x-2 sm:space-x-3">
-              <span class="text-slate-200 font-semibold">ShipMonk</span>
-              <span>•</span>
-              <span>Praha / Karlín</span>
-              <span>•</span>
-              <span class="text-slate-300 font-mono">před 8h</span>
-            </div>
-          </div>
-          <a href="#demo" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
-            Sledovat firmu →
+          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
+            Track company →
           </a>
         </div>
 
       </div>
 
       <div class="mt-4 pt-3 border-t border-[rgba(255,255,255,0.06)] flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
-        <span>Ukázka živého výstupu monitoringu vybraných firem</span>
-        <a href="#trial" class="text-[#FF8533] hover:text-[#FF6B00] font-semibold flex items-center space-x-1">
-          <span>Vyzkoušet na svých firmách na 14 dní zdarma →</span>
+        <span data-i18n="radar_footer_left">Live monitoring output sample — your client data after sign-up</span>
+        <a href="#trial" class="text-[#FF8533] hover:text-[#FF6B00] font-semibold flex items-center space-x-1" data-i18n="radar_footer_right">
+          Try it on your companies — 14 days free →
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Sekce funkcí: Co uvidíte každý den ráno (Střídavý layout s obrázky) -->
-  <section id="jak-to-funguje" class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-16">
+
+  <!-- ═══════════════════════════════════════════════
+       HOW IT WORKS  (#how-it-works)
+  ═══════════════════════════════════════════════ -->
+  <section id="how-it-works" class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-16">
     <div class="text-center space-y-2 max-w-2xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Co uvidíte každý den ráno</h2>
-      <p class="text-slate-400 text-sm">Načte se okamžitě, i když sledujete stovky firem.</p>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n="how_headline">What You See Every Morning</h2>
+      <p class="text-slate-400 text-sm" data-i18n="how_subtext">Loads instantly — even when you're monitoring hundreds of companies.</p>
     </div>
 
     <div class="space-y-16">
 
-      <!-- Funkce 1: Ranní přehled (Text vlevo, obrázek vpravo) -->
+      <!-- Step 1 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div class="space-y-3">
-          <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30">
-            KROK 1
-          </div>
-          <h3 class="text-2xl font-bold text-white">1. Ranní přehled (Sledované firmy)</h3>
-          <p class="text-slate-300 text-sm leading-relaxed">
-            Otevřete si homepage a během pár vteřin víte, u kterých vašich klientů a cílových firem se za noc něco pohnulo. Prioritní firmy a nově otevřené pozice vidíte přehledně hned nahoře.
+          <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="how_step1_badge">STEP 1</div>
+          <h3 class="text-2xl font-bold text-white" data-i18n="how_step1_title">1. Morning Dashboard (Monitored Companies)</h3>
+          <p class="text-slate-300 text-sm leading-relaxed" data-i18n="how_step1_body">
+            Open the homepage and within seconds you know which client and target companies have had movement overnight. Priority accounts and newly opened mandates surface immediately at the top.
           </p>
         </div>
         <div class="order-first md:order-last">
-          <!-- TODO: nahradit reálnými screenshoty, anonymizované názvy firem -->
-          <img src="/img/screenshot-1.png" alt="Ranní přehled sledovaných firem v TalentRadaru" loading="lazy" class="w-full rounded-xl border border-[rgba(255,255,255,0.1)] shadow-xl" />
+          <img src="/img/screenshot-1.png" alt="TalentRadar morning dashboard — monitored companies" loading="lazy" class="w-full rounded-xl border border-[rgba(255,255,255,0.1)] shadow-xl" />
         </div>
       </div>
 
-      <!-- Funkce 2: BD Master (Obrázek vlevo, text vpravo) -->
+      <!-- Step 2 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div>
-          <!-- TODO: nahradit reálnými screenshoty, anonymizované názvy firem -->
-          <img src="/img/screenshot-2.png" alt="BD Master přehled pozic v TalentRadaru" loading="lazy" class="w-full rounded-xl border border-[rgba(255,255,255,0.1)] shadow-xl" />
+          <img src="/img/screenshot-2.png" alt="TalentRadar BD Master role pipeline" loading="lazy" class="w-full rounded-xl border border-[rgba(255,255,255,0.1)] shadow-xl" />
         </div>
         <div class="space-y-3">
-          <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30">
-            KROK 2
-          </div>
-          <h3 class="text-2xl font-bold text-white">2. BD Master (Přehled rolí)</h3>
-          <p class="text-slate-300 text-sm leading-relaxed">
-            Kompletní přehled všech zachycených rolí na jednom místě, přesně tak, jak to v praxi potřebujete. Filtrujte podle firem, lokalit, technologií nebo seniority. Export do CSV zvládnete jedním klikem.
+          <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="how_step2_badge">STEP 2</div>
+          <h3 class="text-2xl font-bold text-white" data-i18n="how_step2_title">2. BD Master (Role Pipeline)</h3>
+          <p class="text-slate-300 text-sm leading-relaxed" data-i18n="how_step2_body">
+            Every captured role in one place — exactly how you need it in practice. Filter by company, location, tech stack, or seniority. One-click CSV export whenever you need it.
           </p>
         </div>
       </div>
 
-      <!-- Funkce 3: Detail a úprava rolí (Text vlevo, obrázek vpravo) -->
+      <!-- Step 3 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div class="space-y-3">
-          <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30">
-            KROK 3
-          </div>
-          <h3 class="text-2xl font-bold text-white">3. Detail role &amp; poznámky (Plná náhrada Excelu)</h3>
-          <p class="text-slate-300 text-sm leading-relaxed">
-            Rozklikněte si jakoukoliv roli pro zobrazení detailu a originálního inzerátu. Přímo u pozice si můžete psát interní poznámky, evidovat stav oslovení a synchronizovat práci s kolegy.
+          <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="how_step3_badge">STEP 3</div>
+          <h3 class="text-2xl font-bold text-white" data-i18n="how_step3_title">3. Role Detail &amp; Notes (Full Spreadsheet Replacement)</h3>
+          <p class="text-slate-300 text-sm leading-relaxed" data-i18n="how_step3_body">
+            Click any role to view full details and the original listing. Add internal notes directly on the role, track outreach status, and sync with team members — no spreadsheet juggling required.
           </p>
-          <div class="p-3 rounded-lg bg-[#FF6B00]/10 border border-[#FF6B00]/25 text-xs text-[#FF8533] font-medium">
-            💡 Plně nahradí Excel: žádné zdlouhavé přepisování do tabulek, žádné duplicity — vše si evidujete přímo u konkrétní role.
+          <div class="p-3 rounded-lg bg-[#FF6B00]/10 border border-[#FF6B00]/25 text-xs text-[#FF8533] font-medium" data-i18n="how_step3_tip">
+            💡 Complete Excel replacement: no tedious copying, no duplicates — every note lives with the relevant role.
           </div>
         </div>
         <div class="order-first md:order-last">
-          <!-- TODO: nahradit reálnými screenshoty, anonymizované názvy firem -->
-          <img src="/img/screenshot-3.png" alt="Detail role a poznámky v TalentRadaru" loading="lazy" class="w-full rounded-xl border border-[rgba(255,255,255,0.1)] shadow-xl" />
+          <img src="/img/screenshot-3.png" alt="TalentRadar role detail and notes" loading="lazy" class="w-full rounded-xl border border-[rgba(255,255,255,0.1)] shadow-xl" />
         </div>
       </div>
 
     </div>
 
-    <!-- Zvýrazněný blok: Nastavíme to spolu -->
+    <!-- Async Onboarding Block -->
     <div class="mt-16 glass-card rounded-2xl p-8 sm:p-10 border border-[#FF6B00]/30 bg-[#0E131F]">
-      <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">Nastavíme to spolu, dál si to řídíte sami</h3>
-      <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-        První nastavení uděláme společně během jednoho odpoledne — projdeme vaše klienty a nastavíme, co chcete sledovat. Od té chvíle si přidáváte nové firmy a kariérní stránky sami, kdykoliv potřebujete. Nemusíte na nic čekat a na nikom nejste závislí.
-      </p>
+      <div class="flex items-start space-x-4">
+        <div class="text-2xl mt-0.5">⚡</div>
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold text-white mb-3" data-i18n="how_onboarding_title">Zero-Friction Asynchronous Onboarding</h3>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed" data-i18n="how_onboarding_body">
+            Paste your client domains or upload a CSV/Excel file during sign-up. Our engine indexes your target accounts and ATS career sites within 24 hours. Zero configuration calls required.
+          </p>
+        </div>
+      </div>
     </div>
-
   </section>
 
-  <!-- ÚKOL 6: Srovnávací tabulka (Dnes vs. S TalentRadarem) -->
+
+  <!-- ═══════════════════════════════════════════════
+       COMPARISON TABLE
+  ═══════════════════════════════════════════════ -->
   <section class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-8">
     <div class="text-center space-y-2 max-w-2xl mx-auto">
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
-        Jak to vypadá dnes a jak s TalentRadarem
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="compare_headline">
+        Manual Agency Chaos vs. TalentRadar Autonomous Intelligence
       </h2>
-      <p class="text-slate-400 text-sm">
-        Přímé porovnání každodenní práce headhuntera.
-      </p>
+      <p class="text-slate-400 text-sm" data-i18n="compare_subtext">A direct comparison of the day-to-day headhunter workflow.</p>
     </div>
 
-    <!-- Desktop Table View (>= 768px) -->
+    <!-- Desktop Table (≥ 768px) -->
     <div class="hidden md:block glass-card rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)]">
       <div class="grid grid-cols-12 p-4 bg-[#141A28] border-b border-[rgba(255,255,255,0.08)] font-bold text-sm">
-        <div class="col-span-4 text-slate-400">Činnost</div>
-        <div class="col-span-4 text-slate-400">Dnes</div>
-        <div class="col-span-4 text-[#FF8533] font-extrabold flex items-center space-x-1.5">
-          <span>⚡ S TalentRadarem</span>
-        </div>
+        <div class="col-span-4 text-slate-400" data-i18n="compare_col_activity">Activity</div>
+        <div class="col-span-4 text-slate-400" data-i18n="compare_col_manual">Manual Agency Chaos</div>
+        <div class="col-span-4 text-[#FF8533] font-extrabold flex items-center space-x-1.5" data-i18n="compare_col_radar">⚡ TalentRadar</div>
       </div>
-
       <div class="divide-y divide-[rgba(255,255,255,0.04)] text-sm">
-        
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300">Seznam klientských firem</div>
-          <div class="col-span-4 text-slate-400">Excel, který někdo kdysi založil</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>v aplikaci, přidání firmy = vložení odkazu</span>
-          </div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row1_label">Client company list</div>
+          <div class="col-span-4 text-slate-400" data-i18n="compare_row1_manual">A spreadsheet someone set up years ago</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row1_radar">In-app — add a company by pasting a link</span></div>
         </div>
-
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300">Kontrola kariérních stránek</div>
-          <div class="col-span-4 text-slate-400">někdo je jednou za čas obejde</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>proběhne každý den sama</span>
-          </div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row2_label">Career page checks</div>
+          <div class="col-span-4 text-slate-400" data-i18n="compare_row2_manual">Someone manually browses them occasionally</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row2_radar">Runs automatically every day</span></div>
         </div>
-
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300">Kdy víte o nové pozici</div>
-          <div class="col-span-4 text-slate-400">až se k tomu někdo dostane</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>ten den, kdy se objeví</span>
-          </div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row3_label">When you learn about a new mandate</div>
+          <div class="col-span-4 text-slate-400" data-i18n="compare_row3_manual">When someone finally gets around to it</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row3_radar">The day it goes live</span></div>
         </div>
-
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300">Když je dovolená nebo shon</div>
-          <div class="col-span-4 text-slate-400">týden se nekontroluje nic</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>běží to dál</span>
-          </div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row4_label">During holidays or busy periods</div>
+          <div class="col-span-4 text-slate-400" data-i18n="compare_row4_manual">Nothing gets checked for a week</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row4_radar">Keeps running</span></div>
         </div>
-
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300">Staré, už obsazené pozice</div>
-          <div class="col-span-4 text-slate-400">v Excelu zůstanou napořád</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>zmizí samy</span>
-          </div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row5_label">Filled / closed vacancies</div>
+          <div class="col-span-4 text-slate-400" data-i18n="compare_row5_manual">Stay in the spreadsheet forever</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row5_radar">Auto-archived on next scan</span></div>
         </div>
-
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300">Přidání nové firmy</div>
-          <div class="col-span-4 text-slate-400">nový řádek v Excelu a někdo ji musí začít obcházet</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>vložíte odkaz a od druhého dne se hlídá sama</span>
-          </div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row6_label">Adding a new company</div>
+          <div class="col-span-4 text-slate-400" data-i18n="compare_row6_manual">New spreadsheet row + manual monitoring</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row6_radar">Paste the link — monitored from next scan</span></div>
         </div>
-
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300">Kolik to zabere času</div>
-          <div class="col-span-4 text-slate-400">pár hodin týdně</div>
-          <div class="col-span-4 text-[#FF8533] font-bold flex items-center space-x-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>ráno pár minut</span>
-          </div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row7_label">Time cost per week</div>
+          <div class="col-span-4 text-slate-400" data-i18n="compare_row7_manual">Several hours a week</div>
+          <div class="col-span-4 text-[#FF8533] font-bold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row7_radar">A few minutes each morning</span></div>
         </div>
-
       </div>
     </div>
 
-    <!-- Mobile Pairs View (< 768px) -->
+    <!-- Mobile Pairs (< 768px) -->
     <div class="md:hidden space-y-4">
-      
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm">Seznam klientských firem</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-400 font-semibold">Dnes:</span> Excel, který někdo kdysi založil</div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white">S TalentRadarem:</span> v aplikaci, přidání firmy = vložení odkazu</div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row1_label">Client company list</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row1_manual">A spreadsheet someone set up years ago</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row1_radar">In-app — add a company by pasting a link</span></div>
       </div>
-
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm">Kontrola kariérních stránek</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-400 font-semibold">Dnes:</span> někdo je jednou za čas obejde</div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white">S TalentRadarem:</span> proběhne každý den sama</div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row2_label">Career page checks</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row2_manual">Someone manually browses them occasionally</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row2_radar">Runs automatically every day</span></div>
       </div>
-
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm">Kdy víte o nové pozici</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-400 font-semibold">Dnes:</span> až se k tomu někdo dostane</div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white">S TalentRadarem:</span> ten den, kdy se objeví</div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row3_label">When you learn about a new mandate</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row3_manual">When someone finally gets around to it</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row3_radar">The day it goes live</span></div>
       </div>
-
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm">Když je dovolená nebo shon</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-400 font-semibold">Dnes:</span> týden se nekontroluje nic</div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white">S TalentRadarem:</span> běží to dál</div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row4_label">During holidays or busy periods</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row4_manual">Nothing gets checked for a week</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row4_radar">Keeps running</span></div>
       </div>
-
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm">Staré, už obsazené pozice</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-400 font-semibold">Dnes:</span> v Excelu zůstanou napořád</div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white">S TalentRadarem:</span> zmizí samy</div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row5_label">Filled / closed vacancies</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row5_manual">Stay in the spreadsheet forever</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row5_radar">Auto-archived on next scan</span></div>
       </div>
-
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm">Přidání nové firmy</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-400 font-semibold">Dnes:</span> nový řádek v Excelu a někdo ji musí začít obcházet</div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white">S TalentRadarem:</span> vložíte odkaz a od druhého dne se hlídá sama</div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row6_label">Adding a new company</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row6_manual">New spreadsheet row + manual monitoring</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row6_radar">Paste the link — monitored from next scan</span></div>
       </div>
-
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm">Kolik to zabere času</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-400 font-semibold">Dnes:</span> pár hodin týdně</div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white">S TalentRadarem:</span> ráno pár minut</div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row7_label">Time cost per week</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row7_manual">Several hours a week</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row7_radar">A few minutes each morning</span></div>
       </div>
-
     </div>
   </section>
 
-  <!-- ÚKOL 8: Cena (Dvě hlavní varianty + Custom) -->
-  <section id="cena" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
+
+  <!-- ═══════════════════════════════════════════════
+       PRICING  (#pricing)
+  ═══════════════════════════════════════════════ -->
+  <section id="pricing" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
     <div class="text-center space-y-3 max-w-2xl mx-auto">
-      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs font-bold text-[#FF8533]">
-        <span>🎁 14 dní na vyzkoušení zdarma až pro 150 vašich firem • Bez platební karty</span>
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs font-bold text-[#FF8533]" data-i18n="pricing_badge">
+        🎁 14-Day Free Pilot — up to 200 companies • No credit card
       </div>
-      <h2 class="text-3xl sm:text-4xl font-black text-white">Přehledné tarify</h2>
-      <p class="text-slate-300 text-sm sm:text-base">
-        Každý tarif si můžete nejdříve na 14 dní zdarma vyzkoušet na vlastních klientech. Bez závazků a bez platební karty — skončit můžete kdykoliv.
+      <h2 class="text-3xl sm:text-4xl font-black text-white" data-i18n="pricing_headline">Clear, Simple Pricing</h2>
+      <p class="text-slate-300 text-sm sm:text-base" data-i18n="pricing_subtext">
+        Try any plan free for 14 days — no credit card, no commitment. Cancel anytime.
       </p>
+      <p class="text-xs text-slate-400 font-mono" data-i18n="pricing_monthly_note">Monthly billing only — no annual lock-in</p>
     </div>
 
-    <!-- Pricing Grid: Dominant Centered Pro with Symmetrically Equal Side Cards -->
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.32fr_1fr] gap-6 items-stretch max-w-6xl mx-auto">
-      
-      <!-- Varianta 1: Základní (do 25 firem, 1 490 Kč) -->
-      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6">
+    <!-- Pricing Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.35fr_1fr] gap-6 items-stretch max-w-6xl mx-auto">
+
+      <!-- Tier 1: Solo Scout -->
+      <div class="pricing-card glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 space-y-6">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 px-2.5 py-1 rounded bg-slate-800 border border-slate-700">Základní</span>
-            <span class="text-xs text-slate-400 font-medium">do 25 firem</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 px-2.5 py-1 rounded bg-slate-800 border border-slate-700" data-i18n="pricing_tier1_name">Solo Scout</span>
+            <span class="text-xs text-slate-400 font-medium" data-i18n="pricing_tier1_companies">up to 50 companies</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
-              <span class="text-3xl sm:text-4xl font-black text-white font-mono">1 490 Kč</span>
-              <span class="text-xs text-slate-400">/ měsíc</span>
+              <span class="text-3xl sm:text-4xl font-black text-white font-mono" data-i18n="pricing_tier1_price">€119</span>
+              <span class="text-xs text-slate-400" data-i18n="pricing_tier1_period">/ month</span>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Skenování klasických webových kariérních stránek a ATS systémů.</p>
+            <p class="text-xs text-slate-400 mt-1" data-i18n="pricing_tier1_desc">Ideal for solo headhunters and small boutique agencies.</p>
           </div>
           <ul class="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[rgba(255,255,255,0.06)]">
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span><strong>Až 25 sledovaných firem</strong></span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Skenování firemních kariérních webů &amp; ATS (Teamio, Recruitis, Greenhouse, Lever...)</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Ranní přehled nových pozic na homepage</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>BD Master: filtry, vyhledávání, CSV export</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Interní poznámky &amp; správa statusů k rolím</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>První nastavení společně se mnou</span>
-            </li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f1"><strong>Up to 50 monitored companies</strong></span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f2">1× daily automated morning scan (06:00 UTC)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f3">150 on-demand manual scan credits / month</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f4">1 user seat</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f5">Full 2-stage AI classification (Gemini Flash: CORE / SELECTIVE / SKIP across all 6 verticals)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f6">Automated stale role archiving</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f7">BD Master lead pipeline, notes, CSV export</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f8">Direct email support (&lt; 24h)</span></li>
           </ul>
         </div>
-        <a href="#trial" class="w-full py-3 rounded-xl bg-[#1A2234] hover:bg-[#242E46] text-white text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.1)] transition block">
-          Vyzkoušet na 14 dní zdarma
+        <a href="#trial" class="w-full py-3 rounded-xl bg-[#1A2234] hover:bg-[#242E46] text-white text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.1)] transition block" data-i18n="pricing_tier1_cta">
+          Start 14-Day Free Pilot
         </a>
       </div>
 
-      <!-- Varianta 2: Pro (až 150 firem, 3 490 Kč — DOMINANTNÍ, ŠIRŠÍ, VYCENTROVANÁ) -->
-      <div class="glass-card rounded-2xl p-7 sm:p-9 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-3 shadow-2xl">
+      <!-- Tier 2: Agency Pro — HIGHLIGHTED -->
+      <div class="pricing-card glass-card rounded-2xl p-7 sm:p-9 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow-lg relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-3 shadow-2xl">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-[#FF6B00] shadow-md shadow-[#FF6B00]/40">
-              Doporučujeme
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-[#FF6B00] shadow-md shadow-[#FF6B00]/40" data-i18n="pricing_tier2_badge">
+              Most Popular
             </span>
-            <span class="text-xs text-[#FF8533] font-bold font-mono">až 150 firem</span>
+            <span class="text-xs text-[#FF8533] font-bold font-mono" data-i18n="pricing_tier2_companies">up to 200 companies</span>
           </div>
           <div>
-            <div class="flex items-baseline space-x-1">
-              <span class="text-4xl sm:text-5xl font-black text-white font-mono">3 490 Kč</span>
-              <span class="text-xs text-slate-300">/ měsíc</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]" data-i18n="pricing_tier2_name">Agency Pro</span>
+            <div class="flex items-baseline space-x-1 mt-1">
+              <span class="text-4xl sm:text-5xl font-black text-white font-mono" data-i18n="pricing_tier2_price">€289</span>
+              <span class="text-xs text-slate-300" data-i18n="pricing_tier2_period">/ month</span>
             </div>
-            <p class="text-xs text-slate-300 mt-1 font-medium">
-              Maximální rychlost a kapacita pro aktivní agenturní týmy.
-            </p>
+            <p class="text-xs text-slate-300 mt-1 font-medium" data-i18n="pricing_tier2_desc">Maximum speed and capacity for active agency teams.</p>
           </div>
 
-          <!-- Feature Box: 2x Daily Speed Advantage -->
+          <!-- Speed advantage callout -->
           <div class="p-3.5 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs text-[#FF8533] space-y-1">
-            <div class="font-bold text-white flex items-center space-x-1.5">
-              <span>⚡ Rychlostní náskok: Skenování 2× denně</span>
-            </div>
-            <p class="text-slate-300 leading-relaxed text-[11px]">
-              Systém monitoruje klienty <strong>ráno i odpoledne</strong>. O nových pozicích víte v řádu hodin od jejich vypsání na webu klienta.
+            <div class="font-bold text-white flex items-center space-x-1.5" data-i18n="pricing_tier2_speed_title">⚡ Speed Advantage: 2× Daily Scanning</div>
+            <p class="text-slate-300 leading-relaxed text-[11px]" data-i18n="pricing_tier2_speed_body">
+              Scans run at <strong>06:00 &amp; 12:00 UTC</strong>. You know about new mandates within hours of them being posted.
             </p>
           </div>
 
           <ul class="space-y-2.5 text-xs text-slate-200 pt-1">
-            <li class="flex items-start space-x-2">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span><strong>Až 150 sledovaných firem</strong></span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span><strong>Skenování 2× denně</strong> (ráno i odpoledne)</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Až 3 uživatelské účty pro tým</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Vše z varianty Základní</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Prioritní frekvence skenování a filtrace</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Neomezené interní poznámky &amp; týmový auditní log</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Prioritní osobní podpora a úpravy přímo se mnou</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>První nastavení společně se mnou</span>
-            </li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f1"><strong>Up to 200 monitored companies</strong></span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f2"><strong>2× daily automated scans (06:00 &amp; 12:00 UTC)</strong></span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f3">500 on-demand manual scan credits / month</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f4">Up to 8 team seats</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f5">Full 2-stage AI classification (all 6 verticals)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f6">Automated stale role archiving + team audit trail</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f7">Multi-user assignment and shared notes</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f8">Dedicated founder priority channel (Slack)</span></li>
           </ul>
         </div>
-        <a href="#trial" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide text-center shadow-xl shadow-[#FF6B00]/30 transition block transform hover:-translate-y-0.5">
-          Vyzkoušet na 14 dní zdarma →
+        <a href="#trial" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide text-center shadow-xl shadow-[#FF6B00]/30 transition block transform hover:-translate-y-0.5" data-i18n="pricing_tier2_cta">
+          Start 14-Day Free Pilot →
         </a>
       </div>
 
-      <!-- Varianta 3: Custom (nad 150 firem / individuální domluva) -->
-      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-slate-500 transition space-y-6">
+      <!-- Tier 3: Scale / Enterprise -->
+      <div class="pricing-card glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-slate-500 space-y-6">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 px-2.5 py-1 rounded bg-slate-800 border border-slate-700">Custom</span>
-            <span class="text-xs text-slate-400 font-medium">150+ firem</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 px-2.5 py-1 rounded bg-slate-800 border border-slate-700" data-i18n="pricing_tier3_name">Scale / Enterprise</span>
+            <span class="text-xs text-slate-400 font-medium" data-i18n="pricing_tier3_companies">400+ companies</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
-              <span class="text-3xl sm:text-4xl font-black text-white">Na míru</span>
+              <span class="text-3xl sm:text-4xl font-black text-white" data-i18n="pricing_tier3_price">Custom</span>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Pro velké agenturní týmy a specifické integrační požadavky.</p>
+            <p class="text-xs text-[#FF8533] font-mono font-semibold mt-1" data-i18n="pricing_tier3_price_from">From €590 / month</p>
+            <p class="text-xs text-slate-400 mt-1" data-i18n="pricing_tier3_desc">For large agency teams with deep integration requirements.</p>
           </div>
           <ul class="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[rgba(255,255,255,0.06)]">
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span><strong>Neomezený počet firem</strong> podle vašich potřeb</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Vše z varianty Pro (skenování 2× denně a týmové účty)</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Individuální scrapovací adaptéry na nestandardní portály</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span>Vyhrazená přímá podpora</span>
-            </li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f1"><strong>400+ monitored companies</strong></span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f2">Up to 4× daily automated scans / priority worker queue</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f3">Unlimited on-demand scans</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f4">Unlimited team seats</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f5">Custom AI scoring profiles per consultant / practice group</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f6">Dedicated custom scraping adapters for non-standard enterprise career sites</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f7">Dedicated Slack channel &amp; account management</span></li>
           </ul>
         </div>
-        <a href="#demo" class="w-full py-3 rounded-xl bg-[#141A28] hover:bg-[#1E273C] text-slate-200 text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.12)] transition block">
-          Domluvit individuální řešení
+        <a href="mailto:kristof@talentrr.eu?subject=Scale%2FEnterprise%20Enquiry" class="w-full py-3 rounded-xl bg-[#141A28] hover:bg-[#1E273C] text-slate-200 text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.12)] transition block" data-i18n="pricing_tier3_cta">
+          Talk to Founder
         </a>
       </div>
 
     </div>
 
-    <!-- Doplňující informace -->
-    <div class="text-center text-xs text-slate-400 max-w-xl mx-auto space-y-2 pt-2">
-      <p>
-        Běžné systémy (Teamio, Recruitis, Greenhouse, Lever i LinkedIn Careers) naběhnou ihned. U atypických vlastních webů si dopředu řekneme proveditelnost, ještě než cokoliv zaplatíte.
+    <!-- ROI Callout -->
+    <div class="max-w-3xl mx-auto glass-card rounded-2xl p-6 sm:p-8 border border-[#FF6B00]/25 bg-gradient-to-br from-[#0E131F] to-[#0A0D14] text-center space-y-2">
+      <div class="text-2xl">💰</div>
+      <p class="text-sm sm:text-base text-slate-200 leading-relaxed font-medium" data-i18n="pricing_roi_html" data-i18n-html="true">
+        A single placement in tech or executive search pays for <strong>4+ years of Agency Pro</strong>. Spotting just one mandate 48 hours early generates an immediate <strong>4,000%+ ROI</strong>.
       </p>
+    </div>
+
+    <!-- Footnote -->
+    <div class="text-center text-xs text-slate-400 max-w-xl mx-auto" data-i18n="pricing_footnote">
+      Standard ATS (Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Teamio, Recruitis) activate immediately. For atypical custom career sites we'll confirm feasibility before you commit to anything.
     </div>
   </section>
 
-  <!-- ÚKOL 7: Můj příběh (Příběh z Irska do Česka) -->
-  <section id="pribeh" class="py-20 px-4 sm:px-6 bg-[#0E131F] border-y border-[rgba(255,255,255,0.06)]">
+
+  <!-- ═══════════════════════════════════════════════
+       OUR STORY  (#story)
+  ═══════════════════════════════════════════════ -->
+  <section id="story" class="py-20 px-4 sm:px-6 bg-[#0E131F] border-y border-[rgba(255,255,255,0.06)]">
     <div class="max-w-3xl mx-auto space-y-6">
       <div class="space-y-1">
-        <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold">Kdo za tím stojí</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Příběh z Irska do Česka</h2>
+        <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold" data-i18n="story_label">Who Built This</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n="story_headline">From a Dublin Engineering Residency to a European Product</h2>
       </div>
 
       <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
-        <p>
-          Je mi 18 a jsem stále student. Tři měsíce jsem strávil na stáži v Dublinu v technologické headhuntingové firmě Ingenio Global pod 
-          <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Robem Mageem</a>, kde jsem tenhle nástroj postavil. Sledoval jim 180 firem a zachytil přes 3 400 otevřených pozic za dva měsíce.
+        <p data-i18n="story_p1_html" data-i18n-html="true">
+          I completed a technology engineering residency in Dublin at <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Ingenio Global</a> under Rob Magee, where I designed, deployed, and operated this monitoring system in live production. Over two months I tracked 180 companies and captured 3,400+ open roles — with zero manual intervention after initial setup.
         </p>
-        <p>
-          Když jsem se vrátil, došlo mi, že tady to většina menších agentur řeší ručně — někdo obchází weby klientů a přepisuje je do Excelu. Tak jsem to zkusil postavit i pro český trh.
+        <p data-i18n="story_p2">
+          That experience made one thing obvious: recruitment agencies across Europe are still solving this problem manually — someone browses client websites and copies roles into a spreadsheet. TalentRadar solves it autonomously, at industrial scale, with full AI classification across six verticals.
         </p>
-        <p class="font-semibold text-white">
-          Nejsem firma s obchodním oddělením. Když napíšete, odpovím vám já a úpravy uděláme spolu.
+        <p class="font-semibold text-white" data-i18n="story_p3">
+          I'm responsible for every aspect of the product. When you write in, I respond personally.
         </p>
       </div>
 
-      <!-- Author Box with Photo linked to LinkedIn -->
+      <!-- Author Box -->
       <div class="pt-4 flex items-center space-x-4">
         <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="block group">
-          <img src="/img/krystof.jpg" alt="Kryštof Pejša" loading="lazy" class="w-14 h-14 rounded-full object-cover border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 group-hover:scale-105 transition" />
+          <img src="/img/krystof.jpg" alt="Kryštof Pejša — Lead Architect & Founder, TalentRadar" loading="lazy" class="w-14 h-14 rounded-full object-cover border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 group-hover:scale-105 transition" />
         </a>
         <div>
-          <div class="font-bold text-white text-base">Kryštof Pejša</div>
+          <div class="font-bold text-white text-base" data-i18n="story_author_name">Kryštof Pejša</div>
           <div class="text-xs text-slate-400">
-            Zakladatel TalentRadar • 
-            <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline">Můj LinkedIn</a>
+            <span data-i18n="story_author_title">Lead Architect &amp; Founder, TalentRadar</span> •
+            <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline" data-i18n="story_linkedin">LinkedIn</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ÚKOL 9: Časté dotazy (Nativní details/summary bez JS) -->
+
+  <!-- ═══════════════════════════════════════════════
+       FAQ  (#faq)
+  ═══════════════════════════════════════════════ -->
   <section id="faq" class="py-20 px-4 sm:px-6 max-w-3xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-      <h2 class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold">Odpovědi na rovinu</h2>
-      <h3 class="text-3xl font-extrabold text-white">Časté dotazy</h3>
+      <h2 class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold" data-i18n="faq_label">Straight Answers</h2>
+      <h3 class="text-3xl font-extrabold text-white" data-i18n="faq_headline">Frequently Asked Questions</h3>
     </div>
 
     <div class="space-y-3 text-left">
-      
+
       <!-- FAQ 1 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span>Je sledování kariérních stránek legální?</span>
-          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <span data-i18n="faq_q1">How do you discover roles before LinkedIn?</span>
+          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-              Pracuji výhradně s veřejně dostupnými inzeráty, které firmy samy zveřejňují na svém webu. Neukládám žádné údaje o kandidátech a respektuji pravidla, která si firmy na webu nastaví.
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a1">
+              Companies post on their own ATS or career site first — it's free and immediate. Job boards like LinkedIn charge posting fees and have editorial lag. TalentRadar watches these primary sources directly, so you capture a mandate the moment it goes live — typically 24–72 hours before it appears on any job board.
             </p>
           </div>
         </div>
@@ -782,13 +775,13 @@
       <!-- FAQ 2 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span>Máme Datacruit, Recruitis nebo Teamio. Nahradí to?</span>
-          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <span data-i18n="faq_q2">Which ATS platforms are supported out of the box?</span>
+          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-              Ne a ani nemá. Váš systém řeší nábor a kandidáty, kteří už se vám ozvali. TalentRadar řeší krok předtím — koho oslovit a kdy. Běží vedle sebe.
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a2">
+              Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Teamio, Recruitis, and custom careers pages. For non-standard enterprise career sites, we build dedicated custom scraping adapters — included in the Scale/Enterprise plan.
             </p>
           </div>
         </div>
@@ -797,13 +790,13 @@
       <!-- FAQ 3 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span>Co když klient nemá kariérní stránku?</span>
-          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <span data-i18n="faq_q3">What happens when a client closes a vacancy?</span>
+          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-              Pak ho sledovat nejde a řeknu vám to rovnou. U většiny firem nad pár desítek zaměstnanců ale nějaká stránka s pozicemi existuje.
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a3">
+              Our auto-archive daemon detects removed listings on the next scan and archives them automatically. Your pipeline stays current with zero manual cleanup required.
             </p>
           </div>
         </div>
@@ -812,13 +805,13 @@
       <!-- FAQ 4 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span>Jak funguje 14denní zkušební verze a jak rychle to naběhne?</span>
-          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <span data-i18n="faq_q4">How does the 14-day free pilot work?</span>
+          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-              Přihlašovací údaje vám dorazí na e-mail do 15 minut od registrace, takže si aplikaci můžete hned otevřít a projít. Váš seznam firem zvalidujeme, napojíme na radar a do 24 hodin garantujeme spuštění ostrého ranního skenu. Zkušební verze trvá 14 dní, je zcela zdarma a bez zadávání platební karty.
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a4">
+              Track up to 200 client companies with full scanning access for 14 days. No credit card required, and there is zero automated lock-in — you decide whether to continue after the pilot ends.
             </p>
           </div>
         </div>
@@ -827,43 +820,13 @@
       <!-- FAQ 5 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span>Jaké jsou limity 14denní zkušební verze zdarma?</span>
-          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          <span data-i18n="faq_q5">Can we export our notes and data?</span>
+          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-              Ve zkušební verzi můžete sledovat až 150 vašich klientů s automatickým denním ranním skenem a jedním manuálním spuštěním denně. Jediné, co ve zkušební verzi není zahrnuto, je placený scraping LinkedIn inzerátů (ten je součástí placeného tarifu Pro). Všechny firemní kariérní portály a ATS systémy (Teamio, Recruitis, Greenhouse, Lever atd.) máte k dispozici naplno.
-            </p>
-          </div>
-        </div>
-      </details>
-
-      <!-- FAQ 6 -->
-      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
-        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span>Musím se vám ozvat pokaždé, když chci přidat firmu?</span>
-          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="faq-body">
-          <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-              Ne. První nastavení projdeme spolu, dál si firmy a kariérní stránky přidáváte sami, kdykoliv se vám hodí. Ozvat se mi potřebujete jen u webů, které se chovají nestandardně.
-            </p>
-          </div>
-        </div>
-      </details>
-
-      <!-- FAQ 7 (Klíčová otázka na studenta) -->
-      <details class="glass-card rounded-xl p-5 group cursor-pointer transition border border-[#FF6B00]/30">
-        <summary class="font-bold text-sm sm:text-base text-[#FF8533] flex justify-between items-center list-none select-none">
-          <span>Jste student — co se stane, když s tím skončíte?</span>
-          <svg class="w-5 h-5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="faq-body">
-          <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]">
-              Rozumná otázka a nebudu kolem ní chodit. Neplatíte dopředu na rok a skončit můžete kdykoliv, takže neriskujete víc než jeden měsíc. Firmy si navíc po prvním nastavení spravujete sami, takže na mně v každodenním provozu nejste závislí. A data si můžete kdykoliv vyexportovat do CSV a odejít s nimi.
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a5">
+              Yes. One-click CSV export of your complete BD pipeline, notes, and role metadata — anytime, immediately. Your data is always yours.
             </p>
           </div>
         </div>
@@ -872,136 +835,131 @@
     </div>
   </section>
 
-  <!-- ÚKOL 10: Kontaktní / Registrační sekce 14denní zkušební verze (id="trial" i id="demo") -->
+
+  <!-- ═══════════════════════════════════════════════
+       TRIAL / CTA  (#trial)
+  ═══════════════════════════════════════════════ -->
   <div id="demo"></div>
   <section id="trial" class="py-24 px-4 sm:px-6 max-w-3xl mx-auto">
     <div class="glass-card rounded-3xl p-8 sm:p-12 border border-[#FF6B00]/40 orange-glow space-y-6">
       <div class="text-center space-y-3">
-        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs font-bold text-[#FF8533]">
-          <span>🎁 14denní zkušební verze zdarma • Bez platební karty</span>
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs font-bold text-[#FF8533]" data-i18n="trial_badge">
+          🎁 14-Day Free Pilot • No credit card
         </div>
-        <h2 class="text-2xl sm:text-4xl font-black text-white">Vyzkoušejte TalentRadar na svých klientech</h2>
-        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-          Nahrajte seznam vašich klientů nebo vložte jejich názvy či weby. Do 15 minut vám pošleme přihlašovací údaje a do 24 hodin garantujeme plné napojení vašich firem a spuštění ranního skenu.
+        <h2 class="text-2xl sm:text-4xl font-black text-white" data-i18n="trial_headline">Try TalentRadar on Your Client Portfolio</h2>
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed" data-i18n="trial_subtext">
+          Paste your client domains or upload a CSV/Excel file. We'll have your companies indexed and your first automated scan running within 24 hours.
         </p>
       </div>
 
-      <!-- Interactive Form Container -->
+      <!-- Form -->
       <div id="formWrapper">
         <form id="demoForm" class="space-y-4 max-w-xl mx-auto text-left">
-          
-          <!-- Honeypot field (anti-spam) -->
+
+          <!-- Honeypot -->
           <div style="display:none !important;" aria-hidden="true">
-            <label for="website">Nevyplňujte toto pole:</label>
-            <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" />
+            <label for="website_hp">Do not fill this field:</label>
+            <input type="text" name="website" id="website_hp" tabindex="-1" autocomplete="off" />
           </div>
 
-          <!-- Timestamp field (anti-bot) -->
+          <!-- Bot timestamp -->
           <input type="hidden" name="timestamp" id="formTimestamp" value="" />
 
           <div>
-            <label for="name" class="block text-xs font-semibold text-slate-300 mb-1">Jméno a příjmení *</label>
-            <input type="text" id="name" name="name" required minlength="2" maxlength="100" placeholder="Jan Novák" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" />
+            <label for="name" class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="trial_label_name">Full Name *</label>
+            <input type="text" id="name" name="name" required minlength="2" maxlength="100" placeholder="Jane Smith" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="trial_placeholder_name" />
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label for="email" class="block text-xs font-semibold text-slate-300 mb-1">Pracovní e-mail *</label>
-              <input type="email" id="email" name="email" required placeholder="jan@agentura.cz" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" />
+              <label for="email" class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="trial_label_email">Work Email *</label>
+              <input type="email" id="email" name="email" required placeholder="jane@agency.com" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="trial_placeholder_email" />
             </div>
             <div>
-              <label for="company" class="block text-xs font-semibold text-slate-300 mb-1">Název agentury / firmy *</label>
-              <input type="text" id="company" name="company" required minlength="2" placeholder="Vaše agentura s.r.o." class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" />
+              <label for="company" class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="trial_label_company">Agency / Company *</label>
+              <input type="text" id="company" name="company" required minlength="2" placeholder="Your Agency Ltd." class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="trial_placeholder_company" />
             </div>
           </div>
 
-          <!-- Vložení firem: Soubor nebo text -->
+          <!-- Client list upload -->
           <div class="space-y-2 pt-1">
             <div class="flex items-center justify-between">
               <label class="block text-xs font-semibold text-slate-300">
-                Seznam klientů k monitoringu <span class="text-slate-400 font-normal">(až 150 firem)</span>
+                <span data-i18n="trial_label_clients">Client portfolio for monitoring</span>
+                <span class="text-slate-400 font-normal" data-i18n="trial_clients_limit"> (up to 200 companies)</span>
               </label>
-              <span class="text-[11px] text-[#FF8533] font-medium">Excel, CSV nebo text</span>
+              <span class="text-[11px] text-[#FF8533] font-medium" data-i18n="trial_clients_tag">Excel, CSV or text</span>
             </div>
 
-            <!-- Drag and drop / File Upload Box -->
+            <!-- Drag & Drop / File Upload -->
             <div id="dropZone" class="relative rounded-xl border border-dashed border-[rgba(255,255,255,0.18)] hover:border-[#FF6B00]/60 bg-[#0A0D14]/70 p-4 transition text-center cursor-pointer group">
               <input type="file" id="fileUpload" accept=".xlsx,.xls,.csv,.txt" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
               <div id="fileUploadPrompt" class="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-slate-300">
                 <span class="text-base group-hover:scale-110 transition">📎</span>
-                <span class="font-semibold text-white group-hover:text-[#FF8533] transition">Klikněte pro nahrání souboru</span>
-                <span class="text-slate-400">(Excel .xlsx, .csv nebo .txt)</span>
+                <span class="font-semibold text-white group-hover:text-[#FF8533] transition" data-i18n="trial_upload_cta">Click to upload a file</span>
+                <span class="text-slate-400" data-i18n="trial_upload_types">(Excel .xlsx, .csv or .txt)</span>
               </div>
               <div id="fileSelectedDisplay" class="hidden items-center justify-center space-x-2 text-xs text-emerald-400">
                 <span>✓</span>
                 <span id="fileNameText" class="font-bold text-white"></span>
-                <button type="button" id="removeFileBtn" class="text-xs text-red-400 hover:text-red-300 underline ml-2">Odebrat</button>
+                <button type="button" id="removeFileBtn" class="text-xs text-red-400 hover:text-red-300 underline ml-2">Remove</button>
               </div>
             </div>
 
-            <!-- Direct text input alternative -->
+            <!-- Text fallback -->
             <div class="relative">
-              <textarea id="clients" name="clients" rows="3" maxlength="10000" placeholder="Nebo sem vložte seznam firem textem (stačí názvy nebo weby, každý na nový řádek)" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-xs sm:text-sm focus:outline-none focus:border-[#FF6B00] transition placeholder:text-slate-400"></textarea>
+              <textarea id="clients" name="clients" rows="3" maxlength="10000" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-xs sm:text-sm focus:outline-none focus:border-[#FF6B00] transition placeholder:text-slate-400" data-i18n-placeholder="trial_textarea_placeholder" placeholder="Or paste your client domain list here — one domain or company name per line"></textarea>
             </div>
-            <p class="text-[11px] text-slate-400">
-              Kariérní weby a ATS portály dohledáme za vás. Pokud soubor nemáte po ruce, můžete ho poslat i dodatečně.
+            <p class="text-[11px] text-slate-400" data-i18n="trial_upload_note">
+              We'll locate their ATS and career sites for you. You can also send the file afterwards.
             </p>
           </div>
 
-          <!-- Feature checkmarks pill bar -->
+          <!-- Feature pills -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] text-slate-300">
             <div class="flex items-center space-x-1.5 bg-[#141A28] px-2.5 py-1.5 rounded-lg border border-[rgba(255,255,255,0.06)]">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Až 150 firem</span>
+              <span class="text-emerald-400 font-bold">✓</span><span data-i18n="trial_pill1">Up to 200 companies</span>
             </div>
             <div class="flex items-center space-x-1.5 bg-[#141A28] px-2.5 py-1.5 rounded-lg border border-[rgba(255,255,255,0.06)]">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Denní ranní sken</span>
+              <span class="text-emerald-400 font-bold">✓</span><span data-i18n="trial_pill2">Daily morning scan</span>
             </div>
             <div class="flex items-center space-x-1.5 bg-[#141A28] px-2.5 py-1.5 rounded-lg border border-[rgba(255,255,255,0.06)]">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Bez platební karty</span>
+              <span class="text-emerald-400 font-bold">✓</span><span data-i18n="trial_pill3">No credit card</span>
             </div>
             <div class="flex items-center space-x-1.5 bg-[#141A28] px-2.5 py-1.5 rounded-lg border border-[rgba(255,255,255,0.06)]">
-              <span class="text-emerald-400 font-bold">✓</span>
-              <span>Start do 24 hod</span>
+              <span class="text-emerald-400 font-bold">✓</span><span data-i18n="trial_pill4">Live within 24h</span>
             </div>
           </div>
 
           <div id="formErrorMessage" class="hidden p-3 rounded-lg bg-red-950/60 border border-red-500/40 text-xs text-red-300"></div>
 
-          <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5 cursor-pointer">
-            Aktivovat 14denní zkušební verzi zdarma →
+          <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5 cursor-pointer" data-i18n="trial_submit">
+            Activate 14-Day Free Pilot →
           </button>
 
-          <p class="text-xs text-slate-300 text-center pt-1 font-medium">
-            ⚡ Login do aplikace pošleme do 15 minut. Plnou funkčnost vašich firem garantujeme do 24 hodin.
+          <p class="text-xs text-slate-300 text-center pt-1 font-medium" data-i18n="trial_speed_note">
+            ⚡ Login credentials sent within 15 minutes. Full scan live within 24 hours, guaranteed.
           </p>
 
-          <p class="text-[11px] text-slate-400 text-center leading-relaxed pt-1">
-            Odesláním souhlasíte se zpracováním kontaktních údajů pro vytvoření zkušebního účtu. Údaje nikomu nepředávám. (<a href="gdpr.html" class="underline hover:text-[#FF8533]">Zásady zpracování</a>)
+          <p class="text-[11px] text-slate-400 text-center leading-relaxed pt-1" data-i18n="trial_gdpr_html" data-i18n-html="true">
+            By submitting you agree to processing of your contact details to create a trial account. Your data is never shared. (<a href="gdpr.html" class="underline hover:text-[#FF8533]">Privacy Policy</a>)
           </p>
         </form>
       </div>
 
       <div class="pt-4 text-center text-xs text-slate-400 border-t border-[rgba(255,255,255,0.06)] space-y-2">
         <div>
-          Nebo mi napište přímo na: <a href="mailto:krystof@talentradar.cz" class="text-white font-semibold underline hover:text-[#FF6B00]">krystof@talentradar.cz</a>
+          <span data-i18n="trial_contact_prefix">Or reach us directly:</span>
+          <a href="mailto:kristof@talentrr.eu" class="text-white font-semibold underline hover:text-[#FF6B00] ml-1">kristof@talentrr.eu</a>
         </div>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-1">
-          <a href="https://wa.me/420725701895" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-900/60 transition">
-            <span>💬 WhatsApp / Tel:</span>
-            <span class="font-bold text-white font-mono">+420 725 701 895</span>
-          </a>
-        </div>
-        <p class="text-[11px] text-slate-400">
-          Preferuji zprávu na WhatsApp. Pokud je to urgentní, klidně rovnou zavolejte.
-        </p>
       </div>
     </div>
   </section>
 
-  <!-- ÚKOL 11: Patička (v češtině, odkaz na GDPR, žádný anglický slogan) -->
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
   <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-slate-400">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-2.5">
@@ -1024,64 +982,72 @@
           <circle cx="33" cy="7" r="2.2" fill="#FFA366" />
         </svg>
         <span class="font-bold text-white">TalentRadar</span>
-        <span class="text-slate-400">— automatické sledování kariérních stránek pro personální agentury</span>
+        <span class="text-slate-400">— <span data-i18n="footer_tagline">Autonomous career-page monitoring for recruitment agencies</span></span>
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-4 text-slate-300">
-        <span>Kryštof Pejša</span>
+        <span data-i18n="footer_author">Kryštof Pejša</span>
         <span>•</span>
-        <a href="mailto:krystof@talentradar.cz" class="hover:text-white underline">krystof@talentradar.cz</a>
-        <span>•</span>
-        <a href="https://wa.me/420725701895" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">+420 725 701 895</a>
+        <a href="mailto:kristof@talentrr.eu" class="hover:text-white underline">kristof@talentrr.eu</a>
         <span>•</span>
         <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">LinkedIn</a>
         <span>•</span>
-        <a href="gdpr.html" class="hover:text-white underline">Zásady zpracování osobních údajů</a>
+        <a href="gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy</a>
       </div>
 
-      <div class="text-slate-400">
-        © 2026 TalentRadar
-      </div>
+      <div class="text-slate-400" data-i18n="footer_copyright">© 2026 TalentRadar</div>
     </div>
   </footer>
 
-  <!-- Client-Side Form & Navigation Script -->
+
+  <!-- ═══════════════════════════════════════════════
+       LANGUAGE SWITCHER WIDGET
+  ═══════════════════════════════════════════════ -->
+  <div class="lang-switcher" role="group" aria-label="Language selector">
+    <span class="lang-divider mr-1">🌐</span>
+    <button class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">English</button>
+    <span class="lang-divider">|</span>
+    <button class="lang-btn" data-lang="cs" aria-pressed="false">Čeština</button>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════════════ -->
+
+  <!-- Translation engine (must load before DOMContentLoaded fires on it) -->
+  <script src="js/translations.js"></script>
+
   <script>
-    // 1. Mobile Menu Toggle
+    /* ── 1. Mobile Menu ── */
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenu    = document.getElementById('mobileMenu');
     if (mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-      // Close menu on link click
-      mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-      });
+      mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+      mobileMenu.querySelectorAll('a').forEach(link =>
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'))
+      );
     }
 
-    // 2. Set form timestamp on load for bot detection (<3s)
+    /* ── 2. Bot-detection timestamp ── */
     const formTimestampInput = document.getElementById('formTimestamp');
-    if (formTimestampInput) {
-      formTimestampInput.value = Date.now().toString();
-    }
+    if (formTimestampInput) formTimestampInput.value = Date.now().toString();
 
-    // 3. File Upload Handler (Base64 conversion & preview)
-    let selectedFile = null;
+    /* ── 3. File Upload Handler ── */
+    let selectedFile       = null;
     let selectedFileBase64 = null;
-
-    const fileUpload = document.getElementById('fileUpload');
-    const fileUploadPrompt = document.getElementById('fileUploadPrompt');
+    const fileUpload          = document.getElementById('fileUpload');
+    const fileUploadPrompt    = document.getElementById('fileUploadPrompt');
     const fileSelectedDisplay = document.getElementById('fileSelectedDisplay');
-    const fileNameText = document.getElementById('fileNameText');
-    const removeFileBtn = document.getElementById('removeFileBtn');
+    const fileNameText        = document.getElementById('fileNameText');
+    const removeFileBtn       = document.getElementById('removeFileBtn');
 
     if (fileUpload) {
-      fileUpload.addEventListener('change', (e) => {
+      fileUpload.addEventListener('change', e => {
         if (e.target.files && e.target.files[0]) {
           const file = e.target.files[0];
           if (file.size > 8 * 1024 * 1024) {
-            alert('Soubor je příliš velký (maximum je 5 MB).');
+            alert('File too large (max 8 MB).');
             fileUpload.value = '';
             return;
           }
@@ -1090,22 +1056,17 @@
           fileUploadPrompt.classList.add('hidden');
           fileSelectedDisplay.classList.remove('hidden');
           fileSelectedDisplay.classList.add('flex');
-
           const reader = new FileReader();
-          reader.onload = (event) => {
-            selectedFileBase64 = event.target.result;
-          };
+          reader.onload = ev => { selectedFileBase64 = ev.target.result; };
           reader.readAsDataURL(file);
         }
       });
     }
 
     if (removeFileBtn) {
-      removeFileBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        selectedFile = null;
-        selectedFileBase64 = null;
+      removeFileBtn.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        selectedFile = null; selectedFileBase64 = null;
         if (fileUpload) fileUpload.value = '';
         fileSelectedDisplay.classList.add('hidden');
         fileSelectedDisplay.classList.remove('flex');
@@ -1113,46 +1074,41 @@
       });
     }
 
-    // 4. Trial Form Submission
-    const demoForm = document.getElementById('demoForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const formWrapper = document.getElementById('formWrapper');
-    const formErrorMessage = document.getElementById('formErrorMessage');
+    /* ── 4. Trial Form Submission ── */
+    const demoForm        = document.getElementById('demoForm');
+    const submitBtn       = document.getElementById('submitBtn');
+    const formWrapper     = document.getElementById('formWrapper');
+    const formErrorMsg    = document.getElementById('formErrorMessage');
 
     if (demoForm) {
-      demoForm.addEventListener('submit', async (e) => {
+      demoForm.addEventListener('submit', async e => {
         e.preventDefault();
-        formErrorMessage.classList.add('hidden');
-        formErrorMessage.textContent = '';
+        formErrorMsg.classList.add('hidden');
+        formErrorMsg.textContent = '';
 
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
+        const name    = document.getElementById('name').value.trim();
+        const email   = document.getElementById('email').value.trim();
         const company = document.getElementById('company').value.trim();
         const clients = document.getElementById('clients').value.trim();
-        const website = document.getElementById('website').value.trim();
+        const website = document.getElementById('website_hp').value.trim();
 
-        // Client-side quick check
         if (!name || !email || !company) {
-          formErrorMessage.textContent = 'Vyplňte prosím vaše jméno, pracovní e-mail a firmu.';
-          formErrorMessage.classList.remove('hidden');
+          formErrorMsg.textContent = 'Please enter your name, work email, and agency name.';
+          formErrorMsg.classList.remove('hidden');
           return;
         }
 
         const formData = {
-          name,
-          email,
-          company,
-          clients,
+          name, email, company, clients,
           fileName: selectedFile ? selectedFile.name : null,
           fileData: selectedFileBase64 || null,
           website,
           timestamp: formTimestampInput.value
         };
 
-        // Lock button
         submitBtn.disabled = true;
         const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Aktivuji zkušební verzi…';
+        submitBtn.textContent = 'Activating your pilot…';
         submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
         try {
@@ -1161,35 +1117,34 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
           });
-
           const result = await response.json();
 
           if (response.ok && result.success) {
             formWrapper.innerHTML = `
               <div class="p-8 sm:p-10 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-4">
                 <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-2xl font-bold">✓</div>
-                <h3 class="text-2xl font-black text-white">Vaše 14denní zkušební verze je na cestě!</h3>
+                <h3 class="text-2xl font-black text-white">Your Pilot Is On Its Way!</h3>
                 <div class="text-sm text-slate-200 space-y-3 max-w-md mx-auto leading-relaxed text-left pt-2">
                   <div class="flex items-start space-x-2.5">
                     <span class="text-emerald-400 font-bold">1.</span>
-                    <span><strong>Přihlašovací údaje</strong> vám pošleme na e-mail do <strong>15 minut</strong>, abyste si mohli projít rozhraní a nastavit tým.</span>
+                    <span><strong>Login credentials</strong> will arrive in your inbox within <strong>15 minutes</strong>.</span>
                   </div>
                   <div class="flex items-start space-x-2.5">
                     <span class="text-emerald-400 font-bold">2.</span>
-                    <span><strong>Vaše firmy</strong> zvalidujeme, napojíme na radar a <strong>do 24 hodin garantujeme spuštění prvního ostrého skenu</strong>.</span>
+                    <span><strong>Your companies</strong> will be indexed and <strong>your first automated scan will run within 24 hours</strong>.</span>
                   </div>
                 </div>
                 <p class="text-xs text-emerald-400 font-medium pt-3 border-t border-[rgba(255,255,255,0.06)]">
-                  Žádné poplatky, žádná platební karta. Po 14 dnech se sami rozhodnete, jestli chcete pokračovat.
+                  No charges. No credit card. After 14 days you decide whether to continue.
                 </p>
               </div>
             `;
           } else {
-            throw new Error(result.error || 'Něco se pokazilo.');
+            throw new Error(result.error || 'Something went wrong.');
           }
         } catch (err) {
-          formErrorMessage.textContent = err.message || 'Něco se pokazilo. Napište mi prosím přímo na krystof@talentradar.cz.';
-          formErrorMessage.classList.remove('hidden');
+          formErrorMsg.textContent = err.message || 'Something went wrong. Please write to us directly at kristof@talentrr.eu';
+          formErrorMsg.classList.remove('hidden');
           submitBtn.disabled = false;
           submitBtn.textContent = originalText;
           submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
@@ -1197,16 +1152,14 @@
       });
     }
 
-    // 4. Smooth FAQ Accordion Handler (eliminates snapping / ticking)
+    /* ── 5. Smooth FAQ Accordion ── */
     document.querySelectorAll('#faq details').forEach(details => {
       const summary = details.querySelector('summary');
-      const body = details.querySelector('.faq-body');
+      const body    = details.querySelector('.faq-body');
       if (!summary || !body) return;
-
-      summary.addEventListener('click', (e) => {
+      summary.addEventListener('click', e => {
         e.preventDefault();
         if (details.open) {
-          // Smooth closing
           details.classList.add('is-closing');
           details.classList.remove('is-open');
           body.style.gridTemplateRows = '0fr';
@@ -1218,11 +1171,91 @@
             body.style.opacity = '';
           }, 260);
         } else {
-          // Smooth opening
           details.open = true;
           details.classList.add('is-open');
           void body.offsetHeight;
         }
+      });
+    });
+
+    /* ── 6. Live Radar — Fetch from JSON with fallback + Filter Tabs ── */
+    const categoryBadgeClass = {
+      tech:      'badge-tech',
+      sales:     'badge-sales',
+      executive: 'badge-exec',
+      finance:   'badge-finance',
+    };
+    const categoryLabelMap = {
+      tech:      'TECH & CLOUD',
+      sales:     'B2B SALES',
+      executive: 'EXECUTIVE',
+      finance:   'FINTECH',
+    };
+
+    function buildRadarCard(role) {
+      const badgeClass = categoryBadgeClass[role.category] || 'badge-tech';
+      const catLabel   = categoryLabelMap[role.category]   || role.categoryLabel?.toUpperCase() || 'SIGNAL';
+      return `
+        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="${role.category}">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+              <span class="font-bold text-sm text-white">${role.title}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">${role.badge || 'NEW TODAY'}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold ${badgeClass}">${catLabel}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">${role.seniority}</span>
+            </div>
+            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
+              <span class="text-slate-200 font-semibold">${role.company}</span>
+              <span>•</span>
+              <span>${role.location}</span>
+              <span>•</span>
+              <span class="text-slate-300 font-mono">Discovered today at ${role.discoveredAt}</span>
+              <span>•</span>
+              <span class="text-slate-400">${role.ats}</span>
+            </div>
+          </div>
+          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
+            Track company →
+          </a>
+        </div>`;
+    }
+
+    async function loadRadarFeed() {
+      try {
+        const res   = await fetch('/data/live_roles.json');
+        if (!res.ok) throw new Error('fetch failed');
+        const roles = await res.json();
+        if (!Array.isArray(roles) || roles.length === 0) throw new Error('empty');
+        const feed = document.getElementById('radarFeed');
+        if (feed) {
+          feed.innerHTML = '<div class="divide-y divide-[rgba(255,255,255,0.05)]">' +
+            roles.map(buildRadarCard).join('') + '</div>';
+        }
+      } catch (_) {
+        // Silently keep the fallback static cards already in the DOM
+      }
+    }
+    loadRadarFeed();
+
+    /* ── 6b. Radar filter tabs ── */
+    document.querySelectorAll('.radar-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.radar-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.getAttribute('data-filter');
+        document.querySelectorAll('.radar-card').forEach(card => {
+          const match = filter === 'all' || card.getAttribute('data-category') === filter;
+          card.style.display = match ? '' : 'none';
+        });
+      });
+    });
+
+    /* ── 7. Language switcher aria-pressed sync ── */
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(b =>
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false')
+        );
       });
     });
   </script>

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "tines-staff-security-eng",
+    "company": "Tines",
+    "location": "Dublin, Ireland",
+    "title": "Staff Security Engineer",
+    "seniority": "Lead",
+    "category": "tech",
+    "categoryLabel": "Tech & Cloud",
+    "discoveredAt": "06:12",
+    "ats": "Greenhouse ATS",
+    "badge": "NEW TODAY"
+  },
+  {
+    "id": "intercom-enterprise-ae",
+    "company": "Intercom",
+    "location": "Dublin, Ireland",
+    "title": "Enterprise Account Executive",
+    "seniority": "Senior",
+    "category": "sales",
+    "categoryLabel": "B2B Sales",
+    "discoveredAt": "06:14",
+    "ats": "Greenhouse ATS",
+    "badge": "NEW TODAY"
+  },
+  {
+    "id": "mews-senior-backend-architect",
+    "company": "Mews",
+    "location": "Remote EU / Prague",
+    "title": "Senior Backend Architect (Go/Node)",
+    "seniority": "Senior",
+    "category": "tech",
+    "categoryLabel": "Tech & Cloud",
+    "discoveredAt": "06:18",
+    "ats": "Direct ATS",
+    "badge": "NEW TODAY"
+  },
+  {
+    "id": "stripe-head-fintech-compliance",
+    "company": "Stripe",
+    "location": "Dublin / Remote",
+    "title": "Head of FinTech Compliance",
+    "seniority": "Executive",
+    "category": "executive",
+    "categoryLabel": "Executive & C-Level",
+    "discoveredAt": "06:22",
+    "ats": "Direct ATS",
+    "badge": "NEW TODAY"
+  }
+]

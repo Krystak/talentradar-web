@@ -1145,6 +1145,10 @@
           fileName: selectedFile ? selectedFile.name : null,
           fileData: selectedFileBase64 || null,
           website,
+          // Which language to welcome them in. The switcher is a deliberate
+          // choice, so it beats guessing from where the request came from —
+          // an agency reading this page in English wants English back.
+          lang: (window.TRLang && window.TRLang.current()) || document.documentElement.lang || 'en',
           timestamp: formTimestampInput.value
         };
 

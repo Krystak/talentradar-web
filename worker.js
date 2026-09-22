@@ -44,7 +44,7 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  const { name, email, company, clients, fileName, fileData, website, timestamp } = data;
+  const { name, email, company, clients, fileName, fileData, website, lang, timestamp } = data;
   const clientIp = request.headers.get("cf-connecting-ip") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";
 
@@ -125,6 +125,10 @@ async function handleDemoSubmission(request, env) {
     clients: (clients || "").trim(),
     fileName: cleanFileName,
     hasFile: !!fileData,
+    // Preferred language: what the visitor had the page switched to,
+    // falling back to what their browser asks for. Used to pick the
+    // language of the welcome e-mail the app sends later.
+    lang: normaliseLang(lang, request.headers.get("accept-language")),
     ip: clientIp,
     userAgent: userAgent,
   };
@@ -198,6 +202,16 @@ async function handleDemoSubmission(request, env) {
     JSON.stringify({ success: true, message: "Thanks — your login is on its way and your companies go live within 24 hours." }),
     { status: 200, headers: { "Content-Type": "application/json; charset=utf-8" } }
   );
+}
+
+/**
+ * Resolves the language to address this person in: 'cs' or 'en'.
+ */
+function normaliseLang(chosen, acceptLanguage) {
+  const pick = String(chosen || "").trim().toLowerCase().slice(0, 2);
+  if (pick === "cs" || pick === "en") return pick;
+  if (String(acceptLanguage || "").toLowerCase().startsWith("cs")) return "cs";
+  return "en";
 }
 
 /** Wrap a channel so one failure can never take the request down. */

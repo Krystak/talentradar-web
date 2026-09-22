@@ -162,7 +162,7 @@ async function handleDemoSubmission(request, env) {
   // Every channel reports whether it actually delivered. A channel that is not
   // configured is skipped; one that fails is logged and counted as failed.
   const results = await Promise.all([
-    notifyResend(env, leadRecord, fileData, cleanFileName),
+    notifyBrevo(env, leadRecord, fileData, cleanFileName),
     notifySlack(env, leadRecord, cleanFileName),
     notifyTelegram(env, leadRecord, cleanFileName),
   ]);
@@ -178,7 +178,7 @@ async function handleDemoSubmission(request, env) {
   if (configured.length === 0) {
     console.error(
       `Lead ${leadRecord.id} stored but nobody was notified - no notification channel is configured. ` +
-      `Set SLACK_WEBHOOK_URL, RESEND_API_KEY or TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID.`
+      `Set SLACK_WEBHOOK_URL, BREVO_API_KEY or TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID.`
     );
   }
 
@@ -222,25 +222,44 @@ async function safeBody(res) {
   }
 }
 
-function notifyResend(env, lead, fileData, cleanFileName) {
-  return runChannel("resend", !!env.RESEND_API_KEY, () => {
+function notifyBrevo(env, lead, fileData, cleanFileName) {
+  return runChannel("brevo", !!env.BREVO_API_KEY, () => {
     const payload = {
-      from: env.RESEND_FROM || "TalentRadar <onboarding@resend.dev>",
-      to: [env.LEAD_INBOX || "krystof@talentradar.eu"],
+      sender: { name: "TalentRadar", email: env.LEAD_FROM || "leads@talentradar.eu" },
+      to: [{ email: env.LEAD_INBOX || "krystof@talentradar.eu" }],
+      // Hitting reply in the inbox answers the person who signed up.
+      replyTo: { email: lead.email, name: lead.name },
       subject: `New 14-day trial: ${lead.name} (${lead.company || "no agency given"})`,
-      text: `New trial sign-up\n\nName: ${lead.name}\nE-mail: ${lead.email}\nAgency: ${lead.company || "not given"}\n\nAttached file: ${cleanFileName || "none"}\n\nCompanies pasted as text:\n${lead.clients || "(submitted as a file)"}\n\nTime: ${lead.timestamp}\nIP: ${lead.ip}\nLead ID: ${lead.id}`,
+      textContent: [
+        "New trial sign-up",
+        "",
+        `Name:   ${lead.name}`,
+        `E-mail: ${lead.email}`,
+        `Agency: ${lead.company || "not given"}`,
+        "",
+        `Attached file: ${cleanFileName || "none"}`,
+        "",
+        "Companies pasted as text:",
+        lead.clients || "(submitted as a file)",
+        "",
+        `Time:    ${lead.timestamp}`,
+        `IP:      ${lead.ip}`,
+        `Lead ID: ${lead.id}`,
+      ].join("\n"),
     };
 
     if (fileData && cleanFileName) {
+      // The browser sends a data: URL; Brevo wants the bare base64 payload.
       const rawBase64 = fileData.includes(",") ? fileData.split(",")[1] : fileData;
-      payload.attachments = [{ filename: cleanFileName, content: rawBase64 }];
+      payload.attachment = [{ name: cleanFileName, content: rawBase64 }];
     }
 
-    return fetch("https://api.resend.com/emails", {
+    return fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
+        "api-key": env.BREVO_API_KEY,
+        "content-type": "application/json",
+        accept: "application/json",
       },
       body: JSON.stringify(payload),
     });

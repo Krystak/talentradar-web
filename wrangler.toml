@@ -19,16 +19,22 @@ binding = "ASSETS"
 binding = "TALENT_RADAR_KV"
 id = "b33b5939becc4f21a8d9d824fae467b1"
 
-# Secrets - set via CLI, never committed:
-#   npx wrangler secret put TELEGRAM_BOT_TOKEN
-#   npx wrangler secret put TELEGRAM_CHAT_ID
-#   npx wrangler secret put SLACK_WEBHOOK_URL
-#   npx wrangler secret put RESEND_API_KEY      (needs a verified sender domain)
-#   npx wrangler secret put RESEND_FROM         (e.g. TalentRadar <leads@talentradar.eu>)
-#   npx wrangler secret put LEAD_INBOX          (where trial sign-ups are delivered)
+# Secrets - set in the Cloudflare dashboard (Settings > Variables and Secrets)
+# or via CLI. Node is not installed on the dev machine, so the dashboard is
+# usually the quicker route:
+#   SLACK_WEBHOOK_URL   incoming webhook, posts each sign-up to Slack
+#   BREVO_API_KEY       transactional e-mail with the uploaded file attached
+#   LEAD_FROM           sender address, e.g. leads@talentradar.eu
+#   LEAD_INBOX          where sign-ups are delivered, e.g. krystof@talentradar.eu
+#   TELEGRAM_BOT_TOKEN  optional, together with TELEGRAM_CHAT_ID
+#   TELEGRAM_CHAT_ID
 #
-# At least one notification channel must be configured, otherwise /api/demo
-# refuses the submission and tells the visitor to e-mail directly instead of
-# silently swallowing the lead.
+# talentradar.eu is already authenticated with Brevo - the brevo-code TXT,
+# spf.brevo.com in SPF, DKIM on brevo1/brevo2._domainkey and a DMARC record
+# all live in this account's Cloudflare DNS. No further DNS work is needed.
+#
+# At least one notification channel should be configured. Without one the lead
+# is still written to KV, but nobody is told about it, so worker.js logs an
+# error on every submission until a channel exists.
 
 # Production domain is talentradar.eu, wired up in the Cloudflare dashboard.

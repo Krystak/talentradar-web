@@ -141,12 +141,14 @@ const TRANSLATIONS = {
 
     /* ── Story / About ── */
     story_label: "Kdo za tím stojí",
-    story_headline: "Příběh z Dublinu do Evropy",
-    story_p1_html: "Strávil jsem technologickou rezidenci v Dublinu v technologické headhuntingové firmě Ingenio Global pod <a href=\"https://www.linkedin.com/in/rob-magee-749891/\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-[#FF8533] underline hover:text-white font-semibold\">Robem Mageem</a>, kde jsem nasadil a provozoval tento monitoring systém v reálném provozu. Sledoval jsem 180 firem a zachytil přes 3 400 otevřených pozic za dva měsíce.",
-    story_p2: "Vrátil jsem se s přesvědčením, že většina agentur v Evropě stále řeší tento problém ručně — někdo obchází weby klientů a přepisuje je do Excelu. TalentRadar to řeší autonomně, v průmyslovém měřítku.",
-    story_p3: "Zodpovídám za každý aspekt produktu. Když napíšete, odpovím vám já.",
+    story_headline: "Od ručního proklikávání webů k automatickému radaru",
+    story_p1_html: "Když jsem nastoupil na stáž do dublinské agentury Ingenio Global pod vedením <a href=\"https://www.linkedin.com/in/rob-magee-749891/\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-[#FF8533] underline hover:text-white font-semibold\">Roba Mageeho</a>, jedním z mých prvních úkolů bylo ručně obcházet weby klientů a nově vypsané pozice řádek po řádku přepisovat do tabulek.",
+    story_p2: "Byla to neuvěřitelně pomalá práce, snadno se v ní dělaly chyby a byl to čistý žrout času. Místo ručního doplňování tabulek jsem přímo během stáže začal psát systém, který kariérní stránky klientů hlídal sám.",
+    story_p3: "Během dalších dvou měsíců systém běžel v ostrém provozu: hlídal 180 firem a zachytil přes 3 400 otevřených pozic. Konzultanti se o nových rolích dozvěděli v den, kdy je klient vypsal na web — aniž by museli hnout prstem.",
+    story_p4: "Po návratu z Dublinu mi bylo jasné, že stejným ručním procházením webů pálí desítky hodin týdně většina headhunterů v celé Evropě. TalentRadar je nástroj, který tenhle problém řeší.",
+    story_p5: "Systém vyvíjím i provozuji sám. Když se ozvete, odpovídám vám přímo já.",
     story_author_name: "Kryštof Pejša",
-    story_author_title: "Lead Architect & Founder, TalentRadar",
+    story_author_title: "Zakladatel TalentRadar",
     story_linkedin: "Můj LinkedIn",
 
     /* ── FAQ ── */

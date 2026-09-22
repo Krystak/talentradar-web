@@ -152,7 +152,7 @@ async function handleDemoSubmission(request, env) {
     try {
       const emailPayload = {
         from: "TalentRadar Web <onboarding@resend.dev>",
-        to: ["krystof@talentradar.cz"],
+        to: ["krystof@talentradar.eu"],
         subject: `⚡ Nová 14denní zkušební verze: ${leadRecord.name} (${leadRecord.company || "Nezadáno"})`,
         text: `Nová registrace do 14denní zkušební verze:\n\nJméno: ${leadRecord.name}\nE-mail: ${leadRecord.email}\nFirma / Agentura: ${leadRecord.company || "Neuvedeno"}\n\nPřiložený soubor: ${cleanFileName || "Žádný"}\n\nFirmy zadané textem:\n${leadRecord.clients || "(Zadáno přes soubor)"}\n\nČas: ${leadRecord.timestamp}\nIP: ${leadRecord.ip}`,
       };

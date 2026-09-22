@@ -123,7 +123,7 @@ export async function onRequestPost(context) {
         },
         body: JSON.stringify({
           from: "TalentRadar Web <onboarding@resend.dev>",
-          to: ["krystof@talentradar.cz"],
+          to: ["krystof@talentradar.eu"],
           subject: `⚡ Nová poptávka dema: ${leadRecord.name} (${leadRecord.company || "Nezadáno"})`,
           text: `Nová poptávka dema z webu TalentRadar:\n\nJméno: ${leadRecord.name}\nE-mail: ${leadRecord.email}\nFirma: ${leadRecord.company}\n\nOdkazy na klienty:\n${leadRecord.clients}\n\nČas: ${leadRecord.timestamp}\nIP: ${leadRecord.ip}`,
         }),

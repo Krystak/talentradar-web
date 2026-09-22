@@ -909,6 +909,45 @@
               </div>
             </div>
 
+            <!-- Expected file layout -->
+            <div class="rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#0A0D14]/70 overflow-hidden">
+              <div class="flex items-center justify-between gap-2 px-3 py-2 border-b border-[rgba(255,255,255,0.06)]">
+                <span class="text-[11px] font-semibold text-slate-200" data-i18n="trial_example_title">What the file should look like</span>
+                <span class="text-[10px] text-slate-500 whitespace-nowrap" data-i18n="trial_example_hint">Header row optional</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full min-w-[300px] text-left border-collapse">
+                  <thead>
+                    <tr class="bg-[#141A28] text-[10px] text-slate-500">
+                      <th class="w-7 px-2 py-1 border-r border-[rgba(255,255,255,0.06)]"></th>
+                      <th class="px-3 py-1 font-mono font-normal border-r border-[rgba(255,255,255,0.06)]">A</th>
+                      <th class="px-3 py-1 font-mono font-normal">B</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-[11px]">
+                    <tr class="border-t border-[rgba(255,255,255,0.06)]">
+                      <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">1</td>
+                      <td class="px-3 py-1.5 font-semibold text-slate-200 border-r border-[rgba(255,255,255,0.06)]" data-i18n="trial_example_col_a">Company</td>
+                      <td class="px-3 py-1.5 font-semibold text-slate-200" data-i18n="trial_example_col_b">Careers page</td>
+                    </tr>
+                    <tr class="border-t border-[rgba(255,255,255,0.06)]">
+                      <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">2</td>
+                      <td class="px-3 py-1.5 text-slate-300 border-r border-[rgba(255,255,255,0.06)]">Tines</td>
+                      <td class="px-3 py-1.5 font-mono text-[#FF8533]">tines.com/careers</td>
+                    </tr>
+                    <tr class="border-t border-[rgba(255,255,255,0.06)]">
+                      <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">3</td>
+                      <td class="px-3 py-1.5 text-slate-300 border-r border-[rgba(255,255,255,0.06)]">Mews</td>
+                      <td class="px-3 py-1.5 font-mono text-[#FF8533]">mews.com/en/careers</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="px-3 py-2 text-[10px] text-slate-500 border-t border-[rgba(255,255,255,0.06)]" data-i18n="trial_example_note">
+                Only have company names? Leave column B out — we'll find their career sites.
+              </p>
+            </div>
+
             <!-- Text fallback -->
             <div class="relative">
               <textarea id="clients" name="clients" rows="3" maxlength="10000" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-xs sm:text-sm focus:outline-none focus:border-[#FF6B00] transition placeholder:text-slate-400" data-i18n-placeholder="trial_textarea_placeholder" placeholder="Or paste your client domain list here — one domain or company name per line"></textarea>

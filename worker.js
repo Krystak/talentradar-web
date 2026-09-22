@@ -163,7 +163,7 @@ async function handleDemoSubmission(request, env) {
   // configured is skipped; one that fails is logged and counted as failed.
   const results = await Promise.all([
     notifyResend(env, leadRecord, fileData, cleanFileName),
-    notifyDiscord(env, leadRecord, cleanFileName),
+    notifySlack(env, leadRecord, cleanFileName),
     notifyTelegram(env, leadRecord, cleanFileName),
   ]);
 
@@ -178,7 +178,7 @@ async function handleDemoSubmission(request, env) {
   if (configured.length === 0) {
     console.error(
       `Lead ${leadRecord.id} stored but nobody was notified - no notification channel is configured. ` +
-      `Set TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID, DISCORD_WEBHOOK_URL or RESEND_API_KEY.`
+      `Set SLACK_WEBHOOK_URL, RESEND_API_KEY or TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID.`
     );
   }
 
@@ -247,20 +247,33 @@ function notifyResend(env, lead, fileData, cleanFileName) {
   });
 }
 
-function notifyDiscord(env, lead, cleanFileName) {
-  return runChannel("discord", !!env.DISCORD_WEBHOOK_URL, () => {
+function notifySlack(env, lead, cleanFileName) {
+  return runChannel("slack", !!env.SLACK_WEBHOOK_URL, () => {
     const clientsPreview = lead.clients
       ? lead.clients.length > 800
         ? lead.clients.slice(0, 800) + "…"
         : lead.clients
       : "submitted as an attached file";
 
-    return fetch(env.DISCORD_WEBHOOK_URL, {
+    // Slack mrkdwn: *bold*, `code`, ```block```
+    const text = [
+      "*New 14-day trial sign-up*",
+      "",
+      `*Name:* ${lead.name}`,
+      `*E-mail:* ${lead.email}`,
+      `*Agency:* ${lead.company || "not given"}`,
+      `*File:* ${cleanFileName ? "`" + cleanFileName + "` (stored as `leadfile:" + lead.id + "`)" : "none"}`,
+      "*Companies:*",
+      "```",
+      clientsPreview,
+      "```",
+      `*Time:* ${lead.timestamp}`,
+    ].join("\n");
+
+    return fetch(env.SLACK_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content: `**New trial sign-up**\n\n**Name:** ${lead.name}\n**E-mail:** ${lead.email}\n**Agency:** ${lead.company || "not given"}\n**File:** ${cleanFileName ? `\`${cleanFileName}\` (stored as leadfile:${lead.id})` : "none"}\n**Companies:**\n\`\`\`\n${clientsPreview}\n\`\`\`\n**Time:** ${lead.timestamp}`,
-      }),
+      body: JSON.stringify({ text: text, mrkdwn: true }),
     });
   });
 }

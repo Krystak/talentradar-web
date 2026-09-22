@@ -22,8 +22,10 @@ id = "b33b5939becc4f21a8d9d824fae467b1"
 # Secrets - set via CLI, never committed:
 #   npx wrangler secret put TELEGRAM_BOT_TOKEN
 #   npx wrangler secret put TELEGRAM_CHAT_ID
-#   npx wrangler secret put DISCORD_WEBHOOK_URL
+#   npx wrangler secret put SLACK_WEBHOOK_URL
 #   npx wrangler secret put RESEND_API_KEY      (needs a verified sender domain)
+#   npx wrangler secret put RESEND_FROM         (e.g. TalentRadar <leads@talentradar.eu>)
+#   npx wrangler secret put LEAD_INBOX          (where trial sign-ups are delivered)
 #
 # At least one notification channel must be configured, otherwise /api/demo
 # refuses the submission and tells the visitor to e-mail directly instead of

@@ -463,7 +463,7 @@
       <div>
           <h3 class="text-xl sm:text-2xl font-bold text-white mb-3" data-i18n="how_onboarding_title">Zero-Friction Asynchronous Onboarding</h3>
           <p class="text-slate-300 text-sm sm:text-base leading-relaxed" data-i18n="how_onboarding_body">
-            Paste your client domains or upload a CSV/Excel file during sign-up. Our engine indexes your target accounts and ATS career sites within 24 hours. Zero configuration calls required.
+            Upload your client list in a CSV or Excel file during sign-up. Our engine indexes your target accounts and ATS career sites within 24 hours. Zero configuration calls required.
           </p>
         </div>
       </div>
@@ -851,7 +851,7 @@
         </div>
         <h2 class="text-2xl sm:text-4xl font-black text-white" data-i18n="trial_headline">Try TalentRadar on Your Client Portfolio</h2>
         <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed" data-i18n="trial_subtext">
-          Paste your client domains or upload a CSV/Excel file. We'll have your companies indexed and your first automated scan running within 24 hours.
+          Upload your client list in a CSV or Excel file. We'll have your companies indexed and your first automated scan running within 24 hours.
         </p>
       </div>
 
@@ -891,16 +891,16 @@
                 <span data-i18n="trial_label_clients">Client portfolio for monitoring</span>
                 <span class="text-slate-400 font-normal" data-i18n="trial_clients_limit"> (up to 200 companies)</span>
               </label>
-              <span class="text-[11px] text-[#FF8533] font-medium" data-i18n="trial_clients_tag">Excel, CSV or text</span>
+              <span class="text-[11px] text-[#FF8533] font-medium" data-i18n="trial_clients_tag">Excel or CSV</span>
             </div>
 
             <!-- Drag & Drop / File Upload -->
             <div id="dropZone" class="relative rounded-xl border border-dashed border-[rgba(255,255,255,0.18)] hover:border-[#FF6B00]/60 bg-[#0A0D14]/70 p-4 transition text-center cursor-pointer group">
-              <input type="file" id="fileUpload" accept=".xlsx,.xls,.csv,.txt" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+              <input type="file" id="fileUpload" accept=".xlsx,.xls,.csv" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
               <div id="fileUploadPrompt" class="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-slate-300">
                 <span class="text-base group-hover:scale-110 transition">📎</span>
                 <span class="font-semibold text-white group-hover:text-[#FF8533] transition" data-i18n="trial_upload_cta">Click to upload a file</span>
-                <span class="text-slate-400" data-i18n="trial_upload_types">(Excel .xlsx, .csv or .txt)</span>
+                <span class="text-slate-400" data-i18n="trial_upload_types">(Excel .xlsx, .xls or .csv)</span>
               </div>
               <div id="fileSelectedDisplay" class="hidden items-center justify-center space-x-2 text-xs text-emerald-400">
                 <span>✓</span>
@@ -916,42 +916,42 @@
                 <span class="text-[10px] text-slate-500 whitespace-nowrap" data-i18n="trial_example_hint">Header row optional</span>
               </div>
               <div class="overflow-x-auto">
-                <table class="w-full min-w-[300px] text-left border-collapse">
+                <table class="w-full min-w-[360px] text-left border-collapse">
                   <thead>
                     <tr class="bg-[#141A28] text-[10px] text-slate-500">
                       <th class="w-7 px-2 py-1 border-r border-[rgba(255,255,255,0.06)]"></th>
                       <th class="px-3 py-1 font-mono font-normal border-r border-[rgba(255,255,255,0.06)]">A</th>
-                      <th class="px-3 py-1 font-mono font-normal">B</th>
+                      <th class="px-3 py-1 font-mono font-normal border-r border-[rgba(255,255,255,0.06)]">B</th>
+                      <th class="px-3 py-1 font-mono font-normal">C</th>
                     </tr>
                   </thead>
                   <tbody class="text-[11px]">
                     <tr class="border-t border-[rgba(255,255,255,0.06)]">
                       <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">1</td>
                       <td class="px-3 py-1.5 font-semibold text-slate-200 border-r border-[rgba(255,255,255,0.06)]" data-i18n="trial_example_col_a">Company</td>
-                      <td class="px-3 py-1.5 font-semibold text-slate-200" data-i18n="trial_example_col_b">Careers page</td>
+                      <td class="px-3 py-1.5 font-semibold text-slate-200 border-r border-[rgba(255,255,255,0.06)]" data-i18n="trial_example_col_b">Careers page</td>
+                      <td class="px-3 py-1.5 font-semibold text-slate-200" data-i18n="trial_example_col_c">Company LinkedIn (optional)</td>
                     </tr>
                     <tr class="border-t border-[rgba(255,255,255,0.06)]">
                       <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">2</td>
                       <td class="px-3 py-1.5 text-slate-300 border-r border-[rgba(255,255,255,0.06)]">Tines</td>
-                      <td class="px-3 py-1.5 font-mono text-[#FF8533]">tines.com/careers</td>
+                      <td class="px-3 py-1.5 font-mono text-[#FF8533] border-r border-[rgba(255,255,255,0.06)]">tines.com/careers</td>
+                      <td class="px-3 py-1.5 font-mono text-slate-400">linkedin.com/company/tines</td>
                     </tr>
                     <tr class="border-t border-[rgba(255,255,255,0.06)]">
                       <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">3</td>
                       <td class="px-3 py-1.5 text-slate-300 border-r border-[rgba(255,255,255,0.06)]">Mews</td>
-                      <td class="px-3 py-1.5 font-mono text-[#FF8533]">mews.com/en/careers</td>
+                      <td class="px-3 py-1.5 font-mono text-[#FF8533] border-r border-[rgba(255,255,255,0.06)]">mews.com/en/careers</td>
+                      <td class="px-3 py-1.5 font-mono text-slate-400">linkedin.com/company/mews</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <p class="px-3 py-2 text-[10px] text-slate-500 border-t border-[rgba(255,255,255,0.06)]" data-i18n="trial_example_note">
-                Only have company names? Leave column B out — we'll find their career sites.
+                Only have company names? Leave columns B and C empty — we'll find their career sites.
               </p>
             </div>
 
-            <!-- Text fallback -->
-            <div class="relative">
-              <textarea id="clients" name="clients" rows="3" maxlength="10000" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-xs sm:text-sm focus:outline-none focus:border-[#FF6B00] transition placeholder:text-slate-400" data-i18n-placeholder="trial_textarea_placeholder" placeholder="Or paste your client domain list here — one domain or company name per line"></textarea>
-            </div>
             <p class="text-[11px] text-slate-400" data-i18n="trial_upload_note">
               We'll locate their ATS and career sites for you. You can also send the file afterwards.
             </p>
@@ -1131,7 +1131,8 @@
         const name    = document.getElementById('name').value.trim();
         const email   = document.getElementById('email').value.trim();
         const company = document.getElementById('company').value.trim();
-        const clients = document.getElementById('clients').value.trim();
+        const clientsEl = document.getElementById('clients');
+        const clients = clientsEl ? clientsEl.value.trim() : '';
         const website = document.getElementById('website_hp').value.trim();
 
         if (!name || !email || !company) {

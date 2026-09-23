@@ -120,7 +120,7 @@
     "category": "tech",
     "categoryLabel": "TECH & CLOUD",
     "seniority": "Lead",
-    "jobUrl": "https://job-boards.greenhouse.io/getyourguide/jobs/8152695",
+    "jobUrl": "https://www.getyourguide.careers/jobs/8152695",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -134,7 +134,7 @@
     "category": "tech",
     "categoryLabel": "TECH & CLOUD",
     "seniority": "Lead",
-    "jobUrl": "https://job-boards.greenhouse.io/getyourguide/jobs/7959986",
+    "jobUrl": "https://www.getyourguide.careers/jobs/7959986",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -148,7 +148,7 @@
     "category": "tech",
     "categoryLabel": "TECH & CLOUD",
     "seniority": "Lead",
-    "jobUrl": "https://job-boards.greenhouse.io/getyourguide/jobs/8125740",
+    "jobUrl": "https://www.getyourguide.careers/jobs/8125740",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -162,7 +162,7 @@
     "category": "tech",
     "categoryLabel": "TECH & CLOUD",
     "seniority": "Mid",
-    "jobUrl": "https://job-boards.greenhouse.io/getyourguide/jobs/8152691",
+    "jobUrl": "https://www.getyourguide.careers/jobs/8152691",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -414,7 +414,7 @@
     "category": "tech",
     "categoryLabel": "TECH & CLOUD",
     "seniority": "Mid",
-    "jobUrl": "https://job-boards.eu.greenhouse.io/secondfoundation/jobs/4145998101",
+    "jobUrl": "https://www.second-foundation.eu/position/back-end-developer",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -428,7 +428,7 @@
     "category": "tech",
     "categoryLabel": "TECH & CLOUD",
     "seniority": "Mid",
-    "jobUrl": "https://job-boards.eu.greenhouse.io/secondfoundation/jobs/4873962101",
+    "jobUrl": "https://www.second-foundation.eu/position/database-platform-engineer",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -442,21 +442,7 @@
     "category": "tech",
     "categoryLabel": "TECH & CLOUD",
     "seniority": "Mid",
-    "jobUrl": "https://job-boards.eu.greenhouse.io/secondfoundation/jobs/4171248101",
-    "ats": "Greenhouse ATS",
-    "discoveredAt": "06:15",
-    "badge": "NEW TODAY"
-  },
-  {
-    "id": "stripe-8172503",
-    "company": "Stripe",
-    "companySlug": "stripe",
-    "title": "Abuse Research Engineer",
-    "location": "Remote from the US",
-    "category": "tech",
-    "categoryLabel": "TECH & CLOUD",
-    "seniority": "Mid",
-    "jobUrl": "https://stripe.com/jobs/search?gh_jid=8172503",
+    "jobUrl": "https://www.second-foundation.eu/position/data-engineer",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -499,6 +485,20 @@
     "categoryLabel": "TECH & CLOUD",
     "seniority": "Mid",
     "jobUrl": "https://stripe.com/jobs/search?gh_jid=7369543",
+    "ats": "Greenhouse ATS",
+    "discoveredAt": "06:15",
+    "badge": "NEW TODAY"
+  },
+  {
+    "id": "stripe-8202831",
+    "company": "Stripe",
+    "companySlug": "stripe",
+    "title": "Benefits Program Manager, EMEA",
+    "location": "Dublin, London",
+    "category": "tech",
+    "categoryLabel": "TECH & CLOUD",
+    "seniority": "Lead",
+    "jobUrl": "https://stripe.com/jobs/search?gh_jid=8202831",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -680,7 +680,7 @@
     "category": "sales",
     "categoryLabel": "B2B SALES",
     "seniority": "Mid",
-    "jobUrl": "https://job-boards.greenhouse.io/getyourguide/jobs/8066989",
+    "jobUrl": "https://www.getyourguide.careers/jobs/8066989",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -694,7 +694,7 @@
     "category": "sales",
     "categoryLabel": "B2B SALES",
     "seniority": "Mid",
-    "jobUrl": "https://job-boards.greenhouse.io/getyourguide/jobs/8066991",
+    "jobUrl": "https://www.getyourguide.careers/jobs/8066991",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -708,7 +708,7 @@
     "category": "executive",
     "categoryLabel": "EXECUTIVE",
     "seniority": "Executive",
-    "jobUrl": "https://job-boards.greenhouse.io/getyourguide/jobs/7748635",
+    "jobUrl": "https://www.getyourguide.careers/jobs/7748635",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -722,7 +722,7 @@
     "category": "executive",
     "categoryLabel": "EXECUTIVE",
     "seniority": "Executive",
-    "jobUrl": "https://job-boards.greenhouse.io/getyourguide/jobs/8173475",
+    "jobUrl": "https://www.getyourguide.careers/jobs/8173475",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -890,7 +890,7 @@
     "category": "finance",
     "categoryLabel": "FINTECH & RISK",
     "seniority": "Junior",
-    "jobUrl": "https://job-boards.eu.greenhouse.io/secondfoundation/jobs/4939372101",
+    "jobUrl": "https://www.second-foundation.eu/position/junior-legal-counsel",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"
@@ -904,7 +904,7 @@
     "category": "finance",
     "categoryLabel": "FINTECH & RISK",
     "seniority": "Mid",
-    "jobUrl": "https://job-boards.eu.greenhouse.io/secondfoundation/jobs/4899182101",
+    "jobUrl": "https://www.second-foundation.eu/position/quantitative-risk-analyst",
     "ats": "Greenhouse ATS",
     "discoveredAt": "06:15",
     "badge": "NEW TODAY"

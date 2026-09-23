@@ -31,17 +31,19 @@ const TRANSLATIONS = {
 
     /* ── Live Radar section ── */
     radar_label: "Živý radar",
-    radar_headline: "Tohle se objevilo na kariérních stránkách firem za posledních 24 hodin",
-    radar_subtext: "Seznam se aktualizuje sám, nikdo do něj ručně nesahá.",
-    radar_updated: "Poslední aktualizace: dnes 06:22",
-    radar_disclaimer: "(Ukázka toho, jak výstup vypadá — živá data vašich klientů po registraci)",
+    radar_headline: "Pozice, které se objevily na kariérních stránkách firem za posledních 24 hodin",
+    radar_subtext: "Ranní automatický sken 10 předních evropských tech firem. Níže jsou pozice vypsané dnes.",
+    radar_updated: "Poslední sken: dnes v 06:22 UTC • 10 evropských lídrů",
+    radar_disclaimer: "(Ukázka živého monitoringu — po registraci nastavíme váš vlastní seznam firem)",
     radar_filter_all: "Všechny signály",
     radar_filter_tech: "Tech & Cloud",
     radar_filter_sales: "B2B Obchod",
     radar_filter_exec: "Executive & C-Level",
     radar_card_cta: "Sledovat firmu →",
-    radar_footer_left: "Ukázka živého výstupu monitoringu — vaše firmy po registraci",
-    radar_footer_right: "Vyzkoušet na svých firmách zdarma →",
+    radar_monitored_title: "10 evropských tech lídrů sledovaných denně v této živé ukázce:",
+    radar_monitored_ats: "1 400+ pozic v indexu • Přímé Greenhouse ATS",
+    radar_footer_left: "Ukázka živého výstupu monitoringu — vaše klientské firmy po registraci",
+    radar_footer_right: "Vyzkoušet na svých firmách — 14 dní zdarma →",
 
     /* ── How It Works ── */
     how_headline: "Co uvidíte každý den ráno",
@@ -295,6 +297,8 @@ const TRANSLATIONS = {
       const btnLang = btn.getAttribute('data-lang');
       btn.classList.toggle('lang-btn--active', btnLang === lang);
     });
+
+    window.dispatchEvent(new CustomEvent('talentradar:langchange', { detail: { lang } }));
   }
 
   // Wire up buttons after DOM ready

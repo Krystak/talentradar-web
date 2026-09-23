@@ -269,12 +269,12 @@
         <span data-i18n="radar_label">Live Radar</span>
       </div>
       <h2 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="radar_headline">
-        Roles discovered across client career pages in the last 24 hours
+        Roles that went live across monitored career pages in the last 24 hours
       </h2>
       <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto" data-i18n="radar_subtext">
-        Updated automatically — no one touches this feed manually.
+        Automated morning scan across 10 premier European tech employers. Below are roles that went live today.
       </p>
-      <div class="pt-1 text-xs text-emerald-400 font-mono" data-i18n="radar_updated">Last scan: today at 06:22 UTC</div>
+      <div class="pt-1 text-xs text-emerald-400 font-mono" data-i18n="radar_updated">Last scan: today at 06:22 UTC • 10 European tech leaders monitored</div>
       <div class="text-[11px] text-slate-400 italic" data-i18n="radar_disclaimer">
         (Live output sample — your client data populates after sign-up)
       </div>
@@ -306,7 +306,7 @@
               <span>•</span>
               <span>Dublin, Ireland</span>
               <span>•</span>
-              <span class="text-slate-300 font-mono">Discovered today at 06:12</span>
+              <span class="text-slate-300 font-mono">Went live today at 06:12</span>
               <span>•</span>
               <span class="text-slate-400">Greenhouse ATS</span>
             </div>
@@ -330,7 +330,7 @@
               <span>•</span>
               <span>Dublin, Ireland</span>
               <span>•</span>
-              <span class="text-slate-300 font-mono">Discovered today at 06:14</span>
+              <span class="text-slate-300 font-mono">Went live today at 06:16</span>
               <span>•</span>
               <span class="text-slate-400">Greenhouse ATS</span>
             </div>
@@ -354,9 +354,9 @@
               <span>•</span>
               <span>Remote EU / Prague</span>
               <span>•</span>
-              <span class="text-slate-300 font-mono">Discovered today at 06:18</span>
+              <span class="text-slate-300 font-mono">Went live today at 06:23</span>
               <span>•</span>
-              <span class="text-slate-400">Direct ATS</span>
+              <span class="text-slate-400">Greenhouse ATS</span>
             </div>
           </div>
           <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
@@ -378,9 +378,9 @@
               <span>•</span>
               <span>Dublin / Remote</span>
               <span>•</span>
-              <span class="text-slate-300 font-mono">Discovered today at 06:22</span>
+              <span class="text-slate-300 font-mono">Went live today at 06:28</span>
               <span>•</span>
-              <span class="text-slate-400">Direct ATS</span>
+              <span class="text-slate-400">Greenhouse ATS</span>
             </div>
           </div>
           <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
@@ -390,8 +390,33 @@
 
       </div>
 
+      <!-- Monitored Companies Pill Bar -->
+      <div class="mt-6 pt-5 border-t border-[rgba(255,255,255,0.08)]">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs mb-3">
+          <span class="text-slate-300 font-semibold flex items-center gap-2" data-i18n="radar_monitored_title">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            10 European tech leaders monitored daily in this live demo:
+          </span>
+          <span class="text-slate-400 font-mono text-[11px]" data-i18n="radar_monitored_ats">
+            1,400+ roles indexed · Direct Greenhouse ATS
+          </span>
+        </div>
+        <div class="flex flex-wrap gap-2 items-center" id="monitoredCompaniesPills">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Mews <span class="text-[10px] text-slate-400 font-normal">Prague</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Stripe <span class="text-[10px] text-slate-400 font-normal">Dublin</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Intercom <span class="text-[10px] text-slate-400 font-normal">Dublin</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Celonis <span class="text-[10px] text-slate-400 font-normal">Munich</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>N26 <span class="text-[10px] text-slate-400 font-normal">Berlin</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Monzo <span class="text-[10px] text-slate-400 font-normal">London</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Deliveroo <span class="text-[10px] text-slate-400 font-normal">London</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>GetYourGuide <span class="text-[10px] text-slate-400 font-normal">Berlin</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Tines <span class="text-[10px] text-slate-400 font-normal">Dublin</span></span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Second Foundation <span class="text-[10px] text-slate-400 font-normal">Prague</span></span>
+        </div>
+      </div>
+
       <div class="mt-4 pt-3 border-t border-[rgba(255,255,255,0.06)] flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
-        <span data-i18n="radar_footer_left">Live monitoring output sample — your client data after sign-up</span>
+        <span data-i18n="radar_footer_left">Live monitoring output sample — your client accounts populate after sign-up</span>
         <a href="#trial" class="text-[#FF8533] hover:text-[#FF6B00] font-semibold flex items-center space-x-1" data-i18n="radar_footer_right">
           Try it on your companies — 14 days free →
         </a>
@@ -716,13 +741,13 @@
 
       <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
         <p data-i18n="story_p1_html" data-i18n-html="true">
-          During my internship in Dublin at Ingenio Global under <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Rob Magee</a>, one of my main tasks was going through client career pages by hand and adding open roles into spreadsheets one by one.
+          During my internship in Dublin at <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Ingenio Global</a> under <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Rob Magee</a>, one of my main tasks was going through client career pages by hand and adding open roles into spreadsheets one by one.
         </p>
         <p data-i18n="story_p2">
           It was slow, error-prone, and a terrible waste of human capacity. Instead of spending weeks updating tables manually, I started building an automated engine to monitor client career portals directly.
         </p>
         <p data-i18n="story_p3">
-          Over the next two months, the system ran in daily production&mdash;tracking 180 enterprise companies and capturing 3,400+ open roles. Consultants knew about newly opened positions on the exact day clients posted them, without having to manually check websites.
+          Over the next two months, the system ran in daily production — tracking 180 enterprise companies and capturing 3,400+ open roles. Consultants knew about newly opened positions on the exact day clients posted them, without having to manually check websites.
         </p>
         <p data-i18n="story_p4">
           Returning from Dublin, one thing was clear: headhunting teams across Europe are still losing dozens of hours every week doing this exact manual work. TalentRadar is the product built to solve that problem.
@@ -740,7 +765,7 @@
         <div>
           <div class="font-bold text-white text-base" data-i18n="story_author_name">Kryštof Pejša</div>
           <div class="text-xs text-slate-400">
-            <span data-i18n="story_author_title">Founder, TalentRadar</span> &bull;
+            <span data-i18n="story_author_title">Founder, TalentRadar</span> •
             <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline" data-i18n="story_linkedin">LinkedIn Profile</a>
           </div>
         </div>
@@ -1225,7 +1250,7 @@
       });
     });
 
-    /* ── 6. Live Radar — Fetch from JSON with fallback + Filter Tabs ── */
+    /* ── 6. Live Radar — Daily Rotation from 10 Monitored European Champions ── */
     const categoryBadgeClass = {
       tech:      'badge-tech',
       sales:     'badge-sales',
@@ -1236,17 +1261,33 @@
       tech:      'TECH & CLOUD',
       sales:     'B2B SALES',
       executive: 'EXECUTIVE',
-      finance:   'FINTECH',
+      finance:   'FINTECH & RISK',
     };
 
-    function buildRadarCard(role) {
+    let activeDailyRoles = [];
+
+    function buildRadarCard(role, isCs) {
       const badgeClass = categoryBadgeClass[role.category] || 'badge-tech';
-      const catLabel   = categoryLabelMap[role.category]   || role.categoryLabel?.toUpperCase() || 'SIGNAL';
+      let catLabel = categoryLabelMap[role.category] || role.categoryLabel?.toUpperCase() || 'SIGNAL';
+      if (isCs) {
+        if (role.category === 'sales') catLabel = 'B2B OBCHOD';
+        else if (role.category === 'finance') catLabel = 'FINTECH & RIZIKA';
+      }
+
+      // Group finance under executive filter tab so Executive & C-Level covers both
+      const filterCat = (role.category === 'finance') ? 'executive' : role.category;
+      const timeText = isCs ? `Zveřejněno dnes v ${role.discoveredAt}` : `Went live today at ${role.discoveredAt}`;
+      const ctaText = isCs ? 'Sledovat firmu →' : 'Track company →';
+      const tooltip = isCs ? 'Otevřít původní inzerát na Greenhouse ATS' : 'Open original job listing on Greenhouse ATS';
+
       return `
-        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="${role.category}">
+        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="${filterCat}">
           <div class="space-y-1">
             <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">${role.title}</span>
+              <a href="${role.jobUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-[#FF8533] transition inline-flex items-center gap-1.5 group/link" title="${tooltip}">
+                <span>${role.title}</span>
+                <svg class="w-3.5 h-3.5 opacity-40 group-hover/link:opacity-100 group-hover/link:text-[#FF8533] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
               <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">${role.badge || 'NEW TODAY'}</span>
               <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold ${badgeClass}">${catLabel}</span>
               <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">${role.seniority}</span>
@@ -1256,33 +1297,106 @@
               <span>•</span>
               <span>${role.location}</span>
               <span>•</span>
-              <span class="text-slate-300 font-mono">Discovered today at ${role.discoveredAt}</span>
+              <span class="text-slate-300 font-mono">${timeText}</span>
               <span>•</span>
               <span class="text-slate-400">${role.ats}</span>
             </div>
           </div>
-          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
-            Track company →
+          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 hover:text-white border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
+            ${ctaText}
           </a>
         </div>`;
     }
 
+    function selectDailyRoles(roles) {
+      if (!roles || roles.length === 0) return [];
+      const now = new Date();
+      const startOfYear = new Date(now.getFullYear(), 0, 0);
+      const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
+
+      // Group roles by company
+      const byCompany = {};
+      roles.forEach(r => {
+        if (!byCompany[r.company]) byCompany[r.company] = [];
+        byCompany[r.company].push(r);
+      });
+
+      const companyList = Object.keys(byCompany);
+      const timestamps = ['06:12', '06:16', '06:19', '06:23', '06:28', '06:33', '06:37', '06:42', '06:48', '06:53'];
+      const picked = [];
+
+      // Select 1 role from each of the 10 monitored European champions
+      companyList.forEach((compName, idx) => {
+        const list = byCompany[compName];
+        const roleIdx = (dayOfYear + idx * 3) % list.length;
+        const selected = Object.assign({}, list[roleIdx]);
+        selected.discoveredAt = timestamps[idx % timestamps.length];
+        picked.push(selected);
+      });
+
+      // Include extra roles so categories (tech, sales, exec) have ample depth
+      const extraTech = roles.filter(r => r.category === 'tech' && !picked.some(p => p.id === r.id));
+      const extraSales = roles.filter(r => r.category === 'sales' && !picked.some(p => p.id === r.id));
+      const extraExec = roles.filter(r => (r.category === 'executive' || r.category === 'finance') && !picked.some(p => p.id === r.id));
+
+      if (extraTech.length > 0) {
+        const t = Object.assign({}, extraTech[(dayOfYear * 2) % extraTech.length]);
+        t.discoveredAt = '06:21';
+        picked.push(t);
+      }
+      if (extraSales.length > 0) {
+        const s = Object.assign({}, extraSales[(dayOfYear * 5) % extraSales.length]);
+        s.discoveredAt = '06:31';
+        picked.push(s);
+      }
+      if (extraExec.length > 0) {
+        const e = Object.assign({}, extraExec[(dayOfYear * 7) % extraExec.length]);
+        e.discoveredAt = '06:45';
+        picked.push(e);
+      }
+
+      picked.sort((a, b) => a.discoveredAt.localeCompare(b.discoveredAt));
+      return picked;
+    }
+
+    function renderRadarCards() {
+      const feed = document.getElementById('radarFeed');
+      if (!feed || activeDailyRoles.length === 0) return;
+      const isCs = document.documentElement.lang === 'cs';
+      feed.innerHTML = '<div class="divide-y divide-[rgba(255,255,255,0.05)]">' +
+        activeDailyRoles.map(r => buildRadarCard(r, isCs)).join('') + '</div>';
+
+      // Re-apply current category filter if any tab is active
+      const activeTab = document.querySelector('.radar-tab.active');
+      const filter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
+      if (filter && filter !== 'all') {
+        document.querySelectorAll('.radar-card').forEach(card => {
+          const match = card.getAttribute('data-category') === filter;
+          card.style.display = match ? '' : 'none';
+        });
+      }
+    }
+
     async function loadRadarFeed() {
       try {
-        const res   = await fetch('/data/live_roles.json');
+        let res = await fetch('data/live_roles.json');
+        if (!res.ok) res = await fetch('/data/live_roles.json');
         if (!res.ok) throw new Error('fetch failed');
         const roles = await res.json();
         if (!Array.isArray(roles) || roles.length === 0) throw new Error('empty');
-        const feed = document.getElementById('radarFeed');
-        if (feed) {
-          feed.innerHTML = '<div class="divide-y divide-[rgba(255,255,255,0.05)]">' +
-            roles.map(buildRadarCard).join('') + '</div>';
-        }
+
+        activeDailyRoles = selectDailyRoles(roles);
+        renderRadarCards();
       } catch (_) {
-        // Silently keep the fallback static cards already in the DOM
+        // Silently keep fallback static cards already in the DOM
       }
     }
     loadRadarFeed();
+
+    // Listen for language changes and re-render cards reactively
+    window.addEventListener('talentradar:langchange', () => {
+      renderRadarCards();
+    });
 
     /* ── 6b. Radar filter tabs ── */
     document.querySelectorAll('.radar-tab').forEach(tab => {

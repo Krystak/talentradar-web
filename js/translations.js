@@ -19,6 +19,7 @@ const TRANSLATIONS = {
     nav_pricing: "Cena",
     nav_story: "Můj příběh",
     nav_faq: "Časté dotazy",
+    nav_demo: "Živé demo ↗",
     nav_cta: "Vyzkoušet na 14 dní zdarma",
 
     /* ── Hero ── */
@@ -35,6 +36,9 @@ const TRANSLATIONS = {
     radar_subtext: "Ranní automatický sken 10 předních evropských tech firem. Níže jsou pozice vypsané dnes.",
     radar_updated: "Poslední automatický scan dokončen: dnes v 08:06 CEST • 10 evropských lídrů ověřeno",
     radar_disclaimer: "(Ukázka živého monitoringu — po registraci nastavíme váš vlastní seznam firem)",
+    radar_demo_banner_title: "Chcete si projít tyto pozice přímo v aplikaci?",
+    radar_demo_banner_desc: "Otevřete si interaktivní živé demo bez registrace se všemi 10 firmami.",
+    radar_demo_banner_btn: "Otevřít živý dashboard →",
     radar_filter_all: "Všechny signály",
     radar_filter_tech: "Tech & Cloud",
     radar_filter_sales: "B2B Obchod",
@@ -44,6 +48,7 @@ const TRANSLATIONS = {
     radar_monitored_ats: "1 400+ pozic v indexu • Přímé Greenhouse ATS",
     radar_footer_left: "Ukázka živého výstupu monitoringu — vaše klientské firmy po registraci",
     radar_footer_right: "Vyzkoušet na svých firmách — 14 dní zdarma →",
+
 
     /* ── How It Works ── */
     how_headline: "Co uvidíte každý den ráno",

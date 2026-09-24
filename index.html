@@ -274,7 +274,7 @@
       <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto" data-i18n="radar_subtext">
         Automated morning scan across 10 premier European tech employers. Below are roles that went live today.
       </p>
-      <div class="pt-1 text-xs text-emerald-400 font-mono" data-i18n="radar_updated">Last scan: today at 06:22 UTC • 10 European tech leaders monitored</div>
+      <div class="pt-1 text-xs text-emerald-400 font-mono" id="radarLastScan" data-i18n="radar_updated">Last automated scan completed: today at 08:06 CEST • 10 European tech leaders verified</div>
       <div class="text-[11px] text-slate-400 italic" data-i18n="radar_disclaimer">
         (Live output sample — your client data populates after sign-up)
       </div>
@@ -402,16 +402,66 @@
           </span>
         </div>
         <div class="flex flex-wrap gap-2 items-center" id="monitoredCompaniesPills">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Mews <span class="text-[10px] text-slate-400 font-normal">Prague</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Stripe <span class="text-[10px] text-slate-400 font-normal">Dublin</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Intercom <span class="text-[10px] text-slate-400 font-normal">Dublin</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Celonis <span class="text-[10px] text-slate-400 font-normal">Munich</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>N26 <span class="text-[10px] text-slate-400 font-normal">Berlin</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Monzo <span class="text-[10px] text-slate-400 font-normal">London</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Deliveroo <span class="text-[10px] text-slate-400 font-normal">London</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>GetYourGuide <span class="text-[10px] text-slate-400 font-normal">Berlin</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Tines <span class="text-[10px] text-slate-400 font-normal">Dublin</span></span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] border border-[rgba(255,255,255,0.08)] text-slate-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Second Foundation <span class="text-[10px] text-slate-400 font-normal">Prague</span></span>
+          <a href="https://www.mews.com/en/careers" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Mews careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Mews</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">Prague</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://stripe.com/careers" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Stripe careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Stripe</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">Dublin</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://www.intercom.com/careers" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Intercom careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Intercom</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">Dublin</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://careers.celonis.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Celonis careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Celonis</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">Munich</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://n26.com/careers" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify N26 careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>N26</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">Berlin</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://monzo.com/careers" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Monzo careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Monzo</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">London</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://careers.deliveroo.co.uk" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Deliveroo careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Deliveroo</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">London</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://www.getyourguide.careers" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify GetYourGuide careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>GetYourGuide</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">Berlin</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://www.tines.com/careers/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Tines careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Tines</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">Dublin</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="https://www.second-foundation.eu/#positions" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Second Foundation careers page">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Second Foundation</span>
+            <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">Prague</span>
+            <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
         </div>
       </div>
 
@@ -1308,7 +1358,72 @@
         </div>`;
     }
 
-    function selectDailyRoles(roles) {
+    let radarScanInfo = null;
+    let monitoredCompaniesData = null;
+
+    function formatScanStatusText(scanInfo, isCs) {
+      if (!scanInfo) return '';
+      const now = new Date();
+      const scanDate = scanInfo.timestamp ? new Date(scanInfo.timestamp * 1000) : (scanInfo.completed_at ? new Date(scanInfo.completed_at) : now);
+      const diffMinutes = Math.max(0, Math.floor((now - scanDate) / (1000 * 60)));
+      const diffHours = Math.floor(diffMinutes / 60);
+
+      let rel = '';
+      if (isCs) {
+        if (diffMinutes < 3) rel = 'právě teď';
+        else if (diffMinutes < 60) rel = `před ${diffMinutes} min`;
+        else if (diffHours === 1) rel = 'před 1 hodinou';
+        else if (diffHours < 24) rel = `před ${diffHours} hod`;
+        else rel = scanInfo.date_cz || '';
+      } else {
+        if (diffMinutes < 3) rel = 'just now';
+        else if (diffMinutes < 60) rel = `${diffMinutes}m ago`;
+        else if (diffHours === 1) rel = '1h ago';
+        else if (diffHours < 24) rel = `${diffHours}h ago`;
+        else rel = scanInfo.date_en || '';
+      }
+
+      const timeStr = scanInfo.time_cet || scanInfo.time_hm || '08:06 CEST';
+      const relStr = rel ? ` (${rel})` : '';
+
+      if (isCs) {
+        return `Poslední automatický scan dokončen: dnes v ${timeStr}${relStr} • 10 evropských lídrů ověřeno`;
+      } else {
+        return `Last automated scan completed: today at ${timeStr}${relStr} • 10 European tech leaders verified`;
+      }
+    }
+
+    function updateRadarHeaderScanInfo() {
+      const el = document.getElementById('radarLastScan');
+      if (!el || !radarScanInfo) return;
+      const isCs = document.documentElement.lang === 'cs';
+      const formatted = formatScanStatusText(radarScanInfo, isCs);
+      el.textContent = formatted;
+      if (isCs) {
+        el.setAttribute('data-i18n-cs', formatted);
+      } else {
+        el.setAttribute('data-i18n-en', formatted);
+      }
+    }
+
+    function renderMonitoredCompaniesPills(companies) {
+      const container = document.getElementById('monitoredCompaniesPills');
+      if (!container || !Array.isArray(companies) || companies.length === 0) return;
+      const isCs = document.documentElement.lang === 'cs';
+
+      container.innerHTML = companies.map(c => {
+        const tooltip = isCs ? `Ověřit oficiální kariérní web ${c.name} (otevře se v novém okně)` : `Verify official ${c.name} careers portal (opens in new window)`;
+        const hqShort = c.hq.split('/')[0].trim();
+        return `<a href="${c.careers_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="${tooltip}">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span>${c.name}</span>
+          <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">${hqShort}</span>
+          <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>`;
+      }).join('');
+    }
+
+    function selectDailyRoles(roles, scanInfo) {
       if (!roles || roles.length === 0) return [];
       const now = new Date();
       const startOfYear = new Date(now.getFullYear(), 0, 0);
@@ -1322,7 +1437,7 @@
       });
 
       const companyList = Object.keys(byCompany);
-      const timestamps = ['06:12', '06:16', '06:19', '06:23', '06:28', '06:33', '06:37', '06:42', '06:48', '06:53'];
+      const baseScanMinute = scanInfo && scanInfo.time_hm ? scanInfo.time_hm : '08:06';
       const picked = [];
 
       // Select 1 role from each of the 10 monitored European champions
@@ -1330,7 +1445,7 @@
         const list = byCompany[compName];
         const roleIdx = (dayOfYear + idx * 3) % list.length;
         const selected = Object.assign({}, list[roleIdx]);
-        selected.discoveredAt = timestamps[idx % timestamps.length];
+        selected.discoveredAt = selected.discoveredAt || baseScanMinute;
         picked.push(selected);
       });
 
@@ -1341,21 +1456,21 @@
 
       if (extraTech.length > 0) {
         const t = Object.assign({}, extraTech[(dayOfYear * 2) % extraTech.length]);
-        t.discoveredAt = '06:21';
+        t.discoveredAt = t.discoveredAt || baseScanMinute;
         picked.push(t);
       }
       if (extraSales.length > 0) {
         const s = Object.assign({}, extraSales[(dayOfYear * 5) % extraSales.length]);
-        s.discoveredAt = '06:31';
+        s.discoveredAt = s.discoveredAt || baseScanMinute;
         picked.push(s);
       }
       if (extraExec.length > 0) {
         const e = Object.assign({}, extraExec[(dayOfYear * 7) % extraExec.length]);
-        e.discoveredAt = '06:45';
+        e.discoveredAt = e.discoveredAt || baseScanMinute;
         picked.push(e);
       }
 
-      picked.sort((a, b) => a.discoveredAt.localeCompare(b.discoveredAt));
+      picked.sort((a, b) => (a.discoveredAt || '').localeCompare(b.discoveredAt || ''));
       return picked;
     }
 
@@ -1382,10 +1497,21 @@
         let res = await fetch('data/live_roles.json');
         if (!res.ok) res = await fetch('/data/live_roles.json');
         if (!res.ok) throw new Error('fetch failed');
-        const roles = await res.json();
+        const raw = await res.json();
+        const roles = Array.isArray(raw) ? raw : (raw.roles || []);
         if (!Array.isArray(roles) || roles.length === 0) throw new Error('empty');
 
-        activeDailyRoles = selectDailyRoles(roles);
+        if (!Array.isArray(raw)) {
+          radarScanInfo = raw.scan_info || null;
+          monitoredCompaniesData = raw.monitored_companies || null;
+        }
+
+        updateRadarHeaderScanInfo();
+        if (monitoredCompaniesData) {
+          renderMonitoredCompaniesPills(monitoredCompaniesData);
+        }
+
+        activeDailyRoles = selectDailyRoles(roles, radarScanInfo);
         renderRadarCards();
       } catch (_) {
         // Silently keep fallback static cards already in the DOM
@@ -1393,8 +1519,12 @@
     }
     loadRadarFeed();
 
-    // Listen for language changes and re-render cards reactively
+    // Listen for language changes and re-render reactively
     window.addEventListener('talentradar:langchange', () => {
+      updateRadarHeaderScanInfo();
+      if (monitoredCompaniesData) {
+        renderMonitoredCompaniesPills(monitoredCompaniesData);
+      }
       renderRadarCards();
     });
 

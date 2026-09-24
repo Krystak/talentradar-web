@@ -33,7 +33,7 @@ const TRANSLATIONS = {
     radar_label: "Živý radar",
     radar_headline: "Pozice, které se objevily na kariérních stránkách firem za posledních 24 hodin",
     radar_subtext: "Ranní automatický sken 10 předních evropských tech firem. Níže jsou pozice vypsané dnes.",
-    radar_updated: "Poslední sken: dnes v 06:22 UTC • 10 evropských lídrů",
+    radar_updated: "Poslední automatický scan dokončen: dnes v 08:06 CEST • 10 evropských lídrů ověřeno",
     radar_disclaimer: "(Ukázka živého monitoringu — po registraci nastavíme váš vlastní seznam firem)",
     radar_filter_all: "Všechny signály",
     radar_filter_tech: "Tech & Cloud",

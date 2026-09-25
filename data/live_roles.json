@@ -1,14 +1,14 @@
 {
   "scan_info": {
-    "completed_at": "2026-09-25T10:05:11.808273+02:00",
-    "time_cet": "10:05 CEST",
-    "time_hm": "10:05",
+    "completed_at": "2026-09-25T10:20:39.422954+02:00",
+    "time_cet": "10:20 CEST",
+    "time_hm": "10:20",
     "date_cz": "25. 09. 2026",
     "date_en": "25 Sep 2026",
-    "timestamp": 1790323511,
-    "duration_seconds": 5.26,
+    "timestamp": 1790324439,
+    "duration_seconds": 3.47,
     "companies_count": 10,
-    "total_roles_indexed": 1466,
+    "total_roles_indexed": 1465,
     "curated_eu_roles": 10
   },
   "monitored_companies": [
@@ -95,7 +95,7 @@
       "seniority": "Mid",
       "jobUrl": "https://www.mews.com/en/careers/jobs/4951240101?gh_jid=4951240101",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -109,7 +109,7 @@
       "seniority": "Lead",
       "jobUrl": "https://stripe.com/jobs/search?gh_jid=7844214",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -123,7 +123,7 @@
       "seniority": "Mid",
       "jobUrl": "https://job-boards.greenhouse.io/intercom/jobs/7824137",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -137,7 +137,7 @@
       "seniority": "Mid",
       "jobUrl": "https://job-boards.greenhouse.io/celonis/jobs/8002490003?gh_jid=8002490003",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -151,7 +151,7 @@
       "seniority": "Mid",
       "jobUrl": "https://n26.com/en-eu/careers/positions/8201437?gh_jid=8201437",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -165,7 +165,7 @@
       "seniority": "Mid",
       "jobUrl": "https://job-boards.greenhouse.io/monzo/jobs/8143930",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -179,7 +179,7 @@
       "seniority": "Junior",
       "jobUrl": "https://job-boards.greenhouse.io/deliveroo/jobs/8206641",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -193,7 +193,7 @@
       "seniority": "Lead",
       "jobUrl": "https://www.getyourguide.careers/jobs/8152695",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -207,7 +207,7 @@
       "seniority": "Mid",
       "jobUrl": "https://job-boards.greenhouse.io/tines/jobs/6103937004",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     },
     {
@@ -221,7 +221,7 @@
       "seniority": "Mid",
       "jobUrl": "https://www.second-foundation.eu/position/back-end-developer",
       "ats": "Greenhouse ATS",
-      "discoveredAt": "10:05",
+      "discoveredAt": "10:20",
       "badge": "NEW TODAY"
     }
   ]

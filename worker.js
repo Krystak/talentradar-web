@@ -189,6 +189,7 @@ async function handleDemoSubmission(request, env) {
   // configured is skipped; one that fails is logged and counted as failed.
   const results = await Promise.all([
     notifyBrevo(env, leadRecord, fileData, cleanFileName),
+    notifyLeadConfirmation(env, leadRecord),
     notifySlack(env, leadRecord, cleanFileName),
     notifyTelegram(env, leadRecord, cleanFileName),
   ]);
@@ -220,8 +221,14 @@ async function handleDemoSubmission(request, env) {
     );
   }
 
+  const isCs = (leadRecord.lang === "cs");
   return new Response(
-    JSON.stringify({ success: true, message: "Thanks — your login is on its way and your companies go live within 24 hours." }),
+    JSON.stringify({
+      success: true,
+      message: isCs
+        ? "Díky — potvrzení jsme vám odeslali e-mailem a robot právě zahájil první sken vašich firem."
+        : "Thanks — a confirmation email has been sent to your inbox and our system has started the initial scan.",
+    }),
     { status: 200, headers: { "Content-Type": "application/json; charset=utf-8" } }
   );
 }
@@ -289,6 +296,76 @@ function notifyBrevo(env, lead, fileData, cleanFileName) {
       const rawBase64 = fileData.includes(",") ? fileData.split(",")[1] : fileData;
       payload.attachment = [{ name: cleanFileName, content: rawBase64 }];
     }
+
+    return fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "api-key": env.BREVO_API_KEY,
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  });
+}
+
+function notifyLeadConfirmation(env, lead) {
+  return runChannel("lead_confirmation", !!env.BREVO_API_KEY, () => {
+    const isCs = lead.lang === "cs";
+    const rawFirst = (lead.name || "").trim().split(/\s+/)[0] || "";
+    const greeting = isCs
+      ? (rawFirst ? `Dobrý den, ${rawFirst},` : "Dobrý den,")
+      : (rawFirst ? `Hi ${rawFirst},` : "Hi there,");
+
+    const subject = isCs
+      ? "Potvrzení registrace: připravujeme váš TalentRadar"
+      : "Confirmation: Preparing your TalentRadar workspace";
+
+    const textContent = isCs
+      ? `${greeting}
+
+děkuji za vyplnění formuláře pro 14denní zkušební verzi TalentRadaru. Váš požadavek i seznam firem v pořádku dorazil.
+
+Náš systém teď pro vaši agenturu připravuje samostatný workspace a spouští první sken:
+• Procházíme zadané firmy a napojujeme jejich kariérní stránky i ATS systémy (Greenhouse, Lever, Teamio a další).
+• Vyhledáváme všechny aktuálně otevřené pozice.
+• U menšího počtu firem to trvá několik minut, u většího portfolia (50 až 200 firem) může kompletní první sken zabrat 10 až 15 minut.
+
+Jakmile první sken doběhne, zašlu vám druhý e-mail s jednorázovým odkazem pro nastavení hesla a přehledem prvních nalezených rolí.
+
+Kdyby cokoliv vyžadovalo ruční napárování nebo jste měl/a jakýkoliv dotaz, stačí odpovědět přímo na tento e-mail — zpráva přijde přímo mně.
+
+Kryštof Pejša
+Zakladatel, TalentRadar
+krystof@talentradar.eu
+https://talentradar.eu
+`
+      : `${greeting}
+
+thank you for submitting your details for the TalentRadar 14-day trial. We have received your request and your company list.
+
+Our system is now setting up an isolated workspace for your agency and starting the first scan:
+• Scanning your companies and connecting their career pages and ATS endpoints (Greenhouse, Lever, Teamio, etc.).
+• Finding all currently open roles.
+• For a few companies this takes just a couple of minutes; for larger portfolios (50 to 200 companies) the thorough initial scan takes about 10 to 15 minutes.
+
+As soon as the initial scan completes, I will send you a follow-up email with your one-time password setup link and initial findings.
+
+If any company requires custom ATS mapping or if you have any questions, just reply directly to this email — it comes straight to me.
+
+Kryštof Pejša
+Founder, TalentRadar
+krystof@talentradar.eu
+https://talentradar.eu
+`;
+
+    const payload = {
+      sender: { name: "Kryštof Pejša (TalentRadar)", email: env.LEAD_FROM || "leads@talentradar.eu" },
+      to: [{ email: lead.email, name: lead.name }],
+      replyTo: { email: "krystof@talentradar.eu", name: "Kryštof Pejša" },
+      subject: subject,
+      textContent: textContent,
+    };
 
     return fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",

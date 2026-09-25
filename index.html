@@ -1261,22 +1261,23 @@
           const result = await response.json();
 
           if (response.ok && result.success) {
+            const isCs = formData.lang === 'cs';
             formWrapper.innerHTML = `
               <div class="p-8 sm:p-10 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-4">
                 <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-2xl font-bold">✓</div>
-                <h3 class="text-2xl font-black text-white">Your Pilot Is On Its Way!</h3>
+                <h3 class="text-2xl font-black text-white">${isCs ? 'Požadavek byl úspěšně přijat!' : 'Your Pilot Is On Its Way!'}</h3>
                 <div class="text-sm text-slate-200 space-y-3 max-w-md mx-auto leading-relaxed text-left pt-2">
                   <div class="flex items-start space-x-2.5">
                     <span class="text-emerald-400 font-bold">1.</span>
-                    <span><strong>Login credentials</strong> will arrive in your inbox within <strong>15 minutes</strong>.</span>
+                    <span>${isCs ? '<strong>Potvrzovací e-mail</strong> máte za okamžik ve své schránce.' : '<strong>A confirmation email</strong> is on its way to your inbox right now.'}</span>
                   </div>
                   <div class="flex items-start space-x-2.5">
                     <span class="text-emerald-400 font-bold">2.</span>
-                    <span><strong>Your companies</strong> will be indexed and <strong>your first automated scan will run within 24 hours</strong>.</span>
+                    <span>${isCs ? '<strong>Přihlašovací odkaz a první výsledky</strong> dorazí, jakmile robot dokončí sken (obvykle za 5–15 minut podle počtu firem).' : '<strong>Login link & initial scan results</strong> will arrive as soon as the robot finishes scanning (typically 5–15 minutes depending on portfolio size).'}</span>
                   </div>
                 </div>
                 <p class="text-xs text-emerald-400 font-medium pt-3 border-t border-[rgba(255,255,255,0.06)]">
-                  No charges. No credit card. After 14 days you decide whether to continue.
+                  ${isCs ? 'Žádné poplatky. Bez kreditní karty. Po 14 dnech se sami rozhodnete.' : 'No charges. No credit card. After 14 days you decide whether to continue.'}
                 </p>
               </div>
             `;

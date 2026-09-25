@@ -19,13 +19,35 @@ export default {
       return handleDemoSubmission(request, env);
     }
 
-    // 2. Rewrite /gdpr to /gdpr.html if requested
+    // 2. Dynamic Live Radar roles: /data/live_roles.json or /api/live-roles
+    if (url.pathname === "/data/live_roles.json" || url.pathname === "/api/live-roles") {
+      if (env.TALENT_RADAR_KV) {
+        try {
+          const kvData = await env.TALENT_RADAR_KV.get("live_roles_json");
+          if (kvData) {
+            return new Response(kvData, {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Cache-Control": "public, max-age=60, s-maxage=300",
+                "Access-Control-Allow-Origin": "*",
+              },
+            });
+          }
+        } catch (err) {
+          console.error("KV read error for live_roles_json:", err);
+        }
+      }
+      return env.ASSETS.fetch(request);
+    }
+
+    // 3. Rewrite /gdpr to /gdpr.html if requested
     if (url.pathname === "/gdpr") {
       url.pathname = "/gdpr.html";
       return env.ASSETS.fetch(new Request(url.toString(), request));
     }
 
-    // 3. Static Assets fallback
+    // 4. Static Assets fallback
     return env.ASSETS.fetch(request);
   },
 };

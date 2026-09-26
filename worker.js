@@ -21,11 +21,32 @@ export default {
 
     // 2. Dynamic Live Radar roles: /data/live_roles.json or /api/live-roles
     if (url.pathname === "/data/live_roles.json" || url.pathname === "/api/live-roles") {
+      let kvPayload = null;
+      let kvTimestamp = 0;
+
       if (env.TALENT_RADAR_KV) {
         try {
           const kvData = await env.TALENT_RADAR_KV.get("live_roles_json");
           if (kvData) {
-            return new Response(kvData, {
+            const parsed = JSON.parse(kvData);
+            kvTimestamp = (parsed.scan_info && parsed.scan_info.timestamp) || 0;
+            kvPayload = kvData;
+          }
+        } catch (err) {
+          console.error("KV read error for live_roles_json:", err);
+        }
+      }
+
+      // Check static asset in repository
+      try {
+        const assetRes = await env.ASSETS.fetch(request);
+        if (assetRes && assetRes.ok) {
+          const assetData = await assetRes.clone().json();
+          const assetTimestamp = (assetData.scan_info && assetData.scan_info.timestamp) || 0;
+
+          // If git static asset is newer than KV (or KV is missing/stale), serve the newer asset
+          if (assetTimestamp > kvTimestamp) {
+            return new Response(JSON.stringify(assetData), {
               status: 200,
               headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -34,10 +55,23 @@ export default {
               },
             });
           }
-        } catch (err) {
-          console.error("KV read error for live_roles_json:", err);
         }
+      } catch (assetErr) {
+        console.error("Asset read error for live_roles_json:", assetErr);
       }
+
+      // If KV is newer or available, serve KV
+      if (kvPayload) {
+        return new Response(kvPayload, {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Cache-Control": "public, max-age=60, s-maxage=300",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+      }
+
       return env.ASSETS.fetch(request);
     }
 

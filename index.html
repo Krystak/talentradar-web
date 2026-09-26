@@ -1405,11 +1405,15 @@
 
       const timeStr = scanInfo.time_cet || scanInfo.time_hm || '08:06 CEST';
       const relStr = rel ? ` (${rel})` : '';
+      const newRolesCount = scanInfo.new_roles_today || 0;
+      const countNote = newRolesCount > 0 
+        ? (isCs ? ` • ${newRolesCount} nových pozic dnes` : ` • ${newRolesCount} new roles today`)
+        : '';
 
       if (isCs) {
-        return `Poslední automatický scan dokončen: dnes v ${timeStr}${relStr} • 10 evropských lídrů ověřeno`;
+        return `Poslední automatický scan dokončen: dnes v ${timeStr}${relStr} • 10 evropských lídrů ověřeno${countNote}`;
       } else {
-        return `Last automated scan completed: today at ${timeStr}${relStr} • 10 European tech leaders verified`;
+        return `Last automated scan completed: today at ${timeStr}${relStr} • 10 European tech leaders verified${countNote}`;
       }
     }
 
@@ -1445,53 +1449,14 @@
 
     function selectDailyRoles(roles, scanInfo) {
       if (!roles || roles.length === 0) return [];
-      const now = new Date();
-      const startOfYear = new Date(now.getFullYear(), 0, 0);
-      const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
-
-      // Group roles by company
-      const byCompany = {};
-      roles.forEach(r => {
-        if (!byCompany[r.company]) byCompany[r.company] = [];
-        byCompany[r.company].push(r);
-      });
-
-      const companyList = Object.keys(byCompany);
       const baseScanMinute = scanInfo && scanInfo.time_hm ? scanInfo.time_hm : '08:06';
-      const picked = [];
 
-      // Select 1 role from each of the 10 monitored European champions
-      companyList.forEach((compName, idx) => {
-        const list = byCompany[compName];
-        const roleIdx = (dayOfYear + idx * 3) % list.length;
-        const selected = Object.assign({}, list[roleIdx]);
-        selected.discoveredAt = selected.discoveredAt || baseScanMinute;
-        picked.push(selected);
+      // Directly take the server-curated list of new roles today (strictly capped at 10)
+      return roles.slice(0, 10).map(r => {
+        const item = Object.assign({}, r);
+        item.discoveredAt = item.discoveredAt || baseScanMinute;
+        return item;
       });
-
-      // Include extra roles so categories (tech, sales, exec) have ample depth
-      const extraTech = roles.filter(r => r.category === 'tech' && !picked.some(p => p.id === r.id));
-      const extraSales = roles.filter(r => r.category === 'sales' && !picked.some(p => p.id === r.id));
-      const extraExec = roles.filter(r => (r.category === 'executive' || r.category === 'finance') && !picked.some(p => p.id === r.id));
-
-      if (extraTech.length > 0) {
-        const t = Object.assign({}, extraTech[(dayOfYear * 2) % extraTech.length]);
-        t.discoveredAt = t.discoveredAt || baseScanMinute;
-        picked.push(t);
-      }
-      if (extraSales.length > 0) {
-        const s = Object.assign({}, extraSales[(dayOfYear * 5) % extraSales.length]);
-        s.discoveredAt = s.discoveredAt || baseScanMinute;
-        picked.push(s);
-      }
-      if (extraExec.length > 0) {
-        const e = Object.assign({}, extraExec[(dayOfYear * 7) % extraExec.length]);
-        e.discoveredAt = e.discoveredAt || baseScanMinute;
-        picked.push(e);
-      }
-
-      picked.sort((a, b) => (a.discoveredAt || '').localeCompare(b.discoveredAt || ''));
-      return picked;
     }
 
     function renderRadarCards() {

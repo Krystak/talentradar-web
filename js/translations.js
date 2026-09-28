@@ -10,10 +10,11 @@
 const TRANSLATIONS = {
   cs: {
     /* ── SEO (swapped via JS on <title> and <meta> description) ── */
-    page_title: "TalentRadar — nové pozice u vašich klientů v den, kdy se objeví",
-    page_description: "Automatické sledování kariérních stránek firem pro personální agentury. Zjistěte o nových pozicích klientů v den, kdy se objeví na jejich webu.",
+    page_title: "TalentRadar — Věnujte čas uzavírání, ne hledání",
+    page_description: "Autonomní monitoring kariérních stránek pro personální agentury. Věnujte čas uzavírání, ne hledání. Zjistěte o nových pozicích klientů dřív než kdokoli jiný.",
 
     /* ── Navigation ── */
+    nav_slogan: "Věnujte čas uzavírání, ne hledání",
     nav_how_it_works: "Jak to funguje",
     nav_live_radar: "Živý radar",
     nav_pricing: "Cena",
@@ -23,9 +24,9 @@ const TRANSLATIONS = {
     nav_cta: "Vyzkoušet na 14 dní zdarma",
 
     /* ── Hero ── */
-    hero_badge: "Vyvinuto na míru pro personální agentury v Evropě",
+    hero_badge: "🦅 Věnujte čas uzavírání, ne hledání",
     hero_headline_html: "Nové pozice u vašich klientů <span class=\"text-[#FF6B00]\">v den, kdy se objeví</span>",
-    hero_body: "Konec ručního proklikávání kariérních stránek a přepisování do Excelu. O nových rolích víte hned, jakmile je klient zveřejní — bez zpoždění a bez ruční práce.",
+    hero_body: "Konec ručního proklikávání kariérních stránek a přepisování do Excelu. TalentRadar hlídá každé ATS a kariérní web na vašem seznamu — abyste věnovali čas uzavírání zakázek, ne hledání pozic.",
     hero_cta_full: "Zahájit 14denní bezplatný pilot — až 200 firem",
     hero_cta_short: "Zahájit 14denní bezplatný pilot",
     hero_microcopy: "Bez platební karty a bez závazků. Přístup do 15 minut, plné spuštění do 24 hodin.",
@@ -60,9 +61,9 @@ const TRANSLATIONS = {
     how_step2_title: "2. BD Master (Přehled rolí)",
     how_step2_body: "Kompletní přehled všech zachycených rolí na jednom místě, přesně tak, jak to v praxi potřebujete. Filtrujte podle firem, lokalit, technologií nebo seniority. Export do CSV zvládnete jedním klikem.",
     how_step3_badge: "KROK 3",
-    how_step3_title: "3. Detail role & poznámky (Plná náhrada Excelu)",
-    how_step3_body: "Rozklikněte si jakoukoliv roli pro zobrazení detailu a originálního inzerátu. Přímo u pozice si můžete psát interní poznámky, evidovat stav oslovení a synchronizovat práci s kolegy.",
-    how_step3_tip: "Plně nahradí Excel: žádné zdlouhavé přepisování do tabulek, žádné duplicity — vše si evidujete přímo u konkrétní role.",
+    how_step3_title: "3. AI shrnutí & pipeline zakázek (Plná náhrada Excelu)",
+    how_step3_body: "Rozklikněte si jakoukoliv roli pro okamžité AI shrnutí, klíčové požadavky a připravené prodejní úhly pro oslovení klienta. Přímo u pozice si veďte interní poznámky a stav oslovení — bez nutnosti řešit tabulky.",
+    how_step3_tip: "Věnujte čas uzavírání, ne hledání: kompletní náhrada Excelu s připravenými prodejními argumenty ještě před zavoláním hiring managerovi.",
     how_onboarding_title: "Nulové tření — 100% asynchronní onboarding",
     how_onboarding_body: "Nahrajte seznam vašich klientů v CSV nebo Excel souboru při registraci. Náš engine indexuje cílové účty a ATS kariérní stránky do 24 hodin. Žádné konfigurační hovory nejsou nutné.",
 
@@ -173,7 +174,7 @@ const TRANSLATIONS = {
     faq_a5: "Ano. Jedním klikem exportujte kompletní BD pipeline, poznámky a metadata rolí do CSV kdykoli — vaše data jsou vždy vaše.",
 
     /* ── Trial / CTA section ── */
-    trial_badge: "14denní bezplatný pilot • Bez platební karty",
+    trial_badge: "Věnujte čas uzavírání, ne hledání • 14denní bezplatný pilot",
     trial_headline: "Vyzkoušejte TalentRadar na svých klientech",
     trial_subtext: "Nahrajte seznam vašich klientů v CSV nebo Excel souboru. Do 15 minut vám pošleme přihlašovací údaje a do 24 hodin garantujeme plné napojení vašich firem a spuštění ranního skenu.",
     trial_label_name: "Jméno a příjmení *",
@@ -209,7 +210,7 @@ const TRANSLATIONS = {
     trial_success_note: "Žádné poplatky, žádná platební karta. Po 14 dnech se sami rozhodnete.",
 
     /* ── Footer ── */
-    footer_tagline: "Autonomní monitoring kariérních stránek pro personální agentury",
+    footer_tagline: "Věnujte čas uzavírání, ne hledání",
     footer_author: "Kryštof Pejša",
     footer_gdpr: "Zásady zpracování osobních údajů",
     footer_copyright: "© 2026 TalentRadar",

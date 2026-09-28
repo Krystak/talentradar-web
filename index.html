@@ -23,8 +23,11 @@
 
   <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="128x128" href="favicon.png">
-  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
   <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -165,24 +168,7 @@
       <!-- Brand Logo -->
       <a href="#" class="flex items-center space-x-2.5 group">
         <div class="relative flex items-center justify-center w-8 h-8">
-          <svg class="w-8 h-8 filter drop-shadow-[0_0_10px_rgba(255,107,0,0.6)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="20" cy="20" r="17.5" stroke="#FF6B00" stroke-opacity="0.35" stroke-width="1.5" />
-            <circle cx="20" cy="20" r="11.5" stroke="#FF6B00" stroke-opacity="0.75" stroke-width="2" />
-            <circle cx="20" cy="20" r="5" stroke="#FF8533" stroke-width="2.2" />
-            <line x1="20" y1="2" x2="20" y2="7" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-            <line x1="20" y1="33" x2="20" y2="38" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-            <line x1="2" y1="20" x2="7" y2="20" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-            <line x1="33" y1="20" x2="38" y2="20" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-            <defs>
-              <linearGradient id="navSweep" x1="20" y1="20" x2="33" y2="7" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#FF6B00" stop-opacity="0.3" />
-                <stop offset="1" stop-color="#FFFFFF" />
-              </linearGradient>
-            </defs>
-            <line x1="20" y1="20" x2="33" y2="7" stroke="url(#navSweep)" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="20" cy="20" r="2.5" fill="#FFFFFF" />
-            <circle cx="33" cy="7" r="2.2" fill="#FFA366" />
-          </svg>
+          <img src="logo.png" alt="TalentRadar" class="w-8 h-8 object-contain filter drop-shadow-[0_0_10px_rgba(255,107,0,0.7)] group-hover:scale-105 transition-transform" />
         </div>
         <span class="font-extrabold text-lg tracking-tight text-white">TALENT<span class="text-[#FF6B00]">RADAR</span></span>
       </a>
@@ -1099,24 +1085,7 @@
   <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-slate-400">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-2.5">
-        <svg class="w-6 h-6 filter drop-shadow-[0_0_8px_rgba(255,107,0,0.6)] flex-shrink-0" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="20" cy="20" r="17.5" stroke="#FF6B00" stroke-opacity="0.35" stroke-width="1.5" />
-          <circle cx="20" cy="20" r="11.5" stroke="#FF6B00" stroke-opacity="0.75" stroke-width="2" />
-          <circle cx="20" cy="20" r="5" stroke="#FF8533" stroke-width="2.2" />
-          <line x1="20" y1="2" x2="20" y2="7" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-          <line x1="20" y1="33" x2="20" y2="38" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-          <line x1="2" y1="20" x2="7" y2="20" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-          <line x1="33" y1="20" x2="38" y2="20" stroke="#FF6B00" stroke-width="1.8" stroke-linecap="round" />
-          <defs>
-            <linearGradient id="footerSweep" x1="20" y1="20" x2="33" y2="7" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#FF6B00" stop-opacity="0.3" />
-              <stop offset="1" stop-color="#FFFFFF" />
-            </linearGradient>
-          </defs>
-          <line x1="20" y1="20" x2="33" y2="7" stroke="url(#footerSweep)" stroke-width="2.5" stroke-linecap="round" />
-          <circle cx="20" cy="20" r="2.5" fill="#FFFFFF" />
-          <circle cx="33" cy="7" r="2.2" fill="#FFA366" />
-        </svg>
+        <img src="logo.png" alt="TalentRadar" class="w-6 h-6 object-contain filter drop-shadow-[0_0_8px_rgba(255,107,0,0.6)] flex-shrink-0" />
         <span class="font-bold text-white">TalentRadar</span>
         <span class="text-slate-400">— <span data-i18n="footer_tagline">Autonomous career-page monitoring for recruitment agencies</span></span>
       </div>

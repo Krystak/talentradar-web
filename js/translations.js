@@ -64,6 +64,8 @@ const TRANSLATIONS = {
     how_step3_title: "3. AI shrnutí & pipeline zakázek (Plná náhrada Excelu)",
     how_step3_body: "Rozklikněte si jakoukoliv roli pro okamžité AI shrnutí, klíčové požadavky a připravené prodejní úhly pro oslovení klienta. Přímo u pozice si veďte interní poznámky a stav oslovení — bez nutnosti řešit tabulky.",
     how_step3_tip: "Věnujte čas uzavírání, ne hledání: kompletní náhrada Excelu s připravenými prodejními argumenty ještě před zavoláním hiring managerovi.",
+    how_step3_tab_ai: "⚡ AI Manažerský výcuc",
+    how_step3_tab_notes: "📝 Poznámky & Pipeline",
     how_onboarding_title: "Nulové tření — 100% asynchronní onboarding",
     how_onboarding_body: "Nahrajte seznam vašich klientů v CSV nebo Excel souboru při registraci. Náš engine indexuje cílové účty a ATS kariérní stránky do 24 hodin. Žádné konfigurační hovory nejsou nutné.",
 

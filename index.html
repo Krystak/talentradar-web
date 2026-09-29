@@ -564,16 +564,33 @@
           </div>
         </div>
         <div class="rounded-xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl bg-[#0A0D14]">
-          <div class="px-4 py-2.5 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
+          <div class="px-4 py-2.5 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-2">
               <span class="w-3 h-3 rounded-full bg-[#FF5F56]/80"></span>
               <span class="w-3 h-3 rounded-full bg-[#FFBD2E]/80"></span>
               <span class="w-3 h-3 rounded-full bg-[#27C93F]/80"></span>
               <span class="ml-2 text-[11px] font-mono text-slate-400 bg-[#0A0D14] px-3 py-0.5 rounded border border-white/5">app.talentradar.eu — Role Intelligence Modal</span>
             </div>
+
+            <!-- Interactive Tab Switcher -->
+            <div class="flex items-center gap-1.5 bg-[#0A0D14] p-1 rounded-lg border border-white/10 text-xs">
+              <button id="step3-tab-ai" onclick="switchStep3ModalView('ai')" class="px-3 py-1 rounded font-semibold transition flex items-center gap-1.5 bg-[#FF6B00] text-white shadow-sm cursor-pointer">
+                <span>⚡</span>
+                <span data-i18n="how_step3_tab_ai">AI Executive Digest</span>
+              </button>
+              <button id="step3-tab-notes" onclick="switchStep3ModalView('notes')" class="px-3 py-1 rounded font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white cursor-pointer">
+                <span>📝</span>
+                <span data-i18n="how_step3_tab_notes">Notes &amp; Pipeline</span>
+              </button>
+            </div>
+
             <a href="https://app.talentradar.eu/?demo=showcase&page=bd_master&lang=en" target="_blank" rel="noopener noreferrer" class="text-[11px] text-[#FFA366] hover:text-white font-semibold transition hidden sm:inline-flex items-center gap-1">Open Live Demo ↗</a>
           </div>
-          <img src="img/screenshot-3.png" alt="TalentRadar role detail and notes" loading="lazy" class="w-full h-auto object-cover" />
+
+          <div class="relative">
+            <img id="step3-img-ai" src="img/screenshot-3.png" alt="TalentRadar AI executive digest &amp; BD outreach pitch hook" loading="lazy" class="w-full h-auto object-cover transition-opacity duration-200" />
+            <img id="step3-img-notes" src="img/screenshot-3-notes.png" alt="TalentRadar internal recruiter notes and pipeline tracking" loading="lazy" class="w-full h-auto object-cover hidden transition-opacity duration-200" />
+          </div>
         </div>
       </div>
 
@@ -1544,6 +1561,27 @@
         );
       });
     });
+
+    /* ── 8. Step 3 Interactive Modal View Switcher ── */
+    function switchStep3ModalView(view) {
+      const btnAi = document.getElementById('step3-tab-ai');
+      const btnNotes = document.getElementById('step3-tab-notes');
+      const imgAi = document.getElementById('step3-img-ai');
+      const imgNotes = document.getElementById('step3-img-notes');
+      if (!btnAi || !btnNotes || !imgAi || !imgNotes) return;
+
+      if (view === 'ai') {
+        btnAi.className = 'px-3 py-1 rounded font-semibold transition flex items-center gap-1.5 bg-[#FF6B00] text-white shadow-sm cursor-pointer';
+        btnNotes.className = 'px-3 py-1 rounded font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white cursor-pointer';
+        imgAi.classList.remove('hidden');
+        imgNotes.classList.add('hidden');
+      } else {
+        btnNotes.className = 'px-3 py-1 rounded font-semibold transition flex items-center gap-1.5 bg-[#FF6B00] text-white shadow-sm cursor-pointer';
+        btnAi.className = 'px-3 py-1 rounded font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white cursor-pointer';
+        imgNotes.classList.remove('hidden');
+        imgAi.classList.add('hidden');
+      }
+    }
   </script>
 
 </body>

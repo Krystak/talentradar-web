@@ -33,20 +33,12 @@ const TRANSLATIONS = {
 
     /* ── Live Radar section ── */
     radar_label: "Živý radar",
-    radar_headline: "Pozice, které se objevily na kariérních stránkách firem za posledních 24 hodin",
-    radar_subtext: "Ranní automatický sken 10 předních evropských tech firem. Níže jsou pozice vypsané dnes.",
-    radar_updated: "Poslední automatický scan dokončen: dnes v 08:06 CEST • 10 evropských lídrů ověřeno",
     radar_disclaimer: "(Ukázka živého monitoringu — po registraci nastavíme váš vlastní seznam firem)",
     radar_demo_banner_title: "Chcete si projít tyto pozice přímo v aplikaci?",
     radar_demo_banner_desc: "Otevřete si interaktivní živé demo bez registrace se všemi 10 firmami.",
     radar_demo_banner_btn: "Otevřít živý dashboard →",
-    radar_filter_all: "Všechny signály",
-    radar_filter_tech: "Tech & Cloud",
-    radar_filter_sales: "B2B Obchod",
-    radar_filter_exec: "Executive & C-Level",
     radar_card_cta: "Sledovat firmu →",
     radar_monitored_title: "10 evropských tech lídrů sledovaných denně v této živé ukázce:",
-    radar_monitored_ats: "1 400+ pozic v indexu • Přímé Greenhouse ATS",
     radar_footer_left: "Ukázka živého výstupu monitoringu — vaše klientské firmy po registraci",
     radar_footer_right: "Vyzkoušet na svých firmách — 14 dní zdarma →",
 

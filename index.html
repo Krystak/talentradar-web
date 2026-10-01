@@ -80,11 +80,7 @@
       outline-offset: 2px;
     }
 
-    /* Radar card category badge colours */
-    .badge-tech    { background: rgba(99,102,241,0.18); color: #a5b4fc; }
-    .badge-sales   { background: rgba(16,185,129,0.18); color: #6ee7b7; }
-    .badge-exec    { background: rgba(245,158,11,0.18); color: #fcd34d; }
-    .badge-finance { background: rgba(236,72,153,0.18); color: #f9a8d4; }
+    /* Radar card badge colours */
     .badge-new     { background: rgba(16,185,129,0.18); color: #34d399; }
 
     /* Language switcher */
@@ -121,26 +117,6 @@
     .lang-btn:hover { color: #fff; }
     .lang-btn--active { background: #FF6B00; color: #fff !important; }
     .lang-divider { color: rgba(255,255,255,0.2); margin: 0 2px; font-size: 10px; }
-
-    /* Radar filter tabs */
-    .radar-tab {
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: transparent;
-      color: #94a3b8;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .radar-tab:hover { color: #fff; border-color: rgba(255,107,0,0.4); }
-    .radar-tab.active {
-      background: rgba(255,107,0,0.18);
-      border-color: rgba(255,107,0,0.5);
-      color: #FF8533;
-    }
 
     /* Pulse animation for live dot */
     @keyframes pulse-dot {
@@ -260,126 +236,25 @@
         <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
         <span data-i18n="radar_label">Live Radar</span>
       </div>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="radar_headline">
-        Roles that went live across monitored career pages in the last 24 hours
+      <!-- Headline, rules and scan line are rendered from the feed by renderRadarHeader(),
+           so they always describe the rules and the scan the roles actually came from. -->
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white" id="radarHeadline">
+        The most lucrative new roles of the last 7 days
       </h2>
-      <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto" data-i18n="radar_subtext">
-        Automated morning scan across 10 premier European tech employers. Below are roles that went live today.
-      </p>
-      <div class="pt-1 text-xs text-emerald-400 font-mono" id="radarLastScan" data-i18n="radar_updated">Last automated scan completed: today at 08:06 CEST • 10 European tech leaders verified</div>
+      <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto" id="radarSubtext"></p>
+      <ul class="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] text-slate-400 max-w-2xl mx-auto" id="radarRules"></ul>
+      <div class="pt-1 text-xs text-emerald-400 font-mono" id="radarLastScan"></div>
       <div class="text-[11px] text-slate-400 italic" data-i18n="radar_disclaimer">
         (Live output sample — your client data populates after sign-up)
       </div>
-    </div>
-
-    <!-- Category Filter Tabs -->
-    <div class="flex flex-wrap items-center justify-center gap-2 mb-5">
-      <button class="radar-tab active" data-filter="all" data-i18n="radar_filter_all">All Signals</button>
-      <button class="radar-tab" data-filter="tech" data-i18n="radar_filter_tech">Tech &amp; Cloud</button>
-      <button class="radar-tab" data-filter="sales" data-i18n="radar_filter_sales">B2B Sales</button>
-      <button class="radar-tab" data-filter="executive" data-i18n="radar_filter_exec">Executive &amp; C-Level</button>
     </div>
 
     <!-- Radar Feed -->
     <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-2xl border border-[rgba(255,255,255,0.1)] orange-glow">
       <div id="radarFeed" class="divide-y divide-[rgba(255,255,255,0.05)]">
 
-        <!-- Fallback card 1: Tines -->
-        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="tech">
-          <div class="space-y-1">
-            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Staff Security Engineer</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">NEW TODAY</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-tech">TECH &amp; CLOUD</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">Lead</span>
-            </div>
-            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
-              <span class="text-slate-200 font-semibold">Tines</span>
-              <span>•</span>
-              <span>Dublin, Ireland</span>
-              <span>•</span>
-              <span class="text-slate-300 font-mono">Went live today at 06:12</span>
-              <span>•</span>
-              <span class="text-slate-400">Greenhouse ATS</span>
-            </div>
-          </div>
-          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
-            Track company →
-          </a>
-        </div>
-
-        <!-- Fallback card 2: Intercom -->
-        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="sales">
-          <div class="space-y-1">
-            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Enterprise Account Executive</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">NEW TODAY</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-sales">B2B SALES</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">Senior</span>
-            </div>
-            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
-              <span class="text-slate-200 font-semibold">Intercom</span>
-              <span>•</span>
-              <span>Dublin, Ireland</span>
-              <span>•</span>
-              <span class="text-slate-300 font-mono">Went live today at 06:16</span>
-              <span>•</span>
-              <span class="text-slate-400">Greenhouse ATS</span>
-            </div>
-          </div>
-          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
-            Track company →
-          </a>
-        </div>
-
-        <!-- Fallback card 3: Mews -->
-        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="tech">
-          <div class="space-y-1">
-            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Senior Backend Architect (Go/Node)</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">NEW TODAY</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-tech">TECH &amp; CLOUD</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">Senior</span>
-            </div>
-            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
-              <span class="text-slate-200 font-semibold">Mews</span>
-              <span>•</span>
-              <span>Remote EU / Prague</span>
-              <span>•</span>
-              <span class="text-slate-300 font-mono">Went live today at 06:23</span>
-              <span>•</span>
-              <span class="text-slate-400">Greenhouse ATS</span>
-            </div>
-          </div>
-          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
-            Track company →
-          </a>
-        </div>
-
-        <!-- Fallback card 4: Stripe -->
-        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="executive">
-          <div class="space-y-1">
-            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span class="font-bold text-sm text-white">Head of FinTech Compliance</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">NEW TODAY</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-exec">EXECUTIVE</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">Executive</span>
-            </div>
-            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
-              <span class="text-slate-200 font-semibold">Stripe</span>
-              <span>•</span>
-              <span>Dublin / Remote</span>
-              <span>•</span>
-              <span class="text-slate-300 font-mono">Went live today at 06:28</span>
-              <span>•</span>
-              <span class="text-slate-400">Greenhouse ATS</span>
-            </div>
-          </div>
-          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
-            Track company →
-          </a>
-        </div>
-
+        <!-- Filled by loadRadarFeed(). No made-up sample cards: if the feed cannot be loaded, this says so. -->
+        <p id="radarFeedStatus" class="py-6 text-center text-xs text-slate-400">Loading the latest scan…</p>
       </div>
 
       <!-- Live Demo App CTA Banner -->
@@ -405,9 +280,7 @@
             <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             10 European tech leaders monitored daily in this live demo:
           </span>
-          <span class="text-slate-400 font-mono text-[11px]" data-i18n="radar_monitored_ats">
-            1,400+ roles indexed · Direct Greenhouse ATS
-          </span>
+          <span class="text-slate-400 font-mono text-[11px]" id="radarIndexed">Direct Greenhouse ATS</span>
         </div>
         <div class="flex flex-wrap gap-2 items-center" id="monitoredCompaniesPills">
           <a href="https://www.mews.com/en/careers" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="Verify Mews careers page">
@@ -1347,114 +1220,171 @@
       });
     });
 
-    /* ── 6. Live Radar — Daily Rotation from 10 Monitored European Champions ── */
-    const categoryBadgeClass = {
-      tech:      'badge-tech',
-      sales:     'badge-sales',
-      executive: 'badge-exec',
-      finance:   'badge-finance',
-    };
-    const categoryLabelMap = {
-      tech:      'TECH & CLOUD',
-      sales:     'B2B SALES',
-      executive: 'EXECUTIVE',
-      finance:   'FINTECH & RISK',
-    };
+    /* ── 6. Live Radar — the most senior new roles at the 10 monitored companies ──
+       Everything here comes from /api/live-roles, which the app writes after every
+       scan of the showcase workspace (scripts/refresh_live_radar.py in talent-radar).
+       Nothing is filled in on this side: no default scan time, counts or sample cards.
+       If a value is missing from the feed, it is left out rather than invented. */
+    const RADAR_TZ = 'Europe/Prague';
 
-    let activeDailyRoles = [];
+    let radarFeed = null;      // the whole payload from /api/live-roles
+    let radarFeedFailed = false;
+
+    function esc(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]
+      ));
+    }
+
+    function fmtNumber(n, isCs) {
+      return Number(n).toLocaleString(isCs ? 'cs-CZ' : 'en-GB');
+    }
+
+    // Czech plural: 1 pozice, 2–4 pozice, 5+ pozic.
+    function csPlural(n, one, few, many) {
+      if (n === 1) return one;
+      if (n >= 2 && n <= 4) return few;
+      return many;
+    }
+
+    function pragueDateKey(date) {
+      return date.toLocaleDateString('en-CA', { timeZone: RADAR_TZ });  // YYYY-MM-DD
+    }
+
+    function pragueTime(date) {
+      return date.toLocaleTimeString('en-GB', { timeZone: RADAR_TZ, hour: '2-digit', minute: '2-digit' });
+    }
+
+    function pragueZone(date) {
+      const part = new Intl.DateTimeFormat('en-GB', { timeZone: RADAR_TZ, timeZoneName: 'short' })
+        .formatToParts(date).find(p => p.type === 'timeZoneName');
+      return part ? part.value : '';
+    }
+
+    // "today at 06:00", "yesterday at 12:00", "on 29 Sep at 15:29", in Prague time.
+    function fmtWhen(date, isCs) {
+      const now = new Date();
+      const yesterday = new Date(now.getTime() - 24 * 3600 * 1000);
+      const time = pragueTime(date);
+      const key = pragueDateKey(date);
+      if (key === pragueDateKey(now)) return isCs ? `dnes v ${time}` : `today at ${time}`;
+      if (key === pragueDateKey(yesterday)) return isCs ? `včera v ${time}` : `yesterday at ${time}`;
+      const day = date.toLocaleDateString(isCs ? 'cs-CZ' : 'en-GB', { timeZone: RADAR_TZ, day: 'numeric', month: isCs ? 'numeric' : 'short' });
+      return isCs ? `${day} v ${time}` : `on ${day} at ${time}`;
+    }
+
+    function fmtAgo(date, isCs) {
+      const minutes = Math.max(0, Math.floor((Date.now() - date.getTime()) / 60000));
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+      if (minutes < 3) return isCs ? 'právě teď' : 'just now';
+      if (minutes < 60) return isCs ? `před ${minutes} min` : `${minutes} min ago`;
+      if (hours < 24) return isCs ? `před ${hours} h` : `${hours} h ago`;
+      return isCs ? `před ${days} ${days === 1 ? 'dnem' : 'dny'}` : `${days} ${days === 1 ? 'day' : 'days'} ago`;
+    }
 
     function buildRadarCard(role, isCs) {
-      const badgeClass = categoryBadgeClass[role.category] || 'badge-tech';
-      let catLabel = categoryLabelMap[role.category] || role.categoryLabel?.toUpperCase() || 'SIGNAL';
-      if (isCs) {
-        if (role.category === 'sales') catLabel = 'B2B OBCHOD';
-        else if (role.category === 'finance') catLabel = 'FINTECH & RIZIKA';
-      }
-
-      // Group finance under executive filter tab so Executive & C-Level covers both
-      const filterCat = (role.category === 'finance') ? 'executive' : role.category;
-      const timeText = isCs ? `Zveřejněno dnes v ${role.discoveredAt}` : `Went live today at ${role.discoveredAt}`;
+      const levelLabel = isCs ? role.levelLabelCs : role.levelLabel;
+      const seen = role.first_seen_at ? new Date(role.first_seen_at) : null;
+      const isNewToday = seen && pragueDateKey(seen) === pragueDateKey(new Date());
+      const seenText = seen ? (isCs ? `Zachyceno ${fmtWhen(seen, true)}` : `Spotted ${fmtWhen(seen, false)}`) : '';
       const ctaText = isCs ? 'Sledovat firmu →' : 'Track company →';
-      const tooltip = isCs ? 'Otevřít původní inzerát na Greenhouse ATS' : 'Open original job listing on Greenhouse ATS';
+      const tooltip = isCs ? 'Otevřít původní inzerát' : 'Open the original job listing';
+      const badge = (cls, text) => text ? `<span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold ${cls}">${esc(text)}</span>` : '';
+      const meta = [
+        `<span class="text-slate-200 font-semibold">${esc(role.company)}</span>`,
+        role.location ? `<span>${esc(role.location)}</span>` : '',
+        seenText ? `<span class="text-slate-300 font-mono">${esc(seenText)}</span>` : '',
+        role.ats ? `<span class="text-slate-400">${esc(role.ats)}</span>` : '',
+      ].filter(Boolean).join('<span>•</span>');
 
       return `
-        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all" data-category="${filterCat}">
+        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
           <div class="space-y-1">
             <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <a href="${role.jobUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-[#FF8533] transition inline-flex items-center gap-1.5 group/link" title="${tooltip}">
-                <span>${role.title}</span>
+              <a href="${esc(role.jobUrl)}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-[#FF8533] transition inline-flex items-center gap-1.5 group/link" title="${tooltip}">
+                <span>${esc(role.title)}</span>
                 <svg class="w-3.5 h-3.5 opacity-40 group-hover/link:opacity-100 group-hover/link:text-[#FF8533] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </a>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-new">${role.badge || 'NEW TODAY'}</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold ${badgeClass}">${catLabel}</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-700/60 text-slate-300">${role.seniority}</span>
+              ${isNewToday ? badge('badge-new', isCs ? 'NOVÉ DNES' : 'NEW TODAY') : ''}
+              ${badge('bg-slate-700/60 text-slate-300', levelLabel)}
             </div>
-            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
-              <span class="text-slate-200 font-semibold">${role.company}</span>
-              <span>•</span>
-              <span>${role.location}</span>
-              <span>•</span>
-              <span class="text-slate-300 font-mono">${timeText}</span>
-              <span>•</span>
-              <span class="text-slate-400">${role.ats}</span>
-            </div>
+            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">${meta}</div>
           </div>
-          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 hover:text-white border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition" data-i18n="radar_card_cta">
+          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 hover:text-white border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
             ${ctaText}
           </a>
         </div>`;
     }
 
-    let radarScanInfo = null;
-    let monitoredCompaniesData = null;
-
-    function formatScanStatusText(scanInfo, isCs) {
-      if (!scanInfo) return '';
-      const now = new Date();
-      const scanDate = scanInfo.timestamp ? new Date(scanInfo.timestamp * 1000) : (scanInfo.completed_at ? new Date(scanInfo.completed_at) : now);
-      const diffMinutes = Math.max(0, Math.floor((now - scanDate) / (1000 * 60)));
-      const diffHours = Math.floor(diffMinutes / 60);
-
-      let rel = '';
-      if (isCs) {
-        if (diffMinutes < 3) rel = 'právě teď';
-        else if (diffMinutes < 60) rel = `před ${diffMinutes} min`;
-        else if (diffHours === 1) rel = 'před 1 hodinou';
-        else if (diffHours < 24) rel = `před ${diffHours} hod`;
-        else rel = scanInfo.date_cz || '';
-      } else {
-        if (diffMinutes < 3) rel = 'just now';
-        else if (diffMinutes < 60) rel = `${diffMinutes}m ago`;
-        else if (diffHours === 1) rel = '1h ago';
-        else if (diffHours < 24) rel = `${diffHours}h ago`;
-        else rel = scanInfo.date_en || '';
-      }
-
-      const timeStr = scanInfo.time_cet || scanInfo.time_hm || '08:06 CEST';
-      const relStr = rel ? ` (${rel})` : '';
-      const newRolesCount = scanInfo.new_roles_today || 0;
-      const countNote = newRolesCount > 0 
-        ? (isCs ? ` • ${newRolesCount} nových pozic dnes` : ` • ${newRolesCount} new roles today`)
-        : '';
-
-      if (isCs) {
-        return `Poslední automatický scan dokončen: dnes v ${timeStr}${relStr} • 10 evropských lídrů ověřeno${countNote}`;
-      } else {
-        return `Last automated scan completed: today at ${timeStr}${relStr} • 10 European tech leaders verified${countNote}`;
-      }
-    }
-
-    function updateRadarHeaderScanInfo() {
-      const el = document.getElementById('radarLastScan');
-      if (!el || !radarScanInfo) return;
+    function renderRadarHeader() {
       const isCs = document.documentElement.lang === 'cs';
-      const formatted = formatScanStatusText(radarScanInfo, isCs);
-      el.textContent = formatted;
-      if (isCs) {
-        el.setAttribute('data-i18n-cs', formatted);
-      } else {
-        el.setAttribute('data-i18n-en', formatted);
+      const rules = (radarFeed && radarFeed.rules) || {};
+      const info = (radarFeed && radarFeed.scan_info) || {};
+      const days = rules.window_days || 7;
+      const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+
+      set('radarHeadline', esc(isCs
+        ? `Nejlukrativnější nové pozice za posledních ${days} dní`
+        : `The most lucrative new roles of the last ${days} days`));
+
+      // Counts only when the feed has them; a sentence with a made-up number is worse than none.
+      const n = info.new_roles_in_window, c = info.companies_count, f = info.featured_roles;
+      let subtext = '';
+      if (radarFeed && radarFeed.rules && n != null && c != null && f != null) {
+        subtext = isCs
+          ? `Sledované firmy (${c}) za posledních ${days} dní vypsaly ${fmtNumber(n, true)} ${csPlural(n, 'novou pozici', 'nové pozice', 'nových pozic')}. Ukazujeme ${f} nejseniornějších.`
+          : `Out of ${fmtNumber(n, false)} new ${n === 1 ? 'role' : 'roles'} the ${c} monitored companies posted in the last ${days} days, these are the ${f} most senior.`;
+        if (rules.seniority_required === false) {
+          subtext += isCs
+            ? ' Tento týden bylo seniorních pozic málo, proto jsou mezi nimi i střední úrovně.'
+            : ' Senior openings were scarce this week, so mid-level roles are included.';
+        }
       }
+      set('radarSubtext', esc(subtext));
+
+      // Only a feed that carries its rules gets them printed: an older payload was picked differently.
+      const ruleItems = (radarFeed && radarFeed.rules) ? (isCs ? [
+        `Poprvé zachyceno za posledních ${days} dní`,
+        'Pozice je stále otevřená',
+        'Místo výkonu v Evropě',
+        rules.seniority_required === false ? 'Bez juniorních pozic' : 'Od úrovně Senior výš, žádní junioři',
+        `Nejvýš ${rules.max_per_company || 2} od jedné firmy`,
+        'Řazeno podle seniority, pak podle čerstvosti',
+      ] : [
+        `First spotted in the last ${days} days`,
+        'Still open',
+        'Based in Europe',
+        rules.seniority_required === false ? 'No junior roles' : 'Senior level and up, no juniors',
+        `At most ${rules.max_per_company || 2} per company`,
+        'Ranked by seniority, then freshness',
+      ]) : [];
+      set('radarRules', ruleItems.map(t => `<li>✓ ${esc(t)}</li>`).join(''));
+
+      let scanLine = '';
+      if (info.completed_at) {
+        const done = new Date(info.completed_at);
+        const parts = [
+          isCs
+            ? `Poslední sken dokončen ${fmtWhen(done, true)} ${pragueZone(done)} (${fmtAgo(done, true)})`
+            : `Last scan finished ${fmtWhen(done, false)} ${pragueZone(done)} (${fmtAgo(done, false)})`,
+        ];
+        if (info.new_roles_today != null) {
+          parts.push(isCs
+            ? `dnes ${fmtNumber(info.new_roles_today, true)} ${csPlural(info.new_roles_today, 'nová pozice', 'nové pozice', 'nových pozic')}`
+            : `${fmtNumber(info.new_roles_today, false)} new ${info.new_roles_today === 1 ? 'role' : 'roles'} today`);
+        }
+        scanLine = parts.join(' • ');
+      } else if (radarFeed) {
+        scanLine = isCs ? 'Čas posledního skenu není k dispozici' : 'Last scan time unavailable';
+      }
+      set('radarLastScan', esc(scanLine));
+
+      const open = info.open_roles;
+      set('radarIndexed', esc(open != null
+        ? (isCs ? `${fmtNumber(open, true)} otevřených pozic ve sledování • přímo z Greenhouse ATS`
+                : `${fmtNumber(open, false)} open roles tracked • Direct Greenhouse ATS`)
+        : (isCs ? 'Přímo z Greenhouse ATS' : 'Direct Greenhouse ATS')));
     }
 
     function renderMonitoredCompaniesPills(companies) {
@@ -1465,93 +1395,63 @@
       container.innerHTML = companies.map(c => {
         const tooltip = isCs ? `Ověřit oficiální kariérní web ${c.name} (otevře se v novém okně)` : `Verify official ${c.name} careers portal (opens in new window)`;
         const hqShort = c.hq.split('/')[0].trim();
-        return `<a href="${c.careers_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="${tooltip}">
+        return `<a href="${esc(c.careers_url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="${esc(tooltip)}">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-          <span>${c.name}</span>
-          <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">${hqShort}</span>
+          <span>${esc(c.name)}</span>
+          <span class="text-[10px] text-slate-400 group-hover:text-slate-300 font-normal">${esc(hqShort)}</span>
           <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>`;
       }).join('');
     }
 
-    function selectDailyRoles(roles, scanInfo) {
-      if (!roles || roles.length === 0) return [];
-      const baseScanMinute = scanInfo && scanInfo.time_hm ? scanInfo.time_hm : '08:06';
-
-      // Directly take the server-curated list of new roles today (strictly capped at 10)
-      return roles.slice(0, 10).map(r => {
-        const item = Object.assign({}, r);
-        item.discoveredAt = item.discoveredAt || baseScanMinute;
-        return item;
-      });
-    }
-
     function renderRadarCards() {
       const feed = document.getElementById('radarFeed');
-      if (!feed || activeDailyRoles.length === 0) return;
+      if (!feed) return;
       const isCs = document.documentElement.lang === 'cs';
-      feed.innerHTML = '<div class="divide-y divide-[rgba(255,255,255,0.05)]">' +
-        activeDailyRoles.map(r => buildRadarCard(r, isCs)).join('') + '</div>';
+      const roles = (radarFeed && Array.isArray(radarFeed.roles)) ? radarFeed.roles : [];
+      let message = '';
+      if (radarFeedFailed) {
+        message = isCs
+          ? 'Živý feed se teď nepodařilo načíst. Stejná data uvidíte v živém demu níže.'
+          : 'The live feed could not be loaded right now. The same data is in the live demo below.';
+      } else if (!radarFeed) {
+        message = isCs ? 'Načítám poslední sken…' : 'Loading the latest scan…';
+      } else if (roles.length === 0) {
+        message = isCs
+          ? 'Za posledních 14 dní žádná nová pozice nesplnila pravidla výše.'
+          : 'No new role met the rules above in the last 14 days.';
+      }
+      feed.innerHTML = message
+        ? `<p id="radarFeedStatus" class="py-6 text-center text-xs text-slate-400">${esc(message)}</p>`
+        : roles.map(r => buildRadarCard(r, isCs)).join('');
+    }
 
-      // Re-apply current category filter if any tab is active
-      const activeTab = document.querySelector('.radar-tab.active');
-      const filter = activeTab ? activeTab.getAttribute('data-filter') : 'all';
-      if (filter && filter !== 'all') {
-        document.querySelectorAll('.radar-card').forEach(card => {
-          const match = card.getAttribute('data-category') === filter;
-          card.style.display = match ? '' : 'none';
-        });
+    function renderRadar() {
+      renderRadarHeader();
+      renderRadarCards();
+      if (radarFeed && radarFeed.monitored_companies) {
+        renderMonitoredCompaniesPills(radarFeed.monitored_companies);
       }
     }
 
     async function loadRadarFeed() {
       try {
-        let res = await fetch('data/live_roles.json');
-        if (!res.ok) res = await fetch('/data/live_roles.json');
-        if (!res.ok) throw new Error('fetch failed');
-        const raw = await res.json();
-        const roles = Array.isArray(raw) ? raw : (raw.roles || []);
-        if (!Array.isArray(roles) || roles.length === 0) throw new Error('empty');
-
-        if (!Array.isArray(raw)) {
-          radarScanInfo = raw.scan_info || null;
-          monitoredCompaniesData = raw.monitored_companies || null;
-        }
-
-        updateRadarHeaderScanInfo();
-        if (monitoredCompaniesData) {
-          renderMonitoredCompaniesPills(monitoredCompaniesData);
-        }
-
-        activeDailyRoles = selectDailyRoles(roles, radarScanInfo);
-        renderRadarCards();
-      } catch (_) {
-        // Silently keep fallback static cards already in the DOM
+        const res = await fetch('/api/live-roles');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!data || !Array.isArray(data.roles)) throw new Error('unexpected feed shape');
+        radarFeed = data;
+      } catch (err) {
+        console.error('Live radar feed failed:', err);
+        radarFeedFailed = true;
       }
+      renderRadar();
     }
+    renderRadar();
     loadRadarFeed();
 
-    // Listen for language changes and re-render reactively
-    window.addEventListener('talentradar:langchange', () => {
-      updateRadarHeaderScanInfo();
-      if (monitoredCompaniesData) {
-        renderMonitoredCompaniesPills(monitoredCompaniesData);
-      }
-      renderRadarCards();
-    });
-
-    /* ── 6b. Radar filter tabs ── */
-    document.querySelectorAll('.radar-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.radar-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const filter = tab.getAttribute('data-filter');
-        document.querySelectorAll('.radar-card').forEach(card => {
-          const match = filter === 'all' || card.getAttribute('data-category') === filter;
-          card.style.display = match ? '' : 'none';
-        });
-      });
-    });
+    // Text depends on the language, so re-render on every switch.
+    window.addEventListener('talentradar:langchange', renderRadar);
 
     /* ── 7. Language switcher aria-pressed sync ── */
     document.querySelectorAll('.lang-btn').forEach(btn => {

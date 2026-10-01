@@ -1324,9 +1324,11 @@
       const days = rules.window_days || 7;
       const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
 
-      set('radarHeadline', esc(isCs
-        ? `Nejlukrativnější nové pozice za posledních ${days} dní`
-        : `The most lucrative new roles of the last ${days} days`));
+      // The headline promises the selection rules, so only a feed that carries them gets it.
+      const pickedByRules = !radarFeed || !!radarFeed.rules;
+      set('radarHeadline', esc(pickedByRules
+        ? (isCs ? `Nejlukrativnější nové pozice za posledních ${days} dní` : `The most lucrative new roles of the last ${days} days`)
+        : (isCs ? 'Nové pozice z posledního skenu' : 'New roles from the latest scan')));
 
       // Counts only when the feed has them; a sentence with a made-up number is worse than none.
       const n = info.new_roles_in_window, c = info.companies_count, f = info.featured_roles;

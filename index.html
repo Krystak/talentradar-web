@@ -199,7 +199,8 @@
 
       <!-- Badge -->
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
-        <span data-i18n="hero_badge">🦅 Spend time closing, not searching</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00] animate-pulse"></span>
+        <span data-i18n="hero_badge">Spend time closing, not searching</span>
       </div>
 
       <!-- Main Headline -->
@@ -260,7 +261,9 @@
       <!-- Live Demo App CTA Banner -->
       <div class="mt-5 p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-[rgba(255,107,0,0.12)] to-[rgba(15,23,42,0.7)] border border-[#FF6B00]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg shadow-[#FF6B00]/5">
         <div class="flex items-center gap-3 text-xs text-slate-300 text-left">
-          <span class="text-xl">⚡</span>
+          <div class="w-8 h-8 rounded-lg bg-[#FF6B00]/15 border border-[#FF6B00]/30 flex items-center justify-center flex-shrink-0 text-[#FF8533]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v3m0 12v3M3 12h3m12 0h3"/></svg>
+          </div>
           <div>
             <strong class="text-white font-semibold block sm:inline" data-i18n="radar_demo_banner_title">Want to explore these roles inside the app?</strong>
             <span class="text-slate-400 block sm:inline sm:ml-1" data-i18n="radar_demo_banner_desc">Open an interactive live demo without registration for all 10 tech leaders.</span>
@@ -362,7 +365,8 @@
   <section id="how-it-works" class="py-24 px-4 sm:px-6 max-w-6xl mx-auto space-y-20">
     <div class="text-center space-y-3 max-w-3xl mx-auto">
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
-        <span>⚡ Interactive Product Showcase</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
+        <span>Interactive Product Showcase</span>
       </div>
       <h2 class="text-3xl sm:text-5xl font-black text-white" data-i18n="how_headline">What You See Every Morning</h2>
       <p class="text-slate-300 text-sm sm:text-base" data-i18n="how_subtext">Loads instantly — even when you're monitoring hundreds of companies.</p>
@@ -448,11 +452,11 @@
             <!-- Interactive Tab Switcher -->
             <div class="flex items-center gap-1.5 bg-[#0A0D14] p-1 rounded-lg border border-white/10 text-xs">
               <button id="step3-tab-ai" onclick="switchStep3ModalView('ai')" class="px-3 py-1 rounded font-semibold transition flex items-center gap-1.5 bg-[#FF6B00] text-white shadow-sm cursor-pointer">
-                <span>⚡</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 <span data-i18n="how_step3_tab_ai">AI Executive Digest</span>
               </button>
               <button id="step3-tab-notes" onclick="switchStep3ModalView('notes')" class="px-3 py-1 rounded font-semibold transition flex items-center gap-1.5 text-slate-400 hover:text-white cursor-pointer">
-                <span>📝</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                 <span data-i18n="how_step3_tab_notes">Notes &amp; Pipeline</span>
               </button>
             </div>
@@ -909,7 +913,7 @@
             <div id="dropZone" class="relative rounded-xl border border-dashed border-[rgba(255,255,255,0.18)] hover:border-[#FF6B00]/60 bg-[#0A0D14]/70 p-4 transition text-center cursor-pointer group">
               <input type="file" id="fileUpload" accept=".xlsx,.xls,.csv" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
               <div id="fileUploadPrompt" class="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-slate-300">
-                <span class="text-base group-hover:scale-110 transition">📎</span>
+                <svg class="w-4 h-4 text-[#FF8533] group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                 <span class="font-semibold text-white group-hover:text-[#FF8533] transition" data-i18n="trial_upload_cta">Click to upload a file</span>
                 <span class="text-slate-400" data-i18n="trial_upload_types">(Excel .xlsx, .xls or .csv)</span>
               </div>
@@ -1040,7 +1044,7 @@
        LANGUAGE SWITCHER WIDGET
   ═══════════════════════════════════════════════ -->
   <div class="lang-switcher" role="group" aria-label="Language selector">
-    <span class="lang-divider mr-1">🌐</span>
+    <svg class="w-3.5 h-3.5 text-slate-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
     <button class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">English</button>
     <span class="lang-divider">|</span>
     <button class="lang-btn" data-lang="cs" aria-pressed="false">Čeština</button>
@@ -1438,7 +1442,11 @@
 
     async function loadRadarFeed() {
       try {
-        const res = await fetch('/api/live-roles');
+        let res = await fetch('/api/live-roles');
+        if (!res.ok) {
+          // Fallback to local static snapshot (for localhost preview)
+          res = await fetch('data/live_roles.json');
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (!data || !Array.isArray(data.roles)) throw new Error('unexpected feed shape');

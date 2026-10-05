@@ -17,14 +17,14 @@ const TRANSLATIONS = {
     nav_slogan: "Věnujte čas uzavírání, ne hledání",
     nav_how_it_works: "Jak to funguje",
     nav_live_radar: "Živý radar",
-    nav_pricing: "Cena",
+    nav_pricing: "Ceník",
     nav_story: "Můj příběh",
     nav_faq: "Časté dotazy",
     nav_demo: "Živé demo ↗",
     nav_cta: "Vyzkoušet na 14 dní zdarma",
 
     /* ── Hero ── */
-    hero_badge: "🦅 Věnujte čas uzavírání, ne hledání",
+    hero_badge: "Věnujte čas uzavírání, ne hledání",
     hero_headline_html: "Nové pozice u vašich klientů <span class=\"text-[#FF6B00]\">v den, kdy se objeví</span>",
     hero_body: "Konec ručního proklikávání kariérních stránek a přepisování do Excelu. TalentRadar hlídá každé ATS a kariérní web na vašem seznamu — abyste věnovali čas uzavírání zakázek, ne hledání pozic.",
     hero_cta_full: "Zahájit 14denní bezplatný pilot — až 200 firem",
@@ -56,8 +56,8 @@ const TRANSLATIONS = {
     how_step3_title: "3. AI shrnutí & pipeline zakázek (Plná náhrada Excelu)",
     how_step3_body: "Rozklikněte si jakoukoliv roli pro okamžité AI shrnutí, klíčové požadavky a připravené prodejní úhly pro oslovení klienta. Přímo u pozice si veďte interní poznámky a stav oslovení — bez nutnosti řešit tabulky.",
     how_step3_tip: "Věnujte čas uzavírání, ne hledání: kompletní náhrada Excelu s připravenými prodejními argumenty ještě před zavoláním hiring managerovi.",
-    how_step3_tab_ai: "⚡ AI Manažerský výcuc",
-    how_step3_tab_notes: "📝 Poznámky & Pipeline",
+    how_step3_tab_ai: "AI Manažerský výcuc",
+    how_step3_tab_notes: "Poznámky & Pipeline",
     how_onboarding_title: "Nulové tření — 100% asynchronní onboarding",
     how_onboarding_body: "Nahrajte seznam vašich klientů v CSV nebo Excel souboru při registraci. Náš engine indexuje cílové účty a ATS kariérní stránky do 24 hodin. Žádné konfigurační hovory nejsou nutné.",
 
@@ -210,7 +210,7 @@ const TRANSLATIONS = {
     footer_copyright: "© 2026 TalentRadar",
 
     /* ── Language switcher ── */
-    lang_switcher_label: "🌐",
+    lang_switcher_label: "",
   }
 };
 
@@ -236,6 +236,14 @@ const TRANSLATIONS = {
           } else {
             el.textContent = original;
           }
+        }
+      });
+
+      // Restore input placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const original = el.getAttribute('data-i18n-placeholder-en');
+        if (original !== null) {
+          el.placeholder = original;
         }
       });
 
@@ -266,6 +274,16 @@ const TRANSLATIONS = {
         } else {
           el.textContent = dict[key];
         }
+      });
+
+      // Translate input placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (!dict[key]) return;
+        if (el.getAttribute('data-i18n-placeholder-en') === null) {
+          el.setAttribute('data-i18n-placeholder-en', el.placeholder);
+        }
+        el.placeholder = dict[key];
       });
 
       // Swap page title & meta description

@@ -131,7 +131,7 @@ const TRANSLATIONS = {
     pricing_tier1_f5: "AI shoda rolí (CORE / SELECTIVE / SKIP) podle profilu agentury",
     pricing_tier1_f6: "Automatická archivace rolí, jakmile zmizí z webu",
     pricing_tier1_f7: "BD Master — přehled rolí, filtry a export do CSV",
-    pricing_tier1_f8: "Přímá e-mailová podpora (< 24 h)",
+    pricing_tier1_f8: "Přímá e-mailová podpora",
     pricing_tier1_cta: "Zahájit 14denní bezplatný pilot",
 
     pricing_tier2_name: "Agency Pro",
@@ -157,7 +157,6 @@ const TRANSLATIONS = {
     pricing_tier3_price: "Na míru",
     pricing_tier3_desc: "Pro velké agenturní týmy a specifické integrační požadavky.",
     pricing_tier3_f1: "Větší seznamy sledovaných firem na míru",
-    pricing_tier3_f2: "Frekvence automatických skenů podle potřeb týmu",
     pricing_tier3_f3: "Kapacita manuálních skenů přizpůsobená týmu",
     pricing_tier3_f4: "Přístup pro celý váš agenturní tým",
     pricing_tier3_f5: "Vlastní profil rolí a specializace pro agenturu",

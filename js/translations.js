@@ -182,7 +182,7 @@ const TRANSLATIONS = {
     faq_label: "Odpovědi na rovinu",
     faq_headline: "Časté dotazy",
     faq_q1: "Jak zjistíte pozice dříve než na job boardech?",
-    faq_a1: "Firmy zveřejňují inzeráty nejdříve na vlastní kariérní stránce nebo v ATS. TalentRadar čte přímo tyto primární zdroje u firem z vašeho seznamu, takže novou roli zachytíte v den, kdy ji klient vyvěsí na svůj web.",
+    faq_a1: "Firmy zveřejňují inzeráty nejdříve na vlastní kariérní stránce nebo v ATS. TalentRadar čte přímo tyto primární zdroje u firem z vašeho seznamu, takže novou roli uvidíte hned po dalším skenu, bez čekání na job boardy.",
     faq_q2: "Jak TalentRadar pozná, které pozice jsou pro nás relevantní?",
     faq_a2: "Podle profilu rolí vaší agentury v Nastavení → Specializace. Určíte si role, které obsazujete, jako CORE, SELECTIVE nebo SKIP (z hotových předloh nebo z vlastního CSV) a trhy jako klíčové, selektivní či blokované. Před uložením přesně vidíte, kterých rolí se změna dotkne, a nové pozice se podle toho samy třídí.",
     faq_q3: "Které ATS platformy a kariérní weby jsou podporovány?",
@@ -200,9 +200,9 @@ const TRANSLATIONS = {
     faq_q9: "Můžeme exportovat zachycená data?",
     faq_a9: "Ano. V BD Masteru můžete jedním klikem vyexportovat právě vyfiltrované role včetně metadat do CSV souboru. Export plně respektuje vaše aktivní filtry.",
     faq_q10: "Integruje se TalentRadar s naším CRM nebo ATS (Bullhorn, Vincere…)?",
-    faq_a10: "Role i data firem lze z BD Masteru jedním klikem vyexportovat do CSV souboru a snadno nahrát do libovolného CRM nebo ATS. Přímé integrace systém nenabízí.",
+    faq_a10: "Role lze z BD Masteru jedním klikem vyexportovat do CSV souboru a seznam firem z Nastavení → Export a audit, připravené k importu do libovolného CRM nebo ATS. Přímé integrace systém nenabízí.",
     faq_q11: "Kde jsou uložena naše data?",
-    faq_a11_html: "Vaše data jsou hostována v EU. TalentRadar ukládá pouze veřejné inzeráty a nastavení vašeho týmu — žádná data kandidátů. Podrobnosti najdete v <a href=\"gdpr.html\" class=\"text-[#FF8533] underline hover:text-white font-semibold\">Zásadách zpracování osobních údajů</a>.",
+    faq_a11_html: "Vaše data jsou hostována v EU. TalentRadar ukládá pouze veřejné inzeráty a údaje vašeho týmu (uživatelé, poznámky, stavy v pipeline a nastavení) — žádná data kandidátů. Podrobnosti najdete v <a href=\"gdpr.html\" class=\"text-[#FF8533] underline hover:text-white font-semibold\">Zásadách zpracování osobních údajů</a>.",
 
     /* ── Trial / CTA section ── */
     trial_badge: "14denní bezplatný pilot • Bez platební karty",

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="cs" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zásady zpracování osobních údajů — TalentRadar</title>
-  <meta name="description" content="Informace o zpracování osobních údajů při odeslání kontaktního formuláře na webu TalentRadar.">
+  <title>Privacy Policy — TalentRadar</title>
+  <meta name="description" content="How TalentRadar processes the personal data you send through the trial sign-up form.">
   <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -27,26 +27,109 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
     }
+    .lang-btn {
+      padding: 3px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .lang-btn:hover { color: #fff; }
+    .lang-btn--active { background: #FF6B00; color: #fff !important; }
+    [data-lang-block][hidden] { display: none; }
   </style>
 </head>
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white p-6 sm:p-12">
   <div class="max-w-3xl mx-auto space-y-8">
-    
+
     <!-- Top Bar -->
-    <div class="flex items-center justify-between pb-6 border-b border-[rgba(255,255,255,0.06)]">
+    <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[rgba(255,255,255,0.06)]">
       <a href="index.html" class="flex items-center space-x-3 group">
         <div class="relative flex items-center justify-center w-11 h-11">
           <img src="logo.png" alt="TalentRadar" class="w-11 h-11 object-contain filter drop-shadow-[0_0_12px_rgba(255,107,0,0.75)] group-hover:scale-105 transition-transform" />
         </div>
         <span class="font-extrabold text-xl tracking-tight text-white">TALENT<span class="text-[#FF6B00]">RADAR</span></span>
       </a>
-      <a href="index.html" class="text-xs text-[#FF8533] hover:text-white font-semibold transition">
-        ← Zpět na hlavní stránku
-      </a>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center rounded-full border border-[rgba(255,255,255,0.12)] px-1.5 py-1" role="group" aria-label="Language selector">
+          <button class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">English</button>
+          <button class="lang-btn" data-lang="cs" aria-pressed="false">Čeština</button>
+        </div>
+        <a href="index.html" class="text-xs text-[#FF8533] hover:text-white font-semibold transition">
+          <span data-lang-block="en">← Back to home</span>
+          <span data-lang-block="cs" hidden>← Zpět na hlavní stránku</span>
+        </a>
+      </div>
     </div>
 
-    <!-- Content -->
-    <div class="glass-card rounded-2xl p-8 sm:p-10 space-y-6">
+    <!-- Content: English -->
+    <div class="glass-card rounded-2xl p-8 sm:p-10 space-y-6" data-lang-block="en" lang="en">
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-white">Privacy Policy</h1>
+      <p class="text-xs text-slate-400">Effective from 15 September 2026</p>
+
+      <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
+        <h2 class="text-base font-bold text-white pt-2">1. Who is the data controller?</h2>
+        <p>
+          The controller of your personal data is <strong>Kryštof Pejša</strong>, who runs TalentRadar.
+          <br>E-mail: <a href="mailto:krystof@talentradar.eu" class="text-[#FF8533] underline">krystof@talentradar.eu</a>
+        </p>
+
+        <h2 class="text-base font-bold text-white pt-2">2. What data do I process and why?</h2>
+        <p>
+          When you submit the trial sign-up form on this website, I process only what you fill in yourself:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-xs text-slate-300 pl-2">
+          <li><strong>Full name</strong> – so I know how to address you,</li>
+          <li><strong>Work e-mail</strong> – to reply to you and send your trial access,</li>
+          <li><strong>Company name</strong> – to know who I am setting the trial up for,</li>
+          <li><strong>Client list or career page links</strong> (including an uploaded file) – to load your companies into the trial.</li>
+        </ul>
+        <p>
+          To protect the form against spam and abuse, I also record the <strong>IP address</strong> and <strong>browser information</strong> of each submission.
+        </p>
+        <p>
+          <strong>Purpose and legal basis:</strong> setting up your trial and replying to your request (steps taken at your request before entering into a contract, Art. 6(1)(b) GDPR) and protecting the form against abuse (legitimate interest, Art. 6(1)(f) GDPR). I do not use your data for unsolicited marketing and I do not sell or pass it on to anyone else.
+        </p>
+
+        <h2 class="text-base font-bold text-white pt-2">3. How long do I keep it?</h2>
+        <p>
+          I keep the contact details from your request only as long as needed to handle our communication and your trial, and no longer than 6 months after you submit the form, unless we agree to work together. An uploaded client file is deleted automatically after 90 days.
+        </p>
+
+        <h2 class="text-base font-bold text-white pt-2">4. Who has access to it?</h2>
+        <p>
+          Only I (Kryštof Pejša) have access to your data. To run the website and the form, I use the following service providers, who process data on my behalf in line with GDPR:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-xs text-slate-300 pl-2">
+          <li>Cloudflare, Inc. – website hosting, form storage and spam protection,</li>
+          <li>Sendinblue SAS (Brevo) – delivery of e-mail notifications and confirmations,</li>
+          <li>Slack Technologies, LLC – internal notification about a new request.</li>
+        </ul>
+
+        <h2 class="text-base font-bold text-white pt-2">5. What are your rights?</h2>
+        <p>
+          Under GDPR you have the right to:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-xs text-slate-300 pl-2">
+          <li>know what data about you I process,</li>
+          <li>have inaccurate data corrected,</li>
+          <li>have all your data erased (the right to be forgotten),</li>
+          <li>object to the processing,</li>
+          <li>lodge a complaint with a supervisory authority – in the Czech Republic, the Office for Personal Data Protection (<a href="https://uoou.gov.cz/en" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline">uoou.gov.cz</a>).</li>
+        </ul>
+        <p>
+          To exercise any of these rights, just e-mail me at <a href="mailto:krystof@talentradar.eu" class="text-[#FF8533] underline">krystof@talentradar.eu</a> and I will act on it without undue delay.
+        </p>
+      </div>
+    </div>
+
+    <!-- Content: Czech -->
+    <div class="glass-card rounded-2xl p-8 sm:p-10 space-y-6" data-lang-block="cs" lang="cs" hidden>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-white">Zásady zpracování osobních údajů</h1>
       <p class="text-xs text-slate-400">Platné od 15. září 2026</p>
 
@@ -59,53 +142,94 @@
 
         <h2 class="text-base font-bold text-white pt-2">2. Jaké údaje zpracovávám a proč?</h2>
         <p>
-          Při odeslání poptávkového formuláře na webu zpracovávám pouze údaje, které sami dobrovolně vyplníte:
+          Při odeslání formuláře pro zkušební přístup zpracovávám pouze údaje, které sami vyplníte:
         </p>
         <ul class="list-disc list-inside space-y-1 text-xs text-slate-300 pl-2">
-          <li><strong>Jméno a příjmení</strong> (abych věděl, jak vás oslovit),</li>
-          <li><strong>Pracovní e-mail</strong> (abych vám mohl poslat odpověď a odkaz na demo),</li>
-          <li><strong>Název firmy</strong> (abych věděl, pro koho demo připravuji),</li>
-          <li><strong>Odkazy na kariérní stránky klientů</strong> (abych z nich mohl připravit ukázku).</li>
+          <li><strong>Jméno a příjmení</strong> – abych věděl, jak vás oslovit,</li>
+          <li><strong>Pracovní e-mail</strong> – abych vám mohl odpovědět a poslat přístup do zkušební verze,</li>
+          <li><strong>Název firmy</strong> – abych věděl, pro koho zkušební verzi připravuji,</li>
+          <li><strong>Seznam klientů nebo odkazy na kariérní stránky</strong> (včetně nahraného souboru) – abych vaše firmy nahrál do zkušební verze.</li>
         </ul>
         <p>
-          <strong>Účel zpracování:</strong> Příprava nezávazné ukázky a odpověď na vaši poptávku (jednání o smlouvě / oprávněný zájem). Údaje nejsou využívány k žádnému nevyžádanému plošnému marketingu (spamu) a nikomu dalšímu je nepředávám.
+          Kvůli ochraně formuláře před spamem a zneužitím u každého odeslání ukládám také <strong>IP adresu</strong> a <strong>údaje o prohlížeči</strong>.
+        </p>
+        <p>
+          <strong>Účel a právní základ:</strong> zřízení zkušebního přístupu a odpověď na vaši poptávku (opatření přijatá na vaši žádost před uzavřením smlouvy, čl. 6 odst. 1 písm. b) GDPR) a ochrana formuláře před zneužitím (oprávněný zájem, čl. 6 odst. 1 písm. f) GDPR). Údaje nevyužívám k nevyžádanému marketingu, neprodávám je a nikomu dalšímu je nepředávám.
         </p>
 
         <h2 class="text-base font-bold text-white pt-2">3. Jak dlouho údaje uchovávám?</h2>
         <p>
-          Kontaktní údaje z poptávky uchovávám pouze po dobu nezbytnou k vyřízení naší komunikace a předvedení dema, maximálně po dobu 6 měsíců od odeslání poptávky, pokud se nedohodneme na navazující spolupráci.
+          Kontaktní údaje z poptávky uchovávám jen po dobu nezbytnou k vyřízení naší komunikace a zkušebního přístupu, nejdéle 6 měsíců od odeslání formuláře, pokud se nedohodneme na navazující spolupráci. Nahraný soubor s klienty se automaticky maže po 90 dnech.
         </p>
 
         <h2 class="text-base font-bold text-white pt-2">4. Kdo má k údajům přístup?</h2>
         <p>
-          K údajům mám přístup pouze já (Kryštof Pejša). Pro technické zajištění chodu formuláře a webu jsou využíváni prověření techničtí zpracovatelé v souladu s GDPR:
+          K údajům mám přístup pouze já (Kryštof Pejša). Pro chod webu a formuláře využívám tyto zpracovatele, kteří údaje zpracovávají mým jménem v souladu s GDPR:
         </p>
         <ul class="list-disc list-inside space-y-1 text-xs text-slate-300 pl-2">
-          <li>Cloudflare, Inc. (hosting webu a ochrana proti spamu),</li>
-          <li>Brevo / Sendinblue SAS (doručování transakčních e-mailů a notifikací).</li>
+          <li>Cloudflare, Inc. – hosting webu, uložení formuláře a ochrana proti spamu,</li>
+          <li>Sendinblue SAS (Brevo) – doručování e-mailových notifikací a potvrzení,</li>
+          <li>Slack Technologies, LLC – interní upozornění na novou poptávku.</li>
         </ul>
 
         <h2 class="text-base font-bold text-white pt-2">5. Jaká jsou vaše práva?</h2>
         <p>
-          Podle nařízení GDPR máte plné právo:
+          Podle GDPR máte právo:
         </p>
         <ul class="list-disc list-inside space-y-1 text-xs text-slate-300 pl-2">
-          <li>Požadovat informaci, jaké vaše údaje zpracovávám,</li>
-          <li>Požadovat opravu nepřesných údajů,</li>
-          <li>Požadovat okamžitý výmaz všech vašich údajů (právo být zapomenut),</li>
-          <li>Vznést námitku proti zpracování.</li>
+          <li>vědět, jaké údaje o vás zpracovávám,</li>
+          <li>požadovat opravu nepřesných údajů,</li>
+          <li>požadovat výmaz všech vašich údajů (právo být zapomenut),</li>
+          <li>vznést námitku proti zpracování,</li>
+          <li>podat stížnost u dozorového úřadu – v ČR je to Úřad pro ochranu osobních údajů (<a href="https://uoou.gov.cz" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline">uoou.gov.cz</a>).</li>
         </ul>
         <p>
-          Pokud chcete jakékoliv z těchto práv uplatnit, stačí mi jednoduše napsat na e-mail <a href="mailto:krystof@talentradar.eu" class="text-[#FF8533] underline">krystof@talentradar.eu</a>. Údaje bezodkladně smažu.
+          Pokud chcete kterékoli z těchto práv uplatnit, stačí mi napsat na <a href="mailto:krystof@talentradar.eu" class="text-[#FF8533] underline">krystof@talentradar.eu</a> a bez zbytečného odkladu to vyřídím.
         </p>
       </div>
     </div>
 
     <!-- Footer -->
     <div class="text-center text-xs text-slate-500 pt-4">
-      © 2026 TalentRadar. Všechna práva vyhrazena.
+      <span data-lang-block="en">© 2026 TalentRadar. All rights reserved.</span>
+      <span data-lang-block="cs" hidden>© 2026 TalentRadar. Všechna práva vyhrazena.</span>
     </div>
 
   </div>
+
+  <script>
+    // Same storage key as the home page switcher, so the chosen language carries over.
+    (function () {
+      var STORAGE_KEY = 'tr_lang';
+      var META = {
+        en: { title: 'Privacy Policy — TalentRadar', desc: 'How TalentRadar processes the personal data you send through the trial sign-up form.' },
+        cs: { title: 'Zásady zpracování osobních údajů — TalentRadar', desc: 'Jak TalentRadar zpracovává osobní údaje odeslané přes formulář pro zkušební přístup.' }
+      };
+
+      function apply(lang) {
+        if (!META[lang]) lang = 'en';
+        try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+        document.documentElement.lang = lang;
+        document.title = META[lang].title;
+        document.querySelector('meta[name="description"]').content = META[lang].desc;
+        document.querySelectorAll('[data-lang-block]').forEach(function (el) {
+          el.hidden = el.getAttribute('data-lang-block') !== lang;
+        });
+        document.querySelectorAll('.lang-btn').forEach(function (btn) {
+          var active = btn.getAttribute('data-lang') === lang;
+          btn.classList.toggle('lang-btn--active', active);
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+      }
+
+      document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { apply(btn.getAttribute('data-lang')); });
+      });
+
+      var saved = null;
+      try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+      if (saved && saved !== 'en') apply(saved);
+    })();
+  </script>
 </body>
 </html>

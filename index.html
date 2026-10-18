@@ -153,12 +153,12 @@
       <!-- Desktop Links + Action Cluster -->
       <div class="flex items-center gap-2 sm:gap-3 2xl:gap-4 flex-shrink-0">
         <div class="hidden xl:flex items-center gap-5 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
-          <a href="#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
           <a href="#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
+          <a href="#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
           <a href="#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
           <a href="#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
-          <a href="#insights" class="hover:text-white transition" data-i18n="nav_insights">Research &amp; Blog</a>
           <a href="#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
+          <a href="#insights" class="hover:text-white transition" data-i18n="nav_insights">Research &amp; Blog</a>
         </div>
 
         <!-- Vertical Divider between Navigation Links and Language Switcher -->
@@ -192,12 +192,12 @@
 
     <!-- Mobile Nav Dropdown -->
     <div id="mobileMenu" class="hidden xl:hidden pt-4 pb-2 border-t border-[rgba(255,255,255,0.06)] mt-3 flex flex-col space-y-3 text-sm font-medium text-[#F3F4F6]">
-      <a href="#modes" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_modes">Features</a>
       <a href="#live-radar" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_live_radar">Live Signals</a>
+      <a href="#modes" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_modes">Features</a>
       <a href="#comparison" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_comparison">The Advantage</a>
       <a href="#pricing" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_pricing">Pricing</a>
-      <a href="#insights" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_insights">Research &amp; Blog</a>
       <a href="#story" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_story">Our Story</a>
+      <a href="#insights" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_insights">Research &amp; Blog</a>
       <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366] font-semibold" data-i18n="nav_demo">Live Demo ↗</a>
       <a id="mobileSignInLink" href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#F3F4F6]/80" data-i18n="nav_signin">Sign In</a>
       <a href="#trial" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] text-white text-xs font-bold text-center shadow-md shadow-[#FF6B00]/25" data-i18n="nav_cta">Start 14-Day Free Pilot</a>
@@ -244,262 +244,39 @@
           ✓ No credit card required  •  ✓ Track up to 200 companies  •  ✓ Async setup in 24h
         </p>
       </div>
-
-      <!-- ─────────────────────────────────────────────
-           INTERACTIVE WORKFLOW SWITCHER & MOCKUP
-      ───────────────────────────────────────────── -->
-      <div class="mt-16 pt-6 max-w-5xl mx-auto text-left relative bg-[radial-gradient(ellipse_at_top,_rgba(255,107,0,0.08),_transparent_70%)] rounded-3xl">
-
-        <!-- Segmented Toggle Switch (Client Value Focused) -->
-        <div class="space-y-2 mb-3">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="inline-flex p-1 rounded-xl bg-[#111622] border border-white/10 text-xs font-semibold w-full sm:w-auto">
-              <button id="toggle-mode-a" onclick="switchMockupMode('A')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md">
-                <span class="w-2 h-2 rounded-full bg-white"></span>
-                <span data-i18n="mockup_tab_a">BD Signals (Have Bullhorn / Datacruit)</span>
-              </button>
-              <button id="toggle-mode-b" onclick="switchMockupMode('B')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-[#94A3B8] hover:text-white">
-                <span class="w-2 h-2 rounded-full bg-[#5A6275]"></span>
-                <span data-i18n="mockup_tab_b">Full Workspace (Replacing Excel &amp; Notion)</span>
-              </button>
-            </div>
-
-            <span class="text-[11px] font-mono text-[#34D399] flex items-center gap-1.5 self-end sm:self-center">
-              <span class="w-2 h-2 rounded-full bg-[#34D399] animate-pulse"></span>
-              <span data-i18n="mockup_live_label">Live Workspace Telemetry</span>
-            </span>
-          </div>
-
-          <!-- Dynamic Intuitive Subtext -->
-          <p id="mockupDynamicSubtext" class="text-xs text-[#F3F4F6]/80 italic" data-i18n="mockup_subtext_a">
-            Monitors client websites 2× daily and feeds new vacancies straight into your existing workflow or CRM.
-          </p>
-        </div>
-
-        <!-- Glass-morphic Mockup Container -->
-        <div class="glass-card rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl orange-glow-lg">
-
-          <!-- Window Chrome -->
-          <div class="px-4 py-3 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#FF5F56]/90"></span>
-              <span class="w-3 h-3 rounded-full bg-[#FFBD2E]/90"></span>
-              <span class="w-3 h-3 rounded-full bg-[#27C93F]/90"></span>
-              <span id="mockupUrlText" class="ml-2 text-[11px] font-mono text-[#94A3B8] bg-[#0A0D14] px-3 py-1 rounded border border-white/5">
-                app.talentradar.eu — Morning Pulse (06:00 Scan)
-              </span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span id="mockupActiveBadge" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30" data-i18n="mockup_mode_a_badge">
-                BD SIGNALS
-              </span>
-            </div>
-          </div>
-
-          <!-- ── TAB 1 VIEW: BD SIGNALS ── -->
-          <div id="mockup-view-a" class="p-4 sm:p-6 space-y-4 bg-[#0A0D14]/95">
-            <!-- Scan Summary Bar -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-xl bg-[#111622] border border-white/5 text-xs">
-              <div class="flex items-center gap-2 text-[#F3F4F6]/80">
-                <span class="w-2 h-2 rounded-full bg-[#34D399]"></span>
-                <span class="font-bold text-white">Morning Pulse:</span>
-                <span data-i18n="mockup_scan_status">06:00 UTC Scan Complete • 180 Companies Monitored • 14 New Roles Today</span>
-              </div>
-              <div class="flex items-center gap-2 font-mono text-[11px] text-[#94A3B8]">
-                <span>Filter: All Verticals</span>
-              </div>
-            </div>
-
-            <!-- Detected Role Pod 1 -->
-            <div class="p-4 rounded-xl bg-[#111622] border border-white/10 hover:border-[#FF6B00]/40 transition space-y-3">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div class="space-y-1">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <span class="text-sm font-bold text-white">Tines</span>
-                    <span class="text-[#94A3B8]">—</span>
-                    <span class="text-sm font-semibold text-[#FF8533]">Staff Security Engineer</span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-live">NEW TODAY (06:12 UTC)</span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-core" data-i18n="mockup_core_match">CORE MATCH</span>
-                  </div>
-                  <div class="text-xs text-[#94A3B8] flex items-center gap-2 font-mono text-[11px]">
-                    <span>Dublin, Ireland</span>
-                    <span>•</span>
-                    <span class="text-[#F3F4F6]/80">Greenhouse ATS</span>
-                    <span>•</span>
-                    <span>Tech &amp; Cloud (Security / Distributed)</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                  <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Security+Tines+Dublin" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
-                    <span data-i18n="mockup_xray_btn">1-Click Hiring Manager X-Ray</span>
-                  </a>
-                  <button type="button" onclick="openSandbox('bd')" class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition cursor-pointer" data-i18n="mockup_push_btn">
-                    Push to External ATS / CSV
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Detected Role Pod 2 -->
-            <div class="p-4 rounded-xl bg-[#111622] border border-white/10 hover:border-[#FF6B00]/40 transition space-y-3">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div class="space-y-1">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <span class="text-sm font-bold text-white">Intercom</span>
-                    <span class="text-[#94A3B8]">—</span>
-                    <span class="text-sm font-semibold text-[#FF8533]">Enterprise Account Executive</span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-live">NEW TODAY (06:14 UTC)</span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-core" data-i18n="mockup_core_match">CORE MATCH</span>
-                  </div>
-                  <div class="text-xs text-[#94A3B8] flex items-center gap-2 font-mono text-[11px]">
-                    <span>Dublin, Ireland / Remote</span>
-                    <span>•</span>
-                    <span class="text-[#F3F4F6]/80">Greenhouse ATS</span>
-                    <span>•</span>
-                    <span>B2B Sales (Enterprise SaaS)</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                  <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Sales+Intercom+Dublin" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
-                    <span data-i18n="mockup_xray_btn">1-Click Hiring Manager X-Ray</span>
-                  </a>
-                  <button type="button" onclick="openSandbox('bd')" class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition cursor-pointer" data-i18n="mockup_push_btn">
-                    Push to External ATS / CSV
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Detected Role Pod 3 -->
-            <div class="p-4 rounded-xl bg-[#111622] border border-white/10 hover:border-[#FF6B00]/40 transition space-y-3">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div class="space-y-1">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <span class="text-sm font-bold text-white">Mews</span>
-                    <span class="text-[#94A3B8]">—</span>
-                    <span class="text-sm font-semibold text-[#FF8533]">Senior Backend Architect (Go/Node)</span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-live">NEW TODAY (06:18 UTC)</span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-core" data-i18n="mockup_core_match">CORE MATCH</span>
-                  </div>
-                  <div class="text-xs text-[#94A3B8] flex items-center gap-2 font-mono text-[11px]">
-                    <span>Remote EU / Prague</span>
-                    <span>•</span>
-                    <span class="text-[#F3F4F6]/80">Direct ATS</span>
-                    <span>•</span>
-                    <span>Tech &amp; Cloud (FinTech / Hospitality Core)</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                  <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Engineering+Mews+Prague" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
-                    <span data-i18n="mockup_xray_btn">1-Click Hiring Manager X-Ray</span>
-                  </a>
-                  <button type="button" onclick="openSandbox('bd')" class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition cursor-pointer" data-i18n="mockup_push_btn">
-                    Push to External ATS / CSV
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ── TAB 2 VIEW: FULL WORKSPACE (Kanban) ── -->
-          <div id="mockup-view-b" class="hidden p-4 sm:p-6 space-y-4 bg-[#0A0D14]/95">
-            <!-- Active Mandate Header -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3.5 rounded-xl bg-[#111622] border border-white/10">
-              <div class="space-y-0.5">
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#FF5500]/20 text-[#FF8533] border border-[#FF5500]/30">CLIENT MANDATE</span>
-                  <h4 class="font-bold text-white text-sm" data-i18n="mockup_kanban_title">
-                    Active Mandate Pipeline: Senior Backend Architect (Go/Node) — Mews
-                  </h4>
-                </div>
-                <div class="text-xs text-[#94A3B8] font-mono">
-                  Assigned Consultant: Kryštof • Discovered at 06:18 UTC via Direct ATS • <span class="text-[#34D399] font-bold" data-i18n="mockup_kanban_fee">Fee: 22% (€18,500 est.)</span>
-                </div>
-              </div>
-              <button type="button" onclick="openSandbox('ats')" class="px-3 py-1.5 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs font-bold shadow-md transition self-start sm:self-auto cursor-pointer" data-i18n="mockup_add_candidate">
-                + Add Candidate
-              </button>
-            </div>
-
-            <!-- Lean 5-Stage Kanban Columns -->
-            <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-1">
-              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
-                <div class="flex items-center justify-between text-xs font-bold text-[#F3F4F6]/80 border-b border-white/5 pb-2">
-                  <span data-i18n="mockup_col_sourced">Sourced</span>
-                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0A0D14] text-[#94A3B8]">3</span>
-                </div>
-                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-white/5 space-y-1 text-xs">
-                  <div class="font-semibold text-white">Jan H.</div>
-                  <div class="text-[11px] text-[#94A3B8]">Senior Go Engineer (ex-Avast)</div>
-                  <div class="text-[10px] text-[#38BDF8] font-mono">Matched via GitHub</div>
-                </div>
-                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-white/5 space-y-1 text-xs">
-                  <div class="font-semibold text-white">Petr S.</div>
-                  <div class="text-[11px] text-[#94A3B8]">Staff Distributed Systems</div>
-                </div>
-              </div>
-
-              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
-                <div class="flex items-center justify-between text-xs font-bold text-[#F3F4F6]/80 border-b border-white/5 pb-2">
-                  <span data-i18n="mockup_col_contacted">Contacted</span>
-                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0A0D14] text-[#94A3B8]">2</span>
-                </div>
-                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-white/5 space-y-1 text-xs">
-                  <div class="font-semibold text-white">Liam K.</div>
-                  <div class="text-[11px] text-[#94A3B8]">Principal Backend Eng (Dublin)</div>
-                  <div class="text-[10px] text-[#34D399] font-mono">InMail opened 1h ago</div>
-                </div>
-              </div>
-
-              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
-                <div class="flex items-center justify-between text-xs font-bold text-[#F3F4F6]/80 border-b border-white/5 pb-2">
-                  <span data-i18n="mockup_col_cv_sent">CV Sent</span>
-                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0A0D14] text-[#94A3B8]">1</span>
-                </div>
-                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-[#FF6B00]/30 space-y-1 text-xs">
-                  <div class="font-semibold text-white">Tomáš M.</div>
-                  <div class="text-[11px] text-[#F3F4F6]/80">Go &amp; Kubernetes Architect</div>
-                  <div class="text-[10px] text-[#FF8533] font-mono">Sent to VP Eng yesterday</div>
-                </div>
-              </div>
-
-              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
-                <div class="flex items-center justify-between text-xs font-bold text-[#F3F4F6]/80 border-b border-white/5 pb-2">
-                  <span data-i18n="mockup_col_interview">Interview</span>
-                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0A0D14] text-[#94A3B8]">1</span>
-                </div>
-                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-[#10B981]/30 space-y-1 text-xs">
-                  <div class="font-semibold text-white">Elena R.</div>
-                  <div class="text-[11px] text-[#F3F4F6]/80">Staff Backend (Prague)</div>
-                  <div class="text-[10px] text-[#34D399] font-mono">Final Round today 14:00</div>
-                </div>
-              </div>
-
-              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
-                <div class="flex items-center justify-between text-xs font-bold text-[#34D399] border-b border-white/5 pb-2">
-                  <span data-i18n="mockup_col_placed">Placed</span>
-                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#10B981]/10 text-[#34D399]">1</span>
-                </div>
-                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-[#10B981]/40 space-y-1 text-xs">
-                  <div class="font-semibold text-white">David P.</div>
-                  <div class="text-[11px] text-[#34D399] font-bold">Offer Signed • €18,500 Fee</div>
-                  <div class="text-[10px] text-[#94A3B8] font-mono">Start date: Nov 1, 2026</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
     </div>
   </section>
 
 
   <!-- ═══════════════════════════════════════════════
-       3. FEATURES SECTION (#modes)
+       3. INTERACTIVE SANDBOX (#live-radar) — js/sandbox.js
+  ═══════════════════════════════════════════════ -->
+  <section id="live-radar" class="pt-4 pb-20 px-4 sm:px-6 max-w-7xl mx-auto space-y-6">
+    <div class="text-center space-y-3 mb-2 max-w-3xl mx-auto">
+      <div class="inline-flex items-center space-x-2 text-xs font-bold text-[#FF6B00] tracking-widest uppercase">
+        <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
+        <span data-i18n="radar_badge">Interactive demo</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white text-balance" data-i18n="radar_headline">
+        Click through the whole platform. No sign-up.
+      </h2>
+      <p class="text-sm sm:text-base text-[#F3F4F6]/80" data-i18n="radar_subtext">
+        A light version of the TalentRadar workspace, tracking 19 Czech tech companies. Open a role, find the hiring manager, turn it into a mandate, run a scan or ask AI Hawk. Then carry on in the full demo.
+      </p>
+    </div>
+
+    <div id="trSandbox" class="min-h-[480px]">
+      <div class="rounded-2xl border border-[#1B1E26] bg-[#0B0E14] h-[480px] flex items-center justify-center text-xs text-[#8A90A2] font-mono">Loading the sandbox…</div>
+    </div>
+
+    <p class="text-center text-xs text-[#94A3B8]" data-i18n="radar_footnote">
+      The sandbox runs entirely in your browser on sample data. The full demo is the real app on a live workspace.
+    </p>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       4. FEATURES SECTION (#modes)
   ═══════════════════════════════════════════════ -->
   <section id="modes" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
     <div class="text-center space-y-3 max-w-3xl mx-auto">
@@ -522,7 +299,7 @@
       <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between h-full orange-glow">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533] px-3 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="mockup_mode_a_badge">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533] px-3 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="modes_a_badge">
               BD SIGNALS
             </span>
             <span class="text-xs font-mono text-[#94A3B8]" data-i18n="modes_a_badge_sub">Bullhorn • Datacruit • Recruitis</span>
@@ -573,7 +350,7 @@
       <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between h-full orange-glow">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#34D399] px-3 py-1 rounded bg-[#10B981]/10 border border-[#10B981]/30" data-i18n="mockup_mode_b_badge">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#34D399] px-3 py-1 rounded bg-[#10B981]/10 border border-[#10B981]/30" data-i18n="modes_b_badge">
               FULL WORKSPACE
             </span>
             <span class="text-xs font-mono text-[#94A3B8]" data-i18n="modes_b_badge_sub">Excel / Notion Replacement</span>
@@ -621,33 +398,6 @@
       </div>
 
     </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════
-       4. INTERACTIVE SANDBOX (#live-radar) — js/sandbox.js
-  ═══════════════════════════════════════════════ -->
-  <section id="live-radar" class="py-20 px-4 sm:px-6 max-w-7xl mx-auto space-y-6">
-    <div class="text-center space-y-3 mb-2 max-w-3xl mx-auto">
-      <div class="inline-flex items-center space-x-2 text-xs font-bold text-[#FF6B00] tracking-widest uppercase">
-        <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
-        <span data-i18n="radar_badge">Interactive demo</span>
-      </div>
-      <h2 class="text-2xl sm:text-4xl font-extrabold text-white text-balance" data-i18n="radar_headline">
-        Click through the whole platform. No sign-up.
-      </h2>
-      <p class="text-sm sm:text-base text-[#F3F4F6]/80" data-i18n="radar_subtext">
-        A light version of the TalentRadar workspace, tracking 19 Czech tech companies. Open a role, find the hiring manager, turn it into a mandate, run a scan or ask AI Hawk. Then carry on in the full demo.
-      </p>
-    </div>
-
-    <div id="trSandbox" class="min-h-[480px]">
-      <div class="rounded-2xl border border-[#1B1E26] bg-[#0B0E14] h-[480px] flex items-center justify-center text-xs text-[#8A90A2] font-mono">Loading the sandbox…</div>
-    </div>
-
-    <p class="text-center text-xs text-[#94A3B8]" data-i18n="radar_footnote">
-      The sandbox runs entirely in your browser on sample data. The full demo is the real app on a live workspace.
-    </p>
   </section>
 
 
@@ -781,97 +531,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       6. MARKET INTELLIGENCE & RESEARCH (#insights)
-  ═══════════════════════════════════════════════ -->
-  <section id="insights" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
-    <div class="text-center space-y-3 max-w-3xl mx-auto">
-      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
-        <span data-i18n="insights_badge">TalentRadar Intelligence Lab</span>
-      </div>
-      <h2 class="text-3xl sm:text-5xl font-black text-white" data-i18n="insights_headline">
-        Market Intelligence, Latency Telemetry &amp; Research
-      </h2>
-      <p class="text-[#F3F4F6]/80 text-sm sm:text-base leading-relaxed" data-i18n="insights_subtext">
-        Unbiased empirical data derived directly from monitoring hundreds of enterprise career pages and ATS platforms across Europe.
-      </p>
-    </div>
-
-    <!-- 3 Insight Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-      <!-- Insight 1 -->
-      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 orange-glow group">
-        <div class="space-y-4">
-          <div class="flex items-center justify-between text-xs">
-            <span class="px-2.5 py-1 rounded bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30 font-bold font-mono" data-i18n="insights_card1_badge">
-              DATA REPORT · 5 MIN READ
-            </span>
-          </div>
-          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card1_title">
-            The 4-Day Latency Gap: Why Agencies Lose 40% of Client Roles Before Job Boards Even Index Them
-          </h3>
-          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card1_desc">
-            Direct ATS monitoring vs. commercial aggregators. Why 72–96h syndication lag kills exclusive client pitches, and how Day Zero intelligence secures mandates.
-          </p>
-        </div>
-        <a href="blog/the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
-          <span data-i18n="insights_card1_cta">Read Full Analysis</span> →
-        </a>
-      </div>
-
-      <!-- Insight 2 -->
-      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 group">
-        <div class="space-y-4">
-          <div class="flex items-center justify-between text-xs">
-            <span class="px-2.5 py-1 rounded bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/30 font-bold font-mono" data-i18n="insights_card2_badge">
-              BD STRATEGY · 4 MIN READ
-            </span>
-          </div>
-          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card2_title">
-            Anatomy of Stale Roles (&gt;35 Days): The Highest-Probability Pitch in B2B Recruitment
-          </h3>
-          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card2_desc">
-            When an in-house talent team leaves a role open past 35 days, internal sourcing has failed. How to structure warm inbound BD pitches around aged vacancy data.
-          </p>
-        </div>
-        <a href="blog/anatomy-of-stale-roles.html" data-blog-slug="anatomy-of-stale-roles" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
-          <span data-i18n="insights_card2_cta">Read BD Playbook</span> →
-        </a>
-      </div>
-
-      <!-- Insight 3 -->
-      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 group">
-        <div class="space-y-4">
-          <div class="flex items-center justify-between text-xs">
-            <span class="px-2.5 py-1 rounded bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono" data-i18n="insights_card3_badge">
-              PROCESS AUDIT · 4 MIN READ
-            </span>
-          </div>
-          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card3_title">
-            The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale
-          </h3>
-          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card3_desc">
-            Up to 22% of listings on commercial job boards represent filled or cancelled roles. How automated reconciliation and auto-archiving saves 4+ recruiter hours weekly.
-          </p>
-        </div>
-        <a href="blog/hidden-cost-of-dead-vacancies.html" data-blog-slug="hidden-cost-of-dead-vacancies" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
-          <span data-i18n="insights_card3_cta">Read Process Audit</span> →
-        </a>
-      </div>
-
-    </div>
-
-    <div class="text-center pt-2">
-      <a href="blog/" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
-        <span data-i18n="insights_explore_all">Explore all research articles and guides →</span>
-      </a>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════
-       7. PRICING SECTION (#pricing)
+       6. PRICING SECTION (#pricing)
   ═══════════════════════════════════════════════ -->
   <section id="pricing" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
     <div class="text-center space-y-3 max-w-2xl mx-auto">
@@ -1017,7 +677,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       8. FOUNDER STORY & AUTHORITY (#story)
+       7. FOUNDER STORY & AUTHORITY (#story)
   ═══════════════════════════════════════════════ -->
   <section id="story" class="py-20 px-4 sm:px-6 bg-[#0E131F] border-y border-[rgba(255,255,255,0.06)]">
     <div class="max-w-3xl mx-auto">
@@ -1067,6 +727,96 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       8. MARKET INTELLIGENCE & RESEARCH (#insights)
+  ═══════════════════════════════════════════════ -->
+  <section id="insights" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
+    <div class="text-center space-y-3 max-w-3xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
+        <span data-i18n="insights_badge">TalentRadar Intelligence Lab</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black text-white" data-i18n="insights_headline">
+        Market Intelligence, Latency Telemetry &amp; Research
+      </h2>
+      <p class="text-[#F3F4F6]/80 text-sm sm:text-base leading-relaxed" data-i18n="insights_subtext">
+        Unbiased empirical data derived directly from monitoring hundreds of enterprise career pages and ATS platforms across Europe.
+      </p>
+    </div>
+
+    <!-- 3 Insight Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- Insight 1 -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 group">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <span class="px-2.5 py-1 rounded bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30 font-bold font-mono" data-i18n="insights_card1_badge">
+              DATA REPORT · 5 MIN READ
+            </span>
+          </div>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card1_title">
+            The 4-Day Latency Gap: Why Agencies Lose 40% of Client Roles Before Job Boards Even Index Them
+          </h3>
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card1_desc">
+            Direct ATS monitoring vs. commercial aggregators. Why 72–96h syndication lag kills exclusive client pitches, and how Day Zero intelligence secures mandates.
+          </p>
+        </div>
+        <a href="blog/the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+          <span data-i18n="insights_card1_cta">Read Full Analysis</span> →
+        </a>
+      </div>
+
+      <!-- Insight 2 -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 group">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <span class="px-2.5 py-1 rounded bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/30 font-bold font-mono" data-i18n="insights_card2_badge">
+              BD STRATEGY · 4 MIN READ
+            </span>
+          </div>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card2_title">
+            Anatomy of Stale Roles (&gt;35 Days): The Highest-Probability Pitch in B2B Recruitment
+          </h3>
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card2_desc">
+            When an in-house talent team leaves a role open past 35 days, internal sourcing has failed. How to structure warm inbound BD pitches around aged vacancy data.
+          </p>
+        </div>
+        <a href="blog/anatomy-of-stale-roles.html" data-blog-slug="anatomy-of-stale-roles" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+          <span data-i18n="insights_card2_cta">Read BD Playbook</span> →
+        </a>
+      </div>
+
+      <!-- Insight 3 -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 group">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <span class="px-2.5 py-1 rounded bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono" data-i18n="insights_card3_badge">
+              PROCESS AUDIT · 4 MIN READ
+            </span>
+          </div>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card3_title">
+            The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale
+          </h3>
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card3_desc">
+            Up to 22% of listings on commercial job boards represent filled or cancelled roles. How automated reconciliation and auto-archiving saves 4+ recruiter hours weekly.
+          </p>
+        </div>
+        <a href="blog/hidden-cost-of-dead-vacancies.html" data-blog-slug="hidden-cost-of-dead-vacancies" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+          <span data-i18n="insights_card3_cta">Read Process Audit</span> →
+        </a>
+      </div>
+
+    </div>
+
+    <div class="text-center pt-2">
+      <a href="blog/" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
+        <span data-i18n="insights_explore_all">Explore all research articles and guides →</span>
+      </a>
     </div>
   </section>
 
@@ -1353,56 +1103,6 @@
       document.getElementById('trial').scrollIntoView({ behavior: 'smooth' });
       const nameField = document.getElementById('name');
       if (nameField) setTimeout(() => nameField.focus(), 500);
-    }
-
-    /* ── 4. Interactive Hero Switcher (Client Value Focused) ── */
-    let mockupMode = 'A';
-    function switchMockupMode(mode) {
-      mockupMode = String(mode).toUpperCase() === 'B' ? 'B' : 'A';
-      const btnA = document.getElementById('toggle-mode-a');
-      const btnB = document.getElementById('toggle-mode-b');
-      const viewA = document.getElementById('mockup-view-a');
-      const viewB = document.getElementById('mockup-view-b');
-      const urlText = document.getElementById('mockupUrlText');
-      const badge = document.getElementById('mockupActiveBadge');
-      const subtext = document.getElementById('mockupDynamicSubtext');
-      const isCs = document.documentElement.lang === 'cs';
-
-      if (String(mode).toUpperCase() === 'A') {
-        btnA.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md';
-        btnB.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-[#94A3B8] hover:text-white';
-        viewA.classList.remove('hidden');
-        viewB.classList.add('hidden');
-        urlText.textContent = isCs
-          ? 'app.talentradar.eu — Ranní přehled (06:00 UTC)'
-          : 'app.talentradar.eu — Morning Pulse (06:00 Scan)';
-        badge.textContent = isCs ? 'HLEDÁNÍ ZAKÁZEK' : 'BD SIGNALS';
-        subtext.textContent = isCs
-          ? 'Sleduje kariérní stránky klientů 2× denně a nově otevřené pozice předává přímo do vašeho stávajícího CRM.'
-          : 'Monitors client websites 2× daily and feeds new vacancies straight into your existing workflow or CRM.';
-      } else {
-        btnB.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md';
-        btnA.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-[#94A3B8] hover:text-white';
-        viewB.classList.remove('hidden');
-        viewA.classList.add('hidden');
-        urlText.textContent = isCs
-          ? 'app.talentradar.eu — Aktivní zakázky (Kanban pipeline)'
-          : 'app.talentradar.eu — Active Mandates (Kanban pipeline)';
-        badge.textContent = isCs ? 'KOMPLETNÍ SYSTÉM' : 'FULL WORKSPACE';
-        subtext.textContent = isCs
-          ? 'Přehledná správa zakázek a kandidátů bez zbytečného balastu, navržená přímo pro boutique headhuntery.'
-          : 'A lightweight, clutter-free mandate pipeline and candidate tracker built directly for boutique headhunters.';
-      }
-    }
-
-    // data-i18n resets the mockup texts to mode A on a language switch.
-    window.addEventListener('talentradar:langchange', () => switchMockupMode(mockupMode));
-
-    /* Hero buttons that point into the interactive sandbox */
-    function openSandbox(screen) {
-      const section = document.getElementById('live-radar');
-      if (section) section.scrollIntoView({ behavior: 'smooth' });
-      if (window.TRSandbox) window.TRSandbox.go(screen);
     }
 
     /* ── 5. File Upload Handler ── */

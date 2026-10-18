@@ -6,34 +6,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO & Title -->
-  <title>Skrytá cena mrtvých inzerátů: Proč práce na neexistujících rolích ničí morálku recruiterů | TalentRadar</title>
-  <meta name="description" content="Až 22 % inzerátů na portálech jsou fantomové pozice, které pálí 4–6 hodin týdně na konzultanta. Jak Auto-Archive démon v TalentRadaru udržuje pipeline 100% aktuální.">
-  <link rel="canonical" href="https://talentradar.eu/blog/hidden-cost-of-dead-vacancies.html">
+  <title>Skrytá cena mrtvých inzerátů: Proč práce na neexistujících rolích ničí morálku recruiterů — TalentRadar</title>
+  <meta name="description" content="Greenhouse řadí 18–22 % pozic vypsaných na své platformě mezi ghost jobs. Jak automatická archivace udrží seznam otevřených pozic pravdivý.">
+  <link rel="canonical" href="https://talentradar.eu/blog/hidden-cost-of-dead-vacancies-cs.html">
+  <link rel="alternate" hreflang="en" href="https://talentradar.eu/blog/hidden-cost-of-dead-vacancies.html">
+  <link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/hidden-cost-of-dead-vacancies-cs.html">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://talentradar.eu/blog/hidden-cost-of-dead-vacancies.html">
-  <meta property="og:title" content="The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale">
-  <meta property="og:description" content="How autonomous ATS endpoint reconciliation eliminates ghost jobs and saves 4–6 hours per consultant every week.">
-  <meta property="og:image" content="https://talentradar.eu/img/dublin-case-study.jpg">
+  <meta property="og:url" content="https://talentradar.eu/blog/hidden-cost-of-dead-vacancies-cs.html">
+  <meta property="og:title" content="Skrytá cena mrtvých inzerátů: Proč práce na neexistujících rolích ničí morálku recruiterů">
+  <meta property="og:description" content="Greenhouse řadí 18–22 % pozic vypsaných na své platformě mezi ghost jobs. Jak automatická archivace udrží seznam otevřených pozic pravdivý.">
+  <meta property="og:image" content="https://talentradar.eu/img/og-banner.jpg">
+  <meta property="article:published_time" content="2026-10-05T08:00:00+02:00">
+  <meta property="article:author" content="Kryštof Pejša">
 
-  <!-- Favicons -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Skrytá cena mrtvých inzerátů: Proč práce na neexistujících rolích ničí morálku recruiterů">
+  <meta name="twitter:description" content="Greenhouse řadí 18–22 % pozic vypsaných na své platformě mezi ghost jobs. Jak automatická archivace udrží seznam otevřených pozic pravdivý.">
+  <meta name="twitter:image" content="https://talentradar.eu/img/og-banner.jpg">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Skrytá cena mrtvých inzerátů: Proč práce na neexistujících rolích ničí morálku recruiterů",
+  "description": "Greenhouse řadí 18–22 % pozic vypsaných na své platformě mezi ghost jobs. Jak automatická archivace udrží seznam otevřených pozic pravdivý.",
+  "inLanguage": "cs",
+  "author": {
+    "@type": "Person",
+    "name": "Kryštof Pejša",
+    "jobTitle": "Founder",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "TalentRadar",
+      "url": "https://talentradar.eu"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TalentRadar",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://talentradar.eu/logo.png"
+    }
+  },
+  "datePublished": "2026-10-05T08:00:00+02:00",
+  "mainEntityOfPage": "https://talentradar.eu/blog/hidden-cost-of-dead-vacancies-cs.html"
+}
+  </script>
+
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
   <link rel="shortcut icon" href="../favicon.ico">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Bilingual i18n Engine -->
+  <!-- Bilingual i18n engine: language switch and the two-tone brand name -->
   <script src="../js/translations.js" defer></script>
 
   <style>
@@ -50,6 +84,7 @@
     }
     .orange-glow { box-shadow: 0 0 40px rgba(255, 107, 0, 0.18); }
     .orange-glow-lg { box-shadow: 0 0 80px rgba(255, 107, 0, 0.22); }
+    [id^="src-"] { scroll-margin-top: 96px; }
 
     /* Language Switcher */
     .lang-btn {
@@ -74,18 +109,14 @@
 </head>
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
 
-  <!-- ═══════════════════════════════════════════════
-       NAVIGATION
-  ═══════════════════════════════════════════════ -->
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3.5 transition-all">
-    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4 xl:gap-8">
-      <!-- Official Falcon Logo + Two-Toned Wordmark + Global English Slogan -->
-      <a href="../" class="flex items-center space-x-3 group flex-shrink-0">
+    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-2 sm:gap-4 xl:gap-8">
+      <a href="../" class="flex items-center space-x-2 sm:space-x-3 group flex-shrink-0">
         <div class="relative flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0">
           <img src="../falcon.svg" alt="" aria-hidden="true" width="40" height="40" class="h-9 w-9 sm:h-10 sm:w-10 group-hover:scale-105 transition-transform object-contain">
         </div>
         <div class="flex flex-col">
-          <span class="font-extrabold text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
+          <span class="font-extrabold text-lg min-[400px]:text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
             <span class="text-[#FFFFFF]">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
           <span class="hidden sm:block text-xs sm:text-[13px] tracking-tight leading-tight mt-1 whitespace-nowrap">
@@ -94,65 +125,51 @@
         </div>
       </a>
 
-      <div class="flex items-center gap-3 2xl:gap-4 flex-shrink-0">
+      <div class="flex items-center gap-2 sm:gap-3 2xl:gap-4 flex-shrink-0">
         <div class="hidden xl:flex items-center gap-5 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
+          <a href="../#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Interactive Demo</a>
           <a href="../#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
-          <a href="../#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
           <a href="../#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
           <a href="../#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
-          <a href="./" class="text-[#FF6B00] font-semibold transition" data-i18n="nav_insights">Research &amp; Blog</a>
           <a href="../#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
+          <a href="./" class="text-[#FF6B00] font-semibold transition" data-i18n="nav_insights">Research &amp; Blog</a>
         </div>
 
-        <!-- Vertical Divider between Navigation Links and Language Switcher -->
         <div class="hidden lg:block h-5 w-px bg-[#1B1E26] mx-3"></div>
 
-        <!-- Persistent Header [ EN | CS ] Switcher -->
-        <div class="flex items-center bg-[#111622] border border-white/15 rounded-full px-2.5 py-1 text-xs shadow-sm ml-1" role="group" aria-label="Language selector">
+        <div class="flex items-center bg-[#111622] border border-white/15 rounded-full px-2.5 py-1 text-xs shadow-sm sm:ml-1" role="group" aria-label="Language selector">
           <button type="button" class="lang-btn" data-lang="en">EN</button>
           <span class="text-white/20 text-[10px] px-0.5">|</span>
           <button type="button" class="lang-btn lang-btn--active" data-lang="cs">CS</button>
         </div>
 
-        <a href="https://app.talentradar.eu" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
-          Sign In
-        </a>
-        <a href="../#trial" class="hidden sm:inline-block px-3.5 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
-          Start 14-Day Free Pilot
-        </a>
+        <a href="https://app.talentradar.eu" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">Sign In</a>
+        <a href="../#trial" class="hidden sm:inline-block px-3.5 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">Start 14-Day Free Pilot</a>
       </div>
     </div>
   </nav>
 
-  <!-- ═══════════════════════════════════════════════
-       ARTICLE CONTENT (EN + CS)
-  ═══════════════════════════════════════════════ -->
   <article class="pt-16 sm:pt-24 pb-20 px-4 sm:px-6 max-w-4xl mx-auto">
 
     <!-- ENGLISH VERSION -->
-    <div data-lang-block="en" class="hidden space-y-6">
-      <div class="flex items-center space-x-2 text-xs text-[#94A3B8]">
+    <div data-lang-block="en" class="space-y-6 hidden">
+
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#94A3B8]">
         <a href="../" class="hover:text-white transition">Home</a>
         <span>/</span>
-        <a href="./" class="hover:text-[#FF6B00] transition">Intelligence Lab</a>
+        <a href="./" class="hover:text-[#FF6B00] transition">Research</a>
         <span>/</span>
         <span class="text-[#F3F4F6]">The Hidden Cost of Dead Vacancies</span>
       </div>
 
       <div class="flex flex-wrap items-center gap-3 text-xs">
-        <span class="px-3 py-1 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono">
-          PROCESS AUDIT · 4 MIN READ
-        </span>
-        <span class="text-[#94A3B8] font-mono">Published Oct 05, 2026</span>
+        <span class="px-3 py-1 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono">PROCESS AUDIT · 4 MIN READ</span>
+        <span class="text-[#94A3B8] font-mono">Published Oct 5, 2026</span>
       </div>
 
-      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-        The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale
-      </h1>
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale</h1>
 
-      <p class="text-lg sm:text-xl text-[#F3F4F6]/80 leading-relaxed font-medium border-l-2 border-[#38BDF8] pl-4">
-        Up to 22% of job listings active on commercial job boards and inside agency spreadsheets are "phantom roles" — positions already filled, frozen, or withdrawn on the employer's primary ATS, wasting 4–6 hours weekly per consultant.
-      </p>
+      <p class="text-lg sm:text-xl text-[#F3F4F6]/80 leading-relaxed font-medium border-l-2 border-[#38BDF8] pl-4">Not every open job ad is a real, open job. Greenhouse classifies 18–22% of jobs posted on its platform in a given quarter as ghost jobs <sup><a href="#src-en-1" class="text-[#FF8533] hover:text-white font-mono">[1]</a></sup>, and in a 2024 survey 40% of US hiring managers said their company had posted a fake listing <sup><a href="#src-en-2" class="text-[#FF8533] hover:text-white font-mono">[2]</a></sup>. Agencies that work from stale lists pay for it in wasted sourcing time.</p>
 
       <div class="flex items-center space-x-4 pt-2 pb-6 border-b border-[rgba(255,255,255,0.08)]">
         <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
@@ -166,166 +183,150 @@
       </div>
 
       <div class="space-y-6 text-[#F3F4F6] text-sm sm:text-base leading-relaxed pt-4">
-        <h2 class="text-2xl font-black text-white">Why Spreadsheets &amp; Job Boards Breed "Phantom Roles"</h2>
-        <p>
-          Every boutique agency and headhunting team knows the frustration: a consultant spends four hours sourcing passive candidates on LinkedIn, crafts personalized outreach, conducts two qualification calls, and submits a shortlist to the client — only to hear back: <em>"We actually filled that role internally ten days ago."</em>
-        </p>
-        <p>
-          Why do these phantom roles persist? Because 30-day pre-paid job board slots stay live until they expire regardless of whether the vacancy is closed, and manual Excel or Notion trackers are only updated when someone remembers to click through 100 career URLs. Across a typical team, chasing phantom roles wastes <strong>4–6 hours weekly per consultant</strong>.
-        </p>
+
+        <h2 class="text-2xl font-black text-white">Why job boards and spreadsheets breed phantom roles</h2>
+        <p>Every boutique agency knows the frustration: a consultant spends hours sourcing passive candidates on LinkedIn, writes personal outreach, runs two qualification calls and sends a shortlist to the client, only to hear: <em>“We actually filled that role internally ten days ago.”</em></p>
+        <p>Why do phantom roles survive? Some were never meant to be filled: employers keep listings up to look like they are growing or to collect CVs for later <sup><a href="#src-en-2" class="text-[#FF8533] hover:text-white font-mono">[2]</a></sup>. Others were filled or frozen, but paid job-board slots often stay live until they expire, and agency spreadsheets are only updated when someone has time to click through every client's careers page.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#EF4444]">22% PHANTOM RATE</div>
-            <div class="font-bold text-white text-sm">Commercial Board Lag</div>
-            <p class="text-xs text-[#94A3B8]">Nearly 1 in 5 roles listed on third-party aggregators has already been removed from the employer's live ATS.</p>
+            <div class="text-xs font-mono font-bold text-[#EF4444]">18–22% GHOST JOBS</div>
+            <div class="font-bold text-white text-sm">On a major ATS</div>
+            <p class="text-xs text-[#94A3B8]">Share of jobs posted on Greenhouse in a given quarter that Greenhouse classifies as ghost jobs <sup><a href="#src-en-1" class="text-[#FF8533] hover:text-white font-mono">[1]</a></sup>.</p>
           </div>
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#FBBF24]">4–6 HOURS / WEEK</div>
-            <div class="font-bold text-white text-sm">Wasted Sourcing Time</div>
-            <p class="text-xs text-[#94A3B8]">Average weekly time lost per consultant chasing or verifying stale spreadsheet rows and phantom listings.</p>
+            <div class="text-xs font-mono font-bold text-[#FBBF24]">40% OF HIRING MANAGERS</div>
+            <div class="font-bold text-white text-sm">Admit to fake listings</div>
+            <p class="text-xs text-[#94A3B8]">Said their company posted a fake job in the past year; 3 in 10 companies had one live at the time of the survey <sup><a href="#src-en-2" class="text-[#FF8533] hover:text-white font-mono">[2]</a></sup>.</p>
           </div>
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#34D399]">06:00 &amp; 12:00 UTC</div>
-            <div class="font-bold text-white text-sm">Auto-Archive Daemon</div>
-            <p class="text-xs text-[#94A3B8]">TalentRadar reconciles live ATS endpoints twice daily and automatically archives closed requisitions.</p>
+            <div class="text-xs font-mono font-bold text-[#34D399]">2× DAILY</div>
+            <div class="font-bold text-white text-sm">Auto-Archive</div>
+            <p class="text-xs text-[#94A3B8]">TalentRadar re-checks every tracked careers page twice a day and archives roles that are gone.</p>
           </div>
         </div>
 
-        <h2 class="text-2xl font-black text-white pt-2">How the Auto-Archive Daemon Works</h2>
-        <p>
-          Instead of relying on static links, TalentRadar maintains a live state-machine for every monitored company. During the 06:00 UTC and 12:00 UTC scans, our engine compares the active requisition IDs on the employer's Greenhouse, Lever, Ashby, Workable, or Teamio endpoint against your workspace:
-        </p>
+        <h2 class="text-2xl font-black text-white pt-2">How Auto-Archive works</h2>
+        <p>TalentRadar keeps a live list of open roles for every company you track. At each scheduled scan (twice a day, in your time zone) it compares what is on the employer's careers page or ATS (Greenhouse, Lever, Ashby, Workable, Teamio and others) with your workspace:</p>
         <ul class="list-disc list-inside space-y-2 pl-2 text-[#F3F4F6]/90">
-          <li><strong>Instant De-Activation:</strong> When an employer unpublishes a requisition URL or removes it from their API feed, TalentRadar flags the role as <code>Closed / Archived</code> on the very next scan.</li>
-          <li><strong>Zero Lost Context:</strong> If your team attached candidate notes or BD call logs to that role, those records remain safely preserved in history — while the dead vacancy is removed from your active morning queue.</li>
-          <li><strong>Hiring Velocity Signals:</strong> Knowing how fast a client opens and closes roles reveals which departments have active budget versus freeze states.</li>
+          <li><strong>Confirmed before it is archived:</strong> when a role disappears, the next scan checks that it is really gone, so a careers page that was briefly down does not wipe your list. Then the role is archived automatically.</li>
+          <li><strong>Nothing gets lost:</strong> notes, statuses and history stay with the archived role. If the employer republishes it, the role comes back with everything attached.</li>
+          <li><strong>Hiring signals:</strong> how fast a client opens and closes roles tells you which teams have budget and which are frozen.</li>
         </ul>
 
         <div class="pt-4">
-          <a href="the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
-            ← Read the Pillar Study: The 4-Day Latency Gap
-          </a>
+          <a href="the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">← Read the pillar article: The Latency Gap</a>
         </div>
 
-        <!-- CTA Banner -->
-        <div class="mt-10 glass-card rounded-2xl p-8 border border-[#FF6B00]/40 orange-glow-lg text-center space-y-4 bg-gradient-to-br from-[#192338] via-[#111622] to-[#0A0D14]">
-          <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]">Start Your 14-Day Free Pilot</span>
-          <h3 class="text-2xl sm:text-3xl font-black text-white">
-            Eliminate ghost roles from your agency pipeline today.
-          </h3>
-          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-            Upload your target client domains and let our Auto-Archive Daemon keep your BD and candidate pipeline 100% verified.
-          </p>
+        <div class="mt-12 glass-card rounded-2xl p-8 border border-[#FF6B00]/40 orange-glow-lg text-center space-y-4 bg-gradient-to-br from-[#192338] via-[#111622] to-[#0A0D14]">
+          <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]">Start your 14-day free pilot</span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">Clear ghost roles out of your pipeline.</h3>
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">Upload your client domains and let Auto-Archive keep your list of open roles up to date.</p>
           <div class="pt-2">
-            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">
-              Start 14-Day Free Pilot →
-            </a>
+            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">Start 14-Day Free Pilot →</a>
           </div>
+          <div class="text-[11px] text-[#94A3B8]">✓ No credit card required &nbsp;•&nbsp; ✓ Up to 200 companies &nbsp;•&nbsp; ✓ Cancel anytime</div>
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-[rgba(255,255,255,0.08)] space-y-3">
+          <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-[#94A3B8]">Sources</h2>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
+            <li id="src-en-1" class="pl-1"><a href="https://www.greenhouse.com/blog/greenhouse-2024-state-of-job-hunting-report" target="_blank" rel="noopener noreferrer" class="text-[#F3F4F6]/90 underline decoration-white/30 hover:text-[#FF8533]">Greenhouse, “2024 State of Job Hunting Report”. Ghost jobs on the Greenhouse platform.</a></li>
+            <li id="src-en-2" class="pl-1"><a href="https://www.resumebuilder.com/3-in-10-companies-currently-have-fake-job-posting-listed/" target="_blank" rel="noopener noreferrer" class="text-[#F3F4F6]/90 underline decoration-white/30 hover:text-[#FF8533]">Resume Builder, “3 in 10 companies currently have fake job posting listed” (survey of 649 US hiring managers, May 2024).</a></li>
+          </ol>
         </div>
       </div>
     </div>
 
     <!-- CZECH VERSION -->
     <div data-lang-block="cs" class="space-y-6">
-      <div class="flex items-center space-x-2 text-xs text-[#94A3B8]">
+
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#94A3B8]">
         <a href="../" class="hover:text-white transition">Domů</a>
         <span>/</span>
-        <a href="./" class="hover:text-[#FF6B00] transition">Intelligence Lab</a>
+        <a href="./" class="hover:text-[#FF6B00] transition">Výzkum</a>
         <span>/</span>
         <span class="text-[#F3F4F6]">Skrytá cena mrtvých inzerátů</span>
       </div>
 
       <div class="flex flex-wrap items-center gap-3 text-xs">
-        <span class="px-3 py-1 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono">
-          PROVOZNÍ AUDIT · 4 MIN ČTENÍ
-        </span>
+        <span class="px-3 py-1 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono">PROVOZNÍ AUDIT · 4 MIN ČTENÍ</span>
         <span class="text-[#94A3B8] font-mono">Publikováno 5. října 2026</span>
       </div>
 
-      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-        Skrytá cena mrtvých inzerátů: Proč práce na neexistujících rolích ničí morálku recruiterů
-      </h1>
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">Skrytá cena mrtvých inzerátů: Proč práce na neexistujících rolích ničí morálku recruiterů</h1>
 
-      <p class="text-lg sm:text-xl text-[#F3F4F6]/80 leading-relaxed font-medium border-l-2 border-[#38BDF8] pl-4">
-        Až 22 % pracovních inzerátů na komerčních portálech a v interních agenturních tabulkách představuje „fantomové pozice“ — role, které již klient dávno obsadil, pozastavil nebo stáhl ze svého ATS, což pálí 4–6 hodin práce týdně na každého konzultanta.
-      </p>
+      <p class="text-lg sm:text-xl text-[#F3F4F6]/80 leading-relaxed font-medium border-l-2 border-[#38BDF8] pl-4">Ne každý otevřený inzerát je skutečná otevřená pozice. Greenhouse řadí 18–22 % pozic vypsaných na své platformě v daném čtvrtletí mezi takzvané ghost jobs <sup><a href="#src-cs-1" class="text-[#FF8533] hover:text-white font-mono">[1]</a></sup> a v průzkumu z roku 2024 přiznalo 40 % hiring manažerů v USA, že jejich firma vystavila falešný inzerát <sup><a href="#src-cs-2" class="text-[#FF8533] hover:text-white font-mono">[2]</a></sup>. Agentury, které pracují se zastaralými seznamy, za to platí promarněným časem.</p>
 
       <div class="flex items-center space-x-4 pt-2 pb-6 border-b border-[rgba(255,255,255,0.08)]">
         <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
         <div>
           <div class="text-sm sm:text-base font-bold text-white">Kryštof Pejša</div>
           <div class="text-xs text-[#94A3B8]">
-            Zakladatel TalentRadar •
+            Zakladatel TalentRadaru •
             <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline">LinkedIn</a>
           </div>
         </div>
       </div>
 
       <div class="space-y-6 text-[#F3F4F6] text-sm sm:text-base leading-relaxed pt-4">
-        <h2 class="text-2xl font-black text-white">Proč tabulky v Excelu a portály vytvářejí „fantomové pozice“</h2>
-        <p>
-          Každý majitel personální agentury ten scénář zná: konzultant stráví čtyři hodiny vyhledáváním pasivních kandidátů na LinkedInu, napíše personalizované zprávy, provede dva kvalifikační hovory a odešle profil klientovi — jen aby dostal odpověď: <em>„Tuto pozici jsme už před deseti dny obsadili interně.“</em>
-        </p>
-        <p>
-          Proč k tomu dochází? Protože předplacené 30denní inzeráty na pracovních portálech zůstávají viset až do vypršení platnosti a ruční tabulky v Excelu či Notionu nikdo neaktualizuje denním proklikáváním stovek odkazů. V praxi tak práce na fantomových rolích spaluje <strong>4–6 hodin týdně na každého konzultanta</strong>.
-        </p>
+
+        <h2 class="text-2xl font-black text-white">Proč pracovní portály a tabulky plodí fantomové pozice</h2>
+        <p>Každá boutique agentura ten scénář zná: konzultant stráví hodiny hledáním pasivních kandidátů na LinkedInu, napíše osobní zprávy, udělá dva kvalifikační hovory a pošle klientovi shortlist. Odpověď: <em>„Tuhle pozici jsme už před deseti dny obsadili interně.“</em></p>
+        <p>Proč fantomové pozice přežívají? Některé nikdy nebyly myšlené vážně: firmy nechávají inzeráty viset, aby vypadaly, že rostou, nebo aby sbíraly životopisy do zásoby <sup><a href="#src-cs-2" class="text-[#FF8533] hover:text-white font-mono">[2]</a></sup>. Jiné jsou obsazené nebo zmrazené, jenže placené inzeráty na portálech často visí až do vypršení a agenturní tabulky se aktualizují, jen když má někdo čas proklikat kariérní weby všech klientů.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#EF4444]">22 % FANTOMOVÝCH POZIC</div>
-            <div class="font-bold text-white text-sm">Zpoždění portálů</div>
-            <p class="text-xs text-[#94A3B8]">Téměř každá pátá pozice na komerčních agregátorech již byla ze živého ATS zaměstnavatele dávno stažena.</p>
+            <div class="text-xs font-mono font-bold text-[#EF4444]">18–22 % GHOST JOBS</div>
+            <div class="font-bold text-white text-sm">Na velkém ATS</div>
+            <p class="text-xs text-[#94A3B8]">Podíl pozic vypsaných na Greenhouse v daném čtvrtletí, které Greenhouse řadí mezi ghost jobs <sup><a href="#src-cs-1" class="text-[#FF8533] hover:text-white font-mono">[1]</a></sup>.</p>
           </div>
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#FBBF24]">4–6 HODIN / TÝDEN</div>
-            <div class="font-bold text-white text-sm">Ztracený čas konzultanta</div>
-            <p class="text-xs text-[#94A3B8]">Průměrný týdenní čas jednoho recruitera promarněný prací na neaktuálních řádcích v tabulce.</p>
+            <div class="text-xs font-mono font-bold text-[#FBBF24]">40 % HIRING MANAŽERŮ</div>
+            <div class="font-bold text-white text-sm">Přiznává falešné inzeráty</div>
+            <p class="text-xs text-[#94A3B8]">Uvedlo, že jejich firma za poslední rok vystavila falešný inzerát; 3 z 10 firem měly v době průzkumu nějaký aktivní <sup><a href="#src-cs-2" class="text-[#FF8533] hover:text-white font-mono">[2]</a></sup>.</p>
           </div>
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#34D399]">06:00 &amp; 12:00 UTC</div>
-            <div class="font-bold text-white text-sm">Auto-Archive démon</div>
-            <p class="text-xs text-[#94A3B8]">TalentRadar ověřuje primární ATS endpointy 2× denně a uzavřené pozice automaticky archivuje.</p>
+            <div class="text-xs font-mono font-bold text-[#34D399]">2× DENNĚ</div>
+            <div class="font-bold text-white text-sm">Auto-Archive</div>
+            <p class="text-xs text-[#94A3B8]">TalentRadar dvakrát denně znovu zkontroluje každou sledovanou kariérní stránku a pozice, které zmizely, archivuje.</p>
           </div>
         </div>
 
-        <h2 class="text-2xl font-black text-white pt-2">Jak funguje Auto-Archive démon v praxi</h2>
-        <p>
-          Místo ukládání mrtvých odkazů udržuje TalentRadar živý stavový model pro každou sledovanou firmu. Při každém skenu v 06:00 a 12:00 UTC porovnává seznam aktivních pozic přímo v ATS klienta (Greenhouse, Lever, Ashby, Workable, Teamio, Recruitis) s vaším pracovním prostorem:
-        </p>
+        <h2 class="text-2xl font-black text-white pt-2">Jak funguje Auto-Archive</h2>
+        <p>TalentRadar drží pro každou sledovanou firmu živý seznam otevřených pozic. Při každém plánovaném skenu (dvakrát denně, ve vašem časovém pásmu) porovná, co je na kariérním webu nebo v ATS zaměstnavatele (Greenhouse, Lever, Ashby, Workable, Teamio a další), s vaším workspace:</p>
         <ul class="list-disc list-inside space-y-2 pl-2 text-[#F3F4F6]/90">
-          <li><strong>Okamžitá deaktivace:</strong> Jakmile zaměstnavatel stáhne inzerát ze svého kariérního webu, TalentRadar pozici při nejbližším skenu označí jako <code>Uzavřeno / Archivováno</code>.</li>
-          <li><strong>Žádná ztráta kontextu:</strong> Pokud jste k pozici připojili poznámky nebo kandidáty, celá historie zůstane bezpečně uložená — ale mrtvá role okamžitě zmizí z vašeho aktivního ranního přehledu.</li>
-          <li><strong>Přehled o náborové dynamice klienta:</strong> Přesně vidíte, jak rychle klient pozice otevírá a uzavírá, a která oddělení mají schválený rozpočet.</li>
+          <li><strong>Před archivací se to ověří:</strong> když pozice zmizí, další sken zkontroluje, že je opravdu pryč, takže krátký výpadek kariérního webu vám seznam nesmaže. Pak se role sama archivuje.</li>
+          <li><strong>Nic se neztratí:</strong> poznámky, stavy i historie zůstanou u archivované role. Když ji zaměstnavatel vypíše znovu, vrátí se se vším, co k ní patří.</li>
+          <li><strong>Signály náboru:</strong> jak rychle klient pozice otevírá a zavírá, vám prozradí, které týmy mají rozpočet a které jsou zmrazené.</li>
         </ul>
 
         <div class="pt-4">
-          <a href="the-4-day-latency-gap-cs.html" data-blog-slug="the-4-day-latency-gap" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
-            ← Přečíst hlavní studii: Čtyřdenní zpoždění (The 4-Day Latency Gap)
-          </a>
+          <a href="the-4-day-latency-gap-cs.html" data-blog-slug="the-4-day-latency-gap" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">← Přečíst hlavní článek: Náskok prvních dnů</a>
         </div>
 
-        <!-- CTA Banner (CS) -->
-        <div class="mt-10 glass-card rounded-2xl p-8 border border-[#FF6B00]/40 orange-glow-lg text-center space-y-4 bg-gradient-to-br from-[#192338] via-[#111622] to-[#0A0D14]">
+        <div class="mt-12 glass-card rounded-2xl p-8 border border-[#FF6B00]/40 orange-glow-lg text-center space-y-4 bg-gradient-to-br from-[#192338] via-[#111622] to-[#0A0D14]">
           <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]">Vyzkoušet na 14 dní zdarma</span>
-          <h3 class="text-2xl sm:text-3xl font-black text-white">
-            Vyčistěte svou agenturní pipeline od neexistujících pozic.
-          </h3>
-          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-            Nahrajte domény svých klientů a nechte Auto-Archive démon udržovat váš přehled otevřených rolí 100% aktuální.
-          </p>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">Vyčistěte svou pipeline od neexistujících pozic.</h3>
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">Nahrajte domény svých klientů a nechte Auto-Archive udržovat seznam otevřených pozic aktuální.</p>
           <div class="pt-2">
-            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">
-              Vyzkoušet na 14 dní zdarma →
-            </a>
+            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">Vyzkoušet na 14 dní zdarma →</a>
           </div>
+          <div class="text-[11px] text-[#94A3B8]">✓ Bez platební karty &nbsp;•&nbsp; ✓ Až 200 sledovaných firem &nbsp;•&nbsp; ✓ Zrušení kdykoliv</div>
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-[rgba(255,255,255,0.08)] space-y-3">
+          <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-[#94A3B8]">Zdroje</h2>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
+            <li id="src-cs-1" class="pl-1"><a href="https://www.greenhouse.com/blog/greenhouse-2024-state-of-job-hunting-report" target="_blank" rel="noopener noreferrer" class="text-[#F3F4F6]/90 underline decoration-white/30 hover:text-[#FF8533]">Greenhouse, „2024 State of Job Hunting Report“. Ghost jobs na platformě Greenhouse.</a></li>
+            <li id="src-cs-2" class="pl-1"><a href="https://www.resumebuilder.com/3-in-10-companies-currently-have-fake-job-posting-listed/" target="_blank" rel="noopener noreferrer" class="text-[#F3F4F6]/90 underline decoration-white/30 hover:text-[#FF8533]">Resume Builder, „3 in 10 companies currently have fake job posting listed“ (průzkum mezi 649 hiring manažery v USA, květen 2024).</a></li>
+          </ol>
         </div>
       </div>
     </div>
 
   </article>
 
-  <!-- FOOTER -->
   <footer class="py-12 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-[#94A3B8]">
     <div class="max-w-6xl mx-auto">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -347,7 +348,6 @@
         </div>
       </div>
 
-      <!-- Enlarged Full-Width Slogan Claim -->
       <div class="text-xl md:text-2xl font-bold tracking-tight text-center py-6 border-y border-[#1B1E26] my-6">
         <span class="text-[#FFFFFF]">Spend time closing, </span><span class="text-[#FF6B00]">not searching.</span>
       </div>

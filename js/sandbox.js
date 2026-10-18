@@ -91,7 +91,7 @@
       mod_bd: 'BD radar', mod_bd_d: 'Home, Scanner, BD Master, Market Analytics, scheduled scans.',
       mod_ats: 'ATS & pipeline', mod_ats_d: 'Mandates, candidates, pipeline, placements. A role becomes a mandate in one click.',
       mod_fin: 'Finance', mod_fin_d: 'Invoices, commissions, P&L. Needs the ATS.',
-      mode_a: 'Mode A · BD radar next to your existing ATS (Bullhorn, Datacruit, Recruitis…)', mode_b: 'Mode B · BD radar + ATS in one place',
+      mode_a: 'BD Signals · BD radar next to your existing ATS (Bullhorn, Datacruit, Recruitis…)', mode_b: 'Full Workspace · BD radar and ATS in one place',
       ats_title: 'Mandates & pipeline', ats_sub: 'Roles you won become mandates. Candidates move through the pipeline to placement.',
       ats_kpi_jobs: 'Open mandates', ats_kpi_cands: 'Candidates in process', ats_kpi_int: 'In interviews', ats_kpi_fee: 'Placed fees',
       ats_add: 'Add candidate', ats_advance: 'Move on', ats_empty: 'No candidates yet. Add one from your talent pool.',
@@ -99,7 +99,7 @@
       stage_SHORTLISTED: 'Shortlisted', stage_CV_SENT: 'CV sent', stage_INTERVIEW_1: 'Interview 1', stage_INTERVIEW_2: 'Interview 2', stage_FINAL: 'Final round', stage_OFFER: 'Offer', stage_PLACED: 'Placed',
       col_s_short: 'Shortlisted', col_s_cv: 'CV sent', col_s_int: 'Interviews', col_s_offer: 'Offer', col_s_placed: 'Placed',
       ats_placed_toast: '{c} placed at {co}. Fee {f} logged.', ats_moved: '{c} → {s}', ats_added: '{c} added to the shortlist.',
-      ats_off: 'The ATS module is switched off for this workspace (Mode A).', ats_turn_on: 'Switch it on',
+      ats_off: 'The ATS module is switched off for this workspace (BD Signals only).', ats_turn_on: 'Switch it on',
       hawk_title: 'AI Hawk', hawk_sub: 'Ask anything about your workspace', hawk_hello: 'Hi, I am AI Hawk. I know every role, company and status in this workspace. What do you need?',
       hawk_ph: 'Ask AI Hawk…', hawk_send: 'Send', hawk_kbd: 'Ctrl+K in the app',
       hq_core: 'How many CORE roles do my clients have open?', hq_stale: 'Which roles are open 30+ days?', hq_pitch: 'Who should I pitch today?', hq_draft: 'Draft an outreach for {co}',
@@ -179,7 +179,7 @@
       mod_bd: 'BD radar', mod_bd_d: 'Domov, Sken, BD Master, Analytika trhu, plánované skeny.',
       mod_ats: 'ATS & pipeline', mod_ats_d: 'Zakázky, kandidáti, pipeline, umístění. Z role je zakázka jedním klikem.',
       mod_fin: 'Finance', mod_fin_d: 'Faktury, provize, výsledovka. Vyžaduje ATS.',
-      mode_a: 'Mode A · BD radar vedle vašeho ATS (Bullhorn, Datacruit, Recruitis…)', mode_b: 'Mode B · BD radar + ATS na jednom místě',
+      mode_a: 'Hledání zakázek · BD radar vedle vašeho ATS (Bullhorn, Datacruit, Recruitis…)', mode_b: 'Kompletní systém · BD radar a ATS na jednom místě',
       ats_title: 'Zakázky & pipeline', ats_sub: 'Získané role se stanou zakázkami. Kandidáti jdou pipeline až k umístění.',
       ats_kpi_jobs: 'Otevřené zakázky', ats_kpi_cands: 'Kandidáti v procesu', ats_kpi_int: 'Na pohovorech', ats_kpi_fee: 'Fee za umístění',
       ats_add: 'Přidat kandidáta', ats_advance: 'Posunout', ats_empty: 'Zatím žádní kandidáti. Přidejte prvního z talent poolu.',
@@ -187,7 +187,7 @@
       stage_SHORTLISTED: 'Shortlist', stage_CV_SENT: 'CV odesláno', stage_INTERVIEW_1: '1. kolo', stage_INTERVIEW_2: '2. kolo', stage_FINAL: 'Finále', stage_OFFER: 'Nabídka', stage_PLACED: 'Umístěn',
       col_s_short: 'Shortlist', col_s_cv: 'CV odesláno', col_s_int: 'Pohovory', col_s_offer: 'Nabídka', col_s_placed: 'Umístěn',
       ats_placed_toast: '{c} umístěn u {co}. Fee {f} zapsáno.', ats_moved: '{c} → {s}', ats_added: '{c} přidán na shortlist.',
-      ats_off: 'Modul ATS je v tomto workspace vypnutý (Mode A).', ats_turn_on: 'Zapnout',
+      ats_off: 'Modul ATS je v tomto workspace vypnutý (jen Hledání zakázek).', ats_turn_on: 'Zapnout',
       hawk_title: 'AI Hawk', hawk_sub: 'Zeptejte se na cokoli o svém workspace', hawk_hello: 'Ahoj, jsem AI Hawk. Znám každou roli, firmu a stav v tomto workspace. Co potřebujete?',
       hawk_ph: 'Zeptejte se AI Hawka…', hawk_send: 'Odeslat', hawk_kbd: 'V aplikaci Ctrl+K',
       hq_core: 'Kolik CORE rolí mají klienti otevřených?', hq_stale: 'Které role jsou otevřené 30+ dní?', hq_pitch: 'Koho mám dnes oslovit?', hq_draft: 'Napiš oslovení pro {co}',
@@ -1023,6 +1023,7 @@
       focus = { key: el.getAttribute('data-input'), start: el.selectionStart, end: el.selectionEnd };
     }
     root.innerHTML = renderShell();
+    if (window.TRBrand) window.TRBrand(root);
     const main2 = root.querySelector('#trSbMain');
     if (main2) main2.scrollTop = scrollTop;
     const panel2 = root.querySelector('[data-stop]');

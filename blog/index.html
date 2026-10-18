@@ -64,27 +64,23 @@
     <div class="max-w-6xl mx-auto flex items-center justify-between">
 
       <!-- Official Falcon Logo + Two-Toned Wordmark + Global English Slogan -->
-      <a href="../" class="flex items-center space-x-3 group">
+      <a href="../" class="flex items-center space-x-2.5 sm:space-x-3 group flex-shrink-0">
         <div class="relative flex items-center justify-center h-8 w-8 flex-shrink-0">
-          <svg class="h-8 w-8 text-[#FF6B00] group-hover:scale-105 transition-transform" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 8C11 10 16 14 19 19C21 16 24 13 28 11C31 9.5 34.5 9 36 9.5C31 13 26 18 23 24L19 28L18 26L16 27L15 24C12 25.5 8 28 4 30C7 25 9.5 21 10.5 17.5C8 15 5.5 12 4 8Z" fill="#FF6B00"/>
-            <circle cx="31" cy="31" r="2" fill="#FF6B00"/>
-            <path d="M31 26V28M31 34V36M26 31H28M34 31H36" stroke="#FF6B00" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
+          <img src="../falcon.svg" alt="" aria-hidden="true" width="32" height="32" class="h-8 w-8 group-hover:scale-105 transition-transform object-contain">
         </div>
         <div class="flex flex-col">
-          <span class="font-extrabold text-xl sm:text-2xl tracking-tight leading-none">
+          <span class="font-extrabold text-lg sm:text-2xl tracking-tight leading-none whitespace-nowrap">
             <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
-          <span class="hidden sm:block text-[10px] font-semibold text-slate-300 tracking-wider uppercase mt-1">
+          <span class="hidden sm:block text-[10px] font-semibold text-[#F3F4F6]/80 tracking-wider uppercase mt-1 whitespace-nowrap">
             Spend time closing, <span class="text-[#FF6B00]">not searching.</span>
           </span>
         </div>
       </a>
 
       <!-- Desktop Links -->
-      <div class="hidden lg:flex items-center space-x-7 text-sm font-medium text-slate-300">
-        <a href="../#modes" class="hover:text-white transition">Product Modes</a>
+      <div class="hidden lg:flex items-center space-x-5 text-sm font-medium text-[#F3F4F6]/80 whitespace-nowrap">
+        <a href="../#modes" class="hover:text-white transition">Features</a>
         <a href="../#live-radar" class="hover:text-white transition">Live Signals</a>
         <a href="../#comparison" class="hover:text-white transition">The Advantage</a>
         <a href="../#pricing" class="hover:text-white transition">Pricing</a>
@@ -94,10 +90,10 @@
 
       <!-- Action Buttons -->
       <div class="flex items-center space-x-3">
-        <a href="https://app.talentradar.eu" class="text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition px-2 py-1">
+        <a href="https://app.talentradar.eu" class="hidden sm:inline-block text-xs sm:text-sm font-semibold text-[#F3F4F6]/80 hover:text-white transition px-2 py-1 whitespace-nowrap">
           Sign In
         </a>
-        <a href="../#trial" class="px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap">
+        <a href="../#trial" class="px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap">
           Start 14-Day Free Pilot
         </a>
       </div>
@@ -120,7 +116,7 @@
         Empirical Intelligence for <span class="text-[#FF6B00]">Modern Headhunters</span>
       </h1>
 
-      <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+      <p class="text-base sm:text-lg text-[#F3F4F6]/80 max-w-2xl mx-auto leading-relaxed">
         Unbiased data derived directly from monitoring hundreds of enterprise career pages and ATS platforms across Europe (Czech Republic, Slovakia, UK &amp; Ireland).
       </p>
 
@@ -129,13 +125,13 @@
         <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm">
           All Research
         </button>
-        <button onclick="filterCategory('data-reports')" id="btn-cat-data-reports" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-slate-300 hover:text-white border border-white/5">
+        <button onclick="filterCategory('data-reports')" id="btn-cat-data-reports" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5">
           Data Reports
         </button>
-        <button onclick="filterCategory('bd-tactics')" id="btn-cat-bd-tactics" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-slate-300 hover:text-white border border-white/5">
+        <button onclick="filterCategory('bd-tactics')" id="btn-cat-bd-tactics" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5">
           BD Tactics
         </button>
-        <button onclick="filterCategory('hr-tech')" id="btn-cat-hr-tech" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-slate-300 hover:text-white border border-white/5">
+        <button onclick="filterCategory('hr-tech')" id="btn-cat-hr-tech" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5">
           HR Tech &amp; ATS
         </button>
       </div>
@@ -155,7 +151,7 @@
             <span class="px-2.5 py-1 rounded bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30 font-bold font-mono">
               DATA REPORT
             </span>
-            <span class="text-slate-400 font-mono text-[11px]">5 min read</span>
+            <span class="text-[#94A3B8] font-mono text-[11px]">5 min read</span>
           </div>
 
           <a href="the-4-day-latency-gap.html" class="block group-hover:text-[#FF8533] transition">
@@ -164,11 +160,11 @@
             </h2>
           </a>
 
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
             Why direct career portal monitoring gives agencies Day Zero advantage while competitors wait 72–96 hours for job aggregators to syndicate.
           </p>
 
-          <div class="pt-2 flex items-center space-x-3 text-xs text-slate-400 border-t border-[rgba(255,255,255,0.06)]">
+          <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
             <div class="w-6 h-6 rounded-full bg-[#FF6B00]/20 text-[#FF6B00] flex items-center justify-center font-bold text-[10px]">KP</div>
             <span>Kryštof Pejša, Founder</span>
             <span>•</span>
@@ -189,18 +185,18 @@
             <span class="px-2.5 py-1 rounded bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/30 font-bold font-mono">
               BD STRATEGY
             </span>
-            <span class="text-slate-400 font-mono text-[11px]">4 min read</span>
+            <span class="text-[#94A3B8] font-mono text-[11px]">4 min read</span>
           </div>
 
           <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug">
             Anatomy of Stale Roles (>35 Days): The Highest-Probability Pitch in Agency Headhunting
           </h2>
 
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
             When an in-house hiring team leaves a critical vacancy unfulfilled past 35 days, internal sourcing has failed. How to turn aged vacancy telemetry into exclusive client retainers.
           </p>
 
-          <div class="pt-2 flex items-center space-x-3 text-xs text-slate-400 border-t border-[rgba(255,255,255,0.06)]">
+          <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
             <div class="w-6 h-6 rounded-full bg-[#FF6B00]/20 text-[#FF6B00] flex items-center justify-center font-bold text-[10px]">KP</div>
             <span>Kryštof Pejša, Founder</span>
             <span>•</span>
@@ -221,18 +217,18 @@
             <span class="px-2.5 py-1 rounded bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono">
               PROCESS AUDIT
             </span>
-            <span class="text-slate-400 font-mono text-[11px]">4 min read</span>
+            <span class="text-[#94A3B8] font-mono text-[11px]">4 min read</span>
           </div>
 
           <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug">
             The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale
           </h2>
 
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
             Up to 22% of listings on commercial job portals represent filled or cancelled roles. How autonomous reconciliation and auto-archiving saves 4+ recruiter hours every single week.
           </p>
 
-          <div class="pt-2 flex items-center space-x-3 text-xs text-slate-400 border-t border-[rgba(255,255,255,0.06)]">
+          <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
             <div class="w-6 h-6 rounded-full bg-[#FF6B00]/20 text-[#FF6B00] flex items-center justify-center font-bold text-[10px]">KP</div>
             <span>Kryštof Pejša, Founder</span>
             <span>•</span>
@@ -255,13 +251,13 @@
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white">
           Put these benchmarks to work on your client list
         </h3>
-        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+        <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
           Monitor up to 200 client companies 2× daily. Discover new mandates the hour they go live, days before commercial job portals syndicate.
         </p>
       </div>
 
       <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-        <a href="../#trial" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white font-bold text-xs sm:text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition text-center whitespace-nowrap">
+        <a href="../#trial" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-xs sm:text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition text-center whitespace-nowrap">
           Start 14-Day Free Pilot →
         </a>
       </div>
@@ -271,21 +267,17 @@
   <!-- ═══════════════════════════════════════════════
        FOOTER
   ═══════════════════════════════════════════════ -->
-  <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-slate-400">
+  <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-[#94A3B8]">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-2 text-xs">
-        <svg class="h-5 w-5 text-[#FF6B00]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 8C11 10 16 14 19 19C21 16 24 13 28 11C31 9.5 34.5 9 36 9.5C31 13 26 18 23 24L19 28L18 26L16 27L15 24C12 25.5 8 28 4 30C7 25 9.5 21 10.5 17.5C8 15 5.5 12 4 8Z" fill="#FF6B00"/>
-          <circle cx="31" cy="31" r="2" fill="#FF6B00"/>
-          <path d="M31 26V28M31 34V36M26 31H28M34 31H36" stroke="#FF6B00" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
+        <img src="../falcon.svg" alt="" aria-hidden="true" width="32" height="32" class="h-5 w-5 object-contain">
         <span class="font-bold text-white text-sm">
           <span>TALENT</span><span class="text-[#FF6B00]">RADAR</span>
         </span>
-        <span class="text-slate-400">— <span>Spend time closing, <span class="text-[#FF6B00]">not searching.</span></span></span>
+        <span class="text-[#94A3B8]">— <span>Spend time closing, <span class="text-[#FF6B00]">not searching.</span></span></span>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-4 text-slate-300">
+      <div class="flex flex-wrap items-center justify-center gap-4 text-[#F3F4F6]/80">
         <span>Kryštof Pejša</span>
         <span>•</span>
         <a href="mailto:krystof@talentradar.eu" class="hover:text-white underline">krystof@talentradar.eu</a>
@@ -295,14 +287,14 @@
         <a href="../gdpr.html" class="hover:text-white underline">Privacy Policy</a>
       </div>
 
-      <div class="text-slate-400">© 2026 TalentRadar</div>
+      <div class="text-[#94A3B8]">© 2026 TalentRadar</div>
     </div>
   </footer>
 
   <script>
     function filterCategory(cat) {
       document.querySelectorAll('.cat-filter-btn').forEach(b => {
-        b.className = 'cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-slate-300 hover:text-white border border-white/5';
+        b.className = 'cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5';
       });
       const activeBtn = document.getElementById('btn-cat-' + cat);
       if (activeBtn) {

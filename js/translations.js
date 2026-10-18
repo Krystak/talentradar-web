@@ -12,7 +12,7 @@ const TRANSLATIONS = {
 
     /* ── Navigation ── */
     nav_slogan: "Spend time closing, not searching.",
-    nav_modes: "Workflows",
+    nav_modes: "Features",
     nav_live_radar: "Live Signals",
     nav_comparison: "The Advantage",
     nav_pricing: "Pricing",
@@ -24,12 +24,12 @@ const TRANSLATIONS = {
     nav_demo: "Live Demo ↗",
 
     /* ── Hero ── */
-    hero_badge: "Autonomous BD Intelligence & Lightweight ATS for Recruitment Agencies",
+    hero_badge: "Autonomous BD Intelligence & Lightweight ATS for Recruitment Teams",
     hero_headline_html: "Spot your clients’ open roles <span class=\"text-[#FF6B00]\">the hour they post them.</span> Days before LinkedIn.",
     hero_subheadline: "Stop wasting recruiter hours manually checking client career portals or waiting for crowded job boards. TalentRadar monitors enterprise career sites and ATS endpoints twice daily. Use it as an upstream BD radar alongside your existing ATS, or switch on our lightweight pipeline module to run your entire boutique agency.",
     hero_input_placeholder: "Enter your agency work email or client domain...",
     hero_cta_btn: "Start 14-Day Free Pilot",
-    hero_trust_microcopy: "No credit card required • Track up to 200 companies • Async setup in 24h",
+    hero_trust_microcopy: "✓ No credit card required  •  ✓ Track up to 200 companies  •  ✓ Async setup in 24h",
 
     /* ── Interactive Hero Switcher & Mockup ── */
     mockup_tab_a: "BD Signals (Have Bullhorn / Datacruit)",
@@ -39,7 +39,7 @@ const TRANSLATIONS = {
     mockup_mode_a_badge: "BD SIGNALS",
     mockup_mode_b_badge: "FULL WORKSPACE",
     mockup_scan_status: "06:00 UTC Scan Complete • 180 Companies Monitored • 14 New Roles Today",
-    mockup_xray_btn: "Hiring Manager Bridge",
+    mockup_xray_btn: "1-Click Hiring Manager X-Ray",
     mockup_push_btn: "Push to External ATS / CSV",
     mockup_core_match: "CORE MATCH",
     mockup_kanban_title: "Active Mandate Pipeline: Senior Backend Architect (Go/Node) — Mews",
@@ -48,7 +48,7 @@ const TRANSLATIONS = {
     mockup_col_contacted: "Contacted",
     mockup_col_cv_sent: "CV Sent",
     mockup_col_interview: "Interview",
-    mockup_col_placed: "Placed / Offer",
+    mockup_col_placed: "Placed",
 
     /* ── Workflows Section ── */
     modes_badge: "Workflow Options",
@@ -243,7 +243,7 @@ const TRANSLATIONS = {
 
     /* ── Navigation ── */
     nav_slogan: "Spend time closing, not searching.",
-    nav_modes: "Pracovní postupy",
+    nav_modes: "Funkce",
     nav_live_radar: "Živé signály",
     nav_comparison: "Náskok před trhem",
     nav_pricing: "Ceník",
@@ -255,12 +255,12 @@ const TRANSLATIONS = {
     nav_demo: "Živé demo ↗",
 
     /* ── Hero ── */
-    hero_badge: "Autonomní BD Intelligence & Odlehčené ATS pro Personální Agentury",
+    hero_badge: "Autonomní BD intelligence a odlehčené ATS pro recruitment týmy",
     hero_headline_html: "Nové pozice u vašich klientů <span class=\"text-[#FF6B00]\">v hodinu, kdy je vypíšou.</span> Dny před LinkedInem.",
     hero_subheadline: "Přestaňte pálit hodiny konzultantů ručním proklikáváním kariérních webů nebo čekáním na přeplněné pracovní portály. TalentRadar monitoruje enterprise kariérní weby a ATS endpointy 2× denně. Využijte jej jako upstream BD radar vedle vašeho stávajícího ATS, nebo zapněte odlehčenou pipeline pro řízení celé boutique agentury.",
     hero_input_placeholder: "Zadejte pracovní e-mail nebo doménu klienta...",
     hero_cta_btn: "Vyzkoušet na 14 dní zdarma",
-    hero_trust_microcopy: "Bez platební karty • Sledování až 200 firem • Nastavení do 24 hodin",
+    hero_trust_microcopy: "✓ Bez platební karty  •  ✓ Sledování až 200 firem  •  ✓ Nastavení do 24 hodin",
 
     /* ── Interactive Hero Switcher & Mockup ── */
     mockup_tab_a: "Hledání zakázek (Máme vlastní ATS)",
@@ -270,7 +270,7 @@ const TRANSLATIONS = {
     mockup_mode_a_badge: "HLEDÁNÍ ZAKÁZEK",
     mockup_mode_b_badge: "KOMPLETNÍ SYSTÉM",
     mockup_scan_status: "Ranní sken 06:00 UTC dokončen • 180 firem monitorováno • 14 nových pozic dnes",
-    mockup_xray_btn: "Hiring Manager Bridge",
+    mockup_xray_btn: "Hiring Manager X-Ray jedním klikem",
     mockup_push_btn: "Odeslat do ATS / CSV export",
     mockup_core_match: "CORE SHODA",
     mockup_kanban_title: "Aktivní zakázka: Senior Backend Architect (Go/Node) — Mews",
@@ -279,7 +279,7 @@ const TRANSLATIONS = {
     mockup_col_contacted: "Osloveno",
     mockup_col_cv_sent: "CV odesláno",
     mockup_col_interview: "Pohovor",
-    mockup_col_placed: "Umístěno / Nabídka",
+    mockup_col_placed: "Umístěno",
 
     /* ── Workflows Section ── */
     modes_badge: "Možnosti nasazení",

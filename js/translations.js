@@ -25,7 +25,7 @@ const TRANSLATIONS = {
 
     /* ── Hero ── */
     hero_badge: "Autonomous BD Intelligence & Lightweight ATS for Recruitment Teams",
-    hero_headline_html: "Spot your clients’ open roles the hour they post them.<br class=\"hidden sm:inline\"> <span class=\"text-[#FF6B00]\">Days before LinkedIn.</span>",
+    hero_headline_html: "Spot your clients’ open roles the hour they post them.<br><span class=\"text-[#FF6B00]\">Days before LinkedIn.</span>",
     hero_subheadline: "Stop wasting recruiter hours manually checking client career portals or waiting for crowded job boards. TalentRadar monitors enterprise career sites and ATS endpoints twice daily. Use it as an upstream BD radar alongside your existing ATS, or switch on our lightweight pipeline module to run your entire boutique agency.",
     hero_input_placeholder: "Enter your agency work email or client domain...",
     hero_cta_btn: "Start 14-Day Free Pilot",
@@ -100,22 +100,22 @@ const TRANSLATIONS = {
     compare_col_radar: "TalentRadar Autonomous Advantage",
     compare_row1_label: "Career Portal Monitoring",
     compare_row1_manual: "Manual randomized browsing; 4–6 recruiter hours wasted weekly per consultant.",
-    compare_row1_radar: "Autonomous continuous monitoring 2× daily (06:00 & 12:00 UTC).",
+    compare_row1_radar: "Autonomous continuous monitoring <strong>2× daily</strong> (06:00 & 12:00 UTC).",
     compare_row2_label: "Discovery Latency",
     compare_row2_manual: "3–6 day delay waiting for commercial job boards to scrape listings.",
-    compare_row2_radar: "Day Zero discovery — hours after publication, days before LinkedIn.",
+    compare_row2_radar: "<strong>Day Zero discovery</strong> — hours after publication, days before LinkedIn.",
     compare_row3_label: "Ghost & Filled Roles",
     compare_row3_manual: "Recruiters waste time pitching candidates for roles silently filled weeks ago.",
-    compare_row3_radar: "Auto-Archive Daemon wipes closed vacancies the moment they leave client portals.",
+    compare_row3_radar: "<strong>Auto-Archive</strong> Daemon wipes closed vacancies the moment they leave client portals.",
     compare_row4_label: "Candidate & Mandate Tracking",
     compare_row4_manual: "Fragmented notes scattered in personal spreadsheets, Notion, or paper pads.",
-    compare_row4_radar: "Unified BD Master with optional 1-click lightweight candidate pipeline.",
+    compare_row4_radar: "<strong>Unified BD Master</strong> with optional 1-click lightweight candidate pipeline.",
     compare_row5_label: "Adding New Accounts",
     compare_row5_manual: "Manual spreadsheet data entry + constant manual reminder checking.",
-    compare_row5_radar: "Paste any company career URL — automated tracking begins on the next scan.",
+    compare_row5_radar: "Paste any company career URL — <strong>automated tracking</strong> begins on the next scan.",
     compare_row6_label: "Weekly Management Cost",
     compare_row6_manual: "Hours of administrative overhead every single Monday morning.",
-    compare_row6_radar: "3-minute morning pulse with AI sales pitch hooks and team audit trails.",
+    compare_row6_radar: "<strong>3-minute morning pulse</strong> with AI sales pitch hooks and team audit trails.",
 
     /* ── Intelligence Lab / Blog Teasers ── */
     insights_badge: "TalentRadar Intelligence Lab",
@@ -269,7 +269,7 @@ const TRANSLATIONS = {
 
     /* ── Hero ── */
     hero_badge: "Autonomní BD intelligence a odlehčené ATS pro recruitment týmy",
-    hero_headline_html: "Nové pozice u&nbsp;vašich klientů v&nbsp;hodinu, kdy je vypíšou.<br class=\"hidden sm:inline\"> <span class=\"text-[#FF6B00]\">Dny před LinkedInem.</span>",
+    hero_headline_html: "Nové pozice u&nbsp;vašich klientů v&nbsp;hodinu, kdy je vypíšou.<br><span class=\"text-[#FF6B00]\">Dny před LinkedInem a&nbsp;portály.</span>",
     hero_subheadline: "Přestaňte pálit hodiny konzultantů ručním proklikáváním kariérních webů nebo čekáním na přeplněné pracovní portály. TalentRadar monitoruje enterprise kariérní weby a ATS endpointy 2× denně. Využijte jej jako upstream BD radar vedle vašeho stávajícího ATS, nebo zapněte odlehčenou pipeline pro řízení celé boutique agentury.",
     hero_input_placeholder: "Zadejte pracovní e-mail nebo doménu klienta...",
     hero_cta_btn: "Vyzkoušet na 14 dní zdarma",
@@ -344,22 +344,22 @@ const TRANSLATIONS = {
     compare_col_radar: "Autonomní náskok TalentRadar",
     compare_row1_label: "Kontrola kariérních webů",
     compare_row1_manual: "Ruční nahodilé proklikávání; 4–6 hodin týdně ztracených na každého konzultanta.",
-    compare_row1_radar: "Automatický autonomní monitoring 2× denně (06:00 & 12:00 UTC).",
+    compare_row1_radar: "Automatický autonomní monitoring <strong>2× denně</strong> (06:00 & 12:00 UTC).",
     compare_row2_label: "Rychlost zjištění pozice",
     compare_row2_manual: "Zpoždění 3–6 dní, než se inzerát objeví na pracovních portálech a LinkedInu.",
-    compare_row2_radar: "Zjištění v Den Nula — v řádu hodin po zveřejnění na webu klienta.",
+    compare_row2_radar: "Zjištění <strong>v den vypsání</strong> (Den Nula) — v řádu hodin po zveřejnění na webu klienta.",
     compare_row3_label: "Mrtvé a obsazené role",
     compare_row3_manual: "Konzultanti oslovují kandidáty na pozice, které klient před týdny v tichosti obsadil.",
-    compare_row3_radar: "Auto-Archive démon smaže uzavřené pozice ihned, jakmile zmizí z webu klienta.",
+    compare_row3_radar: "<strong>Auto-Archive</strong> démon smaže uzavřené pozice ihned, jakmile zmizí z webu klienta.",
     compare_row4_label: "Správa kandidátů a mandátů",
     compare_row4_manual: "Roztříštěné poznámky v osobních tabulkách, Notionu nebo papírových blocích.",
-    compare_row4_radar: "Jednotný BD Master s volitelnou 1-click kandidátskou pipeline.",
+    compare_row4_radar: "<strong>Jednotný BD Master</strong> s volitelnou 1-click kandidátskou pipeline.",
     compare_row5_label: "Přidání nového klienta",
     compare_row5_manual: "Ruční zápis do Excelu a neustálé upomínky na ruční kontrolu.",
-    compare_row5_radar: "Vložíte odkaz na kariérní stránku — monitoring běží od dalšího skenu.",
+    compare_row5_radar: "Vložíte odkaz na kariérní stránku — <strong>automatický monitoring</strong> běží od dalšího skenu.",
     compare_row6_label: "Časová náročnost",
     compare_row6_manual: "Několik hodin administrativního proklikávání každé pondělí dopoledne.",
-    compare_row6_radar: "3minutový ranní přehled s připravenými prodejními argumenty a auditním logem.",
+    compare_row6_radar: "<strong>3minutový ranní přehled</strong> s připravenými prodejními argumenty a auditním logem.",
 
     /* ── Intelligence Lab / Blog Teasers ── */
     insights_badge: "TalentRadar Intelligence Lab",
@@ -503,19 +503,28 @@ const TRANSLATIONS = {
   let currentLang = 'en';
 
   try {
+    if (typeof document !== 'undefined' && document.documentElement) {
+      const defLang = document.documentElement.getAttribute('data-default-lang');
+      if (defLang === 'cs' || defLang === 'en') {
+        currentLang = defLang;
+      }
+    }
+    if (typeof window !== 'undefined' && window.location && window.location.pathname && window.location.pathname.endsWith('-cs.html')) {
+      currentLang = 'cs';
+    }
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem(PRIMARY_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
+      if (saved === 'cs' || saved === 'en') {
+        if (!window.location || !window.location.pathname.endsWith('-cs.html')) {
+          currentLang = saved;
+        }
+      }
+    }
     if (typeof window !== 'undefined' && window.location && window.location.search) {
       const params = new URLSearchParams(window.location.search);
       const qLang = params.get('lang');
       if (qLang === 'cs' || qLang === 'en') {
         currentLang = qLang;
-      }
-    }
-    if (typeof localStorage !== 'undefined') {
-      const saved = localStorage.getItem(PRIMARY_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
-      if (saved === 'cs' || saved === 'en') {
-        if (!window.location || !new URLSearchParams(window.location.search).get('lang')) {
-          currentLang = saved;
-        }
       }
     }
   } catch (e) {
@@ -540,6 +549,31 @@ const TRANSLATIONS = {
       const blockLang = el.getAttribute('data-lang-block');
       el.classList.toggle('hidden', blockLang !== lang);
     });
+
+    // Update localized blog article links if data-blog-slug is present
+    document.querySelectorAll('a[data-blog-slug]').forEach(a => {
+      const slug = a.getAttribute('data-blog-slug');
+      const prefix = a.getAttribute('data-blog-prefix') || '';
+      const hash = a.getAttribute('data-blog-hash') || '';
+      if (slug) {
+        a.setAttribute('href', prefix + slug + (lang === 'cs' ? '-cs.html' : '.html') + hash);
+      }
+    });
+
+    // If currently viewing a blog article page, keep URL in sync (.html <-> -cs.html)
+    try {
+      if (typeof window !== 'undefined' && window.location && window.history && window.history.replaceState) {
+        const path = window.location.pathname;
+        const match = path.match(/\/(the-4-day-latency-gap|anatomy-of-stale-roles|hidden-cost-of-dead-vacancies)(-cs)?\.html$/);
+        if (match) {
+          const targetFile = match[1] + (lang === 'cs' ? '-cs.html' : '.html');
+          const newPath = path.replace(/\/(the-4-day-latency-gap|anatomy-of-stale-roles|hidden-cost-of-dead-vacancies)(-cs)?\.html$/, '/' + targetFile);
+          if (newPath !== path) {
+            window.history.replaceState(null, '', newPath + window.location.search + window.location.hash);
+          }
+        }
+      }
+    } catch (e) {}
 
     const dict = TRANSLATIONS[lang];
     if (dict) {

@@ -66,6 +66,11 @@
       backdrop-filter: blur(12px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
+    @media (max-width: 767px) {
+      .lang-switcher {
+        display: none !important;
+      }
+    }
     .lang-btn {
       font-size: 11px;
       font-weight: 700;
@@ -89,7 +94,7 @@
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
 
   <!-- Floating Language Switcher -->
-  <div class="lang-switcher" role="group" aria-label="Language switcher">
+  <div class="lang-switcher hidden md:flex" role="group" aria-label="Language switcher">
     <button type="button" class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">EN</button>
     <button type="button" class="lang-btn" data-lang="cs" aria-pressed="false">CS</button>
   </div>
@@ -123,7 +128,7 @@
       </div>
 
       <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-        <div class="hidden sm:flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
+        <div class="flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
           <button type="button" class="lang-btn lang-btn--active text-[10px] px-2 py-0.5 rounded-full" data-lang="en">EN</button>
           <button type="button" class="lang-btn text-[10px] px-2 py-0.5 rounded-full" data-lang="cs">CS</button>
         </div>
@@ -131,7 +136,7 @@
         <a href="https://app.talentradar.eu" class="hidden sm:inline-block text-xs sm:text-sm font-semibold text-[#F3F4F6]/80 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
           Sign In
         </a>
-        <a href="../#trial" class="px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+        <a href="../#trial" class="hidden sm:inline-block px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
           Start 14-Day Free Pilot
         </a>
       </div>
@@ -165,11 +170,11 @@
       </h1>
 
       <p class="text-lg sm:text-xl text-[#F3F4F6]/80 leading-relaxed font-medium border-l-2 border-[#38BDF8] pl-4">
-        Up to 22% of job listings active on commercial job boards and inside agency spreadsheets have already been filled, frozen, or withdrawn on the employer's primary ATS. Here is how automated twice-daily reconciliation eliminates ghost work.
+        Up to 22% of job listings active on commercial job boards and inside agency spreadsheets are "phantom roles" — positions already filled, frozen, or withdrawn on the employer's primary ATS, wasting 4–6 hours weekly per consultant.
       </p>
 
       <div class="flex items-center space-x-4 pt-2 pb-6 border-b border-[rgba(255,255,255,0.08)]">
-        <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-center border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
+        <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
         <div>
           <div class="text-sm sm:text-base font-bold text-white">Kryštof Pejša</div>
           <div class="text-xs text-[#94A3B8]">
@@ -180,24 +185,24 @@
       </div>
 
       <div class="space-y-6 text-[#F3F4F6] text-sm sm:text-base leading-relaxed pt-4">
-        <h2 class="text-2xl font-black text-white">Why Spreadsheets Create "Zombie Pipelines"</h2>
+        <h2 class="text-2xl font-black text-white">Why Spreadsheets &amp; Job Boards Breed "Phantom Roles"</h2>
         <p>
           Every boutique agency and headhunting team knows the frustration: a consultant spends four hours sourcing passive candidates on LinkedIn, crafts personalized outreach, conducts two qualification calls, and submits a shortlist to the client — only to hear back: <em>"We actually filled that role internally ten days ago."</em>
         </p>
         <p>
-          Why does this happen? Because 30-day pre-paid job board slots stay live until they expire, and manual Excel or Notion trackers are only updated when someone remembers to click through 100 career URLs.
+          Why do these phantom roles persist? Because 30-day pre-paid job board slots stay live until they expire regardless of whether the vacancy is closed, and manual Excel or Notion trackers are only updated when someone remembers to click through 100 career URLs. Across a typical team, chasing phantom roles wastes <strong>4–6 hours weekly per consultant</strong>.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#EF4444]">22% GHOST RATE</div>
+            <div class="text-xs font-mono font-bold text-[#EF4444]">22% PHANTOM RATE</div>
             <div class="font-bold text-white text-sm">Commercial Board Lag</div>
             <p class="text-xs text-[#94A3B8]">Nearly 1 in 5 roles listed on third-party aggregators has already been removed from the employer's live ATS.</p>
           </div>
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#FBBF24]">4.5 HOURS / WEEK</div>
+            <div class="text-xs font-mono font-bold text-[#FBBF24]">4–6 HOURS / WEEK</div>
             <div class="font-bold text-white text-sm">Wasted Sourcing Time</div>
-            <p class="text-xs text-[#94A3B8]">Average weekly time lost per consultant chasing or verifying stale spreadsheet rows.</p>
+            <p class="text-xs text-[#94A3B8]">Average weekly time lost per consultant chasing or verifying stale spreadsheet rows and phantom listings.</p>
           </div>
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
             <div class="text-xs font-mono font-bold text-[#34D399]">06:00 &amp; 12:00 UTC</div>
@@ -217,7 +222,7 @@
         </ul>
 
         <div class="pt-4">
-          <a href="the-4-day-latency-gap.html" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
+          <a href="the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
             ← Read the Pillar Study: The 4-Day Latency Gap
           </a>
         </div>
@@ -262,11 +267,11 @@
       </h1>
 
       <p class="text-lg sm:text-xl text-[#F3F4F6]/80 leading-relaxed font-medium border-l-2 border-[#38BDF8] pl-4">
-        Až 22 % pracovních inzerátů na komerčních portálech a v interních agenturních tabulkách představuje pozice, které již klient dávno obsadil, pozastavil nebo stáhl ze svého ATS. Podívejte se, jak automatická kontrola 2× denně šetří přes 4 hodiny práce týdně.
+        Až 22 % pracovních inzerátů na komerčních portálech a v interních agenturních tabulkách představuje „fantomové pozice“ — role, které již klient dávno obsadil, pozastavil nebo stáhl ze svého ATS, což pálí 4–6 hodin práce týdně na každého konzultanta.
       </p>
 
       <div class="flex items-center space-x-4 pt-2 pb-6 border-b border-[rgba(255,255,255,0.08)]">
-        <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-center border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
+        <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
         <div>
           <div class="text-sm sm:text-base font-bold text-white">Kryštof Pejša</div>
           <div class="text-xs text-[#94A3B8]">
@@ -277,22 +282,22 @@
       </div>
 
       <div class="space-y-6 text-[#F3F4F6] text-sm sm:text-base leading-relaxed pt-4">
-        <h2 class="text-2xl font-black text-white">Proč tabulky v Excelu vytvářejí „mrtvé pipeline“</h2>
+        <h2 class="text-2xl font-black text-white">Proč tabulky v Excelu a portály vytvářejí „fantomové pozice“</h2>
         <p>
           Každý majitel personální agentury ten scénář zná: konzultant stráví čtyři hodiny vyhledáváním pasivních kandidátů na LinkedInu, napíše personalizované zprávy, provede dva kvalifikační hovory a odešle profil klientovi — jen aby dostal odpověď: <em>„Tuto pozici jsme už před deseti dny obsadili interně.“</em>
         </p>
         <p>
-          Proč k tomu dochází? Protože předplacené 30denní inzeráty na pracovních portálech zůstávají viset až do vypršení platnosti a ruční tabulky v Excelu či Notionu nikdo neaktualizuje denním proklikáváním stovek odkazů.
+          Proč k tomu dochází? Protože předplacené 30denní inzeráty na pracovních portálech zůstávají viset až do vypršení platnosti a ruční tabulky v Excelu či Notionu nikdo neaktualizuje denním proklikáváním stovek odkazů. V praxi tak práce na fantomových rolích spaluje <strong>4–6 hodin týdně na každého konzultanta</strong>.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#EF4444]">22 % MRTVÝCH POZIC</div>
+            <div class="text-xs font-mono font-bold text-[#EF4444]">22 % FANTOMOVÝCH POZIC</div>
             <div class="font-bold text-white text-sm">Zpoždění portálů</div>
             <p class="text-xs text-[#94A3B8]">Téměř každá pátá pozice na komerčních agregátorech již byla ze živého ATS zaměstnavatele dávno stažena.</p>
           </div>
           <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#FBBF24]">4,5 HODINY / TÝDEN</div>
+            <div class="text-xs font-mono font-bold text-[#FBBF24]">4–6 HODIN / TÝDEN</div>
             <div class="font-bold text-white text-sm">Ztracený čas konzultanta</div>
             <p class="text-xs text-[#94A3B8]">Průměrný týdenní čas jednoho recruitera promarněný prací na neaktuálních řádcích v tabulce.</p>
           </div>
@@ -314,7 +319,7 @@
         </ul>
 
         <div class="pt-4">
-          <a href="the-4-day-latency-gap.html" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
+          <a href="the-4-day-latency-gap-cs.html" data-blog-slug="the-4-day-latency-gap" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
             ← Přečíst hlavní studii: Čtyřdenní zpoždění (The 4-Day Latency Gap)
           </a>
         </div>

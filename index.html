@@ -105,6 +105,11 @@
       color: #94A3B8;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
     }
+    @media (max-width: 767px) {
+      .lang-switcher {
+        display: none !important;
+      }
+    }
     .lang-btn {
       padding: 3px 8px;
       border-radius: 999px;
@@ -166,8 +171,8 @@
 
       <!-- Right Action Bar: Language Toggle, Sign In, CTA -->
       <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-        <!-- Clean Nav Language Toggle EN | CS -->
-        <div class="hidden sm:flex items-center bg-[#111622] border border-white/10 rounded-full px-2 py-1 text-xs">
+        <!-- Clean Nav Language Toggle EN | CS (visible on mobile & desktop) -->
+        <div class="flex items-center bg-[#111622] border border-white/10 rounded-full px-2 py-1 text-xs">
           <button onclick="window.TRLang.apply('en')" class="lang-btn" data-lang="en">EN</button>
           <span class="text-white/20 text-[10px]">|</span>
           <button onclick="window.TRLang.apply('cs')" class="lang-btn" data-lang="cs">CS</button>
@@ -177,7 +182,7 @@
           Sign In
         </a>
 
-        <a href="#trial" class="px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-[11px] sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+        <a href="#trial" class="hidden sm:inline-block px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
           Start 14-Day Free Pilot
         </a>
 
@@ -200,6 +205,7 @@
       <a href="#story" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_story">Our Story</a>
       <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366] font-semibold" data-i18n="nav_demo">Live Demo ↗</a>
       <a id="mobileSignInLink" href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#F3F4F6]/80" data-i18n="nav_signin">Sign In</a>
+      <a href="#trial" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] text-white text-xs font-bold text-center shadow-md shadow-[#FF6B00]/25" data-i18n="nav_cta">Start 14-Day Free Pilot</a>
       <div class="pt-2 flex items-center gap-2">
         <span class="text-xs text-[#94A3B8]">Language:</span>
         <button onclick="window.TRLang.apply('en')" class="px-2.5 py-1 rounded bg-[#111622] text-xs font-semibold text-white">English</button>
@@ -225,7 +231,7 @@
 
       <!-- Headline H1 -->
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white max-w-4xl mx-auto" data-i18n="hero_headline_html" data-i18n-html="true">
-        Spot your clients’ open roles the hour they post them.<br class="hidden sm:inline"> <span class="text-[#FF6B00]">Days before LinkedIn.</span>
+        Spot your clients’ open roles the hour they post them.<br><span class="text-[#FF6B00]">Days before LinkedIn.</span>
       </h1>
 
       <!-- Sub-headline -->
@@ -252,7 +258,7 @@
       <!-- ─────────────────────────────────────────────
            INTERACTIVE WORKFLOW SWITCHER & MOCKUP
       ───────────────────────────────────────────── -->
-      <div class="pt-8 max-w-5xl mx-auto text-left">
+      <div class="mt-16 pt-6 max-w-5xl mx-auto text-left relative bg-[radial-gradient(ellipse_at_top,_rgba(255,107,0,0.08),_transparent_70%)] rounded-3xl">
 
         <!-- Segmented Toggle Switch (Client Value Focused) -->
         <div class="space-y-2 mb-3">
@@ -524,7 +530,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
 
       <!-- Option 1: BD Signals -->
-      <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between orange-glow">
+      <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between h-full orange-glow">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533] px-3 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="mockup_mode_a_badge">
@@ -575,7 +581,7 @@
       </div>
 
       <!-- Option 2: Full Workspace -->
-      <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between orange-glow">
+      <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between h-full orange-glow">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#34D399] px-3 py-1 rounded bg-[#10B981]/10 border border-[#10B981]/30" data-i18n="mockup_mode_b_badge">
@@ -734,32 +740,32 @@
         <div class="grid grid-cols-12 p-4 items-center">
           <div class="col-span-4 font-semibold text-[#F3F4F6]/80" data-i18n="compare_row1_label">Career Portal Monitoring</div>
           <div class="col-span-4 text-[#94A3B8] text-xs" data-i18n="compare_row1_manual">Manual randomized browsing; 4–6 recruiter hours wasted weekly per consultant.</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row1_radar">Autonomous continuous monitoring 2× daily (06:00 &amp; 12:00 UTC).</span></div>
+          <div class="col-span-4 text-white flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row1_radar" data-i18n-html="true">Autonomous continuous monitoring <strong>2× daily</strong> (06:00 &amp; 12:00 UTC).</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
           <div class="col-span-4 font-semibold text-[#F3F4F6]/80" data-i18n="compare_row2_label">Discovery Latency</div>
           <div class="col-span-4 text-[#94A3B8] text-xs" data-i18n="compare_row2_manual">3–6 day delay waiting for commercial job boards to scrape listings.</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row2_radar">Day Zero discovery — hours after publication, days before LinkedIn.</span></div>
+          <div class="col-span-4 text-white flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row2_radar" data-i18n-html="true"><strong>Day Zero discovery</strong> — hours after publication, days before LinkedIn.</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
           <div class="col-span-4 font-semibold text-[#F3F4F6]/80" data-i18n="compare_row3_label">Ghost &amp; Filled Roles</div>
           <div class="col-span-4 text-[#94A3B8] text-xs" data-i18n="compare_row3_manual">Recruiters waste time pitching candidates for roles silently filled weeks ago.</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row3_radar">Auto-Archive Daemon wipes closed vacancies the moment they leave client portals.</span></div>
+          <div class="col-span-4 text-white flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row3_radar" data-i18n-html="true"><strong>Auto-Archive</strong> Daemon wipes closed vacancies the moment they leave client portals.</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
           <div class="col-span-4 font-semibold text-[#F3F4F6]/80" data-i18n="compare_row4_label">Candidate &amp; Mandate Tracking</div>
           <div class="col-span-4 text-[#94A3B8] text-xs" data-i18n="compare_row4_manual">Fragmented notes scattered in personal spreadsheets, Notion, or paper pads.</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row4_radar">Unified BD Master with optional 1-click lightweight candidate pipeline.</span></div>
+          <div class="col-span-4 text-white flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row4_radar" data-i18n-html="true"><strong>Unified BD Master</strong> with optional 1-click lightweight candidate pipeline.</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
           <div class="col-span-4 font-semibold text-[#F3F4F6]/80" data-i18n="compare_row5_label">Adding New Accounts</div>
           <div class="col-span-4 text-[#94A3B8] text-xs" data-i18n="compare_row5_manual">Manual spreadsheet data entry + constant manual reminder checking.</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row5_radar">Paste any company career URL — automated tracking begins on the next scan.</span></div>
+          <div class="col-span-4 text-white flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row5_radar" data-i18n-html="true">Paste any company career URL — <strong>automated tracking</strong> begins on the next scan.</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
           <div class="col-span-4 font-semibold text-[#F3F4F6]/80" data-i18n="compare_row6_label">Weekly Management Cost</div>
           <div class="col-span-4 text-[#94A3B8] text-xs" data-i18n="compare_row6_manual">Hours of administrative overhead every single Monday morning.</div>
-          <div class="col-span-4 text-[#FF8533] font-bold flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row6_radar">3-minute morning pulse with AI sales pitch hooks and team audit trails.</span></div>
+          <div class="col-span-4 text-white flex items-center space-x-2 text-xs"><span class="text-[#34D399] font-bold">✓</span><span data-i18n="compare_row6_radar" data-i18n-html="true"><strong>3-minute morning pulse</strong> with AI sales pitch hooks and team audit trails.</span></div>
         </div>
       </div>
     </div>
@@ -772,9 +778,9 @@
           <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] uppercase font-mono font-bold text-[#94A3B8] shrink-0" data-i18n="compare_col_manual">Traditional</span>
           <span data-i18n="compare_row1_manual">Manual randomized browsing; 4–6 recruiter hours wasted weekly per consultant.</span>
         </div>
-        <div class="text-xs text-[#FF8533] font-semibold flex items-start gap-2">
+        <div class="text-xs text-white flex items-start gap-2">
           <span class="px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[10px] uppercase font-mono font-bold text-[#FF8533] shrink-0" data-i18n="compare_col_radar">TalentRadar</span>
-          <span data-i18n="compare_row1_radar">Autonomous continuous monitoring 2× daily (06:00 &amp; 12:00 UTC).</span>
+          <span data-i18n="compare_row1_radar" data-i18n-html="true">Autonomous continuous monitoring <strong>2× daily</strong> (06:00 &amp; 12:00 UTC).</span>
         </div>
       </div>
       <div class="glass-card rounded-xl p-4 space-y-2.5">
@@ -783,9 +789,9 @@
           <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] uppercase font-mono font-bold text-[#94A3B8] shrink-0" data-i18n="compare_col_manual">Traditional</span>
           <span data-i18n="compare_row2_manual">3–6 day delay waiting for commercial job boards to scrape listings.</span>
         </div>
-        <div class="text-xs text-[#FF8533] font-semibold flex items-start gap-2">
+        <div class="text-xs text-white flex items-start gap-2">
           <span class="px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[10px] uppercase font-mono font-bold text-[#FF8533] shrink-0" data-i18n="compare_col_radar">TalentRadar</span>
-          <span data-i18n="compare_row2_radar">Day Zero discovery — hours after publication, days before LinkedIn.</span>
+          <span data-i18n="compare_row2_radar" data-i18n-html="true"><strong>Day Zero discovery</strong> — hours after publication, days before LinkedIn.</span>
         </div>
       </div>
       <div class="glass-card rounded-xl p-4 space-y-2.5">
@@ -794,9 +800,9 @@
           <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] uppercase font-mono font-bold text-[#94A3B8] shrink-0" data-i18n="compare_col_manual">Traditional</span>
           <span data-i18n="compare_row3_manual">Recruiters waste time pitching candidates for roles silently filled weeks ago.</span>
         </div>
-        <div class="text-xs text-[#FF8533] font-semibold flex items-start gap-2">
+        <div class="text-xs text-white flex items-start gap-2">
           <span class="px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[10px] uppercase font-mono font-bold text-[#FF8533] shrink-0" data-i18n="compare_col_radar">TalentRadar</span>
-          <span data-i18n="compare_row3_radar">Auto-Archive Daemon wipes closed vacancies the moment they leave client portals.</span>
+          <span data-i18n="compare_row3_radar" data-i18n-html="true"><strong>Auto-Archive</strong> Daemon wipes closed vacancies the moment they leave client portals.</span>
         </div>
       </div>
       <div class="glass-card rounded-xl p-4 space-y-2.5">
@@ -805,9 +811,9 @@
           <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] uppercase font-mono font-bold text-[#94A3B8] shrink-0" data-i18n="compare_col_manual">Traditional</span>
           <span data-i18n="compare_row4_manual">Fragmented notes scattered in personal spreadsheets, Notion, or paper pads.</span>
         </div>
-        <div class="text-xs text-[#FF8533] font-semibold flex items-start gap-2">
+        <div class="text-xs text-white flex items-start gap-2">
           <span class="px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[10px] uppercase font-mono font-bold text-[#FF8533] shrink-0" data-i18n="compare_col_radar">TalentRadar</span>
-          <span data-i18n="compare_row4_radar">Unified BD Master with optional 1-click lightweight candidate pipeline.</span>
+          <span data-i18n="compare_row4_radar" data-i18n-html="true"><strong>Unified BD Master</strong> with optional 1-click lightweight candidate pipeline.</span>
         </div>
       </div>
       <div class="glass-card rounded-xl p-4 space-y-2.5">
@@ -816,9 +822,9 @@
           <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] uppercase font-mono font-bold text-[#94A3B8] shrink-0" data-i18n="compare_col_manual">Traditional</span>
           <span data-i18n="compare_row5_manual">Manual spreadsheet data entry + constant manual reminder checking.</span>
         </div>
-        <div class="text-xs text-[#FF8533] font-semibold flex items-start gap-2">
+        <div class="text-xs text-white flex items-start gap-2">
           <span class="px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[10px] uppercase font-mono font-bold text-[#FF8533] shrink-0" data-i18n="compare_col_radar">TalentRadar</span>
-          <span data-i18n="compare_row5_radar">Paste any company career URL — automated tracking begins on the next scan.</span>
+          <span data-i18n="compare_row5_radar" data-i18n-html="true">Paste any company career URL — <strong>automated tracking</strong> begins on the next scan.</span>
         </div>
       </div>
       <div class="glass-card rounded-xl p-4 space-y-2.5">
@@ -827,9 +833,9 @@
           <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] uppercase font-mono font-bold text-[#94A3B8] shrink-0" data-i18n="compare_col_manual">Traditional</span>
           <span data-i18n="compare_row6_manual">Hours of administrative overhead every single Monday morning.</span>
         </div>
-        <div class="text-xs text-[#FF8533] font-semibold flex items-start gap-2">
+        <div class="text-xs text-white flex items-start gap-2">
           <span class="px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[10px] uppercase font-mono font-bold text-[#FF8533] shrink-0" data-i18n="compare_col_radar">TalentRadar</span>
-          <span data-i18n="compare_row6_radar">3-minute morning pulse with AI sales pitch hooks and team audit trails.</span>
+          <span data-i18n="compare_row6_radar" data-i18n-html="true"><strong>3-minute morning pulse</strong> with AI sales pitch hooks and team audit trails.</span>
         </div>
       </div>
     </div>
@@ -871,7 +877,7 @@
             Direct ATS monitoring vs. commercial aggregators. Why 72–96h syndication lag kills exclusive client pitches, and how Day Zero intelligence secures mandates.
           </p>
         </div>
-        <a href="blog/the-4-day-latency-gap.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+        <a href="blog/the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
           <span data-i18n="insights_card1_cta">Read Full Analysis</span> →
         </a>
       </div>
@@ -891,7 +897,7 @@
             When an in-house talent team leaves a role open past 35 days, internal sourcing has failed. How to structure warm inbound BD pitches around aged vacancy data.
           </p>
         </div>
-        <a href="blog/anatomy-of-stale-roles.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+        <a href="blog/anatomy-of-stale-roles.html" data-blog-slug="anatomy-of-stale-roles" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
           <span data-i18n="insights_card2_cta">Read BD Playbook</span> →
         </a>
       </div>
@@ -911,7 +917,7 @@
             Up to 22% of listings on commercial job boards represent filled or cancelled roles. How automated reconciliation and auto-archiving saves 4+ recruiter hours weekly.
           </p>
         </div>
-        <a href="blog/hidden-cost-of-dead-vacancies.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+        <a href="blog/hidden-cost-of-dead-vacancies.html" data-blog-slug="hidden-cost-of-dead-vacancies" data-blog-prefix="blog/" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
           <span data-i18n="insights_card3_cta">Read Process Audit</span> →
         </a>
       </div>
@@ -983,7 +989,7 @@
       </div>
 
       <!-- Tier 2: Agency Pro (Highlighted) -->
-      <div class="glass-card rounded-2xl p-7 sm:p-9 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow-lg relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-3 shadow-2xl">
+      <div class="glass-card rounded-2xl p-7 sm:p-9 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow-lg relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-2" style="box-shadow: 0 0 35px rgba(255, 107, 0, 0.12);">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-[#FF6B00] shadow-md shadow-[#FF6B00]/40" data-i18n="pricing_tier2_badge">
@@ -1060,7 +1066,7 @@
     </div>
 
     <!-- ROI Formula Box -->
-    <div class="max-w-3xl mx-auto glass-card rounded-2xl p-6 sm:p-8 border border-[#FF6B00]/30 bg-gradient-to-br from-[#0E131F] to-[#0A0D14] text-center space-y-2">
+    <div class="max-w-3xl mx-auto bg-[#111622] border border-[#1B1E26] rounded-xl p-5 border-l-4 border-l-[#FF6B00] text-center space-y-2 shadow-xl">
       <p class="text-sm sm:text-base text-[#F3F4F6] leading-relaxed font-medium" data-i18n="pricing_roi_html" data-i18n-html="true">
         A single tech or executive search placement pays for <strong>4+ years of Agency Pro</strong>. Spotting just one mandate 48 hours early generates an immediate <strong>4,000%+ ROI</strong>.
       </p>
@@ -1106,7 +1112,7 @@
         <!-- Author Box -->
         <div class="pt-4 flex items-center space-x-4">
           <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="block shrink-0 group">
-            <img src="img/krystof.jpg" alt="Kryštof Pejša — Founder, TalentRadar" loading="lazy" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover object-center border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 group-hover:scale-105 transition" />
+            <img src="img/krystof.jpg" alt="Kryštof Pejša — Founder, TalentRadar" loading="lazy" style="object-fit: cover; object-position: center 15%;" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 group-hover:scale-105 transition" />
           </a>
           <div>
             <div class="font-bold text-white text-base sm:text-lg" data-i18n="story_author_name">Kryštof Pejša</div>
@@ -1128,12 +1134,12 @@
             <span class="text-[11px] font-mono uppercase tracking-wider text-[#FF8533] font-bold" data-i18n="story_case_study_badge">
               Dublin Production Case Study • Ingenio Global
             </span>
-            <a href="blog/the-4-day-latency-gap.html" class="text-[11px] font-bold text-[#94A3B8] hover:text-white transition">
+            <a href="blog/the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" data-blog-prefix="blog/" class="text-[11px] font-bold text-[#94A3B8] hover:text-white transition">
               <span data-i18n="insights_card1_cta">Read Full Analysis</span> →
             </a>
           </div>
-          <a href="blog/the-4-day-latency-gap.html" class="block overflow-hidden rounded-2xl border border-[#1B1E26] group">
-            <img src="img/dublin-case-study.jpg" alt="Dublin Case Study: 180 Monitored Tech Firms & 3,400+ Captured Roles — Kryštof Pejša at Ingenio Global" loading="lazy" class="w-full h-auto block rounded-2xl group-hover:scale-[1.01] transition duration-300" />
+          <a href="blog/the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" data-blog-prefix="blog/" class="block overflow-hidden rounded-2xl border border-[#1B1E26] group">
+            <img src="img/dublin-case-study.jpg" alt="Dublin Case Study: 180 Monitored Tech Firms & 3,400+ Captured Roles — Kryštof Pejša at Ingenio Global" loading="lazy" class="w-full h-auto block rounded-2xl border border-[#1B1E26] shadow-2xl max-w-full group-hover:scale-[1.01] transition duration-300" />
           </a>
           <p class="text-[11px] text-[#94A3B8] px-1 leading-relaxed" data-i18n="story_case_study_caption">
             Verified production telemetry from Dublin residency: 180 monitored tech companies and 3,400+ captured vacancies.
@@ -1379,7 +1385,7 @@
   <!-- ═══════════════════════════════════════════════
        FLOATING LANGUAGE SWITCHER WIDGET
   ═══════════════════════════════════════════════ -->
-  <div class="lang-switcher" role="group" aria-label="Language selector">
+  <div class="lang-switcher hidden md:flex" role="group" aria-label="Language selector">
     <button class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
     <span class="lang-divider">|</span>
     <button class="lang-btn" data-lang="cs" aria-pressed="false">CS</button>

@@ -105,6 +105,11 @@
       backdrop-filter: blur(12px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
+    @media (max-width: 767px) {
+      .lang-switcher {
+        display: none !important;
+      }
+    }
     .lang-btn {
       font-size: 11px;
       font-weight: 700;
@@ -128,7 +133,7 @@
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
 
   <!-- Floating Language Switcher -->
-  <div class="lang-switcher" role="group" aria-label="Language switcher">
+  <div class="lang-switcher hidden md:flex" role="group" aria-label="Language switcher">
     <button type="button" class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">EN</button>
     <button type="button" class="lang-btn" data-lang="cs" aria-pressed="false">CS</button>
   </div>
@@ -164,7 +169,7 @@
 
       <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
         <!-- Persistent Header [ EN | CS ] Switcher -->
-        <div class="hidden sm:flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
+        <div class="flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
           <button type="button" class="lang-btn lang-btn--active text-[10px] px-2 py-0.5 rounded-full" data-lang="en">EN</button>
           <button type="button" class="lang-btn text-[10px] px-2 py-0.5 rounded-full" data-lang="cs">CS</button>
         </div>
@@ -172,7 +177,7 @@
         <a href="https://app.talentradar.eu" class="hidden sm:inline-block text-xs sm:text-sm font-semibold text-[#F3F4F6]/80 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
           Sign In
         </a>
-        <a href="../#trial" class="px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+        <a href="../#trial" class="hidden sm:inline-block px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
           Start 14-Day Free Pilot
         </a>
       </div>
@@ -218,7 +223,7 @@
 
       <!-- Author Byline -->
       <div class="flex items-center space-x-4 pt-2 pb-6 border-b border-[rgba(255,255,255,0.08)]">
-        <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-center border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
+        <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
         <div>
           <div class="text-sm sm:text-base font-bold text-white">Kryštof Pejša</div>
           <div class="text-xs text-[#94A3B8]">
@@ -245,7 +250,7 @@
         <!-- PRIMARY VISUAL: Official Dublin Case Study Infographic -->
         <figure class="my-8 space-y-3">
           <div class="glass-card rounded-2xl p-3 sm:p-4 border border-[#1B1E26] bg-[#111622]/90 shadow-2xl">
-            <img src="../img/dublin-case-study.jpg" alt="Dublin Case Study Infographic: 180 Monitored Tech Firms, 3,400+ Captured Roles, Manual Excel vs. Autonomous Engine" class="w-full h-auto rounded-2xl border border-[#1B1E26] block" />
+            <img src="../img/dublin-case-study.jpg" alt="Dublin Case Study Infographic: 180 Monitored Tech Firms, 3,400+ Captured Roles, Manual Excel vs. Autonomous Engine" class="w-full h-auto rounded-2xl border border-[#1B1E26] shadow-2xl max-w-full block" />
           </div>
           <figcaption class="text-xs text-[#94A3B8] font-mono text-center">
             Figure 1: Production telemetry from Dublin residency at Ingenio Global — 180 monitored enterprise career portals and 3,400+ captured open roles.
@@ -344,7 +349,7 @@
               <span class="w-2 h-2 rounded-full bg-[#FBBF24]"></span>
               <span>Secondary Pattern: The Anatomy of Stale Roles (&gt;35 Days)</span>
             </div>
-            <a href="anatomy-of-stale-roles.html" class="text-xs font-bold text-[#FF8533] hover:text-white transition">
+            <a href="anatomy-of-stale-roles.html" data-blog-slug="anatomy-of-stale-roles" class="text-xs font-bold text-[#FF8533] hover:text-white transition">
               Read Dedicated BD Playbook →
             </a>
           </div>
@@ -364,7 +369,7 @@
               <span class="w-2 h-2 rounded-full bg-[#38BDF8]"></span>
               <span>Operational Waste: The Cost of Dead Vacancies</span>
             </div>
-            <a href="hidden-cost-of-dead-vacancies.html" class="text-xs font-bold text-[#FF8533] hover:text-white transition">
+            <a href="hidden-cost-of-dead-vacancies.html" data-blog-slug="hidden-cost-of-dead-vacancies" class="text-xs font-bold text-[#FF8533] hover:text-white transition">
               Read Full Process Audit →
             </a>
           </div>
@@ -455,7 +460,7 @@
 
       <!-- Author Byline -->
       <div class="flex items-center space-x-4 pt-2 pb-6 border-b border-[rgba(255,255,255,0.08)]">
-        <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-center border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
+        <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
         <div>
           <div class="text-sm sm:text-base font-bold text-white">Kryštof Pejša</div>
           <div class="text-xs text-[#94A3B8]">
@@ -482,7 +487,7 @@
         <!-- PRIMARY VISUAL: Official Dublin Case Study Infographic -->
         <figure class="my-8 space-y-3">
           <div class="glass-card rounded-2xl p-3 sm:p-4 border border-[#1B1E26] bg-[#111622]/90 shadow-2xl">
-            <img src="../img/dublin-case-study.jpg" alt="Dublinská případová studie: 180 sledovaných firem, 3 400+ zachycených pozic, manuální Excel vs. autonomní systém" class="w-full h-auto rounded-2xl border border-[#1B1E26] block" />
+            <img src="../img/dublin-case-study.jpg" alt="Dublinská případová studie: 180 sledovaných firem, 3 400+ zachycených pozic, manuální Excel vs. autonomní systém" class="w-full h-auto rounded-2xl border border-[#1B1E26] shadow-2xl max-w-full block" />
           </div>
           <figcaption class="text-xs text-[#94A3B8] font-mono text-center">
             Obrázek 1: Produkční telemetrie z rezidence v Dublinu (Ingenio Global) — 180 sledovaných kariérních portálů a 3 400+ zachycených rolí.
@@ -581,7 +586,7 @@
               <span class="w-2 h-2 rounded-full bg-[#FBBF24]"></span>
               <span>Sekundární vzorec: Anatomie stárnoucích pozic (&gt;35 dní)</span>
             </div>
-            <a href="anatomy-of-stale-roles.html" class="text-xs font-bold text-[#FF8533] hover:text-white transition">
+            <a href="anatomy-of-stale-roles-cs.html" data-blog-slug="anatomy-of-stale-roles" class="text-xs font-bold text-[#FF8533] hover:text-white transition">
               Přečíst samostatnou BD strategii →
             </a>
           </div>
@@ -601,7 +606,7 @@
               <span class="w-2 h-2 rounded-full bg-[#38BDF8]"></span>
               <span>Provozní ztráty: Skrytá cena mrtvých inzerátů</span>
             </div>
-            <a href="hidden-cost-of-dead-vacancies.html" class="text-xs font-bold text-[#FF8533] hover:text-white transition">
+            <a href="hidden-cost-of-dead-vacancies-cs.html" data-blog-slug="hidden-cost-of-dead-vacancies" class="text-xs font-bold text-[#FF8533] hover:text-white transition">
               Přečíst celý provozní audit →
             </a>
           </div>

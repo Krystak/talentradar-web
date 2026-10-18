@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="cs" data-default-lang="cs" class="scroll-smooth"
+  data-page-title-en="Anatomy of Stale Roles (>35 Days): The Highest-Probability Pitch in B2B Recruitment — TalentRadar"
+  data-page-title-cs="Anatomie otevřených pozic (>35 dní): Nejefektivnější akviziční argument v headhuntingu — TalentRadar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO & Title -->
+  <title>Anatomie otevřených pozic (>35 dní): Nejefektivnější akviziční argument v headhuntingu | TalentRadar</title>
+  <meta name="description" content="Proč pozice otevřené déle než 35 dní vykazují 3,4× vyšší konverzní úspěšnost při akvizičním oslovení a jak je TalentRadar automaticky označuje v ranním přehledu.">
+  <link rel="canonical" href="https://talentradar.eu/blog/anatomy-of-stale-roles.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://talentradar.eu/blog/anatomy-of-stale-roles.html">
+  <meta property="og:title" content="Anatomy of Stale Roles (>35 Days): The Highest-Probability Pitch in B2B Recruitment">
+  <meta property="og:description" content="How recruitment agencies convert 35+ day aged vacancies into high-margin client mandates.">
+  <meta property="og:image" content="https://talentradar.eu/img/dublin-case-study.jpg">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Bilingual i18n Engine -->
+  <script src="../js/translations.js" defer></script>
+
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0A0D14;
+      color: #F3F4F6;
+    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glass-card {
+      background: rgba(17, 22, 34, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+    }
+    .orange-glow { box-shadow: 0 0 40px rgba(255, 107, 0, 0.18); }
+    .orange-glow-lg { box-shadow: 0 0 80px rgba(255, 107, 0, 0.22); }
+
+    .lang-switcher {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(14, 18, 28, 0.94);
+      border: 1px solid rgba(255, 107, 0, 0.35);
+      border-radius: 9999px;
+      padding: 4px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+    @media (max-width: 767px) {
+      .lang-switcher {
+        display: none !important;
+      }
+    }
+    .lang-btn {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 5px 11px;
+      border-radius: 9999px;
+      color: #94A3B8;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .lang-btn:hover { color: #F3F4F6; }
+    .lang-btn--active {
+      background: #FF6B00;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(255, 107, 0, 0.45);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#FF6B00] selection:text-white">
+
+  <!-- Floating Language Switcher -->
+  <div class="lang-switcher hidden md:flex" role="group" aria-label="Language switcher">
+    <button type="button" class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" class="lang-btn" data-lang="cs" aria-pressed="false">CS</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════ -->
+  <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3 transition-all">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="../" class="flex items-center space-x-2.5 sm:space-x-3 group flex-shrink-0">
+        <div class="relative flex items-center justify-center h-8 w-8 flex-shrink-0">
+          <img src="../falcon.svg" alt="" aria-hidden="true" width="32" height="32" class="h-8 w-8 group-hover:scale-105 transition-transform object-contain">
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold text-lg sm:text-2xl tracking-tight leading-none whitespace-nowrap">
+            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+          </span>
+          <span class="hidden sm:block text-[10px] font-semibold text-[#F3F4F6]/80 tracking-wider uppercase mt-1 whitespace-nowrap">
+            Spend time closing, <span class="text-[#FF6B00]">not searching.</span>
+          </span>
+        </div>
+      </a>
+
+      <div class="hidden lg:flex items-center space-x-5 text-sm font-medium text-[#F3F4F6]/80 whitespace-nowrap">
+        <a href="../#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
+        <a href="../#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
+        <a href="../#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
+        <a href="../#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
+        <a href="./" class="text-[#FF6B00] font-semibold transition" data-i18n="nav_insights">Research &amp; Blog</a>
+        <a href="../#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
+      </div>
+
+      <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+        <div class="flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
+          <button type="button" class="lang-btn lang-btn--active text-[10px] px-2 py-0.5 rounded-full" data-lang="en">EN</button>
+          <button type="button" class="lang-btn text-[10px] px-2 py-0.5 rounded-full" data-lang="cs">CS</button>
+        </div>
+
+        <a href="https://app.talentradar.eu" class="hidden sm:inline-block text-xs sm:text-sm font-semibold text-[#F3F4F6]/80 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
+          Sign In
+        </a>
+        <a href="../#trial" class="hidden sm:inline-block px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+          Start 14-Day Free Pilot
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       ARTICLE CONTENT (EN + CS)
+  ═══════════════════════════════════════════════ -->
+  <article class="pt-16 sm:pt-24 pb-20 px-4 sm:px-6 max-w-4xl mx-auto">
+
+    <!-- ENGLISH VERSION -->
+    <div data-lang-block="en" class="hidden space-y-6">
+      <div class="flex items-center space-x-2 text-xs text-[#94A3B8]">
+        <a href="../" class="hover:text-white transition">Home</a>
+        <span>/</span>
+        <a href="./" class="hover:text-[#FF6B00] transition">Intelligence Lab</a>
+        <span>/</span>
+        <span class="text-[#F3F4F6]">Anatomy of Stale Roles (&gt;35 Days)</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 text-xs">
+        <span class="px-3 py-1 rounded-full bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/30 font-bold font-mono">
+          BD STRATEGY · 4 MIN READ
+        </span>
+        <span class="text-[#94A3B8] font-mono">Published Oct 12, 2026</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+        Anatomy of Stale Roles (&gt;35 Days): The Highest-Probability Pitch in B2B Recruitment
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[#F3F4F6]/80 leading-relaxed font-medium border-l-2 border-[#FBBF24] pl-4">
+        Day Zero roles win on speed. Roles open past 35 days win on acute operational pain. When an internal talent acquisition team fails to close a requisition within five weeks, their organic applicant funnel is empty — yielding a 3.4× higher conversion rate for external headhunter pitches.
+      </p>
+
+      <div class="flex items-center space-x-4 pt-2 pb-6 border-b border-[rgba(255,255,255,0.08)]">
+        <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
+        <div>
+          <div class="text-sm sm:text-base font-bold text-white">Kryštof Pejša</div>
+          <div class="text-xs text-[#94A3B8]">
+            Founder, TalentRadar •
+            <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6 text-[#F3F4F6] text-sm sm:text-base leading-relaxed pt-4">
+        <h2 class="text-2xl font-black text-white">Why Day 35 Generates a 3.4× Higher BD Conversion Rate</h2>
+        <p>
+          In our Dublin production dataset covering 3,400+ vacancies across 180 enterprise employers, <strong>38.4% of senior engineering, product, and commercial roles remained open on the employer's direct ATS past Day 35</strong>. More importantly, agency outreach targeting hiring managers on Day 35+ achieved a <strong>3.4× higher conversion rate into active retainers</strong> compared to generic mid-cycle cold outreach.
+        </p>
+        <p>
+          During the first two weeks of a vacancy, internal Talent Acquisition (TA) teams are confident. They rely on inbound LinkedIn job slots, employee referrals, and active ATS talent pools. If an external headhunter pitches on Day 10 without an exclusive hook, internal TA often pushes back: <em>"We are handling this internally."</em>
+        </p>
+        <p>
+          By Day 35, the internal dynamics inside the client organization shift dramatically:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
+          <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
+            <div class="text-xs font-mono font-bold text-[#FBBF24]">SIGNAL 01 // DAY 35+</div>
+            <div class="font-bold text-white text-sm">Inbound Funnel Exhausted</div>
+            <p class="text-xs text-[#94A3B8]">92% of relevant active job seekers apply within the first 14 days. By week 5, inbound quality drops near zero.</p>
+          </div>
+          <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
+            <div class="text-xs font-mono font-bold text-[#FF8533]">SIGNAL 02 // ROADMAP PAIN</div>
+            <div class="font-bold text-white text-sm">Delivery Bottleneck</div>
+            <p class="text-xs text-[#94A3B8]">The VP of Engineering or Sales Director is now answering to the board for delayed product or revenue targets.</p>
+          </div>
+          <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
+            <div class="text-xs font-mono font-bold text-[#34D399]">SIGNAL 03 // 3.4× CONVERSION</div>
+            <div class="font-bold text-white text-sm">Agency Fee Approval</div>
+            <p class="text-xs text-[#94A3B8]">Line managers gain internal leverage to override "no-agency" policies when a seat has been vacant for over five weeks.</p>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-black text-white pt-2">How TalentRadar Flags Stale Roles in Your Morning Digest</h2>
+        <p>
+          Commercial job boards reset the "Posted Date" every time an employer refreshes their paid slot, masking how long a vacancy has truly been open. TalentRadar tracks the immutable first-seen timestamp directly on the client's ATS endpoint and automatically flags aged vacancies in your <strong>06:00 UTC morning digest</strong>:
+        </p>
+        <ol class="list-decimal list-inside space-y-3 pl-2 text-[#F3F4F6]/90">
+          <li><strong>Automated Morning Digest Alerts:</strong> As soon as a tracked client role crosses the 35-day threshold on Greenhouse, Lever, Ashby, or Workable, TalentRadar highlights it in your morning BD pulse as a high-probability bottleneck.</li>
+          <li><strong>Bypass Generic HR Inboxes:</strong> Use TalentRadar's 1-click LinkedIn Decision-Maker X-Ray to identify the functional department head (e.g., VP Engineering, Head of Infrastructure) in the specific city.</li>
+          <li><strong>Lead with Calibrated Market Scarcity:</strong> Reference the exact duration the role has been open and present two anonymized, pre-vetted profiles from your specialist vertical who match the bottleneck.</li>
+        </ol>
+
+        <div class="pt-4">
+          <a href="the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
+            ← Read the Pillar Study: The 4-Day Latency Gap
+          </a>
+        </div>
+
+        <!-- CTA Banner -->
+        <div class="mt-10 glass-card rounded-2xl p-8 border border-[#FF6B00]/40 orange-glow-lg text-center space-y-4 bg-gradient-to-br from-[#192338] via-[#111622] to-[#0A0D14]">
+          <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]">Start Your 14-Day Free Pilot</span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">
+            Spot both Day Zero roles and 35+ day bottlenecks automatically.
+          </h3>
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+            Monitor up to 200 client companies 2× daily with full AI vertical classification and aged-vacancy tracking.
+          </p>
+          <div class="pt-2">
+            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">
+              Start 14-Day Free Pilot →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CZECH VERSION -->
+    <div data-lang-block="cs" class="space-y-6">
+      <div class="flex items-center space-x-2 text-xs text-[#94A3B8]">
+        <a href="../" class="hover:text-white transition">Domů</a>
+        <span>/</span>
+        <a href="./" class="hover:text-[#FF6B00] transition">Intelligence Lab</a>
+        <span>/</span>
+        <span class="text-[#F3F4F6]">Anatomie otevřených pozic (&gt;35 dní)</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 text-xs">
+        <span class="px-3 py-1 rounded-full bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/30 font-bold font-mono">
+          BD STRATEGIE · 4 MIN ČTENÍ
+        </span>
+        <span class="text-[#94A3B8] font-mono">Publikováno 12. října 2026</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+        Anatomie otevřených pozic (&gt;35 dní): Nejefektivnější akviziční argument v headhuntingu
+      </h1>
+
+      <p class="text-lg sm:text-xl text-[#F3F4F6]/80 leading-relaxed font-medium border-l-2 border-[#FBBF24] pl-4">
+        Pozice zachycené v Den Nula vyhrávají díky rychlosti. Pozice otevřené déle než 35 dní vyhrávají díky akutní provozní bolesti klienta. Když interní HR tým nedokáže roli obsadit do pěti týdnů, interní sourcing vyčerpal své možnosti — a oslovení externím headhunterem má 3,4× vyšší konverzní úspěšnost.
+      </p>
+
+      <div class="flex items-center space-x-4 pt-2 pb-6 border-b border-[rgba(255,255,255,0.08)]">
+        <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 shrink-0" />
+        <div>
+          <div class="text-sm sm:text-base font-bold text-white">Kryštof Pejša</div>
+          <div class="text-xs text-[#94A3B8]">
+            Zakladatel TalentRadar •
+            <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6 text-[#F3F4F6] text-sm sm:text-base leading-relaxed pt-4">
+        <h2 class="text-2xl font-black text-white">Proč 35. den přináší 3,4× vyšší šanci na získání zakázky</h2>
+        <p>
+          V našem dublinském produkčním datasetu čítajícím přes 3 400 pozic napříč 180 technologickými a enterprise firmami zůstalo <strong>38,4 % seniorních inženýrských, produktových a obchodních rolí otevřených v ATS klienta déle než 35 dní</strong>. Ještě důležitější je zjištění, že akviziční oslovení cílené na pozice otevřené déle než 35 dní vykazuje <strong>3,4× vyšší konverzní poměr</strong> oproti běžnému studenému volání.
+        </p>
+        <p>
+          Během prvních dvou týdnů od vypsání pozice si interní Talent Acquisition (TA) týmy věří. Spoléhají na placené inzeráty, doporučení zaměstnanců a vlastní databázi. Pokud externí headhunter zavolá 10. den bez okamžitého kandidáta, často narazí na odpověď: <em>„Pozici si zatím řešíme interně.“</em>
+        </p>
+        <p>
+          Po 35 dnech se však interní dynamika u klienta zásadně mění:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
+          <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
+            <div class="text-xs font-mono font-bold text-[#FBBF24]">SIGNÁL 01 // DEN 35+</div>
+            <div class="font-bold text-white text-sm">Vyčerpaný inbound</div>
+            <p class="text-xs text-[#94A3B8]">92 % relevantních aktivních uchazečů reaguje během prvních 14 dnů. V 5. týdnu klesá kvalita příchozích CV k nule.</p>
+          </div>
+          <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
+            <div class="text-xs font-mono font-bold text-[#FF8533]">SIGNÁL 02 // TLAK NA ROADMAPU</div>
+            <div class="font-bold text-white text-sm">Skluz v dodávce</div>
+            <p class="text-xs text-[#94A3B8]">VP of Engineering nebo obchodní ředitel musí vedení vysvětlovat, proč chybějící člověk brzdí produkt či tržby.</p>
+          </div>
+          <div class="bg-[#111622] rounded-xl p-5 border border-[#1B1E26] space-y-2">
+            <div class="text-xs font-mono font-bold text-[#34D399]">SIGNÁL 03 // 3,4× VYŠŠÍ KONVERZE</div>
+            <div class="font-bold text-white text-sm">Schválení agenturního fee</div>
+            <p class="text-xs text-[#94A3B8]">Liniový manažer získává argumenty pro prolomení interního stop-stavu na externí agentury.</p>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-black text-white pt-2">Jak TalentRadar automaticky označuje stárnoucí pozice v ranním přehledu</h2>
+        <p>
+          Komerční portály resetují datum zveřejnění při každé obnově placeného inzerátu, čímž zakrývají skutečnou dobu, po kterou se klientovi nedaří roli obsadit. TalentRadar zaznamenává neměnné datum prvního výskytu přímo v primárním ATS klienta a stárnoucí pozice automaticky zvýrazňuje ve vašem <strong>ranním přehledu (06:00 UTC)</strong>:
+        </p>
+        <ol class="list-decimal list-inside space-y-3 pl-2 text-[#F3F4F6]/90">
+          <li><strong>Automatické upozornění v ranním digestu:</strong> Jakmile sledovaná pozice u klienta překročí hranici 35 dnů v Greenhouse, Leveru, Ashby či Recruitisu, TalentRadar ji označí jako prioritní akviziční příležitost.</li>
+          <li><strong>Obejděte obecné HR schránky:</strong> Využijte 1-click LinkedIn X-Ray v TalentRadaru a oslovte přímo věcného lídra daného oddělení (např. VP Engineering, Head of Infrastructure) v příslušné lokalitě.</li>
+          <li><strong>Nabídněte okamžitou kalibraci trhu:</strong> Ve zprávě konkrétně zmiňte, že pozice je otevřená přes 5 týdnů, a rovnou připojte dva anonymizované profily prověřených kandidátů ze své specializace.</li>
+        </ol>
+
+        <div class="pt-4">
+          <a href="the-4-day-latency-gap-cs.html" data-blog-slug="the-4-day-latency-gap" class="text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
+            ← Přečíst hlavní studii: Čtyřdenní zpoždění (The 4-Day Latency Gap)
+          </a>
+        </div>
+
+        <!-- CTA Banner (CS) -->
+        <div class="mt-10 glass-card rounded-2xl p-8 border border-[#FF6B00]/40 orange-glow-lg text-center space-y-4 bg-gradient-to-br from-[#192338] via-[#111622] to-[#0A0D14]">
+          <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]">Vyzkoušet na 14 dní zdarma</span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">
+            Odhalte jak pozice v Den Nula, tak 35+ denní úzká hrdla u svých klientů.
+          </h3>
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+            Sledujte až 200 klientských firem 2× denně s plnou AI klasifikací vertikál a přesným měřením stáří inzerátů.
+          </p>
+          <div class="pt-2">
+            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">
+              Vyzkoušet na 14 dní zdarma →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- FOOTER -->
+  <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-[#94A3B8]">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-2 text-xs">
+        <img src="../falcon.svg" alt="" aria-hidden="true" width="32" height="32" class="h-5 w-5 object-contain">
+        <span class="font-bold text-white text-sm">
+          <span>TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+        </span>
+        <span class="text-[#94A3B8]">— <span>Spend time closing, <span class="text-[#FF6B00]">not searching.</span></span></span>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 text-[#F3F4F6]/80">
+        <span>Kryštof Pejša</span>
+        <span>•</span>
+        <a href="mailto:krystof@talentradar.eu" class="hover:text-white underline">krystof@talentradar.eu</a>
+        <span>•</span>
+        <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">LinkedIn</a>
+        <span>•</span>
+        <a href="../gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy</a>
+      </div>
+
+      <div class="text-[#94A3B8]" data-i18n="footer_copyright">© 2026 TalentRadar</div>
+    </div>
+  </footer>
+
+</body>
+</html>

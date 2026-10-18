@@ -75,6 +75,11 @@
       backdrop-filter: blur(12px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
+    @media (max-width: 767px) {
+      .lang-switcher {
+        display: none !important;
+      }
+    }
     .lang-btn {
       font-size: 11px;
       font-weight: 700;
@@ -98,7 +103,7 @@
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
 
   <!-- Floating Language Switcher -->
-  <div class="lang-switcher" role="group" aria-label="Language switcher">
+  <div class="lang-switcher hidden md:flex" role="group" aria-label="Language switcher">
     <button type="button" class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">EN</button>
     <button type="button" class="lang-btn" data-lang="cs" aria-pressed="false">CS</button>
   </div>
@@ -136,7 +141,7 @@
 
       <!-- Action Buttons + Persistent [ EN | CS ] Toggle -->
       <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-        <div class="hidden sm:flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
+        <div class="flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
           <button type="button" class="lang-btn lang-btn--active text-[10px] px-2 py-0.5 rounded-full" data-lang="en">EN</button>
           <button type="button" class="lang-btn text-[10px] px-2 py-0.5 rounded-full" data-lang="cs">CS</button>
         </div>
@@ -144,7 +149,7 @@
         <a href="https://app.talentradar.eu" class="hidden sm:inline-block text-xs sm:text-sm font-semibold text-[#F3F4F6]/80 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
           Sign In
         </a>
-        <a href="../#trial" class="px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+        <a href="../#trial" class="hidden sm:inline-block px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
           Start 14-Day Free Pilot
         </a>
       </div>
@@ -220,7 +225,7 @@
             </span>
           </div>
 
-          <a href="the-4-day-latency-gap.html" class="block group-hover:text-[#FF8533] transition">
+          <a href="the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" class="block group-hover:text-[#FF8533] transition">
             <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card1_title">
               The 4-Day Latency Gap: Why Agencies Lose 40% of Client Roles Before Job Boards Even Index Them
             </h2>
@@ -231,7 +236,7 @@
           </p>
 
           <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
-            <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-7 h-7 rounded-full object-cover object-center border border-[#FF6B00] shrink-0">
+            <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-7 h-7 rounded-full object-cover object-[center_15%] border border-[#FF6B00] shrink-0">
             <span data-lang-block="en">Kryštof Pejša, Founder</span>
             <span data-lang-block="cs" class="hidden">Kryštof Pejša, Zakladatel</span>
             <span>•</span>
@@ -239,7 +244,7 @@
           </div>
         </div>
 
-        <a href="the-4-day-latency-gap.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+        <a href="the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
           <span data-i18n="insights_card1_cta">Read Full Analysis</span>
           <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
@@ -259,7 +264,7 @@
             </span>
           </div>
 
-          <a href="anatomy-of-stale-roles.html" class="block group-hover:text-[#FF8533] transition">
+          <a href="anatomy-of-stale-roles.html" data-blog-slug="anatomy-of-stale-roles" class="block group-hover:text-[#FF8533] transition">
             <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card2_title">
               Anatomy of Stale Roles (&gt;35 Days): The Highest-Probability Pitch in B2B Recruitment
             </h2>
@@ -270,7 +275,7 @@
           </p>
 
           <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
-            <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-7 h-7 rounded-full object-cover object-center border border-[#FF6B00] shrink-0">
+            <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-7 h-7 rounded-full object-cover object-[center_15%] border border-[#FF6B00] shrink-0">
             <span data-lang-block="en">Kryštof Pejša, Founder</span>
             <span data-lang-block="cs" class="hidden">Kryštof Pejša, Zakladatel</span>
             <span>•</span>
@@ -278,7 +283,7 @@
           </div>
         </div>
 
-        <a href="anatomy-of-stale-roles.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+        <a href="anatomy-of-stale-roles.html" data-blog-slug="anatomy-of-stale-roles" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
           <span data-i18n="insights_card2_cta">Read BD Playbook</span>
           <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
@@ -298,7 +303,7 @@
             </span>
           </div>
 
-          <a href="hidden-cost-of-dead-vacancies.html" class="block group-hover:text-[#FF8533] transition">
+          <a href="hidden-cost-of-dead-vacancies.html" data-blog-slug="hidden-cost-of-dead-vacancies" class="block group-hover:text-[#FF8533] transition">
             <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card3_title">
               The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale
             </h2>
@@ -309,7 +314,7 @@
           </p>
 
           <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
-            <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-7 h-7 rounded-full object-cover object-center border border-[#FF6B00] shrink-0">
+            <img src="../img/krystof.jpg" alt="Kryštof Pejša" style="object-fit: cover; object-position: center 15%;" class="w-7 h-7 rounded-full object-cover object-[center_15%] border border-[#FF6B00] shrink-0">
             <span data-lang-block="en">Kryštof Pejša, Founder</span>
             <span data-lang-block="cs" class="hidden">Kryštof Pejša, Zakladatel</span>
             <span>•</span>
@@ -317,7 +322,7 @@
           </div>
         </div>
 
-        <a href="hidden-cost-of-dead-vacancies.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+        <a href="hidden-cost-of-dead-vacancies.html" data-blog-slug="hidden-cost-of-dead-vacancies" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
           <span data-i18n="insights_card3_cta">Read Process Audit</span>
           <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>

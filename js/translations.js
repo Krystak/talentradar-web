@@ -27,8 +27,8 @@ const TRANSLATIONS = {
     hero_badge: "Autonomous BD Intelligence & Lightweight ATS for Recruitment Teams",
     hero_headline_html: "Spot your clients’ open roles the hour they post them.<br><span class=\"text-[#FF6B00]\">Days before LinkedIn.</span>",
     hero_subheadline: "Stop wasting recruiter hours manually checking client career portals or waiting for crowded job boards. TalentRadar monitors enterprise career sites and ATS endpoints twice daily. Use it as an upstream BD radar alongside your existing ATS, or switch on our lightweight pipeline module to run your entire boutique agency.",
-    hero_input_placeholder: "Enter your agency work email or client domain...",
     hero_cta_btn: "Start 14-Day Free Pilot",
+    hero_demo_btn: "Try the interactive demo",
     hero_trust_microcopy: "✓ No credit card required  •  ✓ Track up to 200 companies  •  ✓ Set up within 24 hours",
 
     /* ── Interactive Hero Switcher & Mockup ── */
@@ -208,13 +208,16 @@ const TRANSLATIONS = {
     trial_clients_tag: "Excel, CSV or Domains",
     trial_upload_cta: "Click to upload client spreadsheet",
     trial_upload_types: "(Excel .xlsx, .xls or .csv)",
-    trial_upload_note: "We locate ATS endpoints and career portals for you. You can also send the file after registration.",
+    trial_upload_note: "We find the career pages and ATS for you. No list at hand? Leave it empty and we will get in touch to collect it.",
     trial_submit: "Activate 14-Day Free Pilot →",
     trial_submitting: "Activating your pilot…",
+    trial_step1: "A confirmation e-mail arrives right away.",
+    trial_step2: "We set up your workspace, find your clients' career pages and run the first scan.",
+    trial_step3: "You get an e-mail with a link to set your password and sign in.",
     trial_file_too_large: "File too large (max 8 MB).",
     trial_error_required: "Please enter your name, work email, and agency name.",
     trial_error_generic: "Something went wrong. Please write to us directly at krystof@talentradar.eu",
-    trial_speed_note: "Access and your first scan within 24 hours.",
+    trial_speed_note: "Often ready within the hour, always within 24 hours.",
     trial_gdpr_html: "By submitting you agree to processing of your contact details to create a trial account. Your data is strictly confidential and never shared. (<a href=\"gdpr.html\" class=\"underline hover:text-[#FF8533]\">Privacy Policy</a>)",
     trial_contact_prefix: "Direct Founder Contact:",
 
@@ -247,8 +250,8 @@ const TRANSLATIONS = {
     hero_badge: "Autonomní BD radar a odlehčené ATS pro recruitment týmy",
     hero_headline_html: "Nové pozice u&nbsp;vašich klientů v&nbsp;hodinu, kdy je vypíšou.<br><span class=\"text-[#FF6B00]\">Dny před LinkedInem a&nbsp;portály.</span>",
     hero_subheadline: "Přestaňte pálit hodiny konzultantů ručním proklikáváním kariérních webů nebo čekáním na přeplněné pracovní portály. TalentRadar kontroluje kariérní weby a ATS vašich klientů 2× denně. Používejte ho jako BD radar vedle svého stávajícího ATS, nebo zapněte odlehčenou pipeline a řiďte v něm celou agenturu.",
-    hero_input_placeholder: "Zadejte pracovní e-mail nebo doménu klienta...",
     hero_cta_btn: "Vyzkoušet na 14 dní zdarma",
+    hero_demo_btn: "Vyzkoušet interaktivní demo",
     hero_trust_microcopy: "✓ Bez platební karty  •  ✓ Sledování až 200 firem  •  ✓ Nastavení do 24 hodin",
 
     /* ── Interactive Hero Switcher & Mockup ── */
@@ -428,13 +431,16 @@ const TRANSLATIONS = {
     trial_clients_tag: "Excel, CSV nebo domény",
     trial_upload_cta: "Klikněte pro nahrání souboru s klienty",
     trial_upload_types: "(Excel .xlsx, .xls nebo .csv)",
-    trial_upload_note: "Kariérní weby a ATS portály dohledáme za vás. Soubor můžete zaslat i dodatečně po registraci.",
+    trial_upload_note: "Kariérní weby a ATS dohledáme za vás. Seznam teď nemáte po ruce? Nechte pole prázdné a ozveme se vám pro něj.",
     trial_submit: "Vyzkoušet na 14 dní zdarma →",
     trial_submitting: "Aktivuji zkušební verzi…",
+    trial_step1: "Hned vám přijde potvrzovací e-mail.",
+    trial_step2: "Založíme workspace, dohledáme kariérní weby vašich klientů a spustíme první sken.",
+    trial_step3: "Přijde vám e-mail s odkazem, kde si nastavíte heslo a přihlásíte se.",
     trial_file_too_large: "Soubor je příliš velký (max. 8 MB).",
     trial_error_required: "Vyplňte prosím jméno, pracovní e-mail a název agentury.",
     trial_error_generic: "Něco se pokazilo. Napište nám prosím přímo na krystof@talentradar.eu",
-    trial_speed_note: "Přístup a první sken do 24 hodin.",
+    trial_speed_note: "Často hotovo do hodiny, vždy do 24 hodin.",
     trial_gdpr_html: "Odesláním souhlasíte se zpracováním kontaktních údajů pro vytvoření zkušebního účtu. Údaje jsou přísně důvěrné a nikomu je nepředáváme. (<a href=\"gdpr.html\" class=\"underline hover:text-[#FF8533]\">Zásady zpracování</a>)",
     trial_contact_prefix: "Přímý kontakt na zakladatele:",
 
@@ -483,9 +489,10 @@ const TRANSLATIONS = {
     currentLang = 'en';
   }
 
-  // The brand name is always two-tone: "Talent" white, "Radar" orange,
-  // including Czech declined forms (TalentRadaru, TalentRadarem).
+  // In headings the brand name is two-tone: "Talent" white, "Radar" orange,
+  // including Czech declined forms (TalentRadaru). Running text stays plain.
   const BRAND_RE = /\b(Talent)(Radar\w*)/gi;
+  const BRAND_ONLY = 'h1,h2,h3,h4,[data-brand]';
   const BRAND_SKIP = 'script,style,title,textarea,input,select,option,code,pre,[data-no-brand],.tr-brandword';
   function brandify(root) {
     if (typeof document === 'undefined') return;
@@ -496,7 +503,7 @@ const TRANSLATIONS = {
         if (!BRAND_RE.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
         BRAND_RE.lastIndex = 0;
         const parent = node.parentElement;
-        return parent && !parent.closest(BRAND_SKIP) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        return parent && parent.closest(BRAND_ONLY) && !parent.closest(BRAND_SKIP) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
       }
     });
     const nodes = [];

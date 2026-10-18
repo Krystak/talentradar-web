@@ -231,14 +231,14 @@
 
       <!-- Quick-Start Conversion Box (In-Hero Form) -->
       <div class="pt-3 max-w-2xl mx-auto">
-        <form id="heroQuickForm" onsubmit="handleHeroSubmit(event)" class="glass-card rounded-2xl p-2 sm:p-2.5 border border-[#FF6B00]/35 flex flex-col sm:flex-row items-center gap-2 shadow-2xl orange-glow">
-          <div class="relative w-full flex-1">
-            <input type="text" id="heroDomainInput" placeholder="Enter your agency work email or client domain..." class="w-full px-4 py-3.5 rounded-xl bg-[#0A0D14]/90 border border-white/10 text-white text-xs sm:text-sm placeholder-[#94A3B8] focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="hero_input_placeholder" />
-          </div>
-          <button type="submit" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-xs sm:text-sm tracking-wide shadow-lg shadow-[#FF6B00]/30 transition whitespace-nowrap cursor-pointer">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+          <a href="#trial" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-lg shadow-[#FF6B00]/30 transition text-center whitespace-nowrap">
             <span data-i18n="hero_cta_btn">Start 14-Day Free Pilot</span> →
-          </button>
-        </form>
+          </a>
+          <a href="#live-radar" class="px-7 py-3.5 rounded-xl bg-[#141B2D] hover:bg-[#1C253D] text-white font-bold text-sm tracking-wide border border-white/15 hover:border-[#FF6B00]/50 transition text-center whitespace-nowrap">
+            <span data-i18n="hero_demo_btn">Try the interactive demo</span> ↓
+          </a>
+        </div>
 
         <p class="text-xs text-[#94A3B8] mt-3 font-mono" data-i18n="hero_trust_microcopy">
           ✓ No credit card required  •  ✓ Track up to 200 companies  •  ✓ Async setup in 24h
@@ -941,7 +941,7 @@
 
       <!-- Form Container -->
       <div id="formWrapper">
-        <form id="demoForm" class="space-y-4 max-w-xl mx-auto text-left">
+        <form id="demoForm" method="post" action="#trial" class="space-y-4 max-w-xl mx-auto text-left">
 
           <!-- Honeypot -->
           <div style="display:none !important;" aria-hidden="true">
@@ -1004,6 +1004,12 @@
           <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5 cursor-pointer">
             <span data-i18n="trial_submit">Activate 14-Day Free Pilot →</span>
           </button>
+
+          <ol class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-[11px] text-[#F3F4F6]/80" aria-label="What happens next">
+            <li class="rounded-lg bg-[#0A0D14] border border-white/10 px-3 py-2.5"><span class="block font-mono font-bold text-[#FF8533]">1</span><span data-i18n="trial_step1">A confirmation e-mail arrives right away.</span></li>
+            <li class="rounded-lg bg-[#0A0D14] border border-white/10 px-3 py-2.5"><span class="block font-mono font-bold text-[#FF8533]">2</span><span data-i18n="trial_step2">We set up your workspace, find your clients' career pages and run the first scan.</span></li>
+            <li class="rounded-lg bg-[#0A0D14] border border-white/10 px-3 py-2.5"><span class="block font-mono font-bold text-[#FF8533]">3</span><span data-i18n="trial_step3">You get an e-mail with a link to set your password and sign in.</span></li>
+          </ol>
 
           <p class="text-xs text-[#F3F4F6]/80 text-center pt-1 font-medium" data-i18n="trial_speed_note">
             Access sent within 15 minutes. Full portfolio scan live within 24 hours, guaranteed.
@@ -1081,29 +1087,6 @@
     /* ── 2. Bot Timestamp ── */
     const formTimestampInput = document.getElementById('formTimestamp');
     if (formTimestampInput) formTimestampInput.value = Date.now().toString();
-
-    /* ── 3. Hero Quick-Start Form Handler ── */
-    function handleHeroSubmit(e) {
-      e.preventDefault();
-      const input = document.getElementById('heroDomainInput');
-      const val = input ? input.value.trim() : '';
-      if (!val) {
-        document.getElementById('trial').scrollIntoView({ behavior: 'smooth' });
-        return;
-      }
-
-      if (val.includes('@')) {
-        const emailField = document.getElementById('email');
-        if (emailField) emailField.value = val;
-      } else {
-        const clientsField = document.getElementById('clients');
-        if (clientsField) clientsField.value = val;
-      }
-
-      document.getElementById('trial').scrollIntoView({ behavior: 'smooth' });
-      const nameField = document.getElementById('name');
-      if (nameField) setTimeout(() => nameField.focus(), 500);
-    }
 
     /* ── 5. File Upload Handler ── */
     const formErrorMsg = document.getElementById('formErrorMessage');
@@ -1200,19 +1183,23 @@
             formWrapper.innerHTML = `
               <div class="p-8 sm:p-10 rounded-2xl bg-[#10B981]/10 border border-[#10B981]/40 text-center space-y-4">
                 <div class="w-14 h-14 rounded-full bg-[#10B981]/20 text-[#34D399] flex items-center justify-center mx-auto text-2xl font-bold">✓</div>
-                <h3 class="text-2xl font-black text-white">${isCs ? 'Požadavek byl úspěšně přijat!' : 'Your Pilot Is On Its Way!'}</h3>
+                <h3 class="text-2xl font-black text-white">${isCs ? 'Hotovo, pilot připravujeme' : 'Done. We are setting up your pilot'}</h3>
                 <div class="text-sm text-[#F3F4F6] space-y-3 max-w-md mx-auto leading-relaxed text-left pt-2">
                   <div class="flex items-start space-x-2.5">
                     <span class="text-[#34D399] font-bold">1.</span>
-                    <span>${isCs ? '<strong>Potvrzovací e-mail</strong> máte za okamžik ve své schránce.' : '<strong>A confirmation email</strong> is on its way to your inbox right now.'}</span>
+                    <span>${isCs ? '<strong>Potvrzovací e-mail</strong> vám právě odešel. Když ho nevidíte, mrkněte do spamu.' : '<strong>A confirmation e-mail</strong> is on its way. If you cannot see it, check your spam folder.'}</span>
                   </div>
                   <div class="flex items-start space-x-2.5">
                     <span class="text-[#34D399] font-bold">2.</span>
-                    <span>${isCs ? '<strong>Přístupové údaje a výsledky skenu</strong> obdržíte do 24 hodin.' : '<strong>Access credentials and initial scan telemetry</strong> will be delivered within 24 hours.'}</span>
+                    <span>${isCs ? 'Založíme váš workspace, dohledáme kariérní stránky vašich firem a spustíme <strong>první sken</strong>.' : 'We set up your workspace, find your companies’ career pages and run <strong>the first scan</strong>.'}</span>
+                  </div>
+                  <div class="flex items-start space-x-2.5">
+                    <span class="text-[#34D399] font-bold">3.</span>
+                    <span>${isCs ? 'Do 24 hodin dostanete <strong>e-mail s odkazem</strong>, kde si nastavíte heslo a přihlásíte se.' : 'Within 24 hours you get <strong>an e-mail with a link</strong> to set your password and sign in.'}</span>
                   </div>
                 </div>
                 <p class="text-xs text-[#34D399] font-medium pt-3 border-t border-[rgba(255,255,255,0.06)]">
-                  ${isCs ? 'Žádné poplatky. Bez kreditní karty. Po 14 dnech se sami rozhodnete.' : 'No charges. No credit card. After 14 days you decide whether to continue.'}
+                  ${isCs ? 'Žádné poplatky. Bez platební karty. Po 14 dnech se sami rozhodnete.' : 'No charges. No credit card. After 14 days you decide whether to continue.'}
                 </p>
               </div>
             `;

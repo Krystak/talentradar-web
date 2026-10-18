@@ -49,11 +49,18 @@
 
     <!-- Top Bar -->
     <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[rgba(255,255,255,0.06)]">
-      <a href="index.html" class="flex items-center space-x-3 group">
-        <div class="relative flex items-center justify-center w-11 h-11">
-          <img src="logo.png" alt="TalentRadar" class="w-11 h-11 object-contain filter drop-shadow-[0_0_12px_rgba(255,107,0,0.75)] group-hover:scale-105 transition-transform" />
+      <a href="index.html" class="flex items-center space-x-2.5 sm:space-x-3 group flex-shrink-0">
+        <div class="relative flex items-center justify-center h-9 w-9 flex-shrink-0">
+          <img src="falcon.svg" alt="TalentRadar" aria-hidden="true" width="36" height="36" class="h-9 w-9 group-hover:scale-105 transition-transform object-contain" />
         </div>
-        <span class="font-extrabold text-xl tracking-tight text-white">TALENT<span class="text-[#FF6B00]">RADAR</span></span>
+        <div class="flex flex-col">
+          <span class="font-extrabold text-lg sm:text-2xl tracking-tight leading-none whitespace-nowrap">
+            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+          </span>
+          <span class="hidden sm:block text-[10px] font-semibold text-[#F3F4F6]/80 tracking-wider uppercase mt-1 whitespace-nowrap">
+            Spend time closing, <span class="text-[#FF6B00]">not searching.</span>
+          </span>
+        </div>
       </a>
       <div class="flex items-center gap-4">
         <div class="flex items-center rounded-full border border-[rgba(255,255,255,0.12)] px-1.5 py-1" role="group" aria-label="Language selector">
@@ -200,7 +207,8 @@
   <script>
     // Same storage key as the home page switcher, so the chosen language carries over.
     (function () {
-      var STORAGE_KEY = 'tr_lang';
+      var PRIMARY_KEY = 'talentradar_lang';
+      var LEGACY_KEY = 'tr_lang';
       var META = {
         en: { title: 'Privacy Policy — TalentRadar', desc: 'How TalentRadar processes the personal data you send through the trial sign-up form.' },
         cs: { title: 'Zásady zpracování osobních údajů — TalentRadar', desc: 'Jak TalentRadar zpracovává osobní údaje odeslané přes formulář pro zkušební přístup.' }
@@ -208,7 +216,10 @@
 
       function apply(lang) {
         if (!META[lang]) lang = 'en';
-        try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+        try {
+          localStorage.setItem(PRIMARY_KEY, lang);
+          localStorage.setItem(LEGACY_KEY, lang);
+        } catch (e) {}
         document.documentElement.lang = lang;
         document.title = META[lang].title;
         document.querySelector('meta[name="description"]').content = META[lang].desc;
@@ -227,7 +238,7 @@
       });
 
       var saved = null;
-      try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+      try { saved = localStorage.getItem(PRIMARY_KEY) || localStorage.getItem(LEGACY_KEY); } catch (e) {}
       if (saved && saved !== 'en') apply(saved);
     })();
   </script>

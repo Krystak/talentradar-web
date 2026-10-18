@@ -25,7 +25,7 @@ const TRANSLATIONS = {
 
     /* ── Hero ── */
     hero_badge: "Autonomous BD Intelligence & Lightweight ATS for Recruitment Teams",
-    hero_headline_html: "Spot your clients’ open roles <span class=\"text-[#FF6B00]\">the hour they post them.</span> Days before LinkedIn.",
+    hero_headline_html: "Spot your clients’ open roles the hour they post them.<br class=\"hidden sm:inline\"> <span class=\"text-[#FF6B00]\">Days before LinkedIn.</span>",
     hero_subheadline: "Stop wasting recruiter hours manually checking client career portals or waiting for crowded job boards. TalentRadar monitors enterprise career sites and ATS endpoints twice daily. Use it as an upstream BD radar alongside your existing ATS, or switch on our lightweight pipeline module to run your entire boutique agency.",
     hero_input_placeholder: "Enter your agency work email or client domain...",
     hero_cta_btn: "Start 14-Day Free Pilot",
@@ -55,6 +55,7 @@ const TRANSLATIONS = {
     modes_headline: "Choose How TalentRadar Fits Your Agency Workflow",
     modes_subtext: "Whether you run an established 50-consultant firm with Bullhorn or a 3-person boutique on Notion, TalentRadar works without forced migrations or complex setup.",
     modes_a_title: "BD Signals (Keep Your Existing ATS)",
+    modes_a_badge_sub: "Bullhorn • Datacruit • Recruitis",
     modes_a_target: "For Established Agencies (5–50 consultants with Bullhorn, Datacruit, Recruitis, or Echo)",
     modes_a_fear: "Your concern: \"We don't want to migrate our database or replace our existing ATS.\"",
     modes_a_solution: "TalentRadar operates upstream of your ATS as an autonomous vacancy detection radar. It monitors client career portals twice daily, alerts you to new roles on Day Zero, and enables 1-click export directly into your existing CRM.",
@@ -62,7 +63,9 @@ const TRANSLATIONS = {
     modes_a_f2: "2× daily automated scans (06:00 & 12:00 UTC) with immediate speed alerts",
     modes_a_f3: "Hiring Manager Bridge linking directly to engineering & sales decision-makers",
     modes_a_f4: "Instant CSV / Webhook push into Bullhorn, Datacruit, or Recruitis",
+    modes_a_cta: "Deploy Upstream Radar →",
     modes_b_title: "Full Workspace (Replace Excel & Notion)",
+    modes_b_badge_sub: "Excel / Notion Replacement",
     modes_b_target: "For Boutique & Micro-Agencies (1–10 consultants running on Excel, Notion, or Trello — ~72% of the market)",
     modes_b_fear: "Your pain: \"Spreadsheets are chaotic, we lose track of mandates, and enterprise ATS tools are bloated and expensive.\"",
     modes_b_solution: "A lean mandate pipeline and candidate tracker attached directly to discovered client openings. Everything you need to manage active searches without corporate overhead.",
@@ -70,6 +73,7 @@ const TRANSLATIONS = {
     modes_b_f2: "Lean candidate pipeline: Sourced -> Contacted -> CV Sent -> Interview -> Placed",
     modes_b_f3: "Shared recruiter notes, fee tracking, and candidate interaction logs",
     modes_b_f4: "Zero bloat, zero migration friction, completely spreadsheet-free",
+    modes_b_cta: "Activate Full Workspace →",
 
     /* ── Live Radar Showcase ── */
     radar_badge: "Live Telemetry Feed",
@@ -82,6 +86,10 @@ const TRANSLATIONS = {
     radar_bridge_label: "Hiring Manager Bridge:",
     radar_monitored_title: "Enterprise employers monitored daily in this live demo:",
     radar_disclaimer: "(Live production sample — your client portfolio populates automatically within 24 hours of sign-up)",
+    radar_last_scan: "Last scan finished 06:22 UTC • 8 new roles today",
+    radar_demo_title: "Want to explore all captured roles in a live workspace?",
+    radar_demo_desc: "Open an interactive live demo without registration for 10 European scaleup employers.",
+    radar_demo_btn: "Open Live Dashboard →",
 
     /* ── Comparison Table ── */
     compare_badge: "Operational Audit",
@@ -130,8 +138,8 @@ const TRANSLATIONS = {
     /* ── Pricing ── */
     pricing_badge: "14-Day Free Pilot — up to 200 companies • No credit card",
     pricing_headline: "Transparent EUR Pricing Engineered for High Agency ROI",
-    pricing_subtext: "Every plan includes a 14-day free pilot with full scanning capabilities. Monthly billing only — no forced annual lock-in.",
-    pricing_monthly_note: "Strict monthly EUR billing — cancel anytime with one click",
+    pricing_subtext: "Every plan includes a 14-day free pilot with full scanning capabilities. Zero commitment — cancel anytime with one click.",
+    pricing_monthly_note: "Transparent monthly EUR invoicing • No hidden setup fees",
     pricing_tier1_name: "Solo Scout",
     pricing_tier1_companies: "up to 50 companies",
     pricing_tier1_price: "€119",
@@ -261,7 +269,7 @@ const TRANSLATIONS = {
 
     /* ── Hero ── */
     hero_badge: "Autonomní BD intelligence a odlehčené ATS pro recruitment týmy",
-    hero_headline_html: "Nové pozice u vašich klientů <span class=\"text-[#FF6B00]\">v hodinu, kdy je vypíšou.</span> Dny před LinkedInem.",
+    hero_headline_html: "Nové pozice u&nbsp;vašich klientů v&nbsp;hodinu, kdy je vypíšou.<br class=\"hidden sm:inline\"> <span class=\"text-[#FF6B00]\">Dny před LinkedInem.</span>",
     hero_subheadline: "Přestaňte pálit hodiny konzultantů ručním proklikáváním kariérních webů nebo čekáním na přeplněné pracovní portály. TalentRadar monitoruje enterprise kariérní weby a ATS endpointy 2× denně. Využijte jej jako upstream BD radar vedle vašeho stávajícího ATS, nebo zapněte odlehčenou pipeline pro řízení celé boutique agentury.",
     hero_input_placeholder: "Zadejte pracovní e-mail nebo doménu klienta...",
     hero_cta_btn: "Vyzkoušet na 14 dní zdarma",
@@ -291,6 +299,7 @@ const TRANSLATIONS = {
     modes_headline: "Zvolte si, jak TalentRadar zapadne do vaší agentury",
     modes_subtext: "Ať už vedete zavedený tým s Bullhornem nebo boutique agenturu na Notionu, TalentRadar funguje bez nucených migrací a složitého nastavování.",
     modes_a_title: "Hledání zakázek (Zachovejte své stávající ATS)",
+    modes_a_badge_sub: "Bullhorn • Datacruit • Recruitis",
     modes_a_target: "Pro zavedené agentury (5–50 konzultantů s Bullhorn, Datacruit, Recruitis nebo Echo)",
     modes_a_fear: "Vaše obava: „Nechceme migrovat kandidátskou databázi ani nahrazovat stávající ATS.“",
     modes_a_solution: "TalentRadar funguje upstream nad vaším stávajícím ATS jako autonomní vyhledávač klientských pozic. Sleduje weby vašich klientů 2× denně, upozorní vás na pozice v Den Nula a umožňuje export jedním klikem.",
@@ -298,7 +307,9 @@ const TRANSLATIONS = {
     modes_a_f2: "2× denní automatické skeny (06:00 & 12:00 UTC) s rychlostním náskokem",
     modes_a_f3: "Hiring Manager Bridge pro okamžité nalezení decision-makerů na LinkedInu",
     modes_a_f4: "Okamžitý CSV / Webhook přenos do Bullhorn, Datacruit nebo Recruitis",
+    modes_a_cta: "Aktivovat BD Radar →",
     modes_b_title: "Kompletní systém (Konec tabulek v Excelu & Notionu)",
+    modes_b_badge_sub: "Konec tabulek v Excelu & Notionu",
     modes_b_target: "Pro boutique & mikro-agentury (1–10 konzultantů na Excelu, Notionu nebo Trellu — ~72 % trhu)",
     modes_b_fear: "Vaše bolest: „V tabulkách je chaos, zapomínáme na poptávky a enterprise ATS nástroje jsou drahé a překomplikované.“",
     modes_b_solution: "Přehledná správa zakázek a 5fázová kandidátská pipeline napojená přímo na zachycené mandáty klientů. Vše potřebné pro uzavírání bez korporátního balastu.",
@@ -306,6 +317,7 @@ const TRANSLATIONS = {
     modes_b_f2: "Přehledná pipeline: Sourcing -> Osloveno -> CV odesláno -> Pohovor -> Umístěno",
     modes_b_f3: "Sdílené interní poznámky, sledování provizí a historie komunikace",
     modes_b_f4: "Nulový balast, žádné migrace, konec chaotických tabulek v Excelu",
+    modes_b_cta: "Spustit kompletní systém →",
 
     /* ── Live Radar Showcase ── */
     radar_badge: "Živý telemetrický feed",
@@ -318,6 +330,10 @@ const TRANSLATIONS = {
     radar_bridge_label: "Hiring Manager Bridge:",
     radar_monitored_title: "Evropští lídři sledovaní denně v této živé ukázce:",
     radar_disclaimer: "(Ukázka ostrého výstupu — vaše portfolio klientů se automaticky napojí do 24 hodin po registraci)",
+    radar_last_scan: "Poslední sken dokončen v 06:22 UTC • 8 nových pozic dnes",
+    radar_demo_title: "Chcete prozkoumat zachycené pozice v živém prostředí?",
+    radar_demo_desc: "Otevřete si interaktivní živé demo bez registrace pro 10 evropských scale-up zaměstnavatelů.",
+    radar_demo_btn: "Otevřít živý dashboard →",
 
     /* ── Comparison Table ── */
     compare_badge: "Provozní audit",
@@ -366,8 +382,8 @@ const TRANSLATIONS = {
     /* ── Pricing ── */
     pricing_badge: "Vyzkoušet na 14 dní zdarma • Až 200 firem • Bez karty",
     pricing_headline: "Přehledné měsíční tarify v EUR s vysokou návratností",
-    pricing_subtext: "Každý tarif zahrnuje 14denní bezplatný pilot s plnou kapacitou skenování. Pouze měsíční platby bez ročních závazků.",
-    pricing_monthly_note: "Pouze měsíční fakturace v EUR — možnost zrušení kdykoliv jedním klikem",
+    pricing_subtext: "Každý tarif zahrnuje 14denní bezplatný pilot s plnou kapacitou skenování. Zcela bez závazků — zrušení kdykoliv jedním klikem.",
+    pricing_monthly_note: "Fakturace měsíčně v EUR • Žádné skryté instalační poplatky",
     pricing_tier1_name: "Solo Scout",
     pricing_tier1_companies: "až 50 firem",
     pricing_tier1_price: "€119",

@@ -48,7 +48,6 @@
     /* Glow effects */
     .orange-glow { box-shadow: 0 0 40px rgba(255, 107, 0, 0.18); }
     .orange-glow-lg { box-shadow: 0 0 80px rgba(255, 107, 0, 0.22); }
-    .orange-pulse { box-shadow: 0 0 20px rgba(255, 85, 0, 0.35); }
 
     /* Glass card tokens */
     .glass-card {
@@ -58,11 +57,6 @@
     }
     .glass-card:hover {
       border-color: rgba(255, 107, 0, 0.35);
-    }
-    .glass-card-subtle {
-      background: rgba(17, 22, 34, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(8px);
     }
 
     /* FAQ smooth accordion */
@@ -90,9 +84,7 @@
 
     /* Status badge tokens */
     .badge-live    { background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); }
-    .badge-stale   { background: rgba(251, 191, 36, 0.15); color: #FBBF24; border: 1px solid rgba(251, 191, 36, 0.3); }
     .badge-core    { background: rgba(255, 107, 0, 0.15); color: #FF8533; border: 1px solid rgba(255, 107, 0, 0.35); }
-    .badge-prospect{ background: rgba(56, 189, 248, 0.15); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); }
 
     /* Floating language switcher */
     .lang-switcher {
@@ -139,34 +131,33 @@
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
 
   <!-- ═══════════════════════════════════════════════
-       A. NAVIGATION HEADER
+       1. NAVIGATION HEADER
   ═══════════════════════════════════════════════ -->
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3 transition-all">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
 
-      <!-- Logo & Wordmark & Slogan -->
-      <a href="#" class="flex items-center space-x-3.5 group">
-        <div class="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0">
-          <!-- Flat 2D falcon diving silhouette + spark -->
-          <svg class="w-10 h-10 sm:w-11 sm:h-11 text-[#FF6B00] filter drop-shadow-[0_0_12px_rgba(255,107,0,0.7)] group-hover:scale-105 transition-transform" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 14C13 16 19 20 23 26C25 23 28 19 33 16C37 14 42 13 45 14C38 18 32 24 29 31L24 37L23 34L20 36L19 32C15 34 10 37 5 39C9 33 12 28 13 24C10 21 7 18 5 14Z" fill="currentColor"/>
-            <circle cx="41" cy="41" r="2.5" fill="#FF5500"/>
-            <path d="M41 34V37M41 45V48M34 41H37M45 41H48" stroke="#FF6B00" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Official Falcon Logo + Two-Toned Wordmark + Global English Slogan -->
+      <a href="#" class="flex items-center space-x-3 group">
+        <div class="relative flex items-center justify-center h-8 w-8 flex-shrink-0">
+          <svg class="h-8 w-8 text-[#FF6B00] group-hover:scale-105 transition-transform" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 8C11 10 16 14 19 19C21 16 24 13 28 11C31 9.5 34.5 9 36 9.5C31 13 26 18 23 24L19 28L18 26L16 27L15 24C12 25.5 8 28 4 30C7 25 9.5 21 10.5 17.5C8 15 5.5 12 4 8Z" fill="#FF6B00"/>
+            <circle cx="31" cy="31" r="2" fill="#FF6B00"/>
+            <path d="M31 26V28M31 34V36M26 31H28M34 31H36" stroke="#FF6B00" stroke-width="1.2" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="flex flex-col">
-          <span class="font-extrabold text-xl sm:text-2xl tracking-tight text-white leading-none">
-            TALENT<span class="text-[#FF6B00]">RADAR</span>
+          <span class="font-extrabold text-xl sm:text-2xl tracking-tight leading-none">
+            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
-          <span class="hidden sm:block text-[10px] font-semibold text-[#FF8533] tracking-wider uppercase mt-1" data-i18n="nav_slogan">
-            Spend time closing, not searching.
+          <span class="hidden sm:block text-[10px] font-semibold text-slate-300 tracking-wider uppercase mt-1">
+            Spend time closing, <span class="text-[#FF6B00]">not searching.</span>
           </span>
         </div>
       </a>
 
       <!-- Desktop Links -->
       <div class="hidden xl:flex items-center space-x-6 text-sm font-medium text-slate-300">
-        <a href="#modes" class="hover:text-white transition" data-i18n="nav_modes">Product Modes</a>
+        <a href="#modes" class="hover:text-white transition" data-i18n="nav_modes">Workflows</a>
         <a href="#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
         <a href="#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
         <a href="#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
@@ -177,14 +168,13 @@
         </a>
       </div>
 
-      <!-- Right Action Bar: Embedded Switcher, Sign In, Primary CTA -->
+      <!-- Right Action Bar: Language Toggle, Sign In, CTA -->
       <div class="flex items-center space-x-3">
-        <!-- Top Nav Language Switcher Pill -->
+        <!-- Clean Nav Language Toggle EN | CS -->
         <div class="hidden sm:flex items-center bg-[#111622] border border-white/10 rounded-full px-2 py-1 text-xs">
-          <span class="text-slate-400 mr-1.5 text-[11px]">🌐</span>
           <button onclick="window.TRLang.apply('en')" class="lang-btn" data-lang="en">EN</button>
           <span class="text-white/20 text-[10px]">|</span>
-          <button onclick="window.TRLang.apply('cs')" class="lang-btn" data-lang="cs">ČZ</button>
+          <button onclick="window.TRLang.apply('cs')" class="lang-btn" data-lang="cs">CS</button>
         </div>
 
         <a href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition px-2 py-1" data-i18n="nav_signin">
@@ -206,7 +196,7 @@
 
     <!-- Mobile Nav Dropdown -->
     <div id="mobileMenu" class="hidden xl:hidden pt-4 pb-2 border-t border-[rgba(255,255,255,0.06)] mt-3 flex flex-col space-y-3 text-sm font-medium text-slate-200">
-      <a href="#modes" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_modes">Product Modes</a>
+      <a href="#modes" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_modes">Workflows</a>
       <a href="#live-radar" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_live_radar">Live Signals</a>
       <a href="#comparison" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_comparison">The Advantage</a>
       <a href="#pricing" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_pricing">Pricing</a>
@@ -223,10 +213,9 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       B. HERO SECTION (Linear Style + Async Quick-Start)
+       2. HERO SECTION
   ═══════════════════════════════════════════════ -->
   <section class="pt-16 sm:pt-24 pb-16 px-4 sm:px-6 relative overflow-hidden">
-    <!-- Ambient ambient glow -->
     <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#FF6B00]/8 rounded-full blur-[160px] pointer-events-none"></div>
 
     <div class="max-w-5xl mx-auto text-center space-y-6 relative z-10">
@@ -258,39 +247,46 @@
           </button>
         </form>
 
-        <p class="text-xs text-slate-400 mt-3 flex items-center justify-center flex-wrap gap-x-3 gap-y-1" data-i18n="hero_trust_microcopy" data-i18n-html="true">
-          ✓ No credit card required &nbsp;•&nbsp; ✓ Track up to 200 companies &nbsp;•&nbsp; ✓ Zero-friction async setup within 24 hours
+        <p class="text-xs text-slate-400 mt-3 font-mono" data-i18n="hero_trust_microcopy">
+          No credit card required • Track up to 200 companies • Async setup in 24h
         </p>
       </div>
 
       <!-- ─────────────────────────────────────────────
-           INTERACTIVE DUAL-MODE MOCKUP (Linear Dev-Tool Style)
+           INTERACTIVE WORKFLOW SWITCHER & MOCKUP
       ───────────────────────────────────────────── -->
       <div class="pt-8 max-w-5xl mx-auto text-left">
 
-        <!-- Segmented Toggle Switch -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3">
-          <div class="inline-flex p-1 rounded-xl bg-[#111622] border border-white/10 text-xs font-semibold w-full sm:w-auto">
-            <button id="toggle-mode-a" onclick="switchMockupMode('A')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md">
-              <span class="w-2 h-2 rounded-full bg-white"></span>
-              <span data-i18n="mockup_tab_a">Mode A: Pure BD Radar (Have Bullhorn / Datacruit / Recruitis)</span>
-            </button>
-            <button id="toggle-mode-b" onclick="switchMockupMode('B')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white">
-              <span class="w-2 h-2 rounded-full bg-slate-500"></span>
-              <span data-i18n="mockup_tab_b">Mode B: Radar + Light ATS (Replacing Excel / Notion)</span>
-            </button>
+        <!-- Segmented Toggle Switch (Client Value Focused) -->
+        <div class="space-y-2 mb-3">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="inline-flex p-1 rounded-xl bg-[#111622] border border-white/10 text-xs font-semibold w-full sm:w-auto">
+              <button id="toggle-mode-a" onclick="switchMockupMode('A')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md">
+                <span class="w-2 h-2 rounded-full bg-white"></span>
+                <span data-i18n="mockup_tab_a">BD Signals (Have Bullhorn / Datacruit)</span>
+              </button>
+              <button id="toggle-mode-b" onclick="switchMockupMode('B')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+                <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+                <span data-i18n="mockup_tab_b">Full Workspace (Replacing Excel &amp; Notion)</span>
+              </button>
+            </div>
+
+            <span class="text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 self-end sm:self-center">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Live Workspace Telemetry</span>
+            </span>
           </div>
 
-          <span class="text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 self-end sm:self-center">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Live Workspace Telemetry</span>
-          </span>
+          <!-- Dynamic Intuitive Subtext -->
+          <p id="mockupDynamicSubtext" class="text-xs text-slate-300 italic" data-i18n="mockup_subtext_a">
+            Monitors client websites 2× daily and feeds new vacancies straight into your existing workflow or CRM.
+          </p>
         </div>
 
         <!-- Glass-morphic Mockup Container -->
         <div class="glass-card rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl orange-glow-lg">
 
-          <!-- Dev-Tool Window Chrome -->
+          <!-- Window Chrome -->
           <div class="px-4 py-3 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="w-3 h-3 rounded-full bg-[#FF5F56]/90"></span>
@@ -302,12 +298,12 @@
             </div>
             <div class="flex items-center gap-2">
               <span id="mockupActiveBadge" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30" data-i18n="mockup_mode_a_badge">
-                MODE A: PURE BD RADAR
+                BD SIGNALS
               </span>
             </div>
           </div>
 
-          <!-- ── MODE A VIEW: MORNING PULSE (Pure BD Radar) ── -->
+          <!-- ── TAB 1 VIEW: BD SIGNALS ── -->
           <div id="mockup-view-a" class="p-4 sm:p-6 space-y-4 bg-[#0A0D14]/95">
             <!-- Scan Summary Bar -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-xl bg-[#111622] border border-white/5 text-xs">
@@ -341,10 +337,9 @@
                   </div>
                 </div>
 
-                <!-- Action Bar -->
                 <div class="flex items-center gap-2">
                   <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Security+Tines+Dublin" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
-                    <span data-i18n="mockup_xray_btn">⚡ 1-Click Hiring Manager X-Ray</span>
+                    <span data-i18n="mockup_xray_btn">Hiring Manager Bridge</span>
                   </a>
                   <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-slate-300 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
                     Push to External ATS / CSV
@@ -375,7 +370,7 @@
 
                 <div class="flex items-center gap-2">
                   <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Sales+Intercom+Dublin" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
-                    <span data-i18n="mockup_xray_btn">⚡ 1-Click Hiring Manager X-Ray</span>
+                    <span data-i18n="mockup_xray_btn">Hiring Manager Bridge</span>
                   </a>
                   <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-slate-300 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
                     Push to External ATS / CSV
@@ -406,7 +401,7 @@
 
                 <div class="flex items-center gap-2">
                   <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Engineering+Mews+Prague" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
-                    <span data-i18n="mockup_xray_btn">⚡ 1-Click Hiring Manager X-Ray</span>
+                    <span data-i18n="mockup_xray_btn">Hiring Manager Bridge</span>
                   </a>
                   <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-slate-300 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
                     Push to External ATS / CSV
@@ -416,7 +411,7 @@
             </div>
           </div>
 
-          <!-- ── MODE B VIEW: ACTIVE MANDATES KANBAN (Light ATS) ── -->
+          <!-- ── TAB 2 VIEW: FULL WORKSPACE (Kanban) ── -->
           <div id="mockup-view-b" class="hidden p-4 sm:p-6 space-y-4 bg-[#0A0D14]/95">
             <!-- Active Mandate Header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3.5 rounded-xl bg-[#111622] border border-white/10">
@@ -438,7 +433,6 @@
 
             <!-- Lean 5-Stage Kanban Columns -->
             <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-1">
-              <!-- Stage 1: Sourced -->
               <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
                 <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-white/5 pb-2">
                   <span data-i18n="mockup_col_sourced">Sourced</span>
@@ -455,7 +449,6 @@
                 </div>
               </div>
 
-              <!-- Stage 2: Contacted -->
               <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
                 <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-white/5 pb-2">
                   <span data-i18n="mockup_col_contacted">Contacted</span>
@@ -468,7 +461,6 @@
                 </div>
               </div>
 
-              <!-- Stage 3: CV Sent -->
               <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
                 <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-white/5 pb-2">
                   <span data-i18n="mockup_col_cv_sent">CV Sent</span>
@@ -481,7 +473,6 @@
                 </div>
               </div>
 
-              <!-- Stage 4: Interview -->
               <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
                 <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-white/5 pb-2">
                   <span data-i18n="mockup_col_interview">Interview</span>
@@ -494,7 +485,6 @@
                 </div>
               </div>
 
-              <!-- Stage 5: Placed -->
               <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
                 <div class="flex items-center justify-between text-xs font-bold text-emerald-400 border-b border-white/5 pb-2">
                   <span data-i18n="mockup_col_placed">Placed / Offer</span>
@@ -517,45 +507,49 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       C. PRODUCT MODES SECTION (#modes)
+       3. WORKFLOWS SECTION (#modes)
   ═══════════════════════════════════════════════ -->
   <section id="modes" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
     <div class="text-center space-y-3 max-w-3xl mx-auto">
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
         <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
-        <span data-i18n="modes_badge">Dual-Engine Architecture</span>
+        <span data-i18n="modes_badge">Workflow Options</span>
       </div>
       <h2 class="text-3xl sm:text-5xl font-black text-white" data-i18n="modes_headline">
-        Engineered for Every Stage of Recruitment Agency Growth
+        Choose How TalentRadar Fits Your Agency Workflow
       </h2>
       <p class="text-slate-300 text-sm sm:text-base leading-relaxed" data-i18n="modes_subtext">
-        Whether you run an established 50-consultant firm with Bullhorn or a 3-person boutique on Notion, TalentRadar adapts without forced migrations.
+        Whether you run an established 50-consultant firm with Bullhorn or a 3-person boutique on Notion, TalentRadar works without forced migrations or complex setup.
       </p>
     </div>
 
-    <!-- Mode Cards Grid -->
+    <!-- Options Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
 
-      <!-- Mode A Card -->
+      <!-- Option 1: BD Signals -->
       <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between orange-glow">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533] px-3 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="modes_a_title">
-              Mode A: Pure BD Radar
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533] px-3 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30">
+              BD SIGNALS
             </span>
             <span class="text-xs font-mono text-slate-400">Bullhorn • Datacruit • Recruitis</span>
           </div>
 
-          <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="modes_a_target">
-            For Established Agencies (5–50 consultants with Bullhorn, Datacruit, Recruitis, or Echo)
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="modes_a_title">
+            BD Signals (Keep Your Existing ATS)
           </h3>
+
+          <div class="text-xs font-mono text-slate-400" data-i18n="modes_a_target">
+            For Established Agencies (5–50 consultants with Bullhorn, Datacruit, Recruitis, or Echo)
+          </div>
 
           <div class="p-3.5 rounded-xl bg-[#0A0D14] border border-white/5 text-xs text-slate-300 italic">
             <span data-i18n="modes_a_fear">Your concern: "We don't want to migrate our database or replace our existing ATS."</span>
           </div>
 
           <p class="text-slate-300 text-xs sm:text-sm leading-relaxed" data-i18n="modes_a_solution">
-            TalentRadar operates upstream of your ATS as an autonomous business development radar. It scans your target client portals twice daily, alerts consultants to new roles on Day Zero, and enables 1-click export directly into your existing CRM.
+            TalentRadar operates upstream of your ATS as an autonomous vacancy detection radar. It monitors client career portals twice daily, alerts you to new roles on Day Zero, and enables 1-click export directly into your existing CRM.
           </p>
 
           <ul class="space-y-2.5 text-xs text-slate-200 pt-2 border-t border-white/5">
@@ -569,7 +563,7 @@
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
-              <span data-i18n="modes_a_f3">1-click Hiring Manager X-Ray linking to relevant engineering &amp; sales leaders</span>
+              <span data-i18n="modes_a_f3">Hiring Manager Bridge linking directly to engineering &amp; sales decision-makers</span>
             </li>
             <li class="flex items-start space-x-2">
               <span class="text-[#FF6B00] font-bold">✓</span>
@@ -583,26 +577,30 @@
         </a>
       </div>
 
-      <!-- Mode B Card -->
+      <!-- Option 2: Full Workspace -->
       <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between orange-glow">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400 px-3 py-1 rounded bg-emerald-950 border border-emerald-500/30" data-i18n="modes_b_title">
-              Mode B: Radar + Light ATS
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400 px-3 py-1 rounded bg-emerald-950 border border-emerald-500/30">
+              FULL WORKSPACE
             </span>
             <span class="text-xs font-mono text-slate-400">Excel / Notion Replacement</span>
           </div>
 
-          <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="modes_b_target">
-            For Boutique &amp; Micro-Agencies (1–10 consultants running on Excel, Notion, or Trello — ~72% of the market)
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="modes_b_title">
+            Full Workspace (Replace Excel &amp; Notion)
           </h3>
 
+          <div class="text-xs font-mono text-slate-400" data-i18n="modes_b_target">
+            For Boutique &amp; Micro-Agencies (1–10 consultants running on Excel, Notion, or Trello — ~72% of the market)
+          </div>
+
           <div class="p-3.5 rounded-xl bg-[#0A0D14] border border-white/5 text-xs text-slate-300 italic">
-            <span data-i18n="modes_b_fear">Your pain: "Spreadsheets are chaotic, we lose client mandates, and enterprise ATS tools are bloated and expensive."</span>
+            <span data-i18n="modes_b_fear">Your pain: "Spreadsheets are chaotic, we lose track of mandates, and enterprise ATS tools are bloated and expensive."</span>
           </div>
 
           <p class="text-slate-300 text-xs sm:text-sm leading-relaxed" data-i18n="modes_b_solution">
-            Flip the enable_light_ats switch to unlock a lean job order tracker and 5-stage candidate pipeline attached directly to discovered client mandates. Everything you need to manage active searches without corporate overhead.
+            A lean mandate pipeline and candidate tracker attached directly to discovered client openings. Everything you need to manage active searches without corporate overhead.
           </p>
 
           <ul class="space-y-2.5 text-xs text-slate-200 pt-2 border-t border-white/5">
@@ -626,7 +624,7 @@
         </div>
 
         <a href="#trial" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white text-xs font-bold text-center shadow-lg shadow-[#FF6B00]/25 transition block">
-          Activate Radar + Light ATS →
+          Activate Full Workspace →
         </a>
       </div>
 
@@ -635,7 +633,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       D. LIVE RADAR SHOWCASE (#live-radar)
+       4. LIVE RADAR SHOWCASE (#live-radar)
   ═══════════════════════════════════════════════ -->
   <section id="live-radar" class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-6">
     <div class="text-center space-y-2 mb-6">
@@ -680,7 +678,7 @@
         <p id="radarFeedStatus" class="py-6 text-center text-xs text-slate-400">Loading the latest scan telemetry…</p>
       </div>
 
-      <!-- Live Demo App CTA Banner -->
+      <!-- Live Demo Banner -->
       <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-[rgba(255,107,0,0.12)] to-[rgba(15,23,42,0.7)] border border-[#FF6B00]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg shadow-[#FF6B00]/5">
         <div class="flex items-center gap-3 text-xs text-slate-300 text-left">
           <div class="w-8 h-8 rounded-lg bg-[#FF6B00]/15 border border-[#FF6B00]/30 flex items-center justify-center flex-shrink-0 text-[#FF8533]">
@@ -713,7 +711,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       E. SIDE-BY-SIDE COMPARISON TABLE (#comparison)
+       5. SIDE-BY-SIDE COMPARISON TABLE (#comparison)
   ═══════════════════════════════════════════════ -->
   <section id="comparison" class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-8">
     <div class="text-center space-y-2 max-w-2xl mx-auto">
@@ -728,7 +726,7 @@
       </p>
     </div>
 
-    <!-- Desktop 2-Column Contrast Table -->
+    <!-- Desktop 2-Column Table -->
     <div class="hidden md:block glass-card rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)]">
       <div class="grid grid-cols-12 p-4 bg-[#141A28] border-b border-[rgba(255,255,255,0.08)] font-bold text-sm">
         <div class="col-span-4 text-slate-400" data-i18n="compare_col_activity">Operational Dimension</div>
@@ -791,7 +789,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       F. MARKET INTELLIGENCE & RESEARCH (#insights)
+       6. MARKET INTELLIGENCE & RESEARCH (#insights)
   ═══════════════════════════════════════════════ -->
   <section id="insights" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
     <div class="text-center space-y-3 max-w-3xl mx-auto">
@@ -881,7 +879,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       G. PRICING SECTION (#pricing)
+       7. PRICING SECTION (#pricing)
   ═══════════════════════════════════════════════ -->
   <section id="pricing" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
     <div class="text-center space-y-3 max-w-2xl mx-auto">
@@ -928,7 +926,7 @@
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f5">Full 2-stage AI classification (Gemini Flash across all 6 verticals)</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f6">Auto-archive daemon &amp; stale role reconciliation</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f7">BD Master lead pipeline, shared notes &amp; CSV export</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f8">Optional Mode B (Lightweight ATS candidate pipeline included)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f8">Lightweight candidate pipeline module included</span></li>
           </ul>
         </div>
         <a href="#trial" class="w-full py-3.5 rounded-xl bg-[#1A2234] hover:bg-[#242E46] text-white text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.1)] transition block" data-i18n="pricing_tier1_cta">
@@ -956,7 +954,6 @@
             </p>
           </div>
 
-          <!-- Speed advantage callout -->
           <div class="p-3.5 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs text-[#FF8533] space-y-1">
             <div class="font-bold text-white flex items-center space-x-1.5" data-i18n="pricing_tier2_speed_title">Speed Advantage: 2× Daily Scanning</div>
             <p class="text-slate-300 leading-relaxed text-[11px]" data-i18n="pricing_tier2_speed_body">
@@ -972,7 +969,7 @@
             <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f5">Full 2-stage AI classification (all 6 verticals)</span></li>
             <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f6">Team audit trail &amp; multi-user role assignment</span></li>
             <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f7">Priority founder Slack channel for custom company requests</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f8">Optional Mode B (Full Lightweight ATS candidate pipeline included)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f8">Full candidate pipeline &amp; team workspace included</span></li>
           </ul>
         </div>
         <a href="#trial" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide text-center shadow-xl shadow-[#FF6B00]/30 transition block transform hover:-translate-y-0.5" data-i18n="pricing_tier2_cta">
@@ -1028,7 +1025,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       H. FOUNDER STORY & AUTHORITY (#story)
+       8. FOUNDER STORY & AUTHORITY (#story)
   ═══════════════════════════════════════════════ -->
   <section id="story" class="py-20 px-4 sm:px-6 bg-[#0E131F] border-y border-[rgba(255,255,255,0.06)]">
     <div class="max-w-3xl mx-auto space-y-6">
@@ -1078,7 +1075,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       I. ASYNCHRONOUS ONBOARDING & FAQ (#faq)
+       9. ASYNCHRONOUS SETUP & FAQ (#faq)
   ═══════════════════════════════════════════════ -->
   <section id="faq" class="py-20 px-4 sm:px-6 max-w-3xl mx-auto space-y-8">
     <div class="text-center space-y-2">
@@ -1086,10 +1083,10 @@
       <h3 class="text-3xl font-extrabold text-white" data-i18n="faq_headline">Frequently Asked Questions</h3>
     </div>
 
-    <!-- Asynchronous Onboarding Callout Box -->
+    <!-- Onboarding Callout Box (Clean B2B without lightning bolt) -->
     <div class="glass-card rounded-2xl p-6 sm:p-7 border border-[#FF6B00]/35 bg-gradient-to-r from-[#192338] via-[#121826] to-[#0A0D14] space-y-2 orange-glow">
       <div class="flex items-center gap-2 text-xs font-mono font-bold text-[#FF8533]">
-        <svg class="w-4 h-4 text-[#FF6B00]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
         <span data-i18n="faq_onboarding_title">Zero-Friction Asynchronous Setup</span>
       </div>
       <p class="text-xs sm:text-sm text-slate-200 leading-relaxed" data-i18n="faq_onboarding_body">
@@ -1168,7 +1165,7 @@
         <div class="faq-body">
           <div class="faq-inner">
             <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a5">
-              Yes. Mode A supports 1-click CSV exports and webhook integration for Bullhorn, Datacruit, Recruitis, or any external ATS. If you prefer not to use an external ATS, Mode B provides our built-in lightweight candidate pipeline.
+              Yes. BD Signals supports 1-click CSV exports and webhook integration for Bullhorn, Datacruit, Recruitis, or any external ATS. If you run a boutique agency without an external ATS, our built-in candidate pipeline provides complete mandate tracking.
             </p>
           </div>
         </div>
@@ -1179,7 +1176,7 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       J. PILOT / TRIAL REGISTRATION FORM (#trial)
+       10. PILOT ACTIVATION FORM (#trial)
   ═══════════════════════════════════════════════ -->
   <section id="trial" class="py-24 px-4 sm:px-6 max-w-3xl mx-auto">
     <div class="glass-card rounded-3xl p-8 sm:p-12 border border-[#FF6B00]/40 orange-glow space-y-6">
@@ -1282,17 +1279,19 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       K. FOOTER
+       11. FOOTER
   ═══════════════════════════════════════════════ -->
   <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-slate-400">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <svg class="w-7 h-7 text-[#FF6B00]" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 14C13 16 19 20 23 26C25 23 28 19 33 16C37 14 42 13 45 14C38 18 32 24 29 31L24 37L23 34L20 36L19 32C15 34 10 37 5 39C9 33 12 28 13 24C10 21 7 18 5 14Z" fill="currentColor"/>
-          <circle cx="41" cy="41" r="2.5" fill="#FF5500"/>
+        <svg class="h-6 w-6 text-[#FF6B00] flex-shrink-0" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 8C11 10 16 14 19 19C21 16 24 13 28 11C31 9.5 34.5 9 36 9.5C31 13 26 18 23 24L19 28L18 26L16 27L15 24C12 25.5 8 28 4 30C7 25 9.5 21 10.5 17.5C8 15 5.5 12 4 8Z" fill="#FF6B00"/>
+          <circle cx="31" cy="31" r="2" fill="#FF6B00"/>
         </svg>
-        <span class="font-bold text-white text-sm">TalentRadar</span>
-        <span class="text-slate-400">— <span data-i18n="footer_tagline">Spend time closing, not searching.</span></span>
+        <span class="font-bold text-white text-sm">
+          <span>TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+        </span>
+        <span class="text-slate-400">— <span>Spend time closing, <span class="text-[#FF6B00]">not searching.</span></span></span>
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-4 text-slate-300">
@@ -1314,20 +1313,19 @@
        FLOATING LANGUAGE SWITCHER WIDGET
   ═══════════════════════════════════════════════ -->
   <div class="lang-switcher" role="group" aria-label="Language selector">
-    <svg class="w-3.5 h-3.5 text-slate-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-    <button class="lang-btn" data-lang="en" aria-pressed="true">English</button>
+    <button class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
     <span class="lang-divider">|</span>
-    <button class="lang-btn" data-lang="cs" aria-pressed="false">Čeština</button>
+    <button class="lang-btn" data-lang="cs" aria-pressed="false">CS</button>
   </div>
 
 
   <!-- ═══════════════════════════════════════════════
-       SCRIPTS & APPLICATION LOGIC
+       SCRIPTS & LOGIC
   ═══════════════════════════════════════════════ -->
   <script src="js/translations.js"></script>
 
   <script>
-    /* ── 1. Mobile Menu Toggle ── */
+    /* ── 1. Mobile Menu ── */
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu    = document.getElementById('mobileMenu');
     if (mobileMenuBtn && mobileMenu) {
@@ -1364,7 +1362,7 @@
       if (nameField) setTimeout(() => nameField.focus(), 500);
     }
 
-    /* ── 4. Interactive Dual-Mode Mockup Switcher ── */
+    /* ── 4. Interactive Hero Switcher (Client Value Focused) ── */
     function switchMockupMode(mode) {
       const btnA = document.getElementById('toggle-mode-a');
       const btnB = document.getElementById('toggle-mode-b');
@@ -1372,6 +1370,7 @@
       const viewB = document.getElementById('mockup-view-b');
       const urlText = document.getElementById('mockupUrlText');
       const badge = document.getElementById('mockupActiveBadge');
+      const subtext = document.getElementById('mockupDynamicSubtext');
       const isCs = document.documentElement.lang === 'cs';
 
       if (mode === 'A') {
@@ -1380,9 +1379,12 @@
         viewA.classList.remove('hidden');
         viewB.classList.add('hidden');
         urlText.textContent = isCs
-          ? 'app.talentradar.eu — Ranní sken (06:00 UTC)'
+          ? 'app.talentradar.eu — Ranní přehled (06:00 UTC)'
           : 'app.talentradar.eu — Morning Pulse (06:00 Scan)';
-        badge.textContent = isCs ? 'MÓD A: PURE BD RADAR' : 'MODE A: PURE BD RADAR';
+        badge.textContent = isCs ? 'HLEDÁNÍ ZAKÁZEK' : 'BD SIGNALS';
+        subtext.textContent = isCs
+          ? 'Sleduje kariérní stránky klientů 2× denně a nově otevřené pozice předává přímo do vašeho stávajícího CRM.'
+          : 'Monitors client websites 2× daily and feeds new vacancies straight into your existing workflow or CRM.';
       } else {
         btnB.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md';
         btnA.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white';
@@ -1391,7 +1393,10 @@
         urlText.textContent = isCs
           ? 'app.talentradar.eu — Aktivní zakázky (Kanban pipeline)'
           : 'app.talentradar.eu — Active Mandates (Kanban pipeline)';
-        badge.textContent = isCs ? 'MÓD B: RADAR + LIGHT ATS' : 'MODE B: RADAR + LIGHT ATS';
+        badge.textContent = isCs ? 'KOMPLETNÍ SYSTÉM' : 'FULL WORKSPACE';
+        subtext.textContent = isCs
+          ? 'Přehledná správa zakázek a kandidátů bez zbytečného balastu, navržená přímo pro boutique headhuntery.'
+          : 'A lightweight, clutter-free mandate pipeline and candidate tracker built directly for boutique headhunters.';
       }
     }
 
@@ -1601,9 +1606,9 @@
               <span class="text-slate-400">${esc(role.ats)}</span>
             </div>
 
-            <!-- 1-Click Hiring Manager Bridge Teaser -->
+            <!-- Hiring Manager Bridge (No Emojis) -->
             <div class="pt-1 flex items-center gap-2 text-xs">
-              <span class="text-slate-400 text-[11px] font-medium">${isCs ? '1-Click Hiring Manager Bridge:' : '1-Click Hiring Manager Bridge:'}</span>
+              <span class="text-slate-400 text-[11px] font-medium">${isCs ? 'Hiring Manager Bridge:' : 'Hiring Manager Bridge:'}</span>
               <a href="${hmLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#38BDF8] hover:text-white bg-[#38BDF8]/10 hover:bg-[#38BDF8]/20 px-2 py-0.5 rounded border border-[#38BDF8]/25 transition" title="Find decision-maker on LinkedIn">
                 <span>Find ${esc(hmTitle)} on LinkedIn</span>
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>

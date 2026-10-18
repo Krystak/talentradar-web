@@ -92,13 +92,22 @@
   ═══════════════════════════════════════════════ -->
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3 transition-all">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <a href="../" class="flex items-center space-x-3.5 group">
-        <div class="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12">
-          <img src="../logo.png" alt="TalentRadar" class="w-11 h-11 sm:w-12 sm:h-12 object-contain filter drop-shadow-[0_0_16px_rgba(255,107,0,0.85)] group-hover:scale-105 transition-transform" />
+      <!-- Official Falcon Logo + Two-Toned Wordmark + Global English Slogan -->
+      <a href="../" class="flex items-center space-x-3 group">
+        <div class="relative flex items-center justify-center h-8 w-8 flex-shrink-0">
+          <svg class="h-8 w-8 text-[#FF6B00] group-hover:scale-105 transition-transform" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 8C11 10 16 14 19 19C21 16 24 13 28 11C31 9.5 34.5 9 36 9.5C31 13 26 18 23 24L19 28L18 26L16 27L15 24C12 25.5 8 28 4 30C7 25 9.5 21 10.5 17.5C8 15 5.5 12 4 8Z" fill="#FF6B00"/>
+            <circle cx="31" cy="31" r="2" fill="#FF6B00"/>
+            <path d="M31 26V28M31 34V36M26 31H28M34 31H36" stroke="#FF6B00" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
         </div>
         <div class="flex flex-col">
-          <span class="font-extrabold text-xl sm:text-2xl tracking-tight text-white leading-none">TALENT<span class="text-[#FF6B00]">RADAR</span></span>
-          <span class="hidden sm:block text-[10px] font-semibold text-[#FF8533]/90 tracking-wider uppercase mt-1">Spend time closing, not searching.</span>
+          <span class="font-extrabold text-xl sm:text-2xl tracking-tight leading-none">
+            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+          </span>
+          <span class="hidden sm:block text-[10px] font-semibold text-slate-300 tracking-wider uppercase mt-1">
+            Spend time closing, <span class="text-[#FF6B00]">not searching.</span>
+          </span>
         </div>
       </a>
 
@@ -217,7 +226,7 @@
                 In-house team scans existing employee referrals and active talent pool. No external recruiters briefed yet.
               </p>
               <div class="text-[11px] font-mono text-[#FF8533] pt-1">
-                ⭐ The Golden Window
+                The Golden Window
               </div>
             </div>
 
@@ -305,13 +314,13 @@
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           <div class="bg-[#111622] p-5 rounded-xl border border-white/5 space-y-2">
-            <div class="font-bold text-white text-sm">Mode A — Pure BD Radar</div>
+            <div class="font-bold text-white text-sm">BD Signals (Existing ATS)</div>
             <p class="text-xs text-slate-400">
               For established agencies with Bullhorn, Datacruit, or Recruitis. TalentRadar acts purely upstream, alerting you at 06:00 and 12:00 UTC and enabling 1-click export to your existing system.
             </p>
           </div>
           <div class="bg-[#111622] p-5 rounded-xl border border-white/5 space-y-2">
-            <div class="font-bold text-white text-sm">Mode B — Radar + Light ATS</div>
+            <div class="font-bold text-white text-sm">Full Workspace (All-in-One ATS)</div>
             <p class="text-xs text-slate-400">
               For boutique agencies running on spreadsheets or Notion. Enables a clean, unbloated candidate pipeline directly attached to every discovered role.
             </p>
@@ -346,10 +355,16 @@
   ═══════════════════════════════════════════════ -->
   <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-slate-400">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center space-x-3">
-        <img src="../logo.png" alt="TalentRadar" class="w-8 h-8 object-contain filter drop-shadow-[0_0_12px_rgba(255,107,0,0.7)] flex-shrink-0" />
-        <span class="font-bold text-white text-sm">TalentRadar</span>
-        <span class="text-slate-400">— <span>Spend time closing, not searching.</span></span>
+      <div class="flex items-center space-x-2 text-xs">
+        <svg class="h-5 w-5 text-[#FF6B00]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 8C11 10 16 14 19 19C21 16 24 13 28 11C31 9.5 34.5 9 36 9.5C31 13 26 18 23 24L19 28L18 26L16 27L15 24C12 25.5 8 28 4 30C7 25 9.5 21 10.5 17.5C8 15 5.5 12 4 8Z" fill="#FF6B00"/>
+          <circle cx="31" cy="31" r="2" fill="#FF6B00"/>
+          <path d="M31 26V28M31 34V36M26 31H28M34 31H36" stroke="#FF6B00" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span class="font-bold text-white text-sm">
+          <span>TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+        </span>
+        <span class="text-slate-400">— <span>Spend time closing, <span class="text-[#FF6B00]">not searching.</span></span></span>
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-4 text-slate-300">

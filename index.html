@@ -6,23 +6,19 @@
 
   <!-- SEO & Title -->
   <title>TalentRadar — Spend Time Closing, Not Searching</title>
-  <meta name="description" content="Autonomous career-page monitoring for recruitment agencies across Europe. Spend time closing, not searching. Discover new client roles the day they go live.">
-
-  <!-- Hidden English originals for language switcher -->
-  <meta name="tr-title-en" content="TalentRadar — Spend Time Closing, Not Searching">
-  <meta name="tr-desc-en" content="Autonomous career-page monitoring for recruitment agencies across Europe. Spend time closing, not searching. Discover new client roles the day they go live.">
+  <meta name="description" content="Autonomous B2B recruitment intelligence & lightweight ATS for agencies across Europe. Spot your clients' open roles the hour they post them, days before LinkedIn.">
 
   <!-- Open Graph / LinkedIn / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://talentradar.eu/">
   <meta property="og:title" content="TalentRadar — Spend Time Closing, Not Searching">
-  <meta property="og:description" content="Autonomous ATS & career-page monitoring for headhunters. Spend time closing, not searching — TalentRadar does the manual work for you every morning.">
+  <meta property="og:description" content="Autonomous career-page monitoring and lightweight BD/ATS for headhunters across Europe. Discover new client roles hours before they hit job boards.">
   <meta property="og:image" content="https://talentradar.eu/img/og-banner.jpg">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="TalentRadar — Spend Time Closing, Not Searching">
-  <meta name="twitter:description" content="Spend time closing, not searching. Autonomous ATS & career-page monitoring for recruitment agencies.">
+  <meta name="twitter:description" content="Autonomous ATS & career-page monitoring for headhunters. Spend time closing, not searching.">
   <meta name="twitter:image" content="https://talentradar.eu/img/og-banner.jpg">
 
   <!-- Favicons -->
@@ -39,7 +35,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -50,16 +46,24 @@
     .font-mono { font-family: 'JetBrains Mono', monospace; }
 
     /* Glow effects */
-    .orange-glow { box-shadow: 0 0 40px rgba(255, 107, 0, 0.14); }
-    .orange-glow-lg { box-shadow: 0 0 80px rgba(255, 107, 0, 0.18); }
+    .orange-glow { box-shadow: 0 0 40px rgba(255, 107, 0, 0.18); }
+    .orange-glow-lg { box-shadow: 0 0 80px rgba(255, 107, 0, 0.22); }
+    .orange-pulse { box-shadow: 0 0 20px rgba(255, 85, 0, 0.35); }
 
-    /* Glass card */
+    /* Glass card tokens */
     .glass-card {
       background: rgba(17, 22, 34, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
     }
-    .glass-card:hover { border-color: rgba(255, 107, 0, 0.35); }
+    .glass-card:hover {
+      border-color: rgba(255, 107, 0, 0.35);
+    }
+    .glass-card-subtle {
+      background: rgba(17, 22, 34, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+    }
 
     /* FAQ smooth accordion */
     details summary::-webkit-details-marker { display: none; }
@@ -84,10 +88,13 @@
       outline-offset: 2px;
     }
 
-    /* Radar card badge colours */
-    .badge-new { background: rgba(16,185,129,0.18); color: #34d399; }
+    /* Status badge tokens */
+    .badge-live    { background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-stale   { background: rgba(251, 191, 36, 0.15); color: #FBBF24; border: 1px solid rgba(251, 191, 36, 0.3); }
+    .badge-core    { background: rgba(255, 107, 0, 0.15); color: #FF8533; border: 1px solid rgba(255, 107, 0, 0.35); }
+    .badge-prospect{ background: rgba(56, 189, 248, 0.15); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); }
 
-    /* Language switcher */
+    /* Floating language switcher */
     .lang-switcher {
       position: fixed;
       bottom: 20px;
@@ -95,16 +102,16 @@
       z-index: 9999;
       display: flex;
       align-items: center;
-      gap: 0;
-      background: rgba(17, 22, 34, 0.92);
-      border: 1px solid rgba(255,255,255,0.12);
+      gap: 2px;
+      background: rgba(17, 22, 34, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
       padding: 5px 10px;
       backdrop-filter: blur(14px);
       font-size: 11px;
       font-weight: 600;
-      color: #94a3b8;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      color: #94A3B8;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
     }
     .lang-btn {
       padding: 3px 8px;
@@ -113,170 +120,579 @@
       transition: all 0.2s;
       background: transparent;
       border: none;
-      color: #94a3b8;
+      color: #94A3B8;
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.02em;
     }
-    .lang-btn:hover { color: #fff; }
-    .lang-btn--active { background: #FF6B00; color: #fff !important; }
-    .lang-divider { color: rgba(255,255,255,0.2); margin: 0 2px; font-size: 10px; }
+    .lang-btn:hover { color: #FFFFFF; }
+    .lang-btn--active { background: #FF6B00; color: #FFFFFF !important; }
+    .lang-divider { color: rgba(255, 255, 255, 0.2); margin: 0 2px; font-size: 10px; }
 
-    /* Pulse animation for live dot */
+    /* Pulse animation */
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.3); }
+      50% { opacity: 0.4; transform: scale(1.3); }
     }
     .live-dot { animation: pulse-dot 2s ease-in-out infinite; }
-
-    /* Pricing card hover state */
-    .pricing-card { transition: transform 0.2s, box-shadow 0.2s; }
-    .pricing-card:hover { transform: translateY(-2px); }
   </style>
 </head>
-<body class="antialiased selection:bg-[#FF6B00] selection:text-white overflow-x-hidden">
+<body class="antialiased selection:bg-[#FF6B00] selection:text-white">
 
   <!-- ═══════════════════════════════════════════════
-       NAVIGATION
+       A. NAVIGATION HEADER
   ═══════════════════════════════════════════════ -->
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3 transition-all">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
 
-      <!-- Brand Logo -->
-      <a href="#" class="flex items-center space-x-3 group">
-        <div class="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11">
-          <img src="logo.png" alt="TalentRadar" class="w-10 h-10 sm:w-11 sm:h-11 object-contain filter drop-shadow-[0_0_10px_rgba(255,107,0,0.5)] group-hover:scale-105 transition-transform" />
+      <!-- Logo & Wordmark & Slogan -->
+      <a href="#" class="flex items-center space-x-3.5 group">
+        <div class="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0">
+          <!-- Flat 2D falcon diving silhouette + spark -->
+          <svg class="w-10 h-10 sm:w-11 sm:h-11 text-[#FF6B00] filter drop-shadow-[0_0_12px_rgba(255,107,0,0.7)] group-hover:scale-105 transition-transform" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 14C13 16 19 20 23 26C25 23 28 19 33 16C37 14 42 13 45 14C38 18 32 24 29 31L24 37L23 34L20 36L19 32C15 34 10 37 5 39C9 33 12 28 13 24C10 21 7 18 5 14Z" fill="currentColor"/>
+            <circle cx="41" cy="41" r="2.5" fill="#FF5500"/>
+            <path d="M41 34V37M41 45V48M34 41H37M45 41H48" stroke="#FF6B00" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
         </div>
         <div class="flex flex-col">
-          <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white leading-none">TALENT<span class="text-[#FF6B00]">RADAR</span></span>
-          <span class="hidden sm:block text-[10px] font-semibold text-[#FF8533]/90 tracking-wider uppercase mt-1" data-i18n="nav_slogan">Spend time closing, not searching</span>
+          <span class="font-extrabold text-xl sm:text-2xl tracking-tight text-white leading-none">
+            TALENT<span class="text-[#FF6B00]">RADAR</span>
+          </span>
+          <span class="hidden sm:block text-[10px] font-semibold text-[#FF8533] tracking-wider uppercase mt-1" data-i18n="nav_slogan">
+            Spend time closing, not searching.
+          </span>
         </div>
       </a>
 
       <!-- Desktop Links -->
-      <div class="hidden lg:flex items-center space-x-6 text-sm font-medium text-slate-300">
-        <a href="#how-it-works" class="hover:text-white transition" data-i18n="nav_how_it_works">How It Works</a>
-        <a href="#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Radar</a>
+      <div class="hidden xl:flex items-center space-x-6 text-sm font-medium text-slate-300">
+        <a href="#modes" class="hover:text-white transition" data-i18n="nav_modes">Product Modes</a>
+        <a href="#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
+        <a href="#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
         <a href="#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
-        <a href="https://app.talentradar.eu/updates" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF8533] transition" data-i18n="nav_whats_new">What's new ↗</a>
+        <a href="#insights" class="hover:text-white transition" data-i18n="nav_insights">Research &amp; Blog</a>
         <a href="#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
-        <a href="#faq" class="hover:text-white transition" data-i18n="nav_faq">FAQ</a>
-        <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-[#FF6B00]/40 bg-[#FF6B00]/10 hover:bg-[#FF6B00]/25 text-[#FFA366] hover:text-white text-xs font-semibold transition" data-i18n="nav_demo">Live Demo ↗</a>
+        <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-[#FF6B00]/40 bg-[#FF6B00]/10 hover:bg-[#FF6B00]/25 text-[#FFA366] hover:text-white text-xs font-semibold transition" data-i18n="nav_demo">
+          Live Demo ↗
+        </a>
       </div>
 
-      <!-- Header CTA & Mobile Hamburger -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        <a href="#trial" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap">
-          <span class="hidden sm:inline" data-i18n="nav_cta">Start 14-Day Free Pilot</span>
-          <span class="sm:hidden" data-i18n="nav_cta_short">Free Pilot</span>
+      <!-- Right Action Bar: Embedded Switcher, Sign In, Primary CTA -->
+      <div class="flex items-center space-x-3">
+        <!-- Top Nav Language Switcher Pill -->
+        <div class="hidden sm:flex items-center bg-[#111622] border border-white/10 rounded-full px-2 py-1 text-xs">
+          <span class="text-slate-400 mr-1.5 text-[11px]">🌐</span>
+          <button onclick="window.TRLang.apply('en')" class="lang-btn" data-lang="en">EN</button>
+          <span class="text-white/20 text-[10px]">|</span>
+          <button onclick="window.TRLang.apply('cs')" class="lang-btn" data-lang="cs">ČZ</button>
+        </div>
+
+        <a href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition px-2 py-1" data-i18n="nav_signin">
+          Sign In
         </a>
-        <!-- Mobile Menu Toggle -->
-        <button id="mobileMenuBtn" aria-label="Open menu" class="lg:hidden p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800">
+
+        <a href="#trial" class="px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+          Start 14-Day Free Pilot
+        </a>
+
+        <!-- Mobile Menu Hamburger -->
+        <button id="mobileMenuBtn" aria-label="Open menu" class="xl:hidden p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path id="menuIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
     </div>
 
     <!-- Mobile Nav Dropdown -->
-    <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-2 border-t border-[rgba(255,255,255,0.06)] mt-3 flex flex-col space-y-3 text-sm font-medium text-slate-200">
-      <a href="#how-it-works" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_how_it_works">How It Works</a>
-      <a href="#live-radar" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_live_radar">Live Radar</a>
+    <div id="mobileMenu" class="hidden xl:hidden pt-4 pb-2 border-t border-[rgba(255,255,255,0.06)] mt-3 flex flex-col space-y-3 text-sm font-medium text-slate-200">
+      <a href="#modes" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_modes">Product Modes</a>
+      <a href="#live-radar" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_live_radar">Live Signals</a>
+      <a href="#comparison" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_comparison">The Advantage</a>
       <a href="#pricing" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_pricing">Pricing</a>
-      <a href="https://app.talentradar.eu/updates" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366]" data-i18n="nav_whats_new">What's new ↗</a>
+      <a href="#insights" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_insights">Research &amp; Blog</a>
       <a href="#story" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_story">Our Story</a>
-      <a href="#faq" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_faq">FAQ</a>
-      <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366] font-semibold flex items-center justify-between" data-i18n="nav_demo"><span>Live Demo</span><span>↗</span></a>
+      <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366] font-semibold" data-i18n="nav_demo">Live Demo ↗</a>
+      <div class="pt-2 flex items-center gap-2">
+        <span class="text-xs text-slate-400">Language:</span>
+        <button onclick="window.TRLang.apply('en')" class="px-2.5 py-1 rounded bg-[#111622] text-xs font-semibold text-white">English</button>
+        <button onclick="window.TRLang.apply('cs')" class="px-2.5 py-1 rounded bg-[#111622] text-xs font-semibold text-white">Čeština</button>
+      </div>
     </div>
   </nav>
 
 
-
   <!-- ═══════════════════════════════════════════════
-       HERO
+       B. HERO SECTION (Linear Style + Async Quick-Start)
   ═══════════════════════════════════════════════ -->
-  <section class="pt-20 sm:pt-28 pb-16 px-4 sm:px-6 relative overflow-hidden">
-    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#FF6B00]/8 rounded-full blur-[160px] pointer-events-none"></div>
+  <section class="pt-16 sm:pt-24 pb-16 px-4 sm:px-6 relative overflow-hidden">
+    <!-- Ambient ambient glow -->
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#FF6B00]/8 rounded-full blur-[160px] pointer-events-none"></div>
 
-    <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+    <div class="max-w-5xl mx-auto text-center space-y-6 relative z-10">
 
-      <!-- Badge -->
+      <!-- Top Badge -->
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
         <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00] animate-pulse"></span>
-        <span data-i18n="hero_badge">Spend time closing, not searching</span>
+        <span data-i18n="hero_badge">Autonomous BD Intelligence &amp; Lightweight ATS for Recruitment Agencies</span>
       </div>
 
-      <!-- Main Headline -->
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white" data-i18n="hero_headline_html" data-i18n-html="true">
-        Know about new client roles <span class="text-[#FF6B00]">the day they go live</span>
+      <!-- Headline H1 -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white max-w-4xl mx-auto" data-i18n="hero_headline_html" data-i18n-html="true">
+        Spot your clients’ open roles <span class="text-[#FF6B00]">the hour they post them.</span> Days before LinkedIn.
       </h1>
 
-      <!-- Subtext -->
-      <p class="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed" data-i18n="hero_body">
-        Stop manually checking client career pages and copying roles into spreadsheets. TalentRadar monitors every ATS and career site on your list — so your team spends time closing, not searching.
+      <!-- Sub-headline -->
+      <p class="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed" data-i18n="hero_subheadline">
+        Stop wasting recruiter hours manually checking client career portals or waiting for crowded job boards. TalentRadar monitors enterprise career sites and ATS endpoints twice daily. Use it as an upstream BD radar alongside your existing ATS, or switch on our lightweight pipeline module to run your entire boutique agency.
       </p>
 
-      <!-- CTA Row -->
-      <div class="pt-2 flex flex-col items-center justify-center space-y-3">
-        <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-          <a href="#trial" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm sm:text-base tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5 text-center">
-            <span class="hidden sm:inline" data-i18n="hero_cta_full">Start Your 14-Day Free Pilot — up to 200 companies</span>
-            <span class="sm:hidden" data-i18n="hero_cta_short">Start Your 14-Day Free Pilot</span>
-          </a>
-          <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#141A28] hover:bg-[#1E2538] text-slate-200 hover:text-white border border-[rgba(255,255,255,0.12)] font-semibold text-sm sm:text-base transition text-center flex items-center justify-center gap-1.5">
-            <span data-i18n="hero_demo_btn">Open Live Demo ↗</span>
-          </a>
-        </div>
-        <p class="text-xs text-slate-400" data-i18n="hero_microcopy">
-          No credit card required. Up to 200 companies and 8 team members during the pilot.
+      <!-- Quick-Start Conversion Box (In-Hero Form) -->
+      <div class="pt-3 max-w-2xl mx-auto">
+        <form id="heroQuickForm" onsubmit="handleHeroSubmit(event)" class="glass-card rounded-2xl p-2 sm:p-2.5 border border-[#FF6B00]/35 flex flex-col sm:flex-row items-center gap-2 shadow-2xl orange-glow">
+          <div class="relative w-full flex-1">
+            <input type="text" id="heroDomainInput" placeholder="Enter your agency work email or client domain..." class="w-full px-4 py-3.5 rounded-xl bg-[#0A0D14]/90 border border-white/10 text-white text-xs sm:text-sm placeholder-slate-400 focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="hero_input_placeholder" />
+          </div>
+          <button type="submit" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white font-bold text-xs sm:text-sm tracking-wide shadow-lg shadow-[#FF6B00]/30 transition whitespace-nowrap cursor-pointer">
+            <span data-i18n="hero_cta_btn">Start 14-Day Free Pilot</span> →
+          </button>
+        </form>
+
+        <p class="text-xs text-slate-400 mt-3 flex items-center justify-center flex-wrap gap-x-3 gap-y-1" data-i18n="hero_trust_microcopy" data-i18n-html="true">
+          ✓ No credit card required &nbsp;•&nbsp; ✓ Track up to 200 companies &nbsp;•&nbsp; ✓ Zero-friction async setup within 24 hours
         </p>
+      </div>
+
+      <!-- ─────────────────────────────────────────────
+           INTERACTIVE DUAL-MODE MOCKUP (Linear Dev-Tool Style)
+      ───────────────────────────────────────────── -->
+      <div class="pt-8 max-w-5xl mx-auto text-left">
+
+        <!-- Segmented Toggle Switch -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3">
+          <div class="inline-flex p-1 rounded-xl bg-[#111622] border border-white/10 text-xs font-semibold w-full sm:w-auto">
+            <button id="toggle-mode-a" onclick="switchMockupMode('A')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md">
+              <span class="w-2 h-2 rounded-full bg-white"></span>
+              <span data-i18n="mockup_tab_a">Mode A: Pure BD Radar (Have Bullhorn / Datacruit / Recruitis)</span>
+            </button>
+            <button id="toggle-mode-b" onclick="switchMockupMode('B')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+              <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+              <span data-i18n="mockup_tab_b">Mode B: Radar + Light ATS (Replacing Excel / Notion)</span>
+            </button>
+          </div>
+
+          <span class="text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 self-end sm:self-center">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Live Workspace Telemetry</span>
+          </span>
+        </div>
+
+        <!-- Glass-morphic Mockup Container -->
+        <div class="glass-card rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl orange-glow-lg">
+
+          <!-- Dev-Tool Window Chrome -->
+          <div class="px-4 py-3 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-[#FF5F56]/90"></span>
+              <span class="w-3 h-3 rounded-full bg-[#FFBD2E]/90"></span>
+              <span class="w-3 h-3 rounded-full bg-[#27C93F]/90"></span>
+              <span id="mockupUrlText" class="ml-2 text-[11px] font-mono text-slate-400 bg-[#0A0D14] px-3 py-1 rounded border border-white/5">
+                app.talentradar.eu — Morning Pulse (06:00 Scan)
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="mockupActiveBadge" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30" data-i18n="mockup_mode_a_badge">
+                MODE A: PURE BD RADAR
+              </span>
+            </div>
+          </div>
+
+          <!-- ── MODE A VIEW: MORNING PULSE (Pure BD Radar) ── -->
+          <div id="mockup-view-a" class="p-4 sm:p-6 space-y-4 bg-[#0A0D14]/95">
+            <!-- Scan Summary Bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-xl bg-[#111622] border border-white/5 text-xs">
+              <div class="flex items-center gap-2 text-slate-300">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="font-bold text-white">Morning Pulse:</span>
+                <span data-i18n="mockup_scan_status">06:00 UTC Scan Complete • 180 Companies Monitored • 14 New Roles Today</span>
+              </div>
+              <div class="flex items-center gap-2 font-mono text-[11px] text-slate-400">
+                <span>Filter: All Verticals</span>
+              </div>
+            </div>
+
+            <!-- Detected Role Pod 1 -->
+            <div class="p-4 rounded-xl bg-[#111622] border border-white/10 hover:border-[#FF6B00]/40 transition space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-sm font-bold text-white">Tines</span>
+                    <span class="text-slate-400">—</span>
+                    <span class="text-sm font-semibold text-[#FF8533]">Staff Security Engineer</span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-live">NEW TODAY (06:12 UTC)</span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-core" data-i18n="mockup_core_match">CORE MATCH</span>
+                  </div>
+                  <div class="text-xs text-slate-400 flex items-center gap-2 font-mono text-[11px]">
+                    <span>Dublin, Ireland</span>
+                    <span>•</span>
+                    <span class="text-slate-300">Greenhouse ATS</span>
+                    <span>•</span>
+                    <span>Tech &amp; Cloud (Security / Distributed)</span>
+                  </div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="flex items-center gap-2">
+                  <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Security+Tines+Dublin" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
+                    <span data-i18n="mockup_xray_btn">⚡ 1-Click Hiring Manager X-Ray</span>
+                  </a>
+                  <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-slate-300 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
+                    Push to External ATS / CSV
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detected Role Pod 2 -->
+            <div class="p-4 rounded-xl bg-[#111622] border border-white/10 hover:border-[#FF6B00]/40 transition space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-sm font-bold text-white">Intercom</span>
+                    <span class="text-slate-400">—</span>
+                    <span class="text-sm font-semibold text-[#FF8533]">Enterprise Account Executive</span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-live">NEW TODAY (06:14 UTC)</span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-core" data-i18n="mockup_core_match">CORE MATCH</span>
+                  </div>
+                  <div class="text-xs text-slate-400 flex items-center gap-2 font-mono text-[11px]">
+                    <span>Dublin, Ireland / Remote</span>
+                    <span>•</span>
+                    <span class="text-slate-300">Greenhouse ATS</span>
+                    <span>•</span>
+                    <span>B2B Sales (Enterprise SaaS)</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Sales+Intercom+Dublin" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
+                    <span data-i18n="mockup_xray_btn">⚡ 1-Click Hiring Manager X-Ray</span>
+                  </a>
+                  <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-slate-300 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
+                    Push to External ATS / CSV
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detected Role Pod 3 -->
+            <div class="p-4 rounded-xl bg-[#111622] border border-white/10 hover:border-[#FF6B00]/40 transition space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-sm font-bold text-white">Mews</span>
+                    <span class="text-slate-400">—</span>
+                    <span class="text-sm font-semibold text-[#FF8533]">Senior Backend Architect (Go/Node)</span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-live">NEW TODAY (06:18 UTC)</span>
+                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded badge-core" data-i18n="mockup_core_match">CORE MATCH</span>
+                  </div>
+                  <div class="text-xs text-slate-400 flex items-center gap-2 font-mono text-[11px]">
+                    <span>Remote EU / Prague</span>
+                    <span>•</span>
+                    <span class="text-slate-300">Direct ATS</span>
+                    <span>•</span>
+                    <span>Tech &amp; Cloud (FinTech / Hospitality Core)</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Engineering+Mews+Prague" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
+                    <span data-i18n="mockup_xray_btn">⚡ 1-Click Hiring Manager X-Ray</span>
+                  </a>
+                  <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-slate-300 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
+                    Push to External ATS / CSV
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── MODE B VIEW: ACTIVE MANDATES KANBAN (Light ATS) ── -->
+          <div id="mockup-view-b" class="hidden p-4 sm:p-6 space-y-4 bg-[#0A0D14]/95">
+            <!-- Active Mandate Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3.5 rounded-xl bg-[#111622] border border-white/10">
+              <div class="space-y-0.5">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#FF5500]/20 text-[#FF8533] border border-[#FF5500]/30">CLIENT MANDATE</span>
+                  <h4 class="font-bold text-white text-sm" data-i18n="mockup_kanban_title">
+                    Active Mandate Pipeline: Senior Backend Architect (Go/Node) — Mews
+                  </h4>
+                </div>
+                <div class="text-xs text-slate-400 font-mono">
+                  Assigned Consultant: Kryštof • Discovered at 06:18 UTC via Direct ATS • <span class="text-emerald-400 font-bold" data-i18n="mockup_kanban_fee">Fee: 22% (€18,500 est.)</span>
+                </div>
+              </div>
+              <button class="px-3 py-1.5 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs font-bold shadow-md transition self-start sm:self-auto">
+                + Add Candidate
+              </button>
+            </div>
+
+            <!-- Lean 5-Stage Kanban Columns -->
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-1">
+              <!-- Stage 1: Sourced -->
+              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-white/5 pb-2">
+                  <span data-i18n="mockup_col_sourced">Sourced</span>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0A0D14] text-slate-400">3</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-white/5 space-y-1 text-xs">
+                  <div class="font-semibold text-white">Jan H.</div>
+                  <div class="text-[11px] text-slate-400">Senior Go Engineer (ex-Avast)</div>
+                  <div class="text-[10px] text-[#38BDF8] font-mono">Matched via GitHub</div>
+                </div>
+                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-white/5 space-y-1 text-xs">
+                  <div class="font-semibold text-white">Petr S.</div>
+                  <div class="text-[11px] text-slate-400">Staff Distributed Systems</div>
+                </div>
+              </div>
+
+              <!-- Stage 2: Contacted -->
+              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-white/5 pb-2">
+                  <span data-i18n="mockup_col_contacted">Contacted</span>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0A0D14] text-slate-400">2</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-white/5 space-y-1 text-xs">
+                  <div class="font-semibold text-white">Liam K.</div>
+                  <div class="text-[11px] text-slate-400">Principal Backend Eng (Dublin)</div>
+                  <div class="text-[10px] text-emerald-400 font-mono">InMail opened 1h ago</div>
+                </div>
+              </div>
+
+              <!-- Stage 3: CV Sent -->
+              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-white/5 pb-2">
+                  <span data-i18n="mockup_col_cv_sent">CV Sent</span>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0A0D14] text-slate-400">1</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-[#FF6B00]/30 space-y-1 text-xs">
+                  <div class="font-semibold text-white">Tomáš M.</div>
+                  <div class="text-[11px] text-slate-300">Go &amp; Kubernetes Architect</div>
+                  <div class="text-[10px] text-[#FF8533] font-mono">Sent to VP Eng yesterday</div>
+                </div>
+              </div>
+
+              <!-- Stage 4: Interview -->
+              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-300 border-b border-white/5 pb-2">
+                  <span data-i18n="mockup_col_interview">Interview</span>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0A0D14] text-slate-400">1</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-emerald-500/30 space-y-1 text-xs">
+                  <div class="font-semibold text-white">Elena R.</div>
+                  <div class="text-[11px] text-slate-300">Staff Backend (Prague)</div>
+                  <div class="text-[10px] text-emerald-400 font-mono">Final Round today 14:00</div>
+                </div>
+              </div>
+
+              <!-- Stage 5: Placed -->
+              <div class="rounded-xl bg-[#111622] border border-white/5 p-3 space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold text-emerald-400 border-b border-white/5 pb-2">
+                  <span data-i18n="mockup_col_placed">Placed / Offer</span>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400">1</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-emerald-500/40 space-y-1 text-xs">
+                  <div class="font-semibold text-white">David P.</div>
+                  <div class="text-[11px] text-emerald-400 font-bold">Offer Signed • €18,500 Fee</div>
+                  <div class="text-[10px] text-slate-400 font-mono">Start date: Nov 1, 2026</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
     </div>
   </section>
 
 
+  <!-- ═══════════════════════════════════════════════
+       C. PRODUCT MODES SECTION (#modes)
+  ═══════════════════════════════════════════════ -->
+  <section id="modes" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
+    <div class="text-center space-y-3 max-w-3xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
+        <span data-i18n="modes_badge">Dual-Engine Architecture</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black text-white" data-i18n="modes_headline">
+        Engineered for Every Stage of Recruitment Agency Growth
+      </h2>
+      <p class="text-slate-300 text-sm sm:text-base leading-relaxed" data-i18n="modes_subtext">
+        Whether you run an established 50-consultant firm with Bullhorn or a 3-person boutique on Notion, TalentRadar adapts without forced migrations.
+      </p>
+    </div>
+
+    <!-- Mode Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+
+      <!-- Mode A Card -->
+      <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between orange-glow">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533] px-3 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="modes_a_title">
+              Mode A: Pure BD Radar
+            </span>
+            <span class="text-xs font-mono text-slate-400">Bullhorn • Datacruit • Recruitis</span>
+          </div>
+
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="modes_a_target">
+            For Established Agencies (5–50 consultants with Bullhorn, Datacruit, Recruitis, or Echo)
+          </h3>
+
+          <div class="p-3.5 rounded-xl bg-[#0A0D14] border border-white/5 text-xs text-slate-300 italic">
+            <span data-i18n="modes_a_fear">Your concern: "We don't want to migrate our database or replace our existing ATS."</span>
+          </div>
+
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed" data-i18n="modes_a_solution">
+            TalentRadar operates upstream of your ATS as an autonomous business development radar. It scans your target client portals twice daily, alerts consultants to new roles on Day Zero, and enables 1-click export directly into your existing CRM.
+          </p>
+
+          <ul class="space-y-2.5 text-xs text-slate-200 pt-2 border-t border-white/5">
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span data-i18n="modes_a_f1">Monitors primary ATS endpoints (Greenhouse, Lever, Workable, Ashby, etc.)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span data-i18n="modes_a_f2">2× daily automated scans (06:00 &amp; 12:00 UTC) with immediate speed alerts</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span data-i18n="modes_a_f3">1-click Hiring Manager X-Ray linking to relevant engineering &amp; sales leaders</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-[#FF6B00] font-bold">✓</span>
+              <span data-i18n="modes_a_f4">Instant CSV / Webhook push into Bullhorn, Datacruit, or Recruitis</span>
+            </li>
+          </ul>
+        </div>
+
+        <a href="#trial" class="w-full py-3.5 rounded-xl bg-[#141B2D] hover:bg-[#1C253D] text-white text-xs font-bold text-center border border-white/10 transition block">
+          Deploy Upstream Radar →
+        </a>
+      </div>
+
+      <!-- Mode B Card -->
+      <div class="glass-card rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between orange-glow">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400 px-3 py-1 rounded bg-emerald-950 border border-emerald-500/30" data-i18n="modes_b_title">
+              Mode B: Radar + Light ATS
+            </span>
+            <span class="text-xs font-mono text-slate-400">Excel / Notion Replacement</span>
+          </div>
+
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="modes_b_target">
+            For Boutique &amp; Micro-Agencies (1–10 consultants running on Excel, Notion, or Trello — ~72% of the market)
+          </h3>
+
+          <div class="p-3.5 rounded-xl bg-[#0A0D14] border border-white/5 text-xs text-slate-300 italic">
+            <span data-i18n="modes_b_fear">Your pain: "Spreadsheets are chaotic, we lose client mandates, and enterprise ATS tools are bloated and expensive."</span>
+          </div>
+
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed" data-i18n="modes_b_solution">
+            Flip the enable_light_ats switch to unlock a lean job order tracker and 5-stage candidate pipeline attached directly to discovered client mandates. Everything you need to manage active searches without corporate overhead.
+          </p>
+
+          <ul class="space-y-2.5 text-xs text-slate-200 pt-2 border-t border-white/5">
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span data-i18n="modes_b_f1">Discovered client roles convert into active agency mandates in 1 click</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span data-i18n="modes_b_f2">Lean candidate pipeline: Sourced -> Contacted -> CV Sent -> Interview -> Placed</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span data-i18n="modes_b_f3">Shared recruiter notes, fee tracking, and candidate interaction logs</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span data-i18n="modes_b_f4">Zero bloat, zero migration friction, completely spreadsheet-free</span>
+            </li>
+          </ul>
+        </div>
+
+        <a href="#trial" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white text-xs font-bold text-center shadow-lg shadow-[#FF6B00]/25 transition block">
+          Activate Radar + Light ATS →
+        </a>
+      </div>
+
+    </div>
+  </section>
+
 
   <!-- ═══════════════════════════════════════════════
-       LIVE RADAR  (#live-radar)
+       D. LIVE RADAR SHOWCASE (#live-radar)
   ═══════════════════════════════════════════════ -->
-  <section id="live-radar" class="py-16 px-4 sm:px-6 max-w-5xl mx-auto">
+  <section id="live-radar" class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-6">
     <div class="text-center space-y-2 mb-6">
       <div class="inline-flex items-center space-x-2 text-xs font-bold text-[#FF6B00] tracking-widest uppercase">
         <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
-        <span data-i18n="radar_label">Live Radar</span>
+        <span data-i18n="radar_badge">Live Telemetry Feed</span>
       </div>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white" id="radarHeadline">
-        The most lucrative new roles of the last 7 days
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white" id="radarHeadline" data-i18n="radar_headline">
+        Live Signals: Discovered at 06:00 UTC Today
       </h2>
-      <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto" id="radarSubtext"></p>
-      <ul class="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] text-slate-400 max-w-2xl mx-auto" id="radarRules"></ul>
-      <div class="pt-1 text-xs text-emerald-400 font-mono" id="radarLastScan"></div>
+      <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto" id="radarSubtext" data-i18n="radar_subtext">
+        Sample vacancies captured directly from enterprise career pages across Europe. In your workspace, this feed populates exclusively with your client accounts.
+      </p>
+
+      <!-- Category Filter Tabs -->
+      <div class="pt-3 flex flex-wrap justify-center gap-2">
+        <button onclick="setRadarCategory('all')" id="radar-cat-all" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm" data-i18n="radar_tab_all">
+          All Signals
+        </button>
+        <button onclick="setRadarCategory('tech')" id="radar-cat-tech" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-slate-300 hover:text-white border border-white/5" data-i18n="radar_tab_tech">
+          Tech &amp; Cloud
+        </button>
+        <button onclick="setRadarCategory('sales')" id="radar-cat-sales" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-slate-300 hover:text-white border border-white/5" data-i18n="radar_tab_sales">
+          B2B Sales
+        </button>
+        <button onclick="setRadarCategory('exec')" id="radar-cat-exec" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-slate-300 hover:text-white border border-white/5" data-i18n="radar_tab_exec">
+          Executive &amp; C-Level
+        </button>
+      </div>
+
+      <div class="pt-1 text-xs text-emerald-400 font-mono" id="radarLastScan">
+        Last scan finished 06:22 UTC • 8 new roles today
+      </div>
       <div class="text-[11px] text-slate-400 italic" data-i18n="radar_disclaimer">
-        (Live output sample — your client data populates after sign-up)
+        (Live production sample — your client portfolio populates automatically within 24 hours of sign-up)
       </div>
     </div>
 
-    <!-- Radar Feed -->
+    <!-- Radar Feed Glass Container -->
     <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-2xl border border-[rgba(255,255,255,0.1)] orange-glow">
       <div id="radarFeed" class="divide-y divide-[rgba(255,255,255,0.05)]">
-        <p id="radarFeedStatus" class="py-6 text-center text-xs text-slate-400">Loading the latest scan…</p>
+        <p id="radarFeedStatus" class="py-6 text-center text-xs text-slate-400">Loading the latest scan telemetry…</p>
       </div>
 
       <!-- Live Demo App CTA Banner -->
-      <div class="mt-5 p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-[rgba(255,107,0,0.12)] to-[rgba(15,23,42,0.7)] border border-[#FF6B00]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg shadow-[#FF6B00]/5">
+      <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-[rgba(255,107,0,0.12)] to-[rgba(15,23,42,0.7)] border border-[#FF6B00]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg shadow-[#FF6B00]/5">
         <div class="flex items-center gap-3 text-xs text-slate-300 text-left">
           <div class="w-8 h-8 rounded-lg bg-[#FF6B00]/15 border border-[#FF6B00]/30 flex items-center justify-center flex-shrink-0 text-[#FF8533]">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v3m0 12v3M3 12h3m12 0h3"/></svg>
           </div>
           <div>
-            <strong class="text-white font-semibold block sm:inline" data-i18n="radar_demo_banner_title">Want to explore these roles inside the app?</strong>
-            <span class="text-slate-400 block sm:inline sm:ml-1" data-i18n="radar_demo_banner_desc">Open an interactive live demo without registration for all 10 tech leaders.</span>
+            <strong class="text-white font-semibold block sm:inline">Want to explore all captured roles in a live workspace?</strong>
+            <span class="text-slate-400 block sm:inline sm:ml-1">Open an interactive live demo without registration for 10 European scaleup employers.</span>
           </div>
         </div>
         <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-4 py-2 rounded-lg bg-[#FF6B00] hover:bg-[#FF8533] text-white font-bold text-xs shadow-md shadow-[#FF6B00]/25 flex items-center justify-center gap-1.5 whitespace-nowrap transition">
-          <span data-i18n="radar_demo_banner_btn">Open Live Dashboard →</span>
+          <span>Open Live Dashboard →</span>
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
       </div>
@@ -286,369 +702,242 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs mb-3">
           <span class="text-slate-300 font-semibold flex items-center gap-2" data-i18n="radar_monitored_title">
             <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            10 European tech leaders monitored daily in this live demo:
+            Enterprise employers monitored daily in this live demo:
           </span>
-          <span class="text-slate-400 font-mono text-[11px]" id="radarIndexed">Direct Greenhouse ATS</span>
+          <span class="text-slate-400 font-mono text-[11px]" id="radarIndexed">Direct ATS Telemetry</span>
         </div>
-        <div class="flex flex-wrap gap-2 items-center" id="monitoredCompaniesPills">
-          <!-- Populated dynamically by renderRadar() -->
-        </div>
-      </div>
-
-      <div class="mt-4 pt-3 border-t border-[rgba(255,255,255,0.06)] flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
-        <span data-i18n="radar_footer_left">Live monitoring output sample — your client accounts populate after sign-up</span>
-        <a href="#trial" class="text-[#FF8533] hover:text-[#FF6B00] font-semibold flex items-center space-x-1" data-i18n="radar_footer_right">
-          Try it on your companies — 14 days free →
-        </a>
+        <div class="flex flex-wrap gap-2 items-center" id="monitoredCompaniesPills"></div>
       </div>
     </div>
   </section>
 
 
-
   <!-- ═══════════════════════════════════════════════
-       WHAT YOU SEE EVERY MORNING  (#how-it-works)
+       E. SIDE-BY-SIDE COMPARISON TABLE (#comparison)
   ═══════════════════════════════════════════════ -->
-  <section id="how-it-works" class="py-24 px-4 sm:px-6 max-w-6xl mx-auto space-y-20">
-    <div class="text-center space-y-3 max-w-3xl mx-auto">
-      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
-        <span data-i18n="how_badge">Interactive Product Showcase</span>
+  <section id="comparison" class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-8">
+    <div class="text-center space-y-2 max-w-2xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#1A2234] border border-white/10 text-xs font-semibold text-slate-300">
+        <span data-i18n="compare_badge">Operational Audit</span>
       </div>
-      <h2 class="text-3xl sm:text-5xl font-black text-white" data-i18n="how_headline">What You See Every Morning</h2>
-      <p class="text-slate-300 text-sm sm:text-base" data-i18n="how_subtext">Loads instantly — even when you're monitoring hundreds of companies.</p>
-    </div>
-
-    <div class="space-y-16">
-
-      <!-- Block 1: Home -->
-      <div class="glass-card rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 orange-glow">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[rgba(255,255,255,0.06)] pb-6">
-          <div class="space-y-2 max-w-xl">
-            <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="how_step1_badge">1. HOME</div>
-            <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="how_step1_title">1. Morning Overview (Homepage)</h3>
-          </div>
-          <p class="text-slate-300 text-sm sm:text-base max-w-md leading-relaxed" data-i18n="how_step1_body">
-            Open the homepage and within seconds you know which client and target companies have had movement overnight. Priority accounts, newly opened roles, and disappeared vacancies surface immediately at the top.
-          </p>
-        </div>
-        <div class="rounded-xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl bg-[#0A0D14]">
-          <div class="px-4 py-2.5 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#FF5F56]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#FFBD2E]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#27C93F]/80"></span>
-              <span class="ml-2 text-[11px] font-mono text-slate-400 bg-[#0A0D14] px-3 py-0.5 rounded border border-white/5">app.talentradar.eu — Home Dashboard</span>
-            </div>
-            <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="text-[11px] text-[#FFA366] hover:text-white font-semibold transition hidden sm:inline-flex items-center gap-1" data-i18n="how_open_demo">Open Live Demo ↗</a>
-          </div>
-          <img src="img/app-home.png" alt="TalentRadar Home dashboard — morning overview of priority accounts and role movements" width="1440" height="900" loading="lazy" class="w-full h-auto object-cover" />
-        </div>
-      </div>
-
-      <!-- Block 2: BD Master -->
-      <div class="glass-card rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 orange-glow">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[rgba(255,255,255,0.06)] pb-6">
-          <div class="space-y-2 max-w-xl">
-            <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="how_step2_badge">2. BD MASTER</div>
-            <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="how_step2_title">2. BD Master (Complete Role Pipeline)</h3>
-          </div>
-          <p class="text-slate-300 text-sm sm:text-base max-w-md leading-relaxed" data-i18n="how_step2_body">
-            Full searchable directory of all captured roles with real-time filters. Clearly distinguishes clients (C) from prospects (P), lets you star key opportunities, inspect role archive, and export clean data to CSV anytime.
-          </p>
-        </div>
-        <div class="rounded-xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl bg-[#0A0D14]">
-          <div class="px-4 py-2.5 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#FF5F56]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#FFBD2E]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#27C93F]/80"></span>
-              <span class="ml-2 text-[11px] font-mono text-slate-400 bg-[#0A0D14] px-3 py-0.5 rounded border border-white/5">app.talentradar.eu — BD Master Pipeline</span>
-            </div>
-            <a href="https://app.talentradar.eu/bd-master?demo=showcase" target="_blank" rel="noopener noreferrer" class="text-[11px] text-[#FFA366] hover:text-white font-semibold transition hidden sm:inline-flex items-center gap-1" data-i18n="how_open_demo">Open Live Demo ↗</a>
-          </div>
-          <img src="img/app-bd-master.png" alt="TalentRadar BD Master — role directory with client tags, filters, and CSV export" width="1440" height="900" loading="lazy" class="w-full h-auto object-cover" />
-        </div>
-      </div>
-
-      <!-- Block 3: Role Detail -->
-      <div class="glass-card rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 orange-glow">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[rgba(255,255,255,0.06)] pb-6">
-          <div class="space-y-2 max-w-xl">
-            <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="how_step3_badge">3. ROLE DETAIL</div>
-            <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="how_step3_title">3. Role Detail (AI Digest &amp; Pipeline Stepper)</h3>
-          </div>
-          <p class="text-slate-300 text-sm sm:text-base max-w-md leading-relaxed" data-i18n="how_step3_body">
-            Click any role to view instant AI summaries breaking down what the role is really about, must-have requirements, and an actionable outreach hook tailored for your first message to the hiring manager. Track outreach progress directly with the pipeline status stepper.
-          </p>
-        </div>
-        <div class="rounded-xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl bg-[#0A0D14]">
-          <div class="px-4 py-2.5 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#FF5F56]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#FFBD2E]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#27C93F]/80"></span>
-              <span class="ml-2 text-[11px] font-mono text-slate-400 bg-[#0A0D14] px-3 py-0.5 rounded border border-white/5">app.talentradar.eu — Role Intelligence Modal</span>
-            </div>
-            <a href="https://app.talentradar.eu/bd-master?demo=showcase" target="_blank" rel="noopener noreferrer" class="text-[11px] text-[#FFA366] hover:text-white font-semibold transition hidden sm:inline-flex items-center gap-1" data-i18n="how_open_demo">Open Live Demo ↗</a>
-          </div>
-          <img src="img/app-role-detail.png" alt="TalentRadar Role Detail modal — on-demand AI summary, key requirements, outreach hook, and pipeline stepper" width="1440" height="900" loading="lazy" class="w-full h-auto object-cover" />
-        </div>
-      </div>
-
-      <!-- Block 4: Scanner -->
-      <div class="glass-card rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 orange-glow">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[rgba(255,255,255,0.06)] pb-6">
-          <div class="space-y-2 max-w-xl">
-            <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="how_step4_badge">4. SCANNER</div>
-            <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="how_step4_title">4. Scanner (Company Management &amp; Run History)</h3>
-          </div>
-          <p class="text-slate-300 text-sm sm:text-base max-w-md leading-relaxed" data-i18n="how_step4_body">
-            Select which companies to scan, review detected ATS engines, manage scheduled daily runs in your workspace's local time zone, and check execution history. Trigger on-demand scans whenever needed.
-          </p>
-        </div>
-        <div class="rounded-xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl bg-[#0A0D14]">
-          <div class="px-4 py-2.5 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#FF5F56]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#FFBD2E]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#27C93F]/80"></span>
-              <span class="ml-2 text-[11px] font-mono text-slate-400 bg-[#0A0D14] px-3 py-0.5 rounded border border-white/5">app.talentradar.eu — Scanner Scheduling</span>
-            </div>
-            <a href="https://app.talentradar.eu/scanner?demo=showcase" target="_blank" rel="noopener noreferrer" class="text-[11px] text-[#FFA366] hover:text-white font-semibold transition hidden sm:inline-flex items-center gap-1" data-i18n="how_open_demo">Open Live Demo ↗</a>
-          </div>
-          <img src="img/app-scan.png" alt="TalentRadar Scanner — company management, automated scan schedule, and execution history" width="1440" height="900" loading="lazy" class="w-full h-auto object-cover" />
-        </div>
-      </div>
-
-      <!-- Block 5: AI Hawk -->
-      <div class="glass-card rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 orange-glow">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[rgba(255,255,255,0.06)] pb-6">
-          <div class="space-y-2 max-w-xl">
-            <div class="inline-block text-xs font-mono font-bold text-[#FF8533] px-2.5 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="how_step5_badge">5. AI HAWK</div>
-            <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="how_step5_title">5. AI Hawk (Natural Language Assistant on Ctrl+K)</h3>
-          </div>
-          <p class="text-slate-300 text-sm sm:text-base max-w-md leading-relaxed" data-i18n="how_step5_body">
-            An assistant connected directly to your workspace data. Press Ctrl+K anytime to ask natural questions like how many active CORE roles you have or which companies posted senior roles this week.
-          </p>
-        </div>
-        <div class="rounded-xl overflow-hidden border border-[rgba(255,255,255,0.12)] shadow-2xl bg-[#0A0D14]">
-          <div class="px-4 py-2.5 bg-[#111622] border-b border-[rgba(255,255,255,0.08)] flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#FF5F56]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#FFBD2E]/80"></span>
-              <span class="w-3 h-3 rounded-full bg-[#27C93F]/80"></span>
-              <span class="ml-2 text-[11px] font-mono text-slate-400 bg-[#0A0D14] px-3 py-0.5 rounded border border-white/5">app.talentradar.eu — AI Hawk Assistant</span>
-            </div>
-            <a href="https://app.talentradar.eu/bd-master?demo=showcase" target="_blank" rel="noopener noreferrer" class="text-[11px] text-[#FFA366] hover:text-white font-semibold transition hidden sm:inline-flex items-center gap-1" data-i18n="how_open_demo">Open Live Demo ↗</a>
-          </div>
-          <img src="img/app-hawk.png" alt="TalentRadar AI Hawk — natural language assistant querying live workspace roles" width="1440" height="900" loading="lazy" class="w-full h-auto object-cover" />
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Async Onboarding Block -->
-    <div class="mt-16 glass-card rounded-2xl p-8 sm:p-10 border border-[#FF6B00]/30 bg-[#0E131F]">
-      <div>
-        <h3 class="text-xl sm:text-2xl font-bold text-white mb-3" data-i18n="how_onboarding_title">Simple, Asynchronous Onboarding</h3>
-        <p class="text-slate-300 text-sm sm:text-base leading-relaxed" data-i18n="how_onboarding_body">
-          Send us your client list in a CSV or Excel file during sign-up. We will set up your target accounts and connect their career pages so your radar starts scanning. Zero configuration calls required.
-        </p>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- ═══════════════════════════════════════════════
-       SPECIALIZATION PROFILE (NEW SECTION)
-  ═══════════════════════════════════════════════ -->
-  <section class="py-16 px-4 sm:px-6 max-w-5xl mx-auto space-y-8">
-    <div class="text-center space-y-3 max-w-3xl mx-auto">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
-        <span data-i18n="spec_badge">Precision Matching</span>
-      </div>
-      <h2 class="text-2xl sm:text-4xl font-black text-white" data-i18n="spec_headline">Trained on Your Agency's Specialization Profile</h2>
-      <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto" data-i18n="spec_body">
-        In Settings → Specialization, you define the roles your agency places: CORE for target roles, SELECTIVE for edge opportunities, and SKIP for everything else. You can also configure core, selective, or blocked geographic markets. TalentRadar classifies every newly published role against your exact criteria so you only spend time on relevant business. When a vacancy is filled and disappears from the careers site, it auto-archives after a couple of scans.
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white" data-i18n="compare_headline">
+        Manual Agency Workflow vs. TalentRadar Autonomous Advantage
+      </h2>
+      <p class="text-slate-400 text-xs sm:text-sm" data-i18n="compare_subtext">
+        A direct contrast of the daily business development routine.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <div class="glass-card rounded-xl p-5 border border-[rgba(255,255,255,0.08)] space-y-2">
-        <div class="text-xs font-mono font-bold text-[#FF8533] uppercase" data-i18n="spec_f1_title">CORE / SELECTIVE / SKIP</div>
-        <p class="text-xs text-slate-300 leading-relaxed" data-i18n="spec_f1_desc">
-          Every newly captured vacancy is categorized according to your agency's domain criteria.
-        </p>
-      </div>
-      <div class="glass-card rounded-xl p-5 border border-[rgba(255,255,255,0.08)] space-y-2">
-        <div class="text-xs font-mono font-bold text-[#FF8533] uppercase" data-i18n="spec_f2_title">Target &amp; Blocked Markets</div>
-        <p class="text-xs text-slate-300 leading-relaxed" data-i18n="spec_f2_desc">
-          Define preferred and blocked countries or cities so irrelevant regions are skipped automatically.
-        </p>
-      </div>
-      <div class="glass-card rounded-xl p-5 border border-[rgba(255,255,255,0.08)] space-y-2">
-        <div class="text-xs font-mono font-bold text-[#FF8533] uppercase" data-i18n="spec_f3_title">Automatic Clean Archiving</div>
-        <p class="text-xs text-slate-300 leading-relaxed" data-i18n="spec_f3_desc">
-          Filled positions leave your active pipeline automatically once they disappear from the careers site.
-        </p>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- ═══════════════════════════════════════════════
-       COMPARISON TABLE
-  ═══════════════════════════════════════════════ -->
-  <section class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-8">
-    <div class="text-center space-y-2 max-w-2xl mx-auto">
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="compare_headline">
-        The Spreadsheet Way vs. TalentRadar
-      </h2>
-      <p class="text-slate-400 text-sm" data-i18n="compare_subtext">A direct comparison of everyday business development workflow.</p>
-    </div>
-
-    <!-- Desktop Table (≥ 768px) -->
+    <!-- Desktop 2-Column Contrast Table -->
     <div class="hidden md:block glass-card rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)]">
       <div class="grid grid-cols-12 p-4 bg-[#141A28] border-b border-[rgba(255,255,255,0.08)] font-bold text-sm">
-        <div class="col-span-4 text-slate-400" data-i18n="compare_col_activity">Activity</div>
-        <div class="col-span-4 text-slate-400" data-i18n="compare_col_manual">The Spreadsheet Way</div>
-        <div class="col-span-4 text-[#FF8533] font-extrabold flex items-center space-x-1.5" data-i18n="compare_col_radar">TalentRadar</div>
+        <div class="col-span-4 text-slate-400" data-i18n="compare_col_activity">Operational Dimension</div>
+        <div class="col-span-4 text-slate-400" data-i18n="compare_col_manual">Traditional Agency Workflow</div>
+        <div class="col-span-4 text-[#FF8533] font-extrabold flex items-center space-x-1.5" data-i18n="compare_col_radar">TalentRadar Autonomous Advantage</div>
       </div>
       <div class="divide-y divide-[rgba(255,255,255,0.04)] text-sm">
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row1_label">Client company list</div>
-          <div class="col-span-4 text-slate-400" data-i18n="compare_row1_manual">A spreadsheet someone set up years ago</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row1_radar">In-app — add a company by pasting a link</span></div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row1_label">Career Portal Monitoring</div>
+          <div class="col-span-4 text-slate-400 text-xs" data-i18n="compare_row1_manual">Manual randomized browsing; 4–6 recruiter hours wasted weekly per consultant.</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row1_radar">Autonomous continuous monitoring 2× daily (06:00 &amp; 12:00 UTC).</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row2_label">Career page checks</div>
-          <div class="col-span-4 text-slate-400" data-i18n="compare_row2_manual">Someone manually browses them occasionally</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row2_radar">Runs automatically every day</span></div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row2_label">Discovery Latency</div>
+          <div class="col-span-4 text-slate-400 text-xs" data-i18n="compare_row2_manual">3–6 day delay waiting for commercial job boards to scrape listings.</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row2_radar">Day Zero discovery — hours after publication, days before LinkedIn.</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row3_label">When you learn about a new role</div>
-          <div class="col-span-4 text-slate-400" data-i18n="compare_row3_manual">When someone finally gets around to it</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row3_radar">The day it goes live</span></div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row3_label">Ghost &amp; Filled Roles</div>
+          <div class="col-span-4 text-slate-400 text-xs" data-i18n="compare_row3_manual">Recruiters waste time pitching candidates for roles silently filled weeks ago.</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row3_radar">Auto-Archive Daemon wipes closed vacancies the moment they leave client portals.</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row4_label">During holidays or busy periods</div>
-          <div class="col-span-4 text-slate-400" data-i18n="compare_row4_manual">Nothing gets checked for a week</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row4_radar">Keeps running without interruption</span></div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row4_label">Candidate &amp; Mandate Tracking</div>
+          <div class="col-span-4 text-slate-400 text-xs" data-i18n="compare_row4_manual">Fragmented notes scattered in personal spreadsheets, Notion, or paper pads.</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row4_radar">Unified BD Master with optional 1-click lightweight candidate pipeline.</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row5_label">Filled / closed vacancies</div>
-          <div class="col-span-4 text-slate-400" data-i18n="compare_row5_manual">Stay in the spreadsheet forever</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row5_radar">Archived automatically once the role disappears</span></div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row5_label">Adding New Accounts</div>
+          <div class="col-span-4 text-slate-400 text-xs" data-i18n="compare_row5_manual">Manual spreadsheet data entry + constant manual reminder checking.</div>
+          <div class="col-span-4 text-white font-semibold flex items-center space-x-2 text-xs"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row5_radar">Paste any company career URL — automated tracking begins on the next scan.</span></div>
         </div>
         <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row6_label">Adding a new company</div>
-          <div class="col-span-4 text-slate-400" data-i18n="compare_row6_manual">New spreadsheet row + manual monitoring</div>
-          <div class="col-span-4 text-white font-semibold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row6_radar">Paste the link — monitored from next scan</span></div>
-        </div>
-        <div class="grid grid-cols-12 p-4 items-center">
-          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row7_label">Time cost per week</div>
-          <div class="col-span-4 text-slate-400" data-i18n="compare_row7_manual">Several hours a week</div>
-          <div class="col-span-4 text-[#FF8533] font-bold flex items-center space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row7_radar">A few minutes each morning</span></div>
+          <div class="col-span-4 font-semibold text-slate-300" data-i18n="compare_row6_label">Weekly Management Cost</div>
+          <div class="col-span-4 text-slate-400 text-xs" data-i18n="compare_row6_manual">Hours of administrative overhead every single Monday morning.</div>
+          <div class="col-span-4 text-[#FF8533] font-bold flex items-center space-x-2 text-xs"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="compare_row6_radar">3-minute morning pulse with AI sales pitch hooks and team audit trails.</span></div>
         </div>
       </div>
     </div>
 
-    <!-- Mobile Pairs (< 768px) -->
+    <!-- Mobile Stacked Pairs -->
     <div class="md:hidden space-y-4">
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm" data-i18n="compare_row1_label">Client company list</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row1_manual">A spreadsheet someone set up years ago</span></div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row1_radar">In-app — add a company by pasting a link</span></div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row1_label">Career Portal Monitoring</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Traditional:</span> <span data-i18n="compare_row1_manual">Manual randomized browsing; 4–6 recruiter hours wasted weekly per consultant.</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row1_radar">Autonomous continuous monitoring 2× daily (06:00 &amp; 12:00 UTC).</span></div>
       </div>
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm" data-i18n="compare_row2_label">Career page checks</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row2_manual">Someone manually browses them occasionally</span></div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row2_radar">Runs automatically every day</span></div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row2_label">Discovery Latency</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Traditional:</span> <span data-i18n="compare_row2_manual">3–6 day delay waiting for commercial job boards to scrape listings.</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row2_radar">Day Zero discovery — hours after publication, days before LinkedIn.</span></div>
       </div>
       <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm" data-i18n="compare_row3_label">When you learn about a new role</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row3_manual">When someone finally gets around to it</span></div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row3_radar">The day it goes live</span></div>
-      </div>
-      <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm" data-i18n="compare_row4_label">During holidays or busy periods</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row4_manual">Nothing gets checked for a week</span></div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row4_radar">Keeps running without interruption</span></div>
-      </div>
-      <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm" data-i18n="compare_row5_label">Filled / closed vacancies</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row5_manual">Stay in the spreadsheet forever</span></div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row5_radar">Archived automatically once the role disappears</span></div>
-      </div>
-      <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm" data-i18n="compare_row6_label">Adding a new company</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row6_manual">New spreadsheet row + manual monitoring</span></div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row6_radar">Paste the link — monitored from next scan</span></div>
-      </div>
-      <div class="glass-card rounded-xl p-4 space-y-2">
-        <div class="font-bold text-white text-sm" data-i18n="compare_row7_label">Time cost per week</div>
-        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Manual:</span> <span data-i18n="compare_row7_manual">Several hours a week</span></div>
-        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row7_radar">A few minutes each morning</span></div>
+        <div class="font-bold text-white text-sm" data-i18n="compare_row3_label">Ghost &amp; Filled Roles</div>
+        <div class="text-xs text-slate-400"><span class="text-slate-300 font-semibold" data-i18n="compare_col_manual">Traditional:</span> <span data-i18n="compare_row3_manual">Recruiters waste time pitching candidates for roles silently filled weeks ago.</span></div>
+        <div class="text-xs text-[#FF8533] font-semibold"><span class="text-white" data-i18n="compare_col_radar">TalentRadar:</span> <span data-i18n="compare_row3_radar">Auto-Archive Daemon wipes closed vacancies the moment they leave client portals.</span></div>
       </div>
     </div>
   </section>
 
 
+  <!-- ═══════════════════════════════════════════════
+       F. MARKET INTELLIGENCE & RESEARCH (#insights)
+  ═══════════════════════════════════════════════ -->
+  <section id="insights" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
+    <div class="text-center space-y-3 max-w-3xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00]"></span>
+        <span data-i18n="insights_badge">TalentRadar Intelligence Lab</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black text-white" data-i18n="insights_headline">
+        Market Intelligence, Latency Telemetry &amp; Research
+      </h2>
+      <p class="text-slate-300 text-sm sm:text-base leading-relaxed" data-i18n="insights_subtext">
+        Unbiased empirical data derived directly from monitoring hundreds of enterprise career pages and ATS platforms across Europe.
+      </p>
+    </div>
+
+    <!-- 3 Insight Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- Insight 1 -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 orange-glow group">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <span class="px-2.5 py-1 rounded bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30 font-bold font-mono" data-i18n="insights_card1_badge">
+              DATA REPORT · 5 MIN READ
+            </span>
+          </div>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card1_title">
+            The 4-Day Latency Gap: Why Agencies Lose 40% of Client Roles Before Job Boards Even Index Them
+          </h3>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card1_desc">
+            Direct ATS monitoring vs. commercial aggregators. Why 72–96h syndication lag kills exclusive client pitches, and how Day Zero intelligence secures mandates.
+          </p>
+        </div>
+        <a href="blog/the-4-day-latency-gap.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+          <span>Read Full Analysis</span> →
+        </a>
+      </div>
+
+      <!-- Insight 2 -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 group">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <span class="px-2.5 py-1 rounded bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/30 font-bold font-mono" data-i18n="insights_card2_badge">
+              BD STRATEGY · 4 MIN READ
+            </span>
+          </div>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card2_title">
+            Anatomy of Stale Roles (&gt;35 Days): The Highest-Probability Pitch in B2B Recruitment
+          </h3>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card2_desc">
+            When an in-house talent team leaves a role open past 35 days, internal sourcing has failed. How to structure warm inbound BD pitches around aged vacancy data.
+          </p>
+        </div>
+        <a href="blog/the-4-day-latency-gap.html#stale-roles" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+          <span>Read Research Brief</span> →
+        </a>
+      </div>
+
+      <!-- Insight 3 -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 group">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <span class="px-2.5 py-1 rounded bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono" data-i18n="insights_card3_badge">
+              PROCESS AUDIT · 4 MIN READ
+            </span>
+          </div>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card3_title">
+            The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale
+          </h3>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card3_desc">
+            Up to 22% of listings on commercial job boards represent filled or cancelled roles. How automated reconciliation and auto-archiving saves 4+ recruiter hours weekly.
+          </p>
+        </div>
+        <a href="blog/the-4-day-latency-gap.html#dead-roles" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+          <span>Read Research Brief</span> →
+        </a>
+      </div>
+
+    </div>
+
+    <div class="text-center pt-2">
+      <a href="blog/" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#FF8533] hover:text-white transition">
+        <span data-i18n="insights_explore_all">Explore all research articles and guides →</span>
+      </a>
+    </div>
+  </section>
+
 
   <!-- ═══════════════════════════════════════════════
-       PRICING  (#pricing)
+       G. PRICING SECTION (#pricing)
   ═══════════════════════════════════════════════ -->
   <section id="pricing" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
     <div class="text-center space-y-3 max-w-2xl mx-auto">
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs font-bold text-[#FF8533]" data-i18n="pricing_badge">
         14-Day Free Pilot — up to 200 companies • No credit card
       </div>
-      <h2 class="text-3xl sm:text-4xl font-black text-white" data-i18n="pricing_headline">Clear, Simple Pricing</h2>
-      <p class="text-slate-300 text-sm sm:text-base" data-i18n="pricing_subtext">
-        Try any plan free for 14 days — no credit card, no commitment. Cancel anytime.
+      <h2 class="text-3xl sm:text-4xl font-black text-white" data-i18n="pricing_headline">
+        Transparent EUR Pricing Engineered for High Agency ROI
+      </h2>
+      <p class="text-slate-300 text-sm sm:text-base leading-relaxed" data-i18n="pricing_subtext">
+        Every plan includes a 14-day free pilot with full scanning capabilities. Monthly billing only — no forced annual lock-in.
       </p>
-      <p class="text-xs text-slate-400 font-mono" data-i18n="pricing_monthly_note">Monthly billing only — no annual lock-in</p>
+      <p class="text-xs text-slate-400 font-mono" data-i18n="pricing_monthly_note">
+        Strict monthly EUR billing — cancel anytime with one click
+      </p>
     </div>
 
-    <!-- Pricing Grid -->
+    <!-- 3 Tier Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.35fr_1fr] gap-6 items-stretch max-w-6xl mx-auto">
 
-      <!-- Tier 1: Starter -->
-      <div class="pricing-card glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 space-y-6">
+      <!-- Tier 1: Solo Scout -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 space-y-6">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 px-2.5 py-1 rounded bg-slate-800 border border-slate-700" data-i18n="pricing_tier1_name">Starter</span>
-            <span class="text-xs text-slate-400 font-medium" data-i18n="pricing_tier1_companies">up to 50 companies</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 px-2.5 py-1 rounded bg-slate-800 border border-slate-700" data-i18n="pricing_tier1_name">
+              Solo Scout
+            </span>
+            <span class="text-xs text-slate-400 font-medium font-mono" data-i18n="pricing_tier1_companies">up to 50 companies</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
               <span class="text-3xl sm:text-4xl font-black text-white font-mono" data-i18n="pricing_tier1_price">€119</span>
               <span class="text-xs text-slate-400" data-i18n="pricing_tier1_period">/ month</span>
             </div>
-            <p class="text-xs text-slate-400 mt-1" data-i18n="pricing_tier1_desc">Ideal for solo headhunters and smaller boutique agencies.</p>
+            <p class="text-xs text-slate-400 mt-1" data-i18n="pricing_tier1_desc">
+              Engineered for solo headhunters and specialized boutique recruiters.
+            </p>
           </div>
           <ul class="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[rgba(255,255,255,0.06)]">
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f1"><strong>Up to 50 monitored companies</strong></span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f2">1× daily automated scan (06:00 in your time zone)</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f3">150 on-demand scan credits / week</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f1"><strong>Up to 50 monitored client companies</strong></span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f2">1× daily automated morning scan (06:00 UTC)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f3">150 on-demand manual scan credits / month</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f4">1 user seat</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f5">AI role fit (CORE / SELECTIVE / SKIP) based on agency profile</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f6">Automated stale role archiving once roles disappear</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f7">BD Master role directory, filters &amp; CSV export</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f8">Direct email support</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f5">Full 2-stage AI classification (Gemini Flash across all 6 verticals)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f6">Auto-archive daemon &amp; stale role reconciliation</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f7">BD Master lead pipeline, shared notes &amp; CSV export</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f8">Optional Mode B (Lightweight ATS candidate pipeline included)</span></li>
           </ul>
         </div>
-        <a href="#trial" class="w-full py-3 rounded-xl bg-[#1A2234] hover:bg-[#242E46] text-white text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.1)] transition block" data-i18n="pricing_tier1_cta">
+        <a href="#trial" class="w-full py-3.5 rounded-xl bg-[#1A2234] hover:bg-[#242E46] text-white text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.1)] transition block" data-i18n="pricing_tier1_cta">
           Start 14-Day Free Pilot
         </a>
       </div>
 
-      <!-- Tier 2: Agency Pro — HIGHLIGHTED -->
-      <div class="pricing-card glass-card rounded-2xl p-7 sm:p-9 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow-lg relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-3 shadow-2xl">
+      <!-- Tier 2: Agency Pro (Highlighted) -->
+      <div class="glass-card rounded-2xl p-7 sm:p-9 flex flex-col justify-between border-2 border-[#FF6B00] orange-glow-lg relative space-y-6 bg-gradient-to-b from-[#192338] via-[#121826] to-[#0A0D14] lg:-translate-y-3 shadow-2xl">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-[#FF6B00] shadow-md shadow-[#FF6B00]/40" data-i18n="pricing_tier2_badge">
@@ -662,92 +951,106 @@
               <span class="text-4xl sm:text-5xl font-black text-white font-mono" data-i18n="pricing_tier2_price">€289</span>
               <span class="text-xs text-slate-300" data-i18n="pricing_tier2_period">/ month</span>
             </div>
-            <p class="text-xs text-slate-300 mt-1 font-medium" data-i18n="pricing_tier2_desc">Maximum speed and capacity for active agency teams.</p>
+            <p class="text-xs text-slate-300 mt-1 font-medium" data-i18n="pricing_tier2_desc">
+              Maximum speed advantage and capacity for active recruitment teams.
+            </p>
           </div>
 
           <!-- Speed advantage callout -->
           <div class="p-3.5 rounded-xl bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs text-[#FF8533] space-y-1">
             <div class="font-bold text-white flex items-center space-x-1.5" data-i18n="pricing_tier2_speed_title">Speed Advantage: 2× Daily Scanning</div>
             <p class="text-slate-300 leading-relaxed text-[11px]" data-i18n="pricing_tier2_speed_body">
-              Scans run automatically at <strong>06:00 &amp; 12:00 in your time zone</strong>. You know about new roles within hours of them being posted.
+              Scans run at 06:00 &amp; 12:00 UTC. Know about new roles within hours of posting, days before LinkedIn.
             </p>
           </div>
 
           <ul class="space-y-2.5 text-xs text-slate-200 pt-1">
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f1"><strong>Up to 200 monitored companies</strong></span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f2"><strong>2× daily automated scans (06:00 &amp; 12:00 in your time zone)</strong></span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f3">500 on-demand scan credits / week</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f4">Up to 8 team seats</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f5">AI role fit (CORE / SELECTIVE / SKIP) based on agency profile</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f6">Automated stale role archiving once roles disappear</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f7">BD Master lead pipeline, shared notes &amp; CSV export</span></li>
-            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f8">Direct founder priority support</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f1"><strong>Up to 200 monitored client companies</strong></span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f2"><strong>2× daily automated scans (06:00 &amp; 12:00 UTC speed advantage)</strong></span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f3">500 on-demand manual scan credits / month</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f4">Up to 8 team accounts with owner assignments &amp; shared notes</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f5">Full 2-stage AI classification (all 6 verticals)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f6">Team audit trail &amp; multi-user role assignment</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f7">Priority founder Slack channel for custom company requests</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400 font-bold">✓</span><span data-i18n="pricing_tier2_f8">Optional Mode B (Full Lightweight ATS candidate pipeline included)</span></li>
           </ul>
         </div>
-        <a href="#trial" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide text-center shadow-xl shadow-[#FF6B00]/30 transition block transform hover:-translate-y-0.5" data-i18n="pricing_tier2_cta">
+        <a href="#trial" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide text-center shadow-xl shadow-[#FF6B00]/30 transition block transform hover:-translate-y-0.5" data-i18n="pricing_tier2_cta">
           Start 14-Day Free Pilot →
         </a>
       </div>
 
-      <!-- Tier 3: Enterprise -->
-      <div class="pricing-card glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-slate-500 space-y-6">
+      <!-- Tier 3: Scale / Enterprise -->
+      <div class="glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-[rgba(255,255,255,0.08)] hover:border-slate-500 space-y-6">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 px-2.5 py-1 rounded bg-slate-800 border border-slate-700" data-i18n="pricing_tier3_name">Enterprise</span>
-            <span class="text-xs text-slate-400 font-medium" data-i18n="pricing_tier3_companies">Larger company lists</span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 px-2.5 py-1 rounded bg-slate-800 border border-slate-700" data-i18n="pricing_tier3_name">
+              Scale / Enterprise
+            </span>
+            <span class="text-xs text-slate-400 font-medium font-mono" data-i18n="pricing_tier3_companies">400+ companies</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
               <span class="text-3xl sm:text-4xl font-black text-white" data-i18n="pricing_tier3_price">Custom</span>
             </div>
-            <p class="text-xs text-slate-400 mt-2" data-i18n="pricing_tier3_desc">For large agency teams with specific custom integration needs.</p>
+            <p class="text-xs text-[#FF8533] font-mono font-semibold mt-1" data-i18n="pricing_tier3_price_from">From €590 / month</p>
+            <p class="text-xs text-slate-400 mt-1" data-i18n="pricing_tier3_desc">
+              For regional and national recruitment firms with extensive client portfolios.
+            </p>
           </div>
           <ul class="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[rgba(255,255,255,0.06)]">
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f1">Larger company lists tailored to your workflow</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f3">Custom manual scan capacity</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f4">Seats for your whole agency team</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f5">Custom role profiles and specialization mapping</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f6">Custom scraping adapters for non-standard career portals (after feasibility check)</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f7">Direct contact with the founder and priority onboarding</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f1"><strong>400+ monitored client companies</strong></span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f2">Up to 4× daily automated scans / priority worker queue</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f3">Unlimited on-demand scans &amp; unlimited team seats</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f4">Custom scraping adapters for non-standard enterprise career portals</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f5">Custom AI scoring profiles per practice group / partner</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f6">Dedicated Slack support &amp; custom onboarding with founder</span></li>
           </ul>
         </div>
-        <a href="mailto:krystof@talentradar.eu?subject=TalentRadar%20Enterprise%20Enquiry" class="w-full py-3 rounded-xl bg-[#141A28] hover:bg-[#1E273C] text-slate-200 text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.12)] transition block" data-i18n="pricing_tier3_cta">
-          Talk to the Founder
+        <a href="mailto:krystof@talentradar.eu?subject=Scale%2FEnterprise%20Enquiry" class="w-full py-3.5 rounded-xl bg-[#141A28] hover:bg-[#1E273C] text-slate-200 text-xs font-bold tracking-wide text-center border border-white/10 transition block" data-i18n="pricing_tier3_cta">
+          Contact Founder
         </a>
       </div>
 
     </div>
 
-    <!-- Footnote -->
-    <div class="text-center text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed" data-i18n="pricing_footnote">
-      Supported ATS platforms: Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Recruitee, Workday, BambooHR, Personio, Teamtailor, Pinpoint, Teamio, Jobs.cz and standard career sites. For atypical custom career portals we'll verify technical feasibility in advance.
+    <!-- ROI Formula Box -->
+    <div class="max-w-3xl mx-auto glass-card rounded-2xl p-6 sm:p-8 border border-[#FF6B00]/30 bg-gradient-to-br from-[#0E131F] to-[#0A0D14] text-center space-y-2">
+      <p class="text-sm sm:text-base text-slate-200 leading-relaxed font-medium" data-i18n="pricing_roi_html" data-i18n-html="true">
+        A single tech or executive search placement pays for <strong>4+ years of Agency Pro</strong>. Spotting just one mandate 48 hours early generates an immediate <strong>4,000%+ ROI</strong>.
+      </p>
+    </div>
+
+    <div class="text-center text-xs text-slate-400 max-w-xl mx-auto" data-i18n="pricing_footnote">
+      Natively supports Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Personio, BambooHR, Teamtailor, Teamio, Recruitis, and direct career portals.
     </div>
   </section>
 
 
-
   <!-- ═══════════════════════════════════════════════
-       OUR STORY  (#story)
+       H. FOUNDER STORY & AUTHORITY (#story)
   ═══════════════════════════════════════════════ -->
   <section id="story" class="py-20 px-4 sm:px-6 bg-[#0E131F] border-y border-[rgba(255,255,255,0.06)]">
     <div class="max-w-3xl mx-auto space-y-6">
       <div class="space-y-1">
-        <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold" data-i18n="story_label">Who Built This</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n="story_headline">From Manual Spreadsheet Grunt Work to Autonomous Intelligence</h2>
+        <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold" data-i18n="story_badge">Founder Authority</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n="story_headline">
+          From Manual Spreadsheet Grunt Work to Autonomous Intelligence
+        </h2>
       </div>
 
       <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
         <p data-i18n="story_p1_html" data-i18n-html="true">
-          During my internship in Dublin at <a href="https://www.linkedin.com/company/ingenio-global/home/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Ingenio Global</a> under <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Rob Magee</a>, one of my main tasks was going through client career pages by hand and adding open roles into spreadsheets one by one.
+          During my residency in Dublin at <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Ingenio Global</a> under Managing Director <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Rob Magee</a>, I saw senior headhunters spending every Monday morning manually checking enterprise career portals and copying vacancy links into spreadsheets one by one.
         </p>
         <p data-i18n="story_p2">
-          It's the kind of work every search firm knows: repetitive, time-consuming and easy to get wrong. So during the internship I started building an engine that monitors client career pages automatically.
+          It was slow, error-prone, and burned hours that should have been spent closing candidates. Instead of continuing the manual grunt work, I built an autonomous engine to monitor client career portals and ATS endpoints directly.
         </p>
         <p data-i18n="story_p3">
-          Since then, the system has been running in daily production across nearly 300 companies. Consultants see new roles on the day clients post them, without browsing websites by hand.
+          Over the next two months, that engine ran in daily production across 180 enterprise companies and captured 3,400+ open roles. Consultants were notified the day clients published them — capturing mandates days before external job boards even knew they existed.
         </p>
         <p data-i18n="story_p4">
-          Back from Dublin, it was clear this isn't one team's problem: plenty of search firms across Europe still check client career pages by hand. TalentRadar is built to take that work off their plate.
+          Returning from Dublin, it was clear that hundreds of recruitment boutiques in Central and Western Europe are still trapped in spreadsheet chaos. TalentRadar is engineered to eliminate that waste.
         </p>
         <p class="font-semibold text-white" data-i18n="story_p5">
           When you get in touch, you talk directly with me.
@@ -761,9 +1064,12 @@
         </a>
         <div>
           <div class="font-bold text-white text-base" data-i18n="story_author_name">Kryštof Pejša</div>
-          <div class="text-xs text-slate-400">
-            <span data-i18n="story_author_title">Founder, TalentRadar</span> •
+          <div class="text-xs text-slate-400 flex items-center gap-2 flex-wrap">
+            <span data-i18n="story_author_title">Founder, TalentRadar</span>
+            <span>•</span>
             <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline" data-i18n="story_linkedin">LinkedIn Profile</a>
+            <span>•</span>
+            <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white underline" data-i18n="story_rob_linkedin">Rob Magee (Ingenio Global)</a>
           </div>
         </div>
       </div>
@@ -771,28 +1077,53 @@
   </section>
 
 
-
   <!-- ═══════════════════════════════════════════════
-       FAQ  (#faq)
+       I. ASYNCHRONOUS ONBOARDING & FAQ (#faq)
   ═══════════════════════════════════════════════ -->
   <section id="faq" class="py-20 px-4 sm:px-6 max-w-3xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-      <h2 class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold" data-i18n="faq_label">Straight Answers</h2>
+      <h2 class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold" data-i18n="faq_badge">Zero-Friction Implementation</h2>
       <h3 class="text-3xl font-extrabold text-white" data-i18n="faq_headline">Frequently Asked Questions</h3>
+    </div>
+
+    <!-- Asynchronous Onboarding Callout Box -->
+    <div class="glass-card rounded-2xl p-6 sm:p-7 border border-[#FF6B00]/35 bg-gradient-to-r from-[#192338] via-[#121826] to-[#0A0D14] space-y-2 orange-glow">
+      <div class="flex items-center gap-2 text-xs font-mono font-bold text-[#FF8533]">
+        <svg class="w-4 h-4 text-[#FF6B00]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span data-i18n="faq_onboarding_title">Zero-Friction Asynchronous Setup</span>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-200 leading-relaxed" data-i18n="faq_onboarding_body">
+        Paste your target client domains or upload a CSV/Excel file during registration. Our engine maps your accounts and ATS endpoints within 24 hours. Zero configuration calls required.
+      </p>
     </div>
 
     <div class="space-y-3 text-left">
 
+      <!-- FAQ 1 -->
+      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
+        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
+          <span data-i18n="faq_q1">How do you discover roles before LinkedIn and job boards?</span>
+          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="faq-body">
+          <div class="faq-inner">
+            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a1">
+              Companies post directly to their ATS endpoints (Greenhouse, Lever, Ashby, etc.) or career portals first — it is immediate and free. Commercial job boards charge posting fees and rely on spiders with 24–96 hour indexing latency. TalentRadar monitors primary endpoints twice daily, discovering vacancies on Day Zero.
+            </p>
+          </div>
+        </div>
+      </details>
+
       <!-- FAQ 2 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q2">How does TalentRadar decide which roles matter to us?</span>
+          <span data-i18n="faq_q2">Which ATS platforms are natively supported?</span>
           <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
             <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a2">
-              Through your agency's role profile in Settings → Specialization. You set the roles you place as CORE, SELECTIVE, or SKIP (from built-in presets or your own CSV), along with core, selective, and blocked markets. You see exactly which roles are affected before saving, and new vacancies are classified accordingly.
+              Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Personio, BambooHR, Teamtailor, Teamio/Jobs.cz, Recruitis, and custom enterprise portals. For non-standard career pages, custom scraping adapters are included in the Scale/Enterprise plan.
             </p>
           </div>
         </div>
@@ -801,13 +1132,13 @@
       <!-- FAQ 3 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q3">Which ATS platforms and career sites are supported?</span>
+          <span data-i18n="faq_q3">What happens when a company closes or fills a vacancy?</span>
           <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
             <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a3">
-              The scanner supports Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Recruitee, Workday, BambooHR, Personio, Teamtailor, Pinpoint, Teamio, Jobs.cz and standard career sites. For non-standard enterprise career portals, we confirm technical feasibility in advance.
+              Our Auto-Archive Daemon detects removed listings on the very next scheduled scan (06:00 or 12:00 UTC) and automatically archives them. Your active pipeline stays 100% clean with zero manual reconciliation.
             </p>
           </div>
         </div>
@@ -816,13 +1147,13 @@
       <!-- FAQ 4 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q4">Do you scrape LinkedIn or job boards?</span>
+          <span data-i18n="faq_q4">How does the 14-day free pilot work?</span>
           <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
             <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a4">
-              No. TalentRadar only monitors public career sites and ATS portals of the companies you track. LinkedIn is only used as a convenient link for your consultants (e.g. to find hiring managers and decision-makers), nothing is scraped from it.
+              You track up to 200 client companies with full scanning capabilities for 14 days. No credit card is required. There is no automated commitment or surprise charge — you decide whether to subscribe once you have seen the results.
             </p>
           </div>
         </div>
@@ -831,103 +1162,13 @@
       <!-- FAQ 5 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q5">What if a careers page isn't supported or stops working?</span>
+          <span data-i18n="faq_q5">Can we push roles to our existing CRM or export data?</span>
           <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
             <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a5">
-              Companies with an unavailable or broken career page are flagged on Home in the "Needs attention" section, and AI Hawk can list them on request. For custom or non-standard portals, we check feasibility beforehand.
-            </p>
-          </div>
-        </div>
-      </details>
-
-      <!-- FAQ 6 -->
-      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
-        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q6">What happens when a client closes a vacancy?</span>
-          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="faq-body">
-          <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a6">
-              When a role disappears from the careers page, TalentRadar archives it automatically after it's been missing for a couple of scans, so your pipeline stays clean without any manual work.
-            </p>
-          </div>
-        </div>
-      </details>
-
-      <!-- FAQ 7 -->
-      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
-        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q7">Can my whole team work in it?</span>
-          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="faq-body">
-          <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a7">
-              Yes, depending on your plan (Starter includes 1 user, Agency Pro up to 8). Every role features a shared team notes thread and a clear pipeline status. Role stars are personal to each user.
-            </p>
-          </div>
-        </div>
-      </details>
-
-      <!-- FAQ 8 -->
-      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
-        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q8">How does the 14-day free pilot work?</span>
-          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="faq-body">
-          <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a8">
-              You get full access with Agency Pro limits — track up to 200 client companies, up to 8 team members, and 2 daily automated scans for 14 days. No credit card required. Once the pilot ends, automated scans pause and you cannot add new companies or users, but you can still sign in and your data remains intact — nothing is deleted and nothing is billed automatically.
-            </p>
-          </div>
-        </div>
-      </details>
-
-      <!-- FAQ 9 -->
-      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
-        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q9">Can we export our data?</span>
-          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="faq-body">
-          <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a9">
-              Yes. One click exports the roles you have filtered in BD Master to CSV, including their metadata. The export always respects your active search, company, and classification filters.
-            </p>
-          </div>
-        </div>
-      </details>
-
-      <!-- FAQ 10 -->
-      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
-        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q10">Does it integrate with our CRM or ATS (Bullhorn, Vincere…)?</span>
-          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="faq-body">
-          <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a10">
-              Roles can be exported to CSV from BD Master in one click, and your company list from Settings → Export & Audit, ready to import into any CRM or ATS. There is no direct integration.
-            </p>
-          </div>
-        </div>
-      </details>
-
-      <!-- FAQ 11 -->
-      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
-        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q11">Where is our data stored?</span>
-          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="faq-body">
-          <div class="faq-inner">
-            <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a11_html" data-i18n-html="true">
-              Your data is hosted in the EU. TalentRadar only stores public job postings and your team's workspace data (users, notes, pipeline statuses and settings) — never any candidate data. For details, see our <a href="gdpr.html" class="text-[#FF8533] underline hover:text-white font-semibold">Privacy Policy</a>.
+              Yes. Mode A supports 1-click CSV exports and webhook integration for Bullhorn, Datacruit, Recruitis, or any external ATS. If you prefer not to use an external ATS, Mode B provides our built-in lightweight candidate pipeline.
             </p>
           </div>
         </div>
@@ -937,24 +1178,24 @@
   </section>
 
 
-
   <!-- ═══════════════════════════════════════════════
-       TRIAL / CTA  (#trial)
+       J. PILOT / TRIAL REGISTRATION FORM (#trial)
   ═══════════════════════════════════════════════ -->
-  <div id="demo"></div>
   <section id="trial" class="py-24 px-4 sm:px-6 max-w-3xl mx-auto">
     <div class="glass-card rounded-3xl p-8 sm:p-12 border border-[#FF6B00]/40 orange-glow space-y-6">
       <div class="text-center space-y-3">
         <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#FF6B00]/15 border border-[#FF6B00]/30 text-xs font-bold text-[#FF8533]" data-i18n="trial_badge">
-          14-Day Free Pilot • No credit card
+          Spend time closing, not searching • 14-Day Free Pilot
         </div>
-        <h2 class="text-2xl sm:text-4xl font-black text-white" data-i18n="trial_headline">Try TalentRadar on Your Client Portfolio</h2>
+        <h2 class="text-2xl sm:text-4xl font-black text-white" data-i18n="trial_headline">
+          Activate Your 14-Day Free Pilot on Your Client Portfolio
+        </h2>
         <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed" data-i18n="trial_subtext">
-          Upload your client list in a CSV or Excel file. We'll set up your workspace and email you your sign-in details.
+          Upload your client list in CSV or Excel, or paste company domains. We will map your accounts and have your automated scan running within 24 hours.
         </p>
       </div>
 
-      <!-- Form -->
+      <!-- Form Container -->
       <div id="formWrapper">
         <form id="demoForm" class="space-y-4 max-w-xl mx-auto text-left">
 
@@ -974,31 +1215,32 @@
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label for="email" class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="trial_label_email">Work Email *</label>
+              <label for="email" class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="trial_label_email">Agency Work Email *</label>
               <input type="email" id="email" name="email" required placeholder="jane@agency.com" class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="trial_placeholder_email" />
             </div>
             <div>
-              <label for="company" class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="trial_label_company">Agency / Company *</label>
-              <input type="text" id="company" name="company" required minlength="2" placeholder="Your Agency Ltd." class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="trial_placeholder_company" />
+              <label for="company" class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="trial_label_company">Recruitment Agency / Company *</label>
+              <input type="text" id="company" name="company" required minlength="2" placeholder="Acme Search Ltd." class="w-full px-4 py-3 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-sm focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="trial_placeholder_company" />
             </div>
           </div>
 
-          <!-- Client list upload -->
+          <!-- Paste Domains or Upload File -->
           <div class="space-y-2 pt-1">
             <div class="flex items-center justify-between">
-              <label class="block text-xs font-semibold text-slate-300">
-                <span data-i18n="trial_label_clients">Client portfolio for monitoring</span>
-                <span class="text-slate-400 font-normal" data-i18n="trial_clients_limit"> (up to 200 companies)</span>
+              <label for="clients" class="block text-xs font-semibold text-slate-300" data-i18n="trial_label_clients">
+                Client domains or portfolio to monitor (up to 200 companies)
               </label>
-              <span class="text-[11px] text-[#FF8533] font-medium" data-i18n="trial_clients_tag">Excel or CSV</span>
+              <span class="text-[11px] text-[#FF8533] font-medium" data-i18n="trial_clients_tag">Excel, CSV or Domains</span>
             </div>
 
-            <!-- Drag & Drop / File Upload -->
+            <textarea id="clients" name="clients" rows="2" placeholder="Paste client career URLs or company domains here (e.g. tines.com, mews.com, stripe.com)..." class="w-full px-4 py-2.5 rounded-lg bg-[#0A0D14] border border-[rgba(255,255,255,0.1)] text-white text-xs focus:outline-none focus:border-[#FF6B00] transition" data-i18n-placeholder="trial_placeholder_clients"></textarea>
+
+            <!-- Drag & Drop Upload Container -->
             <div id="dropZone" class="relative rounded-xl border border-dashed border-[rgba(255,255,255,0.18)] hover:border-[#FF6B00]/60 bg-[#0A0D14]/70 p-4 transition text-center cursor-pointer group">
               <input type="file" id="fileUpload" accept=".xlsx,.xls,.csv" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
               <div id="fileUploadPrompt" class="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-slate-300">
                 <svg class="w-4 h-4 text-[#FF8533] group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                <span class="font-semibold text-white group-hover:text-[#FF8533] transition" data-i18n="trial_upload_cta">Click to upload a file</span>
+                <span class="font-semibold text-white group-hover:text-[#FF8533] transition" data-i18n="trial_upload_cta">Click to upload client spreadsheet</span>
                 <span class="text-slate-400" data-i18n="trial_upload_types">(Excel .xlsx, .xls or .csv)</span>
               </div>
               <div id="fileSelectedDisplay" class="hidden items-center justify-center space-x-2 text-xs text-emerald-400">
@@ -1008,89 +1250,30 @@
               </div>
             </div>
 
-            <!-- Expected file layout -->
-            <div class="rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#0A0D14]/70 overflow-hidden">
-              <div class="flex items-center justify-between gap-2 px-3 py-2 border-b border-[rgba(255,255,255,0.06)]">
-                <span class="text-[11px] font-semibold text-slate-200" data-i18n="trial_example_title">What the file should look like</span>
-                <span class="text-[10px] text-slate-500 whitespace-nowrap" data-i18n="trial_example_hint">Header row optional</span>
-              </div>
-              <div class="overflow-x-auto">
-                <table class="w-full min-w-[360px] text-left border-collapse">
-                  <thead>
-                    <tr class="bg-[#141A28] text-[10px] text-slate-500">
-                      <th class="w-7 px-2 py-1 border-r border-[rgba(255,255,255,0.06)]"></th>
-                      <th class="px-3 py-1 font-mono font-normal border-r border-[rgba(255,255,255,0.06)]">A</th>
-                      <th class="px-3 py-1 font-mono font-normal border-r border-[rgba(255,255,255,0.06)]">B</th>
-                      <th class="px-3 py-1 font-mono font-normal">C</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-[11px]">
-                    <tr class="border-t border-[rgba(255,255,255,0.06)]">
-                      <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">1</td>
-                      <td class="px-3 py-1.5 font-semibold text-slate-200 border-r border-[rgba(255,255,255,0.06)]" data-i18n="trial_example_col_a">Company</td>
-                      <td class="px-3 py-1.5 font-semibold text-slate-200 border-r border-[rgba(255,255,255,0.06)]" data-i18n="trial_example_col_b">Careers page</td>
-                      <td class="px-3 py-1.5 font-semibold text-slate-200" data-i18n="trial_example_col_c">Company LinkedIn (optional)</td>
-                    </tr>
-                    <tr class="border-t border-[rgba(255,255,255,0.06)]">
-                      <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">2</td>
-                      <td class="px-3 py-1.5 text-slate-300 border-r border-[rgba(255,255,255,0.06)]">Tines</td>
-                      <td class="px-3 py-1.5 font-mono text-[#FF8533] border-r border-[rgba(255,255,255,0.06)]">tines.com/careers</td>
-                      <td class="px-3 py-1.5 font-mono text-slate-400">linkedin.com/company/tines</td>
-                    </tr>
-                    <tr class="border-t border-[rgba(255,255,255,0.06)]">
-                      <td class="px-2 py-1.5 text-[10px] text-slate-500 text-center bg-[#141A28] border-r border-[rgba(255,255,255,0.06)]">3</td>
-                      <td class="px-3 py-1.5 text-slate-300 border-r border-[rgba(255,255,255,0.06)]">Mews</td>
-                      <td class="px-3 py-1.5 font-mono text-[#FF8533] border-r border-[rgba(255,255,255,0.06)]">mews.com/en/careers</td>
-                      <td class="px-3 py-1.5 font-mono text-slate-400">linkedin.com/company/mews</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p class="px-3 py-2 text-[10px] text-slate-500 border-t border-[rgba(255,255,255,0.06)]" data-i18n="trial_example_note">
-                Only have company names? Leave columns B and C empty — we'll find their career sites.
-              </p>
-            </div>
-
             <p class="text-[11px] text-slate-400" data-i18n="trial_upload_note">
-              We'll locate their ATS and career sites for you. You can also send the file afterwards.
+              We locate ATS endpoints and career portals for you. You can also send the file after registration.
             </p>
-          </div>
-
-          <!-- Feature pills -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] text-slate-300">
-            <div class="flex items-center space-x-1.5 bg-[#141A28] px-2.5 py-1.5 rounded-lg border border-[rgba(255,255,255,0.06)]">
-              <span class="text-emerald-400 font-bold">✓</span><span data-i18n="trial_pill1">Up to 200 companies</span>
-            </div>
-            <div class="flex items-center space-x-1.5 bg-[#141A28] px-2.5 py-1.5 rounded-lg border border-[rgba(255,255,255,0.06)]">
-              <span class="text-emerald-400 font-bold">✓</span><span data-i18n="trial_pill2">2× daily scans</span>
-            </div>
-            <div class="flex items-center space-x-1.5 bg-[#141A28] px-2.5 py-1.5 rounded-lg border border-[rgba(255,255,255,0.06)]">
-              <span class="text-emerald-400 font-bold">✓</span><span data-i18n="trial_pill3">No credit card</span>
-            </div>
-            <div class="flex items-center space-x-1.5 bg-[#141A28] px-2.5 py-1.5 rounded-lg border border-[rgba(255,255,255,0.06)]">
-              <span class="text-emerald-400 font-bold">✓</span><span data-i18n="trial_pill4">14 days free</span>
-            </div>
           </div>
 
           <div id="formErrorMessage" class="hidden p-3 rounded-lg bg-red-950/60 border border-red-500/40 text-xs text-red-300"></div>
 
-          <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5 cursor-pointer" data-i18n="trial_submit">
-            Activate 14-Day Free Pilot →
+          <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition-all transform hover:-translate-y-0.5 cursor-pointer">
+            <span data-i18n="trial_submit">Activate 14-Day Free Pilot →</span>
           </button>
 
           <p class="text-xs text-slate-300 text-center pt-1 font-medium" data-i18n="trial_speed_note">
-            We'll set up your workspace and email you your sign-in details.
+            Access sent within 15 minutes. Full portfolio scan live within 24 hours, guaranteed.
           </p>
 
           <p class="text-[11px] text-slate-400 text-center leading-relaxed pt-1" data-i18n="trial_gdpr_html" data-i18n-html="true">
-            By submitting you agree to processing of your contact details to create a trial account. Your data is never shared. (<a href="gdpr.html" class="underline hover:text-[#FF8533]">Privacy Policy</a>)
+            By submitting you agree to processing of your contact details to create a trial account. Your data is strictly confidential and never shared. (<a href="gdpr.html" class="underline hover:text-[#FF8533]">Privacy Policy</a>)
           </p>
         </form>
       </div>
 
-      <div class="pt-4 text-center text-xs text-slate-400 border-t border-[rgba(255,255,255,0.06)] space-y-2">
+      <div class="pt-4 text-center text-xs text-slate-400 border-t border-[rgba(255,255,255,0.06)] space-y-1">
         <div>
-          <span data-i18n="trial_contact_prefix">Or reach us directly:</span>
+          <span data-i18n="trial_contact_prefix">Direct Founder Contact:</span>
           <a href="mailto:krystof@talentradar.eu" class="text-white font-semibold underline hover:text-[#FF6B00] ml-1">krystof@talentradar.eu</a>
         </div>
       </div>
@@ -1098,16 +1281,18 @@
   </section>
 
 
-
   <!-- ═══════════════════════════════════════════════
-       FOOTER
+       K. FOOTER
   ═══════════════════════════════════════════════ -->
   <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-slate-400">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <img src="logo.png" alt="TalentRadar" class="w-8 h-8 object-contain filter drop-shadow-[0_0_8px_rgba(255,107,0,0.5)] flex-shrink-0" />
+        <svg class="w-7 h-7 text-[#FF6B00]" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 14C13 16 19 20 23 26C25 23 28 19 33 16C37 14 42 13 45 14C38 18 32 24 29 31L24 37L23 34L20 36L19 32C15 34 10 37 5 39C9 33 12 28 13 24C10 21 7 18 5 14Z" fill="currentColor"/>
+          <circle cx="41" cy="41" r="2.5" fill="#FF5500"/>
+        </svg>
         <span class="font-bold text-white text-sm">TalentRadar</span>
-        <span class="text-slate-400">— <span data-i18n="footer_tagline">Spend time closing, not searching</span></span>
+        <span class="text-slate-400">— <span data-i18n="footer_tagline">Spend time closing, not searching.</span></span>
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-4 text-slate-300">
@@ -1117,38 +1302,32 @@
         <span>•</span>
         <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">LinkedIn</a>
         <span>•</span>
-        <a href="https://app.talentradar.eu/updates" target="_blank" rel="noopener noreferrer" class="hover:text-white underline" data-i18n="footer_whats_new">What's new ↗</a>
-        <span>•</span>
-        <a href="gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy</a>
+        <a href="gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy (GDPR)</a>
       </div>
 
-      <div class="text-slate-400" data-i18n="footer_copyright">© 2026 TalentRadar</div>
+      <div class="text-slate-400" data-i18n="footer_copyright">© 2026 TalentRadar. Built for European Recruitment Boutiques &amp; Headhunters.</div>
     </div>
   </footer>
 
 
-
   <!-- ═══════════════════════════════════════════════
-       LANGUAGE SWITCHER WIDGET
+       FLOATING LANGUAGE SWITCHER WIDGET
   ═══════════════════════════════════════════════ -->
   <div class="lang-switcher" role="group" aria-label="Language selector">
     <svg class="w-3.5 h-3.5 text-slate-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-    <button class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">English</button>
+    <button class="lang-btn" data-lang="en" aria-pressed="true">English</button>
     <span class="lang-divider">|</span>
     <button class="lang-btn" data-lang="cs" aria-pressed="false">Čeština</button>
   </div>
 
 
-
   <!-- ═══════════════════════════════════════════════
-       SCRIPTS
+       SCRIPTS & APPLICATION LOGIC
   ═══════════════════════════════════════════════ -->
-
-  <!-- Translation engine (must load before DOMContentLoaded fires on it) -->
   <script src="js/translations.js"></script>
 
   <script>
-    /* ── 1. Mobile Menu ── */
+    /* ── 1. Mobile Menu Toggle ── */
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu    = document.getElementById('mobileMenu');
     if (mobileMenuBtn && mobileMenu) {
@@ -1158,11 +1337,65 @@
       );
     }
 
-    /* ── 2. Bot-detection timestamp ── */
+    /* ── 2. Bot Timestamp ── */
     const formTimestampInput = document.getElementById('formTimestamp');
     if (formTimestampInput) formTimestampInput.value = Date.now().toString();
 
-    /* ── 3. File Upload Handler ── */
+    /* ── 3. Hero Quick-Start Form Handler ── */
+    function handleHeroSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('heroDomainInput');
+      const val = input ? input.value.trim() : '';
+      if (!val) {
+        document.getElementById('trial').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      if (val.includes('@')) {
+        const emailField = document.getElementById('email');
+        if (emailField) emailField.value = val;
+      } else {
+        const clientsField = document.getElementById('clients');
+        if (clientsField) clientsField.value = val;
+      }
+
+      document.getElementById('trial').scrollIntoView({ behavior: 'smooth' });
+      const nameField = document.getElementById('name');
+      if (nameField) setTimeout(() => nameField.focus(), 500);
+    }
+
+    /* ── 4. Interactive Dual-Mode Mockup Switcher ── */
+    function switchMockupMode(mode) {
+      const btnA = document.getElementById('toggle-mode-a');
+      const btnB = document.getElementById('toggle-mode-b');
+      const viewA = document.getElementById('mockup-view-a');
+      const viewB = document.getElementById('mockup-view-b');
+      const urlText = document.getElementById('mockupUrlText');
+      const badge = document.getElementById('mockupActiveBadge');
+      const isCs = document.documentElement.lang === 'cs';
+
+      if (mode === 'A') {
+        btnA.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md';
+        btnB.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white';
+        viewA.classList.remove('hidden');
+        viewB.classList.add('hidden');
+        urlText.textContent = isCs
+          ? 'app.talentradar.eu — Ranní sken (06:00 UTC)'
+          : 'app.talentradar.eu — Morning Pulse (06:00 Scan)';
+        badge.textContent = isCs ? 'MÓD A: PURE BD RADAR' : 'MODE A: PURE BD RADAR';
+      } else {
+        btnB.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 bg-[#FF6B00] text-white shadow-md';
+        btnA.className = 'flex-1 sm:flex-none px-4 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white';
+        viewB.classList.remove('hidden');
+        viewA.classList.add('hidden');
+        urlText.textContent = isCs
+          ? 'app.talentradar.eu — Aktivní zakázky (Kanban pipeline)'
+          : 'app.talentradar.eu — Active Mandates (Kanban pipeline)';
+        badge.textContent = isCs ? 'MÓD B: RADAR + LIGHT ATS' : 'MODE B: RADAR + LIGHT ATS';
+      }
+    }
+
+    /* ── 5. File Upload Handler ── */
     let selectedFile       = null;
     let selectedFileBase64 = null;
     const fileUpload          = document.getElementById('fileUpload');
@@ -1203,7 +1436,7 @@
       });
     }
 
-    /* ── 4. Trial Form Submission (Untouched Endpoint & Logic) ── */
+    /* ── 6. Form Submission ── */
     const demoForm        = document.getElementById('demoForm');
     const submitBtn       = document.getElementById('submitBtn');
     const formWrapper     = document.getElementById('formWrapper');
@@ -1263,7 +1496,7 @@
                   </div>
                   <div class="flex items-start space-x-2.5">
                     <span class="text-emerald-400 font-bold">2.</span>
-                    <span>${isCs ? '<strong>Přihlašovací údaje a přístup do aplikace</strong> obdržíte po nastavení vašeho workspace.' : '<strong>Sign-in details and workspace access</strong> will be sent to your email after setup.'}</span>
+                    <span>${isCs ? '<strong>Přístupové údaje a výsledky skenu</strong> obdržíte do 24 hodin.' : '<strong>Access credentials and initial scan telemetry</strong> will be delivered within 24 hours.'}</span>
                   </div>
                 </div>
                 <p class="text-xs text-emerald-400 font-medium pt-3 border-t border-[rgba(255,255,255,0.06)]">
@@ -1284,7 +1517,7 @@
       });
     }
 
-    /* ── 5. Smooth FAQ Accordion ── */
+    /* ── 7. Smooth FAQ Accordion ── */
     document.querySelectorAll('#faq details').forEach(details => {
       const summary = details.querySelector('summary');
       const body    = details.querySelector('.faq-body');
@@ -1310,173 +1543,111 @@
       });
     });
 
-    /* ── 6. Live Radar Feed ── */
-    const RADAR_TZ = 'Europe/Prague';
+    /* ── 8. Live Radar Feed & Category Filtering ── */
     let radarFeed = null;
     let radarFeedFailed = false;
+    let selectedRadarCat = 'all';
 
-    function esc(value) {
-      return String(value ?? '').replace(/[&<>"']/g, ch => (
+    function esc(val) {
+      return String(val ?? '').replace(/[&<>"']/g, ch => (
         { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]
       ));
     }
 
-    function fmtNumber(n, isCs) {
-      return Number(n).toLocaleString(isCs ? 'cs-CZ' : 'en-GB');
-    }
-
-    function csPlural(n, one, few, many) {
-      if (n === 1) return one;
-      if (n >= 2 && n <= 4) return few;
-      return many;
-    }
-
-    function pragueDateKey(date) {
-      return date.toLocaleDateString('en-CA', { timeZone: RADAR_TZ });
-    }
-
-    function pragueTime(date) {
-      return date.toLocaleTimeString('en-GB', { timeZone: RADAR_TZ, hour: '2-digit', minute: '2-digit' });
-    }
-
-    function pragueZone(date) {
-      const part = new Intl.DateTimeFormat('en-GB', { timeZone: RADAR_TZ, timeZoneName: 'short' })
-        .formatToParts(date).find(p => p.type === 'timeZoneName');
-      return part ? part.value : '';
-    }
-
-    function fmtWhen(date, isCs) {
-      const now = new Date();
-      const yesterday = new Date(now.getTime() - 24 * 3600 * 1000);
-      const time = pragueTime(date);
-      const key = pragueDateKey(date);
-      if (key === pragueDateKey(now)) return isCs ? `dnes v ${time}` : `today at ${time}`;
-      if (key === pragueDateKey(yesterday)) return isCs ? `včera v ${time}` : `yesterday at ${time}`;
-      const day = date.toLocaleDateString(isCs ? 'cs-CZ' : 'en-GB', { timeZone: RADAR_TZ, day: 'numeric', month: isCs ? 'numeric' : 'short' });
-      return isCs ? `${day} v ${time}` : `on ${day} at ${time}`;
-    }
-
-    function fmtAgo(date, isCs) {
-      const minutes = Math.max(0, Math.floor((Date.now() - date.getTime()) / 60000));
-      const hours = Math.floor(minutes / 60);
-      const days = Math.floor(hours / 24);
-      if (minutes < 3) return isCs ? 'právě teď' : 'just now';
-      if (minutes < 60) return isCs ? `před ${minutes} min` : `${minutes} min ago`;
-      if (hours < 24) return isCs ? `před ${hours} h` : `${hours} h ago`;
-      return isCs ? `před ${days} ${days === 1 ? 'dnem' : 'dny'}` : `${days} ${days === 1 ? 'day' : 'days'} ago`;
+    function setRadarCategory(cat) {
+      selectedRadarCat = cat;
+      ['all', 'tech', 'sales', 'exec'].forEach(c => {
+        const btn = document.getElementById('radar-cat-' + c);
+        if (btn) {
+          if (c === cat) {
+            btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm';
+          } else {
+            btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-slate-300 hover:text-white border border-white/5';
+          }
+        }
+      });
+      renderRadarCards();
     }
 
     function buildRadarCard(role, isCs) {
-      const levelLabel = isCs ? role.levelLabelCs : role.levelLabel;
-      const seen = role.first_seen_at ? new Date(role.first_seen_at) : null;
-      const isNewToday = seen && pragueDateKey(seen) === pragueDateKey(new Date());
-      const seenText = seen ? (isCs ? `Zachyceno ${fmtWhen(seen, true)}` : `Spotted ${fmtWhen(seen, false)}`) : '';
+      const levelLabel = isCs ? (role.levelLabelCs || role.levelLabel) : role.levelLabel;
+      const seen = role.discoveredAt || '06:00 UTC';
       const ctaText = isCs ? 'Sledovat firmu →' : 'Track company →';
-      const tooltip = isCs ? 'Otevřít původní inzerát' : 'Open the original job listing';
-      const badge = (cls, text) => text ? `<span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold ${cls}">${esc(text)}</span>` : '';
-      const meta = [
-        `<span class="text-slate-200 font-semibold">${esc(role.company)}</span>`,
-        role.location ? `<span>${esc(role.location)}</span>` : '',
-        seenText ? `<span class="text-slate-300 font-mono">${esc(seenText)}</span>` : '',
-        role.ats ? `<span class="text-slate-400">${esc(role.ats)}</span>` : '',
-      ].filter(Boolean).join('<span>•</span>');
+      const tooltip = isCs ? 'Otevřít původní inzerát na kariérním portálu' : 'Open the original job listing on client portal';
+      const hmTitle = role.hm_title || 'Hiring Manager';
+      const hmQuery = encodeURIComponent(role.hm_query || `${hmTitle} ${role.company}`);
+      const hmLink = `https://www.linkedin.com/search/results/people/?keywords=${hmQuery}`;
 
       return `
-        <div class="radar-card py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
-          <div class="space-y-1">
+        <div class="radar-card py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
+          <div class="space-y-1.5">
             <div class="flex items-center space-x-2 flex-wrap gap-y-1">
               <a href="${esc(role.jobUrl)}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-[#FF8533] transition inline-flex items-center gap-1.5 group/link" title="${tooltip}">
                 <span>${esc(role.title)}</span>
                 <svg class="w-3.5 h-3.5 opacity-40 group-hover/link:opacity-100 group-hover/link:text-[#FF8533] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </a>
-              ${isNewToday ? badge('badge-new', isCs ? 'NOVÉ DNES' : 'NEW TODAY') : ''}
-              ${badge('bg-slate-700/60 text-slate-300', levelLabel)}
+              ${role.is_new_today ? `<span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-live">${isCs ? 'NOVÉ DNES' : 'NEW TODAY'}</span>` : ''}
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-slate-800 text-slate-300 border border-slate-700">${esc(levelLabel)}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-[#FF6B00]/10 text-[#FF8533] border border-[#FF6B00]/25">${esc(role.categoryLabel)}</span>
             </div>
-            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">${meta}</div>
+
+            <div class="text-xs text-slate-400 flex items-center flex-wrap gap-x-2 gap-y-0.5">
+              <span class="text-slate-200 font-semibold">${esc(role.company)}</span>
+              <span>•</span>
+              <span>${esc(role.location)}</span>
+              <span>•</span>
+              <span class="text-slate-300 font-mono">Discovered ${esc(seen)}</span>
+              <span>•</span>
+              <span class="text-slate-400">${esc(role.ats)}</span>
+            </div>
+
+            <!-- 1-Click Hiring Manager Bridge Teaser -->
+            <div class="pt-1 flex items-center gap-2 text-xs">
+              <span class="text-slate-400 text-[11px] font-medium">${isCs ? '1-Click Hiring Manager Bridge:' : '1-Click Hiring Manager Bridge:'}</span>
+              <a href="${hmLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#38BDF8] hover:text-white bg-[#38BDF8]/10 hover:bg-[#38BDF8]/20 px-2 py-0.5 rounded border border-[#38BDF8]/25 transition" title="Find decision-maker on LinkedIn">
+                <span>Find ${esc(hmTitle)} on LinkedIn</span>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
+            </div>
           </div>
-          <a href="#trial" class="text-xs px-3 py-1.5 rounded bg-[#1A2234] hover:bg-[#242E46] text-slate-200 hover:text-white border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition">
+
+          <a href="#trial" class="text-xs px-3.5 py-2 rounded-lg bg-[#1A2234] hover:bg-[#242E46] text-slate-200 hover:text-white border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition whitespace-nowrap">
             ${ctaText}
           </a>
         </div>`;
     }
 
-    function renderRadarHeader() {
+    function renderRadarCards() {
+      const feed = document.getElementById('radarFeed');
+      if (!feed) return;
       const isCs = document.documentElement.lang === 'cs';
-      const rules = (radarFeed && radarFeed.rules) || {};
-      const info = (radarFeed && radarFeed.scan_info) || {};
-      const days = rules.window_days || 7;
-      const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+      let roles = (radarFeed && Array.isArray(radarFeed.roles)) ? radarFeed.roles : [];
 
-      const pickedByRules = !radarFeed || !!radarFeed.rules;
-      set('radarHeadline', esc(pickedByRules
-        ? (isCs ? `Nejlukrativnější nové pozice za posledních ${days} dní` : `The most lucrative new roles of the last ${days} days`)
-        : (isCs ? 'Nové pozice z posledního skenu' : 'New roles from the latest scan')));
-
-      const n = info.new_roles_in_window, c = info.companies_count, f = info.featured_roles;
-      let subtext = '';
-      if (radarFeed && radarFeed.rules && n != null && c != null && f != null) {
-        subtext = isCs
-          ? `Sledované firmy (${c}) za posledních ${days} dní vypsaly ${fmtNumber(n, true)} ${csPlural(n, 'novou pozici', 'nové pozice', 'nových pozic')}. Ukazujeme ${f} nejseniornějších.`
-          : `Out of ${fmtNumber(n, false)} new ${n === 1 ? 'role' : 'roles'} the ${c} monitored companies posted in the last ${days} days, these are the ${f} most senior.`;
-        if (rules.seniority_required === false) {
-          subtext += isCs
-            ? ' Tento týden bylo seniorních pozic málo, proto jsou mezi nimi i střední úrovně.'
-            : ' Senior openings were scarce this week, so mid-level roles are included.';
-        }
+      if (selectedRadarCat !== 'all') {
+        roles = roles.filter(r => r.category === selectedRadarCat);
       }
-      set('radarSubtext', esc(subtext));
 
-      const ruleItems = (radarFeed && radarFeed.rules) ? (isCs ? [
-        `Poprvé zachyceno za posledních ${days} dní`,
-        'Pozice je stále otevřená',
-        'Místo výkonu v Evropě',
-        rules.seniority_required === false ? 'Bez juniorních pozic' : 'Od úrovně Senior výš, žádní junioři',
-        `Nejvýš ${rules.max_per_company || 2} od jedné firmy`,
-        'Řazeno podle seniority, pak podle čerstvosti',
-      ] : [
-        `First spotted in the last ${days} days`,
-        'Still open',
-        'Based in Europe',
-        rules.seniority_required === false ? 'No junior roles' : 'Senior level and up, no juniors',
-        `At most ${rules.max_per_company || 2} per company`,
-        'Ranked by seniority, then freshness',
-      ]) : [];
-      set('radarRules', ruleItems.map(t => `<li>✓ ${esc(t)}</li>`).join(''));
-
-      let scanLine = '';
-      if (info.completed_at) {
-        const done = new Date(info.completed_at);
-        const parts = [
-          isCs
-            ? `Poslední sken dokončen ${fmtWhen(done, true)} ${pragueZone(done)} (${fmtAgo(done, true)})`
-            : `Last scan finished ${fmtWhen(done, false)} ${pragueZone(done)} (${fmtAgo(done, false)})`,
-        ];
-        if (info.new_roles_today != null) {
-          parts.push(isCs
-            ? `dnes ${fmtNumber(info.new_roles_today, true)} ${csPlural(info.new_roles_today, 'nová pozice', 'nové pozice', 'nových pozic')}`
-            : `${fmtNumber(info.new_roles_today, false)} new ${info.new_roles_today === 1 ? 'role' : 'roles'} today`);
-        }
-        scanLine = parts.join(' • ');
-      } else if (radarFeed) {
-        scanLine = isCs ? 'Čas posledního skenu není k dispozici' : 'Last scan time unavailable';
+      if (radarFeedFailed) {
+        feed.innerHTML = `<p class="py-6 text-center text-xs text-slate-400">${isCs ? 'Data se nepodařilo načíst.' : 'Could not load feed data.'}</p>`;
+        return;
       }
-      set('radarLastScan', esc(scanLine));
 
-      const open = info.open_roles;
-      set('radarIndexed', esc(open != null
-        ? (isCs ? `${fmtNumber(open, true)} otevřených pozic ve sledování • přímo z Greenhouse ATS`
-                : `${fmtNumber(open, false)} open roles tracked • Direct Greenhouse ATS`)
-        : (isCs ? 'Přímo z Greenhouse ATS' : 'Direct Greenhouse ATS')));
+      if (roles.length === 0) {
+        feed.innerHTML = `<p class="py-6 text-center text-xs text-slate-400">${isCs ? 'Žádné pozice v této kategorii.' : 'No active positions in this category.'}</p>`;
+        return;
+      }
+
+      feed.innerHTML = roles.map(r => buildRadarCard(r, isCs)).join('');
     }
 
     function renderMonitoredCompaniesPills(companies) {
       const container = document.getElementById('monitoredCompaniesPills');
-      if (!container || !Array.isArray(companies) || companies.length === 0) return;
+      if (!container || !Array.isArray(companies)) return;
       const isCs = document.documentElement.lang === 'cs';
 
       container.innerHTML = companies.map(c => {
-        const tooltip = isCs ? `Ověřit oficiální kariérní web ${c.name} (otevře se v novém okně)` : `Verify official ${c.name} careers portal (opens in new window)`;
-        const hqShort = c.hq.split('/')[0].trim();
+        const tooltip = isCs ? `Ověřit kariérní web ${c.name}` : `Verify ${c.name} careers portal`;
+        const hqShort = (c.hq || '').split('/')[0].trim();
         return `<a href="${esc(c.careers_url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-slate-200 hover:text-white text-xs font-medium transition group" title="${esc(tooltip)}">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <span>${esc(c.name)}</span>
@@ -1486,66 +1657,31 @@
       }).join('');
     }
 
-    function renderRadarCards() {
-      const feed = document.getElementById('radarFeed');
-      if (!feed) return;
-      const isCs = document.documentElement.lang === 'cs';
-      const roles = (radarFeed && Array.isArray(radarFeed.roles)) ? radarFeed.roles : [];
-      let message = '';
-      if (radarFeedFailed) {
-        message = isCs
-          ? 'Živý feed se teď nepodařilo načíst. Stejná data uvidíte v živém demu níže.'
-          : 'The live feed could not be loaded right now. The same data is in the live demo below.';
-      } else if (!radarFeed) {
-        message = isCs ? 'Načítám poslední sken…' : 'Loading the latest scan…';
-      } else if (roles.length === 0) {
-        message = isCs
-          ? 'Za posledních 14 dní žádná nová pozice nesplnila pravidla výše.'
-          : 'No new role met the rules above in the last 14 days.';
+    async function loadRadarFeed() {
+      try {
+        let res = await fetch('/api/live-roles');
+        if (!res.ok) res = await fetch('data/live_roles.json');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (data && Array.isArray(data.roles)) {
+          radarFeed = data;
+        }
+      } catch (err) {
+        console.warn('Live radar fallback:', err);
       }
-      feed.innerHTML = message
-        ? `<p id="radarFeedStatus" class="py-6 text-center text-xs text-slate-400">${esc(message)}</p>`
-        : roles.map(r => buildRadarCard(r, isCs)).join('');
-    }
-
-    function renderRadar() {
-      renderRadarHeader();
       renderRadarCards();
       if (radarFeed && radarFeed.monitored_companies) {
         renderMonitoredCompaniesPills(radarFeed.monitored_companies);
       }
     }
 
-    async function loadRadarFeed() {
-      try {
-        let res = await fetch('/api/live-roles');
-        if (!res.ok) {
-          res = await fetch('data/live_roles.json');
-        }
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        if (!data || !Array.isArray(data.roles)) throw new Error('unexpected feed shape');
-        radarFeed = data;
-      } catch (err) {
-        console.error('Live radar feed failed:', err);
-        radarFeedFailed = true;
-      }
-      renderRadar();
-    }
-    renderRadar();
     loadRadarFeed();
-
-    window.addEventListener('talentradar:langchange', renderRadar);
-
-    /* ── 7. Language switcher aria-pressed sync ── */
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.lang-btn').forEach(b =>
-          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false')
-        );
-      });
+    window.addEventListener('talentradar:langchange', () => {
+      renderRadarCards();
+      if (radarFeed && radarFeed.monitored_companies) {
+        renderMonitoredCompaniesPills(radarFeed.monitored_companies);
+      }
     });
   </script>
-
 </body>
 </html>

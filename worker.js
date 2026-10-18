@@ -45,6 +45,12 @@ export default {
       return env.ASSETS.fetch(new Request(url.toString(), request));
     }
 
+    // 3b. Rewrite /blog to /blog/index.html if requested
+    if (url.pathname === "/blog" || url.pathname === "/blog/") {
+      url.pathname = "/blog/index.html";
+      return env.ASSETS.fetch(new Request(url.toString(), request));
+    }
+
     // 4. Static Assets fallback
     return env.ASSETS.fetch(request);
   },

@@ -51,31 +51,12 @@
     .orange-glow { box-shadow: 0 0 40px rgba(255, 107, 0, 0.18); }
     .orange-glow-lg { box-shadow: 0 0 80px rgba(255, 107, 0, 0.22); }
 
-    .lang-switcher {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 60;
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      background: rgba(14, 18, 28, 0.94);
-      border: 1px solid rgba(255, 107, 0, 0.35);
-      border-radius: 9999px;
-      padding: 4px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    }
-    @media (max-width: 767px) {
-      .lang-switcher {
-        display: none !important;
-      }
-    }
+    /* Language Switcher */
     .lang-btn {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.05em;
-      padding: 5px 11px;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
       border-radius: 9999px;
       color: #94A3B8;
       background: transparent;
@@ -83,7 +64,7 @@
       cursor: pointer;
       transition: all 0.18s ease;
     }
-    .lang-btn:hover { color: #F3F4F6; }
+    .lang-btn:hover { color: #FFFFFF; }
     .lang-btn--active {
       background: #FF6B00;
       color: #FFFFFF;
@@ -93,32 +74,27 @@
 </head>
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
 
-  <!-- Floating Language Switcher -->
-  <div class="lang-switcher hidden md:flex" role="group" aria-label="Language switcher">
-    <button type="button" class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">EN</button>
-    <button type="button" class="lang-btn" data-lang="cs" aria-pressed="false">CS</button>
-  </div>
-
   <!-- ═══════════════════════════════════════════════
        NAVIGATION
   ═══════════════════════════════════════════════ -->
-  <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3 transition-all">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <a href="../" class="flex items-center space-x-2.5 sm:space-x-3 group flex-shrink-0">
-        <div class="relative flex items-center justify-center h-8 w-8 flex-shrink-0">
-          <img src="../falcon.svg" alt="" aria-hidden="true" width="32" height="32" class="h-8 w-8 group-hover:scale-105 transition-transform object-contain">
+  <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3.5 transition-all">
+    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4 xl:gap-6">
+      <!-- Official Falcon Logo + Two-Toned Wordmark + Global English Slogan -->
+      <a href="../" class="flex items-center space-x-3 group flex-shrink-0">
+        <div class="relative flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0">
+          <img src="../falcon.svg" alt="" aria-hidden="true" width="40" height="40" class="h-9 w-9 sm:h-10 sm:w-10 group-hover:scale-105 transition-transform object-contain">
         </div>
         <div class="flex flex-col">
-          <span class="font-extrabold text-lg sm:text-2xl tracking-tight leading-none whitespace-nowrap">
+          <span class="font-extrabold text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
             <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
-          <span class="hidden sm:block text-[10px] font-semibold text-[#F3F4F6]/80 tracking-wider uppercase mt-1 whitespace-nowrap">
-            Spend time closing, <span class="text-[#FF6B00]">not searching.</span>
+          <span class="hidden sm:block text-xs sm:text-[13px] font-extrabold tracking-tight leading-tight mt-1 whitespace-nowrap">
+            <span class="text-white">Spend time closing,</span> <span class="text-[#FF6B00]">not searching.</span>
           </span>
         </div>
       </a>
 
-      <div class="hidden lg:flex items-center space-x-5 text-sm font-medium text-[#F3F4F6]/80 whitespace-nowrap">
+      <div class="hidden xl:flex items-center gap-4 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
         <a href="../#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
         <a href="../#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
         <a href="../#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
@@ -127,16 +103,18 @@
         <a href="../#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
       </div>
 
-      <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-        <div class="flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
-          <button type="button" class="lang-btn lang-btn--active text-[10px] px-2 py-0.5 rounded-full" data-lang="en">EN</button>
-          <button type="button" class="lang-btn text-[10px] px-2 py-0.5 rounded-full" data-lang="cs">CS</button>
+      <div class="flex items-center gap-2.5 2xl:gap-3.5 flex-shrink-0">
+        <!-- Persistent Header [ EN | CS ] Switcher -->
+        <div class="flex items-center bg-[#141A28] border border-white/15 rounded-full px-1.5 py-1 shadow-sm" role="group" aria-label="Language selector">
+          <button type="button" class="lang-btn lang-btn--active" data-lang="en">EN</button>
+          <span class="text-white/20 text-[10px] px-0.5">|</span>
+          <button type="button" class="lang-btn" data-lang="cs">CS</button>
         </div>
 
-        <a href="https://app.talentradar.eu" class="hidden sm:inline-block text-xs sm:text-sm font-semibold text-[#F3F4F6]/80 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
+        <a href="https://app.talentradar.eu" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-1.5 2xl:px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
           Sign In
         </a>
-        <a href="../#trial" class="hidden sm:inline-block px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+        <a href="../#trial" class="hidden sm:inline-block px-3 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
           Start 14-Day Free Pilot
         </a>
       </div>
@@ -351,17 +329,22 @@
   </article>
 
   <!-- FOOTER -->
-  <footer class="py-10 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-[#94A3B8]">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center space-x-2 text-xs">
-        <img src="../falcon.svg" alt="" aria-hidden="true" width="32" height="32" class="h-5 w-5 object-contain">
-        <span class="font-bold text-white text-sm">
-          <span>TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+  <footer class="py-12 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-[#94A3B8]">
+    <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
+      <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3.5">
+        <div class="flex items-center space-x-2.5">
+          <img src="../falcon.svg" alt="" aria-hidden="true" width="36" height="36" class="h-8 w-8 flex-shrink-0 object-contain">
+          <span class="font-extrabold text-white text-lg sm:text-xl tracking-tight">
+            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+          </span>
+        </div>
+        <span class="hidden sm:inline text-white/30 text-lg font-light">—</span>
+        <span class="text-sm sm:text-base font-extrabold tracking-tight">
+          <span class="text-white">Spend time closing,</span> <span class="text-[#FF6B00]">not searching.</span>
         </span>
-        <span class="text-[#94A3B8]">— <span>Spend time closing, <span class="text-[#FF6B00]">not searching.</span></span></span>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-4 text-[#F3F4F6]/80">
+      <div class="flex flex-wrap items-center justify-center gap-4 text-[#F3F4F6]/80 text-xs sm:text-sm">
         <span>Kryštof Pejša</span>
         <span>•</span>
         <a href="mailto:krystof@talentradar.eu" class="hover:text-white underline">krystof@talentradar.eu</a>
@@ -371,7 +354,7 @@
         <a href="../gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy</a>
       </div>
 
-      <div class="text-[#94A3B8]" data-i18n="footer_copyright">© 2026 TalentRadar</div>
+      <div class="text-[#94A3B8] text-xs" data-i18n="footer_copyright">© 2026 TalentRadar</div>
     </div>
   </footer>
 

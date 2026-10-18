@@ -191,11 +191,6 @@ const TRANSLATIONS = {
     story_author_title: "Founder, TalentRadar",
     story_linkedin: "LinkedIn Profile",
     story_rob_linkedin: "Rob Magee (Ingenio Global)",
-    story_case_study_badge: "DUBLIN CASE STUDY • INGENIO GLOBAL",
-    story_case_study_caption: "180 Monitored Tech Firms • 3,400+ Captured Roles • Day Zero Notifications",
-    story_metric1_label: "Monitored tech firms",
-    story_metric2_label: "Captured vacancies",
-    story_pilot_badge: "● Production Pilot in Dublin (Ingenio Global)",
 
     /* ── FAQ & Asynchronous Onboarding ── */
     faq_badge: "Zero-Friction Implementation",
@@ -236,7 +231,6 @@ const TRANSLATIONS = {
     trial_file_too_large: "File too large (max 8 MB).",
     trial_error_required: "Please enter your name, work email, and agency name.",
     trial_error_generic: "Something went wrong. Please write to us directly at krystof@talentradar.eu",
-    story_read_study: "Read Study",
     trial_speed_note: "Access sent within 15 minutes. Full portfolio scan live within 24 hours, guaranteed.",
     trial_gdpr_html: "By submitting you agree to processing of your contact details to create a trial account. Your data is strictly confidential and never shared. (<a href=\"gdpr.html\" class=\"underline hover:text-[#FF8533]\">Privacy Policy</a>)",
     trial_contact_prefix: "Direct Founder Contact:",
@@ -434,11 +428,6 @@ const TRANSLATIONS = {
     story_author_title: "Zakladatel TalentRadar",
     story_linkedin: "Profil na LinkedIn",
     story_rob_linkedin: "Rob Magee (Ingenio Global)",
-    story_case_study_badge: "Dublinská případová studie • Ingenio Global",
-    story_case_study_caption: "Ověřené produkční výsledky z rezidence v Dublinu: 180 sledovaných technologických firem a 3 400+ zachycených pozic.",
-    story_metric1_label: "Sledovaných tech firem",
-    story_metric2_label: "Zachycených pozic",
-    story_pilot_badge: "● Ostrý pilot v Ingenio Global (Dublin)",
 
     /* ── FAQ & Asynchronous Onboarding ── */
     faq_badge: "Implementace bez tření",
@@ -479,7 +468,6 @@ const TRANSLATIONS = {
     trial_file_too_large: "Soubor je příliš velký (max. 8 MB).",
     trial_error_required: "Vyplňte prosím jméno, pracovní e-mail a název agentury.",
     trial_error_generic: "Něco se pokazilo. Napište nám prosím přímo na krystof@talentradar.eu",
-    story_read_study: "Číst studii",
     trial_speed_note: "Přístup obdržíte do 15 minut. Plný sken portfolia garantujeme do 24 hodin.",
     trial_gdpr_html: "Odesláním souhlasíte se zpracováním kontaktních údajů pro vytvoření zkušebního účtu. Údaje jsou přísně důvěrné a nikomu je nepředáváme. (<a href=\"gdpr.html\" class=\"underline hover:text-[#FF8533]\">Zásady zpracování</a>)",
     trial_contact_prefix: "Přímý kontakt na zakladatele:",

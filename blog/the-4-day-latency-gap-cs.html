@@ -116,7 +116,7 @@
        NAVIGATION
   ═══════════════════════════════════════════════ -->
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3.5 transition-all">
-    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4 xl:gap-6">
+    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4 xl:gap-8">
       <!-- Official Falcon Logo + Two-Toned Wordmark + Global English Slogan -->
       <a href="../" class="flex items-center space-x-3 group flex-shrink-0">
         <div class="relative flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0">
@@ -124,35 +124,38 @@
         </div>
         <div class="flex flex-col">
           <span class="font-extrabold text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
-            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+            <span class="text-[#FFFFFF]">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
-          <span class="hidden sm:block text-xs sm:text-[13px] font-extrabold tracking-tight leading-tight mt-1 whitespace-nowrap">
-            <span class="text-white">Spend time closing,</span> <span class="text-[#FF6B00]">not searching.</span>
+          <span class="hidden sm:block text-xs sm:text-[13px] tracking-tight leading-tight mt-1 whitespace-nowrap">
+            <span class="text-[#FFFFFF] font-semibold">Spend time closing, </span><span class="text-[#FF6B00] font-semibold">not searching.</span>
           </span>
         </div>
       </a>
 
-      <div class="hidden xl:flex items-center gap-4 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
-        <a href="../#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
-        <a href="../#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
-        <a href="../#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
-        <a href="../#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
-        <a href="./" class="text-[#FF6B00] font-semibold transition" data-i18n="nav_insights">Research &amp; Blog</a>
-        <a href="../#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
-      </div>
-
-      <div class="flex items-center gap-2.5 2xl:gap-3.5 flex-shrink-0">
-        <!-- Persistent Header [ EN | CS ] Switcher -->
-        <div class="flex items-center bg-[#141A28] border border-white/15 rounded-full px-1.5 py-1 shadow-sm" role="group" aria-label="Language selector">
-          <button type="button" class="lang-btn lang-btn--active" data-lang="en">EN</button>
-          <span class="text-white/20 text-[10px] px-0.5">|</span>
-          <button type="button" class="lang-btn" data-lang="cs">CS</button>
+      <div class="flex items-center gap-3 2xl:gap-4 flex-shrink-0">
+        <div class="hidden xl:flex items-center gap-5 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
+          <a href="../#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
+          <a href="../#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
+          <a href="../#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
+          <a href="../#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
+          <a href="./" class="text-[#FF6B00] font-semibold transition" data-i18n="nav_insights">Research &amp; Blog</a>
+          <a href="../#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
         </div>
 
-        <a href="https://app.talentradar.eu" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-1.5 2xl:px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
+        <!-- Vertical Divider between Navigation Links and Language Switcher -->
+        <div class="hidden lg:block h-5 w-px bg-[#1B1E26] mx-3"></div>
+
+        <!-- Persistent Header [ EN | CS ] Switcher -->
+        <div class="flex items-center bg-[#111622] border border-white/15 rounded-full px-2.5 py-1 text-xs shadow-sm ml-1" role="group" aria-label="Language selector">
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+          <span class="text-white/20 text-[10px] px-0.5">|</span>
+          <button type="button" class="lang-btn lang-btn--active" data-lang="cs">CS</button>
+        </div>
+
+        <a href="https://app.talentradar.eu" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
           Sign In
         </a>
-        <a href="../#trial" class="hidden sm:inline-block px-3 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+        <a href="../#trial" class="hidden sm:inline-block px-3.5 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
           Start 14-Day Free Pilot
         </a>
       </div>
@@ -644,31 +647,32 @@
        FOOTER
   ═══════════════════════════════════════════════ -->
   <footer class="py-12 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-[#94A3B8]">
-    <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
-      <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3.5">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center space-x-2.5">
           <img src="../falcon.svg" alt="" aria-hidden="true" width="36" height="36" class="h-8 w-8 flex-shrink-0 object-contain">
           <span class="font-extrabold text-white text-lg sm:text-xl tracking-tight">
-            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+            <span class="text-[#FFFFFF]">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
         </div>
-        <span class="hidden sm:inline text-white/30 text-lg font-light">—</span>
-        <span class="text-sm sm:text-base font-extrabold tracking-tight">
-          <span class="text-white">Spend time closing,</span> <span class="text-[#FF6B00]">not searching.</span>
-        </span>
+
+        <div class="flex flex-wrap items-center justify-center gap-4 text-[#F3F4F6]/80 text-xs sm:text-sm">
+          <span>Kryštof Pejša</span>
+          <span>•</span>
+          <a href="mailto:krystof@talentradar.eu" class="hover:text-white underline">krystof@talentradar.eu</a>
+          <span>•</span>
+          <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">LinkedIn</a>
+          <span>•</span>
+          <a href="../gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy</a>
+        </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-4 text-[#F3F4F6]/80 text-xs sm:text-sm">
-        <span>Kryštof Pejša</span>
-        <span>•</span>
-        <a href="mailto:krystof@talentradar.eu" class="hover:text-white underline">krystof@talentradar.eu</a>
-        <span>•</span>
-        <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">LinkedIn</a>
-        <span>•</span>
-        <a href="../gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy</a>
+      <!-- Enlarged Full-Width Slogan Claim -->
+      <div class="text-xl md:text-2xl font-bold tracking-tight text-center py-6 border-y border-[#1B1E26] my-6">
+        <span class="text-[#FFFFFF]">Spend time closing, </span><span class="text-[#FF6B00]">not searching.</span>
       </div>
 
-      <div class="text-[#94A3B8] text-xs" data-i18n="footer_copyright">© 2026 TalentRadar</div>
+      <div class="text-[#94A3B8] text-xs" data-i18n="footer_copyright">© 2026 TalentRadar. Built for European Recruitment Boutiques &amp; Headhunters.</div>
     </div>
   </footer>
 

@@ -116,7 +116,7 @@
        1. NAVIGATION HEADER
   ═══════════════════════════════════════════════ -->
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3.5 transition-all">
-    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4 xl:gap-6">
+    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4 xl:gap-8">
 
       <!-- Official Falcon Logo + Two-Toned Wordmark + Global English Slogan -->
       <a href="#" class="flex items-center space-x-3 group flex-shrink-0">
@@ -125,38 +125,40 @@
         </div>
         <div class="flex flex-col">
           <span class="font-extrabold text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
-            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+            <span class="text-[#FFFFFF]">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
-          <span class="hidden sm:block text-xs sm:text-[13px] font-extrabold tracking-tight leading-tight mt-1 whitespace-nowrap">
-            <span class="text-white">Spend time closing,</span> <span class="text-[#FF6B00]">not searching.</span>
+          <span class="hidden sm:block text-xs sm:text-[13px] tracking-tight leading-tight mt-1 whitespace-nowrap">
+            <span class="text-[#FFFFFF] font-semibold">Spend time closing, </span><span class="text-[#FF6B00] font-semibold">not searching.</span>
           </span>
         </div>
       </a>
 
-      <!-- Desktop Links -->
-      <div class="hidden xl:flex items-center gap-4 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
-        <a href="#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
-        <a href="#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
-        <a href="#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
-        <a href="#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
-        <a href="#insights" class="hover:text-white transition" data-i18n="nav_insights">Research &amp; Blog</a>
-        <a href="#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
-      </div>
+      <!-- Desktop Links + Action Cluster -->
+      <div class="flex items-center gap-3 2xl:gap-4 flex-shrink-0">
+        <div class="hidden xl:flex items-center gap-5 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
+          <a href="#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
+          <a href="#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
+          <a href="#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
+          <a href="#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
+          <a href="#insights" class="hover:text-white transition" data-i18n="nav_insights">Research &amp; Blog</a>
+          <a href="#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
+        </div>
 
-      <!-- Right Action Bar: Language Toggle, Sign In, CTA -->
-      <div class="flex items-center gap-2.5 2xl:gap-3.5 flex-shrink-0">
-        <!-- Clean Nav Language Toggle EN | CS (visible on mobile & desktop) -->
-        <div class="flex items-center bg-[#111622] border border-white/15 rounded-full px-1.5 py-1 text-xs shadow-sm" role="group" aria-label="Language selector">
+        <!-- Vertical Divider between Navigation Links and Language Switcher -->
+        <div class="hidden lg:block h-5 w-px bg-[#1B1E26] mx-3"></div>
+
+        <!-- Clean Nav Language Toggle EN | CS (ample padding, never sticks to #story) -->
+        <div class="flex items-center bg-[#111622] border border-white/15 rounded-full px-2.5 py-1 text-xs shadow-sm ml-1" role="group" aria-label="Language selector">
           <button onclick="window.TRLang.apply('en')" class="lang-btn" data-lang="en">EN</button>
           <span class="text-white/20 text-[10px] px-0.5">|</span>
           <button onclick="window.TRLang.apply('cs')" class="lang-btn" data-lang="cs">CS</button>
         </div>
 
-        <a href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-1.5 2xl:px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
+        <a href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
           Sign In
         </a>
 
-        <a href="#trial" class="hidden sm:inline-block px-3 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
+        <a href="#trial" class="hidden sm:inline-block px-3.5 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
           Start 14-Day Free Pilot
         </a>
 
@@ -177,7 +179,7 @@
       <a href="#pricing" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_pricing">Pricing</a>
       <a href="#insights" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_insights">Research &amp; Blog</a>
       <a href="#story" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_story">Our Story</a>
-      <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366] font-semibold" data-i18n="nav_demo">Live Demo ↗</a>
+      <a href="https://app.talentradar.eu/demo" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366] font-semibold" data-i18n="nav_demo">Live Demo ↗</a>
       <a id="mobileSignInLink" href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#F3F4F6]/80" data-i18n="nav_signin">Sign In</a>
       <a href="#trial" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] text-white text-xs font-bold text-center shadow-md shadow-[#FF6B00]/25" data-i18n="nav_cta">Start 14-Day Free Pilot</a>
     </div>
@@ -605,78 +607,215 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       4. LIVE RADAR SHOWCASE (#live-radar)
+       4. INTERACTIVE MINI-DEMO SANDBOX + FULL DEMO BRIDGE (#live-radar)
   ═══════════════════════════════════════════════ -->
-  <section id="live-radar" class="py-20 px-4 sm:px-6 max-w-5xl mx-auto space-y-6">
+  <section id="live-radar" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-6">
     <div class="text-center space-y-2 mb-6">
       <div class="inline-flex items-center space-x-2 text-xs font-bold text-[#FF6B00] tracking-widest uppercase">
         <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
-        <span data-i18n="radar_badge">Live Telemetry Feed</span>
+        <span data-i18n="radar_badge">TalentRadar Live Sandbox</span>
       </div>
       <h2 class="text-2xl sm:text-4xl font-extrabold text-white" id="radarHeadline" data-i18n="radar_headline">
-        Live Signals: Discovered at 06:00 UTC Today
+        Interactive Signal Sandbox: Captured at 06:00 UTC Today
       </h2>
       <p class="text-xs sm:text-sm text-[#94A3B8] max-w-2xl mx-auto" id="radarSubtext" data-i18n="radar_subtext">
-        Sample vacancies captured directly from enterprise career pages across Europe. In your workspace, this feed populates exclusively with your client accounts.
+        Explore live vacancies captured directly from ATS endpoints of recognized Czech &amp; regional tech leaders. Filter by vertical, inspect aged bottlenecks (&gt;35 days), or click any role for 1-Click Hiring Manager X-Ray.
       </p>
-
-      <!-- Category Filter Tabs -->
-      <div class="pt-3 flex flex-wrap justify-center gap-2">
-        <button onclick="setRadarCategory('all')" id="radar-cat-all" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm" data-i18n="radar_tab_all">
-          All Signals
-        </button>
-        <button onclick="setRadarCategory('tech')" id="radar-cat-tech" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5" data-i18n="radar_tab_tech">
-          Tech &amp; Cloud
-        </button>
-        <button onclick="setRadarCategory('sales')" id="radar-cat-sales" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5" data-i18n="radar_tab_sales">
-          B2B Sales
-        </button>
-        <button onclick="setRadarCategory('exec')" id="radar-cat-exec" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5" data-i18n="radar_tab_exec">
-          Executive &amp; C-Level
-        </button>
-      </div>
-
-      <div class="pt-1 text-xs text-[#34D399] font-mono" id="radarLastScan" data-i18n="radar_last_scan">
-        Last scan finished 06:22 UTC • 8 new roles today
-      </div>
-      <div class="text-[11px] text-[#94A3B8] italic" data-i18n="radar_disclaimer">
-        (Live production sample — your client portfolio populates automatically within 24 hours of sign-up)
-      </div>
     </div>
 
-    <!-- Radar Feed Glass Container -->
-    <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-2xl border border-[rgba(255,255,255,0.1)] orange-glow">
-      <div id="radarFeed" class="divide-y divide-[rgba(255,255,255,0.05)]">
-        <p id="radarFeedStatus" class="py-6 text-center text-xs text-[#94A3B8]">Loading the latest scan telemetry…</p>
-      </div>
+    <!-- Window Container (#111622) -->
+    <div class="bg-[#111622] rounded-2xl overflow-hidden shadow-2xl border border-[#1B1E26] orange-glow-lg relative">
 
-      <!-- Live Demo Banner -->
-      <div class="mt-5 p-4 rounded-xl bg-gradient-to-r from-[rgba(255,107,0,0.12)] to-[rgba(15,23,42,0.7)] border border-[#FF6B00]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg shadow-[#FF6B00]/5">
-        <div class="flex items-center gap-3 text-xs text-[#F3F4F6]/80 text-left">
-          <div class="w-8 h-8 rounded-lg bg-[#FF6B00]/15 border border-[#FF6B00]/30 flex items-center justify-center flex-shrink-0 text-[#FF8533]">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v3m0 12v3M3 12h3m12 0h3"/></svg>
+      <!-- 1. Window Control Header -->
+      <div class="px-4 sm:px-6 py-3.5 bg-[#0D111A] border-b border-[#1B1E26] flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <!-- Left: 3 macOS dots -->
+        <div class="flex items-center justify-between lg:justify-start gap-4">
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <span class="w-3 h-3 rounded-full bg-[#FF5F56]"></span>
+            <span class="w-3 h-3 rounded-full bg-[#FFBD2E]"></span>
+            <span class="w-3 h-3 rounded-full bg-[#27C93F]"></span>
           </div>
-          <div>
-            <strong class="text-white font-semibold block sm:inline" data-i18n="radar_demo_title">Want to explore all captured roles in a live workspace?</strong>
-            <span class="text-[#94A3B8] block sm:inline sm:ml-1" data-i18n="radar_demo_desc">Open an interactive live demo without registration for 10 European scaleup employers.</span>
+          <!-- Center (mobile inline, desktop centered): Live status indicator -->
+          <div class="text-xs font-mono text-[#34D399] font-semibold truncate" id="sandboxStatusText" data-i18n="sandbox_status">
+            ● Ranní běh dokončen (06:00 UTC) • 32 zachycených rolí dnes
           </div>
         </div>
-        <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-4 py-2 rounded-lg bg-[#FF6B00] hover:bg-[#FF8533] text-white font-bold text-xs shadow-md shadow-[#FF6B00]/25 flex items-center justify-center gap-1.5 whitespace-nowrap transition">
-          <span data-i18n="radar_demo_btn">Open Live Dashboard →</span>
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+
+        <!-- Right: Quick live text search input -->
+        <div class="relative w-full lg:w-80 flex-shrink-0">
+          <svg class="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+          </svg>
+          <input
+            type="text"
+            id="sandboxSearchInput"
+            oninput="handleSandboxSearch(this.value)"
+            placeholder="Hledat firmu, roli nebo technologii..."
+            data-i18n-placeholder="sandbox_search_placeholder"
+            class="w-full pl-9 pr-8 py-2 rounded-xl bg-[#0A0D14] border border-[#1B1E26] focus:border-[#FF6B00] text-xs text-white placeholder-[#94A3B8] focus:outline-none transition"
+          />
+          <button
+            type="button"
+            id="sandboxSearchClear"
+            onclick="clearSandboxSearch()"
+            aria-label="Clear search"
+            class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-white text-xs px-1"
+          >✕</button>
+        </div>
+      </div>
+
+      <!-- 2. Top Action Banner / Full Demo Gateway (The "Troika" Bridge) -->
+      <div class="px-4 sm:px-6 py-4 bg-gradient-to-r from-[#FF6B00]/15 via-[#161D2E] to-[#111622] border-b border-[#FF6B00]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3 text-left">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#FF6B00] live-dot flex-shrink-0"></span>
+          <span class="text-xs sm:text-sm font-bold text-white" data-i18n="sandbox_gateway_text">
+            Chcete si TalentRadar vyzkoušet na celou obrazovku bez omezení?
+          </span>
+        </div>
+        <a
+          href="https://app.talentradar.eu/demo"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm shadow-lg shadow-[#FF6B00]/25 flex items-center justify-center gap-2 whitespace-nowrap transition flex-shrink-0"
+        >
+          <span data-i18n="sandbox_gateway_btn">Otevřít plné živé demo v aplikaci</span>
+          <span class="text-xs">↗</span>
         </a>
       </div>
 
-      <!-- Monitored Companies Pill Bar -->
-      <div class="mt-6 pt-5 border-t border-[rgba(255,255,255,0.08)]">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs mb-3">
-          <span class="text-[#F3F4F6]/80 font-semibold flex items-center gap-2" data-i18n="radar_monitored_title">
-            <span class="inline-block w-2 h-2 rounded-full bg-[#34D399] animate-pulse"></span>
-            Enterprise employers monitored daily in this live demo:
-          </span>
-          <span class="text-[#94A3B8] font-mono text-[11px]" id="radarIndexed">Direct ATS Telemetry</span>
+      <!-- 3. Interactive Filter Pills -->
+      <div class="px-4 sm:px-6 py-3.5 bg-[#111622] border-b border-[#1B1E26] flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2" role="tablist" aria-label="Signal vertical filters">
+          <button onclick="setRadarCategory('all')" id="radar-cat-all" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm" data-i18n="radar_tab_all">
+            Všechny signály
+          </button>
+          <button onclick="setRadarCategory('tech')" id="radar-cat-tech" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5" data-i18n="radar_tab_tech">
+            Tech &amp; Cloud
+          </button>
+          <button onclick="setRadarCategory('sales')" id="radar-cat-sales" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5" data-i18n="radar_tab_sales">
+            B2B Sales &amp; GTM
+          </button>
+          <button onclick="setRadarCategory('product')" id="radar-cat-product" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5" data-i18n="radar_tab_product">
+            Product &amp; Data
+          </button>
+          <button onclick="setRadarCategory('stale')" id="radar-cat-stale" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#FBBF24] hover:text-white border border-[#FBBF24]/30" data-i18n="radar_tab_stale">
+            ⚡ Ležáky &gt;30 dní
+          </button>
         </div>
-        <div class="flex flex-wrap gap-2 items-center" id="monitoredCompaniesPills"></div>
+        <div class="text-[11px] font-mono text-[#94A3B8]" id="sandboxCountBadge">
+          26 signálů
+        </div>
+      </div>
+
+      <!-- 4. Roles List / Table -->
+      <div class="bg-[#0A0D14]/60 max-h-[540px] overflow-y-auto divide-y divide-[#1B1E26]" id="radarFeed">
+        <p id="radarFeedStatus" class="py-8 text-center text-xs text-[#94A3B8]">Loading scan telemetry…</p>
+      </div>
+
+      <!-- Monitored Companies Pill Bar -->
+      <div class="px-4 sm:px-6 py-4 bg-[#0D111A] border-t border-[#1B1E26]">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs mb-3">
+          <span class="text-[#F3F4F6]/80 font-semibold flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-[#34D399] animate-pulse"></span>
+            <span data-i18n="radar_monitored_title">České a regionální technologické firmy sledované v tomto živém sandboxu:</span>
+          </span>
+          <span class="text-[#94A3B8] font-mono text-[11px]" id="radarIndexed">Direct ATS Telemetry • 19 Scaleups</span>
+        </div>
+        <div class="flex flex-wrap gap-1.5 items-center" id="monitoredCompaniesPills"></div>
+      </div>
+    </div>
+
+    <!-- 5. Interactive Role Drawer / Preview Modal -->
+    <div id="roleDrawerBackdrop" onclick="closeRoleDrawer(event)" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex justify-end transition-opacity">
+      <div onclick="event.stopPropagation()" class="w-full max-w-lg bg-[#111622] border-l border-[#1B1E26] h-full overflow-y-auto p-6 sm:p-8 flex flex-col justify-between shadow-2xl space-y-6">
+        <div class="space-y-6">
+          <!-- Top Bar -->
+          <div class="flex items-center justify-between border-b border-[#1B1E26] pb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
+              <span class="text-xs font-mono font-bold text-[#FF8533] uppercase tracking-wider" data-i18n="sandbox_drawer_badge">TELEMETRIE SIGNÁLU &amp; X-RAY</span>
+            </div>
+            <button type="button" onclick="closeRoleDrawer()" aria-label="Close drawer" class="p-1.5 rounded-lg bg-[#1B1E26] text-[#94A3B8] hover:text-white transition text-xs font-mono">
+              ✕ ESC
+            </button>
+          </div>
+
+          <!-- Company & Role Header -->
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div id="drawerLogoBadge" class="w-11 h-11 rounded-xl bg-[#1A2234] border border-[#FF6B00]/40 text-[#FF8533] font-mono font-extrabold text-sm flex items-center justify-center flex-shrink-0">
+                MW
+              </div>
+              <div>
+                <div id="drawerCompany" class="text-sm font-bold text-[#94A3B8]">Mews</div>
+                <h3 id="drawerTitle" class="text-lg sm:text-xl font-black text-white leading-snug">Principal Backend Engineer (.NET / Go)</h3>
+              </div>
+            </div>
+
+            <!-- Metadata Badges -->
+            <div class="flex flex-wrap items-center gap-2 pt-1" id="drawerBadges"></div>
+          </div>
+
+          <!-- AI Fit Reason Card -->
+          <div class="p-4 sm:p-5 rounded-2xl bg-[#0A0D14] border border-[#FF6B00]/30 space-y-2 orange-glow">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-mono font-bold text-[#FF8533] uppercase" data-i18n="sandbox_drawer_fit_label">AI Fit &amp; Analýza zachycení</span>
+              <span class="font-mono text-[11px] text-[#34D399]">Gemini Flash 2-Stage</span>
+            </div>
+            <p id="drawerFitReason" class="text-xs sm:text-sm text-[#F3F4F6] leading-relaxed">
+              Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.
+            </p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="space-y-3 pt-2">
+            <a
+              id="drawerXrayLink"
+              href="https://www.linkedin.com/search/results/people/?keywords=VP+of+Engineering+Mews"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white font-bold text-xs sm:text-sm shadow-lg shadow-[#FF6B00]/25 flex items-center justify-center gap-2 transition"
+            >
+              <span id="drawerXrayText" data-i18n="sandbox_drawer_xray_btn">Vyhledat Hiring Managera na LinkedInu (1-Click X-Ray) ↗</span>
+            </a>
+
+            <button
+              type="button"
+              onclick="showPilotToastModal()"
+              class="w-full py-3.5 px-4 rounded-xl bg-[#1A2234] hover:bg-[#242E46] text-white font-bold text-xs sm:text-sm border border-white/10 flex items-center justify-center gap-2 transition cursor-pointer"
+            >
+              <span data-i18n="sandbox_drawer_export_btn">Převést na zakázku / Exportovat</span>
+            </button>
+          </div>
+
+          <!-- Pilot Toast / Inline Callout inside Drawer -->
+          <div id="pilotToastModal" class="hidden p-4 sm:p-5 rounded-2xl bg-[#192338] border-2 border-[#FF6B00] shadow-2xl space-y-3 transition-all">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2 text-xs font-mono font-bold text-[#FF8533]">
+                <span class="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse"></span>
+                <span data-i18n="sandbox_toast_title">Součást 14denního bezplatného pilotu</span>
+              </div>
+              <button type="button" onclick="hidePilotToastModal()" class="text-[#94A3B8] hover:text-white text-xs">✕</button>
+            </div>
+            <p class="text-xs sm:text-sm text-white leading-relaxed" data-i18n="sandbox_toast_msg">
+              Propojení s vlastním ATS a sledování vlastních klientů je součástí 14denního bezplatného pilotu.
+            </p>
+            <a
+              href="#trial"
+              onclick="closeRoleDrawer()"
+              class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl bg-[#FF6B00] hover:bg-[#E65A00] text-white font-bold text-xs shadow-md transition"
+              data-i18n="sandbox_toast_cta"
+            >
+              Vyzkoušet na 14 dní zdarma →
+            </a>
+          </div>
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="pt-4 border-t border-[#1B1E26] flex items-center justify-between text-[11px] text-[#94A3B8] font-mono">
+          <span>TalentRadar Autonomous Engine</span>
+          <a href="https://app.talentradar.eu/demo" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline">app.talentradar.eu/demo ↗</a>
+        </div>
       </div>
     </div>
   </section>
@@ -1051,48 +1190,83 @@
        8. FOUNDER STORY & AUTHORITY (#story)
   ═══════════════════════════════════════════════ -->
   <section id="story" class="py-20 px-4 sm:px-6 bg-[#0E131F] border-y border-[rgba(255,255,255,0.06)]">
-    <div class="max-w-3xl mx-auto space-y-6">
-      <div class="space-y-1">
-        <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold" data-i18n="story_badge">Founder Authority</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n="story_headline">
-          From Manual Spreadsheet Grunt Work to Autonomous Intelligence
-        </h2>
-      </div>
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
 
-      <div class="space-y-4 text-[#F3F4F6]/80 text-sm sm:text-base leading-relaxed">
-        <p data-i18n="story_p1_html" data-i18n-html="true">
-          During my residency in Dublin at <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Ingenio Global</a> under Managing Director <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Rob Magee</a>, I saw senior headhunters spending every Monday morning manually checking enterprise career portals and copying vacancy links into spreadsheets one by one.
-        </p>
-        <p data-i18n="story_p2">
-          It was slow, error-prone, and burned hours that should have been spent closing candidates. Instead of continuing the manual grunt work, I built an autonomous engine to monitor client career portals and ATS endpoints directly.
-        </p>
-        <p data-i18n="story_p3">
-          Over the next two months, that engine ran in daily production across 180 enterprise companies and captured 3,400+ open roles. Consultants were notified the day clients published them — capturing mandates days before external job boards even knew they existed.
-        </p>
-        <p data-i18n="story_p4">
-          Returning from Dublin, it was clear that hundreds of recruitment boutiques in Central and Western Europe are still trapped in spreadsheet chaos. TalentRadar is engineered to eliminate that waste.
-        </p>
-        <p class="font-semibold text-white" data-i18n="story_p5">
-          When you get in touch, you talk directly with me.
-        </p>
-      </div>
+      <!-- Left: Founder Narrative & Author Box -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="space-y-1">
+          <span class="text-xs uppercase tracking-widest text-[#FF6B00] font-bold" data-i18n="story_badge">Founder Authority</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n="story_headline">
+            From Manual Spreadsheet Grunt Work to Autonomous Intelligence
+          </h2>
+        </div>
 
-      <!-- Author Box -->
-      <div class="pt-4 flex items-center space-x-4">
-        <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="block shrink-0 group">
-          <img src="img/krystof.jpg" alt="Kryštof Pejša — Founder, TalentRadar" loading="lazy" style="object-fit: cover; object-position: center 15%;" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 group-hover:scale-105 transition" />
-        </a>
-        <div>
-          <div class="font-bold text-white text-base sm:text-lg" data-i18n="story_author_name">Kryštof Pejša</div>
-          <div class="text-xs sm:text-sm text-[#94A3B8] flex items-center gap-2 flex-wrap">
-            <span data-i18n="story_author_title">Founder, TalentRadar</span>
-            <span>•</span>
-            <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline" data-i18n="story_linkedin">LinkedIn Profile</a>
-            <span>•</span>
-            <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#94A3B8] hover:text-white underline" data-i18n="story_rob_linkedin">Rob Magee (Ingenio Global)</a>
+        <div class="space-y-4 text-[#F3F4F6]/80 text-sm sm:text-base leading-relaxed">
+          <p data-i18n="story_p1_html" data-i18n-html="true">
+            During my residency in Dublin at <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Ingenio Global</a> under Managing Director <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Rob Magee</a>, I saw senior headhunters spending every Monday morning manually checking enterprise career portals and copying vacancy links into spreadsheets one by one.
+          </p>
+          <p data-i18n="story_p2">
+            It was slow, error-prone, and burned hours that should have been spent closing candidates. Instead of continuing the manual grunt work, I built an autonomous engine to monitor client career portals and ATS endpoints directly.
+          </p>
+          <p data-i18n="story_p3">
+            Over the next two months, that engine ran in daily production across 180 enterprise companies and captured 3,400+ open roles. Consultants were notified the day clients published them — capturing mandates days before external job boards even knew they existed.
+          </p>
+          <p data-i18n="story_p4">
+            Returning from Dublin, it was clear that hundreds of recruitment boutiques in Central and Western Europe are still trapped in spreadsheet chaos. TalentRadar is engineered to eliminate that waste.
+          </p>
+          <p class="font-semibold text-white" data-i18n="story_p5">
+            When you get in touch, you talk directly with me.
+          </p>
+        </div>
+
+        <!-- Author Box -->
+        <div class="pt-4 flex items-center space-x-4">
+          <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="block shrink-0 group">
+            <img src="img/krystof.jpg" alt="Kryštof Pejša — Founder, TalentRadar" loading="lazy" style="object-fit: cover; object-position: center 15%;" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover object-[center_15%] border-2 border-[#FF6B00] shadow-md shadow-[#FF6B00]/30 group-hover:scale-105 transition" />
+          </a>
+          <div>
+            <div class="font-bold text-white text-base sm:text-lg" data-i18n="story_author_name">Kryštof Pejša</div>
+            <div class="text-xs sm:text-sm text-[#94A3B8] flex items-center gap-2 flex-wrap">
+              <span data-i18n="story_author_title">Founder, TalentRadar</span>
+              <span>•</span>
+              <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline" data-i18n="story_linkedin">LinkedIn Profile</a>
+              <span>•</span>
+              <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#94A3B8] hover:text-white underline" data-i18n="story_rob_linkedin">Rob Magee (Ingenio Global)</a>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Right: Native Dark Glass Dublin Production Card (Replaces LinkedIn Post Image) -->
+      <div class="lg:col-span-5">
+        <div class="bg-[#111622] border border-[#1B1E26] rounded-2xl p-6 space-y-6 shadow-2xl orange-glow">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#34D399]/10 border border-[#34D399]/30 text-xs font-mono font-bold text-[#34D399]" data-i18n="story_pilot_badge">
+            ● Production Pilot in Dublin (Ingenio Global)
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+            <div class="p-4 rounded-xl bg-[#0A0D14] border border-[#1B1E26] space-y-1">
+              <div class="text-3xl lg:text-4xl font-extrabold text-[#FF6B00] font-mono">180</div>
+              <div class="text-xs sm:text-sm font-semibold text-white" data-i18n="story_metric1_label">Monitored tech firms</div>
+              <div class="text-[11px] font-mono text-[#94A3B8]">Greenhouse • Lever • Ashby • Workable</div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-[#0A0D14] border border-[#1B1E26] space-y-1">
+              <div class="text-3xl lg:text-4xl font-extrabold text-[#FF6B00] font-mono">3 400+</div>
+              <div class="text-xs sm:text-sm font-semibold text-white" data-i18n="story_metric2_label">Captured vacancies</div>
+              <div class="text-[11px] font-mono text-[#94A3B8]">06:00 &amp; 12:00 UTC Day Zero Telemetry</div>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-[#1B1E26] flex items-center justify-between text-xs text-[#94A3B8]">
+            <span class="font-mono" data-i18n="story_case_study_badge">DUBLIN CASE STUDY • INGENIO GLOBAL</span>
+            <a href="blog/the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" data-blog-prefix="blog/" class="text-[#FF8533] hover:text-white font-semibold transition">
+              Read Study →
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1305,30 +1479,33 @@
        11. FOOTER
   ═══════════════════════════════════════════════ -->
   <footer class="py-12 px-4 sm:px-6 border-t border-[rgba(255,255,255,0.06)] text-center text-xs text-[#94A3B8]">
-    <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
-      <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3.5">
+    <div class="max-w-6xl mx-auto">
+      <!-- Top Row: Brand & Links (No duplicate language switcher) -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center space-x-2.5">
           <img src="falcon.svg" alt="" aria-hidden="true" width="36" height="36" class="h-8 w-8 flex-shrink-0 object-contain">
           <span class="font-extrabold text-white text-lg sm:text-xl tracking-tight">
-            <span class="text-white">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
+            <span class="text-[#FFFFFF]">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
         </div>
-        <span class="hidden sm:inline text-white/30 text-lg font-light">—</span>
-        <span class="text-sm sm:text-base font-extrabold tracking-tight">
-          <span class="text-white">Spend time closing,</span> <span class="text-[#FF6B00]">not searching.</span>
-        </span>
+
+        <div class="flex flex-wrap items-center justify-center gap-4 text-[#F3F4F6]/80 text-xs sm:text-sm">
+          <span data-i18n="footer_author">Kryštof Pejša</span>
+          <span>•</span>
+          <a href="mailto:krystof@talentradar.eu" class="hover:text-white underline">krystof@talentradar.eu</a>
+          <span>•</span>
+          <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">LinkedIn</a>
+          <span>•</span>
+          <a href="gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy (GDPR)</a>
+        </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-4 text-[#F3F4F6]/80 text-xs sm:text-sm">
-        <span data-i18n="footer_author">Kryštof Pejša</span>
-        <span>•</span>
-        <a href="mailto:krystof@talentradar.eu" class="hover:text-white underline">krystof@talentradar.eu</a>
-        <span>•</span>
-        <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">LinkedIn</a>
-        <span>•</span>
-        <a href="gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy (GDPR)</a>
+      <!-- Enlarged Full-Width Slogan Claim -->
+      <div class="text-xl md:text-2xl font-bold tracking-tight text-center py-6 border-y border-[#1B1E26] my-6">
+        <span class="text-[#FFFFFF]">Spend time closing, </span><span class="text-[#FF6B00]">not searching.</span>
       </div>
 
+      <!-- Copyright -->
       <div class="text-[#94A3B8] text-xs" data-i18n="footer_copyright">© 2026 TalentRadar. Built for European Recruitment Boutiques &amp; Headhunters.</div>
     </div>
   </footer>
@@ -1563,10 +1740,55 @@
       });
     });
 
-    /* ── 8. Live Radar Feed & Category Filtering ── */
-    let radarFeed = null;
-    let radarFeedFailed = false;
+    /* ── 8. Interactive Live Sandbox & Role Drawer ── */
+    const FALLBACK_SANDBOX_DATA = {
+      monitored_companies: [
+        { slug: "mews", name: "Mews", hq: "Praha / Remote", ats: "Greenhouse", careers_url: "https://www.mews.com/en/careers" },
+        { slug: "rohlik", name: "Rohlik.cz", hq: "Praha", ats: "Greenhouse", careers_url: "https://career.rohlik.group/" },
+        { slug: "livesport", name: "Livesport", hq: "Praha", ats: "Direct ATS", careers_url: "https://www.livesport.eu/kariera/" },
+        { slug: "strv", name: "STRV", hq: "Praha / Brno", ats: "Lever", careers_url: "https://www.strv.com/careers" },
+        { slug: "productboard", name: "Productboard", hq: "Praha", ats: "Greenhouse", careers_url: "https://www.productboard.com/careers/" },
+        { slug: "shipmonk", name: "ShipMonk", hq: "Praha", ats: "Greenhouse", careers_url: "https://www.shipmonk.com/careers/" },
+        { slug: "heureka", name: "Heureka Group", hq: "Praha / Liberec", ats: "Recruitis", careers_url: "https://www.heurekadevs.cz/" },
+        { slug: "ftmo", name: "FTMO", hq: "Praha", ats: "Teamio", careers_url: "https://ftmo.com/cs/kariera/" },
+        { slug: "packeta", name: "Zásilkovna / Packeta", hq: "Praha", ats: "Recruitis", careers_url: "https://www.zasilkovna.cz/kariera" },
+        { slug: "cdn77", name: "CDN77", hq: "Praha", ats: "Direct ATS", careers_url: "https://www.cdn77.com/careers" },
+        { slug: "keboola", name: "Keboola", hq: "Praha / Remote", ats: "Ashby", careers_url: "https://www.keboola.com/careers" },
+        { slug: "apify", name: "Apify", hq: "Praha", ats: "Ashby", careers_url: "https://apify.com/jobs" },
+        { slug: "kiwi", name: "Kiwi.com", hq: "Brno / Praha", ats: "Greenhouse", careers_url: "https://jobs.kiwi.com/" },
+        { slug: "twisto", name: "Twisto", hq: "Praha", ats: "Teamio", careers_url: "https://www.twisto.cz/kariera/" },
+        { slug: "purestorage", name: "Pure Storage Prague", hq: "Praha", ats: "Greenhouse", careers_url: "https://www.purestorage.com/company/careers.html" },
+        { slug: "wolt", name: "Wolt Czechia", hq: "Praha", ats: "Lever", careers_url: "https://careers.wolt.com/" },
+        { slug: "daktela", name: "Daktela", hq: "Praha", ats: "Recruitis", careers_url: "https://www.daktela.com/kariera/" },
+        { slug: "seyfor", name: "Seyfor", hq: "Brno / Praha", ats: "Teamio", careers_url: "https://www.seyfor.com/cs-cz/kariera" },
+        { slug: "notino", name: "Notino", hq: "Brno", ats: "Direct ATS", careers_url: "https://www.notino.cz/kariera/" }
+      ],
+      roles: [
+        { id: "tr-3001", company: "Mews", logo_text: "MW", title: "Principal Backend Engineer (.NET / Go)", seniority: "Lead", location: "Praha / Remote", vertical: "Tech & Cloud", ats: "Greenhouse", discovered_time: "Dnes 06:04 UTC", discovered_time_en: "Today 06:04 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály. Tým Hospitality FinTech rozšiřuje platební jádro v Praze.", fit_reason_en: "Core vacancy captured directly on the company's ATS endpoint before commercial job boards indexed it.", hiring_manager_query: "VP of Engineering" },
+        { id: "tr-3002", company: "Rohlik.cz", logo_text: "RH", title: "Senior Java / Kotlin Logistics Architect", seniority: "Lead", location: "Praha", vertical: "Tech & Cloud", ats: "Greenhouse", discovered_time: "Dnes 06:06 UTC", discovered_time_en: "Today 06:06 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály. Kritická role pro automatizaci DACH fulfillment center.", fit_reason_en: "Core vacancy captured directly on the company's ATS before job board aggregation.", hiring_manager_query: "CTO Engineering Director" },
+        { id: "tr-3003", company: "Livesport", logo_text: "LS", title: "Lead Cloud Infrastructure & Kubernetes Engineer", seniority: "Lead", location: "Praha", vertical: "Tech & Cloud", ats: "Direct ATS", discovered_time: "Otevřeno 42 dní (06:00 UTC)", discovered_time_en: "Open 42 days (06:00 UTC)", is_stale: true, fit_reason: "Pozice je otevřená přes 35 dní na přímém kariérním portálu (42 dní). Interní HR pravděpodobně vyčerpalo organické kanály — ideální moment pro oslovení s prověřeným DevOps/SRE kandidátem.", fit_reason_en: "Vacancy open past 35 days on direct career portal (42 days). Internal TA funnel is likely exhausted.", hiring_manager_query: "Head of Infrastructure" },
+        { id: "tr-3004", company: "Productboard", logo_text: "PB", title: "Staff AI / LLM Product Manager", seniority: "Lead", location: "Praha", vertical: "Product & Data", ats: "Greenhouse", discovered_time: "Dnes 06:09 UTC", discovered_time_en: "Today 06:09 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály. Nově schválený headcount v pražském AI Product hubu.", fit_reason_en: "Core vacancy captured directly on Greenhouse ATS hours after approval, days before LinkedIn syndication.", hiring_manager_query: "VP of Product" },
+        { id: "tr-3005", company: "FTMO", logo_text: "FT", title: "Head of Institutional B2B Partnerships", seniority: "Lead", location: "Praha", vertical: "B2B Sales", ats: "Teamio", discovered_time: "Dnes 06:11 UTC", discovered_time_en: "Today 06:11 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály. Strategická komerční role s vysokou provizí.", fit_reason_en: "Core commercial leadership vacancy captured on Day Zero.", hiring_manager_query: "Chief Commercial Officer" },
+        { id: "tr-3006", company: "CDN77", logo_text: "C7", title: "Senior Network & Linux Kernel Engineer", seniority: "Senior", location: "Praha", vertical: "Tech & Cloud", ats: "Direct ATS", discovered_time: "Otevřeno 39 dní (06:00 UTC)", discovered_time_en: "Open 39 days (06:00 UTC)", is_stale: true, fit_reason: "Úzkoprofilová síťová role otevřená již 39 dní přímo na webu CDN77. Extrémně nízká dostupnost aktivních kandidátů vytváří vysokou šanci na schválení mandátu.", fit_reason_en: "Niche systems/networking role open for 39 days on CDN77's direct site.", hiring_manager_query: "VP of Infrastructure" },
+        { id: "tr-3007", company: "Keboola", logo_text: "KB", title: "Enterprise Account Executive (DACH & CEE)", seniority: "Senior", location: "Praha / Remote", vertical: "B2B Sales", ats: "Ashby", discovered_time: "Dnes 06:12 UTC", discovered_time_en: "Today 06:12 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core vacancy captured directly via Ashby ATS endpoint before job board indexing.", hiring_manager_query: "VP of Sales" },
+        { id: "tr-3008", company: "Apify", logo_text: "AP", title: "Senior TypeScript & Crawling Infrastructure Engineer", seniority: "Senior", location: "Praha", vertical: "Tech & Cloud", ats: "Ashby", discovered_time: "Dnes 06:14 UTC", discovered_time_en: "Today 06:14 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core engineering role captured directly on Ashby ATS in the 06:00 UTC scan.", hiring_manager_query: "Head of Engineering" },
+        { id: "tr-3009", company: "STRV", logo_text: "ST", title: "Lead AI Solutions Engineer (Python / LangGraph)", seniority: "Lead", location: "Praha / Brno", vertical: "Tech & Cloud", ats: "Lever", discovered_time: "Dnes 06:15 UTC", discovered_time_en: "Today 06:15 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core vacancy captured directly on Lever ATS endpoint.", hiring_manager_query: "VP of Engineering" },
+        { id: "tr-3010", company: "ShipMonk", logo_text: "SM", title: "Staff Data Platform Engineer (Snowflake / dbt)", seniority: "Lead", location: "Praha", vertical: "Product & Data", ats: "Greenhouse", discovered_time: "Otevřeno 46 dní (06:00 UTC)", discovered_time_en: "Open 46 days (06:00 UTC)", is_stale: true, fit_reason: "Ležák >35 dní (otevřeno 46 dní v Greenhouse). Pražský R&D hub ShipMonk hledá seniorního datového architekta déle než 6 týdnů.", fit_reason_en: "Stale vacancy >35 days (open 46 days in Greenhouse).", hiring_manager_query: "Director of Data Engineering" },
+        { id: "tr-3011", company: "Heureka Group", logo_text: "HG", title: "Head of Data Science & Search Relevance", seniority: "Lead", location: "Praha", vertical: "Product & Data", ats: "Recruitis", discovered_time: "Dnes 06:16 UTC", discovered_time_en: "Today 06:16 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core leadership vacancy captured directly on Recruitis ATS at 06:16 UTC.", hiring_manager_query: "Chief Product Officer" },
+        { id: "tr-3012", company: "Zásilkovna / Packeta", logo_text: "PK", title: "Senior B2B Key Account Manager (International E-Commerce)", seniority: "Senior", location: "Praha", vertical: "B2B Sales", ats: "Recruitis", discovered_time: "Dnes 06:17 UTC", discovered_time_en: "Today 06:17 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core B2B commercial role captured directly on Recruitis ATS on Day Zero.", hiring_manager_query: "Commercial Director" },
+        { id: "tr-3013", company: "Kiwi.com", logo_text: "KW", title: "Principal Distributed Systems Engineer (Python / C++)", seniority: "Lead", location: "Brno / Praha", vertical: "Tech & Cloud", ats: "Greenhouse", discovered_time: "Otevřeno 38 dní (06:00 UTC)", discovered_time_en: "Open 38 days (06:00 UTC)", is_stale: true, fit_reason: "Pozice v brněnském a pražském inženýrském týmu visí v Greenhouse již 38 dní.", fit_reason_en: "Role open for 38 days in Greenhouse across Brno & Prague.", hiring_manager_query: "VP of Engineering" },
+        { id: "tr-3014", company: "Pure Storage Prague", logo_text: "PS", title: "Staff Systems Software Engineer (Storage Core / C++)", seniority: "Lead", location: "Praha", vertical: "Tech & Cloud", ats: "Greenhouse", discovered_time: "Dnes 06:18 UTC", discovered_time_en: "Today 06:18 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core systems engineering role captured on Greenhouse ATS on Day Zero.", hiring_manager_query: "Engineering Director Prague" },
+        { id: "tr-3015", company: "Twisto", logo_text: "TW", title: "Senior Credit Risk & Data Analytics Lead", seniority: "Senior", location: "Praha", vertical: "Product & Data", ats: "Teamio", discovered_time: "Dnes 06:19 UTC", discovered_time_en: "Today 06:19 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core FinTech risk & analytics role captured directly on Teamio endpoint.", hiring_manager_query: "Chief Risk Officer" },
+        { id: "tr-3016", company: "Wolt Czechia", logo_text: "WL", title: "Head of B2B Retail & Q-Commerce Partnerships", seniority: "Lead", location: "Praha", vertical: "B2B Sales", ats: "Lever", discovered_time: "Dnes 06:20 UTC", discovered_time_en: "Today 06:20 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core commercial leadership role captured directly on Lever ATS.", hiring_manager_query: "General Manager Czechia" },
+        { id: "tr-3017", company: "Daktela", logo_text: "DK", title: "Enterprise SaaS Sales Director (CEE)", seniority: "Lead", location: "Praha", vertical: "B2B Sales", ats: "Recruitis", discovered_time: "Otevřeno 41 dní (06:00 UTC)", discovered_time_en: "Open 41 days (06:00 UTC)", is_stale: true, fit_reason: "Strategická B2B obchodní pozice otevřená již 41 dní v systému Recruitis.", fit_reason_en: "Strategic SaaS Sales leadership role open for 41 days on Recruitis.", hiring_manager_query: "Chief Revenue Officer" },
+        { id: "tr-3018", company: "Seyfor", logo_text: "SF", title: "Senior Solution Architect (ERP & Cloud Enterprise)", seniority: "Senior", location: "Brno / Praha", vertical: "Tech & Cloud", ats: "Teamio", discovered_time: "Dnes 06:21 UTC", discovered_time_en: "Today 06:21 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core enterprise architecture vacancy captured at 06:21 UTC.", hiring_manager_query: "Division Director Enterprise" },
+        { id: "tr-3019", company: "Notino", logo_text: "NT", title: "Lead E-Commerce Product Manager (Mobile App & Personalization)", seniority: "Lead", location: "Brno", vertical: "Product & Data", ats: "Direct ATS", discovered_time: "Dnes 06:22 UTC", discovered_time_en: "Today 06:22 UTC", is_stale: false, fit_reason: "Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.", fit_reason_en: "Core product leadership vacancy captured directly on Notino's career portal in Brno.", hiring_manager_query: "VP of Product" }
+      ]
+    };
+
+    let radarFeed = FALLBACK_SANDBOX_DATA;
     let selectedRadarCat = 'all';
+    let sandboxSearchQuery = '';
 
     function esc(val) {
       return String(val ?? '').replace(/[&<>"']/g, ch => (
@@ -1574,91 +1796,197 @@
       ));
     }
 
+    function handleSandboxSearch(val) {
+      sandboxSearchQuery = String(val || '').trim().toLowerCase();
+      const clearBtn = document.getElementById('sandboxSearchClear');
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', !sandboxSearchQuery);
+      }
+      renderRadarCards();
+    }
+
+    function clearSandboxSearch() {
+      const input = document.getElementById('sandboxSearchInput');
+      if (input) input.value = '';
+      handleSandboxSearch('');
+    }
+
     function setRadarCategory(cat) {
       selectedRadarCat = cat;
-      ['all', 'tech', 'sales', 'exec'].forEach(c => {
+      ['all', 'tech', 'sales', 'product', 'stale'].forEach(c => {
         const btn = document.getElementById('radar-cat-' + c);
-        if (btn) {
-          if (c === cat) {
-            btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm';
-          } else {
-            btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5';
-          }
+        if (!btn) return;
+        if (c === cat) {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm';
+        } else if (c === 'stale') {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#FBBF24] hover:text-white border border-[#FBBF24]/30';
+        } else {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5';
         }
       });
       renderRadarCards();
     }
 
-    function buildRadarCard(role, isCs) {
-      const levelLabel = isCs ? (role.levelLabelCs || role.levelLabel) : role.levelLabel;
-      const seen = role.discoveredAt || '06:00 UTC';
-      const ctaText = isCs ? 'Sledovat firmu →' : 'Track company →';
-      const tooltip = isCs ? 'Otevřít původní inzerát na kariérním portálu' : 'Open the original job listing on client portal';
-      const hmTitle = role.hm_title || 'Hiring Manager';
-      const hmQuery = encodeURIComponent(role.hm_query || `${hmTitle} ${role.company}`);
-      const hmLink = `https://www.linkedin.com/search/results/people/?keywords=${hmQuery}`;
+    function matchesCategory(role, cat) {
+      if (cat === 'all') return true;
+      if (cat === 'stale') return Boolean(role.is_stale);
+      const v = String(role.vertical || '').toLowerCase();
+      if (cat === 'tech') return v.includes('tech') || v.includes('cloud');
+      if (cat === 'sales') return v.includes('sales') || v.includes('gtm') || v.includes('exec');
+      if (cat === 'product') return v.includes('product') || v.includes('data');
+      return true;
+    }
+
+    function matchesSearch(role, q) {
+      if (!q) return true;
+      const hay = `${role.company || ''} ${role.title || ''} ${role.vertical || ''} ${role.ats || ''} ${role.location || ''} ${role.seniority || ''}`.toLowerCase();
+      return hay.includes(q);
+    }
+
+    function buildRadarRow(role, isCs) {
+      const seen = isCs
+        ? (role.discovered_time || 'Dnes 06:12 UTC')
+        : (role.discovered_time_en || role.discovered_time || 'Today 06:12 UTC');
+      const btnText = isCs ? 'Detail & X-Ray ↗' : 'Detail & X-Ray ↗';
+      const staleBadge = role.is_stale
+        ? `<span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/35">⚡ ${isCs ? 'LEŽÁK >35 DNÍ' : 'STALE >35D'}</span>`
+        : `<span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-live">${isCs ? 'NOVÉ DNES' : 'DAY ZERO'}</span>`;
 
       return `
-        <div class="radar-card py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[rgba(255,255,255,0.02)] px-2 rounded-lg transition-all">
-          <div class="space-y-1.5">
-            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-              <a href="${esc(role.jobUrl)}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-[#FF8533] transition inline-flex items-center gap-1.5 group/link" title="${tooltip}">
-                <span>${esc(role.title)}</span>
-                <svg class="w-3.5 h-3.5 opacity-40 group-hover/link:opacity-100 group-hover/link:text-[#FF8533] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-              </a>
-              ${role.is_new_today ? `<span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold badge-live">${isCs ? 'NOVÉ DNES' : 'NEW TODAY'}</span>` : ''}
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-[#1B1E26] text-[#F3F4F6]/80 border border-[#1B1E26]">${esc(levelLabel)}</span>
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-[#FF6B00]/10 text-[#FF8533] border border-[#FF6B00]/25">${esc(role.categoryLabel)}</span>
+        <div
+          onclick="openRoleDrawer('${esc(role.id)}')"
+          class="px-4 sm:px-6 py-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-[#161D2E]/90 cursor-pointer transition group"
+        >
+          <div class="flex items-start sm:items-center gap-3.5 min-w-0">
+            <div class="w-10 h-10 rounded-xl bg-[#161F33] border border-white/10 group-hover:border-[#FF6B00]/50 text-[#FF8533] font-mono font-bold text-xs flex items-center justify-center flex-shrink-0 transition">
+              ${esc(role.logo_text || role.company.slice(0, 2).toUpperCase())}
             </div>
-
-            <div class="text-xs text-[#94A3B8] flex items-center flex-wrap gap-x-2 gap-y-0.5">
-              <span class="text-[#F3F4F6] font-semibold">${esc(role.company)}</span>
-              <span>•</span>
-              <span>${esc(role.location)}</span>
-              <span>•</span>
-              <span class="text-[#F3F4F6]/80 font-mono">${isCs ? 'Zachyceno ' : 'Discovered '}${esc(seen)}</span>
-              <span>•</span>
-              <span class="text-[#94A3B8]">${esc(role.ats)}</span>
-            </div>
-
-            <!-- Hiring Manager Bridge (No Emojis) -->
-            <div class="pt-1 flex items-center gap-2 text-xs">
-              <span class="text-[#94A3B8] text-[11px] font-medium">Hiring Manager Bridge:</span>
-              <a href="${hmLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#38BDF8] hover:text-white bg-[#38BDF8]/10 hover:bg-[#38BDF8]/20 px-2 py-0.5 rounded border border-[#38BDF8]/25 transition" title="${isCs ? 'Vyhledat decision-makera na LinkedInu' : 'Find decision-maker on LinkedIn'}">
-                <span>${isCs ? 'Vyhledat ' + esc(hmTitle) + ' na LinkedInu' : 'Find ' + esc(hmTitle) + ' on LinkedIn'}</span>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-              </a>
+            <div class="space-y-1 min-w-0">
+              <div class="flex items-center flex-wrap gap-2">
+                <span class="font-bold text-xs text-[#FF8533] uppercase tracking-wide font-mono">${esc(role.company)}</span>
+                <span class="text-white/20">•</span>
+                <span class="font-bold text-sm text-white group-hover:text-[#FF8533] transition truncate">${esc(role.title)}</span>
+              </div>
+              <div class="flex items-center flex-wrap gap-2 text-xs text-[#94A3B8]">
+                ${staleBadge}
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-[#1B1E26] text-[#F3F4F6]/90">${esc(role.seniority)}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-[#141A28] text-[#38BDF8] border border-[#38BDF8]/25">${esc(role.ats)}</span>
+                <span class="text-[11px] text-[#94A3B8]">${esc(role.location)}</span>
+                <span class="text-white/20">•</span>
+                <span class="text-[11px] font-mono text-[#F3F4F6]/80">${esc(seen)}</span>
+              </div>
             </div>
           </div>
 
-          <a href="#trial" class="text-xs px-3.5 py-2 rounded-lg bg-[#1A2234] hover:bg-[#242E46] text-[#F3F4F6] hover:text-white border border-[rgba(255,255,255,0.08)] self-start sm:self-auto font-medium transition whitespace-nowrap">
-            ${ctaText}
-          </a>
+          <div class="flex items-center justify-end gap-2 flex-shrink-0">
+            <button
+              type="button"
+              onclick="event.stopPropagation(); openRoleDrawer('${esc(role.id)}')"
+              class="px-3.5 py-2 rounded-xl bg-[#1A2234] group-hover:bg-[#FF6B00] text-[#F3F4F6] group-hover:text-white border border-white/10 group-hover:border-[#FF6B00] text-xs font-bold transition whitespace-nowrap shadow-sm"
+            >
+              ${btnText}
+            </button>
+          </div>
         </div>`;
     }
 
     function renderRadarCards() {
       const feed = document.getElementById('radarFeed');
+      const countBadge = document.getElementById('sandboxCountBadge');
       if (!feed) return;
       const isCs = document.documentElement.lang === 'cs';
-      let roles = (radarFeed && Array.isArray(radarFeed.roles)) ? radarFeed.roles : [];
+      const allRoles = (radarFeed && Array.isArray(radarFeed.roles)) ? radarFeed.roles : [];
 
-      if (selectedRadarCat !== 'all') {
-        roles = roles.filter(r => r.category === selectedRadarCat);
+      const filtered = allRoles.filter(r => matchesCategory(r, selectedRadarCat) && matchesSearch(r, sandboxSearchQuery));
+
+      if (countBadge) {
+        countBadge.textContent = isCs
+          ? `${filtered.length} z ${allRoles.length} signálů`
+          : `${filtered.length} of ${allRoles.length} signals`;
       }
 
-      if (radarFeedFailed) {
-        feed.innerHTML = `<p class="py-6 text-center text-xs text-[#94A3B8]">${isCs ? 'Data se nepodařilo načíst.' : 'Could not load feed data.'}</p>`;
+      if (filtered.length === 0) {
+        feed.innerHTML = `<div class="py-10 text-center text-xs text-[#94A3B8]">${isCs ? 'Žádné pozice neodpovídají zvolenému filtru.' : 'No positions match the current filter.'}</div>`;
         return;
       }
 
-      if (roles.length === 0) {
-        feed.innerHTML = `<p class="py-6 text-center text-xs text-[#94A3B8]">${isCs ? 'Žádné pozice v této kategorii.' : 'No active positions in this category.'}</p>`;
-        return;
-      }
-
-      feed.innerHTML = roles.map(r => buildRadarCard(r, isCs)).join('');
+      feed.innerHTML = filtered.map(r => buildRadarRow(r, isCs)).join('');
     }
+
+    function openRoleDrawer(roleId) {
+      const allRoles = (radarFeed && Array.isArray(radarFeed.roles)) ? radarFeed.roles : [];
+      const role = allRoles.find(r => r.id === roleId);
+      if (!role) return;
+
+      const isCs = document.documentElement.lang === 'cs';
+      const backdrop = document.getElementById('roleDrawerBackdrop');
+      const logoBadge = document.getElementById('drawerLogoBadge');
+      const companyEl = document.getElementById('drawerCompany');
+      const titleEl = document.getElementById('drawerTitle');
+      const badgesEl = document.getElementById('drawerBadges');
+      const fitEl = document.getElementById('drawerFitReason');
+      const xrayLink = document.getElementById('drawerXrayLink');
+      const xrayText = document.getElementById('drawerXrayText');
+
+      hidePilotToastModal();
+
+      if (logoBadge) logoBadge.textContent = role.logo_text || role.company.slice(0, 2).toUpperCase();
+      if (companyEl) companyEl.textContent = `${role.company} • ${role.location}`;
+      if (titleEl) titleEl.textContent = role.title;
+
+      const seen = isCs
+        ? (role.discovered_time || 'Dnes 06:12 UTC')
+        : (role.discovered_time_en || role.discovered_time || 'Today 06:12 UTC');
+
+      if (badgesEl) {
+        badgesEl.innerHTML = `
+          <span class="text-[11px] px-2.5 py-1 rounded-lg font-mono font-bold bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30">${esc(role.vertical)}</span>
+          <span class="text-[11px] px-2.5 py-1 rounded-lg font-mono font-semibold bg-[#1B1E26] text-white">${esc(role.seniority)}</span>
+          <span class="text-[11px] px-2.5 py-1 rounded-lg font-mono font-semibold bg-[#141A28] text-[#38BDF8] border border-[#38BDF8]/30">${esc(role.ats)}</span>
+          <span class="text-[11px] px-2.5 py-1 rounded-lg font-mono text-[#34D399] bg-[#10B981]/10 border border-[#10B981]/25">${esc(seen)}</span>
+        `;
+      }
+
+      if (fitEl) {
+        fitEl.textContent = isCs
+          ? (role.fit_reason || 'Core pozice zachycena přímo na ATS společnosti dříve, než byla agregována inzertními portály.')
+          : (role.fit_reason_en || role.fit_reason || 'Core position captured directly on the company ATS before job board aggregation.');
+      }
+
+      const hmQuery = `${role.hiring_manager_query || 'VP of Engineering'} ${role.company}`;
+      if (xrayLink) {
+        xrayLink.href = `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(hmQuery)}`;
+      }
+      if (xrayText) {
+        xrayText.textContent = isCs
+          ? `Vyhledat Hiring Managera (${role.hiring_manager_query || 'Decision Maker'}) na LinkedInu (1-Click X-Ray) ↗`
+          : `Find Hiring Manager (${role.hiring_manager_query || 'Decision Maker'}) on LinkedIn (1-Click X-Ray) ↗`;
+      }
+
+      if (backdrop) {
+        backdrop.classList.remove('hidden');
+      }
+    }
+
+    function closeRoleDrawer(e) {
+      const backdrop = document.getElementById('roleDrawerBackdrop');
+      if (backdrop) backdrop.classList.add('hidden');
+      hidePilotToastModal();
+    }
+
+    function showPilotToastModal() {
+      const toast = document.getElementById('pilotToastModal');
+      if (toast) toast.classList.remove('hidden');
+    }
+
+    function hidePilotToastModal() {
+      const toast = document.getElementById('pilotToastModal');
+      if (toast) toast.classList.add('hidden');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeRoleDrawer();
+    });
 
     function renderMonitoredCompaniesPills(companies) {
       const container = document.getElementById('monitoredCompaniesPills');
@@ -1666,14 +1994,12 @@
       const isCs = document.documentElement.lang === 'cs';
 
       container.innerHTML = companies.map(c => {
-        const tooltip = isCs ? `Ověřit kariérní web ${c.name}` : `Verify ${c.name} careers portal`;
-        const hqShort = (c.hq || '').split('/')[0].trim();
-        return `<a href="${esc(c.careers_url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/40 border border-[rgba(255,255,255,0.08)] text-[#F3F4F6] hover:text-white text-xs font-medium transition group" title="${esc(tooltip)}">
+        const tooltip = isCs ? `Filtrovat pozice ${c.name}` : `Filter ${c.name} roles`;
+        return `<button type="button" onclick="document.getElementById('sandboxSearchInput').value='${esc(c.name)}'; handleSandboxSearch('${esc(c.name)}');" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/50 border border-[rgba(255,255,255,0.08)] text-[#F3F4F6] hover:text-white text-xs font-medium transition cursor-pointer" title="${esc(tooltip)}">
           <span class="w-1.5 h-1.5 rounded-full bg-[#34D399]"></span>
           <span>${esc(c.name)}</span>
-          <span class="text-[10px] text-[#94A3B8] group-hover:text-[#F3F4F6]/80 font-normal">${esc(hqShort)}</span>
-          <svg class="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-[#FF8533] transition ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-        </a>`;
+          <span class="text-[10px] text-[#94A3B8] font-mono">${esc(c.ats || '')}</span>
+        </button>`;
       }).join('');
     }
 
@@ -1681,13 +2007,14 @@
       try {
         let res = await fetch('data/live_roles.json');
         if (!res.ok) res = await fetch('/api/live-roles');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        if (data && Array.isArray(data.roles)) {
-          radarFeed = data;
+        if (res.ok) {
+          const data = await res.json();
+          if (data && Array.isArray(data.roles) && data.roles.length > 0) {
+            radarFeed = data;
+          }
         }
       } catch (err) {
-        console.warn('Live radar fallback:', err);
+        // Fallback dataset already loaded in radarFeed
       }
       renderRadarCards();
       if (radarFeed && radarFeed.monitored_companies) {

@@ -36,6 +36,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Monochrome icons of the app, used by the sandbox -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,400,0..1,0&display=block" rel="stylesheet">
 
   <style>
     body {
@@ -108,6 +110,21 @@
       50% { opacity: 0.4; transform: scale(1.3); }
     }
     .live-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+    /* Anchored sections clear the sticky navigation */
+    section[id] { scroll-margin-top: 84px; }
+
+    /* Sandbox (js/sandbox.js) */
+    .tr-ic { display: inline-block; width: 1em; height: 1em; overflow: hidden; line-height: 1; flex-shrink: 0; user-select: none; vertical-align: middle; }
+    .tr-sb-scroll { scrollbar-width: thin; scrollbar-color: #232733 transparent; }
+    .tr-sb-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .tr-sb-scroll::-webkit-scrollbar-thumb { background: #232733; border-radius: 3px; }
+    .tr-sb select option { background: #0F1117; color: #FFFFFF; }
+    @keyframes tr-spin { to { transform: rotate(360deg); } }
+    .tr-spin { animation: tr-spin 0.8s linear infinite; }
+    @keyframes tr-dot { 0%, 80%, 100% { opacity: 0.25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+    .tr-dot { animation: tr-dot 1s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) { .tr-spin, .tr-dot, .live-dot { animation: none; } }
   </style>
 </head>
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
@@ -116,15 +133,15 @@
        1. NAVIGATION HEADER
   ═══════════════════════════════════════════════ -->
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3.5 transition-all">
-    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4 xl:gap-8">
+    <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-2 sm:gap-4 xl:gap-8">
 
       <!-- Official Falcon Logo + Two-Toned Wordmark + Global English Slogan -->
-      <a href="#" class="flex items-center space-x-3 group flex-shrink-0">
+      <a href="#" class="flex items-center space-x-2 sm:space-x-3 group flex-shrink-0">
         <div class="relative flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0">
           <img src="falcon.svg" alt="" aria-hidden="true" width="40" height="40" class="h-9 w-9 sm:h-10 sm:w-10 group-hover:scale-105 transition-transform object-contain">
         </div>
         <div class="flex flex-col">
-          <span class="font-extrabold text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
+          <span class="font-extrabold text-lg min-[400px]:text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
             <span class="text-[#FFFFFF]">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
           <span class="hidden sm:block text-xs sm:text-[13px] tracking-tight leading-tight mt-1 whitespace-nowrap">
@@ -134,7 +151,7 @@
       </a>
 
       <!-- Desktop Links + Action Cluster -->
-      <div class="flex items-center gap-3 2xl:gap-4 flex-shrink-0">
+      <div class="flex items-center gap-2 sm:gap-3 2xl:gap-4 flex-shrink-0">
         <div class="hidden xl:flex items-center gap-5 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
           <a href="#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
           <a href="#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
@@ -148,11 +165,13 @@
         <div class="hidden lg:block h-5 w-px bg-[#1B1E26] mx-3"></div>
 
         <!-- Clean Nav Language Toggle EN | CS (ample padding, never sticks to #story) -->
-        <div class="flex items-center bg-[#111622] border border-white/15 rounded-full px-2.5 py-1 text-xs shadow-sm ml-1" role="group" aria-label="Language selector">
-          <button onclick="window.TRLang.apply('en')" class="lang-btn" data-lang="en">EN</button>
+        <div class="flex items-center bg-[#111622] border border-white/15 rounded-full px-2.5 py-1 text-xs shadow-sm sm:ml-1" role="group" aria-label="Language selector">
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
           <span class="text-white/20 text-[10px] px-0.5">|</span>
-          <button onclick="window.TRLang.apply('cs')" class="lang-btn" data-lang="cs">CS</button>
+          <button type="button" class="lang-btn" data-lang="cs">CS</button>
         </div>
+
+        <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="hidden lg:inline-block text-xs 2xl:text-sm font-semibold text-[#FFA366] hover:text-white transition px-1 py-1 whitespace-nowrap" data-i18n="nav_demo">Live Demo ↗</a>
 
         <a href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
           Sign In
@@ -179,7 +198,7 @@
       <a href="#pricing" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_pricing">Pricing</a>
       <a href="#insights" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_insights">Research &amp; Blog</a>
       <a href="#story" class="hover:text-[#FF6B00] transition py-1" data-i18n="nav_story">Our Story</a>
-      <a href="https://app.talentradar.eu/demo" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366] font-semibold" data-i18n="nav_demo">Live Demo ↗</a>
+      <a href="https://app.talentradar.eu/?demo=showcase" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#FFA366] font-semibold" data-i18n="nav_demo">Live Demo ↗</a>
       <a id="mobileSignInLink" href="https://app.talentradar.eu" target="_blank" rel="noopener noreferrer" class="hover:text-[#FF6B00] transition py-1 text-[#F3F4F6]/80" data-i18n="nav_signin">Sign In</a>
       <a href="#trial" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] text-white text-xs font-bold text-center shadow-md shadow-[#FF6B00]/25" data-i18n="nav_cta">Start 14-Day Free Pilot</a>
     </div>
@@ -247,7 +266,7 @@
 
             <span class="text-[11px] font-mono text-[#34D399] flex items-center gap-1.5 self-end sm:self-center">
               <span class="w-2 h-2 rounded-full bg-[#34D399] animate-pulse"></span>
-              <span>Live Workspace Telemetry</span>
+              <span data-i18n="mockup_live_label">Live Workspace Telemetry</span>
             </span>
           </div>
 
@@ -315,7 +334,7 @@
                   <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Security+Tines+Dublin" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
                     <span data-i18n="mockup_xray_btn">1-Click Hiring Manager X-Ray</span>
                   </a>
-                  <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
+                  <button type="button" onclick="openSandbox('bd')" class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition cursor-pointer" data-i18n="mockup_push_btn">
                     Push to External ATS / CSV
                   </button>
                 </div>
@@ -346,7 +365,7 @@
                   <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Sales+Intercom+Dublin" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
                     <span data-i18n="mockup_xray_btn">1-Click Hiring Manager X-Ray</span>
                   </a>
-                  <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
+                  <button type="button" onclick="openSandbox('bd')" class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition cursor-pointer" data-i18n="mockup_push_btn">
                     Push to External ATS / CSV
                   </button>
                 </div>
@@ -377,7 +396,7 @@
                   <a href="https://www.linkedin.com/search/results/people/?keywords=VP+Engineering+Mews+Prague" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 hover:bg-[#FF6B00]/25 text-[#FF8533] hover:text-white border border-[#FF6B00]/40 text-xs font-semibold flex items-center gap-1.5 transition">
                     <span data-i18n="mockup_xray_btn">1-Click Hiring Manager X-Ray</span>
                   </a>
-                  <button class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition" data-i18n="mockup_push_btn">
+                  <button type="button" onclick="openSandbox('bd')" class="px-2.5 py-1.5 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] text-[#F3F4F6]/80 hover:text-white border border-white/10 text-xs font-medium transition cursor-pointer" data-i18n="mockup_push_btn">
                     Push to External ATS / CSV
                   </button>
                 </div>
@@ -400,7 +419,7 @@
                   Assigned Consultant: Kryštof • Discovered at 06:18 UTC via Direct ATS • <span class="text-[#34D399] font-bold" data-i18n="mockup_kanban_fee">Fee: 22% (€18,500 est.)</span>
                 </div>
               </div>
-              <button class="px-3 py-1.5 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs font-bold shadow-md transition self-start sm:self-auto">
+              <button type="button" onclick="openSandbox('ats')" class="px-3 py-1.5 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs font-bold shadow-md transition self-start sm:self-auto cursor-pointer" data-i18n="mockup_add_candidate">
                 + Add Candidate
               </button>
             </div>
@@ -607,350 +626,29 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       4. MINI-APP SANDBOX (#live-radar)
+       4. INTERACTIVE SANDBOX (#live-radar) — js/sandbox.js
   ═══════════════════════════════════════════════ -->
-  <section id="live-radar" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-6">
-    <div class="text-center space-y-2 mb-6">
+  <section id="live-radar" class="py-20 px-4 sm:px-6 max-w-7xl mx-auto space-y-6">
+    <div class="text-center space-y-3 mb-2 max-w-3xl mx-auto">
       <div class="inline-flex items-center space-x-2 text-xs font-bold text-[#FF6B00] tracking-widest uppercase">
         <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
-        <span data-i18n="radar_badge">TalentRadar Živý Sandbox</span>
+        <span data-i18n="radar_badge">Interactive demo</span>
       </div>
-      <h2 class="text-2xl sm:text-4xl font-extrabold text-white" id="radarHeadline" data-i18n="radar_headline">
-        Interaktivní Mini-App Sandbox: Dnešní běh v 06:00 UTC
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white text-balance" data-i18n="radar_headline">
+        Click through the whole platform. No sign-up.
       </h2>
-      <p class="text-xs sm:text-sm text-[#94A3B8] max-w-2xl mx-auto" id="radarSubtext" data-i18n="radar_subtext">
-        Vyzkoušejte si odlehčenou interaktivní ukázku aplikace TalentRadar přímo v prohlížeči. Přepínejte moduly v levém panelu, filtrujte čerstvé role českých scaleupů nebo rozklikněte detail pro 1-Click Hiring Manager X-Ray.
+      <p class="text-sm sm:text-base text-[#F3F4F6]/80" data-i18n="radar_subtext">
+        A light version of the TalentRadar workspace, tracking 19 Czech tech companies. Open a role, find the hiring manager, turn it into a mandate, run a scan or ask AI Hawk. Then carry on in the full demo.
       </p>
     </div>
 
-    <!-- 1. Vnější okno aplikace (Desktop App Shell) -->
-    <div class="bg-[#0B0E14] border border-[#1B1E26] rounded-2xl shadow-2xl overflow-hidden orange-glow-lg relative">
-
-      <!-- Záhlaví okna (macOS bar) -->
-      <div class="px-4 py-3 bg-[#090C12] border-b border-[#1B1E26] flex flex-wrap items-center justify-between gap-3">
-        <!-- Vlevo: 3 tečky okna -->
-        <div class="flex items-center gap-2 flex-shrink-0">
-          <span class="w-3 h-3 rounded-full bg-[#FF5F56]"></span>
-          <span class="w-3 h-3 rounded-full bg-[#FFBD2E]"></span>
-          <span class="w-3 h-3 rounded-full bg-[#27C93F]"></span>
-        </div>
-
-        <!-- Uprostřed: Stavový nápis -->
-        <div class="text-[11px] sm:text-xs font-mono text-[#34D399] font-semibold truncate order-3 sm:order-2 w-full sm:w-auto text-center" id="sandboxStatusText" data-i18n="sandbox_status">
-          ● Ranní běh dokončen (06:00 UTC) • 32 čerstvých pozic
-        </div>
-
-        <!-- Vpravo: Výrazné tlačítko vedoucí do plné aplikace -->
-        <a
-          href="https://app.talentradar.eu/demo"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="order-2 sm:order-3 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white font-bold text-xs shadow-md shadow-[#FF6B00]/20 flex items-center gap-1.5 whitespace-nowrap transition flex-shrink-0"
-        >
-          <span data-i18n="sandbox_gateway_btn">Otevřít plné živé demo v aplikaci</span>
-          <span class="text-[10px]">↗</span>
-        </a>
-      </div>
-
-      <!-- 3. Mobilní verze (< 768px): Kompaktní vodorovná lišta záložek nahoře (0 horizontal overflow) -->
-      <div class="md:hidden bg-[#090C12] border-b border-[#1B1E26] px-2.5 py-2 flex items-center justify-between gap-1.5">
-        <button type="button" onclick="setSandboxModule('pulse')" id="mob-nav-pulse" class="flex-1 py-1.5 px-2 rounded-lg text-[11px] font-bold transition bg-[#FF5500]/15 text-white border border-[#FF5500] text-center truncate" data-i18n="sandbox_mob_pulse">
-          🏠 Přehled
-        </button>
-        <button type="button" onclick="setSandboxModule('bd')" id="mob-nav-bd" class="flex-1 py-1.5 px-2 rounded-lg text-[11px] font-semibold transition text-[#94A3B8] hover:text-white border border-transparent text-center truncate" data-i18n="sandbox_mob_bd">
-          🎯 BD Master
-        </button>
-        <button type="button" onclick="setSandboxModule('mandates')" id="mob-nav-mandates" class="flex-1 py-1.5 px-2 rounded-lg text-[11px] font-semibold transition text-[#94A3B8] hover:text-white border border-transparent text-center truncate" data-i18n="sandbox_mob_mandates">
-          📋 Zakázky
-        </button>
-        <button type="button" onclick="setSandboxModule('scanners')" id="mob-nav-scanners" class="flex-1 py-1.5 px-2 rounded-lg text-[11px] font-semibold transition text-[#94A3B8] hover:text-white border border-transparent text-center truncate" data-i18n="sandbox_mob_scanners">
-          ⚡ Skenery
-        </button>
-      </div>
-
-      <!-- 2. Dvousloupcové rozvržení (Sidebar vlevo + Pracovní plocha vpravo) -->
-      <div class="flex flex-col md:flex-row min-h-[540px] relative">
-
-        <!-- A. Levý sloupec – Mini Sidebar -->
-        <aside class="w-56 bg-[#090C12] border-r border-[#1B1E26] p-3 flex-col justify-between hidden md:flex flex-shrink-0 select-none">
-          <div class="space-y-4">
-            <!-- Hlavička sidebaru -->
-            <div class="px-2 pt-1 pb-2.5 border-b border-[#1B1E26]">
-              <div class="flex items-center gap-2">
-                <img src="falcon.svg" alt="" aria-hidden="true" class="w-5 h-5 object-contain">
-                <span class="font-extrabold text-sm tracking-tight text-white">
-                  TALENT<span class="text-[#FF5500]">RADAR</span>
-                </span>
-              </div>
-              <div class="text-[10px] font-mono text-[#94A3B8] tracking-widest mt-0.5">
-                B2B INTELLIGENCE
-              </div>
-            </div>
-
-            <!-- Navigační položky (zmenšené klikací taby) -->
-            <nav class="space-y-1" aria-label="Mini-App Sidebar Navigation">
-              <button
-                type="button"
-                onclick="setSandboxModule('pulse')"
-                id="side-nav-pulse"
-                class="w-full px-2.5 py-2 rounded-xl text-left text-xs font-bold transition flex items-center justify-between gap-1.5 bg-[#FF5500]/15 text-white border border-[#FF5500] shadow-sm shadow-[#FF5500]/10 cursor-pointer"
-              >
-                <span class="truncate" data-i18n="sandbox_nav_pulse">🏠 Ranní přehled (Morning Pulse)</span>
-                <span class="text-[9px] font-mono font-extrabold px-1.5 py-0.5 rounded bg-[#FF5500] text-white flex-shrink-0">32 NEW</span>
-              </button>
-
-              <button
-                type="button"
-                onclick="setSandboxModule('bd')"
-                id="side-nav-bd"
-                class="w-full px-2.5 py-2 rounded-xl text-left text-xs font-semibold transition flex items-center justify-between gap-1.5 text-[#94A3B8] hover:text-white hover:bg-white/5 border border-transparent cursor-pointer"
-              >
-                <span class="truncate" data-i18n="sandbox_nav_bd">🎯 BD Master (Role)</span>
-                <span class="text-[10px] font-mono text-[#94A3B8]">26</span>
-              </button>
-
-              <button
-                type="button"
-                onclick="setSandboxModule('mandates')"
-                id="side-nav-mandates"
-                class="w-full px-2.5 py-2 rounded-xl text-left text-xs font-semibold transition flex items-center justify-between gap-1.5 text-[#94A3B8] hover:text-white hover:bg-white/5 border border-transparent cursor-pointer"
-              >
-                <span class="truncate" data-i18n="sandbox_nav_mandates">📋 Zakázky (Mandates)</span>
-                <span class="text-[10px] font-mono text-[#34D399]">4</span>
-              </button>
-
-              <button
-                type="button"
-                onclick="setSandboxModule('scanners')"
-                id="side-nav-scanners"
-                class="w-full px-2.5 py-2 rounded-xl text-left text-xs font-semibold transition flex items-center justify-between gap-1.5 text-[#94A3B8] hover:text-white hover:bg-white/5 border border-transparent cursor-pointer"
-              >
-                <span class="truncate" data-i18n="sandbox_nav_scanners">⚡ Skenery &amp; ATS</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-[#34D399]"></span>
-              </button>
-
-              <button
-                type="button"
-                onclick="setSandboxModule('settings')"
-                id="side-nav-settings"
-                class="w-full px-2.5 py-2 rounded-xl text-left text-xs font-semibold transition flex items-center justify-between gap-1.5 text-[#94A3B8] hover:text-white hover:bg-white/5 border border-transparent cursor-pointer"
-              >
-                <span class="truncate" data-i18n="sandbox_nav_settings">⚙️ Nastavení</span>
-              </button>
-            </nav>
-          </div>
-
-          <!-- Patička sidebaru (Operátor) -->
-          <div class="pt-3 border-t border-[#1B1E26]">
-            <div class="p-2.5 rounded-xl bg-[#0F131D] border border-[#1B1E26] space-y-1">
-              <div class="flex items-center justify-between gap-1">
-                <span class="text-[10px] font-mono text-[#34D399] font-semibold truncate" data-i18n="sandbox_operator_ws">● Live Workspace: Demo</span>
-              </div>
-              <div class="flex items-center justify-between gap-1">
-                <span class="text-xs font-bold text-white truncate" data-i18n="sandbox_operator_user">Kryštof (Owner)</span>
-                <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#1B1E26] text-[#FF8533] border border-[#FF6B00]/30">GUEST</span>
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <!-- B. Pravý sloupec – Pracovní plocha -->
-        <div class="flex-1 bg-[#0F1117] p-3 sm:p-4 flex flex-col gap-3 min-w-0 relative">
-
-          <!-- MODULE 1 & 2: Ranní přehled (Morning Pulse) & BD Master (Role) -->
-          <div id="sandboxViewRoles" class="flex flex-col gap-3 flex-1 min-w-0">
-
-            <!-- Horní lišta filtrů & hledání -->
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5 pb-2.5 border-b border-[#1B1E26]">
-              <!-- Filtrační štítky -->
-              <div class="flex flex-wrap items-center gap-1.5" role="tablist" aria-label="Signal filters">
-                <button type="button" onclick="setRadarCategory('all')" id="radar-cat-all" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm cursor-pointer" data-i18n="radar_tab_all">
-                  Vše (26)
-                </button>
-                <button type="button" onclick="setRadarCategory('tech')" id="radar-cat-tech" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5 cursor-pointer" data-i18n="radar_tab_tech">
-                  Tech &amp; Cloud
-                </button>
-                <button type="button" onclick="setRadarCategory('sales')" id="radar-cat-sales" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5 cursor-pointer" data-i18n="radar_tab_sales">
-                  B2B Sales
-                </button>
-                <button type="button" onclick="setRadarCategory('product')" id="radar-cat-product" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5 cursor-pointer" data-i18n="radar_tab_product">
-                  Product &amp; Data
-                </button>
-                <button type="button" onclick="setRadarCategory('stale')" id="radar-cat-stale" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#FBBF24] hover:text-white border border-[#FBBF24]/30 cursor-pointer" data-i18n="radar_tab_stale">
-                  ⚡ Ležáky &gt;30 dní
-                </button>
-              </div>
-
-              <!-- Vyhledávací pole -->
-              <div class="relative w-full lg:w-72 flex-shrink-0">
-                <svg class="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
-                </svg>
-                <input
-                  type="text"
-                  id="sandboxSearchInput"
-                  oninput="handleSandboxSearch(this.value)"
-                  placeholder="Hledat firmu, roli nebo technologii..."
-                  data-i18n-placeholder="sandbox_search_placeholder"
-                  class="w-full pl-8 pr-7 py-1.5 rounded-lg bg-[#090C12] border border-[#1B1E26] focus:border-[#FF6B00] text-xs text-white placeholder-[#94A3B8] focus:outline-none transition"
-                />
-                <button
-                  type="button"
-                  id="sandboxSearchClear"
-                  onclick="clearSandboxSearch()"
-                  aria-label="Clear search"
-                  class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-white text-xs px-1"
-                >✕</button>
-              </div>
-            </div>
-
-            <!-- Záhlaví tabulky (Desktop >= 768px) -->
-            <div class="hidden md:grid md:grid-cols-12 gap-2 px-3 py-2 rounded-lg bg-[#090C12] border border-[#1B1E26] text-[10px] font-mono uppercase tracking-wider text-[#94A3B8]">
-              <div class="col-span-3" data-i18n="sandbox_col_company">Firma</div>
-              <div class="col-span-4" data-i18n="sandbox_col_role">Pozice</div>
-              <div class="col-span-2" data-i18n="sandbox_col_ats">ATS</div>
-              <div class="col-span-1" data-i18n="sandbox_col_time">Čas</div>
-              <div class="col-span-2 text-right" data-i18n="sandbox_col_action">Akce</div>
-            </div>
-
-            <!-- Zmenšená tabulka pozic (Řádky na desktopu / Kartičky na mobilu) -->
-            <div class="divide-y divide-[#1B1E26] bg-[#0B0E14]/90 rounded-xl border border-[#1B1E26] overflow-hidden" id="radarFeed">
-              <p id="radarFeedStatus" class="py-8 text-center text-xs text-[#94A3B8]">Loading scan telemetry…</p>
-            </div>
-
-            <!-- Spodní lišta tabulky (Přepínač 10 / 26 rolí + Rychlé filtry firem) -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
-              <div class="text-[11px] font-mono text-[#94A3B8]" id="sandboxCountBadge">
-                Zobrazeno 10 z 26 pozic
-              </div>
-              <button
-                type="button"
-                id="sandboxToggleAllBtn"
-                onclick="toggleSandboxShowAll()"
-                class="text-xs font-mono font-bold text-[#FF8533] hover:text-white transition cursor-pointer"
-                data-i18n="sandbox_show_all_btn"
-              >
-                Zobrazit všech 26 zachycených pozic ↓
-              </button>
-            </div>
-          </div>
-
-          <!-- MODULE 3: Zakázky (Mandates — Kanban Preview) -->
-          <div id="sandboxViewMandates" class="hidden flex-col gap-3 flex-1 min-w-0"></div>
-
-          <!-- MODULE 4: Skenery & ATS (Adapters Telemetry) -->
-          <div id="sandboxViewScanners" class="hidden flex-col gap-3 flex-1 min-w-0"></div>
-
-          <!-- MODULE 5: Nastavení (Workspace Config) -->
-          <div id="sandboxViewSettings" class="hidden flex-col gap-3 flex-1 min-w-0"></div>
-
-          <!-- Vysouvací panel detailu role (Slide-over drawer uvnitř okna aplikace) -->
-          <div id="roleDrawerBackdrop" onclick="closeRoleDrawer(event)" class="hidden absolute inset-0 z-30 bg-black/65 backdrop-blur-[2px] flex justify-end transition-all">
-            <div onclick="event.stopPropagation()" class="w-full sm:w-[420px] bg-[#111622] border-l border-[#1B1E26] h-full overflow-y-auto p-5 flex flex-col justify-between shadow-2xl space-y-5">
-              <div class="space-y-4">
-                <!-- Horní lišta draweru -->
-                <div class="flex items-center justify-between border-b border-[#1B1E26] pb-3">
-                  <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-[#FF6B00] live-dot"></span>
-                    <span class="text-[11px] font-mono font-bold text-[#FF8533] uppercase tracking-wider" data-i18n="sandbox_drawer_badge">DETAIL POZICE &amp; X-RAY</span>
-                  </div>
-                  <button type="button" onclick="closeRoleDrawer()" aria-label="Close drawer" class="px-2 py-1 rounded-lg bg-[#1B1E26] text-[#94A3B8] hover:text-white transition text-xs font-mono cursor-pointer">
-                    ✕ ESC
-                  </button>
-                </div>
-
-                <!-- Hlavička firmy a pozice -->
-                <div class="space-y-2.5">
-                  <div class="flex items-start gap-3">
-                    <div id="drawerLogoBadge" class="w-10 h-10 rounded-xl bg-[#1A2234] border border-[#FF6B00]/40 text-[#FF8533] font-mono font-extrabold text-xs flex items-center justify-center flex-shrink-0">
-                      MW
-                    </div>
-                    <div class="min-w-0">
-                      <div id="drawerCompany" class="text-xs font-bold text-[#94A3B8] font-mono">Mews • Praha / Remote</div>
-                      <h3 id="drawerTitle" class="text-base sm:text-lg font-black text-white leading-snug">Principal Backend Engineer (.NET / Go)</h3>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap items-center gap-1.5 pt-1" id="drawerBadges"></div>
-                </div>
-
-                <!-- AI zdůvodnění (Fit Reason) -->
-                <div class="p-4 rounded-xl bg-[#090C12] border border-[#FF6B00]/35 space-y-1.5 orange-glow">
-                  <div class="flex items-center justify-between text-[11px]">
-                    <span class="font-mono font-bold text-[#FF8533] uppercase" data-i18n="sandbox_drawer_fit_label">AI zdůvodnění (Fit Reason)</span>
-                    <span class="font-mono text-[10px] text-[#34D399]">Gemini Flash 2-Stage</span>
-                  </div>
-                  <p id="drawerFitReason" class="text-xs text-[#F3F4F6] leading-relaxed">
-                    Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.
-                  </p>
-                </div>
-
-                <!-- Akční tlačítka -->
-                <div class="space-y-2.5 pt-1">
-                  <a
-                    id="drawerXrayLink"
-                    href="https://www.linkedin.com/search/results/people/?keywords=VP+of+Engineering+Mews"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:to-[#D84D00] text-white font-bold text-xs shadow-lg shadow-[#FF6B00]/25 flex items-center justify-center gap-2 transition"
-                  >
-                    <span id="drawerXrayText" data-i18n="sandbox_drawer_xray_btn">Vyhledat Hiring Managera na LinkedInu (1-Click X-Ray) ↗</span>
-                  </a>
-
-                  <button
-                    type="button"
-                    onclick="showPilotToastModal()"
-                    class="w-full py-3 px-4 rounded-xl bg-[#1A2234] hover:bg-[#242E46] text-white font-bold text-xs border border-white/10 flex items-center justify-center gap-2 transition cursor-pointer"
-                  >
-                    <span data-i18n="sandbox_drawer_export_btn">Exportovat do ATS / CSV</span>
-                  </button>
-                </div>
-
-                <!-- Toast v detailu role -->
-                <div id="pilotToastModal" class="hidden p-3.5 rounded-xl bg-[#192338] border-2 border-[#FF6B00] shadow-xl space-y-2.5 transition-all">
-                  <div class="flex items-start justify-between gap-2">
-                    <div class="flex items-center gap-2 text-[11px] font-mono font-bold text-[#FF8533]">
-                      <span class="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse"></span>
-                      <span data-i18n="sandbox_toast_title">Součást 14denního bezplatného pilotu</span>
-                    </div>
-                    <button type="button" onclick="hidePilotToastModal()" class="text-[#94A3B8] hover:text-white text-xs cursor-pointer">✕</button>
-                  </div>
-                  <p class="text-xs text-white leading-relaxed" data-i18n="sandbox_toast_msg">
-                    Propojení s vaším systémem je součástí 14denního bezplatného pilotu.
-                  </p>
-                  <a
-                    href="#trial"
-                    onclick="closeRoleDrawer()"
-                    class="inline-flex items-center justify-center w-full py-2 px-3 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white font-bold text-xs shadow-md transition"
-                    data-i18n="sandbox_toast_cta"
-                  >
-                    Vyzkoušet na 14 dní zdarma →
-                  </a>
-                </div>
-              </div>
-
-              <!-- Patička draweru -->
-              <div class="pt-3 border-t border-[#1B1E26] flex items-center justify-between text-[10px] text-[#94A3B8] font-mono">
-                <span>TalentRadar Live Sandbox</span>
-                <a href="https://app.talentradar.eu/demo" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] hover:underline">app.talentradar.eu/demo ↗</a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Spodní lišta sledovaných firem -->
-      <div class="px-4 py-3 bg-[#090C12] border-t border-[#1B1E26]">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs mb-2">
-          <span class="text-[#F3F4F6]/80 font-semibold flex items-center gap-2 text-[11px]">
-            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse"></span>
-            <span data-i18n="radar_monitored_title">České a regionální technologické firmy sledované v tomto živém sandboxu:</span>
-          </span>
-          <span class="text-[#94A3B8] font-mono text-[10px]" id="radarIndexed">Direct ATS Telemetry • 19 Scaleups</span>
-        </div>
-        <div class="flex flex-wrap gap-1.5 items-center" id="monitoredCompaniesPills"></div>
-      </div>
+    <div id="trSandbox" class="min-h-[480px]">
+      <div class="rounded-2xl border border-[#1B1E26] bg-[#0B0E14] h-[480px] flex items-center justify-center text-xs text-[#8A90A2] font-mono">Loading the sandbox…</div>
     </div>
+
+    <p class="text-center text-xs text-[#94A3B8]" data-i18n="radar_footnote">
+      The sandbox runs entirely in your browser on sample data. The full demo is the real app on a live workspace.
+    </p>
   </section>
 
 
@@ -1394,7 +1092,7 @@
           <div class="pt-2 border-t border-[#1B1E26] flex items-center justify-between text-xs text-[#94A3B8]">
             <span class="font-mono" data-i18n="story_case_study_badge">DUBLIN CASE STUDY • INGENIO GLOBAL</span>
             <a href="blog/the-4-day-latency-gap.html" data-blog-slug="the-4-day-latency-gap" data-blog-prefix="blog/" class="text-[#FF8533] hover:text-white font-semibold transition">
-              Read Study →
+              <span data-i18n="story_read_study">Read Study</span> →
             </a>
           </div>
         </div>
@@ -1648,6 +1346,7 @@
        SCRIPTS & LOGIC
   ═══════════════════════════════════════════════ -->
   <script src="js/translations.js"></script>
+  <script src="js/sandbox.js" defer></script>
 
   <script>
     /* ── 1. Mobile Menu ── */
@@ -1688,7 +1387,9 @@
     }
 
     /* ── 4. Interactive Hero Switcher (Client Value Focused) ── */
+    let mockupMode = 'A';
     function switchMockupMode(mode) {
+      mockupMode = String(mode).toUpperCase() === 'B' ? 'B' : 'A';
       const btnA = document.getElementById('toggle-mode-a');
       const btnB = document.getElementById('toggle-mode-b');
       const viewA = document.getElementById('mockup-view-a');
@@ -1725,7 +1426,18 @@
       }
     }
 
+    // data-i18n resets the mockup texts to mode A on a language switch.
+    window.addEventListener('talentradar:langchange', () => switchMockupMode(mockupMode));
+
+    /* Hero buttons that point into the interactive sandbox */
+    function openSandbox(screen) {
+      const section = document.getElementById('live-radar');
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+      if (window.TRSandbox) window.TRSandbox.go(screen);
+    }
+
     /* ── 5. File Upload Handler ── */
+    const formErrorMsg = document.getElementById('formErrorMessage');
     let selectedFile       = null;
     let selectedFileBase64 = null;
     const fileUpload          = document.getElementById('fileUpload');
@@ -1739,10 +1451,12 @@
         if (e.target.files && e.target.files[0]) {
           const file = e.target.files[0];
           if (file.size > 8 * 1024 * 1024) {
-            alert('File too large (max 8 MB).');
+            formErrorMsg.textContent = (window.TRLang && window.TRLang.get('trial_file_too_large')) || 'File too large (max 8 MB).';
+            formErrorMsg.classList.remove('hidden');
             fileUpload.value = '';
             return;
           }
+          formErrorMsg.classList.add('hidden');
           selectedFile = file;
           fileNameText.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
           fileUploadPrompt.classList.add('hidden');
@@ -1770,7 +1484,6 @@
     const demoForm        = document.getElementById('demoForm');
     const submitBtn       = document.getElementById('submitBtn');
     const formWrapper     = document.getElementById('formWrapper');
-    const formErrorMsg    = document.getElementById('formErrorMessage');
 
     if (demoForm) {
       demoForm.addEventListener('submit', async e => {
@@ -1786,7 +1499,7 @@
         const website = document.getElementById('website_hp').value.trim();
 
         if (!name || !email || !company) {
-          formErrorMsg.textContent = 'Please enter your name, work email, and agency name.';
+          formErrorMsg.textContent = (window.TRLang && window.TRLang.get('trial_error_required')) || 'Please enter your name, work email, and agency name.';
           formErrorMsg.classList.remove('hidden');
           return;
         }
@@ -1802,7 +1515,7 @@
 
         submitBtn.disabled = true;
         const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Activating your pilot…';
+        submitBtn.textContent = (window.TRLang && window.TRLang.get('trial_submitting')) || 'Activating your pilot…';
         submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
         try {
@@ -1838,7 +1551,7 @@
             throw new Error(result.error || 'Something went wrong.');
           }
         } catch (err) {
-          formErrorMsg.textContent = err.message || 'Something went wrong. Please write to us directly at krystof@talentradar.eu';
+          formErrorMsg.textContent = err.message || (window.TRLang && window.TRLang.get('trial_error_generic')) || 'Something went wrong. Please write to us directly at krystof@talentradar.eu';
           formErrorMsg.classList.remove('hidden');
           submitBtn.disabled = false;
           submitBtn.textContent = originalText;
@@ -1873,573 +1586,6 @@
       });
     });
 
-    /* ── 8. Interactive Mini-App Sandbox & Role Drawer ── */
-    const FALLBACK_SANDBOX_DATA = {
-      monitored_companies: [
-        { slug: "mews", name: "Mews", hq: "Praha / Remote", ats: "Greenhouse", careers_url: "https://www.mews.com/en/careers" },
-        { slug: "rohlik", name: "Rohlik.cz", hq: "Praha", ats: "Greenhouse", careers_url: "https://career.rohlik.group/" },
-        { slug: "livesport", name: "Livesport", hq: "Praha", ats: "Direct ATS", careers_url: "https://www.livesport.eu/kariera/" },
-        { slug: "strv", name: "STRV", hq: "Praha / Brno", ats: "Lever", careers_url: "https://www.strv.com/careers" },
-        { slug: "productboard", name: "Productboard", hq: "Praha", ats: "Greenhouse", careers_url: "https://www.productboard.com/careers/" },
-        { slug: "shipmonk", name: "ShipMonk", hq: "Praha", ats: "Greenhouse", careers_url: "https://www.shipmonk.com/careers/" },
-        { slug: "ftmo", name: "FTMO", hq: "Praha", ats: "Teamio", careers_url: "https://ftmo.com/cs/kariera/" },
-        { slug: "heureka", name: "Heureka Group", hq: "Praha / Liberec", ats: "Recruitis", careers_url: "https://www.heurekadevs.cz/" },
-        { slug: "packeta", name: "Zásilkovna / Packeta", hq: "Praha", ats: "Recruitis", careers_url: "https://www.zasilkovna.cz/kariera" },
-        { slug: "cdn77", name: "CDN77", hq: "Praha", ats: "Direct ATS", careers_url: "https://www.cdn77.com/careers" },
-        { slug: "keboola", name: "Keboola", hq: "Praha / Remote", ats: "Ashby", careers_url: "https://www.keboola.com/careers" },
-        { slug: "apify", name: "Apify", hq: "Praha", ats: "Ashby", careers_url: "https://apify.com/jobs" },
-        { slug: "kiwi", name: "Kiwi.com", hq: "Brno / Praha", ats: "Greenhouse", careers_url: "https://jobs.kiwi.com/" },
-        { slug: "twisto", name: "Twisto", hq: "Praha", ats: "Teamio", careers_url: "https://www.twisto.cz/kariera/" },
-        { slug: "purestorage", name: "Pure Storage Prague", hq: "Praha", ats: "Greenhouse", careers_url: "https://www.purestorage.com/company/careers.html" },
-        { slug: "wolt", name: "Wolt Czechia", hq: "Praha", ats: "Lever", careers_url: "https://careers.wolt.com/" },
-        { slug: "daktela", name: "Daktela", hq: "Praha", ats: "Recruitis", careers_url: "https://www.daktela.com/kariera/" },
-        { slug: "seyfor", name: "Seyfor", hq: "Brno / Praha", ats: "Teamio", careers_url: "https://www.seyfor.com/cs-cz/kariera" },
-        { slug: "notino", name: "Notino", hq: "Brno", ats: "Direct ATS", careers_url: "https://www.notino.cz/kariera/" }
-      ],
-      roles: [
-        { id: "tr-3001", company: "Mews", logo_text: "MW", title: "Principal Backend Engineer (.NET / Go)", seniority: "Lead", location: "Praha / Remote", vertical: "Tech & Cloud", ats: "Greenhouse", time_short: "06:04 UTC", discovered_time: "Dnes 06:04 UTC", discovered_time_en: "Today 06:04 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály. Tým Hospitality FinTech rozšiřuje platební jádro v Praze.", fit_reason_en: "Core role captured directly on the company's ATS endpoint before commercial job boards indexed it.", hiring_manager_query: "VP of Engineering" },
-        { id: "tr-3002", company: "Rohlik.cz", logo_text: "RH", title: "Senior Java / Kotlin Logistics Architect", seniority: "Lead", location: "Praha", vertical: "Tech & Cloud", ats: "Greenhouse", time_short: "06:06 UTC", discovered_time: "Dnes 06:06 UTC", discovered_time_en: "Today 06:06 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály. Kritická role pro automatizaci DACH fulfillment center.", fit_reason_en: "Core role captured directly on the company's ATS before job board aggregation.", hiring_manager_query: "CTO Engineering Director" },
-        { id: "tr-3003", company: "Livesport", logo_text: "LS", title: "Lead Cloud Infrastructure & Kubernetes Engineer", seniority: "Lead", location: "Praha", vertical: "Tech & Cloud", ats: "Direct ATS", time_short: "06:08 UTC", discovered_time: "Otevřeno 42 dní (06:00 UTC)", discovered_time_en: "Open 42 days (06:00 UTC)", is_stale: true, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály. Pozice je otevřená přes 35 dní (42 dní) — interní HR vyčerpalo organické kanály.", fit_reason_en: "Vacancy open past 35 days on direct career portal (42 days). Internal TA funnel is exhausted.", hiring_manager_query: "Head of Infrastructure" },
-        { id: "tr-3009", company: "STRV", logo_text: "ST", title: "Lead AI Solutions Engineer (Python / LangGraph)", seniority: "Lead", location: "Praha / Brno", vertical: "Tech & Cloud", ats: "Lever", time_short: "06:09 UTC", discovered_time: "Dnes 06:09 UTC", discovered_time_en: "Today 06:09 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály. Klíčová klientská delivery role pro US enterprise AI projekty.", fit_reason_en: "Core role captured directly on Lever ATS endpoint before job boards.", hiring_manager_query: "VP of Engineering" },
-        { id: "tr-3004", company: "Productboard", logo_text: "PB", title: "Staff AI / LLM Product Manager", seniority: "Lead", location: "Praha", vertical: "Product & Data", ats: "Greenhouse", time_short: "06:11 UTC", discovered_time: "Dnes 06:11 UTC", discovered_time_en: "Today 06:11 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály. Nově schválený headcount v pražském AI Product hubu.", fit_reason_en: "Core role captured directly on Greenhouse ATS hours after approval, days before LinkedIn syndication.", hiring_manager_query: "VP of Product" },
-        { id: "tr-3010", company: "ShipMonk", logo_text: "SM", title: "Staff Data Platform Engineer (Snowflake / dbt)", seniority: "Lead", location: "Praha", vertical: "Product & Data", ats: "Greenhouse", time_short: "06:12 UTC", discovered_time: "Otevřeno 46 dní (06:00 UTC)", discovered_time_en: "Open 46 days (06:00 UTC)", is_stale: true, fit_reason: "Core role zachycena přímo na ATS firmy (Greenhouse). Ležák >35 dní (otevřeno 46 dní) — pražský R&D hub ShipMonk hledá seniorního datového architekta déle než 6 týdnů.", fit_reason_en: "Stale vacancy >35 days (open 46 days in Greenhouse).", hiring_manager_query: "Director of Data Engineering" },
-        { id: "tr-3005", company: "FTMO", logo_text: "FT", title: "Head of Institutional B2B Partnerships", seniority: "Lead", location: "Praha", vertical: "B2B Sales", ats: "Teamio", time_short: "06:14 UTC", discovered_time: "Dnes 06:14 UTC", discovered_time_en: "Today 06:14 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály. Strategická komerční role s vysokou provizí.", fit_reason_en: "Core commercial leadership vacancy captured on Day Zero.", hiring_manager_query: "Chief Commercial Officer" },
-        { id: "tr-3011", company: "Heureka Group", logo_text: "HG", title: "Head of Data Science & Search Relevance", seniority: "Lead", location: "Praha", vertical: "Product & Data", ats: "Recruitis", time_short: "06:15 UTC", discovered_time: "Dnes 06:15 UTC", discovered_time_en: "Today 06:15 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály. Strategická leadership pozice v e-commerce skupině.", fit_reason_en: "Core leadership vacancy captured directly on Recruitis ATS at 06:15 UTC.", hiring_manager_query: "Chief Product Officer" },
-        { id: "tr-3012", company: "Zásilkovna / Packeta", logo_text: "PK", title: "Senior B2B Key Account Manager (International E-Commerce)", seniority: "Senior", location: "Praha", vertical: "B2B Sales", ats: "Recruitis", time_short: "06:17 UTC", discovered_time: "Dnes 06:17 UTC", discovered_time_en: "Today 06:17 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.", fit_reason_en: "Core B2B commercial role captured directly on Recruitis ATS on Day Zero.", hiring_manager_query: "Commercial Director" },
-        { id: "tr-3006", company: "CDN77", logo_text: "C7", title: "Senior Network & Linux Kernel Engineer", seniority: "Senior", location: "Praha", vertical: "Tech & Cloud", ats: "Direct ATS", time_short: "06:18 UTC", discovered_time: "Otevřeno 39 dní (06:00 UTC)", discovered_time_en: "Open 39 days (06:00 UTC)", is_stale: true, fit_reason: "Core role zachycena přímo na ATS firmy. Úzkoprofilová síťová role otevřená již 39 dní přímo na webu CDN77.", fit_reason_en: "Niche systems/networking role open for 39 days on CDN77's direct site.", hiring_manager_query: "VP of Infrastructure" },
-        { id: "tr-3007", company: "Keboola", logo_text: "KB", title: "Enterprise Account Executive (DACH & CEE)", seniority: "Senior", location: "Praha / Remote", vertical: "B2B Sales", ats: "Ashby", time_short: "06:19 UTC", discovered_time: "Dnes 06:19 UTC", discovered_time_en: "Today 06:19 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.", fit_reason_en: "Core role captured directly via Ashby ATS endpoint before job board indexing.", hiring_manager_query: "VP of Sales" },
-        { id: "tr-3008", company: "Apify", logo_text: "AP", title: "Senior TypeScript & Crawling Infrastructure Engineer", seniority: "Senior", location: "Praha", vertical: "Tech & Cloud", ats: "Ashby", time_short: "06:20 UTC", discovered_time: "Dnes 06:20 UTC", discovered_time_en: "Today 06:20 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.", fit_reason_en: "Core engineering role captured directly on Ashby ATS in the 06:00 UTC scan.", hiring_manager_query: "Head of Engineering" },
-        { id: "tr-3013", company: "Kiwi.com", logo_text: "KW", title: "Principal Distributed Systems Engineer (Python / C++)", seniority: "Lead", location: "Brno / Praha", vertical: "Tech & Cloud", ats: "Greenhouse", time_short: "06:21 UTC", discovered_time: "Otevřeno 38 dní (06:00 UTC)", discovered_time_en: "Open 38 days (06:00 UTC)", is_stale: true, fit_reason: "Pozice v brněnském a pražském inženýrském týmu visí v Greenhouse již 38 dní.", fit_reason_en: "Role open for 38 days in Greenhouse across Brno & Prague.", hiring_manager_query: "VP of Engineering" },
-        { id: "tr-3014", company: "Pure Storage Prague", logo_text: "PS", title: "Staff Systems Software Engineer (Storage Core / C++)", seniority: "Lead", location: "Praha", vertical: "Tech & Cloud", ats: "Greenhouse", time_short: "06:22 UTC", discovered_time: "Dnes 06:22 UTC", discovered_time_en: "Today 06:22 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.", fit_reason_en: "Core systems engineering role captured on Greenhouse ATS on Day Zero.", hiring_manager_query: "Engineering Director Prague" },
-        { id: "tr-3015", company: "Twisto", logo_text: "TW", title: "Senior Credit Risk & Data Analytics Lead", seniority: "Senior", location: "Praha", vertical: "Product & Data", ats: "Teamio", time_short: "06:23 UTC", discovered_time: "Dnes 06:23 UTC", discovered_time_en: "Today 06:23 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.", fit_reason_en: "Core FinTech risk & analytics role captured directly on Teamio endpoint.", hiring_manager_query: "Chief Risk Officer" },
-        { id: "tr-3016", company: "Wolt Czechia", logo_text: "WL", title: "Head of B2B Retail & Q-Commerce Partnerships", seniority: "Lead", location: "Praha", vertical: "B2B Sales", ats: "Lever", time_short: "06:24 UTC", discovered_time: "Dnes 06:24 UTC", discovered_time_en: "Today 06:24 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.", fit_reason_en: "Core commercial leadership role captured directly on Lever ATS.", hiring_manager_query: "General Manager Czechia" },
-        { id: "tr-3017", company: "Daktela", logo_text: "DK", title: "Enterprise SaaS Sales Director (CEE)", seniority: "Lead", location: "Praha", vertical: "B2B Sales", ats: "Recruitis", time_short: "06:25 UTC", discovered_time: "Otevřeno 41 dní (06:00 UTC)", discovered_time_en: "Open 41 days (06:00 UTC)", is_stale: true, fit_reason: "Strategická B2B obchodní pozice otevřená již 41 dní v systému Recruitis.", fit_reason_en: "Strategic SaaS Sales leadership role open for 41 days on Recruitis.", hiring_manager_query: "Chief Revenue Officer" },
-        { id: "tr-3018", company: "Seyfor", logo_text: "SF", title: "Senior Solution Architect (ERP & Cloud Enterprise)", seniority: "Senior", location: "Brno / Praha", vertical: "Tech & Cloud", ats: "Teamio", time_short: "06:26 UTC", discovered_time: "Dnes 06:26 UTC", discovered_time_en: "Today 06:26 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.", fit_reason_en: "Core enterprise architecture vacancy captured at 06:26 UTC.", hiring_manager_query: "Division Director Enterprise" },
-        { id: "tr-3019", company: "Notino", logo_text: "NT", title: "Lead E-Commerce Product Manager (Mobile App & Personalization)", seniority: "Lead", location: "Brno", vertical: "Product & Data", ats: "Direct ATS", time_short: "06:27 UTC", discovered_time: "Dnes 06:27 UTC", discovered_time_en: "Today 06:27 UTC", is_stale: false, fit_reason: "Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.", fit_reason_en: "Core product leadership vacancy captured directly on Notino's career portal in Brno.", hiring_manager_query: "VP of Product" }
-      ]
-    };
-
-    let radarFeed = FALLBACK_SANDBOX_DATA;
-    let selectedRadarCat = 'all';
-    let sandboxSearchQuery = '';
-    let sandboxShowAll = false;
-    let activeSandboxModule = 'pulse';
-
-    function esc(val) {
-      return String(val ?? '').replace(/[&<>"']/g, ch => (
-        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]
-      ));
-    }
-
-    function setSandboxModule(mod) {
-      activeSandboxModule = mod;
-      closeRoleDrawer();
-
-      // Update Desktop Sidebar Tabs
-      ['pulse', 'bd', 'mandates', 'scanners', 'settings'].forEach(m => {
-        const btn = document.getElementById('side-nav-' + m);
-        if (!btn) return;
-        if (m === mod) {
-          btn.className = 'w-full px-2.5 py-2 rounded-xl text-left text-xs font-bold transition flex items-center justify-between gap-1.5 bg-[#FF5500]/15 text-white border border-[#FF5500] shadow-sm shadow-[#FF5500]/10 cursor-pointer';
-        } else {
-          btn.className = 'w-full px-2.5 py-2 rounded-xl text-left text-xs font-semibold transition flex items-center justify-between gap-1.5 text-[#94A3B8] hover:text-white hover:bg-white/5 border border-transparent cursor-pointer';
-        }
-      });
-
-      // Update Mobile Top Tabs
-      ['pulse', 'bd', 'mandates', 'scanners'].forEach(m => {
-        const mBtn = document.getElementById('mob-nav-' + m);
-        if (!mBtn) return;
-        if (m === mod) {
-          mBtn.className = 'flex-1 py-1.5 px-2 rounded-lg text-[11px] font-bold transition bg-[#FF5500]/15 text-white border border-[#FF5500] text-center truncate';
-        } else {
-          mBtn.className = 'flex-1 py-1.5 px-2 rounded-lg text-[11px] font-semibold transition text-[#94A3B8] hover:text-white border border-transparent text-center truncate';
-        }
-      });
-
-      const vRoles = document.getElementById('sandboxViewRoles');
-      const vMandates = document.getElementById('sandboxViewMandates');
-      const vScanners = document.getElementById('sandboxViewScanners');
-      const vSettings = document.getElementById('sandboxViewSettings');
-
-      if (vRoles) vRoles.classList.toggle('hidden', mod !== 'pulse' && mod !== 'bd');
-      if (vMandates) {
-        vMandates.classList.toggle('hidden', mod !== 'mandates');
-        vMandates.classList.toggle('flex', mod === 'mandates');
-      }
-      if (vScanners) {
-        vScanners.classList.toggle('hidden', mod !== 'scanners');
-        vScanners.classList.toggle('flex', mod === 'scanners');
-      }
-      if (vSettings) {
-        vSettings.classList.toggle('hidden', mod !== 'settings');
-        vSettings.classList.toggle('flex', mod === 'settings');
-      }
-
-      if (mod === 'bd') {
-        sandboxShowAll = true;
-        renderRadarCards();
-      } else if (mod === 'pulse') {
-        sandboxShowAll = false;
-        renderRadarCards();
-      } else if (mod === 'mandates') {
-        renderSandboxMandates();
-      } else if (mod === 'scanners') {
-        renderSandboxScanners();
-      } else if (mod === 'settings') {
-        renderSandboxSettings();
-      }
-    }
-
-    function toggleSandboxShowAll() {
-      sandboxShowAll = !sandboxShowAll;
-      renderRadarCards();
-    }
-
-    function handleSandboxSearch(val) {
-      sandboxSearchQuery = String(val || '').trim().toLowerCase();
-      const clearBtn = document.getElementById('sandboxSearchClear');
-      if (clearBtn) {
-        clearBtn.classList.toggle('hidden', !sandboxSearchQuery);
-      }
-      if (activeSandboxModule !== 'pulse' && activeSandboxModule !== 'bd') {
-        setSandboxModule('pulse');
-      } else {
-        renderRadarCards();
-      }
-    }
-
-    function clearSandboxSearch() {
-      const input = document.getElementById('sandboxSearchInput');
-      if (input) input.value = '';
-      handleSandboxSearch('');
-    }
-
-    function setRadarCategory(cat) {
-      selectedRadarCat = cat;
-      ['all', 'tech', 'sales', 'product', 'stale'].forEach(c => {
-        const btn = document.getElementById('radar-cat-' + c);
-        if (!btn) return;
-        if (c === cat) {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm cursor-pointer';
-        } else if (c === 'stale') {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#FBBF24] hover:text-white border border-[#FBBF24]/30 cursor-pointer';
-        } else {
-          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5 cursor-pointer';
-        }
-      });
-      renderRadarCards();
-    }
-
-    function matchesCategory(role, cat) {
-      if (cat === 'all') return true;
-      if (cat === 'stale') return Boolean(role.is_stale);
-      const v = String(role.vertical || '').toLowerCase();
-      if (cat === 'tech') return v.includes('tech') || v.includes('cloud');
-      if (cat === 'sales') return v.includes('sales') || v.includes('gtm') || v.includes('exec');
-      if (cat === 'product') return v.includes('product') || v.includes('data');
-      return true;
-    }
-
-    function matchesSearch(role, q) {
-      if (!q) return true;
-      const hay = `${role.company || ''} ${role.title || ''} ${role.vertical || ''} ${role.ats || ''} ${role.location || ''} ${role.seniority || ''}`.toLowerCase();
-      return hay.includes(q);
-    }
-
-    function extractShortTime(role) {
-      if (role.time_short) return role.time_short;
-      const m = String(role.discovered_time || '').match(/(\d{2}:\d{2}\s*UTC)/);
-      return m ? m[1] : '06:12 UTC';
-    }
-
-    function buildRadarRow(role, isCs) {
-      const shortTime = extractShortTime(role);
-      const btnText = 'Detail & X-Ray ↗';
-      const stalePill = role.is_stale
-        ? `<span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/35 flex-shrink-0">⚡ ${isCs ? '>35d' : '>35d'}</span>`
-        : '';
-
-      return `
-        <div
-          onclick="openRoleDrawer('${esc(role.id)}')"
-          class="hover:bg-[#161D2E]/90 cursor-pointer transition group"
-        >
-          <!-- Desktop Row (>= 768px): 5 Columns (Firma | Pozice | ATS | Čas | Akce) -->
-          <div class="hidden md:grid md:grid-cols-12 items-center gap-2 px-3 py-2.5">
-            <!-- 1. Firma -->
-            <div class="col-span-3 flex items-center gap-2.5 min-w-0">
-              <div class="w-8 h-8 rounded-lg bg-[#141A28] border border-white/10 group-hover:border-[#FF6B00]/50 text-[#FF8533] font-mono font-bold text-[11px] flex items-center justify-center flex-shrink-0 transition">
-                ${esc(role.logo_text || role.company.slice(0, 2).toUpperCase())}
-              </div>
-              <div class="min-w-0">
-                <div class="font-bold text-xs text-white truncate">${esc(role.company)}</div>
-                <div class="text-[10px] text-[#94A3B8] truncate">${esc(role.location)}</div>
-              </div>
-            </div>
-
-            <!-- 2. Pozice -->
-            <div class="col-span-4 flex items-center gap-1.5 min-w-0">
-              <span class="font-semibold text-xs text-[#F3F4F6] group-hover:text-[#FF8533] transition truncate" title="${esc(role.title)}">${esc(role.title)}</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-semibold bg-[#1B1E26] text-[#F3F4F6]/90 flex-shrink-0">${esc(role.seniority)}</span>
-              ${stalePill}
-            </div>
-
-            <!-- 3. ATS -->
-            <div class="col-span-2">
-              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-[#141A28] text-[#38BDF8] border border-[#38BDF8]/25 inline-block truncate max-w-full">${esc(role.ats)}</span>
-            </div>
-
-            <!-- 4. Čas -->
-            <div class="col-span-1 text-[11px] font-mono text-[#34D399] whitespace-nowrap">
-              ${esc(shortTime)}
-            </div>
-
-            <!-- 5. Akce -->
-            <div class="col-span-2 flex justify-end">
-              <button
-                type="button"
-                onclick="event.stopPropagation(); openRoleDrawer('${esc(role.id)}')"
-                class="px-2.5 py-1.5 rounded-lg bg-[#1A2234] group-hover:bg-[#FF6B00] text-[#F3F4F6] group-hover:text-white border border-white/10 group-hover:border-[#FF6B00] text-[11px] font-bold transition whitespace-nowrap cursor-pointer"
-              >
-                ${btnText}
-              </button>
-            </div>
-          </div>
-
-          <!-- Mobile Card (< 768px): Responsive Card with 0 Horizontal Overflow -->
-          <div class="md:hidden p-3 flex flex-col gap-2">
-            <div class="flex items-start justify-between gap-2">
-              <div class="flex items-center gap-2 min-w-0">
-                <div class="w-7 h-7 rounded-lg bg-[#141A28] border border-white/10 text-[#FF8533] font-mono font-bold text-[10px] flex items-center justify-center flex-shrink-0">
-                  ${esc(role.logo_text || role.company.slice(0, 2).toUpperCase())}
-                </div>
-                <div class="min-w-0">
-                  <div class="font-bold text-xs text-white truncate">${esc(role.company)} <span class="text-[#94A3B8] font-normal">• ${esc(role.location)}</span></div>
-                  <div class="font-semibold text-xs text-[#FF8533] leading-snug break-words">${esc(role.title)}</div>
-                </div>
-              </div>
-              ${stalePill}
-            </div>
-            <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/5">
-              <div class="flex flex-wrap items-center gap-1.5">
-                <span class="text-[10px] px-1.5 py-0.5 rounded font-mono bg-[#1B1E26] text-white">${esc(role.seniority)}</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded font-mono bg-[#141A28] text-[#38BDF8] border border-[#38BDF8]/25">${esc(role.ats)}</span>
-                <span class="text-[10px] font-mono text-[#34D399]">${esc(shortTime)}</span>
-              </div>
-              <button
-                type="button"
-                onclick="event.stopPropagation(); openRoleDrawer('${esc(role.id)}')"
-                class="px-2.5 py-1 rounded-lg bg-[#FF6B00] text-white text-[11px] font-bold whitespace-nowrap flex-shrink-0"
-              >
-                ${btnText}
-              </button>
-            </div>
-          </div>
-        </div>`;
-    }
-
-    function renderRadarCards() {
-      const feed = document.getElementById('radarFeed');
-      const countBadge = document.getElementById('sandboxCountBadge');
-      const toggleBtn = document.getElementById('sandboxToggleAllBtn');
-      if (!feed) return;
-      const isCs = document.documentElement.lang === 'cs';
-      const allRoles = (radarFeed && Array.isArray(radarFeed.roles)) ? radarFeed.roles : [];
-
-      const filtered = allRoles.filter(r => matchesCategory(r, selectedRadarCat) && matchesSearch(r, sandboxSearchQuery));
-      const isFiltering = selectedRadarCat !== 'all' || Boolean(sandboxSearchQuery);
-      const visible = (sandboxShowAll || isFiltering) ? filtered : filtered.slice(0, 10);
-
-      if (countBadge) {
-        countBadge.textContent = isCs
-          ? `Zobrazeno ${visible.length} z ${filtered.length} pozic`
-          : `Showing ${visible.length} of ${filtered.length} roles`;
-      }
-
-      if (toggleBtn) {
-        if (isFiltering || filtered.length <= 10) {
-          toggleBtn.classList.add('hidden');
-        } else {
-          toggleBtn.classList.remove('hidden');
-          toggleBtn.textContent = sandboxShowAll
-            ? (isCs ? 'Zobrazit kompaktních top 10 ↑' : 'Show compact top 10 ↑')
-            : (isCs ? `Zobrazit všech ${filtered.length} zachycených pozic ↓` : `Show all ${filtered.length} captured roles ↓`);
-        }
-      }
-
-      if (filtered.length === 0) {
-        feed.innerHTML = `<div class="py-10 text-center text-xs text-[#94A3B8]">${isCs ? 'Žádné pozice neodpovídají zvolenému filtru.' : 'No positions match the current filter.'}</div>`;
-        return;
-      }
-
-      feed.innerHTML = visible.map(r => buildRadarRow(r, isCs)).join('');
-    }
-
-    function renderSandboxMandates() {
-      const container = document.getElementById('sandboxViewMandates');
-      if (!container) return;
-      const isCs = document.documentElement.lang === 'cs';
-      const cols = [
-        {
-          title: isCs ? '1. Sourcing (3)' : '1. Sourced (3)',
-          color: 'text-[#94A3B8]',
-          items: [
-            { id: 'tr-3001', company: 'Mews', role: 'Principal Backend (.NET/Go)', candidate: 'Martin K. (Staff Go)', fee: '€19,500' },
-            { id: 'tr-3009', company: 'STRV', role: 'Lead AI Solutions Engineer', candidate: 'Lukáš V. (LangGraph)', fee: '€16,000' }
-          ]
-        },
-        {
-          title: isCs ? '2. CV odesláno (2)' : '2. CV Sent (2)',
-          color: 'text-[#38BDF8]',
-          items: [
-            { id: 'tr-3002', company: 'Rohlik.cz', role: 'Senior Java/Kotlin Architect', candidate: 'Tomáš D. (Ex-Adyen)', fee: '€18,200' },
-            { id: 'tr-3004', company: 'Productboard', role: 'Staff AI / LLM PM', candidate: 'Petra N. (AI Product)', fee: '€21,000' }
-          ]
-        },
-        {
-          title: isCs ? '3. Pohovor u klienta (2)' : '3. Client Interview (2)',
-          color: 'text-[#FF8533]',
-          items: [
-            { id: 'tr-3005', company: 'FTMO', role: 'Head of B2B Partnerships', candidate: 'Jakub S. (VP Sales)', fee: '€24,000' },
-            { id: 'tr-3010', company: 'ShipMonk', role: 'Staff Data Engineer (dbt)', candidate: 'Ondřej M. (Snowflake)', fee: '€17,500' }
-          ]
-        },
-        {
-          title: isCs ? '4. Nabídka / Umístěno (1)' : '4. Offer / Placed (1)',
-          color: 'text-[#34D399]',
-          items: [
-            { id: 'tr-3011', company: 'Heureka Group', role: 'Head of Data Science', candidate: 'David R. — Hired ✓', fee: '€22,400' }
-          ]
-        }
-      ];
-
-      container.innerHTML = `
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#1B1E26]">
-          <div>
-            <h3 class="text-sm font-bold text-white">${isCs ? '📋 Odlehčené ATS: Aktivní zakázky (Kanban)' : '📋 Lightweight ATS: Active Mandates (Kanban)'}</h3>
-            <p class="text-[11px] text-[#94A3B8]">${isCs ? 'Klikněte na libovolnou kartu zakázky pro zobrazení X-Ray detailu role.' : 'Click any mandate card to inspect the underlying role & Hiring Manager X-Ray.'}</p>
-          </div>
-          <button type="button" onclick="setSandboxModule('pulse')" class="px-3 py-1.5 rounded-lg bg-[#141A28] hover:bg-[#1B2438] text-xs font-semibold text-[#FF8533] border border-[#FF6B00]/30 cursor-pointer self-start sm:self-auto">
-            ${isCs ? '← Zpět na přehled rolí' : '← Back to Roles'}
-          </button>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
-          ${cols.map(col => `
-            <div class="bg-[#090C12] border border-[#1B1E26] rounded-xl p-3 space-y-2.5">
-              <div class="text-[11px] font-mono font-bold uppercase ${col.color} border-b border-[#1B1E26] pb-1.5">${esc(col.title)}</div>
-              <div class="space-y-2">
-                ${col.items.map(it => `
-                  <div onclick="openRoleDrawer('${esc(it.id)}')" class="p-2.5 rounded-lg bg-[#111622] hover:bg-[#161D2E] border border-white/5 hover:border-[#FF6B00]/40 cursor-pointer transition space-y-1">
-                    <div class="flex items-center justify-between text-[10px] font-mono">
-                      <span class="text-[#FF8533] font-bold">${esc(it.company)}</span>
-                      <span class="text-[#34D399]">${esc(it.fee)}</span>
-                    </div>
-                    <div class="text-xs font-bold text-white leading-snug">${esc(it.role)}</div>
-                    <div class="text-[11px] text-[#94A3B8]">👤 ${esc(it.candidate)}</div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    function renderSandboxScanners() {
-      const container = document.getElementById('sandboxViewScanners');
-      if (!container) return;
-      const isCs = document.documentElement.lang === 'cs';
-      const adapters = [
-        { name: 'Greenhouse API', firms: 'Mews, Rohlik.cz, Productboard, ShipMonk, Kiwi.com, Pure Storage', latency: '140ms', status: 'ONLINE' },
-        { name: 'Teamio / Jobs.cz Direct', firms: 'FTMO, Twisto, Seyfor', latency: '210ms', status: 'ONLINE' },
-        { name: 'Recruitis ATS', firms: 'Heureka Group, Zásilkovna / Packeta, Daktela', latency: '185ms', status: 'ONLINE' },
-        { name: 'Lever Endpoint', firms: 'STRV, Wolt Czechia', latency: '155ms', status: 'ONLINE' },
-        { name: 'Ashby GraphQL', firms: 'Keboola, Apify', latency: '130ms', status: 'ONLINE' },
-        { name: 'Direct Career Portals', firms: 'Livesport, CDN77, Notino', latency: '290ms', status: 'ONLINE' }
-      ];
-
-      container.innerHTML = `
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#1B1E26]">
-          <div>
-            <h3 class="text-sm font-bold text-white">${isCs ? '⚡ Stav napojených ATS adaptérů (06:00 & 12:00 UTC)' : '⚡ Connected ATS Adapters Telemetry (06:00 & 12:00 UTC)'}</h3>
-            <p class="text-[11px] text-[#94A3B8]">${isCs ? 'Přímý monitoring primárních kariérních endpointů bez čekání na inzertní portály.' : 'Direct primary endpoint monitoring with zero job-board indexing lag.'}</p>
-          </div>
-          <button type="button" onclick="setSandboxModule('pulse')" class="px-3 py-1.5 rounded-lg bg-[#141A28] hover:bg-[#1B2438] text-xs font-semibold text-[#FF8533] border border-[#FF6B00]/30 cursor-pointer self-start sm:self-auto">
-            ${isCs ? '← Zpět na přehled rolí' : '← Back to Roles'}
-          </button>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
-          ${adapters.map(a => `
-            <div class="p-3.5 rounded-xl bg-[#090C12] border border-[#1B1E26] space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-mono font-bold text-white">${esc(a.name)}</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-[#10B981]/15 text-[#34D399] border border-[#10B981]/30">● ${esc(a.status)}</span>
-              </div>
-              <p class="text-[11px] text-[#94A3B8] leading-relaxed">${esc(a.firms)}</p>
-              <div class="text-[10px] font-mono text-[#38BDF8]">Avg ping: ${esc(a.latency)} • Auto-Archive: ON</div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    function renderSandboxSettings() {
-      const container = document.getElementById('sandboxViewSettings');
-      if (!container) return;
-      const isCs = document.documentElement.lang === 'cs';
-      container.innerHTML = `
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#1B1E26]">
-          <div>
-            <h3 class="text-sm font-bold text-white">${isCs ? '⚙️ Konfigurace Workspace (Demo)' : '⚙️ Workspace Configuration (Demo)'}</h3>
-            <p class="text-[11px] text-[#94A3B8]">${isCs ? 'Ukázka nastavení autonomního skenování a exportu do vlastního ATS.' : 'Preview of autonomous scan scheduling and CRM/ATS export settings.'}</p>
-          </div>
-          <button type="button" onclick="setSandboxModule('pulse')" class="px-3 py-1.5 rounded-lg bg-[#141A28] hover:bg-[#1B2438] text-xs font-semibold text-[#FF8533] border border-[#FF6B00]/30 cursor-pointer self-start sm:self-auto">
-            ${isCs ? '← Zpět na přehled rolí' : '← Back to Roles'}
-          </button>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          <div class="p-4 rounded-xl bg-[#090C12] border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#FF8533] uppercase">${isCs ? 'Frekvence skenování' : 'Scan Frequency'}</div>
-            <div class="text-sm font-bold text-white">${isCs ? '2× denně (06:00 & 12:00 UTC)' : '2× Daily (06:00 & 12:00 UTC)'}</div>
-            <p class="text-xs text-[#94A3B8]">${isCs ? 'Auto-Archive démon automaticky odstraňuje obsazené pozice při každém běhu.' : 'Auto-Archive daemon automatically removes filled roles on every run.'}</p>
-          </div>
-          <div class="p-4 rounded-xl bg-[#090C12] border border-[#1B1E26] space-y-2">
-            <div class="text-xs font-mono font-bold text-[#34D399] uppercase">${isCs ? 'Integrace & Export' : 'CRM & ATS Export'}</div>
-            <div class="text-sm font-bold text-white">Bullhorn • Datacruit • Recruitis • CSV</div>
-            <p class="text-xs text-[#94A3B8]">${isCs ? 'Propojení s vaším systémem je součástí 14denního bezplatného pilotu.' : 'Connecting your own system is included in the 14-day free pilot.'}</p>
-          </div>
-        </div>
-        <div class="p-4 rounded-xl bg-gradient-to-r from-[#FF6B00]/15 to-[#111622] border border-[#FF6B00]/35 flex flex-col sm:flex-row items-center justify-between gap-3 mt-1">
-          <div class="text-xs text-white font-semibold">
-            ${isCs ? 'Chcete nasadit TalentRadar na vlastních 200 klientských firem?' : 'Want to deploy TalentRadar on your own 200 client companies?'}
-          </div>
-          <a href="#trial" class="px-4 py-2 rounded-lg bg-[#FF6B00] hover:bg-[#E65A00] text-white text-xs font-bold whitespace-nowrap transition">
-            ${isCs ? 'Aktivovat 14denní pilot zdarma →' : 'Start 14-Day Free Pilot →'}
-          </a>
-        </div>
-      `;
-    }
-
-    function openRoleDrawer(roleId) {
-      const allRoles = (radarFeed && Array.isArray(radarFeed.roles)) ? radarFeed.roles : [];
-      const role = allRoles.find(r => r.id === roleId);
-      if (!role) return;
-
-      const isCs = document.documentElement.lang === 'cs';
-      const backdrop = document.getElementById('roleDrawerBackdrop');
-      const logoBadge = document.getElementById('drawerLogoBadge');
-      const companyEl = document.getElementById('drawerCompany');
-      const titleEl = document.getElementById('drawerTitle');
-      const badgesEl = document.getElementById('drawerBadges');
-      const fitEl = document.getElementById('drawerFitReason');
-      const xrayLink = document.getElementById('drawerXrayLink');
-      const xrayText = document.getElementById('drawerXrayText');
-
-      hidePilotToastModal();
-
-      if (logoBadge) logoBadge.textContent = role.logo_text || role.company.slice(0, 2).toUpperCase();
-      if (companyEl) companyEl.textContent = `${role.company} • ${role.location}`;
-      if (titleEl) titleEl.textContent = role.title;
-
-      const seen = isCs
-        ? (role.discovered_time || 'Dnes 06:12 UTC')
-        : (role.discovered_time_en || role.discovered_time || 'Today 06:12 UTC');
-
-      if (badgesEl) {
-        badgesEl.innerHTML = `
-          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30">${esc(role.vertical)}</span>
-          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-[#1B1E26] text-white">${esc(role.seniority)}</span>
-          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-[#141A28] text-[#38BDF8] border border-[#38BDF8]/30">${esc(role.ats)}</span>
-          <span class="text-[10px] px-2 py-0.5 rounded font-mono text-[#34D399] bg-[#10B981]/10 border border-[#10B981]/25">${esc(seen)}</span>
-        `;
-      }
-
-      if (fitEl) {
-        fitEl.textContent = isCs
-          ? (role.fit_reason || 'Core role zachycena přímo na ATS firmy dříve, než se dostala na inzertní portály.')
-          : (role.fit_reason_en || role.fit_reason || 'Core role captured directly on the company ATS before job board aggregation.');
-      }
-
-      const hmQuery = `${role.hiring_manager_query || 'VP of Engineering'} ${role.company}`;
-      if (xrayLink) {
-        xrayLink.href = `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(hmQuery)}`;
-      }
-      if (xrayText) {
-        xrayText.textContent = isCs
-          ? `Vyhledat Hiring Managera na LinkedInu (1-Click X-Ray) ↗`
-          : `Find Hiring Manager on LinkedIn (1-Click X-Ray) ↗`;
-      }
-
-      if (backdrop) {
-        backdrop.classList.remove('hidden');
-      }
-    }
-
-    function closeRoleDrawer(e) {
-      const backdrop = document.getElementById('roleDrawerBackdrop');
-      if (backdrop) backdrop.classList.add('hidden');
-      hidePilotToastModal();
-    }
-
-    function showPilotToastModal() {
-      const toast = document.getElementById('pilotToastModal');
-      if (toast) toast.classList.remove('hidden');
-    }
-
-    function hidePilotToastModal() {
-      const toast = document.getElementById('pilotToastModal');
-      if (toast) toast.classList.add('hidden');
-    }
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeRoleDrawer();
-    });
-
-    function renderMonitoredCompaniesPills(companies) {
-      const container = document.getElementById('monitoredCompaniesPills');
-      if (!container || !Array.isArray(companies)) return;
-      const isCs = document.documentElement.lang === 'cs';
-
-      container.innerHTML = companies.map(c => {
-        const tooltip = isCs ? `Filtrovat pozice ${c.name}` : `Filter ${c.name} roles`;
-        return `<button type="button" onclick="document.getElementById('sandboxSearchInput').value='${esc(c.name)}'; handleSandboxSearch('${esc(c.name)}');" class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-[#141B2D] hover:bg-[#1C253D] hover:border-[#FF6B00]/50 border border-[rgba(255,255,255,0.08)] text-[#F3F4F6] hover:text-white text-[11px] font-medium transition cursor-pointer" title="${esc(tooltip)}">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#34D399]"></span>
-          <span>${esc(c.name)}</span>
-          <span class="text-[10px] text-[#94A3B8] font-mono">${esc(c.ats || '')}</span>
-        </button>`;
-      }).join('');
-    }
-
-    async function loadRadarFeed() {
-      try {
-        let res = await fetch('data/live_roles.json');
-        if (!res.ok) res = await fetch('/api/live-roles');
-        if (res.ok) {
-          const data = await res.json();
-          if (data && Array.isArray(data.roles) && data.roles.length > 0) {
-            radarFeed = data;
-          }
-        }
-      } catch (err) {
-        // Fallback dataset already loaded in radarFeed
-      }
-      renderRadarCards();
-      if (radarFeed && radarFeed.monitored_companies) {
-        renderMonitoredCompaniesPills(radarFeed.monitored_companies);
-      }
-    }
-
-    loadRadarFeed();
-    window.addEventListener('talentradar:langchange', () => {
-      renderRadarCards();
-      if (activeSandboxModule === 'mandates') renderSandboxMandates();
-      if (activeSandboxModule === 'scanners') renderSandboxScanners();
-      if (activeSandboxModule === 'settings') renderSandboxSettings();
-      if (radarFeed && radarFeed.monitored_companies) {
-        renderMonitoredCompaniesPills(radarFeed.monitored_companies);
-      }
-    });
   </script>
 </body>
 </html>

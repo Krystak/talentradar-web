@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth"
+  data-page-title-en="TalentRadar Intelligence Lab — B2B Recruitment Research & Market Reports"
+  data-page-title-cs="TalentRadar Intelligence Lab — Výzkum trhu a datové studie pro personální agentury">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,6 +38,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
+  <!-- Bilingual i18n Engine -->
+  <script src="../js/translations.js" defer></script>
+
   <style>
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -53,9 +58,50 @@
     }
     .orange-glow { box-shadow: 0 0 40px rgba(255, 107, 0, 0.18); }
     .orange-glow-lg { box-shadow: 0 0 80px rgba(255, 107, 0, 0.22); }
+
+    /* Language Switcher */
+    .lang-switcher {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(14, 18, 28, 0.94);
+      border: 1px solid rgba(255, 107, 0, 0.35);
+      border-radius: 9999px;
+      padding: 4px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+    .lang-btn {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 5px 11px;
+      border-radius: 9999px;
+      color: #94A3B8;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .lang-btn:hover { color: #F3F4F6; }
+    .lang-btn--active {
+      background: #FF6B00;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(255, 107, 0, 0.45);
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-[#FF6B00] selection:text-white">
+
+  <!-- Floating Language Switcher -->
+  <div class="lang-switcher" role="group" aria-label="Language switcher">
+    <button type="button" class="lang-btn lang-btn--active" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" class="lang-btn" data-lang="cs" aria-pressed="false">CS</button>
+  </div>
 
   <!-- ═══════════════════════════════════════════════
        NAVIGATION
@@ -80,20 +126,25 @@
 
       <!-- Desktop Links -->
       <div class="hidden lg:flex items-center space-x-5 text-sm font-medium text-[#F3F4F6]/80 whitespace-nowrap">
-        <a href="../#modes" class="hover:text-white transition">Features</a>
-        <a href="../#live-radar" class="hover:text-white transition">Live Signals</a>
-        <a href="../#comparison" class="hover:text-white transition">The Advantage</a>
-        <a href="../#pricing" class="hover:text-white transition">Pricing</a>
-        <a href="./" class="text-[#FF6B00] font-semibold transition">Research &amp; Blog</a>
-        <a href="../#story" class="hover:text-white transition">Our Story</a>
+        <a href="../#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
+        <a href="../#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Live Signals</a>
+        <a href="../#comparison" class="hover:text-white transition" data-i18n="nav_comparison">The Advantage</a>
+        <a href="../#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
+        <a href="./" class="text-[#FF6B00] font-semibold transition" data-i18n="nav_insights">Research &amp; Blog</a>
+        <a href="../#story" class="hover:text-white transition" data-i18n="nav_story">Our Story</a>
       </div>
 
-      <!-- Action Buttons -->
-      <div class="flex items-center space-x-3">
-        <a href="https://app.talentradar.eu" class="hidden sm:inline-block text-xs sm:text-sm font-semibold text-[#F3F4F6]/80 hover:text-white transition px-2 py-1 whitespace-nowrap">
+      <!-- Action Buttons + Persistent [ EN | CS ] Toggle -->
+      <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+        <div class="hidden sm:flex items-center bg-[#141A28] border border-white/10 rounded-full p-0.5">
+          <button type="button" class="lang-btn lang-btn--active text-[10px] px-2 py-0.5 rounded-full" data-lang="en">EN</button>
+          <button type="button" class="lang-btn text-[10px] px-2 py-0.5 rounded-full" data-lang="cs">CS</button>
+        </div>
+
+        <a href="https://app.talentradar.eu" class="hidden sm:inline-block text-xs sm:text-sm font-semibold text-[#F3F4F6]/80 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">
           Sign In
         </a>
-        <a href="../#trial" class="px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap">
+        <a href="../#trial" class="px-3.5 sm:px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs sm:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">
           Start 14-Day Free Pilot
         </a>
       </div>
@@ -109,30 +160,41 @@
     <div class="max-w-4xl mx-auto text-center space-y-5 relative z-10">
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#1A2234] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
         <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00] animate-pulse"></span>
-        <span>TalentRadar Intelligence Lab — Data, Benchmarks &amp; Market Reports</span>
+        <span data-lang-block="en">TalentRadar Intelligence Lab — Data, Benchmarks &amp; Market Reports</span>
+        <span data-lang-block="cs" class="hidden">TalentRadar Intelligence Lab — Data, benchmarky a tržní studie</span>
       </div>
 
-      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+      <h1 data-lang-block="en" class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
         Empirical Intelligence for <span class="text-[#FF6B00]">Modern Headhunters</span>
       </h1>
+      <h1 data-lang-block="cs" class="hidden text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+        Empirická tržní data pro <span class="text-[#FF6B00]">moderní headhuntery</span>
+      </h1>
 
-      <p class="text-base sm:text-lg text-[#F3F4F6]/80 max-w-2xl mx-auto leading-relaxed">
+      <p data-lang-block="en" class="text-base sm:text-lg text-[#F3F4F6]/80 max-w-2xl mx-auto leading-relaxed">
         Unbiased data derived directly from monitoring hundreds of enterprise career pages and ATS platforms across Europe (Czech Republic, Slovakia, UK &amp; Ireland).
+      </p>
+      <p data-lang-block="cs" class="hidden text-base sm:text-lg text-[#F3F4F6]/80 max-w-2xl mx-auto leading-relaxed">
+        Nezávislá data z každodenního monitoringu stovek enterprise kariérních webů a ATS systémů napříč Evropou (ČR, Slovensko, UK a Irsko).
       </p>
 
       <!-- Category Filter Pills -->
       <div class="pt-4 flex flex-wrap items-center justify-center gap-2">
         <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-bold transition bg-[#FF6B00] text-white shadow-sm">
-          All Research
+          <span data-lang-block="en">All Research</span>
+          <span data-lang-block="cs" class="hidden">Všechny studie</span>
         </button>
         <button onclick="filterCategory('data-reports')" id="btn-cat-data-reports" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5">
-          Data Reports
+          <span data-lang-block="en">Data Reports</span>
+          <span data-lang-block="cs" class="hidden">Datové reporty</span>
         </button>
         <button onclick="filterCategory('bd-tactics')" id="btn-cat-bd-tactics" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5">
-          BD Tactics
+          <span data-lang-block="en">BD Tactics</span>
+          <span data-lang-block="cs" class="hidden">BD strategie</span>
         </button>
         <button onclick="filterCategory('hr-tech')" id="btn-cat-hr-tech" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#141A28] text-[#F3F4F6]/80 hover:text-white border border-white/5">
-          HR Tech &amp; ATS
+          <span data-lang-block="en">HR Tech &amp; ATS</span>
+          <span data-lang-block="cs" class="hidden">HR Tech &amp; provoz</span>
         </button>
       </div>
     </div>
@@ -149,31 +211,36 @@
         <div class="space-y-4">
           <div class="flex items-center justify-between text-xs">
             <span class="px-2.5 py-1 rounded bg-[#FF6B00]/15 text-[#FF8533] border border-[#FF6B00]/30 font-bold font-mono">
-              DATA REPORT
+              <span data-lang-block="en">DATA REPORT</span>
+              <span data-lang-block="cs" class="hidden">DATOVÝ REPORT</span>
             </span>
-            <span class="text-[#94A3B8] font-mono text-[11px]">5 min read</span>
+            <span class="text-[#94A3B8] font-mono text-[11px]">
+              <span data-lang-block="en">5 min read</span>
+              <span data-lang-block="cs" class="hidden">5 min čtení</span>
+            </span>
           </div>
 
           <a href="the-4-day-latency-gap.html" class="block group-hover:text-[#FF8533] transition">
-            <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug">
+            <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card1_title">
               The 4-Day Latency Gap: Why Agencies Lose 40% of Client Roles Before Job Boards Even Index Them
             </h2>
           </a>
 
-          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
-            Why direct career portal monitoring gives agencies Day Zero advantage while competitors wait 72–96 hours for job aggregators to syndicate.
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card1_desc">
+            Direct ATS monitoring vs. commercial aggregators. Why 72–96h syndication lag kills exclusive client pitches, and how Day Zero intelligence secures mandates.
           </p>
 
           <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
-            <div class="w-6 h-6 rounded-full bg-[#FF6B00]/20 text-[#FF6B00] flex items-center justify-center font-bold text-[10px]">KP</div>
-            <span>Kryštof Pejša, Founder</span>
+            <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-7 h-7 rounded-full object-cover object-center border border-[#FF6B00] shrink-0">
+            <span data-lang-block="en">Kryštof Pejša, Founder</span>
+            <span data-lang-block="cs" class="hidden">Kryštof Pejša, Zakladatel</span>
             <span>•</span>
             <span class="font-mono text-[11px]">Oct 18, 2026</span>
           </div>
         </div>
 
         <a href="the-4-day-latency-gap.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
-          <span>Read Full Analysis</span>
+          <span data-i18n="insights_card1_cta">Read Full Analysis</span>
           <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
       </article>
@@ -183,29 +250,36 @@
         <div class="space-y-4">
           <div class="flex items-center justify-between text-xs">
             <span class="px-2.5 py-1 rounded bg-[#FBBF24]/15 text-[#FBBF24] border border-[#FBBF24]/30 font-bold font-mono">
-              BD STRATEGY
+              <span data-lang-block="en">BD STRATEGY</span>
+              <span data-lang-block="cs" class="hidden">BD STRATEGIE</span>
             </span>
-            <span class="text-[#94A3B8] font-mono text-[11px]">4 min read</span>
+            <span class="text-[#94A3B8] font-mono text-[11px]">
+              <span data-lang-block="en">4 min read</span>
+              <span data-lang-block="cs" class="hidden">4 min čtení</span>
+            </span>
           </div>
 
-          <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug">
-            Anatomy of Stale Roles (>35 Days): The Highest-Probability Pitch in Agency Headhunting
-          </h2>
+          <a href="anatomy-of-stale-roles.html" class="block group-hover:text-[#FF8533] transition">
+            <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card2_title">
+              Anatomy of Stale Roles (&gt;35 Days): The Highest-Probability Pitch in B2B Recruitment
+            </h2>
+          </a>
 
-          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
-            When an in-house hiring team leaves a critical vacancy unfulfilled past 35 days, internal sourcing has failed. How to turn aged vacancy telemetry into exclusive client retainers.
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card2_desc">
+            When an in-house talent team leaves a role open past 35 days, internal sourcing has failed. How to structure warm inbound BD pitches around aged vacancy data.
           </p>
 
           <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
-            <div class="w-6 h-6 rounded-full bg-[#FF6B00]/20 text-[#FF6B00] flex items-center justify-center font-bold text-[10px]">KP</div>
-            <span>Kryštof Pejša, Founder</span>
+            <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-7 h-7 rounded-full object-cover object-center border border-[#FF6B00] shrink-0">
+            <span data-lang-block="en">Kryštof Pejša, Founder</span>
+            <span data-lang-block="cs" class="hidden">Kryštof Pejša, Zakladatel</span>
             <span>•</span>
             <span class="font-mono text-[11px]">Oct 12, 2026</span>
           </div>
         </div>
 
-        <a href="the-4-day-latency-gap.html#stale-roles" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
-          <span>Read Research Brief</span>
+        <a href="anatomy-of-stale-roles.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+          <span data-i18n="insights_card2_cta">Read BD Playbook</span>
           <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
       </article>
@@ -215,29 +289,36 @@
         <div class="space-y-4">
           <div class="flex items-center justify-between text-xs">
             <span class="px-2.5 py-1 rounded bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-bold font-mono">
-              PROCESS AUDIT
+              <span data-lang-block="en">PROCESS AUDIT</span>
+              <span data-lang-block="cs" class="hidden">PROVOZNÍ AUDIT</span>
             </span>
-            <span class="text-[#94A3B8] font-mono text-[11px]">4 min read</span>
+            <span class="text-[#94A3B8] font-mono text-[11px]">
+              <span data-lang-block="en">4 min read</span>
+              <span data-lang-block="cs" class="hidden">4 min čtení</span>
+            </span>
           </div>
 
-          <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug">
-            The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale
-          </h2>
+          <a href="hidden-cost-of-dead-vacancies.html" class="block group-hover:text-[#FF8533] transition">
+            <h2 class="text-xl font-extrabold text-white group-hover:text-[#FF8533] transition leading-snug" data-i18n="insights_card3_title">
+              The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale
+            </h2>
+          </a>
 
-          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
-            Up to 22% of listings on commercial job portals represent filled or cancelled roles. How autonomous reconciliation and auto-archiving saves 4+ recruiter hours every single week.
+          <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed" data-i18n="insights_card3_desc">
+            Up to 22% of listings on commercial job boards represent filled or cancelled roles. How automated reconciliation and auto-archiving saves 4+ recruiter hours weekly.
           </p>
 
           <div class="pt-2 flex items-center space-x-3 text-xs text-[#94A3B8] border-t border-[rgba(255,255,255,0.06)]">
-            <div class="w-6 h-6 rounded-full bg-[#FF6B00]/20 text-[#FF6B00] flex items-center justify-center font-bold text-[10px]">KP</div>
-            <span>Kryštof Pejša, Founder</span>
+            <img src="../img/krystof.jpg" alt="Kryštof Pejša" class="w-7 h-7 rounded-full object-cover object-center border border-[#FF6B00] shrink-0">
+            <span data-lang-block="en">Kryštof Pejša, Founder</span>
+            <span data-lang-block="cs" class="hidden">Kryštof Pejša, Zakladatel</span>
             <span>•</span>
             <span class="font-mono text-[11px]">Oct 05, 2026</span>
           </div>
         </div>
 
-        <a href="the-4-day-latency-gap.html#dead-roles" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
-          <span>Read Research Brief</span>
+        <a href="hidden-cost-of-dead-vacancies.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF8533] group-hover:text-white transition">
+          <span data-i18n="insights_card3_cta">Read Process Audit</span>
           <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
       </article>
@@ -247,18 +328,28 @@
     <!-- Conversion Banner -->
     <div class="mt-16 glass-card rounded-2xl p-8 sm:p-10 border border-[#FF6B00]/30 bg-gradient-to-r from-[#192338] via-[#121826] to-[#0A0D14] flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
       <div class="space-y-2 text-center md:text-left max-w-xl">
-        <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]">Autonomous BD Intelligence</span>
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white">
+        <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]">
+          <span data-lang-block="en">Autonomous BD Intelligence</span>
+          <span data-lang-block="cs" class="hidden">Autonomní BD inteligence</span>
+        </span>
+        <h3 data-lang-block="en" class="text-2xl sm:text-3xl font-extrabold text-white">
           Put these benchmarks to work on your client list
         </h3>
-        <p class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
+        <h3 data-lang-block="cs" class="hidden text-2xl sm:text-3xl font-extrabold text-white">
+          Nasaďte tyto poznatky přímo na své portfolio klientů
+        </h3>
+        <p data-lang-block="en" class="text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
           Monitor up to 200 client companies 2× daily. Discover new mandates the hour they go live, days before commercial job portals syndicate.
+        </p>
+        <p data-lang-block="cs" class="hidden text-[#F3F4F6]/80 text-xs sm:text-sm leading-relaxed">
+          Sledujte až 200 klientských firem 2× denně. Odhalte nové pozice v hodinu jejich vypsání — dny předtím, než se objeví na pracovních portálech.
         </p>
       </div>
 
       <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
         <a href="../#trial" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-xs sm:text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition text-center whitespace-nowrap">
-          Start 14-Day Free Pilot →
+          <span data-lang-block="en">Start 14-Day Free Pilot →</span>
+          <span data-lang-block="cs" class="hidden">Vyzkoušet na 14 dní zdarma →</span>
         </a>
       </div>
     </div>
@@ -284,10 +375,10 @@
         <span>•</span>
         <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">LinkedIn</a>
         <span>•</span>
-        <a href="../gdpr.html" class="hover:text-white underline">Privacy Policy</a>
+        <a href="../gdpr.html" class="hover:text-white underline" data-i18n="footer_gdpr">Privacy Policy</a>
       </div>
 
-      <div class="text-[#94A3B8]">© 2026 TalentRadar</div>
+      <div class="text-[#94A3B8]" data-i18n="footer_copyright">© 2026 TalentRadar</div>
     </div>
   </footer>
 

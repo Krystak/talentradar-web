@@ -116,12 +116,15 @@ const TRANSLATIONS = {
     insights_card1_badge: "DATA REPORT · 5 MIN READ",
     insights_card1_title: "The 4-Day Latency Gap: Why Agencies Lose 40% of Client Roles Before Job Boards Even Index Them",
     insights_card1_desc: "Direct ATS monitoring vs. commercial aggregators. Why 72–96h syndication lag kills exclusive client pitches, and how Day Zero intelligence secures mandates.",
+    insights_card1_cta: "Read Full Analysis",
     insights_card2_badge: "BD STRATEGY · 4 MIN READ",
     insights_card2_title: "Anatomy of Stale Roles (>35 Days): The Highest-Probability Pitch in B2B Recruitment",
     insights_card2_desc: "When an in-house talent team leaves a role open past 35 days, internal sourcing has failed. How to structure warm inbound BD pitches around aged vacancy data.",
+    insights_card2_cta: "Read Research Brief",
     insights_card3_badge: "PROCESS AUDIT · 4 MIN READ",
     insights_card3_title: "The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale",
     insights_card3_desc: "Up to 22% of listings on commercial job boards represent filled or cancelled roles. How automated reconciliation and auto-archiving saves 4+ recruiter hours weekly.",
+    insights_card3_cta: "Read Research Brief",
     insights_explore_all: "Explore all research articles and guides →",
 
     /* ── Pricing ── */
@@ -190,6 +193,8 @@ const TRANSLATIONS = {
     story_author_title: "Founder, TalentRadar",
     story_linkedin: "LinkedIn Profile",
     story_rob_linkedin: "Rob Magee (Ingenio Global)",
+    story_case_study_badge: "DUBLIN CASE STUDY • INGENIO GLOBAL",
+    story_case_study_caption: "180 Monitored Tech Firms • 3,400+ Captured Roles • Day Zero Notifications",
 
     /* ── FAQ & Asynchronous Onboarding ── */
     faq_badge: "Zero-Friction Implementation",
@@ -345,14 +350,17 @@ const TRANSLATIONS = {
     insights_headline: "Tržní telemetrie, analýzy latence a výzkum",
     insights_subtext: "Nezávislá data z každodenního monitoringu stovek enterprise kariérních webů a ATS systémů napříč Evropou.",
     insights_card1_badge: "DATOVÝ REPORT · 5 MIN ČTENÍ",
-    insights_card1_title: "4denní zpoždění: Proč agentury přicházejí o 40 % klientských pozic dřív, než je zaindexují pracovní portály",
+    insights_card1_title: "Čtyřdenní zpoždění: Proč personální agentury přicházejí o 40 % klientských pozic dříve, než se vůbec objeví na pracovních portálech",
     insights_card1_desc: "Přímý monitoring ATS vs. pracovní agregátory. Proč zpoždění 72–96 hodin zabíjí šanci na exkluzivitu a jak náskok v Den Nula získává mandáty.",
+    insights_card1_cta: "Přečíst celou analýzu",
     insights_card2_badge: "BD STRATEGIE · 4 MIN ČTENÍ",
     insights_card2_title: "Anatomie otevřených pozic (>35 dní): Nejefektivnější akviziční argument v headhuntingu",
     insights_card2_desc: "Když interní HR tým neobsadí roli ani po 35 dnech, interní sourcing vyčerpal možnosti. Jak postavit teplé oslovení na datech o stárnoucích pozicích.",
+    insights_card2_cta: "Přečíst BD strategii",
     insights_card3_badge: "PROVOZNÍ AUDIT · 4 MIN ČTENÍ",
     insights_card3_title: "Skrytá cena mrtvých inzerátů: Proč práce na neexistujících rolích ničí morálku recruiterů",
     insights_card3_desc: "Až 22 % inzerátů na komerčních portálech představuje již obsazené či zrušené pozice. Jak automatické čištění ušetří 4+ hodiny týdně.",
+    insights_card3_cta: "Přečíst provozní audit",
     insights_explore_all: "Prozkoumat všechny výzkumné články a návody →",
 
     /* ── Pricing ── */
@@ -421,6 +429,8 @@ const TRANSLATIONS = {
     story_author_title: "Zakladatel TalentRadar",
     story_linkedin: "Profil na LinkedIn",
     story_rob_linkedin: "Rob Magee (Ingenio Global)",
+    story_case_study_badge: "Dublinská případová studie • Ingenio Global",
+    story_case_study_caption: "Ověřené produkční výsledky z rezidence v Dublinu: 180 sledovaných technologických firem a 3 400+ zachycených pozic.",
 
     /* ── FAQ & Asynchronous Onboarding ── */
     faq_badge: "Implementace bez tření",
@@ -472,11 +482,25 @@ const TRANSLATIONS = {
    Language Switcher Engine (Isomorphic & Robust)
 ───────────────────────────────────────────── */
 (function () {
-  const STORAGE_KEY = 'tr_lang';
+  const PRIMARY_STORAGE_KEY = 'talentradar_lang';
+  const LEGACY_STORAGE_KEY = 'tr_lang';
   let currentLang = 'en';
+
   try {
+    if (typeof window !== 'undefined' && window.location && window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      const qLang = params.get('lang');
+      if (qLang === 'cs' || qLang === 'en') {
+        currentLang = qLang;
+      }
+    }
     if (typeof localStorage !== 'undefined') {
-      currentLang = localStorage.getItem(STORAGE_KEY) || 'en';
+      const saved = localStorage.getItem(PRIMARY_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
+      if (saved === 'cs' || saved === 'en') {
+        if (!window.location || !new URLSearchParams(window.location.search).get('lang')) {
+          currentLang = saved;
+        }
+      }
     }
   } catch (e) {
     currentLang = 'en';
@@ -487,41 +511,59 @@ const TRANSLATIONS = {
     currentLang = lang;
     try {
       if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(STORAGE_KEY, lang);
+        localStorage.setItem(PRIMARY_STORAGE_KEY, lang);
+        localStorage.setItem(LEGACY_STORAGE_KEY, lang);
       }
     } catch (e) {}
 
     if (typeof document === 'undefined') return;
     document.documentElement.lang = lang;
 
-    const dict = TRANSLATIONS[lang];
-    if (!dict) return;
+    // Toggle bilingual block containers (e.g. blog articles and research cards)
+    document.querySelectorAll('[data-lang-block]').forEach(el => {
+      const blockLang = el.getAttribute('data-lang-block');
+      el.classList.toggle('hidden', blockLang !== lang);
+    });
 
-    // Translate standard elements
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (dict[key] !== undefined) {
-        if (el.getAttribute('data-i18n-html') === 'true') {
-          el.innerHTML = dict[key];
-        } else {
-          el.textContent = dict[key];
+    const dict = TRANSLATIONS[lang];
+    if (dict) {
+      // Translate standard elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) {
+          if (el.getAttribute('data-i18n-html') === 'true') {
+            el.innerHTML = dict[key];
+          } else {
+            el.textContent = dict[key];
+          }
+        }
+      });
+
+      // Translate input placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key] !== undefined) {
+          el.placeholder = dict[key];
+        }
+      });
+
+      // Swap page title and meta description (respecting custom per-page titles if present)
+      const customTitle = document.documentElement.getAttribute('data-page-title-' + lang);
+      if (customTitle) {
+        document.title = customTitle;
+      } else if (dict.page_title) {
+        document.title = dict.page_title;
+      }
+
+      const customDesc = document.documentElement.getAttribute('data-page-desc-' + lang);
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        if (customDesc) {
+          metaDesc.content = customDesc;
+        } else if (dict.page_description) {
+          metaDesc.content = dict.page_description;
         }
       }
-    });
-
-    // Translate input placeholders
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      if (dict[key] !== undefined) {
-        el.placeholder = dict[key];
-      }
-    });
-
-    // Swap page title and meta description
-    if (dict.page_title) document.title = dict.page_title;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc && dict.page_description) {
-      metaDesc.content = dict.page_description;
     }
 
     // Update switcher buttons UI

@@ -230,8 +230,8 @@ async function handleDemoSubmission(request, env) {
     JSON.stringify({
       success: true,
       message: isCs
-        ? "Díky — potvrzení jsme vám odeslali e-mailem a robot právě zahájil první sken vašich firem."
-        : "Thanks — a confirmation email has been sent to your inbox and our system has started the initial scan.",
+        ? "Díky — potvrzení jsme vám odeslali e-mailem. Do několika minut začneme zakládat váš workspace a spustíme první sken."
+        : "Thanks — a confirmation email is on its way. Within a few minutes we start setting up your workspace and run the first scan.",
     }),
     { status: 200, headers: { "Content-Type": "application/json; charset=utf-8" } }
   );
@@ -335,7 +335,7 @@ Náš systém teď pro vaši agenturu připravuje samostatný workspace a spouš
 • Vyhledáváme všechny aktuálně otevřené pozice.
 • U menšího počtu firem to trvá několik minut, u většího portfolia (50 až 200 firem) může kompletní první sken zabrat 10 až 15 minut.
 
-Jakmile první sken doběhne, zašlu vám druhý e-mail s jednorázovým odkazem pro nastavení hesla a přehledem prvních nalezených rolí.
+Jakmile první sken doběhne, zašlu vám druhý e-mail. Když najde otevřené pozice, bude v něm jednorázový odkaz pro nastavení hesla a přehled prvních rolí. Když ne (typicky u firem bez dohledatelné kariérní stránky), napíšu vám, co dodělám ručně, a odkaz pošlu do jednoho pracovního dne.
 
 Kdyby cokoliv vyžadovalo ruční napárování nebo jste měl/a jakýkoliv dotaz, stačí odpovědět přímo na tento e-mail — zpráva přijde přímo mně.
 
@@ -353,7 +353,7 @@ Our system is now setting up an isolated workspace for your agency and starting 
 • Finding all currently open roles.
 • For a few companies this takes just a couple of minutes; for larger portfolios (50 to 200 companies) the thorough initial scan takes about 10 to 15 minutes.
 
-As soon as the initial scan completes, I will send you a follow-up email with your one-time password setup link and initial findings.
+As soon as the initial scan completes, I will send you a second email. If it finds open roles, it carries your one-time password setup link and the first findings. If not (usually companies whose careers page cannot be found automatically), I will tell you what I am finishing by hand and send the link within one working day.
 
 If any company requires custom ATS mapping or if you have any questions, just reply directly to this email — it comes straight to me.
 

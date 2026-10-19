@@ -372,7 +372,7 @@ const TRANSLATIONS = {
     pricing_tier2_cta: "Vyzkoušet na 14 dní zdarma →",
 
     pricing_tier3_name: "Scale / Enterprise",
-    pricing_tier3_companies: "více než 200 firem",
+    pricing_tier3_companies: "200+ firem",
     pricing_tier3_price: "Na míru",
     pricing_tier3_price_from: "od 590 € měsíčně",
     pricing_tier3_desc: "Pro velké agentury s mnoha klienty.",

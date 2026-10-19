@@ -3,3 +3,6 @@ wrangler.toml
 worker.js
 functions
 .assetsignore
+email.js
+package.json
+tests

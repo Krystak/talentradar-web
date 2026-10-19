@@ -3,6 +3,8 @@
  * Handles static assets and /api/demo endpoint.
  */
 
+import { ADDRESS_ERRORS, REPLY_TO, SENDER_NAME, checkAddress, confirmationEmail } from "./email.js";
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -103,6 +105,17 @@ async function handleDemoSubmission(request, env) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!email || typeof email !== "string" || !emailRegex.test(email.trim())) {
     return new Response(JSON.stringify({ error: "Zadejte prosím platný pracovní e-mail." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    });
+  }
+
+  // An address that cannot receive mail would bounce the confirmation, and
+  // bounces decide whether talentradar.eu lands in spam for everyone else.
+  const address = await checkAddress(email);
+  if (!address.ok && ADDRESS_ERRORS[address.reason]) {
+    const formLang = normaliseLang(lang, request.headers.get("accept-language"));
+    return new Response(JSON.stringify({ error: ADDRESS_ERRORS[address.reason][formLang], reason: address.reason }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
@@ -315,60 +328,15 @@ function notifyBrevo(env, lead, fileData, cleanFileName) {
 
 function notifyLeadConfirmation(env, lead) {
   return runChannel("lead_confirmation", !!env.BREVO_API_KEY, () => {
-    const isCs = lead.lang === "cs";
-    const rawFirst = (lead.name || "").trim().split(/\s+/)[0] || "";
-    const greeting = isCs
-      ? (rawFirst ? `Dobrý den, ${rawFirst},` : "Dobrý den,")
-      : (rawFirst ? `Hi ${rawFirst},` : "Hi there,");
-
-    const subject = isCs
-      ? "Potvrzení registrace: připravujeme váš TalentRadar"
-      : "Confirmation: Preparing your TalentRadar workspace";
-
-    const textContent = isCs
-      ? `${greeting}
-
-děkuji za vyplnění formuláře pro 14denní zkušební verzi TalentRadaru. Váš požadavek i seznam firem v pořádku dorazil.
-
-Náš systém teď pro vaši agenturu připravuje samostatný workspace a spouští první sken:
-• Procházíme zadané firmy a napojujeme jejich kariérní stránky i ATS systémy (Greenhouse, Lever, Teamio a další).
-• Vyhledáváme všechny aktuálně otevřené pozice.
-• U menšího počtu firem to trvá několik minut, u většího portfolia (50 až 200 firem) může kompletní první sken zabrat 10 až 15 minut.
-
-Jakmile první sken doběhne, zašlu vám druhý e-mail. Když najde otevřené pozice, bude v něm jednorázový odkaz pro nastavení hesla a přehled prvních rolí. Když ne (typicky u firem bez dohledatelné kariérní stránky), napíšu vám, co dodělám ručně, a odkaz pošlu do jednoho pracovního dne.
-
-Kdyby cokoliv vyžadovalo ruční napárování nebo jste měl/a jakýkoliv dotaz, stačí odpovědět přímo na tento e-mail — zpráva přijde přímo mně.
-
-Kryštof Pejša
-Zakladatel, TalentRadar
-krystof@talentradar.eu
-https://talentradar.eu
-`
-      : `${greeting}
-
-thank you for submitting your details for the TalentRadar 14-day trial. We have received your request and your company list.
-
-Our system is now setting up an isolated workspace for your agency and starting the first scan:
-• Scanning your companies and connecting their career pages and ATS endpoints (Greenhouse, Lever, Teamio, etc.).
-• Finding all currently open roles.
-• For a few companies this takes just a couple of minutes; for larger portfolios (50 to 200 companies) the thorough initial scan takes about 10 to 15 minutes.
-
-As soon as the initial scan completes, I will send you a second email. If it finds open roles, it carries your one-time password setup link and the first findings. If not (usually companies whose careers page cannot be found automatically), I will tell you what I am finishing by hand and send the link within one working day.
-
-If any company requires custom ATS mapping or if you have any questions, just reply directly to this email — it comes straight to me.
-
-Kryštof Pejša
-Founder, TalentRadar
-krystof@talentradar.eu
-https://talentradar.eu
-`;
-
+    const mail = confirmationEmail(lead.name, lead.lang === "cs" ? "cs" : "en");
     const payload = {
-      sender: { name: "Kryštof Pejša (TalentRadar)", email: env.LEAD_FROM || "leads@talentradar.eu" },
+      sender: { name: SENDER_NAME, email: env.LEAD_FROM || "leads@talentradar.eu" },
       to: [{ email: lead.email, name: lead.name }],
-      replyTo: { email: "krystof@talentradar.eu", name: "Kryštof Pejša" },
-      subject: subject,
-      textContent: textContent,
+      replyTo: { email: REPLY_TO, name: "Kryštof Pejša" },
+      subject: mail.subject,
+      htmlContent: mail.html,
+      textContent: mail.text,
+      tags: ["trial-confirmation"],
     };
 
     return fetch("https://api.brevo.com/v3/smtp/email", {

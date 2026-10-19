@@ -11,12 +11,14 @@ import { checkAddress, confirmationEmail, escapeHtml, DISPOSABLE_DOMAINS } from 
 let sent;      // [{ url, body }] for every outbound fetch except DNS
 let dns;       // domain -> DNS-over-HTTPS answer
 let realFetch;
+let wakeBehaviour; // "ok" | "down" | "throttled"
 
 const MX_OK = { Status: 0, Answer: [{ type: 15, data: "10 mx.example.cz." }] };
 
 beforeEach(() => {
   sent = [];
   dns = {};
+  wakeBehaviour = "ok";
   realFetch = globalThis.fetch;
   globalThis.fetch = async (url, init = {}) => {
     const u = String(url);
@@ -26,6 +28,10 @@ beforeEach(() => {
       return new Response(JSON.stringify(dns[name] ?? MX_OK), { status: 200 });
     }
     sent.push({ url: u, body: init.body ? JSON.parse(init.body) : null });
+    if (u.includes("/wake")) {
+      if (wakeBehaviour === "down") throw new Error("app unreachable");
+      return new Response(JSON.stringify({ status: "accepted" }), { status: wakeBehaviour === "throttled" ? 429 : 202 });
+    }
     return new Response(JSON.stringify({ messageId: "<m@brevo>" }), { status: 201 });
   };
 });
@@ -106,6 +112,39 @@ test("an English visitor gets English", async () => {
   assert.equal(mail.subject, "Got it: we're setting up your TalentRadar");
   assert.match(mail.textContent, /^Hi Petra,\n/);
   assert.match(mail.textContent, /Not spam/);
+});
+
+// ── The app is woken at once ────────────────────────────────────────────────
+
+const wakes = () => sent.filter((s) => s.url.includes("/wake"));
+
+test("the app is told about the sign-up the moment it is stored", async () => {
+  const e = env();
+  await submit(e);
+  const id = [...e.TALENT_RADAR_KV.store.keys()].find((k) => k.startsWith("lead:")).slice(5);
+  assert.deepEqual(wakes().map((w) => w.url),
+    [`https://talent-radar-web-production.up.railway.app/api/public/leads/${id}/wake`]);
+});
+
+test("the app origin can be overridden", async () => {
+  await submit(env({ APP_API_ORIGIN: "https://staging.example/" }));
+  assert.match(wakes()[0].url, /^https:\/\/staging\.example\/api\/public\/leads\/[0-9a-f-]+\/wake$/);
+});
+
+for (const behaviour of ["down", "throttled"]) {
+  test(`an app that is ${behaviour} never costs the visitor their sign-up`, async () => {
+    wakeBehaviour = behaviour;
+    const res = await submit(env());
+    assert.equal(res.status, 200);
+    assert.ok(toVisitor(), "confirmation still sent");
+  });
+}
+
+test("nothing is woken when the sign-up could not be stored", async () => {
+  const e = env();
+  e.TALENT_RADAR_KV.put = async () => { throw new Error("KV down"); };
+  await submit(e);
+  assert.equal(wakes().length, 0);
 });
 
 // ── Addresses that would bounce are refused before anything is sent ─────────

@@ -204,11 +204,14 @@ async function handleDemoSubmission(request, env) {
   // ── Notify ───────────────────────────────────────────────────────────────
   // Every channel reports whether it actually delivered. A channel that is not
   // configured is skipped; one that fails is logged and counted as failed.
-  const results = await Promise.all([
-    notifyBrevo(env, leadRecord, fileData, cleanFileName),
-    notifyLeadConfirmation(env, leadRecord),
-    notifySlack(env, leadRecord, cleanFileName),
-    notifyTelegram(env, leadRecord, cleanFileName),
+  const [results] = await Promise.all([
+    Promise.all([
+      notifyBrevo(env, leadRecord, fileData, cleanFileName),
+      notifyLeadConfirmation(env, leadRecord),
+      notifySlack(env, leadRecord, cleanFileName),
+      notifyTelegram(env, leadRecord, cleanFileName),
+    ]),
+    stored ? wakeApp(env, leadRecord) : null,
   ]);
 
   const configured = results.filter((r) => r.configured);
@@ -243,11 +246,35 @@ async function handleDemoSubmission(request, env) {
     JSON.stringify({
       success: true,
       message: isCs
-        ? "Díky — potvrzení jsme vám odeslali e-mailem. Do několika minut začneme zakládat váš workspace a spustíme první sken."
-        : "Thanks — a confirmation email is on its way. Within a few minutes we start setting up your workspace and run the first scan.",
+        ? "Díky, potvrzení je na cestě do vašeho e-mailu. Workspace právě zakládáme, e-mail s přihlášením obvykle přijde do pár minut."
+        : "Thanks, a confirmation e-mail is on its way. We are setting up your workspace now; the sign-in e-mail usually follows within a few minutes.",
     }),
     { status: 200, headers: { "Content-Type": "application/json; charset=utf-8" } }
   );
+}
+
+// The app's API (Railway service talent-radar-web), the same origin the app's
+// own Worker proxies /api to.
+const APP_API_ORIGIN = "https://talent-radar-web-production.up.railway.app";
+
+/**
+ * Tells the app a sign-up is waiting, so it builds the workspace now instead
+ * of at its next five-minute round. Best effort: the round is the fallback,
+ * so a slow or failed call never holds up or fails the visitor's sign-up.
+ */
+async function wakeApp(env, lead) {
+  const origin = String(env.APP_API_ORIGIN || APP_API_ORIGIN).replace(/\/+$/, "");
+  try {
+    const res = await fetch(`${origin}/api/public/leads/${encodeURIComponent(lead.id)}/wake`, {
+      method: "POST",
+      signal: AbortSignal.timeout(3000),
+    });
+    if (res.status !== 202) console.error(`App wake-up for lead ${lead.id} answered ${res.status}`);
+    return res.status === 202;
+  } catch (err) {
+    console.error(`App wake-up for lead ${lead.id} failed:`, err);
+    return false;
+  }
 }
 
 /**

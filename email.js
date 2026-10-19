@@ -106,7 +106,7 @@ export function confirmationEmail(name, lang) {
   const g = greeting(name, lang);
   if (lang === "cs") {
     const subject = "Máme vaši registraci, TalentRadar připravujeme";
-    const preheader = "Do pár minut založíme workspace a spustíme první sken vašich firem.";
+    const preheader = "Workspace právě zakládáme. E-mail s přihlášením obvykle přijde do pár minut.";
     const stepsCs = [
       ["done", "Registrace a seznam firem", ""],
       ["now", "Workspace a první sken", "Dohledáme kariérní stránky vašich firem a projdeme otevřené pozice. U menšího seznamu pár minut, u 100 a více firem déle."],
@@ -140,7 +140,7 @@ ${REPLY_TO}
   }
 
   const subject = "Got it: we're setting up your TalentRadar";
-  const preheader = "Within a few minutes we create your workspace and run the first scan of your companies.";
+  const preheader = "We are setting up your workspace now. The sign-in e-mail usually follows within a few minutes.";
   const stepsEn = [
     ["done", "Sign-up and company list", ""],
     ["now", "Workspace and first scan", "We find your companies' careers pages and go through their open roles. A few minutes for a short list, longer for 100+ companies."],

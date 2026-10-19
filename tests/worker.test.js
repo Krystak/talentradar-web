@@ -81,7 +81,7 @@ test("a sign-up is stored and the visitor gets the branded confirmation", async 
 
   const mail = toVisitor();
   assert.ok(mail, "confirmation sent to the visitor");
-  assert.equal(mail.sender.name, "Kryštof Pejša · TalentRadar");
+  assert.equal(mail.sender.name, "TalentRadar");
   assert.equal(mail.replyTo.email, "krystof@talentradar.eu");
   assert.deepEqual(mail.tags, ["trial-confirmation"]);
   assert.equal(mail.subject, "Máme vaši registraci, TalentRadar připravujeme");

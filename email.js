@@ -9,7 +9,7 @@
  * DISPOSABLE_DOMAINS is kept in step with core/email_check.py.
  */
 
-export const SENDER_NAME = "Kryštof Pejša · TalentRadar";
+export const SENDER_NAME = "TalentRadar";
 export const REPLY_TO = "krystof@talentradar.eu";
 export const LOGO_URL = "https://talentradar.eu/img/email/logo-96.png";
 export const PHOTO_URL = "https://talentradar.eu/img/email/krystof-96.jpg";

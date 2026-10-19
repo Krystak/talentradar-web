@@ -6,7 +6,7 @@ import { test, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
 
 import worker from "../worker.js";
-import { checkAddress, confirmationEmail, escapeHtml, DISPOSABLE_DOMAINS } from "../email.js";
+import { checkAddress, confirmationEmail, countCompanies, escapeHtml, DISPOSABLE_DOMAINS } from "../email.js";
 
 let sent;      // [{ url, body }] for every outbound fetch except DNS
 let dns;       // domain -> DNS-over-HTTPS answer
@@ -235,4 +235,55 @@ test("throwaway domains are matched case-insensitively", async () => {
   assert.equal(DISPOSABLE_DOMAINS.has("yopmail.com"), true);
   assert.deepEqual(await checkAddress("Someone@YOPMAIL.com", async () => { throw new Error("must not ask DNS"); }),
     { ok: false, reason: "disposable" });
+});
+
+// ── How many companies the confirmation names ───────────────────────────────
+
+const csv = (text) => "data:text/csv;base64," + Buffer.from(text, "utf8").toString("base64");
+const TEST_CSV = "firma,kariérní stránka\nMews,https://www.mews.com/en/careers\nKiwi.com,https://jobs.kiwi.com/\n" +
+  "Apify,https://apify.com/jobs\nProductboard,https://www.productboard.com/careers/\nRohlik Group,https://www.rohlik.group/work-with-us\n";
+
+test("the confirmation names the companies sent as text", async () => {
+  await submit(env());   // "Tines, https://tines.com/careers": one company
+  assert.match(toVisitor().textContent, /Máme vaši firmu a pracujeme na ní\./);
+  assert.match(toVisitor().htmlContent, /Registrace a seznam firem \(1\)/);
+});
+
+test("the confirmation names the companies in an uploaded CSV, header row not counted", async () => {
+  await submit(env(), { clients: "", fileName: "talentradar-test-firmy.csv", fileData: csv(TEST_CSV) });
+  const mail = toVisitor();
+  assert.match(mail.textContent, /Máme vašich 5 firem a pracujeme na nich\./);
+  assert.match(mail.textContent, /1\. Registrace a seznam firem \(5\): hotovo\./);
+});
+
+test("an English visitor gets the count in English", async () => {
+  await submit(env(), { lang: "en", clients: "Mews\nApify\nKiwi.com" });
+  assert.match(toVisitor().textContent, /We have your 3 companies and are working on them\./);
+});
+
+test("an Excel file names no number rather than a wrong one", async () => {
+  await submit(env(), { clients: "", fileName: "firmy.xlsx", fileData: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,UEsDBA==" });
+  const text = toVisitor().textContent;
+  assert.match(text, /Seznam vašich firem máme/);
+  assert.ok(!/Máme vaš/.test(text));
+});
+
+test("company counts agree in Czech and match the app's reading", () => {
+  assert.equal(countCompanies("Mews\nApify", null, ""), 2);
+  assert.match(confirmationEmail("", "cs", 2).text, /Máme vaše 2 firmy a pracujeme na nich\./);
+  assert.match(confirmationEmail("", "cs", 4).text, /Máme vaše 4 firmy/);
+  assert.match(confirmationEmail("", "cs", 12).text, /Máme vašich 12 firem/);
+  // Duplicates, blank lines and a bare domain, as the app de-duplicates them.
+  assert.equal(countCompanies("Mews, https://mews.com\n\nmews\nhttps://www.apify.com/jobs\n", null, ""), 2);
+  // Semicolons, quotes and a byte-order mark, as Excel exports CSV.
+  assert.equal(countCompanies("", csv("\uFEFFnázev;web\n\"Novák, s.r.o.\";novak.cz\nAlza;alza.cz\n"), "x.csv"), 2);
+  // A CSV without a header: every row is a company.
+  assert.equal(countCompanies("", csv("Mews,https://mews.com\nApify,https://apify.com\n"), "x.csv"), 2);
+  assert.equal(countCompanies("", null, ""), null);
+});
+
+test("a broken file never stops the confirmation", async () => {
+  const res = await submit(env(), { clients: "", fileName: "x.csv", fileData: "data:text/csv;base64,%%%" });
+  assert.equal(res.status, 200);
+  assert.match(toVisitor().textContent, /Seznam vašich firem máme/);
 });

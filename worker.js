@@ -3,7 +3,7 @@
  * Handles static assets and /api/demo endpoint.
  */
 
-import { ADDRESS_ERRORS, REPLY_TO, SENDER_NAME, checkAddress, confirmationEmail } from "./email.js";
+import { ADDRESS_ERRORS, REPLY_TO, SENDER_NAME, checkAddress, confirmationEmail, countCompanies } from "./email.js";
 
 export default {
   async fetch(request, env, ctx) {
@@ -207,7 +207,7 @@ async function handleDemoSubmission(request, env) {
   const [results] = await Promise.all([
     Promise.all([
       notifyBrevo(env, leadRecord, fileData, cleanFileName),
-      notifyLeadConfirmation(env, leadRecord),
+      notifyLeadConfirmation(env, leadRecord, fileData, cleanFileName),
       notifySlack(env, leadRecord, cleanFileName),
       notifyTelegram(env, leadRecord, cleanFileName),
     ]),
@@ -353,9 +353,15 @@ function notifyBrevo(env, lead, fileData, cleanFileName) {
   });
 }
 
-function notifyLeadConfirmation(env, lead) {
+function notifyLeadConfirmation(env, lead, fileData, cleanFileName) {
   return runChannel("lead_confirmation", !!env.BREVO_API_KEY, () => {
-    const mail = confirmationEmail(lead.name, lead.lang === "cs" ? "cs" : "en");
+    let companies = null;
+    try {
+      companies = countCompanies(lead.clients, fileData, cleanFileName);
+    } catch (err) {
+      console.error("Could not count the companies for the confirmation:", err);
+    }
+    const mail = confirmationEmail(lead.name, lead.lang === "cs" ? "cs" : "en", companies);
     const payload = {
       sender: { name: SENDER_NAME, email: env.LEAD_FROM || "leads@talentradar.eu" },
       to: [{ email: lead.email, name: lead.name }],

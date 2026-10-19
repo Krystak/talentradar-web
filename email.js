@@ -101,30 +101,132 @@ function greeting(name, lang) {
   return first ? `Hi ${first},` : "Hi there,";
 }
 
-/** The e-mail the visitor gets the moment the trial form is sent: {subject, preheader, html, text}. */
-export function confirmationEmail(name, lang) {
+// ── How many companies the visitor sent ──────────────────────────────────
+// Mirrors the app's reading (core/provisioning.py: parse_companies_text,
+// _company_rows, collect_companies), so the confirmation names the number the
+// app will import. An Excel file cannot be read here: then no number is named.
+
+const NAME_HEADERS = new Set(["firma", "company", "nazev", "název", "name", "spolecnost", "společnost", "klient", "client"]);
+const URL_HEADERS = new Set(["karierni_stranka", "kariérní stránka", "kariera", "kariéra", "careers", "careers page",
+  "careers_url", "url", "web", "website", "odkaz", "link"]);
+
+function looksLikeUrl(value) {
+  const v = String(value || "").trim().toLowerCase();
+  return v.startsWith("http://") || v.startsWith("https://") || (v.includes(".") && !v.includes(" ") && v.length > 3);
+}
+
+function namesFromText(text) {
+  const names = [];
+  for (const raw of String(text || "").split(/\r?\n/)) {
+    const line = raw.trim().replace(/^[,;]+|[,;]+$/g, "");
+    if (!line) continue;
+    const parts = line.split(/[,;\t|]| {2,}/).map((x) => x.trim()).filter(Boolean);
+    if (!parts.length) continue;
+    if (parts.length === 1 && looksLikeUrl(parts[0])) {
+      names.push(parts[0].replace(/^https?:\/\/(www\.)?/i, "").split("/")[0]);
+    } else {
+      names.push(parts[0]);
+    }
+  }
+  return names;
+}
+
+function decodeDataUrl(data) {
+  const b64 = String(data).includes(",") ? String(data).split(",")[1] : String(data);
+  const bin = atob(b64);
+  const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+  return new TextDecoder("utf-8").decode(bytes).replace(/^\uFEFF/, "");
+}
+
+function splitCsvLine(line, delimiter) {
+  const cells = [];
+  let cur = "", quoted = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (quoted) {
+      if (ch === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else cur += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === delimiter) { cells.push(cur); cur = ""; }
+    else cur += ch;
+  }
+  cells.push(cur);
+  return cells.map((c) => c.trim());
+}
+
+function namesFromCsv(data) {
+  const lines = decodeDataUrl(data).split(/\r?\n/).filter((l) => l.trim());
+  if (!lines.length) return [];
+  const delimiter = [";", "\t", ","].reduce((best, d) =>
+    lines[0].split(d).length > lines[0].split(best).length ? d : best, ",");
+  let rows = lines.map((l) => splitCsvLine(l, delimiter));
+  let nameCol = 0;
+  const first = rows[0].map((c) => c.toLowerCase());
+  if (first.some((c) => NAME_HEADERS.has(c) || URL_HEADERS.has(c))) {
+    const idx = first.findIndex((c) => NAME_HEADERS.has(c));
+    if (idx >= 0) nameCol = idx;
+    rows = rows.slice(1);
+  }
+  return rows.map((r) => (r[nameCol] || "").trim()).filter(Boolean);
+}
+
+/** How many distinct companies the sign-up lists, or null when it cannot be told (an Excel file). */
+export function countCompanies(clients, fileData, fileName) {
+  let names = namesFromText(clients);
+  if (fileData) {
+    const isCsv = /\.csv$/i.test(String(fileName || "")) || /^data:text\/csv/i.test(String(fileData));
+    if (!isCsv) return null;
+    try {
+      names = names.concat(namesFromCsv(fileData));
+    } catch {
+      return null;
+    }
+  }
+  const unique = new Set(names.map((n) => n.toLowerCase()));
+  return unique.size || null;
+}
+
+function haveCompanies(n, lang) {
+  if (lang === "cs") {
+    if (n === 1) return "Máme vaši firmu a pracujeme na ní.";
+    if (n >= 2 && n <= 4) return `Máme vaše ${n} firmy a pracujeme na nich.`;
+    return `Máme vašich ${n} firem a pracujeme na nich.`;
+  }
+  return n === 1 ? "We have your company and are working on it." : `We have your ${n} companies and are working on them.`;
+}
+
+/** The e-mail the visitor gets the moment the trial form is sent: {subject, preheader, html, text}.
+ * companies: how many the visitor listed (countCompanies), or null when unknown. */
+export function confirmationEmail(name, lang, companies = null) {
   const g = greeting(name, lang);
+  const have = companies ? haveCompanies(companies, lang) : "";
   if (lang === "cs") {
     const subject = "Máme vaši registraci, TalentRadar připravujeme";
-    const preheader = "Workspace právě zakládáme. E-mail s přihlášením obvykle přijde do pár minut.";
+    const preheader = have
+      ? `${have} E-mail s přihlášením obvykle přijde do pár minut.`
+      : "Workspace právě zakládáme. E-mail s přihlášením obvykle přijde do pár minut.";
     const stepsCs = [
-      ["done", "Registrace a seznam firem", ""],
+      ["done", companies ? `Registrace a seznam firem (${companies})` : "Registrace a seznam firem", ""],
       ["now", "Workspace a první sken", "Dohledáme kariérní stránky vašich firem a projdeme otevřené pozice. U menšího seznamu pár minut, u 100 a více firem déle."],
       ["next", "Přihlášení", "Pošlu vám druhý e-mail s odkazem na nastavení hesla a s prvními nalezenými rolemi."],
     ];
+    const intro = have
+      ? `Díky za zájem o TalentRadar. ${have} Chystáme pro vaši agenturu samostatný workspace a první sken.`
+      : "Díky za zájem o TalentRadar. Seznam vašich firem máme a teď pro vaši agenturu chystáme samostatný workspace.";
     const reply = "Kdyby se u některých firem nedaly kariérní stránky najít automaticky, napíšu vám, co dodělám ručně. Na tenhle e-mail stačí odpovědět, chodí přímo mně.";
     const spam = "Kdyby tenhle e-mail skončil ve spamu, označte ho prosím jako „Není spam“, ať vám dorazí i odkaz na přihlášení.";
     const html = render("cs", preheader, [
       p(escapeHtml(g)), heading("Registrace dorazila"),
-      p("Díky za zájem o TalentRadar. Seznam vašich firem máme a teď pro vaši agenturu chystáme samostatný workspace."),
+      p(escapeHtml(intro)),
       steps(stepsCs), p(escapeHtml(reply)), p(escapeHtml(spam), { size: 13, color: MUTED, bottom: 18 }),
     ]);
     const text = `${g}
 
-díky za zájem o TalentRadar. Seznam vašich firem máme a teď pro vaši agenturu chystáme samostatný workspace.
+${intro.charAt(0).toLowerCase()}${intro.slice(1)}
 
 Co bude dál:
-1. Registrace a seznam firem: hotovo.
+1. ${stepsCs[0][1]}: hotovo.
 2. Workspace a první sken: ${stepsCs[1][2]}
 3. Přihlášení: ${stepsCs[2][2]}
 
@@ -140,25 +242,30 @@ ${REPLY_TO}
   }
 
   const subject = "Got it: we're setting up your TalentRadar";
-  const preheader = "We are setting up your workspace now. The sign-in e-mail usually follows within a few minutes.";
+  const preheader = have
+    ? `${have} The sign-in e-mail usually follows within a few minutes.`
+    : "We are setting up your workspace now. The sign-in e-mail usually follows within a few minutes.";
   const stepsEn = [
-    ["done", "Sign-up and company list", ""],
+    ["done", companies ? `Sign-up and company list (${companies})` : "Sign-up and company list", ""],
     ["now", "Workspace and first scan", "We find your companies' careers pages and go through their open roles. A few minutes for a short list, longer for 100+ companies."],
     ["next", "Sign in", "I send you a second e-mail with a link to set your password and the first roles we found."],
   ];
+  const intro = have
+    ? `Thanks for trying TalentRadar. ${have} We are setting up a workspace of your own and running the first scan.`
+    : "Thanks for trying TalentRadar. We have your company list and are now setting up a workspace of your own.";
   const reply = "If some careers pages cannot be found automatically, I will tell you what I am finishing by hand. Just reply to this e-mail, it comes straight to me.";
   const spam = "If this e-mail landed in spam, please mark it as “Not spam” so your sign-in link reaches you too.";
   const html = render("en", preheader, [
     p(escapeHtml(g)), heading("Your sign-up is in"),
-    p("Thanks for trying TalentRadar. We have your company list and are now setting up a workspace of your own."),
+    p(escapeHtml(intro)),
     steps(stepsEn), p(escapeHtml(reply)), p(escapeHtml(spam), { size: 13, color: MUTED, bottom: 18 }),
   ]);
   const text = `${g}
 
-thanks for trying TalentRadar. We have your company list and are now setting up a workspace of your own.
+${intro.charAt(0).toLowerCase()}${intro.slice(1)}
 
 What happens next:
-1. Sign-up and company list: done.
+1. ${stepsEn[0][1]}: done.
 2. Workspace and first scan: ${stepsEn[1][2]}
 3. Sign in: ${stepsEn[2][2]}
 

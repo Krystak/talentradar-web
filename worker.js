@@ -25,20 +25,14 @@ export default {
     //    showcase workspace; there is no static copy, so the web can only show
     //    what the last scan found, or nothing.
     if (url.pathname === "/api/live-roles") {
-      let kvData = null;
-      try {
-        kvData = env.TALENT_RADAR_KV ? await env.TALENT_RADAR_KV.get("live_roles_json") : null;
-      } catch (err) {
-        console.error("KV read error for live_roles_json:", err);
-      }
-      return new Response(kvData || JSON.stringify({ error: "Feed unavailable" }), {
-        status: kvData ? 200 : 503,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          "Cache-Control": kvData ? "public, max-age=60, s-maxage=300" : "no-store",
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
+      return kvFeed(env, "live_roles_json");
+    }
+
+    // 2b. The sandbox (#live-radar, js/sandbox.js): the demo's real roles and
+    //     its made-up agency, written to KV by the app after every demo scan
+    //     (talent-radar scripts/web_sandbox_feed.py).
+    if (url.pathname === "/api/sandbox") {
+      return kvFeed(env, "sandbox_json");
     }
 
     // 3. Rewrite /gdpr to /gdpr.html if requested
@@ -57,6 +51,26 @@ export default {
     return env.ASSETS.fetch(request);
   },
 };
+
+/**
+ * A JSON feed the app keeps in KV, or 503 while there is none.
+ */
+async function kvFeed(env, key) {
+  let kvData = null;
+  try {
+    kvData = env.TALENT_RADAR_KV ? await env.TALENT_RADAR_KV.get(key) : null;
+  } catch (err) {
+    console.error(`KV read error for ${key}:`, err);
+  }
+  return new Response(kvData || JSON.stringify({ error: "Feed unavailable" }), {
+    status: kvData ? 200 : 503,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": kvData ? "public, max-age=60, s-maxage=300" : "no-store",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+}
 
 /**
  * Handle POST /api/demo submission

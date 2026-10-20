@@ -287,3 +287,28 @@ test("a broken file never stops the confirmation", async () => {
   assert.equal(res.status, 200);
   assert.match(toVisitor().textContent, /Seznam vašich firem máme/);
 });
+
+// ── Feeds the app writes to KV ──────────────────────────────────────────────
+
+test("the sandbox feed is served from KV, and 503 until the app has written it", async () => {
+  const e = env();
+  const get = () => worker.fetch(new Request("https://talentradar.eu/api/sandbox"), e, {});
+
+  const none = await get();
+  assert.equal(none.status, 503);
+  assert.equal(none.headers.get("cache-control"), "no-store");
+
+  await e.TALENT_RADAR_KV.put("sandbox_json", JSON.stringify({ version: 1, roles: [{ id: 1 }] }));
+  const res = await get();
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get("cache-control"), /max-age=60/);
+  assert.deepEqual((await res.json()).roles, [{ id: 1 }]);
+});
+
+test("the live roles feed still reads its own key", async () => {
+  const e = env();
+  await e.TALENT_RADAR_KV.put("live_roles_json", JSON.stringify({ roles: [] }));
+  const res = await worker.fetch(new Request("https://talentradar.eu/api/live-roles"), e, {});
+  assert.equal(res.status, 200);
+  assert.deepEqual(await res.json(), { roles: [] });
+});

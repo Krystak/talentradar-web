@@ -63,8 +63,8 @@ const TRANSLATIONS = {
     /* ── Live Radar Showcase (Mini-App Sandbox) ── */
     radar_badge: "Interactive demo",
     radar_headline: "Click through the whole platform. No sign-up.",
-    radar_subtext: "A light version of the TalentRadar workspace, tracking 19 Czech tech companies. Open a role, find the hiring manager, turn it into a mandate, run a scan or ask AI Hawk. Then carry on in the full demo.",
-    radar_footnote: "The sandbox runs entirely in your browser on sample data. The full demo is the real app on a live workspace.",
+    radar_subtext: "A light version of the TalentRadar workspace on the demo's real data: the roles Czech tech companies have open right now, and a made-up agency working on them. Open a role, find the hiring manager, turn it into a job, move a candidate through the pipeline or ask AI Hawk. Then carry on in the full demo.",
+    radar_footnote: "Companies and roles are real, from the demo's daily scans. The agency, its candidates, contacts and placements are made up. Whatever you change stays in your browser.",
 
     /* ── Comparison Table ── */
     compare_badge: "Operational Audit",
@@ -286,8 +286,8 @@ const TRANSLATIONS = {
     /* ── Live Radar Showcase (Mini-App Sandbox) ── */
     radar_badge: "Interaktivní demo",
     radar_headline: "Proklikejte si celou platformu. Bez registrace.",
-    radar_subtext: "Zjednodušená verze TalentRadaru, která sleduje 19 českých technologických firem. Otevřete si pozici, najděte hiring managera, udělejte z ní zakázku, spusťte sken nebo se zeptejte AI Hawka. Pak můžete pokračovat v plném demu.",
-    radar_footnote: "Tahle ukázka běží jen ve vašem prohlížeči na ukázkových datech. Plné demo je skutečná aplikace se živými daty.",
+    radar_subtext: "Zjednodušená verze TalentRadaru na skutečných datech dema: role, které mají české technologické firmy právě otevřené, a vymyšlená agentura, která na nich pracuje. Otevřete si roli, najděte hiring managera, udělejte z ní zakázku, posuňte kandidáta v pipeline nebo se zeptejte AI Hawka. Pak můžete pokračovat v plném demu.",
+    radar_footnote: "Firmy a role jsou skutečné, z denních skenů dema. Agentura, její kandidáti, kontakty a umístění jsou vymyšlené. Co změníte, zůstane jen ve vašem prohlížeči.",
 
     /* ── Comparison Table ── */
     compare_badge: "Srovnání",

@@ -7,58 +7,58 @@
 const TRANSLATIONS = {
   en: {
     /* ── SEO ── */
-    page_title: "TalentRadar — Spend Time Closing, Not Searching",
-    page_description: "Autonomous B2B recruitment intelligence and lightweight ATS for agencies across Europe. Spot your clients' open roles the hour they post them, days before LinkedIn.",
+    page_title: "TalentRadar — Spend time closing, not searching.",
+    page_description: "TalentRadar checks your clients' career pages twice a day and shows you their new roles in one place, straight from the source, before the job boards. For recruitment agencies, with an optional simple ATS.",
 
     /* ── Navigation ── */
     nav_slogan: "Spend time closing, not searching.",
     nav_modes: "Features",
-    nav_live_radar: "Interactive Demo",
-    nav_comparison: "The Advantage",
+    nav_live_radar: "Interactive demo",
+    nav_comparison: "Comparison",
     nav_pricing: "Pricing",
-    nav_insights: "Research & Blog",
-    nav_story: "Our Story",
+    nav_insights: "Blog",
+    nav_story: "Our story",
     nav_faq: "FAQ",
-    nav_signin: "Sign In",
-    nav_cta: "Start 14-Day Free Pilot",
-    nav_demo: "Live Demo ↗",
+    nav_signin: "Sign in",
+    nav_cta: "Try free for 14 days",
+    nav_demo: "Full demo ↗",
 
     /* ── Hero ── */
-    hero_badge: "Autonomous BD Intelligence & Lightweight ATS for Recruitment Teams",
-    hero_headline_html: "Spot your clients’ open roles the hour they post them.<br><span class=\"text-[#FF6B00]\">Days before LinkedIn.</span>",
-    hero_subheadline: "Stop wasting recruiter hours manually checking client career portals or waiting for crowded job boards. TalentRadar monitors enterprise career sites and ATS endpoints twice daily. Use it as an upstream BD radar alongside your existing ATS, or switch on our lightweight pipeline module to run your entire boutique agency.",
-    hero_cta_btn: "Start 14-Day Free Pilot",
+    hero_badge: "New-role radar and simple ATS for recruitment agencies",
+    hero_headline_html: "See your clients’ new roles first.<br><span class=\"text-[#FF6B00]\">Straight from their career pages, before the job boards.</span>",
+    hero_subheadline: "Your consultants no longer need to spend hours clicking through career pages or wait for roles to show up on job boards. Twice a day TalentRadar checks your clients’ career pages and ATS and shows the new roles in one place. Use it as a radar next to your own ATS, or run your whole agency in it.",
+    hero_cta_btn: "Try free for 14 days",
     hero_demo_btn: "Try the interactive demo",
-    hero_trust_microcopy: "✓ No credit card required  •  ✓ Track up to 200 companies  •  ✓ Set up within 24 hours",
+    hero_trust_microcopy: "✓ No credit card  •  ✓ Up to 200 companies  •  ✓ Up and running within 24 hours",
 
     /* ── Interactive Hero Switcher & Mockup ── */
 
     /* ── Workflows Section ── */
-    modes_badge: "Workflow Options",
-    modes_headline: "Choose How TalentRadar Fits Your Agency Workflow",
-    modes_subtext: "Whether you run an established 50-consultant firm with Bullhorn or a 3-person boutique on Notion, TalentRadar works without forced migrations or complex setup.",
-    modes_a_badge: "BD SIGNALS",
-    modes_b_badge: "FULL WORKSPACE",
-    modes_a_title: "BD Signals (Keep Your Existing ATS)",
-    modes_a_badge_sub: "Bullhorn • Datacruit • Recruitis",
-    modes_a_target: "For Established Agencies (5–50 consultants with Bullhorn, Datacruit, Recruitis, or Echo)",
-    modes_a_fear: "Your concern: \"We don't want to migrate our database or replace our existing ATS.\"",
-    modes_a_solution: "TalentRadar operates upstream of your ATS as an autonomous vacancy detection radar. It monitors client career portals twice daily, alerts you to new roles on Day Zero, and enables 1-click export directly into your existing CRM.",
-    modes_a_f1: "Monitors primary ATS endpoints (Greenhouse, Lever, Workable, Ashby, etc.)",
-    modes_a_f2: "2× daily automated scans (06:00 & 12:00 in your time zone)",
-    modes_a_f3: "Likely hiring manager with 1-click LinkedIn and Google X-Ray search",
-    modes_a_f4: "Instant CSV / Webhook push into Bullhorn, Datacruit, or Recruitis",
-    modes_a_cta: "Deploy Upstream Radar →",
-    modes_b_title: "Full Workspace (Replace Excel & Notion)",
-    modes_b_badge_sub: "Excel / Notion Replacement",
-    modes_b_target: "For Boutique & Micro-Agencies (1–10 consultants running on Excel, Notion, or Trello)",
-    modes_b_fear: "Your pain: \"Spreadsheets are chaotic, we lose track of mandates, and enterprise ATS tools are bloated and expensive.\"",
-    modes_b_solution: "A lean mandate pipeline and candidate tracker attached directly to discovered client openings. Everything you need to manage active searches without corporate overhead.",
-    modes_b_f1: "Discovered client roles convert into active agency mandates in 1 click",
-    modes_b_f2: "Candidate pipeline: Shortlisted → CV sent → Interviews → Offer → Placed",
-    modes_b_f3: "Shared recruiter notes, fee tracking, and candidate interaction logs",
-    modes_b_f4: "Zero bloat, zero migration friction, completely spreadsheet-free",
-    modes_b_cta: "Activate Full Workspace →",
+    modes_badge: "Two ways to use it",
+    modes_headline: "Choose how TalentRadar fits your agency",
+    modes_subtext: "Whether you run an established team on Bullhorn or a small agency that lives in Notion, there is nothing to migrate and nothing complicated to set up.",
+    modes_a_badge: "RADAR ONLY",
+    modes_b_badge: "RADAR + ATS",
+    modes_a_title: "Keep your ATS, add the radar",
+    modes_a_badge_sub: "Next to Bullhorn, Datacruit, Recruitis…",
+    modes_a_target: "For established agencies with 5–50 consultants working in Bullhorn, Datacruit, Recruitis or Echo",
+    modes_a_fear: "“We don’t want to move our candidate database or change our ATS.”",
+    modes_a_solution: "TalentRadar works as a radar next to your ATS: twice a day it checks your clients’ career pages, flags the new roles and exports them to CSV in one click.",
+    modes_a_f1: "Reads roles straight from your clients’ ATS (Greenhouse, Lever, Workable, Ashby, Workday and more)",
+    modes_a_f2: "Automatic scans twice a day (at 6:00 and 12:00 your time)",
+    modes_a_f3: "Suggests the likely hiring manager and finds them on LinkedIn or via Google X-Ray in one click",
+    modes_a_f4: "One-click CSV export of the roles, with the same filters you have on screen",
+    modes_a_cta: "Try the radar →",
+    modes_b_title: "No more Excel and Notion spreadsheets",
+    modes_b_badge_sub: "Excel • Notion • Trello",
+    modes_b_target: "For smaller agencies and solo headhunters (1–10 people) who run on Excel, Notion or Trello today",
+    modes_b_fear: "“We get lost in spreadsheets, briefs slip through the cracks, and the big ATS tools are expensive and overcomplicated.”",
+    modes_b_solution: "Run your jobs and candidates right next to the roles the radar found. Everything you need to fill a job, and nothing more.",
+    modes_b_f1: "Turn a role you found into a job in one click",
+    modes_b_f2: "Candidate pipeline: Shortlist → CV sent → Interviews → Offer → Placed",
+    modes_b_f3: "Shared internal notes, fee tracking and the history of every stage",
+    modes_b_f4: "Runs in the browser, nothing to install",
+    modes_b_cta: "Try the radar with ATS →",
 
     /* ── Live Radar Showcase (Mini-App Sandbox) ── */
     radar_badge: "Interactive demo",
@@ -67,34 +67,34 @@ const TRANSLATIONS = {
     radar_footnote: "Companies and roles are real, from the demo's daily scans. The agency, its candidates, contacts and placements are made up. Whatever you change stays in your browser.",
 
     /* ── Comparison Table ── */
-    compare_badge: "Operational Audit",
-    compare_headline: "Manual Agency Workflow vs. TalentRadar Autonomous Advantage",
-    compare_subtext: "A direct contrast of the daily business development routine.",
-    compare_col_activity: "Operational Dimension",
-    compare_col_manual: "Traditional Agency Workflow",
-    compare_col_radar: "TalentRadar Autonomous Advantage",
-    compare_row1_label: "Career Portal Monitoring",
-    compare_row1_manual: "Manual, random browsing that eats hours of every consultant's week.",
-    compare_row1_radar: "Autonomous monitoring <strong>2× daily</strong> (06:00 & 12:00 in your time zone).",
-    compare_row2_label: "Discovery Latency",
-    compare_row2_manual: "Days of waiting before a role shows up on job boards or LinkedIn.",
-    compare_row2_radar: "<strong>Day Zero discovery</strong> — hours after publication, days before LinkedIn.",
-    compare_row3_label: "Ghost & Filled Roles",
-    compare_row3_manual: "Recruiters waste time pitching candidates for roles silently filled weeks ago.",
-    compare_row3_radar: "<strong>Auto-Archive</strong> removes closed vacancies once they are gone from the client's careers page.",
-    compare_row4_label: "Candidate & Mandate Tracking",
-    compare_row4_manual: "Fragmented notes scattered in personal spreadsheets, Notion, or paper pads.",
-    compare_row4_radar: "<strong>Unified BD Master</strong> with optional 1-click lightweight candidate pipeline.",
-    compare_row5_label: "Adding New Accounts",
-    compare_row5_manual: "Manual spreadsheet data entry + constant manual reminder checking.",
-    compare_row5_radar: "Paste any company career URL — <strong>automated tracking</strong> begins on the next scan.",
-    compare_row6_label: "Weekly Management Cost",
-    compare_row6_manual: "Hours of administrative overhead every single Monday morning.",
-    compare_row6_radar: "<strong>3-minute morning pulse</strong> with AI sales pitch hooks and team audit trails.",
+    compare_badge: "Comparison",
+    compare_headline: "How it’s done today, and with TalentRadar",
+    compare_subtext: "A consultant’s ordinary day, point by point.",
+    compare_col_activity: "Task",
+    compare_col_manual: "Today",
+    compare_col_radar: "With TalentRadar",
+    compare_row1_label: "Checking career pages",
+    compare_row1_manual: "Consultants click through the pages by hand, when they get round to it, and lose hours every week.",
+    compare_row1_radar: "The pages are checked automatically <strong>twice a day</strong> (at 6:00 and 12:00 your time).",
+    compare_row2_label: "When you hear about a role",
+    compare_row2_manual: "Days later, once it shows up on job boards or LinkedIn.",
+    compare_row2_radar: "<strong>At the next scan</strong>, usually a few hours after it goes live on the client’s site.",
+    compare_row3_label: "Filled and withdrawn roles",
+    compare_row3_manual: "Consultants pitch candidates for roles the client quietly filled weeks ago.",
+    compare_row3_radar: "When a role disappears from the client’s site, TalentRadar <strong>archives it by itself</strong>.",
+    compare_row4_label: "Candidates and jobs",
+    compare_row4_manual: "Notes scattered across personal spreadsheets, Notion or a notepad.",
+    compare_row4_radar: "<strong>Every role in one place</strong> in BD Master, with candidates added to it in one click.",
+    compare_row5_label: "Adding a new client",
+    compare_row5_manual: "Type it into Excel, then keep reminding yourself to check it.",
+    compare_row5_radar: "Paste the link to their careers page and TalentRadar <strong>watches it from the next scan</strong>.",
+    compare_row6_label: "Time it takes",
+    compare_row6_manual: "Hours of clicking every Monday morning.",
+    compare_row6_radar: "<strong>A three-minute morning overview</strong>, with a reason to call the client next to each role.",
 
     /* ── Intelligence Lab / Blog Teasers ── */
-    insights_badge: "Research & BD Playbooks",
-    insights_headline: "Research & BD Playbooks for Recruitment Agencies",
+    insights_badge: "Blog",
+    insights_headline: "Research and BD playbooks for recruitment agencies",
     insights_subtext: "Practical business development playbooks built on public hiring research, with every number linked to its source.",
     insights_card1_badge: "MARKET ANALYSIS · 5 MIN READ",
     insights_card1_title: "The Latency Gap: Why the First Days of a Vacancy Decide Who Wins the Mandate",
@@ -111,121 +111,121 @@ const TRANSLATIONS = {
     insights_explore_all: "Explore all research articles and guides →",
 
     /* ── Pricing ── */
-    pricing_badge: "14-Day Free Pilot — up to 200 companies • No credit card",
-    pricing_headline: "Transparent EUR Pricing Engineered for High Agency ROI",
-    pricing_subtext: "Every plan includes a 14-day free pilot with full scanning capabilities. Zero commitment — cancel anytime with one click.",
-    pricing_monthly_note: "Transparent monthly EUR invoicing • No hidden setup fees",
+    pricing_badge: "Free for 14 days • Up to 200 companies • No card",
+    pricing_headline: "Simple pricing, paid monthly",
+    pricing_subtext: "Try any plan in full, free for 14 days. No commitment, cancel any time.",
+    pricing_monthly_note: "Prices excl. VAT • Invoiced monthly in euros • No setup fees",
     pricing_tier1_name: "Solo Scout",
     pricing_tier1_companies: "up to 50 companies",
     pricing_tier1_price: "€119",
     pricing_tier1_period: "/ month",
-    pricing_tier1_desc: "Engineered for solo headhunters and specialized boutique recruiters.",
-    pricing_tier1_f1: "Up to 50 monitored client companies",
-    pricing_tier1_f2: "1× daily automated morning scan (06:00 in your time zone)",
-    pricing_tier1_f3: "150 on-demand manual scan credits / week",
-    pricing_tier1_f4: "1 user seat",
-    pricing_tier1_f5: "Full 2-stage AI classification (Gemini Flash across all 6 verticals)",
-    pricing_tier1_f6: "Auto-archive daemon & stale role reconciliation",
-    pricing_tier1_f7: "BD Master lead pipeline, shared notes & CSV export",
-    pricing_tier1_f8: "Lightweight candidate pipeline module included",
-    pricing_tier1_cta: "Start 14-Day Free Pilot",
+    pricing_tier1_desc: "For solo headhunters and small agencies.",
+    pricing_tier1_f1: "Up to 50 client companies monitored",
+    pricing_tier1_f2: "One automatic scan a day, in the morning (at 6:00 your time)",
+    pricing_tier1_f3: "150 manual scans a week",
+    pricing_tier1_f4: "1 user",
+    pricing_tier1_f5: "AI sorts roles into all 6 practice areas",
+    pricing_tier1_f6: "Filled and withdrawn roles archived automatically",
+    pricing_tier1_f7: "Every role in BD Master, shared notes and CSV export",
+    pricing_tier1_f8: "Simple ATS included",
+    pricing_tier1_cta: "Try free for 14 days",
 
     pricing_tier2_name: "Agency Pro",
-    pricing_tier2_badge: "Most Popular",
+    pricing_tier2_badge: "Recommended",
     pricing_tier2_companies: "up to 200 companies",
     pricing_tier2_price: "€289",
     pricing_tier2_period: "/ month",
-    pricing_tier2_desc: "Maximum speed advantage and capacity for active recruitment teams.",
-    pricing_tier2_speed_title: "Speed Advantage: 2× Daily Scanning",
-    pricing_tier2_speed_body: "Scans run at 06:00 & 12:00 in your agency's time zone. Know about new roles within hours of posting, days before LinkedIn.",
-    pricing_tier2_f1: "Up to 200 monitored client companies",
-    pricing_tier2_f2: "2× daily automated scans (06:00 & 12:00)",
-    pricing_tier2_f3: "500 on-demand manual scan credits / week",
-    pricing_tier2_f4: "Up to 8 team accounts with owner assignments & shared notes",
-    pricing_tier2_f5: "Full 2-stage AI classification (all 6 verticals)",
-    pricing_tier2_f6: "Team audit trail & multi-user role assignment",
-    pricing_tier2_f7: "Priority founder Slack channel for custom company requests",
-    pricing_tier2_f8: "Full candidate pipeline & team workspace included",
-    pricing_tier2_cta: "Start 14-Day Free Pilot →",
+    pricing_tier2_desc: "For agency teams who want to hear about new roles twice a day.",
+    pricing_tier2_speed_title: "Twice a day instead of once",
+    pricing_tier2_speed_body: "Scans run at 6:00 and 12:00 your time, so roles posted in the morning are on your list after lunch.",
+    pricing_tier2_f1: "Up to 200 client companies monitored",
+    pricing_tier2_f2: "Automatic scans twice a day (at 6:00 and 12:00)",
+    pricing_tier2_f3: "500 manual scans a week",
+    pricing_tier2_f4: "Up to 8 users, and every role can have its owner",
+    pricing_tier2_f5: "AI sorts roles into all 6 practice areas",
+    pricing_tier2_f6: "Team change history and handing roles to colleagues",
+    pricing_tier2_f7: "Your own Slack channel with the founder",
+    pricing_tier2_f8: "Simple ATS included",
+    pricing_tier2_cta: "Try free for 14 days →",
 
     pricing_tier3_name: "Scale / Enterprise",
-    pricing_tier3_companies: "400+ companies",
+    pricing_tier3_companies: "more than 200 companies",
     pricing_tier3_price: "Custom",
-    pricing_tier3_price_from: "From €590 / month",
-    pricing_tier3_desc: "For regional and national recruitment firms with extensive client portfolios.",
-    pricing_tier3_f1: "400+ monitored client companies",
-    pricing_tier3_f2: "Up to 4× daily automated scans / priority worker queue",
-    pricing_tier3_f3: "Unlimited on-demand scans & unlimited team seats",
-    pricing_tier3_f4: "Custom scraping adapters for non-standard enterprise career portals",
-    pricing_tier3_f5: "Custom AI scoring profiles per practice group / partner",
-    pricing_tier3_f6: "Dedicated Slack support & custom onboarding with founder",
-    pricing_tier3_cta: "Contact Founder",
+    pricing_tier3_price_from: "From €590 a month",
+    pricing_tier3_desc: "For large agencies with many clients.",
+    pricing_tier3_f1: "More than 200 client companies monitored",
+    pricing_tier3_f2: "Automatic scans up to four times a day, and your scans go first",
+    pricing_tier3_f3: "Unlimited manual scans and users",
+    pricing_tier3_f4: "Custom connections for non-standard career pages",
+    pricing_tier3_f5: "AI role scoring tuned per consultant or practice area",
+    pricing_tier3_f6: "Slack support and onboarding with the founder",
+    pricing_tier3_cta: "Write to the founder",
 
-    pricing_roi_html: "A single tech or executive search placement pays for <strong>4+ years of Agency Pro</strong>. Spotting just one mandate 48 hours early generates an immediate <strong>4,000%+ ROI</strong>.",
-    pricing_footnote: "Natively supports Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Personio, BambooHR, Teamtailor, Teamio/Jobs.cz, Recruitis, and direct career portals.",
+    pricing_roi_html: "A single tech or executive search placement <strong>pays for Agency Pro for a year or more</strong>.",
+    pricing_footnote: "Works with Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Teamio/Jobs.cz, Phenom and Jibe, and with ordinary career pages.",
 
     /* ── Founder Story ── */
-    story_badge: "Why we built it",
-    story_headline: "From Manual Spreadsheet Grunt Work to Autonomous Intelligence",
-    story_p1_html: "During my residency in Dublin at <a href=\"https://www.linkedin.com/in/rob-magee-749891/\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-[#FF8533] underline hover:text-white font-semibold\">Ingenio Global</a> under Managing Director <a href=\"https://www.linkedin.com/in/rob-magee-749891/\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-[#FF8533] underline hover:text-white font-semibold\">Rob Magee</a>, I saw senior headhunters spending every Monday morning manually checking enterprise career portals and copying vacancy links into spreadsheets one by one.",
-    story_p2: "It was slow, error-prone, and burned hours that should have been spent closing candidates. Instead of continuing the manual grunt work, I built an autonomous engine to monitor client career portals and ATS endpoints directly.",
-    story_p3: "Over the next two months, that engine ran in daily production across 180 enterprise companies and captured 3,400+ open roles. Consultants were notified the day clients published them — capturing mandates days before external job boards even knew they existed.",
-    story_p4: "Returning from Dublin, it was clear that hundreds of recruitment boutiques in Central and Western Europe are still trapped in spreadsheet chaos. TalentRadar is engineered to eliminate that waste.",
-    story_p5: "When you get in touch, you talk directly with me.",
+    story_badge: "How TalentRadar started",
+    story_headline: "From Monday-morning clicking to a radar that does it for you",
+    story_p1_html: "In Dublin I worked at <a href=\"https://www.linkedin.com/in/rob-magee-749891/\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-[#FF8533] underline hover:text-white font-semibold\">Ingenio Global</a>, the agency run by <a href=\"https://www.linkedin.com/in/rob-magee-749891/\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-[#FF8533] underline hover:text-white font-semibold\">Rob Magee</a>, and watched experienced headhunters spend every Monday morning going through career pages and copying links into spreadsheets.",
+    story_p2: "It was slow work where things were easy to miss, and it took time the consultants should have spent with candidates. So I wrote a system that checks companies’ career pages and ATS by itself.",
+    story_p3: "For the next two months it ran every day in production: it watched 180 large companies and caught more than 3,400 open roles. Consultants heard about new roles on the day they were posted, days before they showed up on job boards.",
+    story_p4: "Back home it was clear that hundreds of agencies across Central and Western Europe struggle with the same spreadsheets. TalentRadar is here so they don’t have to do that work.",
+    story_p5: "When you get in touch, you deal with me directly.",
     story_author_name: "Kryštof Pejša",
-    story_author_title: "Founder, TalentRadar",
-    story_linkedin: "LinkedIn Profile",
+    story_author_title: "Founder of TalentRadar",
+    story_linkedin: "LinkedIn profile",
     story_rob_linkedin: "Rob Magee (Ingenio Global)",
 
     /* ── FAQ & Asynchronous Onboarding ── */
-    faq_badge: "Zero-Friction Implementation",
+    faq_badge: "Before you start",
     faq_headline: "Frequently Asked Questions",
-    faq_onboarding_title: "Zero-Friction Asynchronous Setup",
-    faq_onboarding_body: "Paste your target client domains or upload a CSV/Excel file during registration. Our engine maps your accounts and ATS endpoints within 24 hours. Zero configuration calls required.",
-    faq_q1: "How do you discover roles before LinkedIn and job boards?",
-    faq_a1: "Companies post directly to their ATS endpoints (Greenhouse, Lever, Ashby, etc.) or career portals first — it is immediate and free. Commercial job boards charge posting fees and rely on spiders with 24–96 hour indexing latency. TalentRadar monitors primary endpoints twice daily, discovering vacancies on Day Zero.",
-    faq_q2: "Which ATS platforms are natively supported?",
-    faq_a2: "Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Personio, BambooHR, Teamtailor, Teamio/Jobs.cz, Recruitis, and custom enterprise portals. For non-standard career pages, custom scraping adapters are included in the Scale/Enterprise plan.",
-    faq_q3: "What happens when a company closes or fills a vacancy?",
-    faq_a3: "When a listing disappears, the next scheduled scan (06:00 or 12:00 in your time zone) notices it and the following one confirms it, then Auto-Archive archives the role automatically. If the employer republishes it, the role comes back with its history. No manual clean-up.",
-    faq_q4: "How does the 14-day free pilot work?",
-    faq_a4: "You track up to 200 client companies with full scanning capabilities for 14 days. No credit card is required. There is no automated commitment or surprise charge — you decide whether to subscribe once you have seen the results.",
-    faq_q5: "Can we push roles to our existing CRM or export data?",
-    faq_a5: "Yes. BD Signals supports 1-click CSV exports and webhook integration for Bullhorn, Datacruit, Recruitis, or any external ATS. If you run a boutique agency without an external ATS, our built-in candidate pipeline provides complete mandate tracking.",
+    faq_onboarding_title: "Set up without a single call",
+    faq_onboarding_body: "When you sign up, paste your clients’ domains or upload their list in Excel or CSV. Within 24 hours we find their career pages and ATS and run the first scan. No calls needed.",
+    faq_q1: "How do you know about roles before LinkedIn and job boards?",
+    faq_a1: "Companies post roles first in their own ATS (Greenhouse, Lever, Ashby and others) or on their careers page, because it costs them nothing. Roles reach paid job boards later, often several days later. TalentRadar checks the companies’ own pages and ATS twice a day, so it picks up a new role at the next scan.",
+    faq_q2: "Which ATS does TalentRadar work with?",
+    faq_a2: "Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Teamio/Jobs.cz, Phenom and Jibe, as well as large companies’ own career pages. We connect non-standard pages on request in the Scale / Enterprise plan.",
+    faq_q3: "What happens when a company closes or fills a role?",
+    faq_a3: "When a listing disappears from the site, the next scan (at 6:00 or 12:00 your time) notices, the one after confirms it, and TalentRadar archives the role. If the company posts it again, it comes back with its full history. Nothing to delete by hand.",
+    faq_q4: "How do the 14 free days work?",
+    faq_a4: "For 14 days you can monitor up to 200 companies and use everything in full. No credit card. The trial does not turn into a paid plan by itself: you decide whether to carry on.",
+    faq_q5: "Can we get the roles into our own ATS or CRM?",
+    faq_a5: "Yes, as a CSV file. In BD Master you export the roles in one click, with the same filters you have on screen, and import the file into your ATS. A direct connection to Bullhorn or another ATS isn’t available yet. If you don’t have an ATS, Radar + ATS runs the pipeline inside TalentRadar, and you can bring in candidates and contacts from Vincere, Loxo, Bullhorn or LinkedIn exports.",
 
     /* ── Pilot / Trial Form ── */
-    trial_badge: "Spend time closing, not searching • 14-Day Free Pilot",
-    trial_headline: "Activate Your 14-Day Free Pilot on Your Client Portfolio",
-    trial_subtext: "Upload your client list in CSV or Excel, or paste company domains. We will map your accounts and have your automated scan running within 24 hours.",
-    trial_label_name: "Full Name *",
+    trial_badge: "Spend time closing, not searching • Free for 14 days",
+    trial_headline: "Try TalentRadar on your own client list",
+    trial_subtext: "Upload your client list in Excel or CSV, or just paste their domains. Within 24 hours we find their career pages and run the first scan.",
+    trial_label_name: "Full name *",
     trial_placeholder_name: "Jane Smith",
-    trial_label_email: "Agency Work Email *",
+    trial_label_email: "Agency work e-mail *",
     trial_placeholder_email: "jane@agency.com",
-    trial_label_company: "Recruitment Agency / Company *",
+    trial_label_company: "Agency / company name *",
     trial_placeholder_company: "Acme Search Ltd.",
-    trial_label_clients: "Client domains or portfolio to monitor (up to 200 companies)",
-    trial_placeholder_clients: "Paste client career URLs or company domains here (e.g. tines.com, mews.com, stripe.com)...",
+    trial_label_clients: "Clients you want to monitor (up to 200 companies)",
+    trial_placeholder_clients: "Paste your clients’ careers page links or domains (e.g. tines.com, mews.com, stripe.com)…",
     trial_clients_tag: "Excel, CSV or Domains",
-    trial_upload_cta: "Click to upload client spreadsheet",
+    trial_upload_cta: "Click to upload your client list",
     trial_upload_types: "(Excel .xlsx, .xls or .csv)",
     trial_upload_note: "We find the career pages and ATS for you. No list at hand? Leave it empty and we will get in touch to collect it.",
-    trial_submit: "Activate 14-Day Free Pilot →",
-    trial_submitting: "Activating your pilot…",
+    trial_submit: "Start my 14 free days →",
+    trial_submitting: "Setting up your trial…",
     trial_step1: "A confirmation e-mail arrives right away.",
     trial_step2: "We set up your workspace, find your clients' career pages and run the first scan.",
     trial_step3: "You get an e-mail with a link to set your password and sign in.",
     trial_file_too_large: "File too large (max 8 MB).",
-    trial_error_required: "Please enter your name, work email, and agency name.",
+    trial_error_required: "Please enter your name, work e-mail and agency name.",
     trial_error_generic: "Something went wrong. Please write to us directly at krystof@talentradar.eu",
     trial_speed_note: "Often ready within the hour, always within 24 hours.",
-    trial_gdpr_html: "By submitting you agree to processing of your contact details to create a trial account. Your data is strictly confidential and never shared. (<a href=\"gdpr.html\" class=\"underline hover:text-[#FF8533]\">Privacy Policy</a>)",
-    trial_contact_prefix: "Direct Founder Contact:",
+    trial_gdpr_html: "By submitting you agree to the processing of your contact details to create a trial account. We never sell your details or pass them on for marketing. (<a href=\"gdpr.html\" class=\"underline hover:text-[#FF8533]\">Privacy Policy</a>)",
+    trial_contact_prefix: "Write to the founder directly:",
 
     /* ── Footer ── */
     footer_tagline: "Spend time closing, not searching.",
     footer_author: "Kryštof Pejša",
     footer_gdpr: "Privacy Policy (GDPR)",
-    footer_copyright: "© 2026 TalentRadar. Built for European Recruitment Boutiques & Headhunters.",
+    footer_copyright: "© 2026 TalentRadar. Built for European recruitment agencies and headhunters.",
   },
 
   cs: {
@@ -263,14 +263,14 @@ const TRANSLATIONS = {
     modes_a_badge: "JEN RADAR",
     modes_b_badge: "RADAR + ATS",
     modes_a_title: "Vaše ATS zůstane, přibude radar",
-    modes_a_badge_sub: "Bullhorn • Datacruit • Recruitis",
+    modes_a_badge_sub: "Vedle Bullhornu, Datacruitu, Recruitisu…",
     modes_a_target: "Pro zavedené agentury s 5–50 konzultanty, které pracují v Bullhornu, Datacruitu, Recruitisu nebo Echu",
     modes_a_fear: "„Nechceme stěhovat kandidátskou databázi ani měnit ATS.“",
-    modes_a_solution: "TalentRadar funguje jako radar vedle vašeho ATS: dvakrát denně projde weby klientů a upozorní vás na nové pozice, které pak jedním klikem pošlete do svého systému.",
+    modes_a_solution: "TalentRadar funguje jako radar vedle vašeho ATS: dvakrát denně projde weby klientů, upozorní vás na nové pozice a jedním klikem je vyexportujete do CSV.",
     modes_a_f1: "Čte pozice přímo z ATS klientů (Greenhouse, Lever, Workable, Ashby a další)",
     modes_a_f2: "Automatické skeny dvakrát denně (v 6:00 a ve 12:00 vašeho času)",
     modes_a_f3: "Odhadne, kdo je hiring manager, a jedním klikem ho najdete na LinkedInu nebo přes Google X-Ray",
-    modes_a_f4: "Export do CSV jedním klikem nebo přenos přes webhook do Bullhornu, Datacruitu či Recruitisu",
+    modes_a_f4: "Export pozic do CSV jedním klikem, se stejnými filtry, jaké máte na obrazovce",
     modes_a_cta: "Vyzkoušet radar →",
     modes_b_title: "Konec tabulek v Excelu a Notionu",
     modes_b_badge_sub: "Excel • Notion • Trello",
@@ -337,10 +337,10 @@ const TRANSLATIONS = {
     pricing_badge: "Vyzkoušet na 14 dní zdarma • Až 200 firem • Bez karty",
     pricing_headline: "Jednoduchý ceník, platíte měsíčně",
     pricing_subtext: "Každý tarif si můžete 14 dní zdarma vyzkoušet naplno. Bez závazků, zrušit můžete kdykoli.",
-    pricing_monthly_note: "Fakturujeme měsíčně v eurech • Žádné poplatky za zřízení",
+    pricing_monthly_note: "Ceny jsou bez DPH • Fakturujeme měsíčně v korunách • Žádné poplatky za zřízení",
     pricing_tier1_name: "Solo Scout",
     pricing_tier1_companies: "až 50 firem",
-    pricing_tier1_price: "119 €",
+    pricing_tier1_price: "2 990 Kč",
     pricing_tier1_period: "/ měsíc",
     pricing_tier1_desc: "Pro samostatné headhuntery a malé agentury.",
     pricing_tier1_f1: "Až 50 sledovaných klientských firem",
@@ -356,7 +356,7 @@ const TRANSLATIONS = {
     pricing_tier2_name: "Agency Pro",
     pricing_tier2_badge: "Doporučujeme",
     pricing_tier2_companies: "až 200 firem",
-    pricing_tier2_price: "289 €",
+    pricing_tier2_price: "6 990 Kč",
     pricing_tier2_period: "/ měsíc",
     pricing_tier2_desc: "Pro agenturní týmy, které chtějí o nových pozicích vědět dvakrát denně.",
     pricing_tier2_speed_title: "Dvakrát denně místo jednou",
@@ -374,7 +374,7 @@ const TRANSLATIONS = {
     pricing_tier3_name: "Scale / Enterprise",
     pricing_tier3_companies: "více než 200 firem",
     pricing_tier3_price: "Na míru",
-    pricing_tier3_price_from: "od 590 € měsíčně",
+    pricing_tier3_price_from: "od 14 900 Kč měsíčně",
     pricing_tier3_desc: "Pro velké agentury s mnoha klienty.",
     pricing_tier3_f1: "Více než 200 sledovaných klientských firem",
     pricing_tier3_f2: "Automatické skeny až čtyřikrát denně, vaše skeny mají přednost",
@@ -385,7 +385,7 @@ const TRANSLATIONS = {
     pricing_tier3_cta: "Napsat zakladateli",
 
     pricing_roi_html: "Jedno umístění v IT nebo executive search vám <strong>Agency Pro zaplatí na rok i déle</strong>.",
-    pricing_footnote: "Umí Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Personio, BambooHR, Teamtailor, Teamio/Jobs.cz, Recruitis i běžné kariérní weby.",
+    pricing_footnote: "Umí Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Teamio/Jobs.cz, Phenom a Jibe i běžné kariérní weby.",
 
     /* ── Founder Story ── */
     story_badge: "Jak TalentRadar vznikl",
@@ -408,13 +408,13 @@ const TRANSLATIONS = {
     faq_q1: "Jak to, že o pozicích víte dřív než LinkedIn a portály?",
     faq_a1: "Firmy vypisují pozice nejdřív ve svém ATS (Greenhouse, Lever, Ashby a další) nebo na kariérním webu, protože je to nic nestojí. Na placené portály se pozice dostávají později, často až po několika dnech. TalentRadar kontroluje přímo weby a ATS firem dvakrát denně, takže novou pozici zachytí při nejbližším skenu.",
     faq_q2: "Se kterými ATS TalentRadar umí pracovat?",
-    faq_a2: "Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Personio, BambooHR, Teamtailor, Teamio/Jobs.cz, Recruitis a také vlastní kariérní weby velkých firem. Nestandardní weby napojíme na míru v tarifu Scale / Enterprise.",
+    faq_a2: "Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Teamio/Jobs.cz, Phenom a Jibe a také vlastní kariérní weby velkých firem. Nestandardní weby napojíme na míru v tarifu Scale / Enterprise.",
     faq_q3: "Co se stane, když firma pozici uzavře nebo obsadí?",
     faq_a3: "Když inzerát z webu zmizí, nejbližší sken (v 6:00 nebo ve 12:00 vašeho času) si toho všimne, další to potvrdí a TalentRadar pozici archivuje. Když ji firma vypíše znovu, vrátí se i s celou historií. Nic nemusíte mazat ručně.",
     faq_q4: "Jak funguje 14 dní zdarma?",
     faq_a4: "Po 14 dní můžete sledovat až 200 firem a používat všechno naplno. Platební kartu nezadáváte. Po skončení se zkušební verze sama nezpoplatní, o pokračování rozhodnete vy.",
     faq_q5: "Můžeme data přenést do svého CRM?",
-    faq_a5: "Ano. V režimu Jen radar můžete data jedním klikem exportovat do CSV nebo posílat přes webhook do Bullhornu, Datacruitu, Recruitisu či jiného CRM. Pokud vlastní ATS nemáte, v režimu Radar + ATS máte pipeline přímo v TalentRadaru.",
+    faq_a5: "Ano, jako soubor CSV. V BD Masteru pozice jedním klikem vyexportujete se stejnými filtry, jaké máte na obrazovce, a soubor nahrajete do svého ATS. Přímé napojení na Bullhorn nebo jiné ATS zatím nemáme. Pokud vlastní ATS nemáte, v režimu Radar + ATS máte pipeline přímo v TalentRadaru a kandidáty i kontakty do něj nahrajete z exportu Vincere, Loxo, Bullhornu nebo LinkedInu.",
 
     /* ── Pilot / Trial Form ── */
     trial_badge: "Spend time closing, not searching • Vyzkoušet na 14 dní zdarma",
@@ -459,6 +459,10 @@ const TRANSLATIONS = {
   const PRIMARY_STORAGE_KEY = 'talentradar_lang';
   const LEGACY_STORAGE_KEY = 'tr_lang';
   let currentLang = 'en';
+  // Set once the URL or an earlier click picked the language; otherwise the
+  // browser decides: Czech or Slovak among its languages, or a Czech or
+  // Slovak time zone, means Czech.
+  let chosen = false;
 
   try {
     if (typeof document !== 'undefined' && document.documentElement) {
@@ -469,12 +473,14 @@ const TRANSLATIONS = {
     }
     if (typeof window !== 'undefined' && window.location && window.location.pathname && window.location.pathname.endsWith('-cs.html')) {
       currentLang = 'cs';
+      chosen = true;
     }
     if (typeof localStorage !== 'undefined') {
       const saved = localStorage.getItem(PRIMARY_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
       if (saved === 'cs' || saved === 'en') {
         if (!window.location || !window.location.pathname.endsWith('-cs.html')) {
           currentLang = saved;
+          chosen = true;
         }
       }
     }
@@ -483,6 +489,15 @@ const TRANSLATIONS = {
       const qLang = params.get('lang');
       if (qLang === 'cs' || qLang === 'en') {
         currentLang = qLang;
+        chosen = true;
+      }
+    }
+    if (!chosen && typeof navigator !== 'undefined') {
+      const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+      let zone = '';
+      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+      if (langs.some(l => /^(cs|sk)\b/i.test(l || '')) || zone === 'Europe/Prague' || zone === 'Europe/Bratislava') {
+        currentLang = 'cs';
       }
     }
   } catch (e) {
@@ -534,11 +549,13 @@ const TRANSLATIONS = {
     });
   }
 
-  function applyLanguage(lang) {
+  // persist=false keeps a language guessed from the browser out of storage,
+  // so only a click or the URL makes it stick.
+  function applyLanguage(lang, persist) {
     if (lang !== 'cs' && lang !== 'en') lang = 'en';
     currentLang = lang;
     try {
-      if (typeof localStorage !== 'undefined') {
+      if (persist !== false && typeof localStorage !== 'undefined') {
         localStorage.setItem(PRIMARY_STORAGE_KEY, lang);
         localStorage.setItem(LEGACY_STORAGE_KEY, lang);
       }
@@ -643,7 +660,7 @@ const TRANSLATIONS = {
       });
 
       // Apply saved or default language
-      applyLanguage(currentLang);
+      applyLanguage(currentLang, chosen);
     });
   }
 

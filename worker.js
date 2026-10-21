@@ -249,7 +249,7 @@ async function handleDemoSubmission(request, env) {
     console.error("Lead dropped, no channel delivered and no storage bound:", leadRecord.email);
     return new Response(
       JSON.stringify({
-        error: "We couldn't register your request automatically. Please e-mail krystof@talentradar.eu directly — we'll set the pilot up by hand.",
+        error: "We couldn't register your request automatically. Please e-mail krystof@talentradar.eu directly — we'll set up your trial by hand.",
       }),
       { status: 502, headers: { "Content-Type": "application/json; charset=utf-8" } }
     );

@@ -86,7 +86,7 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  const { name, email, company, clients, fileName, fileData, website, lang, timestamp } = data;
+  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, timezone } = data;
   const clientIp = request.headers.get("cf-connecting-ip") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";
 
@@ -182,6 +182,9 @@ async function handleDemoSubmission(request, env) {
     // falling back to what their browser asks for. Used to pick the
     // language of the welcome e-mail the app sends later.
     lang: normaliseLang(lang, request.headers.get("accept-language")),
+    // The browser's time zone ("Europe/Dublin"). The app schedules the scans
+    // and picks the fee currency from it; without it a free mailbox lands in Prague.
+    timezone: normaliseTimezone(timezone),
     ip: clientIp,
     userAgent: userAgent,
   };
@@ -294,6 +297,12 @@ async function wakeApp(env, lead) {
 /**
  * Resolves the language to address this person in: 'cs' or 'en'.
  */
+/** An IANA zone name like "Europe/Dublin", or "". The app checks it again. */
+function normaliseTimezone(zone) {
+  const value = String(zone || "").trim().slice(0, 64);
+  return /^[A-Za-z]+(?:\/[A-Za-z0-9_+\-]+){1,2}$/.test(value) ? value : "";
+}
+
 function normaliseLang(chosen, acceptLanguage) {
   const pick = String(chosen || "").trim().toLowerCase().slice(0, 2);
   if (pick === "cs" || pick === "en") return pick;

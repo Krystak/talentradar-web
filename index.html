@@ -722,7 +722,7 @@
 
         <div class="space-y-4 text-[#F3F4F6]/80 text-sm sm:text-base leading-relaxed">
           <p data-i18n="story_p1_html" data-i18n-html="true">
-            In Dublin I worked at <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Ingenio Global</a>, the agency run by <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Rob Magee</a>, and watched experienced headhunters spend every Monday morning going through career pages and copying links into spreadsheets.
+            In Dublin I worked at <a href="https://www.linkedin.com/company/ingenio-global/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Ingenio Global</a>, the agency run by <a href="https://www.linkedin.com/in/rob-magee-749891/" target="_blank" rel="noopener noreferrer" class="text-[#FF8533] underline hover:text-white font-semibold">Rob Magee</a>, and watched experienced headhunters spend every Monday morning going through career pages and copying links into spreadsheets.
           </p>
           <p data-i18n="story_p2">
             It was slow work where things were easy to miss, and it took time the consultants should have spent with candidates. So I wrote a system that checks companies’ career pages and ATS by itself.
@@ -1191,6 +1191,7 @@
           fileData: selectedFileBase64 || null,
           website,
           lang: (window.TRLang && window.TRLang.current()) || document.documentElement.lang || 'en',
+          timezone: (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } })(),
           timestamp: formTimestampInput.value
         };
 

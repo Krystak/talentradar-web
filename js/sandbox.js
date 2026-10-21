@@ -69,7 +69,7 @@
       no_roles: 'No role matches the filters.', clear_filters: 'Clear filters',
       dir_sub: 'Every company the demo tracks, with its careers page and the ATS it runs on.', col_type: 'Type', col_ats: 'ATS', col_new7: 'New (7 d)', show_roles: 'Show roles',
       arch_sub: 'Roles that disappeared from the careers page. Archived automatically after two scans without them.', col_closed: 'Closed', col_open_for: 'Was open',
-      st_NEW: 'NEW', st_CONTACT_PENDING: 'TO CONTACT', st_CONTACTED: 'CONTACTED', st_IN_PROGRESS: 'IN TALKS', st_ON_HOLD: 'ON HOLD', st_WON: 'WON', st_LOST: 'LOST',
+      st_NEW: 'NEW', st_ACTIVE: 'ACTIVE', st_CONTACT_PENDING: 'TO CONTACT', st_CONTACTED: 'CONTACTED', st_IN_PROGRESS: 'IN TALKS', st_ON_HOLD: 'ON HOLD', st_WON: 'WON', st_LOST: 'LOST',
       p_of: '{n} of {total}', p_status: 'Status', p_posting: 'Open posting', p_job: 'Create job', p_job_open: 'Job {id}', p_close: 'Close',
       pt_overview: 'Overview', pt_hm: 'Hiring manager', pt_notes: 'Notes', pt_history: 'History',
       ai_summary: 'AI summary', ai_generated: 'generated from the posting', ai_none: 'The AI digest is generated for CORE roles during the scan. Open the posting for the full text.',
@@ -188,7 +188,7 @@
       no_roles: 'Filtrům neodpovídá žádná role.', clear_filters: 'Zrušit filtry',
       dir_sub: 'Všechny firmy, které demo sleduje, s kariérní stránkou a ATS, na kterém běží.', col_type: 'Typ', col_ats: 'ATS', col_new7: 'Nové (7 d)', show_roles: 'Ukázat role',
       arch_sub: 'Role, které zmizely z kariérní stránky. Archivují se samy po dvou skenech bez nich.', col_closed: 'Uzavřeno', col_open_for: 'Bylo otevřeno',
-      st_NEW: 'NOVÁ', st_CONTACT_PENDING: 'K OSLOVENÍ', st_CONTACTED: 'OSLOVENO', st_IN_PROGRESS: 'V JEDNÁNÍ', st_ON_HOLD: 'POZASTAVENO', st_WON: 'ZÍSKÁNO', st_LOST: 'PROHRÁNO',
+      st_NEW: 'NOVÁ', st_ACTIVE: 'AKTIVNÍ', st_CONTACT_PENDING: 'K OSLOVENÍ', st_CONTACTED: 'OSLOVENO', st_IN_PROGRESS: 'V JEDNÁNÍ', st_ON_HOLD: 'ODLOŽENO', st_WON: 'ZÍSKÁNO', st_LOST: 'PROHRÁNO',
       p_of: '{n} z {total}', p_status: 'Stav', p_posting: 'Otevřít inzerát', p_job: 'Vytvořit zakázku', p_job_open: 'Zakázka {id}', p_close: 'Zavřít',
       pt_overview: 'Přehled', pt_hm: 'Hiring manager', pt_notes: 'Poznámky', pt_history: 'Historie',
       ai_summary: 'AI shrnutí', ai_generated: 'vygenerováno z inzerátu', ai_none: 'AI shrnutí se při skenu tvoří pro CORE role. Celý text najdete v inzerátu.',
@@ -276,7 +276,7 @@
   };
 
   /* ═══════════════════════ Constants ═══════════════════════ */
-  const ROLE_STATUSES = ['NEW', 'CONTACT_PENDING', 'CONTACTED', 'IN_PROGRESS', 'ON_HOLD', 'WON', 'LOST'];
+  const ROLE_STATUSES = ['NEW', 'ACTIVE', 'CONTACT_PENDING', 'CONTACTED', 'IN_PROGRESS', 'ON_HOLD', 'WON', 'LOST'];
   const KEPT_BY_JOB = ['WON', 'LOST'];
   const FLOW = ['SHORTLISTED', 'INTERESTED', 'CV_READY', 'CV_SENT', 'SENDOUT', 'INTERVIEW_1', 'INTERVIEW_2', 'FINAL', 'OFFER', 'PLACED'];
   const REJECTED = ['REJECTED_CANDIDATE', 'REJECTED_CLIENT', 'OFFER_DECLINED', 'REJECTED_CONSULTANT'];
@@ -376,7 +376,8 @@
     return `<span class="inline-block rounded border px-1.5 py-0.5 font-mono text-[9.5px] font-bold ${c}">${esc(fit)}</span>`;
   }
   function statusBadge(st) {
-    const c = { NEW: 'border-[#10B981]/35 bg-[#10B981]/10 text-[#34D399]', CONTACT_PENDING: 'border-[#FBBF24]/35 bg-[#FBBF24]/10 text-[#FBBF24]', CONTACTED: 'border-[#38BDF8]/35 bg-[#38BDF8]/10 text-[#38BDF8]', IN_PROGRESS: 'border-[#FF5500]/40 bg-[#FF5500]/[0.12] text-[#FF7733]', ON_HOLD: 'border-white/15 bg-white/5 text-[#C9CDD6]', WON: 'border-[#10B981]/50 bg-[#10B981]/20 text-[#34D399]', LOST: 'border-white/10 bg-white/5 text-[#8A90A2]' }[st] || 'border-white/10 text-[#8A90A2]';
+    // Same looks as the app (frontend/src/bdm/ui.tsx, STATUS_TONE): every status its own.
+    const c = { NEW: 'border-white/50 bg-white/10 text-white', ACTIVE: 'border-[#8A90A2]/50 bg-transparent text-[#8A90A2]', CONTACT_PENDING: 'border-[#FBBF24]/40 bg-[#FBBF24]/[0.12] text-[#FBBF24]', CONTACTED: 'border-[#38BDF8]/40 bg-[#38BDF8]/[0.12] text-[#38BDF8]', IN_PROGRESS: 'border-[#FF5500]/50 bg-[#FF5500]/[0.12] text-[#FF5500]', ON_HOLD: 'border-[#A78BFA]/40 bg-[#A78BFA]/[0.12] text-[#A78BFA]', WON: 'border-[#10B981]/50 bg-[#10B981]/15 text-[#10B981]', LOST: 'border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444]' }[st] || 'border-transparent bg-white/5 text-[#5A6275]';
     return `<span class="inline-block whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[9.5px] font-bold ${c}">${esc(t('st_' + st))}</span>`;
   }
   function pill(text, tone) {

@@ -149,7 +149,7 @@ const TRANSLATIONS = {
     pricing_tier2_cta: "Try free for 14 days →",
 
     pricing_tier3_name: "Scale / Enterprise",
-    pricing_tier3_companies: "more than 200 companies",
+    pricing_tier3_companies: "200+ companies",
     pricing_tier3_price: "Custom",
     pricing_tier3_price_from: "From €590 a month",
     pricing_tier3_desc: "For large agencies with many clients.",
@@ -372,7 +372,7 @@ const TRANSLATIONS = {
     pricing_tier2_cta: "Vyzkoušet na 14 dní zdarma →",
 
     pricing_tier3_name: "Scale / Enterprise",
-    pricing_tier3_companies: "více než 200 firem",
+    pricing_tier3_companies: "200+ firem",
     pricing_tier3_price: "Na míru",
     pricing_tier3_price_from: "od 14 900 Kč měsíčně",
     pricing_tier3_desc: "Pro velké agentury s mnoha klienty.",

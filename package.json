@@ -2,6 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "build:css": "npx -y tailwindcss@3.4.17 -c tailwind.config.js -i css/tailwind.src.css -o css/site.css --minify"
   }
 }

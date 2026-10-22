@@ -5,7 +5,7 @@
 import { test, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
 
-import worker from "../worker.js";
+import worker, { normalisePlan } from "../worker.js";
 import { checkAddress, confirmationEmail, countCompanies, escapeHtml, DISPOSABLE_DOMAINS } from "../email.js";
 
 let sent;      // [{ url, body }] for every outbound fetch except DNS
@@ -104,6 +104,17 @@ test("Kryštof still gets the internal sign-up e-mail and the Slack post", async
   const internal = brevoMails().find((m) => m.to[0].email === "krystof@talentradar.eu");
   assert.ok(internal && internal.subject.startsWith("New 14-day trial: Petra Svobodová"));
   assert.ok(sent.some((s) => s.url === "https://hooks.slack.test/x"));
+});
+
+test("the pricing card the visitor picked rides along to the lead and Kryštof's e-mail", async () => {
+  const e = env();
+  await submit(e, { plan: "Agency" });
+  const key = [...e.TALENT_RADAR_KV.store.keys()].find((k) => k.startsWith("lead:"));
+  assert.equal(JSON.parse(e.TALENT_RADAR_KV.store.get(key)).plan, "agency");
+  const internal = brevoMails().find((m) => m.to[0].email === "krystof@talentradar.eu");
+  assert.match(internal.textContent, /Plan: {3}agency/);
+  assert.equal(normalisePlan("enterprise; drop table"), "");
+  assert.equal(normalisePlan(undefined), "");
 });
 
 test("an English visitor gets English", async () => {

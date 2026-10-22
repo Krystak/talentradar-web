@@ -6,3 +6,5 @@ functions
 email.js
 package.json
 tests
+tailwind.config.js
+css/tailwind.src.css

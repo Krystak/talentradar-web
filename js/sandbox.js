@@ -72,7 +72,8 @@
       st_NEW: 'NEW', st_ACTIVE: 'ACTIVE', st_CONTACT_PENDING: 'TO CONTACT', st_CONTACTED: 'CONTACTED', st_IN_PROGRESS: 'IN TALKS', st_ON_HOLD: 'ON HOLD', st_WON: 'WON', st_LOST: 'LOST',
       p_of: '{n} of {total}', p_status: 'Status', p_posting: 'Open posting', p_job: 'Create job', p_job_open: 'Job {id}', p_close: 'Close',
       pt_overview: 'Overview', pt_hm: 'Hiring manager', pt_notes: 'Notes', pt_history: 'History',
-      ai_summary: 'AI summary', ai_generated: 'generated from the posting', ai_none: 'The AI digest is generated for CORE roles during the scan. Open the posting for the full text.',
+      ai_summary: 'AI summary', ai_generated: 'generated from the posting', ai_none: 'AI digests are written during the scan for CORE roles, the ones that match the roles you place. Open the posting for the full text.',
+      fit_hint_core: 'CORE: matches the roles you place', fit_hint_sel: 'SELECTIVE: worth a look, outside your main focus', fit_hint_skip: 'SKIP: outside your field',
       key_req: 'Key requirements', bd_hook: 'BD hook', fit_reason: 'Why this fit', scope: 'Scope', work_model: 'Work model',
       hm_title: 'Likely hiring manager', hm_src_interview: 'From the posting: the last interview round is with this person.', hm_src_reports_to: 'From the posting: the role reports to this person.',
       hm_src_estimate: 'Estimated from the role title and department. The person with the final call, not the interview panel.',
@@ -191,7 +192,8 @@
       st_NEW: 'NOVÁ', st_ACTIVE: 'AKTIVNÍ', st_CONTACT_PENDING: 'K OSLOVENÍ', st_CONTACTED: 'OSLOVENO', st_IN_PROGRESS: 'V JEDNÁNÍ', st_ON_HOLD: 'ODLOŽENO', st_WON: 'ZÍSKÁNO', st_LOST: 'PROHRÁNO',
       p_of: '{n} z {total}', p_status: 'Stav', p_posting: 'Otevřít inzerát', p_job: 'Vytvořit zakázku', p_job_open: 'Zakázka {id}', p_close: 'Zavřít',
       pt_overview: 'Přehled', pt_hm: 'Hiring manager', pt_notes: 'Poznámky', pt_history: 'Historie',
-      ai_summary: 'AI shrnutí', ai_generated: 'vygenerováno z inzerátu', ai_none: 'AI shrnutí se při skenu tvoří pro CORE pozice. Celý text najdete v inzerátu.',
+      ai_summary: 'AI shrnutí', ai_generated: 'vygenerováno z inzerátu', ai_none: 'AI shrnutí se při skenu píše pro pozice CORE, tedy ty, které sedí na pozice, jež obsazujete. Celý text najdete v inzerátu.',
+      fit_hint_core: 'CORE: sedí na pozice, které obsazujete', fit_hint_sel: 'SELECTIVE: stojí za pohled, mimo váš hlavní obor', fit_hint_skip: 'SKIP: mimo váš obor',
       key_req: 'Klíčové požadavky', bd_hook: 'BD háček', fit_reason: 'Proč tento fit', scope: 'Rozsah pozice', work_model: 'Forma práce',
       hm_title: 'Pravděpodobný hiring manager', hm_src_interview: 'Z inzerátu: poslední kolo pohovoru je s tímto člověkem.', hm_src_reports_to: 'Z inzerátu: nadřízený této pozice.',
       hm_src_estimate: 'Odhad z názvu pozice a oddělení. Člověk s finálním slovem, ne panel pohovoru.',
@@ -367,31 +369,33 @@
   const CHIP = (on) => `inline-flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 py-1 text-[11px] font-semibold transition-colors cursor-pointer ${on ? 'border-[#FF5500] bg-[#FF5500]/[0.12] text-white' : 'border-[#1B1E26] bg-[#0F1117] text-[#8A90A2] hover:text-white'}`;
   const CARD = 'rounded-xl border border-[#1B1E26] bg-[#0F1117]';
   const LABEL = 'font-mono text-[10px] font-bold uppercase tracking-wider';
-  const INPUT = 'rounded-lg border border-[#1B1E26] bg-[#0F1117] text-xs text-white placeholder:text-[#5A6275] focus:border-[#FF5500] focus:outline-none';
-  const TH = 'font-mono text-[9.5px] uppercase tracking-wider text-[#5A6275]';
+  const INPUT = 'rounded-lg border border-[#1B1E26] bg-[#0F1117] text-xs text-white placeholder:text-[#7A8396] focus:border-[#FF5500] focus:outline-none';
+  const TH = 'font-mono text-[10.5px] uppercase tracking-wider text-[#7A8396]';
   const ROW = 'border-t border-[#1B1E26]/60 px-3 py-2.5 transition-colors hover:bg-[#151720] cursor-pointer';
 
   function fitBadge(fit) {
     const c = fit === 'CORE' ? 'border-[#FF5500]/40 bg-[#FF5500]/[0.12] text-[#FF7733]' : fit === 'SELECTIVE' ? 'border-[#38BDF8]/35 bg-[#38BDF8]/10 text-[#38BDF8]' : 'border-white/10 bg-white/5 text-[#8A90A2]';
-    return `<span class="inline-block rounded border px-1.5 py-0.5 font-mono text-[9.5px] font-bold ${c}">${esc(fit)}</span>`;
+    // The hover text says what the label means, for visitors who have never seen the app.
+    const hint = t(fit === 'CORE' ? 'fit_hint_core' : fit === 'SELECTIVE' ? 'fit_hint_sel' : 'fit_hint_skip');
+    return `<span class="inline-block cursor-help rounded border px-1.5 py-0.5 font-mono text-[10.5px] font-bold ${c}" title="${esc(hint)}">${esc(fit)}</span>`;
   }
   function statusBadge(st) {
     // Same looks as the app (frontend/src/bdm/ui.tsx, STATUS_TONE): every status its own.
-    const c = { NEW: 'border-white/50 bg-white/10 text-white', ACTIVE: 'border-[#8A90A2]/50 bg-transparent text-[#8A90A2]', CONTACT_PENDING: 'border-[#FBBF24]/40 bg-[#FBBF24]/[0.12] text-[#FBBF24]', CONTACTED: 'border-[#38BDF8]/40 bg-[#38BDF8]/[0.12] text-[#38BDF8]', IN_PROGRESS: 'border-[#FF5500]/50 bg-[#FF5500]/[0.12] text-[#FF5500]', ON_HOLD: 'border-[#A78BFA]/40 bg-[#A78BFA]/[0.12] text-[#A78BFA]', WON: 'border-[#10B981]/50 bg-[#10B981]/15 text-[#10B981]', LOST: 'border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444]' }[st] || 'border-transparent bg-white/5 text-[#5A6275]';
-    return `<span class="inline-block whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[9.5px] font-bold ${c}">${esc(t('st_' + st))}</span>`;
+    const c = { NEW: 'border-white/50 bg-white/10 text-white', ACTIVE: 'border-[#8A90A2]/50 bg-transparent text-[#8A90A2]', CONTACT_PENDING: 'border-[#FBBF24]/40 bg-[#FBBF24]/[0.12] text-[#FBBF24]', CONTACTED: 'border-[#38BDF8]/40 bg-[#38BDF8]/[0.12] text-[#38BDF8]', IN_PROGRESS: 'border-[#FF5500]/50 bg-[#FF5500]/[0.12] text-[#FF5500]', ON_HOLD: 'border-[#A78BFA]/40 bg-[#A78BFA]/[0.12] text-[#A78BFA]', WON: 'border-[#10B981]/50 bg-[#10B981]/15 text-[#10B981]', LOST: 'border-[#EF4444]/40 bg-[#EF4444]/10 text-[#EF4444]' }[st] || 'border-transparent bg-white/5 text-[#7A8396]';
+    return `<span class="inline-block whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[10.5px] font-bold ${c}">${esc(t('st_' + st))}</span>`;
   }
   function pill(text, tone) {
     const c = { green: 'border-[#10B981]/40 bg-[#10B981]/10 text-[#34D399]', orange: 'border-[#FF5500]/40 bg-[#FF5500]/[0.12] text-[#FF7733]', blue: 'border-[#38BDF8]/35 bg-[#38BDF8]/10 text-[#38BDF8]', amber: 'border-[#FBBF24]/40 bg-[#FBBF24]/10 text-[#FBBF24]', red: 'border-[#EF4444]/40 bg-[#EF4444]/10 text-[#F87171]' }[tone] || 'border-white/10 bg-white/5 text-[#8A90A2]';
-    return `<span class="inline-block whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[9.5px] font-bold uppercase ${c}">${esc(text)}</span>`;
+    return `<span class="inline-block whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[10.5px] font-bold uppercase ${c}">${esc(text)}</span>`;
   }
-  const mockTag = () => `<span class="ml-1 inline-block rounded border border-white/10 px-1 font-mono text-[8.5px] uppercase text-[#5A6275]">${esc(t('mock'))}</span>`;
+  const mockTag = () => `<span class="ml-1 inline-block rounded border border-white/10 px-1 font-mono text-[10px] uppercase text-[#7A8396]">${esc(t('mock'))}</span>`;
   function typeBadge(c) {
     return c.client
-      ? `<span class="inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-[#FF5500]/50 bg-[#FF5500]/[0.12] font-mono text-[9px] font-bold text-[#FF7733]" title="${esc(t('client'))}">${lang() === 'cs' ? 'K' : 'C'}</span>`
-      : `<span class="inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-[#38BDF8]/40 bg-[#38BDF8]/10 font-mono text-[9px] font-bold text-[#38BDF8]" title="${esc(t('prospect'))}">P</span>`;
+      ? `<span class="inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-[#FF5500]/50 bg-[#FF5500]/[0.12] font-mono text-[10px] font-bold text-[#FF7733]" title="${esc(t('client'))}">${lang() === 'cs' ? 'K' : 'C'}</span>`
+      : `<span class="inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-[#38BDF8]/40 bg-[#38BDF8]/10 font-mono text-[10px] font-bold text-[#38BDF8]" title="${esc(t('prospect'))}">P</span>`;
   }
-  const atsBadge = (ats) => (ats ? `<span class="inline-block rounded border border-[#1B1E26] bg-[#0B0E14] px-1.5 py-0.5 font-mono text-[9px] uppercase text-[#8A90A2]">${esc(lang() === 'en' && ats === 'Kariérní web' ? 'Careers site' : ats)}</span>` : '');
-  const avatar = (name, cls = 'h-6 w-6 text-[9.5px]') => `<span class="flex flex-shrink-0 items-center justify-center rounded-full bg-[#1B1E26] font-mono font-bold text-[#FF7733] ${cls}">${esc(initials(name))}</span>`;
+  const atsBadge = (ats) => (ats ? `<span class="inline-block rounded border border-[#1B1E26] bg-[#0B0E14] px-1.5 py-0.5 font-mono text-[10px] uppercase text-[#8A90A2]">${esc(lang() === 'en' && ats === 'Kariérní web' ? 'Careers site' : ats)}</span>` : '');
+  const avatar = (name, cls = 'h-6 w-6 text-[10.5px]') => `<span class="flex flex-shrink-0 items-center justify-center rounded-full bg-[#1B1E26] font-mono font-bold text-[#FF7733] ${cls}">${esc(initials(name))}</span>`;
   function openFull(screen, extra = '') {
     return `<a href="${demoLink(screen)}" target="_blank" rel="noopener noreferrer" class="${BTN_S} ${extra}">${ic('open_in_new', 'text-[15px]')}<span>${esc(t('open_full'))}</span></a>`;
   }
@@ -400,7 +404,7 @@
       <div class="min-w-0"><h3 class="text-lg font-bold text-white sm:text-xl">${title}</h3>${sub ? `<p class="mt-0.5 text-xs text-[#8A90A2]">${sub}</p>` : ''}</div>
       <div class="flex flex-shrink-0 flex-wrap items-center gap-2">${right}</div></div>`;
   }
-  const searchBox = (key, value, ph, cls = 'sm:w-64') => `<label class="relative block ${cls}"><span class="sr-only">${esc(ph)}</span>${ic('search', 'pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[16px] text-[#5A6275]')}
+  const searchBox = (key, value, ph, cls = 'sm:w-64') => `<label class="relative block ${cls}"><span class="sr-only">${esc(ph)}</span>${ic('search', 'pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[16px] text-[#7A8396]')}
     <input data-input="${key}" value="${esc(value)}" placeholder="${esc(ph)}" class="w-full ${INPUT} py-1.5 pr-2 pl-8"></label>`;
   const tabsBar = (items, cur, action) => `<div class="tr-sb-scroll flex gap-5 overflow-x-auto border-b border-[#1B1E26]">${items.map(([v, label, n]) => `<button type="button" data-a="${action}" data-v="${v}" class="flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 px-1 pb-2 text-[13px] cursor-pointer ${cur === v ? 'border-[#FF5500] font-semibold text-white' : 'border-transparent text-[#8A90A2] hover:text-white'}">${esc(label)}${n != null ? `<span class="rounded bg-[#1B1E26] px-1.5 font-mono text-[10px] text-[#8A90A2]">${n}</span>` : ''}</button>`).join('')}</div>`;
   const empty = (text) => `<div class="border-t border-[#1B1E26] py-8 text-center text-xs text-[#8A90A2]">${esc(text)}</div>`;
@@ -476,11 +480,11 @@
     const sections = NAV.filter((n) => !n.ats || state.atsOn);
     const newToday = state.roles.filter((r) => r.age === 0).length;
     const badge = (s) => {
-      if (s === 'home' && newToday) return `<span class="rounded bg-[#FF5500]/[0.18] border border-[#FF5500]/50 px-1.5 py-px font-mono text-[9px] font-extrabold text-white">${newToday}</span>`;
-      if (s === 'todo' && myTasksDue()) return `<span class="rounded border border-[#FBBF24]/40 px-1.5 py-px font-mono text-[9px] font-bold text-[#FBBF24]">${myTasksDue()}</span>`;
+      if (s === 'home' && newToday) return `<span class="rounded bg-[#FF5500]/[0.18] border border-[#FF5500]/50 px-1.5 py-px font-mono text-[10px] font-extrabold text-white">${newToday}</span>`;
+      if (s === 'todo' && myTasksDue()) return `<span class="rounded border border-[#FBBF24]/40 px-1.5 py-px font-mono text-[10px] font-bold text-[#FBBF24]">${myTasksDue()}</span>`;
       return '';
     };
-    const side = sections.map((sec) => `${sec.section ? `<div class="px-2.5 pt-3 pb-1 font-mono text-[9px] font-bold tracking-[0.16em] text-[#5A6275]">${esc(t(sec.section))}</div>` : '<div class="my-2 border-t border-[#1B1E26]"></div>'}
+    const side = sections.map((sec) => `${sec.section ? `<div class="px-2.5 pt-3 pb-1 font-mono text-[10px] font-bold tracking-[0.16em] text-[#7A8396]">${esc(t(sec.section))}</div>` : '<div class="my-2 border-t border-[#1B1E26]"></div>'}
       ${sec.items.map(([s, icon]) => {
         const on = s === state.screen;
         return `<button type="button" data-a="go" data-v="${s}" aria-current="${on ? 'page' : 'false'}" class="flex w-full items-center gap-2.5 rounded-lg border-l-2 px-2.5 py-[6px] text-left text-[12.5px] transition-colors cursor-pointer ${on ? 'border-[#FF5500] bg-[#FF5500]/[0.12] font-semibold text-white' : 'border-transparent text-[#8A90A2] hover:bg-[#151720] hover:text-white'}">
@@ -498,18 +502,18 @@
     <div class="tr-sb relative overflow-hidden rounded-2xl border border-[#1B1E26] bg-[#0B0E14] shadow-2xl orange-glow-lg">
       <div class="flex items-center gap-3 border-b border-[#1B1E26] bg-[#090C12] px-3 py-2.5 sm:px-4">
         <div class="flex flex-shrink-0 items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-[#FF5F56]"></span><span class="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]"></span><span class="h-2.5 w-2.5 rounded-full bg-[#27C93F]"></span></div>
-        <div class="flex min-w-0 flex-1 items-center gap-2 rounded-md border border-white/5 bg-[#0B0E14] px-2.5 py-1 font-mono text-[11px] text-[#8A90A2]">${ic('lock', 'text-[13px] text-[#5A6275]')}<span class="truncate">${esc(urlText)}</span>
-          <span class="ml-auto hidden flex-shrink-0 rounded border border-[#FBBF24]/30 px-1.5 font-mono text-[9px] font-bold uppercase text-[#FBBF24] sm:inline">${esc(t('sample'))}</span></div>
+        <div class="flex min-w-0 flex-1 items-center gap-2 rounded-md border border-white/5 bg-[#0B0E14] px-2.5 py-1 font-mono text-[11px] text-[#8A90A2]">${ic('lock', 'text-[13px] text-[#7A8396]')}<span class="truncate">${esc(urlText)}</span>
+          <span class="ml-auto hidden flex-shrink-0 rounded border border-[#FBBF24]/30 px-1.5 font-mono text-[10px] font-bold uppercase text-[#FBBF24] sm:inline">${esc(t('sample'))}</span></div>
         <a href="${demoLink(state.screen)}" target="_blank" rel="noopener noreferrer" class="flex flex-shrink-0 items-center gap-1.5 rounded-lg border-[1.5px] border-[#FF5500] bg-[#FF5500]/[0.15] px-2.5 py-1 text-[11.5px] font-bold text-white transition-colors hover:bg-[#FF5500]/[0.28]">
           <span class="hidden sm:inline">${esc(t('open_full'))}</span><span class="sm:hidden">${esc(t('open_full_short'))}</span>${ic('open_in_new', 'text-[14px]')}</a>
       </div>
       <nav class="tr-sb-scroll flex gap-0.5 overflow-x-auto border-b border-[#1B1E26] bg-[#090C12] px-1.5 lg:hidden" aria-label="Sandbox menu">${top}</nav>
       <div class="relative flex lg:h-[720px]">
         <aside class="hidden w-52 flex-shrink-0 flex-col border-r border-[#1B1E26] bg-[#090C12] lg:flex">
-          <div class="flex items-center gap-2.5 px-4 pt-4 pb-2"><img src="falcon.svg" alt="" class="h-7 w-7 object-contain"><div><div class="text-[14px] font-extrabold leading-none tracking-tight text-white">TALENT<span class="text-[#FF5500]">RADAR</span></div><div class="mt-1 font-mono text-[8.5px] tracking-[0.18em] text-[#5A6275]">BD RECRUITMENT</div></div></div>
+          <div class="flex items-center gap-2.5 px-4 pt-4 pb-2"><img src="falcon.svg" alt="" class="h-7 w-7 object-contain"><div><div class="text-[14px] font-extrabold leading-none tracking-tight text-white">TALENT<span class="text-[#FF5500]">RADAR</span></div><div class="mt-1 font-mono text-[10px] tracking-[0.18em] text-[#7A8396]">BD RECRUITMENT</div></div></div>
           <nav class="tr-sb-scroll flex-1 overflow-y-auto px-2" aria-label="Sandbox menu">${side}</nav>
           <div class="p-2.5"><div class="rounded-xl border border-[#1B1E26] bg-[#0F1117] p-2.5">
-            <span class="mb-1 inline-block rounded border border-[#FF5500]/40 bg-[#FF5500]/[0.12] px-1.5 py-0.5 font-mono text-[9px] text-[#FF5500]">${t('tier')}</span>
+            <span class="mb-1 inline-block rounded border border-[#FF5500]/40 bg-[#FF5500]/[0.12] px-1.5 py-0.5 font-mono text-[10px] text-[#FF5500]">${t('tier')}</span>
             <div class="text-[12.5px] font-bold leading-snug text-white">${esc(t('ws_name'))}</div><div class="mt-0.5 text-[11px] text-[#8A90A2]">${esc(t('ws_user'))}</div></div></div>
         </aside>
         <main id="trSbMain" class="tr-sb-scroll relative min-w-0 flex-1 overflow-y-auto bg-[#0B0E14] lg:h-full">
@@ -550,7 +554,7 @@
     const items = steps.map(([k, label], i) => {
       const ok = state.tour[k];
       return `<span class="flex items-center gap-1.5 whitespace-nowrap text-[11.5px] ${ok ? 'text-[#34D399]' : 'text-[#C9CDD6]'}">
-        <span class="flex h-4 w-4 items-center justify-center rounded-full border font-mono text-[9px] font-bold ${ok ? 'border-[#10B981] bg-[#10B981]/20 text-[#34D399]' : 'border-white/20 text-[#8A90A2]'}">${ok ? ic('check', 'text-[11px]') : i + 1}</span>${esc(t(label))}</span>`;
+        <span class="flex h-4 w-4 items-center justify-center rounded-full border font-mono text-[10px] font-bold ${ok ? 'border-[#10B981] bg-[#10B981]/20 text-[#34D399]' : 'border-white/20 text-[#8A90A2]'}">${ok ? ic('check', 'text-[11px]') : i + 1}</span>${esc(t(label))}</span>`;
     }).join('<span class="hidden text-[#3A4050] sm:inline">›</span>');
     return `<div class="tr-sb-scroll flex items-center gap-3 overflow-x-auto border-b border-[#1B1E26] bg-[#0D1018] px-3 py-2 sm:px-5">
       <span class="flex-shrink-0 font-mono text-[10px] font-bold uppercase tracking-wider text-[#FF7733]">${esc(t('tour_title'))} · ${done}/${steps.length}</span>${items}</div>`;
@@ -618,24 +622,24 @@
     const closed = state.archived.filter((a) => a.closed != null && state.now - a.closed < w * DAY).length;
 
     const winBtns = [[1, 'w24'], [7, 'w7'], [30, 'w30']].map(([v, k]) => `<button type="button" data-a="home-win" data-v="${v}" class="rounded-md px-2.5 py-1 text-[11px] font-semibold cursor-pointer ${w === v ? 'bg-[#1B1E26] text-white' : 'text-[#8A90A2] hover:text-white'}">${t(k)}</button>`).join('');
-    const kpi = (n, label, sub, extra = '') => `<div class="min-w-0 p-3.5 sm:p-4"><div class="flex items-baseline gap-2"><span class="font-mono text-2xl font-bold text-white">${n}</span><span class="text-xs text-[#C9CDD6]">${label}</span>${extra}</div><div class="mt-0.5 text-[11px] text-[#5A6275]">${sub}</div></div>`;
+    const kpi = (n, label, sub, extra = '') => `<div class="min-w-0 p-3.5 sm:p-4"><div class="flex items-baseline gap-2"><span class="font-mono text-2xl font-bold text-white">${n}</span><span class="text-xs text-[#C9CDD6]">${label}</span>${extra}</div><div class="mt-0.5 text-[11px] text-[#7A8396]">${sub}</div></div>`;
 
     const groups = homeGroups(w);
     const rowsFor = (list) => list.map(({ c, rs }) => {
       const open = !!state.homeOpen[c.id];
       const sub = open ? rs.slice(0, 8).map((r) => `<button type="button" data-a="role" data-v="${r.id}" class="grid w-full grid-cols-[1fr_auto] items-center gap-2 border-t border-[#1B1E26]/60 bg-[#0B0E14] py-2 pr-3 pl-9 text-left hover:bg-[#151720] cursor-pointer">
-          <span class="min-w-0 truncate text-xs text-[#C9CDD6]">${esc(r.title)}</span><span class="flex items-center gap-2">${fitBadge(r.fit)}<span class="hidden font-mono text-[10px] text-[#5A6275] sm:inline">${seenLabel(r.age)}</span></span></button>`).join('')
+          <span class="min-w-0 truncate text-xs text-[#C9CDD6]">${esc(r.title)}</span><span class="flex items-center gap-2">${fitBadge(r.fit)}<span class="hidden font-mono text-[10px] text-[#7A8396] sm:inline">${seenLabel(r.age)}</span></span></button>`).join('')
         + (rs.length > 8 ? `<button type="button" data-a="bd-company" data-v="${c.id}" class="block w-full border-t border-[#1B1E26]/60 bg-[#0B0E14] py-2 pl-9 text-left text-[11.5px] font-semibold text-[#FF7733] hover:text-white cursor-pointer">+${rs.length - 8} · ${esc(t('show_roles'))} →</button>` : '') : '';
       const top = rs[0];
       return `<div><button type="button" data-a="home-toggle" data-v="${c.id}" class="grid w-full grid-cols-[1fr_auto] items-center gap-2 px-3 py-2.5 text-left hover:bg-[#151720] sm:grid-cols-[170px_44px_44px_52px_1fr_64px] cursor-pointer">
-        <span class="flex min-w-0 items-center gap-1.5">${ic(open ? 'expand_more' : 'chevron_right', 'text-[16px] text-[#5A6275]')}<span class="truncate text-[13px] font-semibold text-white">${esc(c.name)}</span></span>
-        <span class="font-mono text-[13px] font-bold text-white sm:text-center">${rs.length}<span class="text-[11px] font-normal text-[#5A6275] sm:hidden"> ${esc(t('col_new').toLowerCase())}</span></span>
+        <span class="flex min-w-0 items-center gap-1.5">${ic(open ? 'expand_more' : 'chevron_right', 'text-[16px] text-[#7A8396]')}<span class="truncate text-[13px] font-semibold text-white">${esc(c.name)}</span></span>
+        <span class="font-mono text-[13px] font-bold text-white sm:text-center">${rs.length}<span class="text-[11px] font-normal text-[#7A8396] sm:hidden"> ${esc(t('col_new').toLowerCase())}</span></span>
         <span class="hidden text-center font-mono text-[13px] font-bold text-[#FF7733] sm:block">${rs.filter((r) => r.fit === 'CORE').length}</span>
         <span class="hidden text-center font-mono text-xs text-[#8A90A2] sm:block">${c.active}</span>
         <span class="hidden min-w-0 truncate text-xs text-[#C9CDD6] sm:block">${esc(top.title)}</span>
-        <span class="hidden text-right font-mono text-[10.5px] text-[#5A6275] sm:block">${seenLabel(top.age)}</span></button>${sub}</div>`;
+        <span class="hidden text-right font-mono text-[10.5px] text-[#7A8396] sm:block">${seenLabel(top.age)}</span></button>${sub}</div>`;
     }).join('');
-    const grp = (key, list) => (list.length ? `<div class="border-t border-[#1B1E26] px-3 pt-2.5 pb-1 font-mono text-[9.5px] font-bold tracking-wider text-[#FF5500]">${t(key === 'clients' ? 'grp_clients' : 'grp_prospects')} <span class="text-[#5A6275]">· ${t('companies_n', { n: list.length })} · ${t('roles_n', { n: list.reduce((s, g) => s + g.rs.length, 0) })}</span></div>${rowsFor(list)}` : '');
+    const grp = (key, list) => (list.length ? `<div class="border-t border-[#1B1E26] px-3 pt-2.5 pb-1 font-mono text-[10.5px] font-bold tracking-wider text-[#FF5500]">${t(key === 'clients' ? 'grp_clients' : 'grp_prospects')} <span class="text-[#7A8396]">· ${t('companies_n', { n: list.length })} · ${t('roles_n', { n: list.reduce((s, g) => s + g.rs.length, 0) })}</span></div>${rowsFor(list)}` : '');
     const segBtns = [['all', 'all'], ['clients', 'clients'], ['prospects', 'prospects']].map(([v, k]) => `<button type="button" data-a="home-seg" data-v="${v}" class="${CHIP(state.homeSeg === v)}">${t(k)}</button>`).join('');
     const nComp = groups.clients.length + groups.prospects.length;
 
@@ -659,7 +663,7 @@
       <div class="grid gap-4 xl:grid-cols-[1fr_250px]">
         <div class="${CARD} min-w-0 overflow-hidden">
           <div class="space-y-2.5 p-3.5">
-            <div><div class="${LABEL} text-[#FF5500]">${esc(t('cwn_title'))}</div><div class="mt-0.5 text-[11px] text-[#5A6275]">${esc(t('cwn_sub', { w: t(w === 1 ? 'w24' : w === 7 ? 'w7' : 'w30'), n: hiring.size }))}</div></div>
+            <div><div class="${LABEL} text-[#FF5500]">${esc(t('cwn_title'))}</div><div class="mt-0.5 text-[11px] text-[#7A8396]">${esc(t('cwn_sub', { w: t(w === 1 ? 'w24' : w === 7 ? 'w7' : 'w30'), n: hiring.size }))}</div></div>
             <div class="flex flex-wrap items-center gap-1.5">${searchBox('home-q', state.homeQuery, t('filter_companies'), 'w-40')}${segBtns}</div>
           </div>
           <div class="hidden grid-cols-[170px_44px_44px_52px_1fr_64px] gap-2 border-t border-[#1B1E26] px-3 py-2 ${TH} sm:grid"><span class="pl-5">${t('col_company')}</span><span class="text-center">${t('col_new')}</span><span class="text-center">${t('col_core')}</span><span class="text-center">${t('col_active')}</span><span>${t('col_top')}</span><span class="text-right">${t('col_last')}</span></div>
@@ -671,7 +675,7 @@
             <div class="mt-2.5 grid grid-cols-2 gap-2"><div class="border-l-2 border-[#FF5500] pl-2.5"><div class="font-mono text-lg font-bold text-white">${fmt(clientsActive)}</div><div class="text-[10.5px] leading-tight text-[#8A90A2]">${esc(t('pipe_clients'))}</div></div>
             <div class="border-l-2 border-[#38BDF8] pl-2.5"><div class="font-mono text-lg font-bold text-white">${fmt(prospActive)}</div><div class="text-[10.5px] leading-tight text-[#8A90A2]">${esc(t('pipe_prospects'))}</div></div></div>
             <div class="mt-3 flex h-1.5 gap-0.5 overflow-hidden rounded-full"><div class="rounded-l-full bg-[#FF5500]" style="width:${pct}%"></div><div class="flex-1 rounded-r-full bg-[#38BDF8]"></div></div>
-            <div class="mt-1.5 text-[10.5px] text-[#5A6275]">${esc(t('pipe_total', { n: fmt(state.roles.length), c: state.companies.length }))}</div></div>
+            <div class="mt-1.5 text-[10.5px] text-[#7A8396]">${esc(t('pipe_total', { n: fmt(state.roles.length), c: state.companies.length }))}</div></div>
           ${state.atsOn ? `<div class="${CARD} p-3.5"><div class="${LABEL} flex items-center gap-1.5 text-[#34D399]">${ic('view_kanban', 'text-[15px]')}${esc(t('rec_title'))}</div>
             <div class="mt-2 text-[13px] font-bold text-white">${esc(t('rec_line', { i: live.filter((a) => INTERVIEWS.includes(a.stage)).length, o: live.filter((a) => a.stage === 'OFFER').length }))}</div>
             <div class="mt-0.5 text-[11px] text-[#8A90A2]">${esc(t('rec_tasks', { n: myTasksDue() }))}</div>
@@ -727,14 +731,14 @@
       if (g !== lastGroup) {
         lastGroup = g;
         const n = list.filter((x) => (x.starred && !state.bdQuick ? 'q_starred' : ageGroup(x)) === g).length;
-        gh = `<div class="border-t border-[#1B1E26] px-3 pt-2.5 pb-1 font-mono text-[9.5px] font-bold tracking-wider ${g === 'q_starred' ? 'text-[#FBBF24]' : 'text-[#FF5500]'}">${esc(t(g).toUpperCase())} · ${n}</div>`;
+        gh = `<div class="border-t border-[#1B1E26] px-3 pt-2.5 pb-1 font-mono text-[10.5px] font-bold tracking-wider ${g === 'q_starred' ? 'text-[#FBBF24]' : 'text-[#FF5500]'}">${esc(t(g).toUpperCase())} · ${n}</div>`;
       }
       const c = co(r.co);
       const sel = state.panel === r.id;
       return `${gh}<div data-a="role" data-v="${r.id}" class="group grid cursor-pointer grid-cols-[22px_1fr_auto] items-center gap-x-2 gap-y-1 border-t border-[#1B1E26]/50 px-3 py-2 transition-colors hover:bg-[#151720] md:grid-cols-[22px_54px_minmax(0,1fr)_150px_120px_76px_92px_70px] ${sel ? 'bg-[#FF5500]/[0.06]' : ''}">
-        <button type="button" data-a="star" data-v="${r.id}" class="text-[#5A6275] hover:text-[#FBBF24] cursor-pointer" aria-label="${esc(t('q_starred'))}"><span class="material-symbols-outlined tr-ic text-[17px] ${r.starred ? 'text-[#FBBF24]' : ''}" style="${r.starred ? "font-variation-settings:'FILL' 1" : ''}">star</span></button>
+        <button type="button" data-a="star" data-v="${r.id}" class="text-[#7A8396] hover:text-[#FBBF24] cursor-pointer" aria-label="${esc(t('q_starred'))}"><span class="material-symbols-outlined tr-ic text-[17px] ${r.starred ? 'text-[#FBBF24]' : ''}" style="${r.starred ? "font-variation-settings:'FILL' 1" : ''}">star</span></button>
         <span class="hidden font-mono text-[10.5px] text-[#FF7733] md:block">${r.ref}</span>
-        <span class="min-w-0"><span class="flex items-center gap-1.5"><span class="truncate text-[12.5px] font-semibold text-white group-hover:text-[#FF7733]">${esc(r.title)}</span>${r.notes.length ? ic('chat_bubble', 'flex-shrink-0 text-[13px] text-[#5A6275]') : ''}</span>
+        <span class="min-w-0"><span class="flex items-center gap-1.5"><span class="truncate text-[12.5px] font-semibold text-white group-hover:text-[#FF7733]">${esc(r.title)}</span>${r.notes.length ? ic('chat_bubble', 'flex-shrink-0 text-[13px] text-[#7A8396]') : ''}</span>
           <span class="mt-0.5 flex items-center gap-1.5 text-[11px] text-[#8A90A2] md:hidden">${typeBadge(c)}${esc(c.name)} · ${esc(r.loc)}</span></span>
         <span class="hidden min-w-0 items-center gap-1.5 md:flex">${typeBadge(c)}<span class="truncate text-xs text-[#C9CDD6]">${esc(c.name)}</span></span>
         <span class="hidden truncate text-[11.5px] text-[#8A90A2] md:block">${esc(r.loc)}</span>
@@ -754,7 +758,7 @@
       <div class="${CARD} overflow-hidden">
         <div class="hidden grid-cols-[22px_54px_minmax(0,1fr)_150px_120px_76px_92px_70px] gap-x-2 px-3 py-2 ${TH} md:grid">
           <span>${ic('star', 'text-[14px]')}</span><span>${t('col_ref')}</span><span>${t('col_role')}</span><span>${t('col_company')} <span class="normal-case">${lang() === 'cs' ? 'K/P' : 'C/P'}</span></span><span>${t('col_location')}</span><span>${t('col_fit')}</span><span>${t('col_status')}</span><span class="text-right">${t('col_seen')}</span></div>
-        ${list.length ? rows + (list.length > shown.length ? `<div class="border-t border-[#1B1E26] px-3 py-2.5 text-center font-mono text-[10.5px] text-[#5A6275]">${esc(t('p_of', { n: shown.length, total: list.length }))} · <a href="${demoLink('bd')}" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#FF7733] hover:text-white">${esc(t('open_full'))}</a></div>` : '')
+        ${list.length ? rows + (list.length > shown.length ? `<div class="border-t border-[#1B1E26] px-3 py-2.5 text-center font-mono text-[10.5px] text-[#7A8396]">${esc(t('p_of', { n: shown.length, total: list.length }))} · <a href="${demoLink('bd')}" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#FF7733] hover:text-white">${esc(t('open_full'))}</a></div>` : '')
           : `<div class="border-t border-[#1B1E26] py-10 text-center text-xs text-[#8A90A2]">${esc(t('no_roles'))}${anyFilter ? ` <button type="button" data-a="bd-clear" class="ml-1 font-semibold text-[#FF7733] hover:text-white cursor-pointer">${esc(t('clear_filters'))}</button>` : ''}</div>`}
       </div></div>`;
   }
@@ -762,11 +766,11 @@
     const rows = [...state.companies].sort((a, b) => Number(b.client) - Number(a.client) || b.active - a.active).map((c) => {
       const n7 = state.roles.filter((r) => r.co === c.id && r.age < 7).length;
       return `<div class="grid grid-cols-[1fr_auto] items-center gap-2 border-t border-[#1B1E26]/60 px-3 py-2.5 md:grid-cols-[minmax(0,1fr)_90px_110px_80px_80px_110px]">
-        <span class="flex min-w-0 items-center gap-2">${typeBadge(c)}<span class="min-w-0"><span class="block truncate text-[13px] font-semibold text-white">${esc(c.name)}</span><span class="block truncate font-mono text-[10.5px] text-[#5A6275]">${esc(c.domain)}${c.hq ? ` · ${esc(c.hq)}` : ''}</span></span></span>
+        <span class="flex min-w-0 items-center gap-2">${typeBadge(c)}<span class="min-w-0"><span class="block truncate text-[13px] font-semibold text-white">${esc(c.name)}</span><span class="block truncate font-mono text-[10.5px] text-[#7A8396]">${esc(c.domain)}${c.hq ? ` · ${esc(c.hq)}` : ''}</span></span></span>
         <span class="hidden text-[11px] text-[#8A90A2] md:block">${esc(c.client ? t('client') : t('prospect'))}</span>
         <span class="hidden md:block">${atsBadge(c.ats)}</span>
         <span class="hidden text-center font-mono text-xs text-white md:block">${c.active}</span>
-        <span class="hidden text-center font-mono text-xs md:block ${n7 ? 'text-[#34D399]' : 'text-[#5A6275]'}">${n7 ? '+' + n7 : '0'}</span>
+        <span class="hidden text-center font-mono text-xs md:block ${n7 ? 'text-[#34D399]' : 'text-[#7A8396]'}">${n7 ? '+' + n7 : '0'}</span>
         <button type="button" data-a="bd-company" data-v="${c.id}" class="justify-self-end text-xs font-semibold text-[#FF7733] hover:text-white cursor-pointer">${esc(t('show_roles'))} →</button></div>`;
     }).join('');
     return `<p class="text-xs text-[#8A90A2]">${esc(t('dir_sub'))}</p><div class="${CARD} overflow-hidden">
@@ -774,10 +778,10 @@
   }
   function renderArchive() {
     const rows = state.archived.map((a) => `<div class="grid grid-cols-[1fr_auto] items-center gap-2 border-t border-[#1B1E26]/60 px-3 py-2.5 md:grid-cols-[minmax(0,1fr)_150px_100px_100px]">
-      <span class="min-w-0"><span class="block truncate text-[12.5px] text-[#C9CDD6] line-through decoration-[#5A6275]">${esc(a.title)}</span><span class="block text-[11px] text-[#5A6275] md:hidden">${esc(co(a.co).name)}</span></span>
+      <span class="min-w-0"><span class="block truncate text-[12.5px] text-[#C9CDD6] line-through decoration-[#7A8396]">${esc(a.title)}</span><span class="block text-[11px] text-[#7A8396] md:hidden">${esc(co(a.co).name)}</span></span>
       <span class="hidden truncate text-xs text-[#8A90A2] md:block">${esc(co(a.co).name)}</span>
       <span class="font-mono text-[10.5px] text-[#8A90A2]">${esc(fmtDate(a.closed))}</span>
-      <span class="hidden font-mono text-[10.5px] text-[#5A6275] md:block">${a.seen != null && a.closed != null ? Math.max(1, Math.round((a.closed - a.seen) / DAY)) : '—'} d</span></div>`).join('');
+      <span class="hidden font-mono text-[10.5px] text-[#7A8396] md:block">${a.seen != null && a.closed != null ? Math.max(1, Math.round((a.closed - a.seen) / DAY)) : '—'} d</span></div>`).join('');
     return `<p class="text-xs text-[#8A90A2]">${esc(t('arch_sub'))}</p><div class="${CARD} overflow-hidden">
       <div class="hidden grid-cols-[minmax(0,1fr)_150px_100px_100px] gap-2 px-3 py-2 ${TH} md:grid"><span>${t('col_role')}</span><span>${t('col_company')}</span><span>${t('col_closed')}</span><span>${t('col_open_for')}</span></div>${rows || empty(t('crm_none'))}</div>`;
   }
@@ -792,12 +796,12 @@
   }
   const drawerTabs = (items, cur, action) => `<div class="tr-sb-scroll mt-4 flex gap-4 overflow-x-auto border-b border-[#1B1E26]">${items.map(([v, label, n]) => `<button type="button" data-a="${action}" data-v="${v}" class="border-b-2 pb-2 text-[12.5px] whitespace-nowrap cursor-pointer ${cur === v ? 'border-[#FF5500] font-semibold text-white' : 'border-transparent text-[#8A90A2] hover:text-white'}">${esc(label)}${n ? ` <span class="font-mono text-[10px] text-[#FF7733]">${n}</span>` : ''}</button>`).join('')}</div>`;
   function noteCard(n) {
-    const kind = n.kind && n.kind !== 'note' ? `<span class="rounded border border-white/10 px-1 font-mono text-[9px] uppercase text-[#8A90A2]">${esc(t('kind_' + n.kind))}</span>` : '';
-    return `<div class="${CARD} p-3"><div class="flex items-center gap-2">${avatar(n.by)}<span class="text-xs font-semibold text-white">${esc(n.by)}</span>${kind}<span class="ml-auto font-mono text-[10px] text-[#5A6275]">${esc(agoLabel(n.at))}</span></div>
+    const kind = n.kind && n.kind !== 'note' ? `<span class="rounded border border-white/10 px-1 font-mono text-[10px] uppercase text-[#8A90A2]">${esc(t('kind_' + n.kind))}</span>` : '';
+    return `<div class="${CARD} p-3"><div class="flex items-center gap-2">${avatar(n.by)}<span class="text-xs font-semibold text-white">${esc(n.by)}</span>${kind}<span class="ml-auto font-mono text-[10px] text-[#7A8396]">${esc(agoLabel(n.at))}</span></div>
       <p class="mt-1.5 text-[12.5px] leading-relaxed text-[#C9CDD6]">${esc(n.text ?? n.body).replace(/(@[\p{L}]+(?: [\p{L}]+)?)/gu, '<span class="font-semibold text-[#FF7733]">$1</span>')}</p></div>`;
   }
   const noteForm = (form, ph) => `<form data-form="${form}" class="mt-3 flex gap-2"><input name="note" maxlength="300" autocomplete="off" placeholder="${esc(ph)}" class="min-w-0 flex-1 ${INPUT} px-3 py-1.5"><button type="submit" class="${BTN_P}">${esc(t('note_add'))}</button></form>`;
-  const timeline = (items) => (items.length ? `<ol class="relative space-y-3 border-l border-[#1B1E26] pl-4">${items.map((h) => `<li class="relative"><span class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full border-2 border-[#0B0E14] bg-[#FF5500]"></span><div class="text-[12.5px] text-white">${esc(h.text)}</div><div class="font-mono text-[10px] text-[#5A6275]">${esc(h.at != null ? agoLabel(h.at) : '')}</div></li>`).join('')}</ol>` : `<p class="text-xs text-[#8A90A2]">${esc(t('no_history'))}</p>`);
+  const timeline = (items) => (items.length ? `<ol class="relative space-y-3 border-l border-[#1B1E26] pl-4">${items.map((h) => `<li class="relative"><span class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full border-2 border-[#0B0E14] bg-[#FF5500]"></span><div class="text-[12.5px] text-white">${esc(h.text)}</div><div class="font-mono text-[10px] text-[#7A8396]">${esc(h.at != null ? agoLabel(h.at) : '')}</div></li>`).join('')}</ol>` : `<p class="text-xs text-[#8A90A2]">${esc(t('no_history'))}</p>`);
 
   /* ── Role panel ── */
   const panelList = () => (state.screen === 'bd' ? bdFiltered() : [...state.roles].sort((a, b) => (b.seen ?? 0) - (a.seen ?? 0)));
@@ -829,11 +833,11 @@
         <div class="mt-3 space-y-2">${targets.map((hm, i) => {
           const li = `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(`${hm} ${c.name}`)}`;
           const xr = `https://www.google.com/search?q=${encodeURIComponent(`site:linkedin.com/in "${hm}" "${c.name}"`)}`;
-          return `<div class="${CARD} flex flex-col gap-2 p-3 sm:flex-row sm:items-center"><div class="flex-1"><div class="text-[13px] font-bold text-white">${esc(hm)}</div><div class="text-[11px] text-[#5A6275]">${esc(c.name)}${i === 0 ? ` · <span class="text-[#34D399]">${esc(t('hm_likely'))}</span>` : ''}</div></div>
+          return `<div class="${CARD} flex flex-col gap-2 p-3 sm:flex-row sm:items-center"><div class="flex-1"><div class="text-[13px] font-bold text-white">${esc(hm)}</div><div class="text-[11px] text-[#7A8396]">${esc(c.name)}${i === 0 ? ` · <span class="text-[#34D399]">${esc(t('hm_likely'))}</span>` : ''}</div></div>
             <div class="flex gap-1.5"><a href="${li}" target="_blank" rel="noopener noreferrer" class="${i === 0 ? BTN_P : BTN_S}">${ic('person_search', 'text-[15px]')}${esc(t('hm_linkedin'))}</a><a href="${xr}" target="_blank" rel="noopener noreferrer" class="${BTN_S}">${ic('travel_explore', 'text-[15px]')}${esc(t('hm_xray'))}</a></div></div>`;
         }).join('')}</div>
-        ${known.length && state.atsOn ? `<div class="mt-4 ${LABEL} text-[#8A90A2]">${esc(t('hm_known'))}</div><div class="mt-2 space-y-1.5">${known.map((k) => `<button type="button" data-a="rec" data-v="contact:${k.id}" class="${CARD} flex w-full items-center gap-2 p-2.5 text-left hover:border-[#FF5500]/50 cursor-pointer">${avatar(k.name)}<span class="min-w-0 flex-1"><span class="block truncate text-xs font-semibold text-white">${esc(k.name)}${mockTag()}</span><span class="block truncate text-[11px] text-[#8A90A2]">${esc(k.title)}</span></span>${ic('chevron_right', 'text-[16px] text-[#5A6275]')}</button>`).join('')}</div>` : ''}
-        <p class="mt-3 text-[11px] text-[#5A6275]">${esc(t('hm_save'))}</p>`;
+        ${known.length && state.atsOn ? `<div class="mt-4 ${LABEL} text-[#8A90A2]">${esc(t('hm_known'))}</div><div class="mt-2 space-y-1.5">${known.map((k) => `<button type="button" data-a="rec" data-v="contact:${k.id}" class="${CARD} flex w-full items-center gap-2 p-2.5 text-left hover:border-[#FF5500]/50 cursor-pointer">${avatar(k.name)}<span class="min-w-0 flex-1"><span class="block truncate text-xs font-semibold text-white">${esc(k.name)}${mockTag()}</span><span class="block truncate text-[11px] text-[#8A90A2]">${esc(k.title)}</span></span>${ic('chevron_right', 'text-[16px] text-[#7A8396]')}</button>`).join('')}</div>` : ''}
+        <p class="mt-3 text-[11px] text-[#7A8396]">${esc(t('hm_save'))}</p>`;
     } else if (state.panelTab === 'notes') {
       body = `<div class="space-y-2">${r.notes.map(noteCard).join('') || `<p class="text-xs text-[#8A90A2]">${esc(t('notes_empty'))}</p>`}</div>${noteForm('role-note', t('note_ph'))}`;
     } else if (state.panelTab === 'history') {
@@ -842,7 +846,7 @@
       body = timeline(items);
     } else {
       const sp = r.specs || {};
-      body = `<div class="rounded-xl border border-[#1B1E26] bg-[#0F1117] p-3.5"><div class="flex items-center justify-between gap-2"><span class="${LABEL} text-[#FF5500]">${esc(t('ai_summary'))}</span>${r.summary ? `<span class="text-right font-mono text-[9.5px] text-[#5A6275]">${esc(t('ai_generated'))}</span>` : ''}</div>
+      body = `<div class="rounded-xl border border-[#1B1E26] bg-[#0F1117] p-3.5"><div class="flex items-center justify-between gap-2"><span class="${LABEL} text-[#FF5500]">${esc(t('ai_summary'))}</span>${r.summary ? `<span class="text-right font-mono text-[10.5px] text-[#7A8396]">${esc(t('ai_generated'))}</span>` : ''}</div>
           <p class="mt-2 text-[12.5px] leading-relaxed ${r.summary ? 'text-[#E4E6EB]' : 'text-[#8A90A2]'}">${esc(r.summary || t('ai_none'))}</p></div>
         ${sp.must && sp.must.length ? `<div class="mt-4"><div class="${LABEL} text-[#8A90A2]">${esc(t('key_req'))}</div><ul class="mt-2 space-y-1.5">${sp.must.map((q) => `<li class="flex gap-2 text-[12.5px] leading-snug text-[#C9CDD6]"><span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#FF5500]"></span>${esc(q)}</li>`).join('')}</ul></div>` : ''}
         ${sp.scope || sp.work ? `<div class="mt-4 grid gap-2 sm:grid-cols-2">${sp.scope ? `<div><div class="${LABEL} text-[#8A90A2]">${esc(t('scope'))}</div><p class="mt-1 text-[12px] leading-snug text-[#C9CDD6]">${esc(sp.scope)}</p></div>` : ''}${sp.work ? `<div><div class="${LABEL} text-[#8A90A2]">${esc(t('work_model'))}</div><p class="mt-1 text-[12px] leading-snug text-[#C9CDD6]">${esc(sp.work)}</p></div>` : ''}</div>` : ''}
@@ -867,7 +871,7 @@
           ${tabs}
         </div>
         <div class="flex-1 px-4 py-4">${body}</div>
-        <div class="border-t border-[#1B1E26] px-4 py-2.5 font-mono text-[10px] text-[#5A6275]">${esc(t('seen_meta', { d: fmtDate(r.seen), ats: c.ats || '—', loc: r.loc }) + posted)}</div>`;
+        <div class="border-t border-[#1B1E26] px-4 py-2.5 font-mono text-[10px] text-[#7A8396]">${esc(t('seen_meta', { d: fmtDate(r.seen), ats: c.ats || '—', loc: r.loc }) + posted)}</div>`;
     return drawer(r.title, inner, nav);
   }
 
@@ -911,7 +915,7 @@
       }).sort((a, b) => (b.at ?? 0) - (a.at ?? 0));
       body = timeline(items);
     } else {
-      const field = (k, v) => (v ? `<div><div class="${LABEL} text-[#5A6275]">${esc(t(k))}</div><div class="mt-0.5 text-[12.5px] text-[#E4E6EB]">${esc(v)}</div></div>` : '');
+      const field = (k, v) => (v ? `<div><div class="${LABEL} text-[#7A8396]">${esc(t(k))}</div><div class="mt-0.5 text-[12.5px] text-[#E4E6EB]">${esc(v)}</div></div>` : '');
       body = `<div class="grid grid-cols-2 gap-3">${field('current_title', [c.title, c.company].filter(Boolean).join(' · '))}${field('col_location', c.loc)}${field('salary_expectation', c.salary)}${field('notice_period', c.notice)}${field('source', c.source)}${field('owner', userName(c.owner))}</div>
         ${c.summary ? `<div class="mt-4 rounded-xl border border-[#1B1E26] bg-[#0F1117] p-3"><div class="${LABEL} text-[#8A90A2]">${esc(t('summary'))}</div><p class="mt-1.5 text-[12.5px] leading-relaxed text-[#C9CDD6]">${esc(c.summary)}</p></div>` : ''}
         ${apps.length ? `<div class="mt-4 space-y-2">${apps.map((a) => appLine(a, false)).join('')}</div>` : ''}`;
@@ -986,7 +990,7 @@
     const opts = [...FLOW, ...REJECTED].map((s) => `<option value="${s}" ${s === a.stage ? 'selected' : ''}>${esc(t('ps_' + s))}</option>`).join('');
     return `<div class="rounded-lg border ${a.stage === 'PLACED' ? 'border-[#10B981]/40' : 'border-white/5'} bg-[#0F1117] p-2.5">
       <button type="button" data-a="rec" data-v="cand:${c.id}" class="flex w-full items-center gap-2 text-left cursor-pointer">${avatar(c.name)}<span class="min-w-0"><span class="block truncate text-xs font-semibold text-white hover:text-[#FF7733]">${esc(c.name)}</span><span class="block truncate text-[10.5px] text-[#8A90A2]">${esc(showJob ? `${j.title} · ${co(j.co).name}` : c.title)}</span></span></button>
-      <div class="mt-2 flex items-center justify-between gap-1.5"><span class="font-mono text-[9.5px] ${a.stage === 'PLACED' ? 'text-[#34D399]' : 'text-[#5A6275]'}">${esc(t('in_stage', { n: daysSince(a.since) }))}</span>
+      <div class="mt-2 flex items-center justify-between gap-1.5"><span class="font-mono text-[10.5px] ${a.stage === 'PLACED' ? 'text-[#34D399]' : 'text-[#7A8396]'}">${esc(t('in_stage', { n: daysSince(a.since) }))}</span>
         ${next && !REJECTED.includes(a.stage) ? `<button type="button" data-a="advance" data-v="${a.id}" class="flex flex-shrink-0 items-center gap-0.5 rounded border border-white/10 px-1.5 py-0.5 text-[10px] font-semibold text-[#C9CDD6] hover:border-[#FF5500] hover:text-white cursor-pointer">${esc(t('advance'))}${ic('arrow_forward', 'text-[12px]')}</button>` : a.stage === 'PLACED' ? ic('check_circle', 'text-[15px] text-[#34D399]') : ''}</div>
       <label class="mt-1.5 block"><span class="sr-only">${esc(t('move_to'))}</span><select data-input="stage" data-v="${a.id}" class="w-full cursor-pointer rounded border border-[#1B1E26] bg-[#0B0E14] px-1.5 py-0.5 text-[10.5px] text-[#8A90A2] focus:border-[#FF5500] focus:outline-none"><option value="" disabled>${esc(t('move_to'))}</option>${opts}</select></label></div>`;
   }
@@ -1020,12 +1024,12 @@
       const c = co(j.co);
       const n = jobCounts(j.id);
       return `<div data-a="open-job" data-v="${j.id}" class="grid grid-cols-[1fr_auto] items-center gap-2 ${ROW} md:grid-cols-[minmax(0,1fr)_150px_90px_170px_120px_70px]">
-        <span class="min-w-0"><span class="block truncate text-[12.5px] font-semibold text-white">${esc(j.title)}</span><span class="block truncate font-mono text-[10px] text-[#5A6275]">${jobRef(j.id)}${j.role ? ` · ${esc(t('job_from_role', { ref: `C${j.role + 2100}` }))}` : ''}${j.type === 'CONTRACT' ? ` · ${esc(t('jt_CONTRACT'))}` : ''}</span></span>
+        <span class="min-w-0"><span class="block truncate text-[12.5px] font-semibold text-white">${esc(j.title)}</span><span class="block truncate font-mono text-[10px] text-[#7A8396]">${jobRef(j.id)}${j.role ? ` · ${esc(t('job_from_role', { ref: `C${j.role + 2100}` }))}` : ''}${j.type === 'CONTRACT' ? ` · ${esc(t('jt_CONTRACT'))}` : ''}</span></span>
         <span class="hidden min-w-0 items-center gap-1.5 md:flex">${typeBadge(c)}<span class="truncate text-xs text-[#C9CDD6]">${esc(c.name)}</span></span>
         <span>${jobStatusPill(j.status)}</span>
         <span class="hidden truncate text-[11px] text-[#8A90A2] md:block">${esc(plLine(n))}</span>
         <span class="hidden truncate text-[11.5px] text-[#8A90A2] md:block">${esc(userName(j.owner))}</span>
-        <span class="hidden text-right font-mono text-[10.5px] text-[#5A6275] md:block">${esc(fmtDate(j.created))}</span></div>`;
+        <span class="hidden text-right font-mono text-[10.5px] text-[#7A8396] md:block">${esc(fmtDate(j.created))}</span></div>`;
     }).join('');
     return `<div class="space-y-3">${header(esc(t('nav_jobs')), esc(t('jobs_sub', { open: nOpen, hold: nHold })), openFull('jobs'))}
       <div class="flex flex-wrap gap-1.5">${filt}</div>
@@ -1040,7 +1044,7 @@
     const free = state.candidates.filter((x) => !inJob.has(x.id) && x.status !== 'ARCHIVED');
     const notes = notesOf('job', j.id);
     const n = jobCounts(j.id);
-    const fact = (label, v) => `<div><div class="${LABEL} text-[#5A6275]">${esc(label)}</div><div class="mt-0.5 text-[12.5px] text-[#E4E6EB]">${v}</div></div>`;
+    const fact = (label, v) => `<div><div class="${LABEL} text-[#7A8396]">${esc(label)}</div><div class="mt-0.5 text-[12.5px] text-[#E4E6EB]">${v}</div></div>`;
     return `<div class="space-y-3">
       <button type="button" data-a="jobs-back" class="flex items-center gap-1 text-xs font-semibold text-[#8A90A2] hover:text-white cursor-pointer">${ic('arrow_back', 'text-[15px]')}${esc(t('back_to_jobs'))}</button>
       ${header(`${esc(j.title)} <span class="ml-1 align-middle">${jobStatusPill(j.status)}</span>`, `${esc(jobRef(j.id))} · <button type="button" data-a="rec" data-v="company:${c.id}" class="font-semibold text-[#C9CDD6] hover:text-[#FF7733] cursor-pointer">${esc(c.name)}</button>${j.role ? ` · <button type="button" data-a="role" data-v="${j.role}" class="text-[#FF7733] hover:text-white cursor-pointer">${esc(t('job_from_role', { ref: `C${j.role + 2100}` }))}</button>` : ''}`, openFull('jobs'))}
@@ -1075,12 +1079,12 @@
     const rows = list.map((c) => {
       const touch = lastTouch(c.id);
       return `<div data-a="rec" data-v="company:${c.id}" class="grid grid-cols-[1fr_auto] items-center gap-2 ${ROW} md:grid-cols-[minmax(0,1fr)_80px_70px_90px_90px_130px]">
-        <span class="flex min-w-0 items-center gap-2">${typeBadge(c)}<span class="min-w-0"><span class="block truncate text-[12.5px] font-semibold text-white">${esc(c.name)}</span><span class="block truncate font-mono text-[10px] text-[#5A6275]">${esc(c.domain)}</span></span></span>
-        <span class="text-center font-mono text-xs text-white">${state.contacts.filter((k) => k.co === c.id).length}<span class="text-[10px] text-[#5A6275] md:hidden"> · ${state.jobs.filter((j) => j.co === c.id).length}</span></span>
+        <span class="flex min-w-0 items-center gap-2">${typeBadge(c)}<span class="min-w-0"><span class="block truncate text-[12.5px] font-semibold text-white">${esc(c.name)}</span><span class="block truncate font-mono text-[10px] text-[#7A8396]">${esc(c.domain)}</span></span></span>
+        <span class="text-center font-mono text-xs text-white">${state.contacts.filter((k) => k.co === c.id).length}<span class="text-[10px] text-[#7A8396] md:hidden"> · ${state.jobs.filter((j) => j.co === c.id).length}</span></span>
         <span class="hidden text-center font-mono text-xs text-white md:block">${state.jobs.filter((j) => j.co === c.id && j.status === 'OPEN').length}</span>
         <span class="hidden text-center font-mono text-xs text-[#34D399] md:block">${state.placements.filter((p) => p.co === c.id).length}</span>
         <span class="hidden text-center font-mono text-xs text-[#8A90A2] md:block">${c.active}</span>
-        <span class="hidden truncate text-right text-[11px] md:block ${touch ? 'text-[#C9CDD6]' : 'text-[#5A6275]'}">${touch ? `${esc(t('kind_' + (touch.kind || 'note')))} · ${esc(agoLabel(touch.at))}` : esc(t('last_touch_never'))}</span></div>`;
+        <span class="hidden truncate text-right text-[11px] md:block ${touch ? 'text-[#C9CDD6]' : 'text-[#7A8396]'}">${touch ? `${esc(t('kind_' + (touch.kind || 'note')))} · ${esc(agoLabel(touch.at))}` : esc(t('last_touch_never'))}</span></div>`;
     }).join('');
     return `<div class="space-y-3">${header(esc(t('nav_companies')), esc(t('companies_sub', { n: list.length })), openFull('companies'))}
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center">${searchBox('co-q', state.coQuery, t('search'))}<div class="flex flex-wrap gap-1.5">${scopes}</div></div>
@@ -1096,11 +1100,11 @@
       const apps = state.apps.filter((a) => a.cand === c.id && !REJECTED.includes(a.stage));
       return `<div data-a="rec" data-v="cand:${c.id}" class="grid grid-cols-[1fr_auto] items-center gap-2 ${ROW} md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_120px_90px_90px_80px]">
         <span class="flex min-w-0 items-center gap-2">${avatar(c.name)}<span class="min-w-0"><span class="block truncate text-[12.5px] font-semibold text-white">${esc(c.name)}${mockTag()}</span><span class="block truncate text-[11px] text-[#8A90A2] md:hidden">${esc(c.title)}</span></span></span>
-        <span class="hidden min-w-0 truncate text-xs text-[#C9CDD6] md:block">${esc(c.title)}<span class="text-[#5A6275]"> · ${esc(c.company)}</span></span>
+        <span class="hidden min-w-0 truncate text-xs text-[#C9CDD6] md:block">${esc(c.title)}<span class="text-[#7A8396]"> · ${esc(c.company)}</span></span>
         <span class="hidden truncate text-[11.5px] text-[#8A90A2] md:block">${esc(c.loc)}</span>
         <span>${pill(t('cs_' + c.status), c.status === 'LIVE' ? 'orange' : c.status === 'PLACED' ? 'green' : 'blue')}</span>
         <span class="hidden text-center font-mono text-xs text-white md:block">${apps.length || '—'}</span>
-        <span class="hidden text-right font-mono text-[10.5px] text-[#5A6275] md:block">${esc(agoLabel(c.updated))}</span></div>`;
+        <span class="hidden text-right font-mono text-[10.5px] text-[#7A8396] md:block">${esc(agoLabel(c.updated))}</span></div>`;
     }).join('');
     return `<div class="space-y-3">${header(esc(t('nav_candidates')), esc(t('candidates_sub', { n: list.length })), openFull('candidates'))}
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center">${searchBox('cand-q', state.candQuery, t('search_cand'))}</div>
@@ -1119,7 +1123,7 @@
         <span class="flex min-w-0 items-center gap-2">${avatar(k.name)}<span class="min-w-0"><span class="block truncate text-[12.5px] font-semibold text-white">${esc(k.name)}${mockTag()}</span><span class="block truncate text-[11px] text-[#8A90A2] md:hidden">${esc(k.title)} · ${esc(c.name)}</span></span></span>
         <span class="hidden min-w-0 items-center gap-1.5 md:flex">${k.hm ? pill(t('hm_badge'), 'orange') : ''}<span class="truncate text-xs text-[#C9CDD6]">${esc(k.title)}</span></span>
         <span class="flex min-w-0 items-center gap-1.5">${typeBadge(c)}<span class="hidden truncate text-xs text-[#C9CDD6] md:inline">${esc(c.name)}</span></span>
-        <span class="hidden truncate text-right text-[11px] md:block ${touch ? 'text-[#C9CDD6]' : 'text-[#5A6275]'}">${touch ? `${esc(t('kind_' + (touch.kind || 'note')))} · ${esc(agoLabel(touch.at))}` : esc(t('last_touch_never'))}</span></div>`;
+        <span class="hidden truncate text-right text-[11px] md:block ${touch ? 'text-[#C9CDD6]' : 'text-[#7A8396]'}">${touch ? `${esc(t('kind_' + (touch.kind || 'note')))} · ${esc(agoLabel(touch.at))}` : esc(t('last_touch_never'))}</span></div>`;
     }).join('');
     return `<div class="space-y-3">${header(esc(t('nav_contacts')), esc(t('contacts_sub', { n: list.length })), openFull('contacts'))}
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center">${searchBox('contact-q', state.contactQuery, t('search'))}<button type="button" data-a="contact-hm" class="${CHIP(state.contactHm)} self-start">${esc(t('only_hm'))}</button></div>
@@ -1178,9 +1182,9 @@
     const dueLabel = (d) => { if (!d) return ''; const ms = Date.parse(`${d}T12:00:00`); return fmtDate(ms); };
     const row = (x) => `<div class="flex items-center gap-2.5 border-t border-[#1B1E26]/60 px-3 py-2.5">
       <button type="button" data-a="task-done" data-v="${x.id}" role="checkbox" aria-checked="${x.done}" class="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border cursor-pointer ${x.done ? 'border-[#10B981] bg-[#10B981]/20 text-[#34D399]' : 'border-white/25 hover:border-[#FF5500]'}">${x.done ? ic('check', 'text-[12px]') : ''}</button>
-      <span class="min-w-0 flex-1"><span class="block truncate text-[12.5px] ${x.done ? 'text-[#5A6275] line-through' : 'text-white'}">${esc(x.title)}</span><span class="flex min-w-0 items-center gap-2">${taskTarget(x)}${!state.todoMine ? `<span class="truncate text-[11px] text-[#5A6275]">${esc(t('for_whom'))}: ${esc(userName(x.for))}</span>` : ''}</span></span>
+      <span class="min-w-0 flex-1"><span class="block truncate text-[12.5px] ${x.done ? 'text-[#7A8396] line-through' : 'text-white'}">${esc(x.title)}</span><span class="flex min-w-0 items-center gap-2">${taskTarget(x)}${!state.todoMine ? `<span class="truncate text-[11px] text-[#7A8396]">${esc(t('for_whom'))}: ${esc(userName(x.for))}</span>` : ''}</span></span>
       <span class="flex-shrink-0 font-mono text-[10.5px] text-[#8A90A2]">${esc(dueLabel(x.due))}</span></div>`;
-    const body = groups.filter(([, items]) => items.length).map(([k, items, color]) => `<div class="border-t border-[#1B1E26] px-3 pt-2.5 pb-1 font-mono text-[9.5px] font-bold tracking-wider ${color}">${esc(t(k))} · ${items.length}</div>${items.map(row).join('')}`).join('');
+    const body = groups.filter(([, items]) => items.length).map(([k, items, color]) => `<div class="border-t border-[#1B1E26] px-3 pt-2.5 pb-1 font-mono text-[10.5px] font-bold tracking-wider ${color}">${esc(t(k))} · ${items.length}</div>${items.map(row).join('')}`).join('');
     return `<div class="space-y-3">${header(esc(t('nav_todo')), esc(t(state.todoMine ? 'todo_sub_mine' : 'todo_sub_all')), openFull('todo'))}
       <div class="flex flex-wrap items-center gap-1.5"><button type="button" data-a="todo-mine" data-v="1" class="${CHIP(state.todoMine)}">${esc(t('mine'))}</button><button type="button" data-a="todo-mine" data-v="0" class="${CHIP(!state.todoMine)}">${esc(t('everyone'))}</button><span class="mx-0.5 h-4 w-px bg-[#1B1E26]"></span><button type="button" data-a="todo-done" class="${CHIP(state.todoDone)}">${esc(t('show_done'))}</button></div>
       <form data-form="task" class="${CARD} flex flex-col gap-2 p-3 sm:flex-row"><input name="title" maxlength="160" autocomplete="off" placeholder="${esc(t('task_placeholder'))}" class="min-w-0 flex-1 ${INPUT} px-3 py-1.5"><input name="due" type="date" value="${today}" aria-label="${esc(t('due'))}" class="${INPUT} px-2 py-1.5 [color-scheme:dark]"><button type="submit" class="${BTN_P}">${ic('add', 'text-[15px]')}${esc(t('task_add'))}</button></form>
@@ -1202,7 +1206,7 @@
     const freq = t(state.scanFreq === 1 ? 'f1' : state.scanFreq === 2 ? 'f2' : 'f4');
     const pctCredits = Math.round((state.credits / 500) * 100);
     const scanAt = parse(state.scan.at);
-    const card = (label, icon, inner) => `<div class="${CARD} p-3.5"><div class="flex items-center justify-between"><span class="${LABEL} text-[#8A90A2]">${esc(label)}</span>${ic(icon, 'text-[17px] text-[#5A6275]')}</div>${inner}</div>`;
+    const card = (label, icon, inner) => `<div class="${CARD} p-3.5"><div class="flex items-center justify-between"><span class="${LABEL} text-[#8A90A2]">${esc(label)}</span>${ic(icon, 'text-[17px] text-[#7A8396]')}</div>${inner}</div>`;
 
     let runBox = '';
     if (run && !run.done) {
@@ -1223,7 +1227,7 @@
         : `<button type="button" data-a="sc-one" data-v="${c.id}" class="rounded-md border border-white/[0.12] px-2.5 py-1 text-[11px] font-semibold text-white hover:border-[#FF5500] disabled:opacity-50 cursor-pointer" ${busy || (run && !run.done) || state.credits <= 0 ? 'disabled' : ''}>${busy ? `<span class="tr-spin mr-1 inline-block h-2.5 w-2.5 rounded-full border-2 border-[#FF5500] border-t-transparent align-[-1px]"></span>${esc(t('sc_scanning'))}` : esc(t('sc_scan'))}</button>`;
       const last = c.scan === 'queued' ? '—' : c.scannedNow ? t('just_now') : (parse(c.scanned) != null ? agoLabel(parse(c.scanned)) : '—');
       return `<div class="grid grid-cols-[1fr_auto] items-center gap-2 border-t border-[#1B1E26]/60 px-3 py-2 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_70px_40px_60px_96px_76px]">
-        <span class="min-w-0"><span class="block truncate text-[12.5px] font-semibold text-white">${esc(c.name)}</span><span class="block truncate font-mono text-[10px] text-[#5A6275]">${esc(c.domain)}</span></span>
+        <span class="min-w-0"><span class="block truncate text-[12.5px] font-semibold text-white">${esc(c.name)}</span><span class="block truncate font-mono text-[10px] text-[#7A8396]">${esc(c.domain)}</span></span>
         <span class="hidden min-w-0 items-center gap-1.5 md:flex"><a href="${esc(c.careers)}" target="_blank" rel="noopener noreferrer" class="truncate font-mono text-[10.5px] text-[#8A90A2] hover:text-[#FF7733]">${esc(String(c.careers).replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''))}</a>${atsBadge(c.ats)}</span>
         <span class="hidden text-right font-mono text-xs text-white md:block">${c.active}</span>
         <span class="hidden md:block">${typeBadge(c)}</span>
@@ -1236,7 +1240,7 @@
       <div class="grid gap-3 md:grid-cols-3">
         ${card(t('sc_next'), 'schedule', `<div class="mt-2 text-lg font-bold text-white">${esc(`${nextWhen} ${nextT || times[0]}`)}</div><div class="text-[11px] text-[#8A90A2]">${esc(t('sc_tz', { freq, n }))}</div><button type="button" data-a="sc-tab" data-v="schedule" class="mt-2 flex items-center gap-1 text-xs font-semibold text-[#FF7733] hover:text-white cursor-pointer">${esc(t('sc_change'))} ${ic('arrow_forward', 'text-[14px]')}</button>`)}
         ${card(t('sc_last'), 'history', `<div class="mt-2 text-lg font-bold text-white">${esc(state.scanned ? t('just_now') : lastScanText())}</div><div class="text-[11px] text-[#8A90A2]">${esc(t('sc_last_v', { n: state.scan.companies || n, s: state.scanned ? state.scanRun.secs : (state.scan.seconds || '—'), f: state.scan.found ?? 0 }))}</div><div class="mt-2 text-[11px] text-[#34D399]">${esc(t('sc_all_ok'))}</div>`)}
-        ${card(t('sc_credits'), 'bolt', `<div class="mt-2 flex items-baseline justify-between"><span class="font-mono text-lg font-bold text-white">${state.credits} / 500</span><span class="font-mono text-[10px] font-bold text-[#FF5500]">${pctCredits}% ${esc(t('avail'))}</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-[#1B1E26]"><div class="h-full rounded-full bg-[#FF5500]" style="width:${pctCredits}%"></div></div><div class="mt-1.5 text-[10.5px] text-[#5A6275]">${esc(t('sc_credit_note'))}</div>`)}
+        ${card(t('sc_credits'), 'bolt', `<div class="mt-2 flex items-baseline justify-between"><span class="font-mono text-lg font-bold text-white">${state.credits} / 500</span><span class="font-mono text-[10px] font-bold text-[#FF5500]">${pctCredits}% ${esc(t('avail'))}</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-[#1B1E26]"><div class="h-full rounded-full bg-[#FF5500]" style="width:${pctCredits}%"></div></div><div class="mt-1.5 text-[10.5px] text-[#7A8396]">${esc(t('sc_credit_note'))}</div>`)}
       </div>
       ${runBox}
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -1253,9 +1257,9 @@
   }
   function renderSchedule() {
     const opts = [[1, 'f1', 'f1_t'], [2, 'f2', 'f2_t'], [4, 'f4', 'f4_t']].map(([v, k, kt]) => `<button type="button" data-a="sc-freq" data-v="${v}" class="flex w-full items-center gap-3 rounded-xl border p-3 text-left cursor-pointer ${state.scanFreq === v ? 'border-[#FF5500] bg-[#FF5500]/[0.08]' : 'border-[#1B1E26] bg-[#0F1117] hover:border-white/20'}">
-      <span class="flex h-4 w-4 items-center justify-center rounded-full border-2 ${state.scanFreq === v ? 'border-[#FF5500]' : 'border-[#5A6275]'}">${state.scanFreq === v ? '<span class="h-1.5 w-1.5 rounded-full bg-[#FF5500]"></span>' : ''}</span>
+      <span class="flex h-4 w-4 items-center justify-center rounded-full border-2 ${state.scanFreq === v ? 'border-[#FF5500]' : 'border-[#7A8396]'}">${state.scanFreq === v ? '<span class="h-1.5 w-1.5 rounded-full bg-[#FF5500]"></span>' : ''}</span>
       <span class="flex-1"><span class="block text-[13px] font-bold text-white">${esc(t(k))}</span><span class="block font-mono text-[11px] text-[#8A90A2]">${esc(t(kt))} · Europe/Prague</span></span>
-      ${v === 4 ? `<span class="rounded border border-white/15 px-1.5 py-0.5 font-mono text-[9.5px] text-[#C9CDD6]">${esc(t('f4_tag'))}</span>` : ''}</button>`).join('');
+      ${v === 4 ? `<span class="rounded border border-white/15 px-1.5 py-0.5 font-mono text-[10.5px] text-[#C9CDD6]">${esc(t('f4_tag'))}</span>` : ''}</button>`).join('');
     return `<div class="${CARD} p-4"><div class="text-sm font-bold text-white">${esc(t('sched_title'))}</div><p class="mt-0.5 text-xs text-[#8A90A2]">${esc(t('sched_sub'))}</p><div class="mt-3 grid gap-2 sm:grid-cols-3">${opts}</div></div>`;
   }
 
@@ -1279,14 +1283,14 @@
     const prog = state.roles.filter((r) => ['CONTACT_PENDING', 'CONTACTED', 'IN_PROGRESS'].includes(r.status)).length;
     const coreN = state.roles.filter((r) => r.fit === 'CORE').length;
     const velocity = state.roles.filter((r) => r.age < w).length;
-    const tile = (label, icon, big, sub) => `<div class="${CARD} p-3.5"><div class="flex items-center justify-between"><span class="${LABEL} text-[#8A90A2]">${esc(label)}</span>${ic(icon, 'text-[17px] text-[#5A6275]')}</div><div class="mt-2 font-mono text-2xl font-bold text-white">${big}</div><div class="text-[11px] text-[#5A6275]">${esc(sub)}</div></div>`;
+    const tile = (label, icon, big, sub) => `<div class="${CARD} p-3.5"><div class="flex items-center justify-between"><span class="${LABEL} text-[#8A90A2]">${esc(label)}</span>${ic(icon, 'text-[17px] text-[#7A8396]')}</div><div class="mt-2 font-mono text-2xl font-bold text-white">${big}</div><div class="text-[11px] text-[#7A8396]">${esc(sub)}</div></div>`;
     const areaCounts = AREAS.map(([k, re]) => [k, state.roles.filter((r) => re.test(r.title)).length]).filter(([, v]) => v).sort((a, b) => b[1] - a[1]).slice(0, 7);
     const max = (areaCounts[0] || [0, 1])[1];
     const bars = areaCounts.map(([k, v]) => `<div data-tip="${esc(k)}: ${v} ${esc(t('roles_word'))}" class="group cursor-default"><div class="flex items-center justify-between text-xs"><span class="text-[#C9CDD6]">${esc(k)}</span><span class="font-mono text-[11px] text-white">${v}</span></div>
       <div class="mt-1 h-2 rounded-full bg-[#1B1E26]"><div class="h-full rounded-[4px] bg-[#FF5500] transition-opacity group-hover:opacity-80" style="width:${Math.max(3, (v / max) * 100)}%"></div></div></div>`).join('');
     const top = [...state.companies].sort((a, b) => b.active - a.active).slice(0, 6);
     const topMax = (top[0] || { active: 1 }).active || 1;
-    const tops = top.map((c, i) => `<div data-tip="${esc(c.name)}: ${c.active} ${esc(t('roles_word'))}" class="group cursor-default"><div class="flex items-center gap-2 text-xs"><span class="w-6 font-mono text-[10px] text-[#5A6275]">#${String(i + 1).padStart(2, '0')}</span><span class="font-semibold text-white">${esc(c.name)}</span>${c.client ? pill(t('client'), 'orange') : ''}<span class="ml-auto font-mono text-[11px] text-white">${c.active}</span></div>
+    const tops = top.map((c, i) => `<div data-tip="${esc(c.name)}: ${c.active} ${esc(t('roles_word'))}" class="group cursor-default"><div class="flex items-center gap-2 text-xs"><span class="w-6 font-mono text-[10px] text-[#7A8396]">#${String(i + 1).padStart(2, '0')}</span><span class="font-semibold text-white">${esc(c.name)}</span>${c.client ? pill(t('client'), 'orange') : ''}<span class="ml-auto font-mono text-[11px] text-white">${c.active}</span></div>
       <div class="mt-1 ml-8 h-1.5 rounded-full bg-[#1B1E26]"><div class="h-full rounded-[4px] bg-[#FF5500]/80 group-hover:bg-[#FF5500]" style="width:${(c.active / topMax) * 100}%"></div></div></div>`).join('');
     const days = Array.from({ length: 14 }, (_, i) => pragueDay(Date.now() - (13 - i) * DAY));
     const daily = days.map((d) => state.dailyNew[d] || 0);
@@ -1302,12 +1306,12 @@
         ${tile(t('an_velocity'), 'trending_up', '+' + velocity, t('an_velocity_sub', { w: t(w === 7 ? 'w7' : 'w30') }))}
       </div>
       <div class="grid gap-3 lg:grid-cols-2">
-        <div class="${CARD} p-4"><div class="${LABEL} text-white">${esc(t('an_stack'))}</div><div class="mb-3 text-[11px] text-[#5A6275]">${esc(t('an_stack_sub'))}</div><div class="space-y-2.5">${bars}</div></div>
-        <div class="${CARD} p-4"><div class="${LABEL} text-white">${esc(t('an_top'))}</div><div class="mb-3 text-[11px] text-[#5A6275]">${esc(t('an_top_sub'))}</div><div class="space-y-2.5">${tops}</div></div>
+        <div class="${CARD} p-4"><div class="${LABEL} text-white">${esc(t('an_stack'))}</div><div class="mb-3 text-[11px] text-[#7A8396]">${esc(t('an_stack_sub'))}</div><div class="space-y-2.5">${bars}</div></div>
+        <div class="${CARD} p-4"><div class="${LABEL} text-white">${esc(t('an_top'))}</div><div class="mb-3 text-[11px] text-[#7A8396]">${esc(t('an_top_sub'))}</div><div class="space-y-2.5">${tops}</div></div>
       </div>
-      <div class="${CARD} p-4"><div class="${LABEL} text-white">${esc(t('an_daily'))}</div><div class="mb-3 text-[11px] text-[#5A6275]">${esc(t('an_daily_sub'))}</div>
+      <div class="${CARD} p-4"><div class="${LABEL} text-white">${esc(t('an_daily'))}</div><div class="mb-3 text-[11px] text-[#7A8396]">${esc(t('an_daily_sub'))}</div>
         <div class="flex h-28 items-end gap-[2px] border-b border-[#1B1E26]">${cols}</div>
-        <div class="mt-1 flex justify-between font-mono text-[9.5px] text-[#5A6275]"><span>${esc(dayLabel(days[0]))}</span><span>${esc(dayLabel(days[7]))}</span><span>${esc(dayLabel(days[13]))}</span></div></div>
+        <div class="mt-1 flex justify-between font-mono text-[10.5px] text-[#7A8396]"><span>${esc(dayLabel(days[0]))}</span><span>${esc(dayLabel(days[7]))}</span><span>${esc(dayLabel(days[13]))}</span></div></div>
     </div>`;
   }
 

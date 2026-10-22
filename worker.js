@@ -116,7 +116,7 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, timezone } = data;
+  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, timezone, plan } = data;
   const clientIp = request.headers.get("cf-connecting-ip") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";
 
@@ -215,6 +215,9 @@ async function handleDemoSubmission(request, env) {
     // The browser's time zone ("Europe/Dublin"). The app schedules the scans
     // and picks the fee currency from it; without it a free mailbox lands in Prague.
     timezone: normaliseTimezone(timezone),
+    // The pricing card the visitor clicked before the form, or "" when they
+    // came another way. Only for Kryštof's notifications; the trial is the same.
+    plan: normalisePlan(plan),
     ip: clientIp,
     userAgent: userAgent,
   };
@@ -327,6 +330,12 @@ async function wakeApp(env, lead) {
 /**
  * Resolves the language to address this person in: 'cs' or 'en'.
  */
+/** The tier picked on the pricing cards: "solo", "agency", "scale", or "". */
+export function normalisePlan(plan) {
+  const value = String(plan || "").trim().toLowerCase();
+  return ["solo", "agency", "scale"].includes(value) ? value : "";
+}
+
 /** An IANA zone name like "Europe/Dublin", or "". The app checks it again. */
 function normaliseTimezone(zone) {
   const value = String(zone || "").trim().slice(0, 64);
@@ -376,6 +385,7 @@ function notifyBrevo(env, lead, fileData, cleanFileName) {
         `Name:   ${lead.name}`,
         `E-mail: ${lead.email}`,
         `Agency: ${lead.company || "not given"}`,
+        `Plan:   ${lead.plan || "not picked"}`,
         "",
         `Attached file: ${cleanFileName || "none"}`,
         "",
@@ -452,6 +462,7 @@ function notifySlack(env, lead, cleanFileName) {
       `*Name:* ${lead.name}`,
       `*E-mail:* ${lead.email}`,
       `*Agency:* ${lead.company || "not given"}`,
+      `*Plan:* ${lead.plan || "not picked"}`,
       `*File:* ${cleanFileName ? "`" + cleanFileName + "` (stored as `leadfile:" + lead.id + "`)" : "none"}`,
       "*Companies:*",
       "```",
@@ -476,6 +487,7 @@ function notifyTelegram(env, lead, cleanFileName) {
       `Name: ${lead.name}`,
       `E-mail: ${lead.email}`,
       `Agency: ${lead.company || "not given"}`,
+      `Plan: ${lead.plan || "not picked"}`,
       `File: ${cleanFileName || "none"}`,
       `Companies: ${lead.clients ? lead.clients.slice(0, 200) : "in the attached file"}`,
       `Lead ID: ${lead.id}`,

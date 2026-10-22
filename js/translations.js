@@ -21,12 +21,13 @@ const TRANSLATIONS = {
     nav_faq: "FAQ",
     nav_signin: "Sign in",
     nav_cta: "Try free for 14 days",
+    nav_cta_short: "Try free",
     nav_demo: "Full demo ↗",
 
     /* ── Hero ── */
     hero_badge: "New-role radar and simple ATS for recruitment agencies",
     hero_headline_html: "See your clients’ new roles first.<br><span class=\"text-[#FF6B00]\">Straight from their career pages, before the job boards.</span>",
-    hero_subheadline: "Your consultants no longer need to spend hours clicking through career pages or wait for roles to show up on job boards. Twice a day TalentRadar checks your clients’ career pages and ATS and shows the new roles in one place. Use it as a radar next to your own ATS, or run your whole agency in it.",
+    hero_subheadline: "Twice a day TalentRadar checks your clients’ career pages and ATS and shows the new roles in one place. Your consultants no longer hunt for them by hand.",
     hero_cta_btn: "Try free for 14 days",
     hero_demo_btn: "Try the interactive demo",
     hero_trust_microcopy: "✓ No credit card  •  ✓ Up to 200 companies  •  ✓ Up and running within 24 hours",
@@ -36,7 +37,7 @@ const TRANSLATIONS = {
     /* ── Workflows Section ── */
     modes_badge: "Two ways to use it",
     modes_headline: "Choose how TalentRadar fits your agency",
-    modes_subtext: "Whether you run an established team on Bullhorn or a small agency that lives in Notion, there is nothing to migrate and nothing complicated to set up.",
+    modes_subtext: "Whether your established team works in Bullhorn or Vincere, or you are a small agency running on spreadsheets, there is nothing to migrate and nothing complicated to set up.",
     modes_a_badge: "RADAR ONLY",
     modes_b_badge: "RADAR + ATS",
     modes_a_title: "Keep your ATS, add the radar",
@@ -45,7 +46,7 @@ const TRANSLATIONS = {
     modes_a_fear: "“We don’t want to move our candidate database or change our ATS.”",
     modes_a_solution: "TalentRadar works as a radar next to your ATS: twice a day it checks your clients’ career pages, flags the new roles and exports them to CSV in one click.",
     modes_a_f1: "Reads roles straight from your clients’ ATS (Greenhouse, Lever, Workable, Ashby, Workday and more)",
-    modes_a_f2: "Automatic scans twice a day (at 6:00 and 12:00 your time)",
+    modes_a_f2: "Automatic scans twice a day",
     modes_a_f3: "Suggests the likely hiring manager and finds them on LinkedIn or via Google X-Ray in one click",
     modes_a_f4: "One-click CSV export of the roles, with the same filters you have on screen",
     modes_a_cta: "Try the radar →",
@@ -63,8 +64,9 @@ const TRANSLATIONS = {
     /* ── Live Radar Showcase (Mini-App Sandbox) ── */
     radar_badge: "Interactive demo",
     radar_headline: "Click through the whole platform. No sign-up.",
-    radar_subtext: "A light version of the TalentRadar workspace on the demo's real data: the roles Czech tech companies have open right now, and a made-up agency working on them. Open a role, find the hiring manager, turn it into a job, move a candidate through the pipeline or ask AI Hawk. Then carry on in the full demo.",
+    radar_subtext: "Real roles from the Czech demo’s scans and a made-up agency working on them. Open a role, find the hiring manager, turn it into a job or move a candidate through the pipeline.",
     radar_footnote: "Companies and roles are real, from the demo's daily scans. The agency, its candidates, contacts and placements are made up. Whatever you change stays in your browser.",
+    radar_expand: "Show the whole demo",
 
     /* ── Comparison Table ── */
     compare_badge: "Comparison",
@@ -75,7 +77,7 @@ const TRANSLATIONS = {
     compare_col_radar: "With TalentRadar",
     compare_row1_label: "Checking career pages",
     compare_row1_manual: "Consultants click through the pages by hand, when they get round to it, and lose hours every week.",
-    compare_row1_radar: "The pages are checked automatically <strong>twice a day</strong> (at 6:00 and 12:00 your time).",
+    compare_row1_radar: "The pages are checked automatically <strong>twice a day</strong>.",
     compare_row2_label: "When you hear about a role",
     compare_row2_manual: "Days later, once it shows up on job boards or LinkedIn.",
     compare_row2_radar: "<strong>At the next scan</strong>, usually a few hours after it goes live on the client’s site.",
@@ -139,7 +141,7 @@ const TRANSLATIONS = {
     pricing_tier2_speed_title: "Twice a day instead of once",
     pricing_tier2_speed_body: "Scans run at 6:00 and 12:00 your time, so roles posted in the morning are on your list after lunch.",
     pricing_tier2_f1: "Up to 200 client companies monitored",
-    pricing_tier2_f2: "Automatic scans twice a day (at 6:00 and 12:00)",
+    pricing_tier2_f2: "Automatic scans twice a day",
     pricing_tier2_f3: "500 manual scans a week",
     pricing_tier2_f4: "Up to 8 users, and every role can have its owner",
     pricing_tier2_f5: "AI sorts roles into all 6 practice areas",
@@ -187,7 +189,7 @@ const TRANSLATIONS = {
     faq_q2: "Which ATS does TalentRadar work with?",
     faq_a2: "Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Teamio/Jobs.cz, Phenom and Jibe, as well as large companies’ own career pages. We connect non-standard pages on request in the Scale / Enterprise plan.",
     faq_q3: "What happens when a company closes or fills a role?",
-    faq_a3: "When a listing disappears from the site, the next scan (at 6:00 or 12:00 your time) notices, the one after confirms it, and TalentRadar archives the role. If the company posts it again, it comes back with its full history. Nothing to delete by hand.",
+    faq_a3: "When a listing disappears from the site, the next scan notices, the one after confirms it, and TalentRadar archives the role. If the company posts it again, it comes back with its full history. Nothing to delete by hand.",
     faq_q4: "How do the 14 free days work?",
     faq_a4: "For 14 days you can monitor up to 200 companies and use everything in full. No credit card. The trial does not turn into a paid plan by itself: you decide whether to carry on.",
     faq_q5: "Can we get the roles into our own ATS or CRM?",
@@ -206,6 +208,19 @@ const TRANSLATIONS = {
     trial_label_clients: "Clients you want to monitor (up to 200 companies)",
     trial_placeholder_clients: "Paste your clients’ careers page links or domains (e.g. tines.com, mews.com, stripe.com)…",
     trial_clients_tag: "Excel, CSV or Domains",
+    trial_clients_help: "What should the list look like?",
+    help_kicker: "Client list",
+    help_title: "How to prepare your client list",
+    help_intro: "An Excel or CSV table with two columns is all we need: the company and the link to its careers page. The first row can hold headings.",
+    help_col_a: "Company",
+    help_col_b: "Careers page",
+    help_ex_empty: "(empty, we find it)",
+    help_rule_a: "Column A: the company name (required)",
+    help_rule_b: "Column B: the link to the page where the company lists its open roles (optional, we find the missing ones)",
+    help_rule_c: "Other columns are fine, we just skip them",
+    help_rule_d: "Up to 200 companies, Excel (.xlsx, .xls) or .csv",
+    help_text_alt: "No file? Type into the field one company per line, for example “Air Bank, kariera.airbank.cz/prehled-pozic” or just “Rohlik Group”.",
+    help_close: "Close",
     trial_upload_cta: "Click to upload your client list",
     trial_upload_types: "(Excel .xlsx, .xls or .csv)",
     trial_upload_note: "We find the career pages and ATS for you. No list at hand? Leave it empty and we will get in touch to collect it.",
@@ -226,6 +241,91 @@ const TRANSLATIONS = {
     footer_author: "Kryštof Pejša",
     footer_gdpr: "Privacy Policy (GDPR)",
     footer_copyright: "© 2026 TalentRadar. Built for European recruitment agencies and headhunters.",
+
+    /* ── v2: hero preview, ATS strip ── */
+    hero_trust_1: "No credit card",
+    hero_trust_2: "Up to 200 companies",
+    hero_trust_3: "Up and running within 24 hours",
+    hero_mock_greeting: "Good morning",
+    hero_mock_sub: "New roles since the last scan",
+    hero_mock_scan: "SCAN 6:00 ✓",
+    hero_mock_kpi1: "new roles",
+    hero_mock_kpi2: "CORE roles open",
+    hero_mock_kpi3: "companies watched",
+    mock_tag_client: "C",
+    mock_loc_prague_hybrid: "Prague / Hybrid",
+    mock_loc_brno_hybrid: "Brno / Hybrid",
+    hero_mock_hm_label: "Likely hiring manager",
+    hero_mock_hm_where: "Air Bank · Prague",
+    hero_mock_old_label: "Open 45+ days",
+    hero_mock_old_where: "Rohlik Group · client, a reason to call",
+    hero_mock_spike_sub: "Prospect · hiring right now",
+    hero_mock_spike_label: "5 new roles at once",
+    hero_mock_caption: "Illustration of the home screen with real roles from the Czech demo’s scan.",
+    ats_strip_label: "Reads roles straight from",
+    ats_strip_more: "+ 7 more and ordinary career pages",
+
+    /* ── v2: features, block by block ── */
+    feat_badge: "What it does",
+    feat_headline: "Every morning, the work your consultants used to do by hand",
+    feat_subtext: "From the first sign that a client is hiring to the placement: what TalentRadar does for you, and what it looks like.",
+    feat1_kicker: "Home",
+    feat1_title: "In the morning you know where new roles opened",
+    feat1_body: "TalentRadar checks your clients’ and prospects’ career pages and ATS at 6:00 and 12:00 your time. New roles wait for you sorted by company, clients first, and AI marks the ones that match your practice areas.",
+    feat1_p1: "Clients and prospects apart, so you know whom to call first",
+    feat1_p2: "CORE roles fit your agency, SELECTIVE ones are worth a look",
+    feat1_p3: "Filled and withdrawn roles disappear by themselves",
+    feat1_mock_title: "Companies with new roles",
+    feat1_mock_all: "ALL",
+    feat1_mock_clients: "CLIENTS",
+    feat1_mock_prospects: "PROSPECTS",
+    feat1_mock_col_company: "Company",
+    feat1_mock_col_new: "New",
+    feat2_kicker: "Role detail",
+    feat2_title: "You know whom to call about the role",
+    feat2_body: "TalentRadar works out from the posting who most likely decides on the hire and finds them on LinkedIn or through Google X-Ray. It saves you a lot of searching.",
+    feat2_p1: "A likely hiring manager for every role",
+    feat2_p2: "LinkedIn and Google X-Ray search in one click",
+    feat2_p3: "An AI summary of the role for the first call",
+    feat2_mock_new: "NEW",
+    feat2_mock_where: "Searched in: Prague",
+    feat2_mock_up: "If they don’t reply, one level up: VP of Engineering / CTO",
+    feat3_kicker: "Opportunities",
+    feat3_title: "A reason to call, not a cold call or email",
+    feat3_body: "You call with a reason: right after the company posts a role, while it is fresh and you are first, or when it has been open for over a month and the client can’t fill it alone.",
+    feat3_p1: "A new role: you are the first to call, while it is current",
+    feat3_p2: "Open 30+ or 45+ days: the client needs help",
+    feat3_p3: "Many more roles than usual: the company is growing",
+    feat3_mock_title: "Opportunities",
+    feat3_mock_30: "roles open 30+ days",
+    feat3_mock_45: "roles open 45+ days",
+    feat3_mock_since: "published",
+    feat4_kicker: "Radar + ATS",
+    feat4_title: "From a role to a placement, in one place",
+    feat4_body: "When the client gives you the job, one click turns the role into a job with the hiring manager filled in. Candidates move through the pipeline, and the placement records the start date and your fee. Or keep your own ATS and export the roles into it.",
+    feat4_p1: "Candidates, contacts, jobs, pipeline, tasks and placements",
+    feat4_p2: "Import candidates and contacts from Excel or another ATS",
+    feat4_p3: "Not ready to switch? Radar only, next to your ATS",
+    feat4_mock_title: "Pipeline",
+    feat4_mock_cv: "CV sent",
+    feat4_mock_int: "Interview",
+    feat4_mock_placed: "Placed",
+    feat4_mock_note: "Made-up candidates, as in the demo.",
+
+    /* ── v2: client reference (placeholder, localhost only) ── */
+    ref_badge: "From the agency where it started",
+    ref_quote: "Rob Magee’s quote goes here, about what the radar changed for Ingenio’s consultants. Two or three sentences in his own words.",
+    ref_photo: "photo",
+    ref_role: "Ingenio Global, Dublin",
+    ref_stat1: "companies watched",
+    ref_stat2: "hours saved a week",
+
+    /* ── v2: footer ── */
+    footer_about: "New-role radar and simple ATS for recruitment agencies. Born at an agency in Dublin, built in Prague.",
+    footer_col_product: "Product",
+    footer_col_resources: "Resources",
+    footer_col_contact: "Contact",
+    footer_linkedin_company: "TalentRadar on LinkedIn",
   },
 
   cs: {
@@ -244,12 +344,13 @@ const TRANSLATIONS = {
     nav_faq: "Časté dotazy",
     nav_signin: "Přihlášení",
     nav_cta: "Vyzkoušet na 14 dní zdarma",
+    nav_cta_short: "Vyzkoušet",
     nav_demo: "Plné demo ↗",
 
     /* ── Hero ── */
     hero_badge: "Radar nových zakázek a jednoduché ATS pro personální agentury",
     hero_headline_html: "Nové pozice vašich klientů uvidíte jako první.<br><span class=\"text-[#FF6B00]\">Dny předtím, než se objeví na&nbsp;LinkedInu a&nbsp;Jobs.cz.</span>",
-    hero_subheadline: "Vaši konzultanti už nemusí hodiny proklikávat kariérní weby ani čekat, až se pozice objeví na portálech. TalentRadar dvakrát denně projde weby a ATS vašich klientů a nové pozice vám ukáže na jednom místě. Můžete ho mít jen jako radar vedle svého ATS, nebo v něm vést celou agenturu.",
+    hero_subheadline: "TalentRadar dvakrát denně projde kariérní weby a ATS vašich klientů a nové pozice vám ukáže na jednom místě. Konzultanti je už nemusí hledat ručně.",
     hero_cta_btn: "Vyzkoušet na 14 dní zdarma",
     hero_demo_btn: "Vyzkoušet interaktivní demo",
     hero_trust_microcopy: "✓ Bez platební karty  •  ✓ Až 200 firem  •  ✓ Spuštění do 24 hodin",
@@ -259,7 +360,7 @@ const TRANSLATIONS = {
     /* ── Workflows Section ── */
     modes_badge: "Dva způsoby použití",
     modes_headline: "Zvolte si, jak TalentRadar zapadne do vaší agentury",
-    modes_subtext: "Ať máte zavedený tým s Bullhornem, nebo menší agenturu, která jede v Notionu, nic nemusíte stěhovat ani složitě nastavovat.",
+    modes_subtext: "Ať máte zavedený tým v Datacruitu, Recruitisu nebo Bullhornu, nebo menší agenturu, která jede v Excelu, nic nemusíte stěhovat ani složitě nastavovat.",
     modes_a_badge: "JEN RADAR",
     modes_b_badge: "RADAR + ATS",
     modes_a_title: "Vaše ATS zůstane, přibude radar",
@@ -268,7 +369,7 @@ const TRANSLATIONS = {
     modes_a_fear: "„Nechceme stěhovat kandidátskou databázi ani měnit ATS.“",
     modes_a_solution: "TalentRadar funguje jako radar vedle vašeho ATS: dvakrát denně projde weby klientů, upozorní vás na nové pozice a jedním klikem je vyexportujete do CSV.",
     modes_a_f1: "Čte pozice přímo z ATS klientů (Greenhouse, Lever, Workable, Ashby a další)",
-    modes_a_f2: "Automatické skeny dvakrát denně (v 6:00 a ve 12:00 vašeho času)",
+    modes_a_f2: "Automatické skeny dvakrát denně",
     modes_a_f3: "Odhadne, kdo je hiring manager, a jedním klikem ho najdete na LinkedInu nebo přes Google X-Ray",
     modes_a_f4: "Export pozic do CSV jedním klikem, se stejnými filtry, jaké máte na obrazovce",
     modes_a_cta: "Vyzkoušet radar →",
@@ -286,8 +387,9 @@ const TRANSLATIONS = {
     /* ── Live Radar Showcase (Mini-App Sandbox) ── */
     radar_badge: "Interaktivní demo",
     radar_headline: "Proklikejte si celou platformu. Bez registrace.",
-    radar_subtext: "Zjednodušená verze TalentRadaru na skutečných datech dema: role, které mají české technologické firmy právě otevřené, a vymyšlená agentura, která na nich pracuje. Otevřete si roli, najděte hiring managera, udělejte z ní zakázku, posuňte kandidáta v pipeline nebo se zeptejte AI Hawka. Pak můžete pokračovat v plném demu.",
+    radar_subtext: "Skutečné pozice ze skenů českého dema a vymyšlená agentura, která na nich pracuje. Otevřete si pozici, najděte hiring managera, udělejte z ní zakázku nebo posuňte kandidáta v pipeline.",
     radar_footnote: "Firmy a role jsou skutečné, z denních skenů dema. Agentura, její kandidáti, kontakty a umístění jsou vymyšlené. Co změníte, zůstane jen ve vašem prohlížeči.",
+    radar_expand: "Zobrazit celé demo",
 
     /* ── Comparison Table ── */
     compare_badge: "Srovnání",
@@ -298,7 +400,7 @@ const TRANSLATIONS = {
     compare_col_radar: "S TalentRadarem",
     compare_row1_label: "Kontrola kariérních webů",
     compare_row1_manual: "Konzultanti weby proklikávají ručně a nepravidelně, každý tím ztratí hodiny týdně.",
-    compare_row1_radar: "Weby se kontrolují automaticky <strong>dvakrát denně</strong> (v 6:00 a ve 12:00 vašeho času).",
+    compare_row1_radar: "Weby se kontrolují automaticky <strong>dvakrát denně</strong>.",
     compare_row2_label: "Kdy se o pozici dozvíte",
     compare_row2_manual: "Až po několika dnech, když se objeví na portálech nebo na LinkedInu.",
     compare_row2_radar: "<strong>Při nejbližším skenu</strong>, obvykle pár hodin po zveřejnění na webu klienta.",
@@ -362,7 +464,7 @@ const TRANSLATIONS = {
     pricing_tier2_speed_title: "Dvakrát denně místo jednou",
     pricing_tier2_speed_body: "Skeny běží v 6:00 a ve 12:00 vašeho času, takže o pozicích vypsaných dopoledne víte už po obědě.",
     pricing_tier2_f1: "Až 200 sledovaných klientských firem",
-    pricing_tier2_f2: "Automatické skeny dvakrát denně (v 6:00 a ve 12:00)",
+    pricing_tier2_f2: "Automatické skeny dvakrát denně",
     pricing_tier2_f3: "500 ručních skenů týdně",
     pricing_tier2_f4: "Až 8 uživatelů, každá pozice může mít svého vlastníka",
     pricing_tier2_f5: "AI roztřídí pozice do všech 6 oborů",
@@ -410,7 +512,7 @@ const TRANSLATIONS = {
     faq_q2: "Se kterými ATS TalentRadar umí pracovat?",
     faq_a2: "Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Teamio/Jobs.cz, Phenom a Jibe a také vlastní kariérní weby velkých firem. Nestandardní weby napojíme na míru v tarifu Scale / Enterprise.",
     faq_q3: "Co se stane, když firma pozici uzavře nebo obsadí?",
-    faq_a3: "Když inzerát z webu zmizí, nejbližší sken (v 6:00 nebo ve 12:00 vašeho času) si toho všimne, další to potvrdí a TalentRadar pozici archivuje. Když ji firma vypíše znovu, vrátí se i s celou historií. Nic nemusíte mazat ručně.",
+    faq_a3: "Když inzerát z webu zmizí, nejbližší sken si toho všimne, další to potvrdí a TalentRadar pozici archivuje. Když ji firma vypíše znovu, vrátí se i s celou historií. Nic nemusíte mazat ručně.",
     faq_q4: "Jak funguje 14 dní zdarma?",
     faq_a4: "Po 14 dní můžete sledovat až 200 firem a používat všechno naplno. Platební kartu nezadáváte. Po skončení se zkušební verze sama nezpoplatní, o pokračování rozhodnete vy.",
     faq_q5: "Můžeme data přenést do svého CRM?",
@@ -429,6 +531,19 @@ const TRANSLATIONS = {
     trial_label_clients: "Klienti, které chcete sledovat (až 200 firem)",
     trial_placeholder_clients: "Vložte domény nebo kariérní weby klientů, např. mews.com, productboard.com, rohlik.cz…",
     trial_clients_tag: "Excel, CSV nebo domény",
+    trial_clients_help: "Jak má seznam vypadat?",
+    help_kicker: "Seznam klientů",
+    help_title: "Jak připravit seznam klientů",
+    help_intro: "Stačí tabulka v Excelu nebo CSV se dvěma sloupci: firma a odkaz na její kariérní stránku. V prvním řádku můžou být nadpisy.",
+    help_col_a: "Firma",
+    help_col_b: "Kariérní stránka",
+    help_ex_empty: "(prázdné, dohledáme)",
+    help_rule_a: "Sloupec A: název firmy (povinné)",
+    help_rule_b: "Sloupec B: odkaz na stránku, kde firma vypisuje volné pozice (nepovinné, chybějící dohledáme)",
+    help_rule_c: "Další sloupce nevadí, jen je přeskočíme",
+    help_rule_d: "Až 200 firem, Excel (.xlsx, .xls) nebo .csv",
+    help_text_alt: "Soubor nemáte? Do pole napište jednu firmu na řádek, třeba „Air Bank, kariera.airbank.cz/prehled-pozic“ nebo jen „Rohlik Group“.",
+    help_close: "Zavřít",
     trial_upload_cta: "Klikněte a nahrajte soubor s klienty",
     trial_upload_types: "(Excel .xlsx, .xls nebo .csv)",
     trial_upload_note: "Kariérní weby a ATS dohledáme za vás. Seznam teď nemáte po ruce? Nechte pole prázdné a ozveme se vám pro něj.",
@@ -449,6 +564,91 @@ const TRANSLATIONS = {
     footer_author: "Kryštof Pejša",
     footer_gdpr: "Zásady ochrany osobních údajů (GDPR)",
     footer_copyright: "© 2026 TalentRadar. Vytvořeno pro evropské personální agentury a headhuntery.",
+
+    /* ── v2: náhled v úvodu, pruh s ATS ── */
+    hero_trust_1: "Bez platební karty",
+    hero_trust_2: "Až 200 firem",
+    hero_trust_3: "Spuštění do 24 hodin",
+    hero_mock_greeting: "Dobré ráno",
+    hero_mock_sub: "Nové pozice od posledního skenu",
+    hero_mock_scan: "SKEN 6:00 ✓",
+    hero_mock_kpi1: "nových pozic",
+    hero_mock_kpi2: "otevřených CORE pozic",
+    hero_mock_kpi3: "sledovaných firem",
+    mock_tag_client: "K",
+    mock_loc_prague_hybrid: "Praha / hybrid",
+    mock_loc_brno_hybrid: "Brno / hybrid",
+    hero_mock_hm_label: "Pravděpodobný hiring manager",
+    hero_mock_hm_where: "Air Bank · Praha",
+    hero_mock_old_label: "Otevřeno přes 45 dní",
+    hero_mock_old_where: "Rohlik Group · klient, důvod zavolat",
+    hero_mock_spike_sub: "Prospekt · právě nabírá",
+    hero_mock_spike_label: "5 nových pozic najednou",
+    hero_mock_caption: "Ukázka úvodní obrazovky se skutečnými pozicemi ze skenu českého dema.",
+    ats_strip_label: "Pozice čte přímo z",
+    ats_strip_more: "+ 7 dalších a běžné kariérní weby",
+
+    /* ── v2: funkce po blocích ── */
+    feat_badge: "Co umí",
+    feat_headline: "Každé ráno udělá práci, kterou konzultanti dělali ručně",
+    feat_subtext: "Od prvního signálu, že klient nabírá, až po umístění: co za vás TalentRadar udělá a jak to vypadá.",
+    feat1_kicker: "Domov",
+    feat1_title: "Ráno víte, kde se otevřely nové pozice",
+    feat1_body: "TalentRadar v 6:00 a ve 12:00 vašeho času projde kariérní weby a ATS vašich klientů i prospektů. Nové pozice na vás čekají seřazené podle firem, klienti nahoře, a AI označí ty, které sedí na vaše obory.",
+    feat1_p1: "Klienti a prospekti zvlášť, ať víte, komu volat dřív",
+    feat1_p2: "CORE pozice sedí na vaši agenturu, SELECTIVE stojí za pohled",
+    feat1_p3: "Obsazené a stažené pozice zmizí samy",
+    feat1_mock_title: "Firmy s novými pozicemi",
+    feat1_mock_all: "VŠE",
+    feat1_mock_clients: "KLIENTI",
+    feat1_mock_prospects: "PROSPEKTI",
+    feat1_mock_col_company: "Firma",
+    feat1_mock_col_new: "Nové",
+    feat2_kicker: "Detail pozice",
+    feat2_title: "Víte, komu kvůli pozici zavolat",
+    feat2_body: "TalentRadar z inzerátu odhadne, kdo o náboru nejspíš rozhoduje, a najde ho na LinkedInu nebo přes Google X-Ray. Ušetří vám to spoustu hledání.",
+    feat2_p1: "U každé pozice odhad hiring managera",
+    feat2_p2: "Hledání na LinkedInu a přes Google X-Ray jedním klikem",
+    feat2_p3: "Shrnutí pozice od AI pro první hovor",
+    feat2_mock_new: "NOVÁ",
+    feat2_mock_where: "Hledá se v: Praha",
+    feat2_mock_up: "Když neodpoví, o úroveň výš: VP of Engineering / CTO",
+    feat3_kicker: "Příležitosti",
+    feat3_title: "Důvod zavolat, žádný studený hovor ani e-mail",
+    feat3_body: "Voláte s důvodem: hned, jak firma pozici vypíše, dokud je čerstvá a jste první, nebo když pozice visí přes měsíc a klient ji sám neobsadí.",
+    feat3_p1: "Nová pozice: ozvete se jako první, dokud je aktuální",
+    feat3_p2: "Otevřená přes 30 nebo 45 dní: klient potřebuje pomoc",
+    feat3_p3: "Mnohem víc pozic než obvykle: firma roste",
+    feat3_mock_title: "Příležitosti",
+    feat3_mock_30: "pozic otevřených přes 30 dní",
+    feat3_mock_45: "pozic otevřených přes 45 dní",
+    feat3_mock_since: "zveřejněno",
+    feat4_kicker: "Radar + ATS",
+    feat4_title: "Od pozice k umístění na jednom místě",
+    feat4_body: "Když vám klient dá zakázku, jedním klikem z pozice uděláte zakázku i s hiring managerem. Kandidáty posouváte v pipeline a u umístění zapíšete nástup a provizi. Nebo si nechte své ATS a pozice do něj vyexportujte.",
+    feat4_p1: "Kandidáti, kontakty, zakázky, pipeline, úkoly a umístění",
+    feat4_p2: "Kandidáty a kontakty nahrajete z Excelu nebo z jiného ATS",
+    feat4_p3: "Nechcete měnit ATS? Jen radar vedle toho vašeho",
+    feat4_mock_title: "Pipeline",
+    feat4_mock_cv: "CV odesláno",
+    feat4_mock_int: "Pohovor",
+    feat4_mock_placed: "Umístěn",
+    feat4_mock_note: "Vymyšlení kandidáti, stejně jako v demu.",
+
+    /* ── v2: reference klienta (zástupný text, jen localhost) ── */
+    ref_badge: "Z agentury, kde to celé začalo",
+    ref_quote: "Sem přijde citát Roba Magee o tom, co radar změnil konzultantům v Ingeniu. Dvě až tři věty jeho slovy.",
+    ref_photo: "fotka",
+    ref_role: "Ingenio Global, Dublin",
+    ref_stat1: "sledovaných firem",
+    ref_stat2: "hodin ušetřených týdně",
+
+    /* ── v2: patička ── */
+    footer_about: "Radar nových zakázek a jednoduché ATS pro personální agentury. Vznikl v agentuře v Dublinu, vyvíjí se v Praze.",
+    footer_col_product: "Produkt",
+    footer_col_resources: "Zdroje",
+    footer_col_contact: "Kontakt",
+    footer_linkedin_company: "TalentRadar na LinkedInu",
   }
 };
 
@@ -471,14 +671,16 @@ const TRANSLATIONS = {
         currentLang = defLang;
       }
     }
-    if (typeof window !== 'undefined' && window.location && window.location.pathname && window.location.pathname.endsWith('-cs.html')) {
+    const czechPath = typeof window !== 'undefined' && window.location && window.location.pathname &&
+      (window.location.pathname.endsWith('-cs.html') || /^\/cs\/?$/.test(window.location.pathname));
+    if (czechPath) {
       currentLang = 'cs';
       chosen = true;
     }
     if (typeof localStorage !== 'undefined') {
       const saved = localStorage.getItem(PRIMARY_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
       if (saved === 'cs' || saved === 'en') {
-        if (!window.location || !window.location.pathname.endsWith('-cs.html')) {
+        if (!czechPath) {
           currentLang = saved;
           chosen = true;
         }
@@ -661,6 +863,7 @@ const TRANSLATIONS = {
 
       // Apply saved or default language
       applyLanguage(currentLang, chosen);
+      document.documentElement.classList.remove('tr-i18n-wait');
     });
   }
 

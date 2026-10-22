@@ -47,10 +47,40 @@ export default {
       return env.ASSETS.fetch(new Request(url.toString(), request));
     }
 
+    // 3c. The Czech home page at its own address (/cs): the same index.html with
+    //     a Czech <html lang>, description and canonical, so search engines index
+    //     a Czech page; js/translations.js picks Czech from the path. /cs/ goes
+    //     to /cs so the page's relative links (js/, img/, blog/) still resolve.
+    if (url.pathname === "/cs/") {
+      return Response.redirect(`${url.origin}/cs${url.search}`, 301);
+    }
+    if (url.pathname === "/cs") {
+      const home = await env.ASSETS.fetch(new Request(`${url.origin}/`, request));
+      if (!home.ok) return home;
+      const headers = new Headers(home.headers);
+      headers.set("Content-Type", "text/html; charset=utf-8");
+      headers.delete("Content-Length");
+      return new Response(czechHome(await home.text()), { status: 200, headers });
+    }
+
     // 4. Static Assets fallback
     return env.ASSETS.fetch(request);
   },
 };
+
+const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby vašich klientů a o nových pozicích vám dá vědět dny předtím, než se objeví na LinkedInu. Pro personální agentury, volitelně i s jednoduchým ATS.";
+
+/**
+ * The home page's head for the Czech address: lang, canonical, og:url and the
+ * descriptions. The title keeps the English slogan, as on the rest of the site.
+ */
+export function czechHome(html) {
+  return html
+    .replace(/<html lang="en"/, '<html lang="cs"')
+    .replace('<link rel="canonical" href="https://talentradar.eu/">', '<link rel="canonical" href="https://talentradar.eu/cs">')
+    .replace('<meta property="og:url" content="https://talentradar.eu/">', '<meta property="og:url" content="https://talentradar.eu/cs">\n  <meta property="og:locale" content="cs_CZ">')
+    .replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*(")/g, `$1${CS_DESCRIPTION}$2`);
+}
 
 /**
  * A JSON feed the app keeps in KV, or 503 while there is none.

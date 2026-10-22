@@ -312,3 +312,23 @@ test("the live roles feed still reads its own key", async () => {
   assert.equal(res.status, 200);
   assert.deepEqual(await res.json(), { roles: [] });
 });
+
+
+// The Czech home page at /cs: the same file with a Czech head, and /cs/ -> /cs.
+test("/cs serves the home page with a Czech head", async () => {
+  const { readFileSync } = await import("node:fs");
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const e = env({ ASSETS: { fetch: async () => new Response(html, { status: 200, headers: { "Content-Type": "text/html" } }) } });
+  const res = await worker.fetch(new Request("https://talentradar.eu/cs"), e, {});
+  assert.equal(res.status, 200);
+  const body = await res.text();
+  assert.match(body, /<html lang="cs"/);
+  assert.match(body, /<link rel="canonical" href="https:\/\/talentradar\.eu\/cs">/);
+  assert.match(body, /<meta name="description" content="TalentRadar hlídá/);
+  assert.match(body, /hreflang="cs" href="https:\/\/talentradar\.eu\/cs"/);
+  assert.doesNotMatch(body, /<meta name="description" content="TalentRadar checks/);
+
+  const slash = await worker.fetch(new Request("https://talentradar.eu/cs/?x=1"), e, {});
+  assert.equal(slash.status, 301);
+  assert.equal(slash.headers.get("Location"), "https://talentradar.eu/cs?x=1");
+});

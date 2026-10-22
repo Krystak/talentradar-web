@@ -388,7 +388,7 @@ const TRANSLATIONS = {
     radar_badge: "Interaktivní demo",
     radar_headline: "Proklikejte si celou platformu. Bez registrace.",
     radar_subtext: "Skutečné pozice ze skenů českého dema a vymyšlená agentura, která na nich pracuje. Otevřete si pozici, najděte hiring managera, udělejte z ní zakázku nebo posuňte kandidáta v pipeline.",
-    radar_footnote: "Firmy a role jsou skutečné, z denních skenů dema. Agentura, její kandidáti, kontakty a umístění jsou vymyšlené. Co změníte, zůstane jen ve vašem prohlížeči.",
+    radar_footnote: "Firmy a pozice jsou skutečné, z denních skenů dema. Agentura, její kandidáti, kontakty a umístění jsou vymyšlené. Co změníte, zůstane jen ve vašem prohlížeči.",
     radar_expand: "Zobrazit celé demo",
 
     /* ── Comparison Table ── */

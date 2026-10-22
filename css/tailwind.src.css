@@ -1,0 +1,5 @@
+/* Source for css/site.css. Rebuild after changing classes in any page or script:
+   npm run build:css   (Tailwind CLI 3.4.17, the same version the pages used from the CDN) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

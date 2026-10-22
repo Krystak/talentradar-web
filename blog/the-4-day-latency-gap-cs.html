@@ -13,6 +13,7 @@
   <link rel="canonical" href="https://talentradar.eu/blog/the-4-day-latency-gap-cs.html">
   <link rel="alternate" hreflang="en" href="https://talentradar.eu/blog/the-4-day-latency-gap.html">
   <link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/the-4-day-latency-gap-cs.html">
+  <link rel="alternate" hreflang="x-default" href="https://talentradar.eu/blog/the-4-day-latency-gap.html">
 
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://talentradar.eu/blog/the-4-day-latency-gap-cs.html">
@@ -63,11 +64,10 @@
   <link rel="shortcut icon" href="../favicon.ico">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 
-  <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Bilingual i18n engine: language switch and the two-tone brand name -->
   <script src="../js/translations.js" defer></script>
@@ -108,17 +108,19 @@
       box-shadow: 0 2px 8px rgba(255, 107, 0, 0.45);
     }
   </style>
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/site.css">
 </head>
-<body class="antialiased selection:bg-[#FF6B00] selection:text-white">
+<body class="antialiased selection:bg-[#FF6B00] selection:text-[#0B0E14]">
 
   <nav class="sticky top-0 left-0 right-0 z-50 glass-card border-b border-[rgba(255,255,255,0.06)] px-4 sm:px-6 py-3.5 transition-all">
     <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-2 sm:gap-4 xl:gap-8">
-      <a href="../" class="flex items-center space-x-2 sm:space-x-3 group flex-shrink-0">
+      <a href="../" class="flex items-center space-x-2 sm:space-x-3 group flex-shrink-0 min-w-0">
         <div class="relative flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0">
           <img src="../falcon.svg" alt="" aria-hidden="true" width="40" height="40" class="h-9 w-9 sm:h-10 sm:w-10 group-hover:scale-105 transition-transform object-contain">
         </div>
         <div class="flex flex-col">
-          <span class="font-extrabold text-lg min-[400px]:text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
+          <span class="font-extrabold text-base min-[360px]:text-lg min-[400px]:text-xl sm:text-2xl tracking-tight leading-none whitespace-nowrap">
             <span class="text-[#FFFFFF]">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
           </span>
           <span class="hidden sm:block text-xs sm:text-[13px] tracking-tight leading-tight mt-1 whitespace-nowrap">
@@ -128,25 +130,31 @@
       </a>
 
       <div class="flex items-center gap-2 sm:gap-3 2xl:gap-4 flex-shrink-0">
-        <div class="hidden xl:flex items-center gap-5 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 whitespace-nowrap">
+        <!-- The same short menu as the home page -->
+        <div class="hidden xl:flex items-center gap-5 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-[#E2E8F0] whitespace-nowrap">
           <a href="../#live-radar" class="hover:text-white transition" data-i18n="nav_live_radar">Interactive demo</a>
-          <a href="../#modes" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
-          <a href="../#comparison" class="hover:text-white transition" data-i18n="nav_comparison">Comparison</a>
+          <a href="../#features" class="hover:text-white transition" data-i18n="nav_modes">Features</a>
           <a href="../#pricing" class="hover:text-white transition" data-i18n="nav_pricing">Pricing</a>
-          <a href="../#story" class="hover:text-white transition" data-i18n="nav_story">Our story</a>
-          <a href="./" class="text-[#FF6B00] font-semibold transition" data-i18n="nav_insights">Blog</a>
+          <a href="./" class="text-[#FF8533] transition" data-i18n="nav_insights">Blog</a>
         </div>
 
-        <div class="hidden lg:block h-5 w-px bg-[#1B1E26] mx-3"></div>
+        <div class="hidden lg:block h-5 w-px bg-[#2A3550] mx-3"></div>
 
-        <div class="flex items-center bg-[#111622] border border-white/15 rounded-full px-2.5 py-1 text-xs shadow-sm sm:ml-1" role="group" aria-label="Language selector">
+        <!-- On a phone only the other language shows (pages.css), so the main button fits -->
+        <div class="tr-lang-mini sm:hidden flex items-center bg-[#1A2338] border border-white/15 rounded-full p-0.5 text-xs" role="group" aria-label="Language selector">
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+          <button type="button" class="lang-btn lang-btn--active" data-lang="cs">CS</button>
+        </div>
+        <div class="hidden sm:flex items-center bg-[#1A2338] border border-white/15 rounded-full px-2.5 py-1 text-xs shadow-sm sm:ml-1" role="group" aria-label="Language selector">
           <button type="button" class="lang-btn" data-lang="en">EN</button>
           <span class="text-white/20 text-[10px] px-0.5">|</span>
           <button type="button" class="lang-btn lang-btn--active" data-lang="cs">CS</button>
         </div>
 
-        <a href="https://app.talentradar.eu" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#F3F4F6]/90 hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">Sign in</a>
-        <a href="../#trial" class="hidden sm:inline-block px-3.5 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">Try free for 14 days</a>
+        <a href="https://app.talentradar.eu" class="hidden md:inline-block text-xs 2xl:text-sm font-semibold text-[#E2E8F0] hover:text-white transition px-2 py-1 whitespace-nowrap" data-i18n="nav_signin">Sign in</a>
+        <a href="../#trial" class="hidden md:inline-block px-3.5 2xl:px-4 py-1.5 2xl:py-2 rounded-lg bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] text-xs 2xl:text-sm font-bold tracking-wide transition-all shadow-md shadow-[#FF6B00]/25 whitespace-nowrap" data-i18n="nav_cta">Try free for 14 days</a>
+        <!-- On a phone the main button stays in the bar, as on the home page -->
+        <a href="../#trial" class="md:hidden px-2.5 min-[360px]:px-3 py-1.5 rounded-lg bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] text-xs font-bold whitespace-nowrap" data-i18n="nav_cta_short">Try free</a>
       </div>
     </div>
   </nav>
@@ -189,7 +197,7 @@
         <h2 class="text-2xl font-black text-white pt-2">Where a new role appears first</h2>
         <p>When a company opens a new role, the first public version of it is almost always the listing on its own careers page or applicant tracking system: Greenhouse, Lever, Ashby, Workable, Teamio and the like. Publishing there is immediate and costs nothing.</p>
         <p>Job boards, aggregators and LinkedIn get the role later, through feeds and crawlers or when someone pays to promote it. How much later varies widely by company and by board, from a few hours to several days. What does not vary is the order: <strong>the employer's own page comes first</strong>.</p>
-        <p>That is the page TalentRadar watches. It checks every tracked careers page twice a day, so a new role lands in your morning or midday list at the next scan.</p>
+        <p>That is the page TalentRadar watches. It checks every tracked careers page every day (twice a day on Agency Pro), so a new role lands on your list at the next scan.</p>
 
         <div class="glass-card rounded-2xl p-6 sm:p-8 border border-[#FF6B00]/30 orange-glow my-8 space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-4">
@@ -278,7 +286,7 @@
           </div>
           <h3 class="text-xl font-extrabold text-white">Not every open listing is a real, open job</h3>
           <p class="text-xs sm:text-sm text-[#F3F4F6]/80 leading-relaxed">Greenhouse classifies <strong>18–22%</strong> of the jobs posted on its platform in a given quarter as ghost jobs <sup><a href="#src-en-3" class="text-[#FF8533] hover:text-white font-mono">[3]</a></sup>. Add roles that clients quietly filled weeks ago but that still sit in your spreadsheet, and consultants end up sourcing for jobs that no longer exist.</p>
-          <p class="text-xs sm:text-sm text-[#F3F4F6]/80 leading-relaxed">TalentRadar re-checks every careers page twice a day. When a role disappears, the next scan confirms it and the role is archived automatically, so your list of open roles stays honest.</p>
+          <p class="text-xs sm:text-sm text-[#F3F4F6]/80 leading-relaxed">TalentRadar re-checks every careers page at each scan. When a role disappears, the next scan confirms it and the role is archived automatically, so your list of open roles stays honest.</p>
         </div>
 
         <h2 class="text-2xl font-black text-white pt-4">Automatic checks vs. clicking by hand</h2>
@@ -287,7 +295,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           <div class="bg-[#111622] p-5 rounded-xl border border-white/5 space-y-2">
             <div class="font-bold text-white text-sm">Radar only (keep your ATS)</div>
-            <p class="text-xs text-[#94A3B8]">For established agencies on Bullhorn, Datacruit or Recruitis. TalentRadar works next to your ATS, reports new roles twice a day in your time zone and exports them to CSV in one click.</p>
+            <p class="text-xs text-[#94A3B8]">For established agencies on Bullhorn, Datacruit or Recruitis. TalentRadar works next to your ATS, reports new roles every day in your time zone and exports them to CSV in one click.</p>
           </div>
           <div class="bg-[#111622] p-5 rounded-xl border border-white/5 space-y-2">
             <div class="font-bold text-white text-sm">Radar + ATS</div>
@@ -300,7 +308,7 @@
           <h3 class="text-2xl sm:text-3xl font-black text-white">See your clients’ new roles first, straight from their career pages.</h3>
           <p class="text-[#F3F4F6]/80 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">Upload your client list in CSV or Excel. We set up to 200 companies and have your first scan running within 24 hours. No calls needed.</p>
           <div class="pt-2">
-            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">Try free for 14 days →</a>
+            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">Try free for 14 days →</a>
           </div>
           <div class="text-[11px] text-[#94A3B8]">✓ No credit card &nbsp;•&nbsp; ✓ Up to 200 companies &nbsp;•&nbsp; ✓ Cancel any time</div>
         </div>
@@ -352,7 +360,7 @@
         <h2 class="text-2xl font-black text-white pt-2">Kde se nová pozice objeví nejdřív</h2>
         <p>Když firma otevře novou pozici, první veřejnou podobou je skoro vždy inzerát na jejím kariérním webu nebo v jejím ATS: Greenhouse, Lever, Ashby, Workable, Teamio a podobně. Zveřejnění tam je okamžité a nic nestojí.</p>
         <p>Pracovní portály, agregátory a LinkedIn se k pozici dostanou později, přes feedy a crawlery, nebo když za její propagaci někdo zaplatí. O kolik později, se mezi firmami i portály hodně liší: od pár hodin po několik dní. Pořadí se ale nemění: <strong>vlastní web zaměstnavatele je první</strong>.</p>
-        <p>Právě ten web TalentRadar hlídá. Každou sledovanou kariérní stránku kontroluje dvakrát denně, takže novou pozici uvidíte při nejbližším skenu, v ranním nebo poledním přehledu.</p>
+        <p>Právě ten web TalentRadar hlídá. Každou sledovanou kariérní stránku kontroluje každý den (v Agency Pro dvakrát denně), takže novou pozici uvidíte při nejbližším skenu.</p>
 
         <div class="glass-card rounded-2xl p-6 sm:p-8 border border-[#FF6B00]/30 orange-glow my-8 space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-4">
@@ -441,7 +449,7 @@
           </div>
           <h3 class="text-xl font-extrabold text-white">Ne každý otevřený inzerát je skutečná otevřená pozice</h3>
           <p class="text-xs sm:text-sm text-[#F3F4F6]/80 leading-relaxed">Greenhouse řadí <strong>18–22 %</strong> pozic vypsaných na své platformě v daném čtvrtletí mezi takzvané ghost jobs <sup><a href="#src-cs-3" class="text-[#FF8533] hover:text-white font-mono">[3]</a></sup>. Přidejte k tomu pozice, které klient potichu obsadil před týdny, ale ve vaší tabulce pořád visí, a konzultanti hledají kandidáty na místa, která už neexistují.</p>
-          <p class="text-xs sm:text-sm text-[#F3F4F6]/80 leading-relaxed">TalentRadar kontroluje každou kariérní stránku dvakrát denně. Když pozice zmizí, další sken to potvrdí a pozice se sama archivuje, takže váš seznam otevřených pozic zůstává pravdivý.</p>
+          <p class="text-xs sm:text-sm text-[#F3F4F6]/80 leading-relaxed">TalentRadar při každém skenu znovu zkontroluje každou kariérní stránku. Když pozice zmizí, další sken to potvrdí a pozice se sama archivuje, takže váš seznam otevřených pozic zůstává pravdivý.</p>
         </div>
 
         <h2 class="text-2xl font-black text-white pt-4">Automatická kontrola, nebo ruční proklikávání</h2>
@@ -450,7 +458,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           <div class="bg-[#111622] p-5 rounded-xl border border-white/5 space-y-2">
             <div class="font-bold text-white text-sm">Jen radar (máte vlastní ATS)</div>
-            <p class="text-xs text-[#94A3B8]">Pro zavedené agentury s Bullhornem, Datacruitem nebo Recruitisem. TalentRadar funguje jako radar vedle vašeho ATS: dvakrát denně vám ohlásí nové pozice a jedním klikem je vyexportujete do CSV.</p>
+            <p class="text-xs text-[#94A3B8]">Pro zavedené agentury s Bullhornem, Datacruitem nebo Recruitisem. TalentRadar funguje jako radar vedle vašeho ATS: každý den vám ohlásí nové pozice a jedním klikem je vyexportujete do CSV.</p>
           </div>
           <div class="bg-[#111622] p-5 rounded-xl border border-white/5 space-y-2">
             <div class="font-bold text-white text-sm">Radar + ATS</div>
@@ -463,7 +471,7 @@
           <h3 class="text-2xl sm:text-3xl font-black text-white">Nové pozice svých klientů uvidíte jako první, přímo z jejich kariérních webů.</h3>
           <p class="text-[#F3F4F6]/80 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">Nahrajte seznam klientů v CSV nebo Excelu. Nastavíme až 200 firem a první sken spustíme do 24 hodin. Bez konfiguračních hovorů.</p>
           <div class="pt-2">
-            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FF6B00] to-[#E65A00] hover:from-[#E65A00] hover:to-[#D84D00] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">Vyzkoušet na 14 dní zdarma →</a>
+            <a href="../#trial" class="inline-block px-8 py-3.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] font-bold text-sm tracking-wide shadow-xl shadow-[#FF6B00]/30 transition">Vyzkoušet na 14 dní zdarma →</a>
           </div>
           <div class="text-[11px] text-[#94A3B8]">✓ Bez platební karty &nbsp;•&nbsp; ✓ Až 200 sledovaných firem &nbsp;•&nbsp; ✓ Zrušit můžete kdykoli</div>
         </div>

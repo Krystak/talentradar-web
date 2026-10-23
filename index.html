@@ -273,6 +273,21 @@
     .lang-btn--active { background: #FF6B00; color: #0B0E14 !important; }
     .lang-divider { color: rgba(255, 255, 255, 0.2); margin: 0 2px; font-size: 10px; }
 
+    /* Monthly / yearly switch in the price list */
+    .tr-billing-btn {
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #94A3B8;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tr-billing-btn:hover { color: #FFFFFF; }
+    .tr-billing-btn[aria-pressed="true"] { background: rgba(255, 107, 0, 0.15); border-color: #FF6B00; color: #FFFFFF; }
+
     /* Pulse animation */
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; transform: scale(1); }
@@ -918,14 +933,21 @@
         Free for 14 days • Up to 200 companies • No card
       </div>
       <h2 class="text-3xl sm:text-[42px] leading-[1.12] font-extrabold text-white" data-i18n="pricing_headline">
-        Simple pricing, paid monthly
+        Simple pricing, 25% less when you pay yearly
       </h2>
       <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="pricing_subtext">
         Try any plan in full, free for 14 days. No commitment, cancel any time.
       </p>
       <p class="text-xs text-[#94A3B8] font-mono" data-i18n="pricing_monthly_note">
-        Prices excl. VAT • Invoiced monthly in euros • No setup fees
+        Prices excl. VAT • Invoiced in euros, monthly or yearly • No setup fees
       </p>
+      <div class="inline-flex items-center gap-1 p-1 rounded-full bg-white/[0.04] border border-white/10" role="group" aria-label="Billing">
+        <button type="button" class="tr-billing-btn" data-billing="monthly" aria-pressed="false" data-i18n="pricing_toggle_monthly">Monthly</button>
+        <button type="button" class="tr-billing-btn" data-billing="annual" aria-pressed="true">
+          <span data-i18n="pricing_toggle_annual">Yearly</span>
+          <span class="ml-1 text-[11px] font-mono text-[#FF8533]" data-i18n="pricing_toggle_save">−25%</span>
+        </button>
+      </div>
     </div>
 
     <!-- 3 Tier Grid -->
@@ -942,20 +964,22 @@
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
-              <span class="text-3xl sm:text-4xl font-black text-white font-mono" data-i18n="pricing_tier1_price">€119</span>
+              <span class="text-3xl sm:text-4xl font-black text-white font-mono" data-i18n="pricing_tier1_price_annual" data-price-monthly="pricing_tier1_price" data-price-annual="pricing_tier1_price_annual">€89</span>
               <span class="text-xs text-[#94A3B8]" data-i18n="pricing_tier1_period">/ month</span>
             </div>
+            <p class="text-[11px] text-[#94A3B8] mt-1" data-i18n="pricing_tier1_billing_annual" data-price-monthly="pricing_tier1_billing" data-price-annual="pricing_tier1_billing_annual">billed yearly, €1,068 a year</p>
             <p class="text-xs text-[#94A3B8] mt-1" data-i18n="pricing_tier1_desc">
               For solo headhunters and small agencies.
             </p>
           </div>
           <ul class="space-y-2.5 text-xs text-[#CBD5E1] pt-2 border-t border-[rgba(255,255,255,0.06)]">
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f1">Up to 50 client companies monitored</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f2">One automatic scan a day, in the morning (at 6:00 your time)</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f4">1 user</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f2">Automatic scans twice a day (at 6:00 and 12:00 your time)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f4">Unlimited users</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f5">AI sorts roles into all 6 practice areas</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier1_f8">Simple ATS included</span></li>
           </ul>
+          <p class="text-[11px] text-[#94A3B8] leading-relaxed" data-i18n="pricing_tier1_addon">Need more companies? 25 more for €39 a month.</p>
         </div>
         <a href="#trial" class="w-full py-3.5 rounded-xl bg-[#212C45] hover:bg-[#2A3550] text-white text-xs font-bold tracking-wide text-center border border-[rgba(255,255,255,0.1)] transition block" data-i18n="pricing_tier1_cta">
           Try free for 14 days
@@ -963,7 +987,7 @@
       </div>
 
       <!-- Tier 2: Agency Pro (Highlighted) -->
-      <div class="glass-card tr-stage tr-stage-pro rounded-2xl p-7 sm:p-9 flex flex-col justify-between border-2 border-[#FF6B00] relative space-y-6 lg:-translate-y-2">
+      <div class="glass-card tr-stage tr-stage-pro rounded-2xl p-7 sm:p-9 flex flex-col justify-between border-2 border-[#FF6B00] relative space-y-6 lg:-translate-y-2 order-first lg:order-none">
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#0B0E14] px-3 py-1 rounded-full bg-[#FF6B00] shadow-md shadow-[#FF6B00]/40" data-i18n="pricing_tier2_badge">
@@ -974,25 +998,27 @@
           <div>
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]" data-i18n="pricing_tier2_name">Agency Pro</span>
             <div class="flex items-baseline space-x-1 mt-1">
-              <span class="text-4xl sm:text-5xl font-black text-white font-mono" data-i18n="pricing_tier2_price">€289</span>
+              <span class="text-4xl sm:text-5xl font-black text-white font-mono" data-i18n="pricing_tier2_price_annual" data-price-monthly="pricing_tier2_price" data-price-annual="pricing_tier2_price_annual">€217</span>
               <span class="text-xs text-[#CBD5E1]" data-i18n="pricing_tier2_period">/ month</span>
             </div>
+            <p class="text-[11px] text-[#CBD5E1] mt-1" data-i18n="pricing_tier2_billing_annual" data-price-monthly="pricing_tier2_billing" data-price-annual="pricing_tier2_billing_annual">billed yearly, €2,604 a year</p>
             <p class="text-xs text-[#CBD5E1] mt-1 font-medium" data-i18n="pricing_tier2_desc">
-              For agency teams who want to hear about new roles twice a day.
+              For agency teams who follow dozens of clients.
             </p>
           </div>
 
           <div class="p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] border-l-2 border-l-[#FF6B00] text-xs text-[#FF8533] space-y-1">
-            <div class="font-bold text-white flex items-center space-x-1.5" data-i18n="pricing_tier2_speed_title">Twice a day instead of once</div>
+            <div class="font-bold text-white flex items-center space-x-1.5" data-i18n="pricing_tier2_speed_title">Lowest price per company</div>
             <p class="text-[#CBD5E1] leading-relaxed text-[11px]" data-i18n="pricing_tier2_speed_body">
-              Scans run at 6:00 and 12:00 your time, so roles posted in the morning are on your list after lunch.
+              Each company you monitor costs 40% less than on Solo Scout and 12% less than on Scale.
             </p>
           </div>
 
           <ul class="space-y-2.5 text-xs text-[#E2E8F0] pt-1">
             <li class="flex items-start space-x-2"><span class="text-[#10B981] font-bold">✓</span><span data-i18n="pricing_tier2_f1">Up to 200 client companies monitored</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#10B981] font-bold">✓</span><span data-i18n="pricing_tier2_f2">Automatic scans twice a day</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#10B981] font-bold">✓</span><span data-i18n="pricing_tier2_f4">Up to 8 users, and every role can have its owner</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#10B981] font-bold">✓</span><span data-i18n="pricing_tier2_f4">Unlimited users, and every role can have its owner</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#10B981] font-bold">✓</span><span data-i18n="pricing_tier2_f6">Team change history and handing roles to colleagues</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#10B981] font-bold">✓</span><span data-i18n="pricing_tier2_f7">Your own Slack channel with the founder</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#10B981] font-bold">✓</span><span data-i18n="pricing_tier2_f8">Simple ATS included</span></li>
           </ul>
@@ -1007,33 +1033,56 @@
         <div class="space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
             <span class="whitespace-nowrap text-xs font-mono font-bold uppercase tracking-wider text-[#94A3B8] px-2.5 py-1 rounded bg-[#2A3550] border border-[#2A3550]" data-i18n="pricing_tier3_name">
-              Scale / Enterprise
+              Scale
             </span>
-            <span class="whitespace-nowrap text-xs text-[#94A3B8] font-medium font-mono" data-i18n="pricing_tier3_companies">200+ companies</span>
+            <span class="whitespace-nowrap text-xs text-[#94A3B8] font-medium font-mono" data-i18n="pricing_tier3_companies">up to 500 companies</span>
           </div>
           <div>
             <div class="flex items-baseline space-x-1">
-              <span class="text-3xl sm:text-4xl font-black text-white" data-i18n="pricing_tier3_price">Custom</span>
+              <span class="text-3xl sm:text-4xl font-black text-white font-mono" data-i18n="pricing_tier3_price_annual" data-price-monthly="pricing_tier3_price" data-price-annual="pricing_tier3_price_annual">€590</span>
+              <span class="text-xs text-[#94A3B8]" data-i18n="pricing_tier3_period">/ month</span>
             </div>
-            <p class="text-xs text-[#FF8533] font-mono font-semibold mt-1" data-i18n="pricing_tier3_price_from">From €590 a month</p>
+            <p class="text-[11px] text-[#94A3B8] mt-1" data-i18n="pricing_tier3_billing_annual" data-price-monthly="pricing_tier3_billing" data-price-annual="pricing_tier3_billing_annual">billed yearly, €7,080 a year</p>
             <p class="text-xs text-[#94A3B8] mt-1" data-i18n="pricing_tier3_desc">
               For large agencies with many clients.
             </p>
           </div>
           <ul class="space-y-2.5 text-xs text-[#CBD5E1] pt-2 border-t border-[rgba(255,255,255,0.06)]">
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f1">More than 200 client companies monitored</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f1">Up to 500 client companies monitored, more by arrangement</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f2">Automatic scans up to four times a day, and your scans go first</span></li>
-            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f3">Unlimited manual scans and users</span></li>
+            <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f3">Unlimited users</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f4">Custom connections for non-standard career pages</span></li>
             <li class="flex items-start space-x-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="pricing_tier3_f6">Slack support and onboarding with the founder</span></li>
           </ul>
         </div>
-        <a href="mailto:krystof@talentradar.eu?subject=Scale%2FEnterprise%20Enquiry" class="w-full py-3.5 rounded-xl bg-[#212C45] hover:bg-[#2A3550] text-[#E2E8F0] text-xs font-bold tracking-wide text-center border border-white/10 transition block" data-i18n="pricing_tier3_cta">
+        <a href="mailto:krystof@talentradar.eu?subject=Scale%20Enquiry" class="w-full py-3.5 rounded-xl bg-[#212C45] hover:bg-[#2A3550] text-[#E2E8F0] text-xs font-bold tracking-wide text-center border border-white/10 transition block" data-i18n="pricing_tier3_cta">
           Write to the founder
         </a>
       </div>
 
     </div>
+
+    <script>
+      // Monthly / yearly prices: swap each price's translation key, so a later
+      // language switch keeps the chosen billing.
+      (function () {
+        var buttons = document.querySelectorAll('[data-billing]');
+        function setBilling(mode) {
+          document.querySelectorAll('[data-price-monthly]').forEach(function (el) {
+            var key = el.getAttribute(mode === 'annual' ? 'data-price-annual' : 'data-price-monthly');
+            el.setAttribute('data-i18n', key);
+            var text = window.TRLang && window.TRLang.get(key);
+            if (text) el.textContent = text;
+          });
+          buttons.forEach(function (b) {
+            b.setAttribute('aria-pressed', b.getAttribute('data-billing') === mode ? 'true' : 'false');
+          });
+        }
+        buttons.forEach(function (b) {
+          b.addEventListener('click', function () { setBilling(b.getAttribute('data-billing')); });
+        });
+      })();
+    </script>
 
     <!-- ROI Formula Box -->
     <div class="max-w-3xl mx-auto bg-[#1A2338] border border-[#2A3550] rounded-xl p-5 border-l-4 border-l-[#FF6B00] text-center space-y-2 shadow-xl">

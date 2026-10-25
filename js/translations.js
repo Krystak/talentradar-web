@@ -175,6 +175,7 @@ const TRANSLATIONS = {
     pricing_tier3_f4: "Custom connections for non-standard career pages",
     pricing_tier3_f5: "AI role scoring tuned per consultant or practice area",
     pricing_tier3_f6: "Slack support and onboarding with the founder",
+    pricing_tier3_f8: "Simple ATS included",
     pricing_tier3_cta: "Write to the founder",
 
     pricing_roi_html: "A single tech or executive search placement <strong>pays for Agency Pro for a year or more</strong>.",
@@ -512,6 +513,7 @@ const TRANSLATIONS = {
     pricing_tier3_f4: "Napojení nestandardních kariérních webů na míru",
     pricing_tier3_f5: "AI hodnocení pozic nastavené podle konzultanta nebo specializace",
     pricing_tier3_f6: "Podpora přes Slack a zaškolení přímo se zakladatelem",
+    pricing_tier3_f8: "Jednoduché ATS v ceně",
     pricing_tier3_cta: "Napsat zakladateli",
 
     pricing_roi_html: "Jedno umístění v IT nebo executive search vám <strong>Agency Pro zaplatí na rok i déle</strong>.",

@@ -60,6 +60,7 @@ const TRANSLATIONS = {
     modes_b_f3: "Shared internal notes, fee tracking and the history of every stage",
     modes_b_f4: "Runs in the browser, nothing to install",
     modes_b_cta: "Try the radar with ATS →",
+    modes_same_price_html: "<strong class=\"text-white\">Both modes cost the same.</strong> The simple ATS is included in the price and using it is up to you: switch it on or off in Settings at any time.",
 
     /* ── Live Radar Showcase (Mini-App Sandbox) ── */
     radar_badge: "Interactive demo",
@@ -396,6 +397,7 @@ const TRANSLATIONS = {
     modes_b_f3: "Sdílené interní poznámky, sledování provizí a historie komunikace",
     modes_b_f4: "Běží v prohlížeči, nic neinstalujete",
     modes_b_cta: "Vyzkoušet radar s ATS →",
+    modes_same_price_html: "<strong class=\"text-white\">Oba režimy stojí stejně.</strong> Jednoduché ATS máte v ceně a je na vás, jestli ho budete používat: v Nastavení ho kdykoli zapnete nebo vypnete.",
 
     /* ── Live Radar Showcase (Mini-App Sandbox) ── */
     radar_badge: "Interaktivní demo",

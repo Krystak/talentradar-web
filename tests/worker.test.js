@@ -288,6 +288,60 @@ test("a broken file never stops the confirmation", async () => {
   assert.match(toVisitor().textContent, /Seznam vašich firem máme/);
 });
 
+// ── The four-column list (W12): company, website, last contact, had placement ─
+
+const templateFile = async (name) => {
+  const { readFileSync } = await import("node:fs");
+  return readFileSync(new URL(`../files/${name}`, import.meta.url));
+};
+const leadOf = (e) => {
+  const key = [...e.TALENT_RADAR_KV.store.keys()].find((k) => k.startsWith("lead:"));
+  return { key, lead: JSON.parse(e.TALENT_RADAR_KV.store.get(key)) };
+};
+
+test("the four-column template, uploaded, is stored whole and its companies counted", async () => {
+  for (const [name, lang, count] of [["klienti-sablona.csv", "cs", /Máme vaše 3 firmy/], ["clients-template.csv", "en", /We have your 3 companies/]]) {
+    sent = [];
+    const bytes = await templateFile(name);
+    assert.match(bytes.toString("utf8"), /^﻿(Firma;Web;Poslední kontakt;Proběhla zakázka|Company,Website,Last contact,Had placement)\r?\n/);
+    const e = env();
+    const fileData = "data:text/csv;base64," + bytes.toString("base64");
+    const res = await submit(e, { clients: "", lang, fileName: name, fileData });
+    assert.equal(res.status, 200);
+    const { key, lead } = leadOf(e);
+    assert.equal(lead.hasFile, true);
+    assert.equal(lead.fileName, name);
+    // The app reads the file back from here (core/leads.py fetch_lead_file), all four columns intact.
+    assert.equal(e.TALENT_RADAR_KV.store.get(key.replace("lead:", "leadfile:")), fileData);
+    assert.match(toVisitor().textContent, count);
+  }
+});
+
+test("a four-column list pasted as text stays whole in the lead", async () => {
+  const clients = "Air Bank; airbank.cz; 15. 3. 2024; ano\nRohlik Group\nSeznam.cz; https://kariera.seznam.cz; 2. 11. 2023; ne";
+  const e = env();
+  const res = await submit(e, { clients });
+  assert.equal(res.status, 200);
+  assert.equal(leadOf(e).lead.clients, clients);
+  assert.match(toVisitor().textContent, /Máme vaše 3 firmy/);
+  const slack = sent.find((s) => s.url.startsWith("https://hooks.slack.test"));
+  assert.match(slack.body.text, /Air Bank; airbank\.cz; 15\. 3\. 2024; ano/);
+});
+
+test("150 companies in four columns fit in the text box; a list over the limit is refused", async () => {
+  const line = (i) => `Firma číslo ${i} s.r.o.; https://kariera.firma-cislo-${i}.cz/volna-mista; 15. 3. 2024; ano`;
+  const clients = Array.from({ length: 150 }, (_, i) => line(i + 1)).join("\n");
+  assert.ok(clients.length > 10000, "longer than the old limit");
+  const ok = await submit(env(), { clients });
+  assert.equal(ok.status, 200);
+
+  const e = env();
+  const tooLong = await submit(e, { clients: "x".repeat(30001) });
+  assert.equal(tooLong.status, 400);
+  assert.match((await tooLong.json()).error, /30 000 znaků/);
+  assert.equal([...e.TALENT_RADAR_KV.store.keys()].filter((k) => k.startsWith("lead:")).length, 0);
+});
+
 // ── Feeds the app writes to KV ──────────────────────────────────────────────
 
 test("the sandbox feed is served from KV, and 503 until the app has written it", async () => {

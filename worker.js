@@ -68,6 +68,9 @@ export default {
   },
 };
 
+/** The pasted company list, in characters: 150 four-column lines with room to spare. */
+export const CLIENTS_TEXT_MAX = 30000;
+
 const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby všech firem vaší agentury, i těch, se kterými jste roky nejednali, a nové pozice ukáže na jednom místě. Pro personální agentury, vedle vašeho ATS.";
 
 /**
@@ -165,8 +168,11 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  if (clients && typeof clients === "string" && clients.length > 10000) {
-    return new Response(JSON.stringify({ error: "Text se seznamem firem je příliš dlouhý (maximum je 10 000 znaků)." }), {
+  // Four columns per company (company, website, last contact, had placement:
+  // the template of the trial form, read by the app's CRM import) make a line
+  // about three times longer than a bare name, so 150 companies need room.
+  if (clients && typeof clients === "string" && clients.length > CLIENTS_TEXT_MAX) {
+    return new Response(JSON.stringify({ error: "Text se seznamem firem je příliš dlouhý (maximum je 30 000 znaků). Pošlete ho prosím jako soubor." }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });

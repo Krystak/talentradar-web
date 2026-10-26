@@ -44,8 +44,8 @@
       open_full: 'Open in full demo', open_full_short: 'Full demo',
       loading: 'Loading the demo workspace…', load_failed: 'The sandbox could not load its data right now.', load_failed_sub: 'The full demo has the same workspace.',
       tour_title: 'Try it', tour_open_role: 'Open a role', tour_status: 'Change its status', tour_job: 'Turn it into a job', tour_move: 'Move a candidate', tour_hawk: 'Ask AI Hawk',
-      tour_done_title: 'That is the daily loop of TalentRadar: find the role, win the job, fill it.', tour_done_text: 'The full demo has the same workspace in the real app. Or run it on your own client list.',
-      tour_done_demo: 'Open the full demo', tour_done_pilot: 'Try free for 14 days',
+      tour_done_title: 'That is the daily loop of TalentRadar: find the role, win the job, fill it.', tour_done_text: 'The full demo has the same workspace in the real app. Or send us your company list and see it on your own companies.',
+      tour_done_demo: 'Open the full demo', tour_done_pilot: 'Send us your company list',
       greet_morning: 'Good morning', greet_afternoon: 'Good afternoon', greet_evening: 'Good evening',
       home_meta: '{date} · last scan {last} (Prague) · next scan {next}', tomorrow: 'tomorrow', today_at: 'today {t}',
       w24: '24h', w7: '7 days', w30: '30 days',
@@ -163,8 +163,8 @@
       open_full: 'Otevřít v plném demu', open_full_short: 'Plné demo',
       loading: 'Načítám ukázkový workspace…', load_failed: 'Ukázka teď nemohla načíst svá data.', load_failed_sub: 'Plné demo má stejný workspace.',
       tour_title: 'Vyzkoušejte', tour_open_role: 'Otevřít pozici', tour_status: 'Změnit její stav', tour_job: 'Udělat z ní zakázku', tour_move: 'Posunout kandidáta', tour_hawk: 'Zeptat se AI Hawka',
-      tour_done_title: 'Tohle je denní smyčka TalentRadaru: najít pozici, získat zakázku, obsadit ji.', tour_done_text: 'Plné demo má stejný workspace ve skutečné aplikaci. Nebo si ho pusťte na vlastní seznam klientů.',
-      tour_done_demo: 'Otevřít plné demo', tour_done_pilot: 'Vyzkoušet na 14 dní zdarma',
+      tour_done_title: 'Tohle je denní smyčka TalentRadaru: najít pozici, získat zakázku, obsadit ji.', tour_done_text: 'Plné demo má stejný workspace ve skutečné aplikaci. Nebo nám pošlete seznam firem a uvidíte ho na svých.',
+      tour_done_demo: 'Otevřít plné demo', tour_done_pilot: 'Pošlete seznam firem',
       greet_morning: 'Dobré ráno', greet_afternoon: 'Dobré odpoledne', greet_evening: 'Dobrý večer',
       home_meta: '{date} · poslední sken {last} (Praha) · další sken {next}', tomorrow: 'zítra', today_at: 'dnes {t}',
       w24: '24 h', w7: '7 dní', w30: '30 dní',
@@ -807,7 +807,7 @@
     const n7 = state.roles.filter((x) => x.co === r.co && x.age < 7).length;
     if (isStale(r)) return L === 'cs' ? `Role je otevřená ${r.open} dní a interní tým ${c.name} ji neobsadil. Nabídněte shortlist tří prověřených kandidátů do týdne.` : `Open ${r.open} days and ${c.name}'s in-house team has not filled it. Offer a shortlist of three pre-qualified candidates within a week.`;
     if (n7 >= 3) return L === 'cs' ? `${c.name} otevřel za týden ${n7} rolí, nábor zrychluje. Nabídněte spolupráci na více pozic najednou.` : `${c.name} opened ${n7} roles this week, a hiring push. Pitch a multi-role engagement.`;
-    if (c.client) return L === 'cs' ? 'Čerstvá role u stávajícího klienta. Zavolejte kontaktu dřív, než se dostane na pracovní portály; podmínky už máte podepsané.' : 'A fresh role at an existing client. Call your contact before it reaches the job boards; your terms are already signed.';
+    if (c.client) return L === 'cs' ? 'Čerstvá role u stávajícího klienta. Zavolejte kontaktu, dokud je čerstvá; podmínky už máte podepsané.' : 'A fresh role at an existing client. Call your contact while it is fresh; your terms are already signed.';
     return L === 'cs' ? `${c.name} zatím není klient. Konkrétní a čerstvá role je teplý důvod oslovit hiring managera ještě tento týden.` : `${c.name} is not a client yet. A specific, fresh role is the warm reason to reach the hiring manager this week.`;
   }
   function renderPanel() {

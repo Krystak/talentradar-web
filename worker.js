@@ -68,7 +68,7 @@ export default {
   },
 };
 
-const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby vašich klientů a o nových pozicích vám dá vědět dny předtím, než se objeví na LinkedInu. Pro personální agentury, volitelně i s jednoduchým ATS.";
+const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby všech firem vaší agentury, i těch, se kterými jste roky nejednali, a nové pozice ukáže na jednom místě. Pro personální agentury, vedle vašeho ATS.";
 
 /**
  * The home page's head for the Czech address: lang, canonical, og:url and the

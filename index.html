@@ -6,7 +6,7 @@
 
   <!-- SEO & Title -->
   <title>TalentRadar — Spend time closing, not searching.</title>
-  <meta name="description" content="TalentRadar checks your clients' career pages twice a day and shows you their new roles in one place, straight from the source, before the job boards. For recruitment agencies, with an optional simple ATS.">
+  <meta name="description" content="TalentRadar checks the career pages of every company your agency works with, including the ones you have not spoken to in years, and shows their new roles in one place. For recruitment agencies, next to your own ATS.">
   <link rel="canonical" href="https://talentradar.eu/">
   <link rel="alternate" hreflang="en" href="https://talentradar.eu/">
   <link rel="alternate" hreflang="cs" href="https://talentradar.eu/cs">
@@ -31,7 +31,7 @@
       "name": "TalentRadar",
       "url": "https://talentradar.eu/",
       "logo": "https://talentradar.eu/logo.png",
-      "description": "New-role radar and simple ATS for recruitment agencies across Europe.",
+      "description": "New-role radar for recruitment agencies: every client's new roles in one place.",
       "email": "krystof@talentradar.eu",
       "founder": { "@type": "Person", "name": "Kryštof Pejša" },
       "sameAs": ["https://www.linkedin.com/company/talent-radareu"]
@@ -44,13 +44,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://talentradar.eu/">
   <meta property="og:title" content="TalentRadar — Spend time closing, not searching.">
-  <meta property="og:description" content="TalentRadar checks your clients' career pages twice a day and shows you their new roles in one place, straight from the source, before the job boards. For recruitment agencies, with an optional simple ATS.">
+  <meta property="og:description" content="TalentRadar checks the career pages of every company your agency works with, including the ones you have not spoken to in years, and shows their new roles in one place. For recruitment agencies, next to your own ATS.">
   <meta property="og:image" content="https://talentradar.eu/img/og-banner.jpg">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="TalentRadar — Spend time closing, not searching.">
-  <meta name="twitter:description" content="TalentRadar checks your clients' career pages twice a day and shows you their new roles in one place, straight from the source, before the job boards. For recruitment agencies, with an optional simple ATS.">
+  <meta name="twitter:description" content="TalentRadar checks the career pages of every company your agency works with, including the ones you have not spoken to in years, and shows their new roles in one place. For recruitment agencies, next to your own ATS.">
   <meta name="twitter:image" content="https://talentradar.eu/img/og-banner.jpg">
 
   <!-- Favicons -->
@@ -201,6 +201,7 @@
     }
     .tr-fit-core, .tr-tag-c { background: rgba(255, 107, 0, 0.14); color: #FF8533; border: 1px solid rgba(255, 107, 0, 0.35); }
     .tr-fit-sel, .tr-tag-p  { background: rgba(56, 189, 248, 0.12); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .tr-tag-d { background: rgba(251, 191, 36, 0.12); color: #FBBF24; border: 1px solid rgba(251, 191, 36, 0.35); }
     @keyframes tr-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
     @media (min-width: 640px) {
       .tr-float-a { animation: tr-float 7s ease-in-out infinite; }
@@ -417,30 +418,30 @@
       <div class="space-y-6 text-center lg:text-left">
         <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#212C45] border border-[#FF6B00]/30 text-xs font-semibold text-[#FF8533]">
           <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00] animate-pulse"></span>
-          <span data-i18n="hero_badge">New-role radar and simple ATS for recruitment agencies</span>
+          <span data-i18n="hero_badge">New-role radar for recruitment agencies</span>
         </div>
 
         <h1 class="text-[28px] leading-[1.12] sm:text-[44px] xl:text-[50px] font-extrabold text-white" data-i18n="hero_headline_html" data-i18n-html="true">
-          See your clients’ new roles first.<br><span class="text-[#FF6B00]">Straight from their career pages, before the job boards.</span>
+          All your clients’ new roles <span class="text-[#FF6B00]">in one place.</span>
         </h1>
 
         <p class="text-base sm:text-lg text-[#CBD5E1] leading-relaxed max-w-2xl mx-auto lg:mx-0" data-i18n="hero_subheadline">
-          Twice a day TalentRadar checks your clients’ career pages and ATS and shows the new roles in one place. Your consultants no longer hunt for them by hand.
+          Twice a day we check the career pages and ATS of every company you work with, including the ones you have not spoken to in years. In the morning you know where a role in your niche opened, and why to call.
         </p>
 
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-1">
-          <a href="#trial" class="px-7 py-3.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] font-bold text-sm tracking-wide shadow-lg shadow-[#FF6B00]/25 transition text-center whitespace-nowrap">
+          <a href="#trial" class="px-6 py-3.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] font-bold text-sm tracking-wide shadow-lg shadow-[#FF6B00]/25 transition text-center">
             <span data-i18n="hero_cta_btn">Try free for 14 days</span> →
           </a>
-          <a href="#live-radar" class="px-7 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.10] text-white font-bold text-sm tracking-wide border border-white/15 hover:border-[#FF6B00]/50 transition text-center whitespace-nowrap">
-            <span data-i18n="hero_demo_btn">Try the interactive demo</span> ↓
+          <a href="#live-radar" class="px-6 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.10] text-white font-bold text-sm tracking-wide border border-white/15 hover:border-[#FF6B00]/50 transition text-center whitespace-nowrap">
+            <span data-i18n="hero_demo_btn">Interactive demo</span> ↓
           </a>
         </div>
 
         <ul class="flex flex-wrap justify-center lg:justify-start gap-x-5 gap-y-2 text-xs sm:text-[13px] text-[#94A3B8]">
           <li class="flex items-center gap-1.5"><svg class="w-4 h-4 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg><span data-i18n="hero_trust_1">No credit card</span></li>
-          <li class="flex items-center gap-1.5"><svg class="w-4 h-4 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg><span data-i18n="hero_trust_2">Up to 200 companies</span></li>
-          <li class="flex items-center gap-1.5"><svg class="w-4 h-4 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg><span data-i18n="hero_trust_3">Up and running within 24 hours</span></li>
+          <li class="flex items-center gap-1.5"><svg class="w-4 h-4 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg><span data-i18n="hero_trust_2">Free for 14 days</span></li>
+          <li class="flex items-center gap-1.5"><svg class="w-4 h-4 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg><span data-i18n="hero_trust_3">Works next to your ATS</span></li>
         </ul>
       </div>
 
@@ -467,16 +468,16 @@
 
             <div class="grid grid-cols-3 gap-2.5">
               <div class="rounded-xl bg-white/[0.04] border border-white/[0.07] px-3 py-2.5">
-                <div class="font-display text-xl sm:text-2xl font-extrabold text-white">28</div>
-                <div class="text-[10px] sm:text-[11px] text-[#94A3B8] leading-tight" data-i18n="hero_mock_kpi1">new roles</div>
+                <div class="font-display text-xl sm:text-2xl font-extrabold text-[#FF8533]">8</div>
+                <div class="text-[10px] sm:text-[11px] text-[#94A3B8] leading-tight" data-i18n="hero_mock_kpi1">active clients</div>
               </div>
               <div class="rounded-xl bg-white/[0.04] border border-white/[0.07] px-3 py-2.5">
-                <div class="font-display text-xl sm:text-2xl font-extrabold text-[#FF8533]">226</div>
-                <div class="text-[10px] sm:text-[11px] text-[#94A3B8] leading-tight" data-i18n="hero_mock_kpi2">CORE roles open</div>
+                <div class="font-display text-xl sm:text-2xl font-extrabold text-[#FBBF24]">64</div>
+                <div class="text-[10px] sm:text-[11px] text-[#94A3B8] leading-tight" data-i18n="hero_mock_kpi2">dormant clients</div>
               </div>
               <div class="rounded-xl bg-white/[0.04] border border-white/[0.07] px-3 py-2.5">
-                <div class="font-display text-xl sm:text-2xl font-extrabold text-white">25</div>
-                <div class="text-[10px] sm:text-[11px] text-[#94A3B8] leading-tight" data-i18n="hero_mock_kpi3">companies watched</div>
+                <div class="font-display text-xl sm:text-2xl font-extrabold text-[#38BDF8]">40</div>
+                <div class="text-[10px] sm:text-[11px] text-[#94A3B8] leading-tight" data-i18n="hero_mock_kpi3">target companies</div>
               </div>
             </div>
 
@@ -490,7 +491,7 @@
                 <span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded">CORE</span>
               </li>
               <li class="flex items-center gap-3 px-3 py-2.5">
-                <span class="tr-tag-c shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_client">C</span>
+                <span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span>
                 <div class="min-w-0 flex-1">
                   <div class="text-[13px] font-semibold text-white truncate">Enterprise Architekt/ka</div>
                   <div class="text-[11px] text-[#94A3B8] truncate">Moneta Money Bank · <span data-i18n="mock_loc_prague_hybrid">Prague / Hybrid</span></div>
@@ -498,7 +499,7 @@
                 <span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded">CORE</span>
               </li>
               <li class="flex items-center gap-3 px-3 py-2.5">
-                <span class="tr-tag-p shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center">P</span>
+                <span class="tr-tag-p shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_target">T</span>
                 <div class="min-w-0 flex-1">
                   <div class="text-[13px] font-semibold text-white truncate">Python Backend Developer</div>
                   <div class="text-[11px] text-[#94A3B8] truncate">Seznam.cz · <span data-i18n="mock_loc_brno_hybrid">Brno / Hybrid</span></div>
@@ -514,12 +515,11 @@
 
         <!-- Floating cards (sm+): they hang over the card's empty corners, never over its rows -->
         <div class="tr-chip-float tr-float-a mt-3 sm:mt-0 sm:absolute sm:top-0 sm:right-0 rounded-xl px-3.5 py-2.5 sm:w-[218px]">
-          <div class="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#38BDF8]">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg>
-            <span data-i18n="hero_mock_spike_label">5 new roles at once</span>
+          <div class="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#FBBF24]">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#FBBF24]"></span><span data-i18n="hero_mock_cold_label">Dormant client, hiring</span>
           </div>
-          <div class="text-[13px] font-semibold text-white mt-1">ČEZ</div>
-          <div class="text-[11px] text-[#94A3B8]" data-i18n="hero_mock_spike_sub">Prospect · hiring right now</div>
+          <div class="text-[13px] font-semibold text-white mt-1 truncate">Java Software Engineer</div>
+          <div class="text-[11px] text-[#94A3B8]" data-i18n="hero_mock_cold_where">Pure Storage · last spoke 14 months ago</div>
         </div>
 
         <div class="tr-chip-float tr-float-b mt-2.5 sm:mt-0 sm:absolute sm:bottom-0 sm:left-0 rounded-xl px-3.5 py-3 sm:w-[244px]">
@@ -527,11 +527,11 @@
             <span class="w-1.5 h-1.5 rounded-full bg-[#FBBF24]"></span><span data-i18n="hero_mock_old_label">Open 45+ days</span>
           </div>
           <div class="text-[13px] font-semibold text-white mt-1 truncate">Senior Technical Domain Lead</div>
-          <div class="text-[11px] text-[#94A3B8]" data-i18n="hero_mock_old_where">Rohlik Group · client, a reason to call</div>
+          <div class="text-[11px] text-[#94A3B8]" data-i18n="hero_mock_old_where">Rohlik Group · active client, a reason to call</div>
         </div>
 
         <div class="tr-chip-float tr-float-c mt-2.5 sm:mt-0 sm:absolute sm:bottom-3 sm:right-0 rounded-xl px-3.5 py-3 sm:w-[226px]">
-          <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF8533]" data-i18n="hero_mock_hm_label">Likely hiring manager</div>
+          <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF8533]" data-i18n="hero_mock_hm_now">Who decides there now</div>
           <div class="text-[13px] font-semibold text-white mt-1">Engineering Manager</div>
           <div class="text-[11px] text-[#94A3B8]" data-i18n="hero_mock_hm_where">Air Bank · Prague</div>
           <div class="flex gap-1.5 mt-2">
@@ -543,7 +543,7 @@
        </div>
 
         <p class="mt-4 sm:mt-3 text-center sm:text-right sm:pr-6 text-[11px] text-[#94A3B8]" data-i18n="hero_mock_caption">
-          Illustration of the home screen with real roles from the Czech demo’s scan.
+          Illustration of the home screen: the roles are real, from the Czech demo’s scan; the agency and its contact history are made up.
         </p>
       </div>
     </div>
@@ -605,67 +605,57 @@
         <div class="tr-kicker" data-i18n="feat_badge">What it does</div>
         <h2 class="text-3xl sm:text-[42px] leading-[1.12] font-extrabold text-white" data-i18n="feat_headline">Every morning, the work your consultants used to do by hand</h2>
       </div>
-      <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed lg:pb-1.5" data-i18n="feat_subtext">From the first sign that a client is hiring to the placement: what TalentRadar does for you, and what it looks like.</p>
+      <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed lg:pb-1.5" data-i18n="feat_subtext">From the first sign that a company is hiring to the call: what TalentRadar does for you, and what it looks like.</p>
     </div>
 
-    <!-- 1. New roles in the morning -->
+    <!-- 1. Every company in one place -->
     <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
       <div class="space-y-4">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">01 · <span data-i18n="feat1_kicker">Home</span></div>
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat1_title">In the morning you know where new roles opened</h3>
-        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat1_body">TalentRadar checks your clients’ and prospects’ career pages and ATS at 6:00 and 12:00 your time. New roles wait for you sorted by company, clients first, and AI marks the ones that match your practice areas.</p>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat1_title">Every company you work with, in one place</h3>
+        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat1_body">Upload your companies from your CRM or a spreadsheet. TalentRadar checks their career pages and ATS at 6:00 and 12:00 your time, and in the morning the new roles wait for you by company: active clients, dormant clients and target companies.</p>
       </div>
       <div class="tr-shot p-4 sm:p-5 space-y-3" aria-hidden="true">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-wrap items-center justify-between gap-2">
           <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]" data-i18n="feat1_mock_title">Companies with new roles</div>
-          <div class="flex gap-1 text-[10px] font-mono">
+          <div class="flex flex-wrap gap-1 text-[10px] font-mono">
             <span class="px-2 py-1 rounded-md bg-[#FF6B00]/15 border border-[#FF6B00]/40 text-white font-bold" data-i18n="feat1_mock_all">ALL</span>
-            <span class="px-2 py-1 rounded-md border border-white/10 text-[#94A3B8]" data-i18n="feat1_mock_clients">CLIENTS</span>
-            <span class="px-2 py-1 rounded-md border border-white/10 text-[#94A3B8]" data-i18n="feat1_mock_prospects">PROSPECTS</span>
+            <span class="px-2 py-1 rounded-md border border-white/10 text-[#94A3B8]" data-i18n="feat1_mock_active">ACTIVE</span>
+            <span class="px-2 py-1 rounded-md border border-white/10 text-[#94A3B8]" data-i18n="feat1_mock_dormant">DORMANT</span>
+            <span class="px-2 py-1 rounded-md border border-white/10 text-[#94A3B8]" data-i18n="feat1_mock_target">TARGET</span>
           </div>
         </div>
         <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 text-[10px] font-mono uppercase tracking-wider text-[#94A3B8] px-3">
           <span data-i18n="feat1_mock_col_company">Company</span><span data-i18n="feat1_mock_col_new">New</span><span>CORE</span>
         </div>
         <div class="rounded-xl border border-white/[0.07] divide-y divide-white/[0.06] text-[13px]">
-          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white"><span class="tr-tag-c w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_client">C</span>Moneta Money Bank</span><span class="font-mono text-white text-right w-8">2</span><span class="font-mono text-[#FF8533] text-right w-10">2</span></div>
-          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white"><span class="tr-tag-c w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_client">C</span>Air Bank</span><span class="font-mono text-white text-right w-8">2</span><span class="font-mono text-[#FF8533] text-right w-10">2</span></div>
-          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white"><span class="tr-tag-p w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center">P</span>ČEZ</span><span class="font-mono text-white text-right w-8">5</span><span class="font-mono text-[#FF8533] text-right w-10">1</span></div>
-          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white"><span class="tr-tag-p w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center">P</span>Škoda Auto</span><span class="font-mono text-white text-right w-8">4</span><span class="font-mono text-[#FF8533] text-right w-10">3</span></div>
-          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white"><span class="tr-tag-p w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center">P</span>Česká spořitelna</span><span class="font-mono text-white text-right w-8">2</span><span class="font-mono text-[#FF8533] text-right w-10">1</span></div>
+          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white min-w-0"><span class="tr-tag-c shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_client">C</span><span class="truncate">Air Bank</span></span><span class="font-mono text-white text-right w-8">2</span><span class="font-mono text-[#FF8533] text-right w-10">2</span></div>
+          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white min-w-0"><span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span><span class="truncate">Moneta Money Bank</span></span><span class="font-mono text-white text-right w-8">2</span><span class="font-mono text-[#FF8533] text-right w-10">2</span></div>
+          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white min-w-0"><span class="tr-tag-p shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_target">T</span><span class="truncate">ČEZ</span></span><span class="font-mono text-white text-right w-8">5</span><span class="font-mono text-[#FF8533] text-right w-10">1</span></div>
+          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white min-w-0"><span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span><span class="truncate">Škoda Auto</span></span><span class="font-mono text-white text-right w-8">4</span><span class="font-mono text-[#FF8533] text-right w-10">3</span></div>
+          <div class="grid grid-cols-[1fr_auto_auto] gap-x-4 items-center px-3 py-2.5"><span class="flex items-center gap-2 font-semibold text-white min-w-0"><span class="tr-tag-p shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_target">T</span><span class="truncate">Česká spořitelna</span></span><span class="font-mono text-white text-right w-8">2</span><span class="font-mono text-[#FF8533] text-right w-10">1</span></div>
         </div>
       </div>
     </div>
 
-    <!-- 2. The hiring manager -->
+    <!-- 2. Companies you have not spoken to in a long time -->
     <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
       <div class="space-y-4 lg:order-2">
-        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">02 · <span data-i18n="feat2_kicker">Role detail</span></div>
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat2_title">You know whom to call about the role</h3>
-        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat2_body">TalentRadar works out from the posting who most likely decides on the hire and finds them on LinkedIn or through Google X-Ray. It saves you a lot of searching.</p>
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FBBF24]">02 · <span data-i18n="feat2_kicker">Dormant clients</span></div>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat2_title">Including the companies you have not spoken to in a long time</h3>
+        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat2_body">Your CRM is full of companies that are hiring right now. Nobody watches them, and when they open a role, it goes to another agency. Bring them in with the date of your last contact: a company you have not dealt with for six months moves to dormant clients by itself, and in the morning you see which of them are hiring again.</p>
       </div>
-      <div class="tr-shot p-4 sm:p-5 space-y-4 lg:order-1" aria-hidden="true">
-        <div class="space-y-1.5">
-          <div class="flex items-center gap-2 text-[10px] font-mono font-bold">
-            <span class="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/10 text-[#E2E8F0]" data-i18n="feat2_mock_new">NEW</span>
-            <span class="tr-fit-core px-1.5 py-0.5 rounded">CORE</span>
-          </div>
-          <div class="font-display text-lg sm:text-xl font-extrabold text-white">Cloud AWS &amp; Site Reliability Engineer/ka</div>
-          <div class="text-[12px] text-[#94A3B8]"><span class="font-semibold text-white">Air Bank</span> · <span data-i18n="mock_loc_prague_hybrid">Prague / Hybrid</span></div>
+      <div class="tr-shot p-4 sm:p-5 space-y-3 lg:order-1" aria-hidden="true">
+        <div>
+          <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FBBF24]" data-i18n="feat2_mock_title">Clients you have not spoken to in months are hiring</div>
+          <div class="text-[12px] text-[#94A3B8] mt-1" data-i18n="feat2_mock_sub">3 roles in your niche at 3 companies</div>
         </div>
-        <div class="rounded-xl border border-white/[0.08] border-l-2 border-l-[#FF6B00] bg-white/[0.04] p-4 space-y-3">
-          <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-[#FF8533]" data-i18n="hero_mock_hm_label">Likely hiring manager</div>
-          <div>
-            <div class="text-[15px] font-bold text-white">Engineering Manager</div>
-            <div class="text-[12px] text-[#94A3B8]" data-i18n="feat2_mock_where">Searched in: Prague</div>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-white/[0.06] border border-white/15 text-white">LinkedIn</span>
-            <span class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-white/[0.06] border border-white/15 text-white">Google X-Ray</span>
-            <span class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-white/[0.06] border border-white/15 text-white">Head of Engineering</span>
-          </div>
-          <div class="text-[12px] text-[#94A3B8]" data-i18n="feat2_mock_up">If they don’t reply, one level up: VP of Engineering / CTO</div>
+        <div class="rounded-xl border border-white/[0.07] divide-y divide-white/[0.06] text-[13px]">
+          <div class="flex items-center gap-3 px-3 py-2.5"><span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Java Software Engineer</div><div class="text-[11px] text-[#94A3B8] truncate">Pure Storage · <span data-i18n="feat2_mock_r1">last contact 14 months ago · placement 2023</span></div></div><span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">CORE</span></div>
+          <div class="flex items-center gap-3 px-3 py-2.5"><span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Sr. Backend Engineer (Kotlin)</div><div class="text-[11px] text-[#94A3B8] truncate">GoodData · <span data-i18n="feat2_mock_r2">last contact 9 months ago</span></div></div><span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">CORE</span></div>
+          <div class="flex items-center gap-3 px-3 py-2.5"><span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Backend developer (Kotlin)</div><div class="text-[11px] text-[#94A3B8] truncate">Livesport · <span data-i18n="feat2_mock_r3">last contact 2 years ago · placement 2022</span></div></div><span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">CORE</span></div>
         </div>
+        <div class="text-[10px] text-[#94A3B8]" data-i18n="feat2_mock_note">Real roles from the demo’s scan; the contact history is made up.</div>
       </div>
     </div>
 
@@ -674,7 +664,7 @@
       <div class="space-y-4">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">03 · <span data-i18n="feat3_kicker">Opportunities</span></div>
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat3_title">A reason to call, not a cold call or email</h3>
-        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat3_body">You call with a reason: right after the company posts a role, while it is fresh and you are first, or when it has been open for over a month and the client can’t fill it alone.</p>
+        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat3_body">Next to each role, TalentRadar tells you why to call: a fresh role while you can be first, a role open for over 45 days that the client cannot fill alone, a sudden jump in hiring, or a company you have not spoken to in a long time.</p>
       </div>
       <div class="tr-shot p-4 sm:p-5 space-y-3" aria-hidden="true">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FBBF24]" data-i18n="feat3_mock_title">Opportunities</div>
@@ -691,33 +681,57 @@
         <div class="rounded-xl border border-white/[0.07] divide-y divide-white/[0.06] text-[13px]">
           <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Senior Technical Domain Lead</div><div class="text-[11px] text-[#94A3B8]">Rohlik Group · <span data-i18n="feat3_mock_since">published</span> 23. 4. 2026</div></div><span class="text-[10px] font-mono font-bold px-2 py-1 rounded-md bg-[#FBBF24]/10 text-[#FBBF24] border border-[#FBBF24]/30 shrink-0">45+</span></div>
           <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Senior Backend Engineer, Core Services</div><div class="text-[11px] text-[#94A3B8]">Apify · <span data-i18n="feat3_mock_since">published</span> 20. 4. 2026</div></div><span class="text-[10px] font-mono font-bold px-2 py-1 rounded-md bg-[#FBBF24]/10 text-[#FBBF24] border border-[#FBBF24]/30 shrink-0">45+</span></div>
-          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Lead GTM System Builder</div><div class="text-[11px] text-[#94A3B8]">Mews · <span data-i18n="feat3_mock_since">published</span> 7. 5. 2026</div></div><span class="text-[10px] font-mono font-bold px-2 py-1 rounded-md bg-[#FBBF24]/10 text-[#FBBF24] border border-[#FBBF24]/30 shrink-0">45+</span></div>
+          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Test Automation Engineer</div><div class="text-[11px] text-[#94A3B8]">ČEZ · <span data-i18n="feat3_mock_spike">5 new roles at once</span></div></div><span class="text-[10px] font-mono font-bold px-2 py-1 rounded-md bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30 shrink-0" data-i18n="feat3_mock_spike_tag">JUMP</span></div>
         </div>
       </div>
     </div>
 
-    <!-- 4. From role to placement -->
+    <!-- 4. Who decides there now -->
     <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
       <div class="space-y-4 lg:order-2">
-        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#10B981]">04 · <span data-i18n="feat4_kicker">Radar + ATS</span></div>
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat4_title">From a role to a placement, in one place</h3>
-        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat4_body">When the client gives you the job, one click turns the role into a job with the hiring manager filled in. Candidates move through the pipeline, and the placement records the start date and your fee. Or keep your own ATS and export the roles into it.</p>
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">04 · <span data-i18n="feat4_kicker">Role detail</span></div>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat4_title">Who decides there now</h3>
+        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat4_body">Next to each role you first see your own contacts at the company, from your CRM import or the ATS, with the date you last spoke. When the contact is old, TalentRadar works out from the posting who most likely decides on the hire now, and you search for them on LinkedIn or through Google X-Ray in one click.</p>
       </div>
-      <div class="tr-shot p-4 sm:p-5 space-y-3 lg:order-1" aria-hidden="true">
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#10B981]" data-i18n="feat4_mock_title">Pipeline</div>
-            <div class="text-[13px] font-semibold text-white mt-0.5">Senior Test Analytik/Lead</div>
+      <div class="tr-shot p-4 sm:p-5 space-y-4 lg:order-1" aria-hidden="true">
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2 text-[10px] font-mono font-bold">
+            <span class="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/10 text-[#E2E8F0]" data-i18n="feat4_mock_new">NEW</span>
+            <span class="tr-fit-core px-1.5 py-0.5 rounded">CORE</span>
           </div>
-          <span class="text-[10px] font-mono text-[#94A3B8]">fee 20 %</span>
+          <div class="font-display text-lg sm:text-xl font-extrabold text-white">Cloud AWS &amp; Site Reliability Engineer/ka</div>
+          <div class="text-[12px] text-[#94A3B8]"><span class="font-semibold text-white">Air Bank</span> · <span data-i18n="mock_loc_prague_hybrid">Prague / Hybrid</span></div>
         </div>
-        <div class="grid grid-cols-4 gap-2 text-[11px]">
-          <div class="space-y-2"><div class="font-mono text-[9px] uppercase tracking-wider text-[#94A3B8]">Shortlist</div><div class="rounded-lg bg-white/[0.05] border border-white/[0.08] p-2 text-white">D. Modelový</div><div class="rounded-lg bg-white/[0.05] border border-white/[0.08] p-2 text-white">K. Vzorová</div></div>
-          <div class="space-y-2"><div class="font-mono text-[9px] uppercase tracking-wider text-[#94A3B8]" data-i18n="feat4_mock_cv">CV sent</div><div class="rounded-lg bg-white/[0.05] border border-white/[0.08] p-2 text-white">P. Ukázkový</div></div>
-          <div class="space-y-2"><div class="font-mono text-[9px] uppercase tracking-wider text-[#94A3B8]" data-i18n="feat4_mock_int">Interview</div><div class="rounded-lg bg-[#38BDF8]/[0.08] border border-[#38BDF8]/30 p-2 text-white">L. Fiktivní</div></div>
-          <div class="space-y-2"><div class="font-mono text-[9px] uppercase tracking-wider text-[#94A3B8]" data-i18n="feat4_mock_placed">Placed</div><div class="rounded-lg bg-[#10B981]/[0.08] border border-[#10B981]/35 p-2 text-white">T. Pokusná</div></div>
+        <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-3.5 space-y-1.5">
+          <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-[#94A3B8]" data-i18n="feat4_mock_contacts">Your contacts at the company</div>
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="text-[13px] font-semibold text-white">Head of Engineering</div>
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#FBBF24]/10 text-[#FBBF24] border border-[#FBBF24]/30" data-i18n="feat4_mock_old">last contact 20 months ago</span>
+          </div>
         </div>
-        <div class="text-[10px] text-[#94A3B8]" data-i18n="feat4_mock_note">Made-up candidates, as in the demo.</div>
+        <div class="rounded-xl border border-white/[0.08] border-l-2 border-l-[#FF6B00] bg-white/[0.04] p-4 space-y-3">
+          <div class="text-[10px] font-mono font-bold uppercase tracking-widest text-[#FF8533]" data-i18n="hero_mock_hm_now">Who decides there now</div>
+          <div>
+            <div class="text-[15px] font-bold text-white">Engineering Manager</div>
+            <div class="text-[12px] text-[#94A3B8]" data-i18n="feat4_mock_where">Searched in: Prague</div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-white/[0.06] border border-white/15 text-white">LinkedIn</span>
+            <span class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-white/[0.06] border border-white/15 text-white">Google X-Ray</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Outreach drafts in your own style: not built yet (ROADMAP M8.5, M8.6), so it says "soon" -->
+    <div class="tr-reveal rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-8 items-start">
+      <div class="flex items-center gap-3">
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#94A3B8]">05</div>
+        <span class="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30" data-i18n="feat5_soon">Coming soon</span>
+      </div>
+      <div class="space-y-2">
+        <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="feat5_title">Outreach drafts in your own style</h3>
+        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat5_body">Each consultant pastes a few of their own e-mails and TalentRadar learns how they write. For a role it then drafts an e-mail, a LinkedIn message or the opening of a call. You send it yourself, from your own mailbox: no mass mailing, no automatic sequences, no open tracking.</p>
       </div>
     </div>
    </div>
@@ -726,123 +740,40 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       4. FEATURES SECTION (#modes)
+       4. NEXT TO YOUR ATS (#ats): replaces the two equal modes; the simple ATS is a small extra
   ═══════════════════════════════════════════════ -->
-  <section id="modes" class="py-12 sm:py-16 px-4 sm:px-6 max-w-6xl mx-auto space-y-10 sm:space-y-12">
+  <section id="ats" class="py-12 sm:py-16 px-4 sm:px-6 max-w-6xl mx-auto space-y-8 sm:space-y-10">
     <div class="text-center space-y-3 max-w-3xl mx-auto">
-      <div class="tr-kicker"><span data-i18n="modes_badge">Two ways to use it</span></div>
-      <h2 class="text-3xl sm:text-[42px] leading-[1.12] font-extrabold text-white" data-i18n="modes_headline">
-        Choose how TalentRadar fits your agency
-      </h2>
-      <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="modes_subtext">
-        Whether your established team works in Bullhorn or Vincere, or you are a small agency running on spreadsheets, there is nothing to migrate and nothing complicated to set up.
-      </p>
+      <div class="tr-kicker"><span data-i18n="ats_badge">Into your ATS</span></div>
+      <h2 class="text-3xl sm:text-[42px] leading-[1.12] font-extrabold text-white" data-i18n="ats_headline">Works next to your ATS</h2>
+      <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="ats_subtext">Nothing to migrate and nothing to change. Your companies come in from your CRM, the new roles go back out to your ATS.</p>
     </div>
 
-    <!-- Options Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-
-      <!-- Option 1: BD Signals -->
-      <div class="glass-card tr-stage rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between h-full orange-glow">
-        <div class="space-y-4">
-          <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-            <span class="whitespace-nowrap text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533] px-3 py-1 rounded bg-[#FF6B00]/15 border border-[#FF6B00]/30" data-i18n="modes_a_badge">
-              RADAR ONLY
-            </span>
-          </div>
-
-          <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="modes_a_title">
-            Keep your ATS, add the radar
-          </h3>
-
-          <div class="text-xs font-mono text-[#94A3B8]" data-i18n="modes_a_target">
-            For established agencies with 5–50 consultants working in Datacruit, Recruitis, Teamio, TRAFFIT, Bullhorn or another ATS
-          </div>
-
-
-          <p class="text-[#CBD5E1] text-xs sm:text-sm leading-relaxed" data-i18n="modes_a_solution">
-            TalentRadar works as a radar next to your ATS: twice a day it checks your clients’ career pages, flags the new roles and exports them to CSV in one click.
-          </p>
-
-          <ul class="space-y-2.5 text-xs text-[#E2E8F0] pt-2 border-t border-white/5">
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span data-i18n="modes_a_f1">Reads roles straight from your clients’ ATS (Greenhouse, Lever, Workable, Ashby, Workday and more)</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span data-i18n="modes_a_f2">Automatic scans twice a day</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span data-i18n="modes_a_f3">Suggests the likely hiring manager and finds them on LinkedIn or via Google X-Ray in one click</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#FF6B00] font-bold">✓</span>
-              <span data-i18n="modes_a_f4">One-click CSV export of the roles, with the same filters you have on screen</span>
-            </li>
-          </ul>
-        </div>
-
-        <a href="#trial" class="w-full py-3.5 rounded-xl bg-[#212C45] hover:bg-[#2A3550] text-white text-xs font-bold text-center border border-white/10 transition block" data-i18n="modes_a_cta">
-          Try the radar →
-        </a>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="glass-card rounded-2xl p-6 border border-[rgba(255,255,255,0.08)] space-y-2">
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">01</div>
+        <h3 class="text-lg font-extrabold text-white" data-i18n="ats_c1_title">Import from your CRM or Excel</h3>
+        <p class="text-[#CBD5E1] text-sm leading-relaxed" data-i18n="ats_c1_body">Companies, website, last contact, past placements and contact people, from a Vincere, Bullhorn, Recruitis or Datacruit export or your own spreadsheet. We recognise the columns by their names.</p>
       </div>
-
-      <!-- Option 2: Full Workspace -->
-      <div class="glass-card tr-stage rounded-2xl p-7 sm:p-9 border border-[rgba(255,255,255,0.08)] hover:border-[#FF6B00]/40 transition space-y-6 flex flex-col justify-between h-full orange-glow">
-        <div class="space-y-4">
-          <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-            <span class="whitespace-nowrap text-xs font-mono font-bold uppercase tracking-wider text-[#10B981] px-3 py-1 rounded bg-[#10B981]/10 border border-[#10B981]/30" data-i18n="modes_b_badge">
-              RADAR + ATS
-            </span>
-          </div>
-
-          <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="modes_b_title">
-            No more Excel and Notion spreadsheets
-          </h3>
-
-          <div class="text-xs font-mono text-[#94A3B8]" data-i18n="modes_b_target">
-            For smaller agencies and solo headhunters (1–10 people) who run on Excel, Notion or Trello today
-          </div>
-
-
-          <p class="text-[#CBD5E1] text-xs sm:text-sm leading-relaxed" data-i18n="modes_b_solution">
-            Run your jobs and candidates right next to the roles the radar found. Everything you need to fill a job, and nothing more.
-          </p>
-
-          <ul class="space-y-2.5 text-xs text-[#E2E8F0] pt-2 border-t border-white/5">
-            <li class="flex items-start space-x-2">
-              <span class="text-[#10B981] font-bold">✓</span>
-              <span data-i18n="modes_b_f1">Turn a role you found into a job in one click</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#10B981] font-bold">✓</span>
-              <span data-i18n="modes_b_f2">Candidate pipeline: Shortlist → CV sent → Interviews → Offer → Placed</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#10B981] font-bold">✓</span>
-              <span data-i18n="modes_b_f3">Shared internal notes, fee tracking and the history of every stage</span>
-            </li>
-            <li class="flex items-start space-x-2">
-              <span class="text-[#10B981] font-bold">✓</span>
-              <span data-i18n="modes_b_f4">Runs in the browser, nothing to install</span>
-            </li>
-          </ul>
-        </div>
-
-        <a href="#trial" class="w-full py-3.5 rounded-xl bg-[#212C45] hover:bg-[#2A3550] text-white text-xs font-bold text-center border border-white/10 transition block" data-i18n="modes_b_cta">
-          Try the radar with ATS →
-        </a>
+      <div class="glass-card rounded-2xl p-6 border border-[rgba(255,255,255,0.08)] space-y-2">
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">02</div>
+        <h3 class="text-lg font-extrabold text-white" data-i18n="ats_c2_title">Export to CSV</h3>
+        <p class="text-[#CBD5E1] text-sm leading-relaxed" data-i18n="ats_c2_body">Export the roles in one click, with the same filters you have on screen, and import the file into your ATS.</p>
       </div>
-
+      <div class="glass-card rounded-2xl p-6 border border-[rgba(255,255,255,0.08)] space-y-2">
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">03</div>
+        <h3 class="text-lg font-extrabold text-white" data-i18n="ats_c3_title">Your candidates stay where they are</h3>
+        <p class="text-[#CBD5E1] text-sm leading-relaxed" data-i18n="ats_c3_body">TalentRadar watches companies and their roles, not your candidate database. Datacruit, Recruitis, Teamio, Bullhorn, Vincere or Excel: you keep what you use.</p>
+      </div>
     </div>
 
-    <!-- Same price for both modes: the choice is how they work, not what they pay -->
-    <p class="text-center text-[#CBD5E1] text-sm sm:text-base leading-relaxed max-w-3xl mx-auto" data-i18n="modes_same_price_html" data-i18n-html="true">
-      <strong class="text-white">Both modes cost the same.</strong> The simple ATS is included in the price and using it is up to you: switch it on or off in Settings at any time.
-    </p>
+    <!-- Light ATS: a small box, not an equal choice -->
+    <div class="max-w-3xl mx-auto rounded-2xl border-[1.5px] border-[#FF6B00] bg-[#FF6B00]/[0.08] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+      <span class="shrink-0 text-xs font-mono font-bold uppercase tracking-wider text-[#FF8533]" data-i18n="ats_light_label">No ATS?</span>
+      <p class="text-sm text-[#E2E8F0] leading-relaxed"><strong class="text-white" data-i18n="ats_light_title">A simple ATS is included in the price.</strong> <span data-i18n="ats_light_body">Candidates, contacts, jobs, pipeline and placements right next to the roles the radar found. Switch it on in Settings when you want it.</span></p>
+    </div>
   </section>
+
 
   <!-- ═══════════════════════════════════════════════
        4b. CLIENT REFERENCE (#reference) — PLACEHOLDER, preview only.
@@ -894,7 +825,7 @@
         How it’s done today, and with TalentRadar
       </h2>
       <p class="text-[#94A3B8] text-xs sm:text-sm" data-i18n="compare_subtext">
-        A consultant’s ordinary day, point by point.
+        Your companies, point by point.
       </p>
     </div>
 
@@ -906,14 +837,19 @@
         <div class="tr-compare-head px-5 pt-4 pb-3 text-[#FF8533]" data-i18n="compare_col_radar">With TalentRadar</div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-[0.85fr_1fr_1.15fr] gap-x-6 gap-y-2 py-4 md:py-0 border-t border-white/[0.07]">
-        <div class="md:py-5 px-1 font-display font-bold text-white text-[15px]" data-i18n="compare_row1_label">Checking career pages</div>
-        <div class="md:py-5 px-1 flex gap-2.5 text-[13px] leading-relaxed text-[#94A3B8]"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#94A3B8]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] mr-1.5" data-i18n="compare_col_manual">Today</span><span data-i18n="compare_row1_manual">Consultants click through the pages by hand, when they get round to it, and lose hours every week.</span></span></div>
-        <div class="tr-compare-cell px-4 md:px-5 py-3 md:py-5 flex gap-2.5 text-[13px] md:text-[14px] leading-relaxed text-white"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#FF8533] mr-1.5" data-i18n="compare_col_radar">With TalentRadar</span><span data-i18n="compare_row1_radar" data-i18n-html="true">The pages are checked automatically <strong>twice a day</strong>.</span></span></div>
+        <div class="md:py-5 px-1 font-display font-bold text-white text-[15px]" data-i18n="compare_row1_label">Active clients</div>
+        <div class="md:py-5 px-1 flex gap-2.5 text-[13px] leading-relaxed text-[#94A3B8]"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#94A3B8]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] mr-1.5" data-i18n="compare_col_manual">Today</span><span data-i18n="compare_row1_manual">You know them, but someone clicks through their career pages by hand, when they get round to it.</span></span></div>
+        <div class="tr-compare-cell px-4 md:px-5 py-3 md:py-5 flex gap-2.5 text-[13px] md:text-[14px] leading-relaxed text-white"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#FF8533] mr-1.5" data-i18n="compare_col_radar">With TalentRadar</span><span data-i18n="compare_row1_radar" data-i18n-html="true">Their new roles <strong>in one place</strong>, checked twice a day.</span></span></div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-[0.85fr_1fr_1.15fr] gap-x-6 gap-y-2 py-4 md:py-0 border-t border-white/[0.07]">
-        <div class="md:py-5 px-1 font-display font-bold text-white text-[15px]" data-i18n="compare_row2_label">When you hear about a role</div>
-        <div class="md:py-5 px-1 flex gap-2.5 text-[13px] leading-relaxed text-[#94A3B8]"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#94A3B8]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] mr-1.5" data-i18n="compare_col_manual">Today</span><span data-i18n="compare_row2_manual">Days later, once it shows up on job boards or LinkedIn.</span></span></div>
-        <div class="tr-compare-cell px-4 md:px-5 py-3 md:py-5 flex gap-2.5 text-[13px] md:text-[14px] leading-relaxed text-white"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#FF8533] mr-1.5" data-i18n="compare_col_radar">With TalentRadar</span><span data-i18n="compare_row2_radar" data-i18n-html="true"><strong>At the next scan</strong>, usually a few hours after it goes live on the client’s site.</span></span></div>
+        <div class="md:py-5 px-1 font-display font-bold text-white text-[15px]" data-i18n="compare_row2_label">Companies you have not spoken to in a year</div>
+        <div class="md:py-5 px-1 flex gap-2.5 text-[13px] leading-relaxed text-[#94A3B8]"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#94A3B8]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] mr-1.5" data-i18n="compare_col_manual">Today</span><span data-i18n="compare_row2_manual">Nobody watches them. You find out once another agency has filled the role.</span></span></div>
+        <div class="tr-compare-cell px-4 md:px-5 py-3 md:py-5 flex gap-2.5 text-[13px] md:text-[14px] leading-relaxed text-white"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#FF8533] mr-1.5" data-i18n="compare_col_radar">With TalentRadar</span><span data-i18n="compare_row2_radar" data-i18n-html="true"><strong>In the morning you know they are hiring</strong>, and you have a reason to call.</span></span></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-[0.85fr_1fr_1.15fr] gap-x-6 gap-y-2 py-4 md:py-0 border-t border-white/[0.07]">
+        <div class="md:py-5 px-1 font-display font-bold text-white text-[15px]" data-i18n="compare_row4_label">Who decides there</div>
+        <div class="md:py-5 px-1 flex gap-2.5 text-[13px] leading-relaxed text-[#94A3B8]"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#94A3B8]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] mr-1.5" data-i18n="compare_col_manual">Today</span><span data-i18n="compare_row4_manual">The contact in your CRM is two years old.</span></span></div>
+        <div class="tr-compare-cell px-4 md:px-5 py-3 md:py-5 flex gap-2.5 text-[13px] md:text-[14px] leading-relaxed text-white"><svg class="w-4 h-4 shrink-0 mt-0.5 text-[#FF8533]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"/></svg><span><span class="md:hidden font-mono text-[10px] font-bold uppercase tracking-wider text-[#FF8533] mr-1.5" data-i18n="compare_col_radar">With TalentRadar</span><span data-i18n="compare_row4_radar" data-i18n-html="true">Your contact, and <strong>a one-click search</strong> for who decides there now.</span></span></div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-[0.85fr_1fr_1.15fr] gap-x-6 gap-y-2 py-4 md:py-0 border-t border-white/[0.07]">
         <div class="md:py-5 px-1 font-display font-bold text-white text-[15px]" data-i18n="compare_row3_label">Filled and withdrawn roles</div>
@@ -1122,7 +1058,7 @@
             It was slow work where things were easy to miss, and it took time the consultants should have spent with candidates. So I wrote a system that checks companies’ career pages and ATS by itself.
           </p>
           <p data-i18n="story_p3">
-            For the next two months it ran every day in production: it watched 180 large companies and caught more than 3,400 open roles. Consultants heard about new roles on the day they were posted, days before they showed up on job boards.
+            For the next two months it ran every day in production: it watched 180 large companies and caught more than 3,400 open roles. Consultants heard about new roles on the day they were posted.
           </p>
           <p data-i18n="story_p4">
             Back home it was clear that hundreds of agencies across Central and Western Europe struggle with the same spreadsheets. TalentRadar is here so they don’t have to do that work.
@@ -1257,13 +1193,13 @@
       <!-- FAQ 1 -->
       <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
         <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
-          <span data-i18n="faq_q1">How do you know about roles before LinkedIn and job boards?</span>
+          <span data-i18n="faq_q1">Do I have to move my CRM or ATS?</span>
           <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </summary>
         <div class="faq-body">
           <div class="faq-inner">
             <p class="mt-3 text-xs sm:text-sm text-[#CBD5E1] leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a1">
-              Companies post roles first in their own ATS (Greenhouse, Lever, Ashby and others) or on their careers page, because it costs them nothing. Roles reach paid job boards later, often several days later. TalentRadar checks the companies’ own pages and ATS twice a day, so it picks up a new role at the next scan.
+              No. An export of your companies from your CRM or a spreadsheet is enough: company, website and, if you have them, the date of your last contact and whether you ever placed someone there. The new roles go back as a CSV export you import into your ATS. A direct connection to Bullhorn or another ATS isn’t available yet.
             </p>
           </div>
         </div>
@@ -1278,7 +1214,7 @@
         <div class="faq-body">
           <div class="faq-inner">
             <p class="mt-3 text-xs sm:text-sm text-[#CBD5E1] leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a2">
-              Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Teamio/Jobs.cz, Phenom and Jibe, as well as large companies’ own career pages. We connect non-standard pages on request in the Scale / Enterprise plan.
+              Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Teamio/Jobs.cz, Phenom and Jibe, as well as large companies’ own career pages. We connect non-standard pages on request in the Scale plan.
             </p>
           </div>
         </div>
@@ -1324,6 +1260,21 @@
           <div class="faq-inner">
             <p class="mt-3 text-xs sm:text-sm text-[#CBD5E1] leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a5">
               Yes, as a CSV file. In BD Master you export the roles in one click, with the same filters you have on screen, and import the file into your ATS. A direct connection to Bullhorn or another ATS isn’t available yet. If you don’t have an ATS, Radar + ATS runs the pipeline inside TalentRadar, and you can bring in candidates and contacts from Vincere, Loxo, Bullhorn or LinkedIn exports.
+            </p>
+          </div>
+        </div>
+      </details>
+
+      <!-- FAQ 6 -->
+      <details class="glass-card rounded-xl p-5 group cursor-pointer transition">
+        <summary class="font-bold text-sm sm:text-base text-white flex justify-between items-center list-none select-none">
+          <span data-i18n="faq_q6">Does TalentRadar send e-mails for us?</span>
+          <svg class="w-5 h-5 text-[#FF8533] flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="faq-body">
+          <div class="faq-inner">
+            <p class="mt-3 text-xs sm:text-sm text-[#CBD5E1] leading-relaxed pt-2 border-t border-[rgba(255,255,255,0.05)]" data-i18n="faq_a6">
+              No. TalentRadar shows you whom to call and why, and soon it will draft the message in your own style too. You always send it yourself, from your own mailbox. No mass mailing, no automatic sequences, no open tracking.
             </p>
           </div>
         </div>
@@ -1498,7 +1449,7 @@
               <span class="text-[#FFFFFF]">TALENT</span><span class="text-[#FF6B00]">RADAR</span>
             </span>
           </div>
-          <p class="text-[13px] leading-relaxed max-w-xs" data-i18n="footer_about">New-role radar and simple ATS for recruitment agencies. Built in Prague, born at an agency in Dublin.</p>
+          <p class="text-[13px] leading-relaxed max-w-xs" data-i18n="footer_about">New-role radar for recruitment agencies. Born at an agency in Dublin, built in Prague.</p>
         </div>
 
         <nav aria-label="Product" class="space-y-3">

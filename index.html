@@ -202,6 +202,7 @@
     .tr-fit-core, .tr-tag-c { background: rgba(255, 107, 0, 0.14); color: #FF8533; border: 1px solid rgba(255, 107, 0, 0.35); }
     .tr-fit-sel, .tr-tag-p  { background: rgba(56, 189, 248, 0.12); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); }
     .tr-tag-d { background: rgba(251, 191, 36, 0.12); color: #FBBF24; border: 1px solid rgba(251, 191, 36, 0.35); }
+    .tr-fit-skip { background: rgba(148, 163, 184, 0.08); color: #94A3B8; border: 1px solid rgba(148, 163, 184, 0.25); }
     @keyframes tr-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
     @media (min-width: 640px) {
       .tr-float-a { animation: tr-float 7s ease-in-out infinite; }
@@ -638,51 +639,42 @@
       </div>
     </div>
 
-    <!-- 2. Companies you have not spoken to in a long time -->
+    <!-- 2. Only the roles in your niche (AI fit: CORE / SELECTIVE / SKIP) -->
     <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
       <div class="space-y-4 lg:order-2">
-        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FBBF24]">02 · <span data-i18n="feat2_kicker">Dormant clients</span></div>
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat2_title">Including the companies you have not spoken to in a long time</h3>
-        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat2_body">Your CRM is full of companies that are hiring right now. Nobody watches them, and when they open a role, it goes to another agency. Bring them in with the date of your last contact: a company you have not dealt with for six months moves to dormant clients by itself, and in the morning you see which of them are hiring again.</p>
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">02 · <span data-i18n="feat2_kicker">Your niche</span></div>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat2_title">Only the roles you can fill</h3>
+        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat2_body">AI reads every new posting and compares it with what you specialise in.</p>
       </div>
       <div class="tr-shot p-4 sm:p-5 space-y-3 lg:order-1" aria-hidden="true">
         <div>
-          <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FBBF24]" data-i18n="feat2_mock_title">Clients you have not spoken to in months are hiring</div>
-          <div class="text-[12px] text-[#94A3B8] mt-1" data-i18n="feat2_mock_sub">3 roles in your niche at 3 companies</div>
+          <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]" data-i18n="feat2_mock_title">New roles this morning</div>
+          <div class="text-[12px] text-[#94A3B8] mt-1" data-i18n="feat2_mock_sub">sorted by your niche</div>
         </div>
         <div class="rounded-xl border border-white/[0.07] divide-y divide-white/[0.06] text-[13px]">
-          <div class="flex items-center gap-3 px-3 py-2.5"><span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Java Software Engineer</div><div class="text-[11px] text-[#94A3B8]">Pure Storage · <span data-i18n="feat2_mock_r1">last contact 14 months ago · placement 2023</span></div></div><span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">CORE</span></div>
-          <div class="flex items-center gap-3 px-3 py-2.5"><span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Sr. Backend Engineer (Kotlin)</div><div class="text-[11px] text-[#94A3B8]">GoodData · <span data-i18n="feat2_mock_r2">last contact 9 months ago</span></div></div><span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">CORE</span></div>
-          <div class="flex items-center gap-3 px-3 py-2.5"><span class="tr-tag-d shrink-0 w-[18px] h-[18px] rounded text-[10px] font-bold font-mono flex items-center justify-center" data-i18n="mock_tag_dormant">D</span><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Backend developer (Kotlin)</div><div class="text-[11px] text-[#94A3B8]">Livesport · <span data-i18n="feat2_mock_r3">last contact 2 years ago · placement 2022</span></div></div><span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">CORE</span></div>
+          <div class="flex items-center gap-3 px-3 py-2.5"><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Java Software Engineer</div><div class="text-[11px] text-[#94A3B8]">Pure Storage · <span data-i18n="feat2_mock_why1">Java backend in Prague: exactly your IT niche</span></div></div><span class="tr-fit-core text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">CORE</span></div>
+          <div class="flex items-center gap-3 px-3 py-2.5"><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Product Owner, Payments</div><div class="text-[11px] text-[#94A3B8]">Moneta Money Bank · <span data-i18n="feat2_mock_why2">Product, not engineering: you fill these now and then</span></div></div><span class="tr-fit-sel text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">SELECTIVE</span></div>
+          <div class="flex items-center gap-3 px-3 py-2.5 opacity-50"><div class="min-w-0 flex-1"><div class="font-semibold text-white truncate">Skladník / skladnice</div><div class="text-[11px] text-[#94A3B8]">Rohlik Group · <span data-i18n="feat2_mock_why3">Outside your niche, kept out of your list</span></div></div><span class="tr-fit-skip text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0">SKIP</span></div>
         </div>
-        <div class="text-[10px] text-[#94A3B8]" data-i18n="feat2_mock_note">Real roles from the demo’s scan; the contact history is made up.</div>
       </div>
     </div>
 
-    <!-- 3. A reason to call -->
+    <!-- 3. Why call right now: every role with its reason -->
     <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
       <div class="space-y-4">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">03 · <span data-i18n="feat3_kicker">Opportunities</span></div>
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat3_title">A reason to call, not a cold call or email</h3>
-        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat3_body">Next to each role, TalentRadar tells you why to call: a fresh role while you can be first, a role open for over 45 days that the client cannot fill alone, a sudden jump in hiring, or a company you have not spoken to in a long time.</p>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat3_title">Why call right now</h3>
+        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat3_body">Every role comes with its reason.</p>
       </div>
       <div class="tr-shot p-4 sm:p-5 space-y-3" aria-hidden="true">
-        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FBBF24]" data-i18n="feat3_mock_title">Opportunities</div>
-        <div class="grid grid-cols-2 gap-2.5">
-          <div class="rounded-xl bg-white/[0.04] border border-white/[0.08] border-t-2 border-t-[#FBBF24] px-3.5 py-3">
-            <div class="font-display text-2xl font-extrabold text-white">105</div>
-            <div class="text-[11px] text-[#CBD5E1]" data-i18n="feat3_mock_30">roles open 30+ days</div>
-          </div>
-          <div class="rounded-xl bg-white/[0.04] border border-white/[0.08] border-t-2 border-t-[#FBBF24] px-3.5 py-3">
-            <div class="font-display text-2xl font-extrabold text-white">76</div>
-            <div class="text-[11px] text-[#CBD5E1]" data-i18n="feat3_mock_45">roles open 45+ days</div>
-          </div>
-        </div>
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FBBF24]" data-i18n="feat3_mock_title">Why call right now</div>
         <div class="rounded-xl border border-white/[0.07] divide-y divide-white/[0.06] text-[13px]">
-          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Senior Technical Domain Lead</div><div class="text-[11px] text-[#94A3B8]">Rohlik Group · <span data-i18n="feat3_mock_since">published</span> 23. 4. 2026</div></div><span class="text-[10px] font-mono font-bold px-2 py-1 rounded-md bg-[#FBBF24]/10 text-[#FBBF24] border border-[#FBBF24]/30 shrink-0">45+</span></div>
-          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Senior Backend Engineer, Core Services</div><div class="text-[11px] text-[#94A3B8]">Apify · <span data-i18n="feat3_mock_since">published</span> 20. 4. 2026</div></div><span class="text-[10px] font-mono font-bold px-2 py-1 rounded-md bg-[#FBBF24]/10 text-[#FBBF24] border border-[#FBBF24]/30 shrink-0">45+</span></div>
-          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Test Automation Engineer</div><div class="text-[11px] text-[#94A3B8]">ČEZ · <span data-i18n="feat3_mock_spike">5 new roles at once</span></div></div><span class="text-[10px] font-mono font-bold px-2 py-1 rounded-md bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30 shrink-0" data-i18n="feat3_mock_spike_tag">JUMP</span></div>
+          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Java Software Engineer</div><div class="text-[11px] text-[#94A3B8]">Pure Storage · <span data-i18n="feat2_mock_r1">last contact 14 months ago · placement 2023</span></div></div><span class="tr-tag-d text-[10px] font-mono font-bold px-2 py-1 rounded-md shrink-0" data-i18n="feat1_mock_dormant">DORMANT</span></div>
+          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Senior Technical Domain Lead</div><div class="text-[11px] text-[#94A3B8]">Rohlik Group · <span data-i18n="feat3_r1">published 23 Apr, they cannot fill it alone</span></div></div><span class="bg-[#FBBF24]/10 text-[#FBBF24] border border-[#FBBF24]/30 text-[10px] font-mono font-bold px-2 py-1 rounded-md shrink-0" data-i18n="feat3_tag_45">45+ DAYS</span></div>
+          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Test Automation Engineer</div><div class="text-[11px] text-[#94A3B8]">ČEZ · <span data-i18n="feat3_mock_spike">5 new roles at once</span></div></div><span class="bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30 text-[10px] font-mono font-bold px-2 py-1 rounded-md shrink-0" data-i18n="feat3_mock_spike_tag">JUMP</span></div>
+          <div class="flex items-center justify-between gap-3 px-3 py-2.5"><div class="min-w-0"><div class="font-semibold text-white truncate">Cloud AWS &amp; Site Reliability Engineer/ka</div><div class="text-[11px] text-[#94A3B8]">Air Bank · <span data-i18n="feat3_r4">published today, you can be first</span></div></div><span class="bg-white/[0.06] text-[#E2E8F0] border border-white/10 text-[10px] font-mono font-bold px-2 py-1 rounded-md shrink-0" data-i18n="feat4_mock_new">NEW</span></div>
         </div>
+        <div class="text-[10px] text-[#94A3B8]" data-i18n="feat2_mock_note">Real roles from the demo’s scan; the contact history is made up.</div>
       </div>
     </div>
 
@@ -723,15 +715,28 @@
       </div>
     </div>
 
-    <!-- 5. Outreach drafts in your own style: not built yet (ROADMAP M8.5, M8.6), so it says "soon" -->
-    <div class="tr-reveal rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-8 items-start">
-      <div class="flex items-center gap-3">
-        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#94A3B8]">05</div>
-        <span class="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30" data-i18n="feat5_soon">Coming soon</span>
+    <!-- 5. What to say, and not forgetting it (ROADMAP M8.5–M8.7) -->
+    <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+      <div class="space-y-4">
+        <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">05 · <span data-i18n="feat5_kicker">Outreach</span></div>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat5_title">What to say, and not forgetting it</h3>
+        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat5_body">Each consultant pastes a few of their own e-mails.</p>
       </div>
-      <div class="space-y-2">
-        <h3 class="text-xl sm:text-2xl font-extrabold text-white" data-i18n="feat5_title">Outreach drafts in your own style</h3>
-        <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed" data-i18n="feat5_body">Each consultant pastes a few of their own e-mails and TalentRadar learns how they write. For a role it then drafts an e-mail, a LinkedIn message or the opening of a call. You send it yourself, from your own mailbox: no mass mailing, no automatic sequences, no open tracking.</p>
+      <div class="tr-shot p-4 sm:p-5 space-y-3" aria-hidden="true">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex gap-1 text-[11px] font-semibold">
+            <span class="px-2.5 py-1 rounded-md bg-[#FF6B00]/15 border border-[#FF6B00]/40 text-white" data-i18n="feat5_tab_email">E-mail</span>
+            <span class="px-2.5 py-1 rounded-md border border-white/10 text-[#94A3B8]" data-i18n="feat5_tab_li">LinkedIn</span>
+            <span class="px-2.5 py-1 rounded-md border border-white/10 text-[#94A3B8]" data-i18n="feat5_tab_call">Call opener</span>
+          </div>
+          <span class="text-[10px] font-mono text-[#94A3B8]" data-i18n="feat5_mock_style">Your style · first name, short</span>
+        </div>
+        <div class="rounded-lg border border-[#22C55E]/30 bg-[#22C55E]/[0.08] px-3 py-2 text-[11px] text-[#86EFAC]" data-i18n="feat5_mock_rule">E-mail allowed: you have placed someone here before.</div>
+        <div class="rounded-xl border border-white/[0.08] bg-white/[0.03] p-3.5 text-[13px] leading-relaxed text-[#E2E8F0]" data-i18n="feat5_mock_text">Hi Tomas, I saw you are hiring a Java engineer again.</div>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-white/[0.06] border border-white/15 text-white" data-i18n="feat5_mock_copy">Copy</span>
+          <span class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 border border-[#FF6B00]/40 text-white" data-i18n="feat5_mock_logged">Called · remind me in 7 days</span>
+        </div>
       </div>
     </div>
    </div>

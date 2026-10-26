@@ -202,6 +202,11 @@
     .tr-fit-core, .tr-tag-c { background: rgba(255, 107, 0, 0.14); color: #FF8533; border: 1px solid rgba(255, 107, 0, 0.35); }
     .tr-fit-sel, .tr-tag-p  { background: rgba(56, 189, 248, 0.12); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); }
     .tr-tag-d { background: rgba(251, 191, 36, 0.12); color: #FBBF24; border: 1px solid rgba(251, 191, 36, 0.35); }
+    /* Feature timeline (#features): the axis, a node per step with its time. */
+    .tr-axis { background: linear-gradient(to bottom, rgba(255, 107, 0, 0), rgba(255, 107, 0, 0.55) 8%, rgba(255, 107, 0, 0.55) 92%, rgba(255, 107, 0, 0)); box-shadow: 0 0 18px rgba(255, 107, 0, 0.35); }
+    .tr-node-dot { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 9999px; background: #0B0E14; border: 1.5px solid #FF6B00; color: #fff; font: 800 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace; box-shadow: 0 0 0 6px rgba(255, 107, 0, 0.08), 0 0 24px rgba(255, 107, 0, 0.35); }
+    .tr-node-time { font: 700 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; color: #FF8533; background: #0B0E14; padding: 2px 4px; border-radius: 4px; }
+    .tr-step .tr-shot { box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04); }
     .tr-fit-skip { background: rgba(148, 163, 184, 0.08); color: #94A3B8; border: 1px solid rgba(148, 163, 184, 0.25); }
     @keyframes tr-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
     @media (min-width: 640px) {
@@ -609,8 +614,11 @@
       <p class="text-[#CBD5E1] text-sm sm:text-base leading-relaxed lg:pb-1.5" data-i18n="feat_subtext">From the first sign that a company is hiring to the call: what TalentRadar does for you, and what it looks like.</p>
     </div>
 
+    <div class="relative space-y-12 lg:space-y-20 pt-2">
+    <div class="tr-axis absolute top-0 bottom-0 left-[21px] lg:left-1/2 lg:-translate-x-1/2 w-px" aria-hidden="true"></div>
     <!-- 1. Every company in one place -->
-    <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+    <div class="tr-reveal tr-step relative grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-28 items-center pl-14 lg:pl-0">
+      <div class="tr-node absolute left-0 top-0 lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 flex flex-col items-center gap-1.5" aria-hidden="true"><span class="tr-node-dot">01</span><span class="tr-node-time">06:00</span></div>
       <div class="space-y-4">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">01 · <span data-i18n="feat1_kicker">Home</span></div>
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat1_title">Every company you work with, in one place</h3>
@@ -640,7 +648,8 @@
     </div>
 
     <!-- 2. Only the roles in your niche (AI fit: CORE / SELECTIVE / SKIP) -->
-    <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+    <div class="tr-reveal tr-step relative grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-28 items-center pl-14 lg:pl-0">
+      <div class="tr-node absolute left-0 top-0 lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 flex flex-col items-center gap-1.5" aria-hidden="true"><span class="tr-node-dot">02</span><span class="tr-node-time">06:05</span></div>
       <div class="space-y-4 lg:order-2">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">02 · <span data-i18n="feat2_kicker">Your niche</span></div>
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat2_title">Only the roles you can fill</h3>
@@ -660,7 +669,8 @@
     </div>
 
     <!-- 3. Why call right now: every role with its reason -->
-    <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+    <div class="tr-reveal tr-step relative grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-28 items-center pl-14 lg:pl-0">
+      <div class="tr-node absolute left-0 top-0 lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 flex flex-col items-center gap-1.5" aria-hidden="true"><span class="tr-node-dot">03</span><span class="tr-node-time">08:00</span></div>
       <div class="space-y-4">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">03 · <span data-i18n="feat3_kicker">Opportunities</span></div>
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat3_title">Why call right now</h3>
@@ -679,7 +689,8 @@
     </div>
 
     <!-- 4. Who decides there now -->
-    <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+    <div class="tr-reveal tr-step relative grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-28 items-center pl-14 lg:pl-0">
+      <div class="tr-node absolute left-0 top-0 lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 flex flex-col items-center gap-1.5" aria-hidden="true"><span class="tr-node-dot">04</span><span class="tr-node-time">08:10</span></div>
       <div class="space-y-4 lg:order-2">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">04 · <span data-i18n="feat4_kicker">Role detail</span></div>
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat4_title">Who decides there now</h3>
@@ -716,7 +727,8 @@
     </div>
 
     <!-- 5. What to say, and not forgetting it (ROADMAP M8.5–M8.7) -->
-    <div class="tr-reveal tr-panel grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+    <div class="tr-reveal tr-step relative grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-28 items-center pl-14 lg:pl-0">
+      <div class="tr-node absolute left-0 top-0 lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 flex flex-col items-center gap-1.5" aria-hidden="true"><span class="tr-node-dot">05</span><span class="tr-node-time">08:15</span></div>
       <div class="space-y-4">
         <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF8533]">05 · <span data-i18n="feat5_kicker">Outreach</span></div>
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="feat5_title">What to say, and not forgetting it</h3>
@@ -738,6 +750,7 @@
           <span class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-[#FF6B00]/15 border border-[#FF6B00]/40 text-white" data-i18n="feat5_mock_logged">Called · remind me in 7 days</span>
         </div>
       </div>
+    </div>
     </div>
    </div>
   </section>

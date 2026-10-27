@@ -342,6 +342,17 @@ test("150 companies in four columns fit in the text box; a list over the limit i
   assert.equal([...e.TALENT_RADAR_KV.store.keys()].filter((k) => k.startsWith("lead:")).length, 0);
 });
 
+// ── The headline A/B test (W13): the variant rides along in the lead ────────
+
+test("the headline the visitor saw is kept in the lead, and only a or b", async () => {
+  for (const [given, kept] of [["b", "b"], ["A", "a"], ["c", ""], [undefined, ""], [{ x: 1 }, ""]]) {
+    const e = env();
+    const res = await submit(e, given === undefined ? {} : { headline_variant: given });
+    assert.equal(res.status, 200);
+    assert.equal(leadOf(e).lead.headlineVariant, kept, `sent ${JSON.stringify(given)}`);
+  }
+});
+
 // ── Feeds the app writes to KV ──────────────────────────────────────────────
 
 test("the sandbox feed is served from KV, and 503 until the app has written it", async () => {

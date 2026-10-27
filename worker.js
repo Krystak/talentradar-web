@@ -71,7 +71,7 @@ export default {
 /** The pasted company list, in characters: 150 four-column lines with room to spare. */
 export const CLIENTS_TEXT_MAX = 30000;
 
-const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby všech firem vaší agentury, i těch, se kterými jste roky nejednali, a nové pozice ukáže na jednom místě. Pro personální agentury, vedle vašeho ATS.";
+const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby všech firem vaší agentury. Ráno ukáže, kde se nabírá a komu zavolat, a kdykoli přes den, která z firem hledá vašeho kandidáta. Vedle vašeho ATS.";
 
 /**
  * The home page's head for the Czech address: lang, canonical, og:url and the
@@ -119,7 +119,7 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, timezone } = data;
+  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, timezone, headline_variant } = data;
   const clientIp = request.headers.get("cf-connecting-ip") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";
 
@@ -221,6 +221,9 @@ async function handleDemoSubmission(request, env) {
     // The browser's time zone ("Europe/Dublin"). The app schedules the scans
     // and picks the fee currency from it; without it a free mailbox lands in Prague.
     timezone: normaliseTimezone(timezone),
+    // Which home-page headline the visitor saw ("a" or "b", the A/B test of
+    // VIZE §12). Only stored for counting; the app ignores it.
+    headlineVariant: normaliseHeadlineVariant(headline_variant),
     ip: clientIp,
     userAgent: userAgent,
   };
@@ -328,6 +331,12 @@ async function wakeApp(env, lead) {
     console.error(`App wake-up for lead ${lead.id} failed:`, err);
     return false;
   }
+}
+
+/** "a" or "b", the headline the trial form came from; anything else is "". */
+function normaliseHeadlineVariant(variant) {
+  const value = String(variant || "").trim().toLowerCase();
+  return value === "a" || value === "b" ? value : "";
 }
 
 /**

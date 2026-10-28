@@ -302,7 +302,7 @@
     credits: 500, scanRun: null, scanned: false, scanFreq: 2,
     scTab: 'companies', scQuery: '', addMsg: null,
     anWindow: 7, setTab: 'spec', testResult: null,
-    atsOn: true,
+    atsOn: false,   // the web shows the radar, not the simple ATS (Kryštof 28. 10.); Settings can still switch it on
     pipeJob: 'all', pipeRejected: false,
     jobOpen: null, jobsStatus: 'active',
     coScope: 'recruit', coQuery: '',

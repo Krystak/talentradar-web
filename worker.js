@@ -35,6 +35,12 @@ export default {
       return kvFeed(env, "sandbox_json");
     }
 
+    // 2c. The home page preview's three numbers (index.html, hero), worked out
+    //     here from the sandbox feed so a visitor downloads a few bytes, not the feed.
+    if (url.pathname === "/api/hero-stats") {
+      return heroStatsFeed(request, env, ctx);
+    }
+
     // 3. Rewrite /gdpr to /gdpr.html if requested
     if (url.pathname === "/gdpr") {
       url.pathname = "/gdpr.html";
@@ -71,7 +77,7 @@ export default {
 /** The pasted company list, in characters: 150 four-column lines with room to spare. */
 export const CLIENTS_TEXT_MAX = 30000;
 
-const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby všech firem vaší agentury. Ráno ukáže, kde se nabírá a komu zavolat, a kdykoli přes den, která z firem hledá vašeho kandidáta. Vedle vašeho ATS.";
+const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby všech firem vaší agentury a jejich otevřené pozice ukáže na jednom místě, vedle vašeho ATS. Skeny v 6:00 a ve 12:00, u každé pozice důvod zavolat.";
 
 /**
  * The home page's head for the Czech address: lang, canonical, og:url and the
@@ -83,6 +89,82 @@ export function czechHome(html) {
     .replace('<link rel="canonical" href="https://talentradar.eu/">', '<link rel="canonical" href="https://talentradar.eu/cs">')
     .replace('<meta property="og:url" content="https://talentradar.eu/">', '<meta property="og:url" content="https://talentradar.eu/cs">\n  <meta property="og:locale" content="cs_CZ">')
     .replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*(")/g, `$1${CS_DESCRIPTION}$2`);
+}
+
+/**
+ * The hero preview's numbers from the sandbox feed, as of its last scan: new roles
+ * on the last day of daily_new, companies with a role first seen that day, and
+ * roles open 45+ days at the scan (posted date, or first seen when it is later).
+ * null when the feed lacks what they need.
+ */
+export function heroStats(feed) {
+  const days = Object.keys((feed && feed.daily_new) || {}).sort();
+  const scanAt = Date.parse((feed && feed.scan && feed.scan.at) || "");
+  if (!days.length || Number.isNaN(scanAt)) return null;
+  const day = days[days.length - 1];
+  const hiring = new Set();
+  let open45 = 0;
+  for (const r of feed.roles || []) {
+    const seen = Date.parse(r.seen || "");
+    if (Number.isNaN(seen)) continue;
+    if (String(r.seen).slice(0, 10) === day) hiring.add(r.co);
+    const posted = Date.parse(r.posted || "");
+    const since = !Number.isNaN(posted) && posted < seen ? posted : seen;
+    if (scanAt - since >= 45 * 86400000) open45 += 1;
+  }
+  return { day, scan_at: feed.scan.at, new_roles: feed.daily_new[day] || 0, companies_hiring: hiring.size, open_45: open45 };
+}
+
+// The last stats worked out in this isolate, with a mark of the feed they came from
+// (its length and opening bytes, where version and generated_at sit): later requests
+// skip parsing the ~540 kB feed until the app writes a new one.
+let heroMemo = null;
+
+/**
+ * /api/hero-stats. Parsing the whole sandbox feed costs CPU (the free Worker plan
+ * allows 10 ms), so the answer is cached twice: in the colo's Cache API for
+ * s-maxage, and in the isolate against the feed it was worked out from.
+ */
+async function heroStatsFeed(request, env, ctx) {
+  const cache = typeof caches !== "undefined" && caches.default ? caches.default : null;
+  if (cache) {
+    try {
+      const hit = await cache.match(request);
+      if (hit) return hit;
+    } catch (err) {
+      console.warn("Cache lookup for hero stats failed:", err);
+    }
+  }
+
+  let stats = null;
+  try {
+    const raw = env.TALENT_RADAR_KV ? await env.TALENT_RADAR_KV.get("sandbox_json") : null;
+    if (raw) {
+      const mark = `${raw.length}:${raw.slice(0, 160)}`;
+      if (heroMemo && heroMemo.mark === mark) {
+        stats = heroMemo.stats;
+      } else {
+        stats = heroStats(JSON.parse(raw));
+        heroMemo = { mark, stats };
+      }
+    }
+  } catch (err) {
+    console.error("Hero stats from the sandbox feed failed:", err);
+  }
+
+  const res = new Response(JSON.stringify(stats || { error: "Feed unavailable" }), {
+    status: stats ? 200 : 503,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": stats ? "public, max-age=60, s-maxage=300" : "no-store",
+    },
+  });
+  if (stats && cache) {
+    const put = cache.put(request, res.clone()).catch((err) => console.warn("Caching hero stats failed:", err));
+    if (ctx && typeof ctx.waitUntil === "function") ctx.waitUntil(put);
+    else await put;
+  }
+  return res;
 }
 
 /**
@@ -119,7 +201,7 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, timezone, headline_variant } = data;
+  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, timezone } = data;
   const clientIp = request.headers.get("cf-connecting-ip") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";
 
@@ -221,9 +303,6 @@ async function handleDemoSubmission(request, env) {
     // The browser's time zone ("Europe/Dublin"). The app schedules the scans
     // and picks the fee currency from it; without it a free mailbox lands in Prague.
     timezone: normaliseTimezone(timezone),
-    // Which home-page headline the visitor saw ("a" or "b", the A/B test of
-    // VIZE §12). Only stored for counting; the app ignores it.
-    headlineVariant: normaliseHeadlineVariant(headline_variant),
     ip: clientIp,
     userAgent: userAgent,
   };
@@ -331,12 +410,6 @@ async function wakeApp(env, lead) {
     console.error(`App wake-up for lead ${lead.id} failed:`, err);
     return false;
   }
-}
-
-/** "a" or "b", the headline the trial form came from; anything else is "". */
-function normaliseHeadlineVariant(variant) {
-  const value = String(variant || "").trim().toLowerCase();
-  return value === "a" || value === "b" ? value : "";
 }
 
 /**

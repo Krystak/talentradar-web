@@ -342,17 +342,6 @@ test("150 companies in four columns fit in the text box; a list over the limit i
   assert.equal([...e.TALENT_RADAR_KV.store.keys()].filter((k) => k.startsWith("lead:")).length, 0);
 });
 
-// ── The headline A/B test (W13): the variant rides along in the lead ────────
-
-test("the headline the visitor saw is kept in the lead, and only a or b", async () => {
-  for (const [given, kept] of [["b", "b"], ["A", "a"], ["c", ""], [undefined, ""], [{ x: 1 }, ""]]) {
-    const e = env();
-    const res = await submit(e, given === undefined ? {} : { headline_variant: given });
-    assert.equal(res.status, 200);
-    assert.equal(leadOf(e).lead.headlineVariant, kept, `sent ${JSON.stringify(given)}`);
-  }
-});
-
 // ── Feeds the app writes to KV ──────────────────────────────────────────────
 
 test("the sandbox feed is served from KV, and 503 until the app has written it", async () => {
@@ -368,6 +357,97 @@ test("the sandbox feed is served from KV, and 503 until the app has written it",
   assert.equal(res.status, 200);
   assert.match(res.headers.get("cache-control"), /max-age=60/);
   assert.deepEqual((await res.json()).roles, [{ id: 1 }]);
+});
+
+test("the hero's three numbers come from the sandbox feed as of its last scan, 503 without it", async () => {
+  const e = env();
+  const get = () => worker.fetch(new Request("https://talentradar.eu/api/hero-stats"), e, {});
+  assert.equal((await get()).status, 503);
+
+  await e.TALENT_RADAR_KV.put("sandbox_json", JSON.stringify({
+    scan: { at: "2026-10-20T10:00:00+00:00" },
+    daily_new: { "2026-10-18": 400, "2026-10-20": 3 },
+    roles: [
+      { co: 1, seen: "2026-10-20T10:00:00+00:00", posted: "" },            // new today
+      { co: 1, seen: "2026-10-20T10:00:00+00:00", posted: "2026-08-01" },  // new today, posted 80 days ago
+      { co: 2, seen: "2026-10-20T04:00:00+00:00", posted: "2026-10-19" },  // new today
+      { co: 3, seen: "2026-09-01T04:00:00+00:00", posted: "" },            // first seen 49 days ago
+      { co: 4, seen: "2026-10-18T04:00:00+00:00", posted: "2026-09-20" },  // 30 days, not yet 45
+    ],
+  }));
+  const res = await get();
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get("cache-control"), /max-age=60/);
+  assert.deepEqual(await res.json(), {
+    day: "2026-10-20", scan_at: "2026-10-20T10:00:00+00:00", new_roles: 3, companies_hiring: 2, open_45: 2,
+  });
+});
+
+// A feed with a given number of new roles on its last day, for the cache tests below
+const heroFeed = (n) => JSON.stringify({
+  version: 1, generated_at: `2026-10-20T10:0${n}:00+00:00`,
+  scan: { at: "2026-10-20T10:00:00+00:00" },
+  daily_new: { "2026-10-20": n },
+  roles: [{ co: 1, seen: "2026-10-20T10:00:00+00:00", posted: "" }],
+});
+
+// Counts JSON.parse calls on a sandbox feed while fn runs
+async function feedParses(fn) {
+  const real = JSON.parse;
+  let n = 0;
+  JSON.parse = (text, ...rest) => { if (typeof text === "string" && text.includes('"daily_new"')) n += 1; return real(text, ...rest); };
+  try { await fn(); } finally { JSON.parse = real; }
+  return n;
+}
+
+test("hero stats parse the feed once per feed version in an isolate", async () => {
+  const e = env();
+  const get = () => worker.fetch(new Request("https://talentradar.eu/api/hero-stats"), e, {});
+  await e.TALENT_RADAR_KV.put("sandbox_json", heroFeed(4));
+  const parses = await feedParses(async () => {
+    assert.equal((await (await get()).json()).new_roles, 4);
+    assert.equal((await (await get()).json()).new_roles, 4);
+  });
+  assert.equal(parses, 1, "the second request reuses the first parse");
+
+  await e.TALENT_RADAR_KV.put("sandbox_json", heroFeed(7));
+  const again = await feedParses(async () => {
+    assert.equal((await (await get()).json()).new_roles, 7, "a new feed is worked out again");
+  });
+  assert.equal(again, 1);
+});
+
+test("hero stats are kept in the Cache API, and a cached answer skips KV", async () => {
+  const store = new Map();
+  globalThis.caches = { default: {
+    async match(req) { const hit = store.get(req.url); return hit ? hit.clone() : undefined; },
+    async put(req, res) { store.set(req.url, res); },
+  } };
+  try {
+    const e = env();
+    await e.TALENT_RADAR_KV.put("sandbox_json", heroFeed(5));
+    let reads = 0;
+    const realGet = e.TALENT_RADAR_KV.get.bind(e.TALENT_RADAR_KV);
+    e.TALENT_RADAR_KV.get = async (k) => { reads += 1; return realGet(k); };
+    const waits = [];
+    const ctx = { waitUntil: (p) => waits.push(p) };
+    const get = () => worker.fetch(new Request("https://talentradar.eu/api/hero-stats"), e, ctx);
+
+    assert.equal((await (await get()).json()).new_roles, 5);
+    await Promise.all(waits);
+    assert.equal(store.size, 1, "the answer went into the cache");
+    assert.equal((await (await get()).json()).new_roles, 5);
+    assert.equal(reads, 1, "the second request came from the cache, not KV");
+
+    // A missing feed is never cached
+    store.clear();
+    await e.TALENT_RADAR_KV.put("sandbox_json", "");
+    assert.equal((await get()).status, 503);
+    await Promise.all(waits);
+    assert.equal(store.size, 0);
+  } finally {
+    delete globalThis.caches;
+  }
 });
 
 test("the live roles feed still reads its own key", async () => {

@@ -27,7 +27,7 @@ const TRANSLATIONS = {
 
     /* ── Hero ── */
     hero_headline_html: "<span class=\"tr-h1-a\">Your ATS runs the jobs you have.</span>TalentRadar shows you <span class=\"text-[#FF6B00]\">the ones you could have.</span>",
-    hero_subheadline: "Every open role at the companies you work with, in one place and next to your ATS. We check their career pages and ATS twice a day, at 6:00 and 12:00, so the new roles are ready every morning. Look whenever you like.",
+    hero_subheadline: "Every open role at the companies you work with, in one place and next to your ATS. We check their career pages and ATS twice a day, so you hear about a new role within hours of it going up.",
     hero_cta_btn: "Send your company list",
     hero_cta_sub: "Within 48 hours we show you where they hire and which of your candidates they’d want.",
     hero_demo_btn: "Interactive demo",
@@ -416,7 +416,7 @@ const TRANSLATIONS = {
 
     /* ── Hero ── */
     hero_headline_html: "<span class=\"tr-h1-a\">ATS řídí zakázky, které máte.</span>TalentRadar ukáže <span class=\"text-[#FF6B00]\">ty, které můžete mít.</span>",
-    hero_subheadline: "Všechny otevřené pozice u firem, se kterými pracujete, na jednom místě a vedle vašeho ATS. Kariérní weby a ATS firem projdeme dvakrát denně, v 6:00 a ve 12:00, takže nové pozice máte každé ráno připravené. Dívat se můžete kdykoli.",
+    hero_subheadline: "Všechny otevřené pozice u firem, se kterými pracujete, na jednom místě a vedle vašeho ATS. Kariérní weby a ATS firem projdeme dvakrát denně, takže o nové pozici se dozvíte v řádu hodin od jejího vypsání.",
     hero_cta_btn: "Pošlete seznam firem",
     hero_cta_sub: "Do 48 hodin ukážeme, kde nabírají a koho z vašich kandidátů by hledali.",
     hero_demo_btn: "Interaktivní demo",

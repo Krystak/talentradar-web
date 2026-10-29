@@ -355,7 +355,7 @@ test("a broken file never stops the confirmation", async () => {
   assert.match(toVisitor().textContent, /Seznam vašich firem máme/);
 });
 
-// ── The four-column list (W12): company, website, last contact, had placement ─
+// ── The company list: the templates and what the form takes ─────────────────
 
 const templateFile = async (name) => {
   const { readFileSync } = await import("node:fs");
@@ -366,11 +366,21 @@ const leadOf = (e) => {
   return { key, lead: JSON.parse(e.TALENT_RADAR_KV.store.get(key)) };
 };
 
-test("the four-column template, uploaded, is stored whole and its companies counted", async () => {
-  for (const [name, lang, count] of [["klienti-sablona.csv", "cs", /Máme vaše 3 firmy/], ["clients-template.csv", "en", /We have your 3 companies/]]) {
+// The help dialog's two versions: columns A and B, or all seven (the app's
+// import reads the headers, core/company_import.py CRM_COLUMNS).
+const TEMPLATES = [
+  ["klienti-sablona-zakladni.csv", "cs", ["Firma", "Kariérní stránka"]],
+  ["klienti-sablona.csv", "cs", ["Firma", "Kariérní stránka", "Klient / prospekt", "Poslední kontakt", "Proběhla zakázka", "Kontaktní osoba", "E-mail"]],
+  ["clients-template-basic.csv", "en", ["Company", "Careers page"]],
+  ["clients-template.csv", "en", ["Company", "Careers page", "Client / prospect", "Last contact", "Had placement", "Contact name", "E-mail"]],
+];
+
+test("every template, uploaded, is stored whole and its companies counted", async () => {
+  for (const [name, lang, header] of TEMPLATES) {
     sent = [];
+    const count = lang === "cs" ? /Máme vaše 3 firmy/ : /We have your 3 companies/;
     const bytes = await templateFile(name);
-    assert.match(bytes.toString("utf8"), /^﻿(Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka|Company,Careers page,Last contact,Had placement)\r?\n/);
+    assert.ok(bytes.toString("utf8").startsWith("﻿" + header.join(lang === "cs" ? ";" : ",") + "\r\n"), name);
     const e = env();
     const fileData = "data:text/csv;base64," + bytes.toString("base64");
     const res = await submit(e, { clients: "", lang, fileName: name, fileData });
@@ -378,9 +388,42 @@ test("the four-column template, uploaded, is stored whole and its companies coun
     const { key, lead } = leadOf(e);
     assert.equal(lead.hasFile, true);
     assert.equal(lead.fileName, name);
-    // The app reads the file back from here (core/leads.py fetch_lead_file), all four columns intact.
+    // The app reads the file back from here (core/leads.py fetch_lead_file), every column intact.
     assert.equal(e.TALENT_RADAR_KV.store.get(key.replace("lead:", "leadfile:")), fileData);
     assert.match(toVisitor().textContent, count);
+  }
+});
+
+test("the help dialog, its prompt and the templates name the same columns", async () => {
+  const { readFileSync } = await import("node:fs");
+  const vm = await import("node:vm");
+  const ctx = { module: { exports: {} } };
+  vm.createContext(ctx);
+  vm.runInContext(readFileSync(new URL("../js/translations.js", import.meta.url), "utf8"), ctx);
+  const tr = ctx.module.exports;
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const dialog = html.slice(html.indexOf('<dialog id="clientsHelp"'), html.indexOf("</dialog>"));
+  // The order the full table shows its column names in, A to G.
+  const fullRow = dialog.slice(dialog.indexOf('id="helpPanelFull"')).match(/<tbody>[\s\S]*?<\/tr>/)[0];
+  const keys = [...fullRow.matchAll(/data-i18n="(help_col_\w+)"/g)].map((m) => m[1]);
+  for (const [name, lang, header] of TEMPLATES) {
+    assert.match(dialog, new RegExp(`href="files/${name.replace(".", "\\.")}" download data-lang-block="${lang}"`), name);
+    assert.deepEqual(keys.slice(0, header.length).map((k) => tr[lang][k]), header, name);
+    // The prompt names every column, A to G in the template's order (a file without
+    // a header is read by position).
+    const at = header.map((column) => tr[lang].help_prompt.indexOf(`  ${column}: `));
+    assert.ok(at.every((i, n) => i > (n ? at[n - 1] : -1)), `${lang} prompt names ${name}'s columns in order`);
+    // ...and gives the AI the header row itself, so it does not write "Firma: název firmy".
+    if (header.length === 7) {
+      assert.ok(tr[lang].help_prompt.includes(`\n\n${header.join(lang === "cs" ? "; " : ", ")}\n\n`), `${lang} prompt has the header row`);
+    }
+  }
+  assert.equal(keys.length, 7);
+  for (const lang of ["cs", "en"]) {
+    const used = [...dialog.matchAll(/data-i18n="(help_\w+)"/g)].map((m) => m[1]);
+    for (const key of used) assert.ok(tr[lang][key], `${lang}.${key}`);
+    assert.match(tr[lang].help_prompt, lang === "cs" ? /Nic nevymýšlej/ : /Do not make anything up/);
+    assert.match(tr[lang].help_prompt, lang === "cs" ? /První řádek tabulky musí obsahovat názvy sloupců přesně/ : /The first row must hold the column names exactly/);
   }
 });
 

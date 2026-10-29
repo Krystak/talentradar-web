@@ -168,7 +168,7 @@
     @media (max-width: 767px) { .tr-compare-cell, .tr-compare-last { border-radius: 12px; } }
     /* Help dialog for the client list (trial form) */
     .tr-dialog {
-      width: min(560px, calc(100vw - 32px));
+      width: min(640px, calc(100vw - 32px));
       max-height: calc(100vh - 48px);
       overflow: auto;
       margin: auto;
@@ -181,6 +181,32 @@
     }
     @media (min-width: 640px) { .tr-dialog { padding: 28px; } }
     .tr-dialog::backdrop { background: rgba(5, 8, 14, 0.72); backdrop-filter: blur(4px); }
+    .tr-help-tab {
+      padding: 10px 12px; border-radius: 10px; border: 1px solid transparent;
+      text-align: left; color: #CBD5E1; transition: background-color .15s, border-color .15s, color .15s;
+    }
+    .tr-help-tab:hover { color: #FFFFFF; background: rgba(255, 255, 255, 0.04); }
+    .tr-help-tab[aria-selected="true"] { color: #FFFFFF; background: #1A2338; border-color: rgba(255, 107, 0, 0.55); }
+    .tr-col-letter {
+      flex-shrink: 0; min-width: 28px; height: 28px; padding: 0 6px; border-radius: 8px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font: 700 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #FF8533;
+      background: rgba(255, 107, 0, 0.10); border: 1px solid rgba(255, 107, 0, 0.30);
+    }
+    .tr-col-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 999px; color: #CBD5E1; border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .tr-col-badge--req { color: #0B0E14; background: #FF8533; border-color: #FF8533; }
+    .tr-col-badge--extra { color: #94A3B8; border-style: dashed; }
+    .tr-help-dl {
+      display: block; padding: 12px 20px; border-radius: 12px; text-align: center;
+      font-size: 14px; font-weight: 700; color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: background-color .15s;
+    }
+    .tr-help-dl:hover { background: rgba(255, 255, 255, 0.10); }
+    .tr-help-dl.hidden { display: none; }
     /* The sandbox on a phone: the first screen, faded, until the visitor asks for the rest */
     @media (max-width: 639px) {
       .tr-sb-wrap:not(.is-open) { max-height: 760px; overflow: hidden; position: relative; }
@@ -1548,36 +1574,97 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
-          <p class="text-sm text-[#CBD5E1] leading-relaxed" data-i18n="help_intro">An Excel or CSV table, the same one the import in the app reads. The company name and a link to its careers page are enough; the last contact and past placements are optional columns.</p>
+          <p class="text-sm text-[#CBD5E1] leading-relaxed" data-i18n="help_intro">Two columns are the essentials: the company and its careers page. Every extra column does part of the setting up for you, so there is less to click through in the app.</p>
 
-          <div class="rounded-xl border border-white/[0.08] overflow-x-auto bg-[#131B2C]">
-            <table class="w-full text-left text-[11px] sm:text-[13px]">
-              <thead class="bg-white/[0.04] text-[11px] font-mono uppercase tracking-wider text-[#94A3B8]">
-                <tr><th class="px-1.5 sm:px-2.5 py-2 w-6 sm:w-8"></th><th class="px-1.5 sm:px-2.5 py-2">A</th><th class="px-1.5 sm:px-2.5 py-2">B</th><th class="px-1.5 sm:px-2.5 py-2">C</th><th class="px-1.5 sm:px-2.5 py-2">D</th></tr>
-              </thead>
-              <tbody>
-                <tr class="border-t border-white/[0.07]"><td class="px-1.5 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">1</td><td class="px-1.5 sm:px-2.5 py-2 font-bold text-[#FF8533]"><span data-i18n="help_col_a">Company</span></td><td class="px-1.5 sm:px-2.5 py-2 font-bold text-[#FF8533]"><span data-i18n="help_col_b">Careers page</span></td><td class="px-1.5 sm:px-2.5 py-2 font-bold text-[#FF8533]"><span data-i18n="help_col_c">Last contact</span></td><td class="px-1.5 sm:px-2.5 py-2 font-bold text-[#FF8533]"><span data-i18n="help_col_d">Had placement</span></td></tr>
-                <tr class="border-t border-white/[0.07]"><td class="px-1.5 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">2</td><td class="px-1.5 sm:px-2.5 py-2 text-white">Air Bank</td><td class="px-1.5 sm:px-2.5 py-2 text-white break-all">airbank.cz/volne-pozice</td><td class="px-1.5 sm:px-2.5 py-2 text-white"><span data-i18n="help_ex_date1">15/03/2024</span></td><td class="px-1.5 sm:px-2.5 py-2 text-white"><span data-i18n="help_ex_yes">yes</span></td></tr>
-                <tr class="border-t border-white/[0.07]"><td class="px-1.5 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">3</td><td class="px-1.5 sm:px-2.5 py-2 text-white">Rohlik Group</td><td class="px-1.5 sm:px-2.5 py-2 text-[#94A3B8] italic"><span data-i18n="help_ex_empty">(empty, we find it)</span></td><td class="px-1.5 sm:px-2.5 py-2 text-[#94A3B8]"></td><td class="px-1.5 sm:px-2.5 py-2 text-[#94A3B8]"></td></tr>
-                <tr class="border-t border-white/[0.07]"><td class="px-1.5 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">4</td><td class="px-1.5 sm:px-2.5 py-2 text-white">Seznam.cz</td><td class="px-1.5 sm:px-2.5 py-2 text-white break-all">kariera.seznam.cz</td><td class="px-1.5 sm:px-2.5 py-2 text-white"><span data-i18n="help_ex_date2">02/11/2023</span></td><td class="px-1.5 sm:px-2.5 py-2 text-white"><span data-i18n="help_ex_no">no</span></td></tr>
-              </tbody>
-            </table>
+          <!-- Two versions of the list: the minimum, and the one that saves the setting up -->
+          <div role="tablist" aria-label="List versions" class="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-white/[0.04] border border-white/[0.08]">
+            <button type="button" role="tab" id="helpTabMin" aria-selected="true" aria-controls="helpPanelMin" data-help-tab="helpPanelMin" class="tr-help-tab flex flex-col justify-start">
+              <span class="block text-[13px] sm:text-sm font-bold" data-i18n="help_tab_min">This is enough</span>
+              <span class="block text-[11px] sm:text-xs text-[#94A3B8] mt-0.5" data-i18n="help_tab_min_sub">Columns A and B</span>
+            </button>
+            <button type="button" role="tab" id="helpTabFull" aria-selected="false" aria-controls="helpPanelFull" data-help-tab="helpPanelFull" tabindex="-1" class="tr-help-tab flex flex-col justify-start">
+              <span class="block text-[13px] sm:text-sm font-bold" data-i18n="help_tab_full">Less setting up</span>
+              <span class="block text-[11px] sm:text-xs text-[#94A3B8] mt-0.5" data-i18n="help_tab_full_sub">A, B and more</span>
+            </button>
           </div>
 
+          <!-- Version 1: company and careers page -->
+          <div role="tabpanel" id="helpPanelMin" aria-labelledby="helpTabMin" class="space-y-4">
+            <div class="rounded-xl border border-white/[0.08] overflow-x-auto bg-[#131B2C]">
+              <table class="w-full text-left text-[12px] sm:text-[13px]">
+                <thead class="bg-white/[0.04] text-[11px] font-mono uppercase tracking-wider text-[#94A3B8]">
+                  <tr><th class="px-2 sm:px-2.5 py-2 w-6 sm:w-8"></th><th class="px-2 sm:px-2.5 py-2">A</th><th class="px-2 sm:px-2.5 py-2">B</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="border-t border-white/[0.07]"><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">1</td><td class="px-2 sm:px-2.5 py-2 font-bold text-[#FF8533]"><span data-i18n="help_col_a">Company</span></td><td class="px-2 sm:px-2.5 py-2 font-bold text-[#FF8533]"><span data-i18n="help_col_b">Careers page</span></td></tr>
+                  <tr class="border-t border-white/[0.07]"><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">2</td><td class="px-2 sm:px-2.5 py-2 text-white">Air Bank</td><td class="px-2 sm:px-2.5 py-2 text-white break-all">airbank.cz/volne-pozice</td></tr>
+                  <tr class="border-t border-white/[0.07]"><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">3</td><td class="px-2 sm:px-2.5 py-2 text-white">Rohlik Group</td><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] italic"><span data-i18n="help_ex_empty">(empty, we find it)</span></td></tr>
+                  <tr class="border-t border-white/[0.07]"><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">4</td><td class="px-2 sm:px-2.5 py-2 text-white">Seznam.cz</td><td class="px-2 sm:px-2.5 py-2 text-white break-all">kariera.seznam.cz</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="space-y-3">
+              <li class="flex gap-3"><span class="tr-col-letter">A</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="text-[13px] font-bold text-white" data-i18n="help_col_a">Company</span><span class="tr-col-badge tr-col-badge--req" data-i18n="help_badge_req">essential</span></div><p class="text-[13px] text-[#CBD5E1] leading-relaxed mt-0.5" data-i18n="help_why_a">The company name.</p></div></li>
+              <li class="flex gap-3"><span class="tr-col-letter">B</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="text-[13px] font-bold text-white" data-i18n="help_col_b">Careers page</span><span class="tr-col-badge tr-col-badge--req" data-i18n="help_badge_req">essential</span></div><p class="text-[13px] text-[#CBD5E1] leading-relaxed mt-0.5" data-i18n="help_why_b">A link straight to the page with the company’s open roles, not its home page. If you do not know it for a company, we find it.</p></div></li>
+            </ul>
+            <p class="text-[13px] text-[#94A3B8] leading-relaxed" data-i18n="help_min_note">We take every company on such a list as your client. Prospects and companies you have not dealt with for a long time you then mark in the app by hand.</p>
+            <a href="files/clients-template-basic.csv" download data-lang-block="en" class="tr-help-dl">Download the template, columns A and B (CSV)</a>
+            <a href="files/klienti-sablona-zakladni.csv" download data-lang-block="cs" class="hidden tr-help-dl">Stáhnout šablonu, sloupce A a B (CSV)</a>
+          </div>
+
+          <!-- Version 2: everything the app can use -->
+          <div role="tabpanel" id="helpPanelFull" aria-labelledby="helpTabFull" class="space-y-4" hidden>
+            <div class="rounded-xl border border-white/[0.08] overflow-x-auto bg-[#131B2C]">
+              <table class="w-full text-left text-[12px] sm:text-[13px] whitespace-nowrap">
+                <thead class="bg-white/[0.04] text-[11px] font-mono uppercase tracking-wider text-[#94A3B8]">
+                  <tr><th class="px-2 sm:px-2.5 py-2 w-6 sm:w-8"></th><th class="px-2 sm:px-2.5 py-2">A</th><th class="px-2 sm:px-2.5 py-2">B</th><th class="px-2 sm:px-2.5 py-2">C</th><th class="px-2 sm:px-2.5 py-2">D</th><th class="px-2 sm:px-2.5 py-2">E</th><th class="px-2 sm:px-2.5 py-2">F</th><th class="px-2 sm:px-2.5 py-2">G</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="border-t border-white/[0.07] font-bold text-[#FF8533]"><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] font-mono font-normal text-[11px]">1</td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_col_a">Company</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_col_b">Careers page</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_col_type">Client / prospect</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_col_c">Last contact</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_col_d">Had placement</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_col_person">Contact name</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_col_email">E-mail</span></td></tr>
+                  <tr class="border-t border-white/[0.07] text-white"><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">2</td><td class="px-2 sm:px-2.5 py-2">Air Bank</td><td class="px-2 sm:px-2.5 py-2">airbank.cz/volne-pozice</td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_ex_client">client</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_ex_date1">15/03/2024</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_ex_yes">yes</span></td><td class="px-2 sm:px-2.5 py-2"></td><td class="px-2 sm:px-2.5 py-2"></td></tr>
+                  <tr class="border-t border-white/[0.07] text-white"><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">3</td><td class="px-2 sm:px-2.5 py-2">Rohlik Group</td><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] italic"><span data-i18n="help_ex_empty">(empty, we find it)</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_ex_prospect">prospect</span></td><td class="px-2 sm:px-2.5 py-2"></td><td class="px-2 sm:px-2.5 py-2"></td><td class="px-2 sm:px-2.5 py-2"></td><td class="px-2 sm:px-2.5 py-2"></td></tr>
+                  <tr class="border-t border-white/[0.07] text-white"><td class="px-2 sm:px-2.5 py-2 text-[#94A3B8] font-mono text-[11px]">4</td><td class="px-2 sm:px-2.5 py-2">Seznam.cz</td><td class="px-2 sm:px-2.5 py-2">kariera.seznam.cz</td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_ex_client">client</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_ex_date2">02/11/2023</span></td><td class="px-2 sm:px-2.5 py-2"><span data-i18n="help_ex_no">no</span></td><td class="px-2 sm:px-2.5 py-2"></td><td class="px-2 sm:px-2.5 py-2"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="-mt-2 text-[11px] text-[#94A3B8] text-right" data-i18n="help_scroll_hint">The table goes on to the right, up to column G →</p>
+            <ul class="space-y-3">
+              <li class="flex gap-3"><span class="tr-col-letter">A</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="text-[13px] font-bold text-white" data-i18n="help_col_a">Company</span><span class="tr-col-badge tr-col-badge--req" data-i18n="help_badge_req">essential</span></div><p class="text-[13px] text-[#CBD5E1] leading-relaxed mt-0.5" data-i18n="help_why_a">The company name.</p></div></li>
+              <li class="flex gap-3"><span class="tr-col-letter">B</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="text-[13px] font-bold text-white" data-i18n="help_col_b">Careers page</span><span class="tr-col-badge tr-col-badge--req" data-i18n="help_badge_req">essential</span></div><p class="text-[13px] text-[#CBD5E1] leading-relaxed mt-0.5" data-i18n="help_why_b">A link straight to the page with the company’s open roles, not its home page. If you do not know it for a company, we find it.</p></div></li>
+              <li class="flex gap-3"><span class="tr-col-letter">C</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="text-[13px] font-bold text-white" data-i18n="help_col_type">Client / prospect</span><span class="tr-col-badge tr-col-badge--extra" data-i18n="help_badge_extra">extra</span></div><p class="text-[13px] text-[#CBD5E1] leading-relaxed mt-0.5" data-i18n="help_why_c">“client” for a company you work with, “prospect” for one you want to win. The app sorts them for you, so you do not mark each one by hand.</p></div></li>
+              <li class="flex gap-3"><span class="tr-col-letter">D</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="text-[13px] font-bold text-white" data-i18n="help_col_c">Last contact</span><span class="tr-col-badge tr-col-badge--extra" data-i18n="help_badge_extra">extra</span></div><p class="text-[13px] text-[#CBD5E1] leading-relaxed mt-0.5" data-i18n="help_why_d">When you last dealt with the company, e.g. 15/03/2024. Companies you have not spoken to for a long time are marked by the app itself, so you know who to get back to.</p></div></li>
+              <li class="flex gap-3"><span class="tr-col-letter">E</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="text-[13px] font-bold text-white" data-i18n="help_col_d">Had placement</span><span class="tr-col-badge tr-col-badge--extra" data-i18n="help_badge_extra">extra</span></div><p class="text-[13px] text-[#CBD5E1] leading-relaxed mt-0.5" data-i18n="help_why_e">yes or no. A company where you have placed someone knows you; the app keeps it as a former client even without a date.</p></div></li>
+              <li class="flex gap-3"><span class="tr-col-letter">F G</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><span class="text-[13px] font-bold text-white"><span data-i18n="help_col_person">Contact name</span>, <span data-i18n="help_col_email">E-mail</span></span><span class="tr-col-badge tr-col-badge--extra" data-i18n="help_badge_extra">extra</span></div><p class="text-[13px] text-[#CBD5E1] leading-relaxed mt-0.5" data-i18n="help_why_fg">Your person at the company. When the company starts hiring, you know straight away who to call.</p></div></li>
+            </ul>
+            <p class="text-[13px] text-[#94A3B8] leading-relaxed"><span data-i18n="help_full_note">Missing something? That is fine: fill in what you know and leave the rest empty. Filling it in by hand takes time, though.</span> <button type="button" data-help-goto="helpAi" class="font-semibold text-[#FF8533] hover:text-white underline underline-offset-2" data-i18n="help_full_goto">Let your AI prepare it</button></p>
+            <a href="files/clients-template.csv" download data-lang-block="en" class="tr-help-dl">Download the template with all columns (CSV)</a>
+            <a href="files/klienti-sablona.csv" download data-lang-block="cs" class="hidden tr-help-dl">Stáhnout šablonu se všemi sloupci (CSV)</a>
+          </div>
+
+          <!-- A ready prompt for the agency's own AI, for lists scattered across documents -->
+          <section id="helpAi" class="rounded-2xl border border-white/[0.08] bg-[#131B2C] p-4 sm:p-5 space-y-3" aria-labelledby="helpAiTitle">
+            <h4 id="helpAiTitle" class="text-base font-extrabold text-white" data-i18n="help_ai_title">Companies spread across documents or a CRM? Let your AI build the table</h4>
+            <ol class="space-y-1.5 text-[13px] text-[#E2E8F0]">
+              <li class="flex gap-2"><span class="font-mono font-bold text-[#FF8533]">1</span><span data-i18n="help_ai_step1">Copy the prompt below.</span></li>
+              <li class="flex gap-2"><span class="font-mono font-bold text-[#FF8533]">2</span><span data-i18n="help_ai_step2">Paste it into the AI you use (ChatGPT, Copilot, Gemini, Claude) and attach your client lists or CRM export, if they are not there already.</span></li>
+              <li class="flex gap-2"><span class="font-mono font-bold text-[#FF8533]">3</span><span data-i18n="help_ai_step3">Upload the file it gives you here, in the form.</span></li>
+            </ol>
+            <pre id="helpPrompt" class="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-xl bg-[#0B0E14] border border-white/[0.08] p-3 sm:p-4 font-sans text-[12px] sm:text-[13px] leading-relaxed text-[#E2E8F0]" data-i18n="help_prompt" tabindex="0"></pre>
+            <div class="flex flex-wrap items-center gap-3">
+              <button type="button" id="helpCopyBtn" class="px-4 py-2.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] font-bold text-sm transition"><span id="helpCopyLabel" data-i18n="help_copy">Copy the prompt</span></button>
+              <span id="helpCopyStatus" class="text-[12px] text-[#94A3B8]" role="status" aria-live="polite"></span>
+            </div>
+          </section>
+
           <ul class="space-y-2 text-[13px] text-[#E2E8F0]">
-            <li class="flex gap-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="help_rule_a">Column A, Company: the company name (required)</span></li>
-            <li class="flex gap-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="help_rule_b">Column B, Careers page: a link to the page where the company lists its open roles (optional, we find the missing ones)</span></li>
-            <li class="flex gap-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="help_rule_c">Column C, Last contact: when you last dealt with the company, e.g. 15/03/2024 (optional)</span></li>
-            <li class="flex gap-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="help_rule_d">Column D, Had placement: yes or no (optional)</span></li>
             <li class="flex gap-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="help_rule_e">A whole CRM export is fine, we skip the other columns. Up to 150 companies, Excel (.xlsx, .xls) or .csv</span></li>
+            <li class="flex gap-2"><span class="text-[#FF6B00] font-bold">✓</span><span data-i18n="help_rule_names">What counts is the column name in the first row, not the order. Without the first row, the order A to E applies.</span></li>
           </ul>
 
-          <p class="text-[13px] text-[#94A3B8] leading-relaxed" data-i18n="help_text_alt">No file? Type into the field one company per line, for example “Air Bank, airbank.cz/volne-pozice” or just “Rohlik Group”.</p>
+          <p class="text-[13px] text-[#94A3B8] leading-relaxed" data-i18n="help_text_alt">No file? Type into the field one company per line, for example “Air Bank, airbank.cz/volne-pozice” or just “Rohlik Group”. Columns C to E fit on the line too, in the same order: “Air Bank; airbank.cz/volne-pozice; client; 15/03/2024; yes”.</p>
 
-          <div class="flex flex-col sm:flex-row gap-3 pt-1">
-            <a href="files/clients-template.csv" download data-lang-block="en" class="px-5 py-3 rounded-xl bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] font-bold text-sm text-center transition">Download the template (CSV)</a>
-            <a href="files/klienti-sablona.csv" download data-lang-block="cs" class="hidden px-5 py-3 rounded-xl bg-[#FF6B00] hover:bg-[#FF8533] text-[#0B0E14] font-bold text-sm text-center transition">Stáhnout šablonu (CSV)</a>
-            <button type="button" data-close-help class="px-5 py-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.10] border border-white/15 text-white font-bold text-sm transition" data-i18n="help_close">Close</button>
+          <div class="flex pt-1">
+            <button type="button" data-close-help class="w-full sm:w-auto px-5 py-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.10] border border-white/15 text-white font-bold text-sm transition" data-i18n="help_close">Close</button>
           </div>
         </div>
       </dialog>
@@ -1787,6 +1874,47 @@
       btn.addEventListener('click', () => dlg.showModal());
       dlg.querySelectorAll('[data-close-help]').forEach(b => b.addEventListener('click', () => dlg.close()));
       dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+      // Two versions of the list, as tabs
+      const tabs = [...dlg.querySelectorAll('[data-help-tab]')];
+      const select = tab => tabs.forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('data-help-tab')).hidden = !on;
+      });
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => select(t));
+        t.addEventListener('keydown', e => {
+          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+          const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+          select(next);
+          next.focus();
+        });
+      });
+      dlg.querySelectorAll('[data-help-goto]').forEach(b => b.addEventListener('click', () =>
+        document.getElementById(b.getAttribute('data-help-goto')).scrollIntoView({ behavior: 'smooth', block: 'start' })));
+
+      // The prompt for the agency's own AI: copy it, or select it when the browser will not
+      const prompt = document.getElementById('helpPrompt');
+      const copyBtn = document.getElementById('helpCopyBtn');
+      const status = document.getElementById('helpCopyStatus');
+      const say = key => { status.textContent = window.TRLang ? window.TRLang.get(key) : ''; };
+      const selectPrompt = () => {
+        const range = document.createRange();
+        range.selectNodeContents(prompt);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      };
+      let clear;
+      copyBtn.addEventListener('click', () => {
+        clearTimeout(clear);
+        const done = () => { say('help_copied'); clear = setTimeout(() => { status.textContent = ''; }, 4000); };
+        const failed = () => { selectPrompt(); say('help_copy_failed'); };
+        if (!navigator.clipboard || !navigator.clipboard.writeText) return failed();
+        navigator.clipboard.writeText(prompt.textContent).then(done, failed);
+      });
     })();
 
     /* ── 1c. Sandbox on a phone: show the rest on request ── */

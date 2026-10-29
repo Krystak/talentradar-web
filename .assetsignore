@@ -7,3 +7,5 @@ email.js
 package.json
 tests
 .wrangler
+_shots
+_promo-*.html

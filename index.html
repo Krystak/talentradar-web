@@ -1797,7 +1797,10 @@
       more.addEventListener('click', () => { wrap.classList.add('is-open'); more.parentElement.remove(); });
     })();
 
-    /* ── 2. Bot Timestamp ── */
+    /* ── 2. Bot Timestamp ──
+       The Worker judges speed by elapsedMs (performance.now() at sending, so a
+       wrong clock cannot make a person look like a bot); the clock time stays
+       for pages still open from before. */
     const formTimestampInput = document.getElementById('formTimestamp');
     if (formTimestampInput) formTimestampInput.value = Date.now().toString();
 
@@ -1876,7 +1879,8 @@
           website,
           lang: (window.TRLang && window.TRLang.current()) || document.documentElement.lang || 'en',
           timezone: (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } })(),
-          timestamp: formTimestampInput.value
+          timestamp: formTimestampInput.value,
+          elapsedMs: Math.round(performance.now())
         };
 
         submitBtn.disabled = true;

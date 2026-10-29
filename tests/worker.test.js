@@ -5,7 +5,7 @@
 import { test, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
 
-import worker from "../worker.js";
+import worker, { fillTime, MIN_FILL_MS } from "../worker.js";
 import { checkAddress, confirmationEmail, countCompanies, escapeHtml, DISPOSABLE_DOMAINS } from "../email.js";
 
 let sent;      // [{ url, body }] for every outbound fetch except DNS
@@ -57,7 +57,7 @@ function submit(e, fields = {}, headers = {}) {
   const body = {
     name: "Petra Svobodová", email: "petra@agentura.cz", company: "Agentura Svoboda",
     clients: "Tines, https://tines.com/careers", website: "", lang: "cs",
-    timestamp: String(Date.now() - 10_000), ...fields,
+    timestamp: String(Date.now() - 10_000), elapsedMs: 10_000, ...fields,
   };
   const req = new Request("https://talentradar.eu/api/demo", {
     method: "POST",
@@ -183,16 +183,83 @@ test("a DNS outage does not cost a real agency its trial", async () => {
 
 // ── Existing guards still hold ──────────────────────────────────────────────
 
+const storedLeads = (e) => [...e.TALENT_RADAR_KV.store.keys()].filter((k) => k.startsWith("lead:"));
+
 test("the honeypot answers success and sends nothing", async () => {
-  const res = await submit(env(), { website: "http://spam.example" });
+  const e = env();
+  const res = await submit(e, { website: "http://spam.example" });
   assert.equal(res.status, 200);
   assert.equal(sent.length, 0);
+  assert.deepEqual(storedLeads(e), []);
 });
 
-test("a form sent within three seconds of loading is treated as a bot", async () => {
-  const res = await submit(env(), { timestamp: String(Date.now()) });
-  assert.equal(res.status, 200);
+// ── How fast the form was sent ──────────────────────────────────────────────
+// A fake success here once cost a person their sign-up, so the time check
+// refuses out loud: the visitor is told to send again, and nothing is kept.
+
+test("a form sent faster than a person can is refused out loud, nothing stored or sent", async () => {
+  const e = env();
+  const res = await submit(e, { elapsedMs: 500 });
+  assert.equal(res.status, 400);
+  const body = await res.json();
+  assert.equal(body.success, undefined);
+  assert.equal(body.reason, "too_fast");
+  assert.match(body.error, /příliš rychle.*pošlete ho znovu/);
   assert.equal(sent.length, 0);
+  assert.deepEqual(storedLeads(e), []);
+});
+
+test("the too-fast refusal speaks English to an English visitor", async () => {
+  const res = await submit(env(), { elapsedMs: 500, lang: "en" });
+  assert.equal(res.status, 400);
+  assert.match((await res.json()).error, /too quickly.*send it again/);
+});
+
+test("two and a half seconds is a person with autofill, not a bot", async () => {
+  const e = env();
+  const res = await submit(e, { elapsedMs: 2500 });
+  assert.equal(res.status, 200);
+  assert.equal(storedLeads(e).length, 1);
+});
+
+test("a visitor whose clock runs five minutes ahead is stored", async () => {
+  const ahead = String(Date.now() + 300_000);
+  for (const fields of [{ timestamp: ahead, elapsedMs: 8000 }, { timestamp: ahead, elapsedMs: undefined }]) {
+    sent = [];
+    const e = env();
+    const res = await submit(e, fields);
+    assert.equal(res.status, 200, JSON.stringify(fields));
+    assert.equal(storedLeads(e).length, 1);
+    assert.ok(toVisitor(), "the confirmation goes out");
+  }
+});
+
+test("a page from before elapsedMs is still judged by its clock time", async () => {
+  const fast = env();
+  assert.equal((await submit(fast, { elapsedMs: undefined, timestamp: String(Date.now() - 500) })).status, 400);
+  assert.deepEqual(storedLeads(fast), []);
+  const slow = env();
+  assert.equal((await submit(slow, { elapsedMs: undefined, timestamp: String(Date.now() - 10_000) })).status, 200);
+  assert.equal(storedLeads(slow).length, 1);
+});
+
+test("a form with no timing at all is refused, nothing stored", async () => {
+  const e = env();
+  const res = await submit(e, { elapsedMs: undefined, timestamp: undefined });
+  assert.equal(res.status, 400);
+  assert.equal((await res.json()).reason, "too_fast");
+  assert.equal(sent.length, 0);
+  assert.deepEqual(storedLeads(e), []);
+});
+
+test("fill time: the page's own measure wins, junk falls back to the clock", () => {
+  const now = 1_000_000;
+  assert.deepEqual(fillTime(4321.6, String(now), now), { ms: 4322, source: "page" });
+  assert.deepEqual(fillTime("abc", String(now - 5000), now), { ms: 5000, source: "clock" });
+  assert.deepEqual(fillTime(-5, String(now - 5000), now), { ms: 5000, source: "clock" });
+  assert.deepEqual(fillTime(undefined, String(now + 60_000), now), { ms: Infinity, source: "clock ahead" });
+  assert.deepEqual(fillTime(undefined, undefined, now), { ms: null, source: "none" });
+  assert.equal(MIN_FILL_MS, 2000);
 });
 
 test("the sixth sign-up from one IP within the hour is refused", async () => {

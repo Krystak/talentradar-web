@@ -77,6 +77,14 @@ export default {
 /** The pasted company list, in characters: 150 four-column lines with room to spare. */
 export const CLIENTS_TEXT_MAX = 30000;
 
+/** Faster than this from opening the page to sending the form, no person typed it. */
+export const MIN_FILL_MS = 2000;
+
+const TOO_FAST_ERROR = {
+  cs: "Formulář odešel příliš rychle po načtení stránky. Zkontrolujte prosím údaje a pošlete ho znovu.",
+  en: "The form was sent too quickly after the page loaded. Please check your details and send it again.",
+};
+
 const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby všech firem vaší agentury a jejich otevřené pozice ukáže na jednom místě, vedle vašeho ATS. Skeny v 6:00 a ve 12:00, u každé pozice důvod zavolat.";
 
 /**
@@ -201,7 +209,7 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, timezone } = data;
+  const { name, email, company, clients, fileName, fileData, website, lang, timestamp, elapsedMs, timezone } = data;
   const clientIp = request.headers.get("cf-connecting-ip") || "unknown";
   const userAgent = request.headers.get("user-agent") || "unknown";
 
@@ -213,12 +221,15 @@ async function handleDemoSubmission(request, env) {
     });
   }
 
-  // Anti-spam 2: Timestamp check (at least 3 seconds from page load)
-  const now = Date.now();
-  const pageLoadTime = parseInt(timestamp, 10);
-  if (!pageLoadTime || (now - pageLoadTime) < 3000) {
-    return new Response(JSON.stringify({ success: true, message: "Díky, zkušební verzi aktivujeme do 24 hodin." }), {
-      status: 200,
+  // Anti-spam 2: time from opening the page to sending the form. Unlike the
+  // honeypot this is no silent trap: a person caught by it is told to send
+  // again, because a fake success here would lose their sign-up.
+  const fill = fillTime(elapsedMs, timestamp, Date.now());
+  if (fill.ms === null || fill.ms < MIN_FILL_MS) {
+    console.warn(`Trial form refused as too fast: ${fill.ms === null ? "no timing" : `${fill.ms} ms`} (${fill.source})`);
+    const formLang = normaliseLang(lang, request.headers.get("accept-language"));
+    return new Response(JSON.stringify({ error: TOO_FAST_ERROR[formLang], reason: "too_fast" }), {
+      status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
   }
@@ -419,6 +430,25 @@ async function wakeApp(env, lead) {
 function normaliseTimezone(zone) {
   const value = String(zone || "").trim().slice(0, 64);
   return /^[A-Za-z]+(?:\/[A-Za-z0-9_+\-]+){1,2}$/.test(value) ? value : "";
+}
+
+/**
+ * How long the form was open before it was sent, in ms, and how we know.
+ * The page measures it itself (performance.now(), immune to a wrong clock).
+ * A page loaded before that sends only its clock time at load; a visitor whose
+ * clock runs ahead of ours makes that negative, which says nothing about speed,
+ * so it lets them through rather than taking them for a bot.
+ */
+export function fillTime(elapsedMs, timestamp, now) {
+  const elapsed = Number(elapsedMs);
+  if (elapsedMs != null && elapsedMs !== "" && Number.isFinite(elapsed) && elapsed >= 0) {
+    return { ms: Math.round(elapsed), source: "page" };
+  }
+  const loadedAt = parseInt(timestamp, 10);
+  if (!loadedAt) return { ms: null, source: "none" };
+  const diff = now - loadedAt;
+  if (diff < 0) return { ms: Infinity, source: "clock ahead" };
+  return { ms: diff, source: "clock" };
 }
 
 function normaliseLang(chosen, acceptLanguage) {

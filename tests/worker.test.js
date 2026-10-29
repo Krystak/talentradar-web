@@ -303,7 +303,7 @@ test("the four-column template, uploaded, is stored whole and its companies coun
   for (const [name, lang, count] of [["klienti-sablona.csv", "cs", /Máme vaše 3 firmy/], ["clients-template.csv", "en", /We have your 3 companies/]]) {
     sent = [];
     const bytes = await templateFile(name);
-    assert.match(bytes.toString("utf8"), /^﻿(Firma;Web;Poslední kontakt;Proběhla zakázka|Company,Website,Last contact,Had placement)\r?\n/);
+    assert.match(bytes.toString("utf8"), /^﻿(Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka|Company,Careers page,Last contact,Had placement)\r?\n/);
     const e = env();
     const fileData = "data:text/csv;base64," + bytes.toString("base64");
     const res = await submit(e, { clients: "", lang, fileName: name, fileData });

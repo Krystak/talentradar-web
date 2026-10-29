@@ -6,3 +6,4 @@ functions
 email.js
 package.json
 tests
+.wrangler

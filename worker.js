@@ -7,72 +7,101 @@ import { ADDRESS_ERRORS, REPLY_TO, SENDER_NAME, checkAddress, confirmationEmail,
 
 export default {
   async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-
-    // 1. API Route: /api/demo
-    if (url.pathname === "/api/demo") {
-      if (request.method !== "POST") {
-        return new Response(JSON.stringify({ error: "Method not allowed" }), {
-          status: 405,
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-        });
-      }
-
-      return handleDemoSubmission(request, env);
-    }
-
-    // 2. Live Radar feed. The app writes it to KV after every scan of the
-    //    showcase workspace; there is no static copy, so the web can only show
-    //    what the last scan found, or nothing.
-    if (url.pathname === "/api/live-roles") {
-      return kvFeed(env, "live_roles_json");
-    }
-
-    // 2b. The sandbox (#live-radar, js/sandbox.js): the demo's real roles and
-    //     its made-up agency, written to KV by the app after every demo scan
-    //     (talent-radar scripts/web_sandbox_feed.py).
-    if (url.pathname === "/api/sandbox") {
-      return kvFeed(env, "sandbox_json");
-    }
-
-    // 2c. The home page preview's three numbers (index.html, hero), worked out
-    //     here from the sandbox feed so a visitor downloads a few bytes, not the feed.
-    if (url.pathname === "/api/hero-stats") {
-      return heroStatsFeed(request, env, ctx);
-    }
-
-    // 3. Rewrite /gdpr to /gdpr.html if requested
-    if (url.pathname === "/gdpr") {
-      url.pathname = "/gdpr.html";
-      return env.ASSETS.fetch(new Request(url.toString(), request));
-    }
-
-    // 3b. Rewrite /blog to /blog/index.html if requested
-    if (url.pathname === "/blog" || url.pathname === "/blog/") {
-      url.pathname = "/blog/index.html";
-      return env.ASSETS.fetch(new Request(url.toString(), request));
-    }
-
-    // 3c. The Czech home page at its own address (/cs): the same index.html with
-    //     a Czech <html lang>, description and canonical, so search engines index
-    //     a Czech page; js/translations.js picks Czech from the path. /cs/ goes
-    //     to /cs so the page's relative links (js/, img/, blog/) still resolve.
-    if (url.pathname === "/cs/") {
-      return Response.redirect(`${url.origin}/cs${url.search}`, 301);
-    }
-    if (url.pathname === "/cs") {
-      const home = await env.ASSETS.fetch(new Request(`${url.origin}/`, request));
-      if (!home.ok) return home;
-      const headers = new Headers(home.headers);
-      headers.set("Content-Type", "text/html; charset=utf-8");
-      headers.delete("Content-Length");
-      return new Response(czechHome(await home.text()), { status: 200, headers });
-    }
-
-    // 4. Static Assets fallback
-    return env.ASSETS.fetch(request);
+    return withBeacon(await route(request, env, ctx), env.CF_BEACON_TOKEN);
   },
 };
+
+async function route(request, env, ctx) {
+  const url = new URL(request.url);
+
+  // 1. API Route: /api/demo
+  if (url.pathname === "/api/demo") {
+    if (request.method !== "POST") {
+      return new Response(JSON.stringify({ error: "Method not allowed" }), {
+        status: 405,
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+      });
+    }
+
+    return handleDemoSubmission(request, env);
+  }
+
+  // 2. Live Radar feed. The app writes it to KV after every scan of the
+  //    showcase workspace; there is no static copy, so the web can only show
+  //    what the last scan found, or nothing.
+  if (url.pathname === "/api/live-roles") {
+    return kvFeed(env, "live_roles_json");
+  }
+
+  // 2b. The sandbox (#live-radar, js/sandbox.js): the demo's real roles and
+  //     its made-up agency, written to KV by the app after every demo scan
+  //     (talent-radar scripts/web_sandbox_feed.py).
+  if (url.pathname === "/api/sandbox") {
+    return kvFeed(env, "sandbox_json");
+  }
+
+  // 2c. The home page preview's three numbers (index.html, hero), worked out
+  //     here from the sandbox feed so a visitor downloads a few bytes, not the feed.
+  if (url.pathname === "/api/hero-stats") {
+    return heroStatsFeed(request, env, ctx);
+  }
+
+  // 3. Rewrite /gdpr to /gdpr.html if requested
+  if (url.pathname === "/gdpr") {
+    url.pathname = "/gdpr.html";
+    return env.ASSETS.fetch(new Request(url.toString(), request));
+  }
+
+  // 3b. Rewrite /blog to /blog/index.html if requested
+  if (url.pathname === "/blog" || url.pathname === "/blog/") {
+    url.pathname = "/blog/index.html";
+    return env.ASSETS.fetch(new Request(url.toString(), request));
+  }
+
+  // 3c. The Czech home page at its own address (/cs): the same index.html with
+  //     a Czech <html lang>, description and canonical, so search engines index
+  //     a Czech page; js/translations.js picks Czech from the path. /cs/ goes
+  //     to /cs so the page's relative links (js/, img/, blog/) still resolve.
+  if (url.pathname === "/cs/") {
+    return Response.redirect(`${url.origin}/cs${url.search}`, 301);
+  }
+  if (url.pathname === "/cs") {
+    const home = await env.ASSETS.fetch(new Request(`${url.origin}/`, request));
+    if (!home.ok) return home;
+    const headers = new Headers(home.headers);
+    headers.set("Content-Type", "text/html; charset=utf-8");
+    headers.delete("Content-Length");
+    return new Response(czechHome(await home.text()), { status: 200, headers });
+  }
+
+  // 4. Static Assets fallback
+  return env.ASSETS.fetch(request);
+}
+
+// Cloudflare Web Analytics (gdpr.html, "Visit statistics"): the beacon goes into
+// every HTML page here, so a new page or blog post cannot be left out. The token
+// is public (it sits in the page's source) and comes from CF_BEACON_TOKEN in
+// wrangler.toml; without it pages are served untouched.
+const BEACON_TOKEN = /^[0-9a-f]{32}$/;
+
+export function beaconTag(token) {
+  return `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${token}"}'></script>`;
+}
+
+export async function withBeacon(response, token) {
+  const type = response.headers.get("Content-Type") || "";
+  if (!BEACON_TOKEN.test(token || "") || response.status !== 200 || !type.startsWith("text/html")) {
+    return response;
+  }
+  const html = await response.text();
+  const at = html.lastIndexOf("</body>");
+  const body = html.includes("static.cloudflareinsights.com/beacon") ? html
+    : at === -1 ? html + beaconTag(token)
+    : `${html.slice(0, at)}${beaconTag(token)}\n${html.slice(at)}`;
+  const headers = new Headers(response.headers);
+  headers.delete("Content-Length");
+  return new Response(body, { status: response.status, statusText: response.statusText, headers });
+}
 
 /** The pasted company list, in characters: 150 four-column lines with room to spare. */
 export const CLIENTS_TEXT_MAX = 30000;

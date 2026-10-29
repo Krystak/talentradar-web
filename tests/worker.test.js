@@ -477,3 +477,50 @@ test("/cs serves the home page with a Czech head", async () => {
   assert.equal(slash.status, 301);
   assert.equal(slash.headers.get("Location"), "https://talentradar.eu/cs?x=1");
 });
+
+
+// Cloudflare Web Analytics: the beacon in every HTML page, only with a valid token.
+const TOKEN = "0123456789abcdef0123456789abcdef";
+const htmlAssets = (html) => ({ fetch: async () => new Response(html, { status: 200, headers: { "Content-Type": "text/html; charset=utf-8" } }) });
+
+test("every HTML page gets the analytics beacon before </body>, once", async () => {
+  const e = env({ CF_BEACON_TOKEN: TOKEN, ASSETS: htmlAssets("<html><body><p>x</p></body></html>") });
+  for (const path of ["/", "/gdpr", "/blog/", "/cs", "/blog/the-4-day-latency-gap-cs.html"]) {
+    const body = await (await worker.fetch(new Request(`https://talentradar.eu${path}`), e, {})).text();
+    assert.equal(body.split("static.cloudflareinsights.com/beacon.min.js").length - 1, 1, path);
+    assert.match(body, new RegExp(`data-cf-beacon='\{"token": "${TOKEN}"\}'></script>\n</body>`), path);
+  }
+});
+
+test("a page that already has the beacon is not given a second one", async () => {
+  const page = `<html><body>${"<script defer src=\"https://static.cloudflareinsights.com/beacon.min.js\"></script>"}</body></html>`;
+  const e = env({ CF_BEACON_TOKEN: TOKEN, ASSETS: htmlAssets(page) });
+  const body = await (await worker.fetch(new Request("https://talentradar.eu/"), e, {})).text();
+  assert.equal(body, page);
+});
+
+test("without a valid token, and outside HTML, nothing is touched", async () => {
+  const page = "<html><body>x</body></html>";
+  for (const token of [undefined, "", "not-a-token", `${TOKEN}"><script>`]) {
+    const e = env({ CF_BEACON_TOKEN: token, ASSETS: htmlAssets(page) });
+    assert.equal(await (await worker.fetch(new Request("https://talentradar.eu/"), e, {})).text(), page);
+  }
+  const css = env({ CF_BEACON_TOKEN: TOKEN, ASSETS: { fetch: async () => new Response("body{}", { status: 200, headers: { "Content-Type": "text/css" } }) } });
+  assert.equal(await (await worker.fetch(new Request("https://talentradar.eu/css/x.css"), css, {})).text(), "body{}");
+  const e = env({ CF_BEACON_TOKEN: TOKEN });
+  await e.TALENT_RADAR_KV.put("live_roles_json", JSON.stringify({ roles: [] }));
+  const feed = await worker.fetch(new Request("https://talentradar.eu/api/live-roles"), e, {});
+  assert.deepEqual(await feed.json(), { roles: [] });
+  const missing = env({ CF_BEACON_TOKEN: TOKEN, ASSETS: { fetch: async () => new Response("<html><body>404</body></html>", { status: 404, headers: { "Content-Type": "text/html" } }) } });
+  assert.doesNotMatch(await (await worker.fetch(new Request("https://talentradar.eu/nope"), missing, {})).text(), /cloudflareinsights/);
+});
+
+test("the real home page gets the beacon at its end", async () => {
+  const { readFileSync } = await import("node:fs");
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const e = env({ CF_BEACON_TOKEN: TOKEN, ASSETS: htmlAssets(html) });
+  const body = await (await worker.fetch(new Request("https://talentradar.eu/"), e, {})).text();
+  assert.ok(body.trimEnd().endsWith("</html>"));
+  assert.equal(body.split("beacon.min.js").length - 1, 1);
+  assert.ok(body.indexOf("beacon.min.js") < body.lastIndexOf("</body>"));
+});

@@ -5,6 +5,12 @@ name = "talentradar-web"
 main = "worker.js"
 compatibility_date = "2026-09-15"
 
+[vars]
+# Cloudflare Web Analytics: the token from the dashboard (Analytics & Logs >
+# Web Analytics > talentradar.eu > Manage site, JS snippet). Public, it ends up
+# in every page; worker.js adds the beacon only while this holds a valid token.
+CF_BEACON_TOKEN = ""
+
 # Static assets (HTML, images, data) served straight from the repo root.
 [assets]
 directory = "."

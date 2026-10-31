@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://talentradar.eu/</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/blog/dlouho-otevrene-pozice</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/dlouho-otevrene-pozice"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/anatomy-of-stale-roles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/anatomy-of-stale-roles"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/blog/kolik-stoji-mrtve-inzeraty</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/kolik-stoji-mrtve-inzeraty"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/hidden-cost-of-dead-vacancies"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/hidden-cost-of-dead-vacancies"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/blog/prvni-dny-po-vypsani-pozice</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/prvni-dny-po-vypsani-pozice"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/the-4-day-latency-gap"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/the-4-day-latency-gap"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/cenik</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/cenik"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/pricing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/pricing"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/demo</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/demo"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/demo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/demo"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/blog/anatomy-of-stale-roles</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/dlouho-otevrene-pozice"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/anatomy-of-stale-roles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/anatomy-of-stale-roles"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/blog/hidden-cost-of-dead-vacancies</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/kolik-stoji-mrtve-inzeraty"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/hidden-cost-of-dead-vacancies"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/hidden-cost-of-dead-vacancies"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/blog/the-4-day-latency-gap</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/prvni-dny-po-vypsani-pozice"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/the-4-day-latency-gap"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/the-4-day-latency-gap"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/demo</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/demo"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/demo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/demo"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/gdpr</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/gdpr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/gdpr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/gdpr"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/pricing</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/cenik"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/pricing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/pricing"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/gdpr</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/gdpr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/gdpr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/gdpr"/>
+  </url>
+</urlset>

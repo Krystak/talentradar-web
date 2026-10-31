@@ -1,0 +1,8 @@
+{
+  "home": { "template": "home", "path": { "cs": "", "en": "" } },
+  "pricing": { "template": "pricing", "path": { "cs": "cenik", "en": "pricing" } },
+  "demo": { "template": "demo", "path": { "cs": "demo", "en": "demo" } },
+  "blog": { "template": "blog-index", "path": { "cs": "blog/", "en": "blog/" } },
+  "gdpr": { "template": "gdpr", "path": { "cs": "gdpr", "en": "gdpr" } },
+  "404": { "template": "404", "path": { "cs": "404", "en": "404" }, "noindex": true }
+}

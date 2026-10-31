@@ -1,0 +1,23 @@
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="logo" href="{{url:home}}">
+      <img src="/falcon.svg" alt="" aria-hidden="true" width="32" height="32">
+      <span class="logo__word" data-brand>TalentRadar</span>
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="{{t.nav_label}}">
+      <ul>
+        <li><a href="{{url:home}}#{{t.id_how}}">{{t.nav_how}}</a></li>
+        <li><a href="{{url:home}}#{{t.id_data}}">{{t.nav_data}}</a></li>
+        <li><a href="{{url:pricing}}">{{t.nav_pricing}}</a></li>
+        <li><a href="{{url:blog}}">{{t.nav_blog}}</a></li>
+        <li class="nav-mobile-only"><a href="{{url:demo}}">{{t.nav_tour}}</a></li>
+      </ul>
+      <div class="site-nav__aside">
+        <a class="lang-switch" href="{{page.alt_url}}" hreflang="{{page.other_lang}}" lang="{{page.other_lang}}" aria-label="{{t.nav_lang_aria}}">{{t.nav_lang}}</a>
+        <a href="{{config.appUrl}}">{{t.nav_signin}}</a>
+      </div>
+    </nav>
+    <a class="btn btn-primary btn--nav" href="{{url:home}}#{{t.id_trial}}"><span class="long">{{t.nav_cta}}</span><span class="short">{{t.nav_cta_short}}</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="{{t.nav_menu_open}}" hidden>{{icon:menu}}</button>
+  </div>
+</header>

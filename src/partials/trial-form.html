@@ -1,0 +1,116 @@
+<div class="trial">
+  <div class="trial__box">
+    <div class="trial__head">
+      <p class="badge">{{t.trial_badge}}</p>
+      <h2 id="trial-title">{{t.trial_headline}}</h2>
+      <p>{{t.trial_subtext}}</p>
+      <p class="note"><strong>{{t.trial_promo}}</strong> {{t.trial_promo_after}}</p>
+      <p class="note">{{t.trial_candidates_note}}</p>
+    </div>
+
+    <div class="trial__grid">
+    <div id="form-wrapper" aria-live="polite">
+      <form class="form" id="demo-form" method="post" action="#{{t.id_trial}}">
+        <!-- Honeypot: people never see it; a bot that fills it gets a quiet "success" (worker.js). -->
+        <div class="hp" aria-hidden="true">
+          <label for="website_hp">{{t.trial_honeypot}}</label>
+          <input type="text" name="website" id="website_hp" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" name="timestamp" id="form-timestamp" value="">
+
+        <div class="field">
+          <label for="name">{{t.trial_label_name}}</label>
+          <input type="text" id="name" name="name" required minlength="2" maxlength="100" autocomplete="name" placeholder="{{t.trial_placeholder_name}}">
+        </div>
+        <div class="form__row">
+          <div class="field">
+            <label for="email">{{t.trial_label_email}}</label>
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder="{{t.trial_placeholder_email}}" aria-describedby="email-hint">
+            <p class="field__hint" id="email-hint">{{t.trial_hint_email}}</p>
+          </div>
+          <div class="field">
+            <label for="company">{{t.trial_label_company}}</label>
+            <input type="text" id="company" name="company" required minlength="2" autocomplete="organization" placeholder="{{t.trial_placeholder_company}}">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field__top">
+            <label for="clients">{{t.trial_label_clients}}</label>
+            <button type="button" class="link-btn" id="clients-help-btn" aria-haspopup="dialog" aria-controls="clients-help">{{icon:help}}{{t.trial_clients_help}}</button>
+          </div>
+          <div class="field__pair">
+          <textarea id="clients" name="clients" rows="3" placeholder="{{t.trial_placeholder_clients}}" aria-describedby="clients-hint"></textarea>
+          <div class="dropzone" id="drop-zone">
+            <input type="file" id="file-upload" accept=".xlsx,.xls,.csv" aria-describedby="upload-note">
+            <div class="dropzone__prompt" id="file-prompt">
+              {{icon:upload}}<strong>{{t.trial_upload_cta}}</strong><span>{{t.trial_upload_types}}</span>
+            </div>
+            <div class="dropzone__file" id="file-selected" hidden>
+              {{icon:check}}<strong id="file-name"></strong>
+              <button type="button" class="dropzone__remove" id="file-remove">{{t.trial_file_remove}}</button>
+            </div>
+          </div>
+          </div>
+          <p class="field__hint" id="clients-hint">{{t.trial_hint_clients}}</p>
+          <p class="note" id="upload-note">{{t.trial_upload_note}}</p>
+        </div>
+
+        <div class="form__error" id="form-error" role="alert" hidden></div>
+
+        <button type="submit" class="btn btn-primary" id="submit-btn">{{t.trial_submit}}</button>
+      </form>
+    </div>
+
+    <!-- from 1 000 px beside the fields: what happens next, what we do with the list, the consent -->
+    <div class="trial__aside">
+      <ol class="steps" aria-label="{{t.trial_steps_label}}">
+        <li>{{t.trial_step1}}</li>
+        <li>{{t.trial_step2}}</li>
+        <li>{{t.trial_step3}}</li>
+      </ol>
+      <p class="form__fine">{{t.trial_step_fallback}}</p>
+      <p class="form__fine">{{t.trial_list_privacy}}</p>
+      <p class="form__fine">{{t.trial_gdpr_html}}</p>
+      <p class="trial__contact">
+        <a href="mailto:{{config.email}}?subject={{uri:story_cta_subject}}">{{t.trial_call}}</a><br>
+        {{t.trial_contact_prefix}} <a href="mailto:{{config.email}}">{{config.email}}</a>
+      </p>
+    </div>
+    </div>
+  </div>
+</div>
+
+<dialog class="dialog band--light" id="clients-help" aria-labelledby="clients-help-title">
+  <div class="dialog__head">
+    <div>
+      <p class="kicker">{{t.help_kicker}}</p>
+      <h3 id="clients-help-title">{{t.help_title}}</h3>
+    </div>
+    <button type="button" class="dialog__close" data-close-help>{{icon:close}}<span class="visually-hidden">{{t.help_close}}</span></button>
+  </div>
+  <p>{{t.help_intro}}</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col"></th><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">1</th><td><strong>{{t.help_col_a}}</strong></td><td><strong>{{t.help_col_b}}</strong></td><td><strong>{{t.help_col_c}}</strong></td><td><strong>{{t.help_col_d}}</strong></td></tr>
+        <tr><th scope="row">2</th><td>Air Bank</td><td>airbank.cz/volne-pozice</td><td>{{t.help_ex_date1}}</td><td>{{t.help_ex_yes}}</td></tr>
+        <tr><th scope="row">3</th><td>Rohlik Group</td><td class="muted">{{t.help_ex_empty}}</td><td></td><td></td></tr>
+        <tr><th scope="row">4</th><td>Seznam.cz</td><td>kariera.seznam.cz</td><td>{{t.help_ex_date2}}</td><td>{{t.help_ex_no}}</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul>
+    <li>{{t.help_rule_a}}</li>
+    <li>{{t.help_rule_b}}</li>
+    <li>{{t.help_rule_c}}</li>
+    <li>{{t.help_rule_d}}</li>
+    <li>{{t.help_rule_e}}</li>
+  </ul>
+  <p class="note">{{t.help_text_alt}}</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="{{t.help_template_href}}" download>{{t.help_download}}</a>
+    <button type="button" class="btn btn-secondary" data-close-help>{{t.help_close}}</button>
+  </div>
+</dialog>

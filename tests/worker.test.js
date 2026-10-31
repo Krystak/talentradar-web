@@ -5,7 +5,8 @@
 import { test, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
 
-import worker, { fillTime, MIN_FILL_MS } from "../worker.js";
+import worker from "../worker.js";
+import { fillTime, MIN_FILL_MS } from "../worker-lib.js";
 import { checkAddress, confirmationEmail, countCompanies, escapeHtml, DISPOSABLE_DOMAINS } from "../email.js";
 
 let sent;      // [{ url, body }] for every outbound fetch except DNS
@@ -359,7 +360,7 @@ test("a broken file never stops the confirmation", async () => {
 
 const templateFile = async (name) => {
   const { readFileSync } = await import("node:fs");
-  return readFileSync(new URL(`../files/${name}`, import.meta.url));
+  return readFileSync(new URL(`../public/files/${name}`, import.meta.url));
 };
 const leadOf = (e) => {
   const key = [...e.TALENT_RADAR_KV.store.keys()].find((k) => k.startsWith("lead:"));
@@ -526,21 +527,121 @@ test("the live roles feed still reads its own key", async () => {
 });
 
 
-// The Czech home page at /cs: the same file with a Czech head, and /cs/ -> /cs.
-test("/cs serves the home page with a Czech head", async () => {
+// The Czech home page: since November 2026 Czech is at / as its own static page
+// (public/index.html from build.mjs), so search engines read it without JavaScript,
+// and the old /cs and /cs/ answer 301 to it.
+test("/cs and /cs/ move to the Czech home page at /, which is Czech without JavaScript", async () => {
   const { readFileSync } = await import("node:fs");
-  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
-  const e = env({ ASSETS: { fetch: async () => new Response(html, { status: 200, headers: { "Content-Type": "text/html" } }) } });
-  const res = await worker.fetch(new Request("https://talentradar.eu/cs"), e, {});
-  assert.equal(res.status, 200);
-  const body = await res.text();
-  assert.match(body, /<html lang="cs"/);
-  assert.match(body, /<link rel="canonical" href="https:\/\/talentradar\.eu\/cs">/);
-  assert.match(body, /<meta name="description" content="TalentRadar hlídá/);
-  assert.match(body, /hreflang="cs" href="https:\/\/talentradar\.eu\/cs"/);
-  assert.doesNotMatch(body, /<meta name="description" content="TalentRadar checks/);
+  const html = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
+  assert.match(html, /<html lang="cs"/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/talentradar\.eu\/">/);
+  assert.match(html, /<meta name="description" content="TalentRadar hlídá/);
+  assert.match(html, /hreflang="cs" href="https:\/\/talentradar\.eu\/"/);
+  assert.doesNotMatch(html, /<meta name="description" content="TalentRadar watches/);
 
-  const slash = await worker.fetch(new Request("https://talentradar.eu/cs/?x=1"), e, {});
-  assert.equal(slash.status, 301);
-  assert.equal(slash.headers.get("Location"), "https://talentradar.eu/cs?x=1");
+  const e = env({ ASSETS: { fetch: async () => { throw new Error("an old address must not reach the assets"); } } });
+  for (const path of ["/cs", "/cs/"]) {
+    const res = await worker.fetch(new Request(`https://talentradar.eu${path}?x=1`), e, {});
+    assert.equal(res.status, 301, path);
+    assert.equal(res.headers.get("Location"), "https://talentradar.eu/?x=1", path);
+  }
+});
+
+// ── Offline: a local run never calls anything outside (lead, 31. 10. 2026) ──
+// `npm run dev` sets OFFLINE_DEV=1, and a request to a local host name is offline
+// even without it. Fake keys for every channel are set, so only the guard stands
+// between the form and Brevo, Slack, Telegram, DNS and the app wake-up.
+
+const allChannels = (extra = {}) => env({ TELEGRAM_BOT_TOKEN: "123:test", TELEGRAM_CHAT_ID: "42", APP_API_ORIGIN: "https://app.example.test", ...extra });
+
+function countingFetch() {
+  const calls = [];
+  globalThis.fetch = async (url) => {
+    calls.push(String(url));
+    return new Response("{}", { status: 200 });
+  };
+  return calls;
+}
+
+for (const [label, e, origin] of [
+  ["OFFLINE_DEV=1", () => allChannels({ OFFLINE_DEV: "1" }), "https://talentradar.eu"],
+  ["a request to 127.0.0.1", () => allChannels(), "http://127.0.0.1:8830"],
+  ["a request to localhost", () => allChannels(), "http://localhost:8830"],
+  ["a request to *.localhost", () => allChannels(), "http://web.localhost:8830"],
+]) {
+  test(`offline (${label}): the sign-up is stored and answered, and not one fetch leaves`, async () => {
+    const calls = countingFetch();
+    const store = e();
+    const req = new Request(`${origin}/api/demo`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "cf-connecting-ip": "203.0.113.9" },
+      body: JSON.stringify({ name: "Test Local", email: "test@agentura.cz", company: "Test s.r.o.", clients: "Tines", website: "", lang: "cs", elapsedMs: 10_000 }),
+    });
+    const res = await worker.fetch(req, store, {});
+    assert.equal(res.status, 200);
+    assert.equal((await res.json()).success, true);
+    assert.deepEqual(calls, []);
+    assert.ok([...store.TALENT_RADAR_KV.store.keys()].some((k) => k.startsWith("lead:")));
+  });
+}
+
+test("online on talentradar.eu without OFFLINE_DEV, the channels are called as before", async () => {
+  const calls = countingFetch();
+  const res = await submit(allChannels());
+  assert.equal(res.status, 200);
+  assert.ok(calls.some((u) => u.startsWith("https://cloudflare-dns.com/")));
+  assert.ok(calls.some((u) => u.startsWith("https://api.brevo.com/")));
+  assert.ok(calls.some((u) => u.startsWith("https://api.telegram.org/")));
+  assert.ok(calls.some((u) => u.includes("/wake")));
+});
+
+test("offline also for 0.0.0.0 and the whole 127.0.0.0/8 loopback range", async () => {
+  for (const origin of ["http://0.0.0.0:8830", "http://127.1.2.3:8830"]) {
+    const calls = countingFetch();
+    const req = new Request(`${origin}/api/demo`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: "Test Local", email: "test@agentura.cz", company: "Test s.r.o.", clients: "", website: "", lang: "cs", elapsedMs: 10_000 }),
+    });
+    const res = await worker.fetch(req, allChannels(), {});
+    assert.equal(res.status, 200, origin);
+    assert.deepEqual(calls, [], origin);
+  }
+});
+
+test("a file over the limit is refused in the visitor's language", async () => {
+  const big = "x".repeat(8 * 1024 * 1024 + 1);
+  const cs = await submit(env(), { fileName: "firmy.csv", fileData: big, lang: "cs" });
+  assert.equal(cs.status, 400);
+  assert.deepEqual(await cs.json(), { error: "Nahraný soubor je příliš velký (nejvýš 5 MB).", reason: "file_too_large" });
+  const en = await submit(env(), { fileName: "companies.csv", fileData: big, lang: "en" });
+  assert.deepEqual(await en.json(), { error: "The uploaded file is too large (5 MB at most).", reason: "file_too_large" });
+});
+
+test("a 5 MB file, as the page sends it (base64 data URL), is accepted", async () => {
+  const e = env();
+  const fiveMb = Buffer.alloc(5 * 1024 * 1024, 65).toString("base64");
+  const res = await submit(e, { fileName: "firmy.csv", fileData: `data:text/csv;base64,${fiveMb}` });
+  assert.equal(res.status, 200);
+});
+
+test("the form's other refusals speak the visitor's language; status and Czech text as before", async () => {
+  const cases = [
+    [{ name: "X" }, 400, "Vyplňte prosím platné jméno a příjmení (2 až 100 znaků).", "Please enter a valid full name (2 to 100 characters)."],
+    [{ email: "not-an-address" }, 400, "Zadejte prosím platný pracovní e-mail.", "Please enter a valid work e-mail."],
+    [{ clients: "x".repeat(30001) }, 400, "Text se seznamem firem je příliš dlouhý (maximum je 30 000 znaků). Pošlete ho prosím jako soubor.", "The company list is too long (30,000 characters at most). Please send it as a file."],
+  ];
+  for (const [fields, status, cs, en] of cases) {
+    const a = await submit(env(), { ...fields, lang: "cs" });
+    assert.equal(a.status, status);
+    assert.equal((await a.json()).error, cs);
+    const b = await submit(env(), { ...fields, lang: "en" });
+    assert.equal(b.status, status);
+    assert.equal((await b.json()).error, en);
+  }
+  const e = env();
+  for (let i = 0; i < 5; i++) await submit(e, { lang: "en" });
+  const limited = await submit(e, { lang: "en" });
+  assert.equal(limited.status, 429);
+  assert.equal((await limited.json()).error, "Too many requests. Please try again in an hour.");
 });

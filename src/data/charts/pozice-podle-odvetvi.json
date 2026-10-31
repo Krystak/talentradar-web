@@ -1,0 +1,90 @@
+{
+ "id": "pozice-podle-odvetvi",
+ "as_of": "2026-10-31",
+ "source_cs": "Data z veřejného dema TalentRadaru: 100 českých firem (z toho 26 z IT a softwaru), skeny v 6:00 a ve 12:00, stav k 31. 10. 2026.",
+ "source_en": "Data from TalentRadar’s public demo: 100 Czech companies (26 of them in IT and software), scans at 6:00 and 12:00, as of 31 Oct 2026.",
+ "title_cs": "Otevřené pozice podle odvětví firmy",
+ "title_en": "Open roles by industry",
+ "unit_cs": "otevřených pozic",
+ "unit_en": "open roles",
+ "form": "seřazené vodorovné pruhy, největší nahoře, jeden odstín; počet firem v odvětví v popisku řádku",
+ "rows": [
+  {
+   "sector_cs": "IT a software",
+   "sector_en": "IT and software",
+   "roles": 285,
+   "companies": 26
+  },
+  {
+   "sector_cs": "Banky a pojišťovny",
+   "sector_en": "Banking and insurance",
+   "roles": 209,
+   "companies": 13
+  },
+  {
+   "sector_cs": "Automotive a průmysl",
+   "sector_en": "Automotive and industry",
+   "roles": 200,
+   "companies": 14
+  },
+  {
+   "sector_cs": "Poradenství a audit",
+   "sector_en": "Consulting and audit",
+   "roles": 149,
+   "companies": 6
+  },
+  {
+   "sector_cs": "Telco a média",
+   "sector_en": "Telecoms and media",
+   "roles": 98,
+   "companies": 6
+  },
+  {
+   "sector_cs": "Farmacie a zdravotnictví",
+   "sector_en": "Pharma and healthcare",
+   "roles": 96,
+   "companies": 6
+  },
+  {
+   "sector_cs": "Energetika",
+   "sector_en": "Energy",
+   "roles": 91,
+   "companies": 7
+  },
+  {
+   "sector_cs": "Stavebnictví a reality",
+   "sector_en": "Construction and real estate",
+   "roles": 65,
+   "companies": 4
+  },
+  {
+   "sector_cs": "E-commerce a FMCG",
+   "sector_en": "E-commerce and FMCG",
+   "roles": 60,
+   "companies": 6
+  },
+  {
+   "sector_cs": "Obrana a letectví",
+   "sector_en": "Defence and aerospace",
+   "roles": 56,
+   "companies": 3
+  },
+  {
+   "sector_cs": "Logistika a doprava",
+   "sector_en": "Logistics and transport",
+   "roles": 40,
+   "companies": 5
+  },
+  {
+   "sector_cs": "SSC a business services",
+   "sector_en": "Shared services",
+   "roles": 33,
+   "companies": 4
+  }
+ ],
+ "note_cs": "Odvětví podle firmy, ne podle pozice: i v bance je část pozic v IT. Pozice = otevřené pozice ve feedu dema, bez pozic mimo zaměření.",
+ "note_en": "Industry of the company, not of the role: part of a bank’s roles are in IT. Roles = open roles in the demo feed, roles outside the niche left out.",
+ "alt_cs": "Nejvíc otevřených pozic mají firmy z odvětví IT a software (285 pozic u 26 firem), dalších 11 odvětví má dohromady 1097.",
+ "alt_en": "Companies in IT and software have the most open roles (285 at 26 companies); the other 11 industries have 1097 between them.",
+ "method": "sector z DEMO_COMPANIES (scripts/refresh_live_radar.py) podle jména firmy; roles[] z /api/sandbox. Skript analyza_zivy.py."
+}

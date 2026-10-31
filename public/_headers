@@ -1,0 +1,8 @@
+# Cloudflare static assets headers (public/_headers, generated from src/_headers).
+# Fonts never change under the same name; CSS and JS are linked with ?v=<content hash>.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/js/*
+  Cache-Control: public, max-age=31536000, immutable

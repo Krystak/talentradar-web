@@ -1,9 +1,13 @@
 /**
  * TalentRadar Cloudflare Worker
- * Handles static assets and /api/demo endpoint.
+ * The trial form (/api/demo), the feeds the app writes to KV, byte ranges for
+ * /video/*, 301s from old addresses; everything else is a static file in public/.
+ * Only the default export lives here (workerd refuses other named exports of the
+ * main module); the rest is in worker-lib.js.
  */
 
 import { ADDRESS_ERRORS, REPLY_TO, SENDER_NAME, checkAddress, confirmationEmail, countCompanies } from "./email.js";
+import { CLIENTS_TEXT_MAX, MIN_FILL_MS, fillTime, heroStats, notFoundPath, outboundFetch, redirectFor, serveVideo } from "./worker-lib.js";
 
 export default {
   async fetch(request, env, ctx) {
@@ -28,100 +32,56 @@ export default {
       return kvFeed(env, "live_roles_json");
     }
 
-    // 2b. The sandbox (#live-radar, js/sandbox.js): the demo's real roles and
-    //     its made-up agency, written to KV by the app after every demo scan
+    // 2b. The sandbox (sandbox/sandbox.js, not on the new site yet): the demo's real
+    //     roles and its made-up agency, written to KV by the app after every demo scan
     //     (talent-radar scripts/web_sandbox_feed.py).
     if (url.pathname === "/api/sandbox") {
       return kvFeed(env, "sandbox_json");
     }
 
-    // 2c. The home page preview's three numbers (index.html, hero), worked out
-    //     here from the sandbox feed so a visitor downloads a few bytes, not the feed.
+    // 2c. Three numbers worked out here from the sandbox feed, so a visitor
+    //     downloads a few bytes, not the feed.
     if (url.pathname === "/api/hero-stats") {
       return heroStatsFeed(request, env, ctx);
     }
 
-    // 3. Rewrite /gdpr to /gdpr.html if requested
-    if (url.pathname === "/gdpr") {
-      url.pathname = "/gdpr.html";
-      return env.ASSETS.fetch(new Request(url.toString(), request));
+    // 3. Videos: static files, but with byte ranges (wrangler.toml run_worker_first).
+    if (url.pathname.startsWith("/video/")) {
+      return serveVideo(request, env);
     }
 
-    // 3b. Rewrite /blog to /blog/index.html if requested
-    if (url.pathname === "/blog" || url.pathname === "/blog/") {
-      url.pathname = "/blog/index.html";
-      return env.ASSETS.fetch(new Request(url.toString(), request));
-    }
+    // 4. Old addresses (/cs, /blog/<slug>.html, /gdpr.html ...): 301 to the new page.
+    const moved = redirectFor(url);
+    if (moved) return moved;
 
-    // 3c. The Czech home page at its own address (/cs): the same index.html with
-    //     a Czech <html lang>, description and canonical, so search engines index
-    //     a Czech page; js/translations.js picks Czech from the path. /cs/ goes
-    //     to /cs so the page's relative links (js/, img/, blog/) still resolve.
-    if (url.pathname === "/cs/") {
-      return Response.redirect(`${url.origin}/cs${url.search}`, 301);
-    }
-    if (url.pathname === "/cs") {
-      const home = await env.ASSETS.fetch(new Request(`${url.origin}/`, request));
-      if (!home.ok) return home;
-      const headers = new Headers(home.headers);
-      headers.set("Content-Type", "text/html; charset=utf-8");
-      headers.delete("Content-Length");
-      return new Response(czechHome(await home.text()), { status: 200, headers });
-    }
-
-    // 4. Static Assets fallback
-    return env.ASSETS.fetch(request);
+    // 5. Static assets; an address without a file gets the 404 page of its language.
+    const res = await env.ASSETS.fetch(request);
+    if (res.status !== 404) return res;
+    return notFoundPage(request, env, res);
   },
 };
 
-/** The pasted company list, in characters: 150 four-column lines with room to spare. */
-export const CLIENTS_TEXT_MAX = 30000;
-
-/** Faster than this from opening the page to sending the form, no person typed it. */
-export const MIN_FILL_MS = 2000;
+/**
+ * The 404 page of the address's language (public/404.html, public/en/404.html),
+ * with status 404. Only for pages: a missing image or script keeps the assets'
+ * plain 404.
+ */
+async function notFoundPage(request, env, plain) {
+  const url = new URL(request.url);
+  const page = notFoundPath(url.pathname);
+  const isPage = !/\.(?!html?$)[a-z0-9]{2,5}$/i.test(url.pathname);
+  if (!page || !isPage || (request.method !== "GET" && request.method !== "HEAD")) return plain;
+  const html = await env.ASSETS.fetch(new Request(`${url.origin}${page}`, { method: "GET" }));
+  if (!html.ok) return plain;
+  const headers = new Headers(html.headers);
+  headers.set("Cache-Control", "no-store");
+  return new Response(request.method === "HEAD" ? null : html.body, { status: 404, headers });
+}
 
 const TOO_FAST_ERROR = {
   cs: "Formulář odešel příliš rychle po načtení stránky. Zkontrolujte prosím údaje a pošlete ho znovu.",
   en: "The form was sent too quickly after the page loaded. Please check your details and send it again.",
 };
-
-const CS_DESCRIPTION = "TalentRadar hlídá kariérní weby všech firem vaší agentury a jejich otevřené pozice ukáže na jednom místě, vedle vašeho ATS. Skeny v 6:00 a ve 12:00, u každé pozice důvod zavolat.";
-
-/**
- * The home page's head for the Czech address: lang, canonical, og:url and the
- * descriptions. The title keeps the English slogan, as on the rest of the site.
- */
-export function czechHome(html) {
-  return html
-    .replace(/<html lang="en"/, '<html lang="cs"')
-    .replace('<link rel="canonical" href="https://talentradar.eu/">', '<link rel="canonical" href="https://talentradar.eu/cs">')
-    .replace('<meta property="og:url" content="https://talentradar.eu/">', '<meta property="og:url" content="https://talentradar.eu/cs">\n  <meta property="og:locale" content="cs_CZ">')
-    .replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*(")/g, `$1${CS_DESCRIPTION}$2`);
-}
-
-/**
- * The hero preview's numbers from the sandbox feed, as of its last scan: new roles
- * on the last day of daily_new, companies with a role first seen that day, and
- * roles open 45+ days at the scan (posted date, or first seen when it is later).
- * null when the feed lacks what they need.
- */
-export function heroStats(feed) {
-  const days = Object.keys((feed && feed.daily_new) || {}).sort();
-  const scanAt = Date.parse((feed && feed.scan && feed.scan.at) || "");
-  if (!days.length || Number.isNaN(scanAt)) return null;
-  const day = days[days.length - 1];
-  const hiring = new Set();
-  let open45 = 0;
-  for (const r of feed.roles || []) {
-    const seen = Date.parse(r.seen || "");
-    if (Number.isNaN(seen)) continue;
-    if (String(r.seen).slice(0, 10) === day) hiring.add(r.co);
-    const posted = Date.parse(r.posted || "");
-    const since = !Number.isNaN(posted) && posted < seen ? posted : seen;
-    if (scanAt - since >= 45 * 86400000) open45 += 1;
-  }
-  return { day, scan_at: feed.scan.at, new_roles: feed.daily_new[day] || 0, companies_hiring: hiring.size, open_45: open45 };
-}
 
 // The last stats worked out in this isolate, with a mark of the feed they came from
 // (its length and opening bytes, where version and generated_at sit): later requests
@@ -211,6 +171,8 @@ async function handleDemoSubmission(request, env) {
 
   const { name, email, company, clients, fileName, fileData, website, lang, timestamp, elapsedMs, timezone } = data;
   const clientIp = request.headers.get("cf-connecting-ip") || "unknown";
+  // Every call out of the Worker goes through send: offline (local run) it fails at once.
+  const send = outboundFetch(env, request.url);
   const userAgent = request.headers.get("user-agent") || "unknown";
 
   // Anti-spam 1: Honeypot check (field 'website' must be empty)
@@ -252,7 +214,7 @@ async function handleDemoSubmission(request, env) {
 
   // An address that cannot receive mail would bounce the confirmation, and
   // bounces decide whether talentradar.eu lands in spam for everyone else.
-  const address = await checkAddress(email);
+  const address = await checkAddress(email, send);
   if (!address.ok && ADDRESS_ERRORS[address.reason]) {
     const formLang = normaliseLang(lang, request.headers.get("accept-language"));
     return new Response(JSON.stringify({ error: ADDRESS_ERRORS[address.reason][formLang], reason: address.reason }), {
@@ -352,12 +314,12 @@ async function handleDemoSubmission(request, env) {
   // configured is skipped; one that fails is logged and counted as failed.
   const [results] = await Promise.all([
     Promise.all([
-      notifyBrevo(env, leadRecord, fileData, cleanFileName),
-      notifyLeadConfirmation(env, leadRecord, fileData, cleanFileName),
-      notifySlack(env, leadRecord, cleanFileName),
-      notifyTelegram(env, leadRecord, cleanFileName),
+      notifyBrevo(env, leadRecord, fileData, cleanFileName, send),
+      notifyLeadConfirmation(env, leadRecord, fileData, cleanFileName, send),
+      notifySlack(env, leadRecord, cleanFileName, send),
+      notifyTelegram(env, leadRecord, cleanFileName, send),
     ]),
-    stored ? wakeApp(env, leadRecord) : null,
+    stored ? wakeApp(env, leadRecord, send) : null,
   ]);
 
   const configured = results.filter((r) => r.configured);
@@ -408,10 +370,10 @@ const APP_API_ORIGIN = "https://talent-radar-web-production.up.railway.app";
  * of at its next five-minute round. Best effort: the round is the fallback,
  * so a slow or failed call never holds up or fails the visitor's sign-up.
  */
-async function wakeApp(env, lead) {
+async function wakeApp(env, lead, send) {
   const origin = String(env.APP_API_ORIGIN || APP_API_ORIGIN).replace(/\/+$/, "");
   try {
-    const res = await fetch(`${origin}/api/public/leads/${encodeURIComponent(lead.id)}/wake`, {
+    const res = await send(`${origin}/api/public/leads/${encodeURIComponent(lead.id)}/wake`, {
       method: "POST",
       signal: AbortSignal.timeout(3000),
     });
@@ -430,25 +392,6 @@ async function wakeApp(env, lead) {
 function normaliseTimezone(zone) {
   const value = String(zone || "").trim().slice(0, 64);
   return /^[A-Za-z]+(?:\/[A-Za-z0-9_+\-]+){1,2}$/.test(value) ? value : "";
-}
-
-/**
- * How long the form was open before it was sent, in ms, and how we know.
- * The page measures it itself (performance.now(), immune to a wrong clock).
- * A page loaded before that sends only its clock time at load; a visitor whose
- * clock runs ahead of ours makes that negative, which says nothing about speed,
- * so it lets them through rather than taking them for a bot.
- */
-export function fillTime(elapsedMs, timestamp, now) {
-  const elapsed = Number(elapsedMs);
-  if (elapsedMs != null && elapsedMs !== "" && Number.isFinite(elapsed) && elapsed >= 0) {
-    return { ms: Math.round(elapsed), source: "page" };
-  }
-  const loadedAt = parseInt(timestamp, 10);
-  if (!loadedAt) return { ms: null, source: "none" };
-  const diff = now - loadedAt;
-  if (diff < 0) return { ms: Infinity, source: "clock ahead" };
-  return { ms: diff, source: "clock" };
 }
 
 function normaliseLang(chosen, acceptLanguage) {
@@ -480,7 +423,7 @@ async function safeBody(res) {
   }
 }
 
-function notifyBrevo(env, lead, fileData, cleanFileName) {
+function notifyBrevo(env, lead, fileData, cleanFileName, send) {
   return runChannel("brevo", !!env.BREVO_API_KEY, () => {
     const payload = {
       sender: { name: "TalentRadar", email: env.LEAD_FROM || "leads@talentradar.eu" },
@@ -512,7 +455,7 @@ function notifyBrevo(env, lead, fileData, cleanFileName) {
       payload.attachment = [{ name: cleanFileName, content: rawBase64 }];
     }
 
-    return fetch("https://api.brevo.com/v3/smtp/email", {
+    return send("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
         "api-key": env.BREVO_API_KEY,
@@ -524,7 +467,7 @@ function notifyBrevo(env, lead, fileData, cleanFileName) {
   });
 }
 
-function notifyLeadConfirmation(env, lead, fileData, cleanFileName) {
+function notifyLeadConfirmation(env, lead, fileData, cleanFileName, send) {
   return runChannel("lead_confirmation", !!env.BREVO_API_KEY, () => {
     let companies = null;
     try {
@@ -543,7 +486,7 @@ function notifyLeadConfirmation(env, lead, fileData, cleanFileName) {
       tags: ["trial-confirmation"],
     };
 
-    return fetch("https://api.brevo.com/v3/smtp/email", {
+    return send("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
         "api-key": env.BREVO_API_KEY,
@@ -555,7 +498,7 @@ function notifyLeadConfirmation(env, lead, fileData, cleanFileName) {
   });
 }
 
-function notifySlack(env, lead, cleanFileName) {
+function notifySlack(env, lead, cleanFileName, send) {
   return runChannel("slack", !!env.SLACK_WEBHOOK_URL, () => {
     const clientsPreview = lead.clients
       ? lead.clients.length > 800
@@ -578,7 +521,7 @@ function notifySlack(env, lead, cleanFileName) {
       `*Time:* ${lead.timestamp}`,
     ].join("\n");
 
-    return fetch(env.SLACK_WEBHOOK_URL, {
+    return send(env.SLACK_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: text, mrkdwn: true }),
@@ -586,7 +529,7 @@ function notifySlack(env, lead, cleanFileName) {
   });
 }
 
-function notifyTelegram(env, lead, cleanFileName) {
+function notifyTelegram(env, lead, cleanFileName, send) {
   return runChannel("telegram", !!(env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID), () => {
     const text = [
       "New 14-day trial sign-up",
@@ -599,7 +542,7 @@ function notifyTelegram(env, lead, cleanFileName) {
       `Lead ID: ${lead.id}`,
     ].join("\n");
 
-    return fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    return send(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: text }),

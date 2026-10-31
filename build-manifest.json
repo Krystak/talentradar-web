@@ -1,0 +1,31 @@
+{
+  "note": "Files written by build.mjs; it removes only these.",
+  "files": [
+    "build-manifest.json",
+    "public/404.html",
+    "public/_headers",
+    "public/blog/dlouho-otevrene-pozice.html",
+    "public/blog/index.html",
+    "public/blog/kolik-stoji-mrtve-inzeraty.html",
+    "public/blog/prvni-dny-po-vypsani-pozice.html",
+    "public/cenik.html",
+    "public/css/site.css",
+    "public/demo.html",
+    "public/en/404.html",
+    "public/en/blog/anatomy-of-stale-roles.html",
+    "public/en/blog/hidden-cost-of-dead-vacancies.html",
+    "public/en/blog/index.html",
+    "public/en/blog/the-4-day-latency-gap.html",
+    "public/en/demo.html",
+    "public/en/gdpr.html",
+    "public/en/index.html",
+    "public/en/pricing.html",
+    "public/gdpr.html",
+    "public/index.html",
+    "public/js/demo-form.js",
+    "public/js/site.js",
+    "public/robots.txt",
+    "public/sitemap.xml",
+    "worker-routes.gen.js"
+  ]
+}

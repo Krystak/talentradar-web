@@ -1,0 +1,54 @@
+{
+ "id": "nove-pozice-po-dnech",
+ "as_of": "2026-10-31",
+ "source_cs": "Data z veřejného dema TalentRadaru: 100 českých firem (z toho 26 z IT a softwaru), skeny v 6:00 a ve 12:00, stav k 31. 10. 2026.",
+ "source_en": "Data from TalentRadar’s public demo: 100 Czech companies (26 of them in IT and software), scans at 6:00 and 12:00, as of 31 Oct 2026.",
+ "title_cs": "Nové pozice po dnech",
+ "title_en": "New roles per day",
+ "unit_cs": "nově nalezených pozic",
+ "unit_en": "newly found roles",
+ "form": "sloupcový graf, jedna řada, jeden odstín; popisky jen u nejvyšší a nejnižší hodnoty",
+ "rows": [
+  {
+   "date": "2026-10-26",
+   "new_roles": 58,
+   "all_found": 66,
+   "left_out_first_scan": 8
+  },
+  {
+   "date": "2026-10-27",
+   "new_roles": 83,
+   "all_found": 83,
+   "left_out_first_scan": 0
+  },
+  {
+   "date": "2026-10-28",
+   "new_roles": 43,
+   "all_found": 43,
+   "left_out_first_scan": 0
+  },
+  {
+   "date": "2026-10-29",
+   "new_roles": 17,
+   "all_found": 17,
+   "left_out_first_scan": 0
+  },
+  {
+   "date": "2026-10-30",
+   "new_roles": 40,
+   "all_found": 40,
+   "left_out_first_scan": 0
+  },
+  {
+   "date": "2026-10-31",
+   "new_roles": 21,
+   "all_found": 21,
+   "left_out_first_scan": 0
+  }
+ ],
+ "note_cs": "Jen dny od 26. 10., kdy už sken procházel všech 100 firem (75 přibylo 25. 10.). Počítají se všechny nově nalezené inzeráty, i mimo zaměření agentury a i ty, které mezitím zmizely; pozice z prvního dne hlídání firmy započítané nejsou (26. 10.: 8 pozic u 3 firem). Vyšší čísla 26.–28. 10. mohou ještě obsahovat inzeráty, které sken u nově přidaných firem dohledal napoprvé neúplně.",
+ "note_en": "Only days from 26 Oct, when the scan covered all 100 companies (75 were added on 25 Oct). Every newly found posting counts, including ones outside the agency’s niche and ones gone since; roles from a company’s first day under watch are left out (26 Oct: 8 roles at 3 companies). The higher counts on 26–28 Oct may still include postings a first, incomplete pass missed at newly added companies.",
+ "alt_cs": "Za šest dní od 26. do 31. 10. radar u 100 českých firem našel v průměru 44 nových pozic denně, od 17 (29. 10.) do 83 (27. 10.).",
+ "alt_en": "Over the six days from 26 to 31 Oct the radar found on average 44 new roles a day at 100 Czech companies, from 17 (29 Oct) to 83 (27 Oct).",
+ "method": "daily_new z /api/sandbox (scripts/web_sandbox_feed.py, všechny role včetně SKIP a později archivovaných) za dny od 26. 10.; odečteny pozice prvního dne hlídání firem, které začaly ten den (viditelné ve feedu: otevřené, bez SKIP). Skript analyza_zivy.py."
+}

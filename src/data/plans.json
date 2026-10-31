@@ -1,0 +1,10 @@
+{
+  "_source": "Prices as in core/plans.py of the app (PLANS price_czk / price_eur, YEARLY_PAID_MONTHS), checked 31 Oct 2026. Without VAT, monthly.",
+  "currency": { "cs": "CZK", "en": "EUR" },
+  "yearly_paid_months": 10,
+  "tiers": [
+    { "id": "solo", "name": "Solo Scout", "companies": 50, "price": { "CZK": 1990, "EUR": 119 } },
+    { "id": "pro", "name": "Agency Pro", "companies": 150, "price": { "CZK": 3990, "EUR": 289 } },
+    { "id": "scale", "name": "Scale", "companies": 400, "price": { "CZK": 7990, "EUR": 529 } }
+  ]
+}

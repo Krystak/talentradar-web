@@ -1,0 +1,107 @@
+/*
+ * Design tokens: the only place with colours, type sizes, spacing and radii.
+ * Etapa 1 = neutral skeleton in today's colours; etapa 2 replaces this file with
+ * the chosen variant. base.css and components.css use nothing but these variables.
+ * Type scale: docs/strategie/2026-10-31_web-redesign-resers-vzoru.md §6.2.
+ * Smallest text is --fs-min (12 px); tools/check-site.mjs fails on anything smaller.
+ */
+:root {
+  /* palette: names and values of the chosen direction C
+     (docs/strategie/2026-10-31_web-redesign-vizualni-smer.md, chapter 4) */
+  --navy-950: #0D1320;
+  --navy-900: #131B2C;
+  --navy-850: #18223A;
+  --navy-800: #1E2A44;
+  --paper: #F4F6FA;
+  --card: #FFFFFF;
+  --line-dark: rgba(255, 255, 255, 0.14);
+  --line-light: #D6DCE6;
+  --text-on-dark: #FFFFFF;
+  --text-on-dark-2: #C8CEDA;
+  --mist: #AEB8CB;
+  --ink: #131B2C;
+  --ink-2: #4A5570;
+  --orange: #FF6B00;
+  --orange-line: #D95700;
+  --orange-ink: #B84A00;
+  --orange-tint-16: rgba(255, 107, 0, 0.16);
+  --orange-tint-22: rgba(255, 107, 0, 0.22);
+  --orange-tint-30: rgba(255, 107, 0, 0.30);
+  --grid: #E3E8EF;
+
+  /* roles used by base.css and components.css (etapa 1: everything on dark;
+     etapa 2 adds the light bands by pointing these at paper / card / ink) */
+  --c-bg: var(--navy-900);
+  --c-bg-deep: var(--navy-950);
+  --c-surface: var(--navy-850);
+  --c-surface-2: var(--navy-800);
+  --c-border: var(--line-dark);
+  --c-border-strong: rgba(255, 255, 255, 0.24);
+  --c-text: var(--text-on-dark);
+  --c-text-2: var(--text-on-dark-2);
+  --c-muted: var(--mist);
+  --c-accent: var(--orange);
+  --c-accent-hover: #FF8533;
+  --c-accent-tint: var(--orange-tint-16);
+  --c-accent-tint-hover: var(--orange-tint-22);
+  --c-ok: #34D399;
+  --c-warn: #FBBF24;
+  --c-error: #F87171;
+  --c-info: #38BDF8;
+  --c-focus: #FFB27A;
+
+  /* chart */
+  --chart-accent: var(--c-accent);
+  --chart-muted: #8A95AA;
+  --chart-grid: rgba(255, 255, 255, 0.10);
+  --chart-axis: rgba(255, 255, 255, 0.30);
+  --chart-text: var(--c-text-2);
+
+  /* type */
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Manrope", "Inter", system-ui, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --fs-min: 0.75rem;                              /* 12 px, the floor */
+  --fs-xs: 0.8125rem;                             /* 13 px, kicker */
+  --fs-sm: 0.875rem;                              /* 14 px, caption */
+  --fs-body: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);      /* 16 -> 17 */
+  --fs-lead: clamp(1.125rem, 1.07rem + 0.27vw, 1.25rem);    /* 18 -> 20 */
+  --fs-h3: clamp(1.25rem, 1.2rem + 0.18vw, 1.375rem);       /* 20 -> 22 */
+  --fs-h2: clamp(1.75rem, 1.43rem + 1.43vw, 2.5rem);        /* 28 -> 40 */
+  --fs-h1: clamp(2.25rem, 1.7rem + 2.5vw, 3.5rem);          /* 36 -> 56 */
+  --fs-figure: clamp(2.25rem, 1.9rem + 1.6vw, 3.25rem);     /* proof numbers */
+
+  --lh-tight: 1.1;
+  --lh-heading: 1.2;
+  --lh-body: 1.6;
+  --tracking-h1: -0.02em;
+  --tracking-kicker: 0.1em;
+
+  /* space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-section: clamp(4rem, 2.6rem + 6vw, 8rem);
+  --gutter: clamp(1rem, 0.6rem + 1.8vw, 2rem);
+
+  /* layout */
+  --container: 75rem;      /* 1200 px */
+  --measure: 42.5rem;      /* 680 px of running text */
+  --header-h: 4rem;
+
+  /* shape */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+  --border-accent: 1.5px solid var(--c-accent);
+
+  /* motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 0.6s;
+}

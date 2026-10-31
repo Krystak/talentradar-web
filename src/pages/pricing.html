@@ -1,0 +1,100 @@
+<section class="section" aria-labelledby="pricing-title">
+  <div class="container">
+    <div class="section__head">
+      <h1 id="pricing-title">{{t.pp_h1}}</h1>
+      <p>{{t.pp_intro}}</p>
+    </div>
+    <div class="billing-toggle" role="group" aria-label="{{t.pp_toggle_aria}}" data-billing-toggle>
+      <button type="button" aria-pressed="true" data-billing-set="month">{{t.pp_toggle_monthly}}</button>
+      <button type="button" aria-pressed="false" data-billing-set="year">{{t.pp_toggle_yearly}} · {{t.pp_toggle_save}}</button>
+    </div>
+    <div data-billing="month">
+      <ul class="plans" role="list">
+        <li><div class="plan">
+          <h2 class="plan__name">{{t.pp_t1_name}}</h2>
+          <p>{{t.pp_t1_for}}</p>
+          <div class="price--month"><p class="plan__price">{{t.pp_t1_price}} <span class="plan__period">{{t.pp_period_month}}</span></p></div>
+          <div class="price--year"><p class="plan__price">{{t.pp_t1_price_year}} <span class="plan__period">{{t.pp_period_year}}</span></p><p class="plan__billing">{{t.pp_t1_year_note}}</p></div>
+          <ul>
+            <li>{{icon:check}}<span>{{t.pp_t1_f1}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t1_f2}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t1_f3}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t1_f4}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t1_f5}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t1_f6}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t1_f7}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t1_f8}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t1_f9}}</span></li>
+          </ul>
+          <a class="btn btn-secondary" href="{{url:home}}#{{t.id_trial}}">{{t.pp_cta}}</a>
+        </div></li>
+        <li><div class="plan plan--pick">
+          <span class="plan__badge">{{t.pp_t2_badge}}</span>
+          <h2 class="plan__name">{{t.pp_t2_name}}</h2>
+          <p>{{t.pp_t2_for}}</p>
+          <div class="price--month"><p class="plan__price">{{t.pp_t2_price}} <span class="plan__period">{{t.pp_period_month}}</span></p></div>
+          <div class="price--year"><p class="plan__price">{{t.pp_t2_price_year}} <span class="plan__period">{{t.pp_period_year}}</span></p><p class="plan__billing">{{t.pp_t2_year_note}}</p></div>
+          <ul>
+            <li>{{icon:check}}<span>{{t.pp_t2_f1}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t2_f2}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t2_f3}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t2_f4}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t2_f5}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t2_f6}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t2_f7}}</span></li>
+          </ul>
+          <a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">{{t.pp_cta}}</a>
+        </div></li>
+        <li><div class="plan">
+          <h2 class="plan__name">{{t.pp_t3_name}}</h2>
+          <p>{{t.pp_t3_for}}</p>
+          <div class="price--month"><p class="plan__price">{{t.pp_t3_price}} <span class="plan__period">{{t.pp_period_month}}</span></p></div>
+          <div class="price--year"><p class="plan__price">{{t.pp_t3_price_year}} <span class="plan__period">{{t.pp_period_year}}</span></p><p class="plan__billing">{{t.pp_t3_year_note}}</p></div>
+          <ul>
+            <li>{{icon:check}}<span>{{t.pp_t3_f1}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t3_f2}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t3_f3}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t3_f4}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t3_f5}}</span></li>
+            <li>{{icon:check}}<span>{{t.pp_t3_f6}}</span></li>
+          </ul>
+          <a class="btn btn-secondary" href="{{url:home}}#{{t.id_trial}}">{{t.pp_cta}}</a>
+          <a class="link-arrow" href="mailto:{{config.email}}?subject={{uri:story_cta_subject}}">{{t.pp_cta_call}}</a>
+        </div></li>
+      </ul>
+    </div>
+    <div class="grid-2">
+      <div class="promo">
+        <p class="promo__label">{{t.pp_promo_label}}</p>
+        <p><strong>{{t.pp_promo_text}}</strong> {{t.pp_promo_perk}}</p>
+        <p class="note">{{t.pp_promo_after}}</p>
+      </div>
+      <div class="panel-box">
+        <h2 class="h3-like">{{t.pp_trial_h}}</h2>
+        <p>{{t.pp_trial_body}}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark" aria-labelledby="pay-faq-title">
+  <div class="container">
+    <div class="section__head">
+      <h2 id="pay-faq-title">{{t.pp_faq_h2}}</h2>
+    </div>
+    <div class="faq">
+      <details><summary>{{t.pp_faq_q1}}</summary><div><p>{{t.pp_faq_a1}}</p></div></details>
+      <details><summary>{{t.pp_faq_q2}}</summary><div><p>{{t.pp_faq_a2}}</p></div></details>
+      <details><summary>{{t.pp_faq_q3}}</summary><div><p>{{t.pp_faq_a3}}</p></div></details>
+      <details><summary>{{t.pp_faq_q4}}</summary><div><p>{{t.pp_faq_a4}}</p></div></details>
+      <details><summary>{{t.pp_faq_q5}}</summary><div><p>{{t.pp_faq_a5}}</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="pp-bottom-title">
+  <div class="container">
+    <h2 id="pp-bottom-title">{{t.pp_bottom_h}}</h2>
+    <p class="btn-row"><a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">{{t.pp_bottom_cta}}</a></p>
+  </div>
+</section>

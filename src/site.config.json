@@ -1,0 +1,11 @@
+{
+  "origin": "https://talentradar.eu",
+  "defaultLang": "cs",
+  "langs": ["cs", "en"],
+  "xDefault": "en",
+  "appUrl": "https://app.talentradar.eu",
+  "demoUrl": "https://app.talentradar.eu/?demo=showcase",
+  "email": "krystof@talentradar.eu",
+  "linkedinCompany": "https://www.linkedin.com/company/talent-radareu",
+  "linkedinFounder": "https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/"
+}

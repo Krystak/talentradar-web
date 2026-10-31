@@ -5,10 +5,18 @@ name = "talentradar-web"
 main = "worker.js"
 compatibility_date = "2026-09-15"
 
-# Static assets (HTML, images, data) served straight from the repo root.
+# Static assets: public/ only, built by `node build.mjs` from src/ (output committed).
+# An address without a file reaches the Worker: an old address gets its 301,
+# anything else the 404 page of its language (worker.js). No not_found_handling
+# here on purpose: with "404-page" the assets answer 404 themselves and the old
+# addresses never reach the Worker (seen on wrangler dev, 31. 10. 2026).
+# The Worker also runs first for /video/* (byte ranges, serveVideo in
+# worker-lib.js) and for old addresses that are still files, so they answer
+# 301 instead of the assets' 307.
 [assets]
-directory = "."
+directory = "public"
 binding = "ASSETS"
+run_worker_first = ["/video/*", "/index.html", "/gdpr.html", "/blog/index.html"]
 
 # Lead storage for the /api/demo trial form.
 # Keys written by worker.js:
@@ -36,5 +44,9 @@ id = "b33b5939becc4f21a8d9d824fae467b1"
 # At least one notification channel should be configured. Without one the lead
 # is still written to KV, but nobody is told about it, so worker.js logs an
 # error on every submission until a channel exists.
+
+# Local run: `npm run dev` (wrangler dev --local, port 8830, KV in .wrangler/state).
+# It sets OFFLINE_DEV=1, and a request to localhost is offline anyway: the Worker
+# then sends nothing out (no e-mail, Slack, Telegram, DNS check or app wake-up).
 
 # Production domain is talentradar.eu, wired up in the Cloudflare dashboard.

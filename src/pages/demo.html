@@ -1,0 +1,37 @@
+<section class="section" aria-labelledby="demo-title">
+  <div class="container">
+    <div class="section__head">
+      <h1 id="demo-title">{{t.demo_h1}}</h1>
+      <p>{{t.demo_intro}}</p>
+    </div>
+    <figure class="video video--tour" data-facade>
+      <div class="video__frame">
+        <video controls playsinline preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="{{t.demo_video_aria}}">
+          <source src="/video/ukazka-v0.mp4" type="video/mp4">
+        </video>
+        <button class="video__play btn btn-primary" type="button" hidden>{{icon:play_arrow}}{{t.demo_play}}</button>
+      </div>
+      <figcaption>{{t.demo_recorded}}</figcaption>
+    </figure>
+    <div class="grid-2 section-cta">
+      <div>
+        <h2>{{t.demo_chapters_h}}</h2>
+        <ol class="tour-chapters">
+          <li>{{t.demo_ch1}}</li>
+          <li>{{t.demo_ch2}}</li>
+          <li>{{t.demo_ch3}}</li>
+          <li>{{t.demo_ch4}}</li>
+        </ol>
+      </div>
+      <div>
+        <h2>{{t.demo_real_h}}</h2>
+        <p>{{t.demo_real}}</p>
+        <p>{{t.demo_fake}}</p>
+      </div>
+    </div>
+    <div class="grid-2 section-cta">
+      <p class="btn-row"><a class="btn btn-secondary" href="{{config.demoUrl}}">{{t.demo_cta_full}} {{icon:open_in_new}}</a> <span class="note">{{t.demo_cta_full_note}}</span></p>
+      <p class="btn-row"><a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">{{t.demo_cta_trial}}</a> <span class="note">{{t.demo_cta_trial_note}}</span></p>
+    </div>
+  </div>
+</section>

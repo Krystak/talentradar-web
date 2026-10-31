@@ -1,0 +1,44 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div>
+        <a class="logo" href="{{url:home}}">
+          <img src="/falcon.svg" alt="" width="32" height="32">
+          <span class="logo__word" data-brand>TalentRadar</span>
+        </a>
+        <p>{{t.footer_about}}</p>
+      </div>
+      <nav aria-labelledby="f-product">
+        <h2 id="f-product">{{t.footer_col_product}}</h2>
+        <ul>
+          <li><a href="{{url:home}}#{{t.id_how}}">{{t.nav_how}}</a></li>
+          <li><a href="{{url:pricing}}">{{t.nav_pricing}}</a></li>
+          <li><a href="{{url:demo}}">{{t.nav_tour}}</a></li>
+          <li><a href="{{config.demoUrl}}">{{t.footer_full_demo}}</a></li>
+          <li><a href="{{config.appUrl}}">{{t.nav_signin}}</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-resources">
+        <h2 id="f-resources">{{t.footer_col_resources}}</h2>
+        <ul>
+          <li><a href="{{url:blog}}">{{t.nav_blog}}</a></li>
+          <li><a href="{{url:home}}#{{t.id_faq}}">{{t.footer_faq}}</a></li>
+          <li><a href="{{url:gdpr}}">{{t.footer_gdpr}}</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-contact">
+        <h2 id="f-contact">{{t.footer_col_contact}}</h2>
+        <ul>
+          <li><a href="mailto:{{config.email}}">{{config.email}}</a></li>
+          <li><a href="{{config.linkedinCompany}}" rel="noopener">{{t.footer_linkedin_company}}</a></li>
+          <li><a href="{{config.linkedinFounder}}" rel="noopener">{{t.footer_author}}</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="site-footer__slogan" lang="en">Spend time closing, <span>not searching.</span></p>
+    <div class="site-footer__bottom">
+      <p>{{t.footer_copyright}}</p>
+      <!-- Operator line (footer_operator) stays hidden until Kryštof fills it in (lead, 31. 10. 2026). -->
+    </div>
+  </div>
+</footer>

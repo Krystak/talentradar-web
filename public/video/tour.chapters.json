@@ -1,0 +1,58 @@
+{
+  "cs": [
+    {
+      "id": "rano",
+      "start": 0,
+      "title": "Ráno"
+    },
+    {
+      "id": "detail",
+      "start": 20.73,
+      "title": "Detail pozice"
+    },
+    {
+      "id": "komu-zavolat",
+      "start": 35.66,
+      "title": "Komu zavolat"
+    },
+    {
+      "id": "kandidat",
+      "start": 67.6,
+      "title": "Kdo hledá tohoto kandidáta?"
+    },
+    {
+      "id": "ats",
+      "start": 90.19,
+      "title": "Radar + ATS"
+    }
+  ],
+  "cs_duration": 107.9,
+  "en": [
+    {
+      "id": "rano",
+      "start": 0,
+      "title": "Morning"
+    },
+    {
+      "id": "detail",
+      "start": 20.74,
+      "title": "Role detail"
+    },
+    {
+      "id": "komu-zavolat",
+      "start": 35.69,
+      "title": "Whom to call"
+    },
+    {
+      "id": "kandidat",
+      "start": 67.68,
+      "title": "Who wants this candidate?"
+    },
+    {
+      "id": "ats",
+      "start": 90.2,
+      "title": "Radar + ATS"
+    }
+  ],
+  "en_duration": 107.91
+}

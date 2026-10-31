@@ -503,3 +503,43 @@ test("the contrast check fails on a token pair it cannot read instead of skippin
   const { errors } = checkSite(files, { redirects: REDIRECTS, workerFirst: workerFirstPatterns() });
   assert.ok(errors.some((e) => e.includes("contrast pair --mist on")), errors.join("\n"));
 });
+
+// ── Etapa 3: share images ───────────────────────────────────────────────────
+
+/** Width and height of a baseline/progressive JPEG from its SOF marker. */
+function jpegSize(buf) {
+  let i = 2;
+  while (i < buf.length) {
+    if (buf[i] !== 0xff) return null;
+    const marker = buf[i + 1];
+    const len = buf.readUInt16BE(i + 2);
+    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+      return { height: buf.readUInt16BE(i + 5), width: buf.readUInt16BE(i + 7) };
+    }
+    i += 2 + len;
+  }
+  return null;
+}
+
+test("every page shares the image of its language: an existing 1200x630 JPEG under 150 kB, with size and alt", () => {
+  const files = built();
+  for (const [path, content] of files) {
+    if (!path.endsWith(".html")) continue;
+    const html = String(content);
+    const lang = html.match(/<html lang="([a-z]{2})"/)[1];
+    const og = html.match(/<meta property="og:image" content="https:\/\/talentradar\.eu(\/img\/og-([a-z]{2})\.jpg)">/);
+    assert.ok(og, `${path}: og:image`);
+    assert.equal(og[2], lang, `${path}: og:image in the page's language`);
+    assert.match(html, new RegExp(`<meta name="twitter:image" content="https://talentradar\\.eu${og[1].replace(/\./g, "\\.")}">`), `${path}: twitter:image`);
+    assert.match(html, /<meta property="og:image:width" content="1200">/);
+    assert.match(html, /<meta property="og:image:height" content="630">/);
+    assert.match(html, /<meta property="og:image:alt" content="[^"]+">/);
+    const img = readFileSync(new URL(`../public${og[1]}`, import.meta.url));
+    assert.deepEqual(jpegSize(img), { width: 1200, height: 630 }, og[1]);
+    assert.ok(img.length <= 150 * 1024, `${og[1]}: ${img.length} bytes`);
+  }
+});
+
+test("the old share image stays: shared links and the app may still point at it", () => {
+  assert.ok(readFileSync(new URL("../public/img/og-banner.jpg", import.meta.url)).length > 0);
+});

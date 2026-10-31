@@ -7,7 +7,7 @@
  "title_en": "How long roles stay open",
  "unit_cs": "otevřených pozic",
  "unit_en": "open roles",
- "form": "sloupcový graf po pásmech dní, pásma 45–365 dní zvýrazněná akcentem, ostatní šedě (emphasis)",
+ "form": "sloupcový graf po pásmech dní, pásma od 45 dní (včetně 366+) zvýrazněná akcentem, ostatní šedě (emphasis)",
  "rows": [
   {
    "days": "0–6",
@@ -50,9 +50,9 @@
    "highlight": true
   }
  ],
- "note_cs": "Jen pozice, u kterých ATS firmy uvádí datum zveřejnění: 409 z 1382 otevřených pozic ve feedu. Stáří se počítá od data zveřejnění ke skenu 31. 10. 12:00. Pozice otevřené přes 365 dní (stálé inzeráty) radar mezi příležitosti nepočítá.",
- "note_en": "Only roles whose company ATS gives a posting date: 409 of 1382 open roles in the feed. Age runs from the posting date to the scan on 31 Oct, 12:00. Roles open over 365 days (standing ads) are not counted as opportunities.",
- "alt_cs": "Z 409 pozic s datem zveřejnění je 98 (24 %) otevřených 45 a více dní.",
- "alt_en": "Of 409 roles with a posting date, 98 (24%) have been open for 45 days or more.",
- "method": "core/role_age.py: stáří od posted_at; 45+ = counts_as_open_long(45) (45–365 dní). Skript analyza_zivy.py."
+ "note_cs": "Jen pozice, u kterých ATS firmy uvádí datum zveřejnění: 409 z 1382 otevřených pozic ve feedu. Stáří se počítá od data zveřejnění ke skenu 31. 10. 12:00. Do pozic otevřených 45 a víc dní patří i ty nad 365 dní.",
+ "note_en": "Only roles whose company ATS gives a posting date: 409 of 1382 open roles in the feed. Age runs from the posting date to the scan on 31 Oct, 12:00. Roles open 45 days or more include those over 365 days.",
+ "alt_cs": "Z 409 pozic s datem zveřejnění je 99 (24 %) otevřených 45 a více dní.",
+ "alt_en": "Of 409 roles with a posting date, 99 (24%) have been open for 45 days or more.",
+ "method": "core/role_age.py: stáří od posted_at. Na webu 45+ = všechna pásma od 45 dní včetně 366+ (lead 31. 10.; aplikace v counts_as_open_long(45) bere jen 45–365 dní). Skript analyza_zivy.py."
 }

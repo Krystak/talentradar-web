@@ -1,0 +1,3 @@
+# Files in public/ that are not published (Workers static assets).
+.gitkeep
+**/.gitkeep

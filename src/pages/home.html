@@ -1,70 +1,65 @@
-<!-- 2. Hero -->
+<!-- 2. Hero (dark; the product frame runs into the light band below) -->
 <section class="hero" aria-labelledby="hero-title">
-  <div class="container hero__grid">
-    <div>
-      <h1 id="hero-title">{{h1:hero_h1}}</h1>
-      <p class="hero__sub">{{t.hero_sub}}</p>
-      <div class="btn-row">
-        <a class="btn btn-primary" href="#{{t.id_trial}}">{{t.hero_cta_primary}}</a>
-        <a class="btn btn-secondary" href="{{url:demo}}">{{t.hero_cta_secondary}}</a>
-      </div>
-      <p class="hero__note">{{t.hero_note}}</p>
+  <div class="container">
+    <h1 id="hero-title">{{h1:hero_h1}}</h1>
+    <p class="hero__sub">{{t.hero_sub}}</p>
+    <div class="btn-row hero__cta">
+      <a class="btn btn-primary" href="#{{t.id_trial}}">{{t.hero_cta_primary}}</a>
+      <a class="btn btn-secondary" href="{{url:demo}}">{{t.hero_cta_secondary}}</a>
     </div>
-    <figure class="video" data-autoplay>
-      <div class="video__frame">
-        <video muted loop playsinline controls preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="{{t.hero_video_aria}}">
-          <source src="/video/ukazka-v0.mp4" type="video/mp4">
-        </video>
-        <button class="video__toggle" type="button" hidden>{{icon:pause}}<span>{{t.hero_video_pause}}</span></button>
-      </div>
-      <figcaption>{{t.hero_video_caption}}</figcaption>
-    </figure>
+    <ul class="ticks" role="list">{{list:hero_note}}</ul>
+  </div>
+  <div class="hero__media">
+    <div class="container">
+      {{video:hero:hero_video_aria}}
+    </div>
   </div>
 </section>
 
-<!-- 3. Proof strip -->
-<section class="section--band section--tight" aria-label="{{t.proof_aria}}">
+<!-- 3. Proof strip (light) -->
+<section class="band band--light hero__media-foot" aria-label="{{t.proof_aria}}">
   <div class="container">
-    <p class="kicker">{{t.proof_label}}</p>
-    <div class="proof-wrap">
-      <blockquote class="proof__story">
-        <p>{{t.proof_story}}</p>
-        <footer>{{t.proof_story_by}}</footer>
-      </blockquote>
-      <ul class="proof" role="list">
-        <li><strong class="proof__n">{{t.proof_stat1_value}}</strong><span class="proof__l">{{t.proof_stat1_label}}</span></li>
-        <li><strong class="proof__n">{{t.proof_stat2_value}}</strong><span class="proof__l">{{t.proof_stat2_label}}</span></li>
-        {{proof:stat3}}
-      </ul>
+    <p class="note hero__caption">{{t.hero_video_caption}}</p>
+    <div class="proof-block">
+      <p class="kicker">{{t.proof_label}}</p>
+      <div class="proof-wrap">
+        <blockquote class="proof__story">
+          <p>{{t.proof_story}}</p>
+          <footer>{{t.proof_story_by}}</footer>
+        </blockquote>
+        <ul class="proof" role="list">
+          <li><strong class="proof__n">{{t.proof_stat1_value}}</strong><span class="proof__l">{{t.proof_stat1_label}}</span></li>
+          <li><strong class="proof__n">{{t.proof_stat2_value}}</strong><span class="proof__l">{{t.proof_stat2_label}}</span></li>
+          {{proof:stat3}}
+        </ul>
+      </div>
+      <p class="note proof__source">{{t.proof_source}} <a href="{{config.demoUrl}}">{{t.proof_link}}</a></p>
     </div>
-    <p class="note">{{t.proof_source}} <a href="{{config.demoUrl}}">{{t.proof_link}}</a></p>
   </div>
 </section>
 
-<!-- 4. How it works: two paths, chapters over the video -->
-<section class="section" id="{{t.id_how}}" aria-labelledby="how-title">
+<!-- 4. How it works: two paths, chapters over the video (dark) -->
+<section class="band" id="{{t.id_how}}" aria-labelledby="how-title">
   <div class="container">
-    <div class="section__head">
-      <p class="kicker">{{t.how_kicker}}</p>
-      <h2 id="how-title">{{t.how_h2}}</h2>
+    <div class="head-split">
+      <div>
+        <p class="kicker">{{t.how_kicker}}</p>
+        <h2 id="how-title">{{t.how_h2}}</h2>
+      </div>
       <p>{{t.how_sub}}</p>
     </div>
     <div data-chapters>
       <ul class="chapters" role="tablist" aria-label="{{t.how_chapters_aria}}">
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-1" aria-controls="chapter-1" aria-selected="true" data-src="/video/ukazka-v0.mp4" data-poster="/video/ukazka-v0.webp" data-label="{{t.how_clip1_alt}}">{{t.how_ch1_tab}}</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-2" aria-controls="chapter-2" aria-selected="false" tabindex="-1" data-src="/video/ukazka-v0.mp4" data-poster="/video/ukazka-v0.webp" data-label="{{t.how_clip2_alt}}">{{t.how_ch2_tab}}</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-3" aria-controls="chapter-3" aria-selected="false" tabindex="-1" data-src="/video/ukazka-v0.mp4" data-poster="/video/ukazka-v0.webp" data-label="{{t.how_clip3_alt}}">{{t.how_ch3_tab}}</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-4" aria-controls="chapter-4" aria-selected="false" tabindex="-1" data-src="/video/ukazka-v0.mp4" data-poster="/video/ukazka-v0.webp" data-label="{{t.how_clip4_alt}}">{{t.how_ch4_tab}}</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-1" aria-controls="chapter-1" aria-selected="true" data-clip="{{media:how1:json}}" data-label="{{t.how_clip1_alt}}">{{t.how_ch1_tab}}</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-2" aria-controls="chapter-2" aria-selected="false" tabindex="-1" data-clip="{{media:how2:json}}" data-label="{{t.how_clip2_alt}}">{{t.how_ch2_tab}}</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-3" aria-controls="chapter-3" aria-selected="false" tabindex="-1" data-clip="{{media:how3:json}}" data-label="{{t.how_clip3_alt}}">{{t.how_ch3_tab}}</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-4" aria-controls="chapter-4" aria-selected="false" tabindex="-1" data-clip="{{media:how4:json}}" data-label="{{t.how_clip4_alt}}">{{t.how_ch4_tab}}</button></li>
       </ul>
-      <figure class="video" data-autoplay>
-        <div class="video__frame">
-          <video muted loop playsinline controls preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="{{t.how_clip1_alt}}">
-            <source src="/video/ukazka-v0.mp4" type="video/mp4">
-          </video>
-          <button class="video__toggle" type="button" hidden>{{icon:pause}}<span>{{t.hero_video_pause}}</span></button>
-        </div>
-        <figcaption>{{t.how_clip_caption}}</figcaption>
-      </figure>
+      <div class="chapters-layout">
+      <div class="chapters-video">
+        {{video:how1:how_clip1_alt:how_clip_caption}}
+      </div>
+      <div>
       <div class="chapter-panel" role="tabpanel" id="chapter-1" aria-labelledby="tab-1">
         <h3>{{t.how_ch1_title}}</h3>
         <p>{{t.how_ch1_body}}</p>
@@ -82,56 +77,58 @@
         <p>{{t.how_ch4_body}}</p>
         <p class="note">{{t.how_ch4_rule}}</p>
       </div>
-      <p class="btn-row section-cta"><a class="btn btn-secondary" href="{{config.demoUrl}}">{{t.how_cta}} {{icon:open_in_new}}</a> <span class="note">{{t.how_cta_note}}</span></p>
+      <p class="btn-row btn-row--stack section-cta"><a class="btn btn-secondary" href="{{config.demoUrl}}">{{t.how_cta}}</a> <span class="note">{{t.how_cta_note}}</span></p>
+      </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 5. Data -->
-<section class="section section--dark" id="{{t.id_data}}" aria-labelledby="data-title">
+<!-- 5. Data (light) -->
+<section class="band band--light" id="{{t.id_data}}" aria-labelledby="data-title">
   <div class="container">
     <div class="section__head">
       <p class="kicker">{{t.data_kicker}}</p>
       <h2 id="data-title">{{t.data_h2}}</h2>
       <p>{{t.data_sub}}</p>
     </div>
+    <!-- chart 2 (45+) leads; charts 1 and 3 are beside it from 760 px (all three in a row from 1 100 px) and behind one click on a phone -->
     <div class="charts">
-      {{chart:nove-pozice-po-dnech}}
       {{chart:stari-pozic}}
-      {{chart:zdroje-pozic}}
+      <details class="charts__more" data-charts-more>
+        <summary>{{t.charts_more}}</summary>
+        <div class="charts__more-grid">
+          {{chart:nove-pozice-po-dnech}}
+          {{chart:zdroje-pozic}}
+        </div>
+      </details>
     </div>
   </div>
 </section>
 
-<!-- 6. Next to your ATS -->
-<section class="section" id="{{t.id_ats}}" aria-labelledby="ats-title">
+<!-- 6. Next to your ATS (dark) -->
+<section class="band" id="{{t.id_ats}}" aria-labelledby="ats-title">
   <div class="container">
     <div class="section__head">
       <p class="kicker">{{t.ats_kicker}}</p>
       <h2 id="ats-title">{{t.ats_h2}}</h2>
       <p>{{t.ats_sub}}</p>
     </div>
-    <div class="grid-2">
-      <div class="split-card">
-        <h3>{{t.ats_have_tab}}</h3>
-        <p class="split-card__mode">{{t.ats_have_mode}}</p>
-        <p>{{t.ats_have_body}}</p>
+    <div class="ats-grid">
+      <div class="split-cards">
+        <div class="split-card">
+          <h3>{{t.ats_have_tab}}</h3>
+          <p class="split-card__mode">{{t.ats_have_mode}}</p>
+          <p>{{t.ats_have_body}}</p>
+        </div>
+        <div class="split-card">
+          <h3>{{t.ats_none_tab}}</h3>
+          <p class="split-card__mode">{{t.ats_none_mode}}</p>
+          <p>{{t.ats_none_body}}</p>
+        </div>
       </div>
-      <div class="split-card">
-        <h3>{{t.ats_none_tab}}</h3>
-        <p class="split-card__mode">{{t.ats_none_mode}}</p>
-        <p>{{t.ats_none_body}}</p>
-      </div>
+      {{video:ats:ats_clip_alt:ats_clip_caption}}
     </div>
-    <figure class="video video--narrow section-cta" data-autoplay>
-      <div class="video__frame">
-        <video muted loop playsinline controls preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="{{t.ats_clip_alt}}">
-          <source src="/video/ukazka-v0.mp4" type="video/mp4">
-        </video>
-        <button class="video__toggle" type="button" hidden>{{icon:pause}}<span>{{t.hero_video_pause}}</span></button>
-      </div>
-      <figcaption>{{t.ats_clip_caption}}</figcaption>
-    </figure>
     <div class="systems">
       <p><strong>{{t.ats_strip_label}}</strong></p>
       <p>{{t.ats_strip_list}} {{t.ats_strip_more}}</p>
@@ -140,54 +137,52 @@
   </div>
 </section>
 
-<!-- 7. Pricing in brief -->
-<section class="section section--dark" id="{{t.id_pricing}}" aria-labelledby="pricing-title">
+<!-- 7. Pricing in brief (light): price on top, one main button on the recommended card -->
+<section class="band band--light" id="{{t.id_pricing}}" aria-labelledby="pricing-title">
   <div class="container">
     <div class="section__head">
       <p class="kicker">{{t.pricing_kicker}}</p>
       <h2 id="pricing-title">{{t.pricing_h2}}</h2>
       <p>{{t.pricing_sub}}</p>
     </div>
-    <ul class="plans" role="list">
-      <li><div class="plan">
-        <h3 class="plan__name">{{t.pricing_t1_name}}</h3>
-        <p class="plan__price">{{t.pricing_t1_price}} <span class="plan__period">{{t.pricing_period}}</span></p>
-        <p class="plan__companies">{{t.pricing_t1_limits}}</p>
-        <p>{{t.pricing_t1_for}}</p>
-        <a class="btn btn-secondary" href="#{{t.id_trial}}">{{t.pricing_cta}}</a>
-      </div></li>
+    <ul class="plans plans--brief" role="list">
       <li><div class="plan plan--pick">
         <span class="plan__badge">{{t.pricing_t2_badge}}</span>
         <h3 class="plan__name">{{t.pricing_t2_name}}</h3>
         <p class="plan__price">{{t.pricing_t2_price}} <span class="plan__period">{{t.pricing_period}}</span></p>
         <p class="plan__companies">{{t.pricing_t2_limits}}</p>
-        <p>{{t.pricing_t2_for}}</p>
+        <p class="plan__for">{{t.pricing_t2_for}}</p>
         <a class="btn btn-primary" href="#{{t.id_trial}}">{{t.pricing_cta}}</a>
+      </div></li>
+      <li><div class="plan">
+        <h3 class="plan__name">{{t.pricing_t1_name}}</h3>
+        <p class="plan__price">{{t.pricing_t1_price}} <span class="plan__period">{{t.pricing_period}}</span></p>
+        <p class="plan__companies">{{t.pricing_t1_limits}}</p>
+        <p class="plan__for">{{t.pricing_t1_for}}</p>
       </div></li>
       <li><div class="plan">
         <h3 class="plan__name">{{t.pricing_t3_name}}</h3>
         <p class="plan__price">{{t.pricing_t3_price}} <span class="plan__period">{{t.pricing_period}}</span></p>
         <p class="plan__companies">{{t.pricing_t3_limits}}</p>
-        <p>{{t.pricing_t3_for}}</p>
-        <a class="btn btn-secondary" href="#{{t.id_trial}}">{{t.pricing_cta}}</a>
+        <p class="plan__for">{{t.pricing_t3_for}}</p>
       </div></li>
     </ul>
-    <p>{{t.pricing_common}}</p>
-    <p><strong>{{t.pricing_promo}}</strong> {{t.pricing_trial}}</p>
-    <p><a class="link-arrow" href="{{url:pricing}}">{{t.pricing_more}} {{icon:arrow_forward}}</a></p>
+    <p class="pricing-common">{{t.pricing_common}}</p>
+    <p class="pricing-common"><strong>{{t.pricing_promo}}</strong> {{t.pricing_trial}}</p>
+    <p><a class="text-link" href="{{url:pricing}}">{{t.pricing_more}}</a></p>
   </div>
 </section>
 
-<!-- 8. Story -->
-<section class="section" id="{{t.id_story}}" aria-labelledby="story-title">
+<!-- 8. Story (dark) -->
+<section class="band" id="{{t.id_story}}" aria-labelledby="story-title">
   <div class="container story">
-    <img class="story__photo" src="/img/krystof.jpg" alt="{{t.story_photo_alt}}" width="192" height="192" loading="lazy">
+    <img class="story__photo" src="/img/krystof-416.webp" alt="{{t.story_photo_alt}}" width="208" height="208" decoding="async">
     <div class="measure">
       <p class="kicker">{{t.story_kicker}}</p>
       <h2 id="story-title">{{t.story_h2}}</h2>
       <p>{{t.story_body_html}}</p>
       <p class="story__sign"><strong>{{t.story_name}}</strong>, {{t.story_role}} · <a href="{{config.linkedinFounder}}" rel="noopener">{{t.story_linkedin}}</a></p>
-      <p class="btn-row">
+      <p class="btn-row btn-row--stack">
         <a class="btn btn-secondary" href="mailto:{{config.email}}?subject={{uri:story_cta_subject}}">{{t.story_cta}}</a>
         <span class="note">{{t.story_cta_note}}</span>
       </p>
@@ -195,8 +190,8 @@
   </div>
 </section>
 
-<!-- 9. FAQ -->
-<section class="section section--dark" id="{{t.id_faq}}" aria-labelledby="faq-title">
+<!-- 9. FAQ (light) -->
+<section class="band band--light" id="{{t.id_faq}}" aria-labelledby="faq-title">
   <div class="container">
     <div class="section__head">
       <p class="kicker">{{t.faq_kicker}}</p>
@@ -215,21 +210,23 @@
   </div>
 </section>
 
-<!-- 10. Trial -->
-<section class="section" id="{{t.id_trial}}" aria-labelledby="trial-title">
+<!-- 10. Trial (dark) -->
+<section class="band" id="{{t.id_trial}}" aria-labelledby="trial-title">
   <div class="container">
     {{> trial-form}}
   </div>
 </section>
 
-<!-- 11. From the blog -->
-<section class="section section--dark" aria-labelledby="blog-title">
+<!-- 11. From the blog (light, narrow) -->
+<section class="band band--light band--tight" aria-labelledby="blog-title">
   <div class="container">
-    <div class="section__head">
-      <p class="kicker">{{t.blog_kicker}}</p>
-      <h2 id="blog-title">{{t.blog_h2}}</h2>
+    <div class="section__head section__head--row">
+      <div>
+        <p class="kicker">{{t.blog_kicker}}</p>
+        <h2 id="blog-title">{{t.blog_h2}}</h2>
+      </div>
+      <a class="text-link" href="{{url:blog}}">{{t.blog_all}}</a>
     </div>
     {{blog:latest}}
-    <p><a class="link-arrow" href="{{url:blog}}">{{t.blog_all}} {{icon:arrow_forward}}</a></p>
   </div>
 </section>

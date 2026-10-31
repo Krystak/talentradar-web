@@ -23,8 +23,8 @@
   <script>document.documentElement.className = "js";</script>
   <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/site.css?v=9e508e4111">
-  <script type="module" src="/js/site.js?v=791f41c59e"></script>
+  <link rel="stylesheet" href="/css/site.css?v=8bc80058a1">
+  <script type="module" src="/js/site.js?v=ddeb33e4fa"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -36,7 +36,7 @@
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="logo" href="/">
-      <img src="/falcon.svg" alt="" width="32" height="32">
+      <img src="/falcon.svg" alt="" aria-hidden="true" width="32" height="32">
       <span class="logo__word" data-brand><span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radar</span></span></span>
     </a>
     <nav class="site-nav" id="site-nav" aria-label="Hlavní menu">
@@ -58,24 +58,29 @@
 </header>
 
 <main id="main">
-<section class="section" aria-labelledby="demo-title">
+<section class="band" aria-labelledby="demo-title">
   <div class="container">
     <div class="section__head">
       <h1 id="demo-title">Prohlídka <span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radaru</span></span> za 2 minuty</h1>
       <p>Jedno ráno agentury od nové pozice po telefonát a jedno hledání pro kandidáta. Bez zvuku, s titulky.</p>
     </div>
-    <figure class="video video--tour" data-facade>
-      <div class="video__frame">
-        <video controls playsinline preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="Prohlídka aplikace TalentRadar s titulky">
-          <source src="/video/ukazka-v0.mp4" type="video/mp4">
-        </video>
-        <button class="video__play btn btn-primary" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-play_arrow"></use></svg>Přehrát prohlídku</button>
-      </div>
-      <figcaption>Čísla na obrazovce se od dnešního dema mohou lišit.</figcaption>
-    </figure>
-    <div class="grid-2 section-cta">
+    <div class="tour">
+      <figure class="video video--tour" data-facade>
+  <div class="frame">
+    <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">app.talentradar.eu</span></div>
+    <div class="frame__screen video--desktop"><video controls playsinline preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="Prohlídka aplikace TalentRadar s titulky"><source src="/video/ukazka-v0.mp4" type="video/mp4"></video><button class="video__play" type="button" hidden>Přehrát prohlídku</button></div>
+  </div>
+  <figcaption>Čísla na obrazovce se od dnešního dema mohou lišit.</figcaption>
+</figure>
+    </div>
+  </div>
+</section>
+
+<section class="band band--light" aria-labelledby="demo-chapters-title">
+  <div class="container">
+    <div class="grid-2">
       <div>
-        <h2>Kapitoly</h2>
+        <h2 id="demo-chapters-title">Kapitoly</h2>
         <ol class="tour-chapters">
           <li>Ráno: co je nového</li>
           <li>Detail pozice</li>
@@ -90,8 +95,14 @@
       </div>
     </div>
     <div class="grid-2 section-cta">
-      <p class="btn-row"><a class="btn btn-secondary" href="https://app.talentradar.eu/?demo=showcase">Otevřít plné demo <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-open_in_new"></use></svg></a> <span class="note">Bez registrace, s vlastní kopií dema jen pro vás.</span></p>
-      <p class="btn-row"><a class="btn btn-primary" href="/#zkusit">Poslat seznam firem</a> <span class="note">Totéž na vašich firmách, 14 dní zdarma.</span></p>
+      <div>
+        <p class="btn-row btn-row--stack"><a class="btn btn-primary" href="/#zkusit">Poslat seznam firem</a></p>
+        <p class="note">Totéž na vašich firmách, 14 dní zdarma.</p>
+      </div>
+      <div>
+        <p class="btn-row btn-row--stack"><a class="btn btn-secondary" href="https://app.talentradar.eu/?demo=showcase">Otevřít plné demo</a></p>
+        <p class="note">Bez registrace, s vlastní kopií dema jen pro vás.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -102,7 +113,7 @@
     <div class="site-footer__grid">
       <div>
         <a class="logo" href="/">
-          <img src="/falcon.svg" alt="" width="32" height="32">
+          <img src="/falcon.svg" alt="" aria-hidden="true" width="32" height="32">
           <span class="logo__word" data-brand><span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radar</span></span></span>
         </a>
         <p>Všechny otevřené pozice vašich firem, vedle vašeho ATS. Vzniklo v agentuře v Dublinu.</p>
@@ -143,7 +154,7 @@
 </footer>
 
 <!-- Material Symbols (Apache License 2.0, src/icons/LICENSE-material-symbols.txt) -->
-<svg xmlns="http://www.w3.org/2000/svg" hidden><symbol id="i-menu" viewBox="0 -960 960 960"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></symbol><symbol id="i-open_in_new" viewBox="0 -960 960 960"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"/></symbol><symbol id="i-play_arrow" viewBox="0 -960 960 960"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></symbol></svg>
-<script type="application/json" id="i18n">{"hero_video_play":"Přehrát ukázku","hero_video_pause":"Pozastavit ukázku","trial_submitting":"Odesílám seznam…","nav_menu_open":"Otevřít menu","nav_menu_close":"Zavřít menu","form_err_required":"Vyplňte prosím jméno, pracovní e-mail a název agentury.","form_err_email":"Zkontrolujte prosím e-mail, má vypadat jako jan@agentura.cz.","form_err_file_large":"Soubor je příliš velký (nejvýš 8 MB).","form_err_file_type":"Nahrajte prosím Excel (.xlsx, .xls) nebo .csv.","form_err_generic":"Něco se pokazilo. Napište mi prosím přímo na krystof@talentradar.eu.","form_state_success_title":"Hotovo, zkušební verzi připravujeme","form_state_success_s1":"Potvrzovací e-mail vám právě odešel. Když ho nevidíte, podívejte se do spamu.","form_state_success_s2":"Automaticky založíme zkušební účet, dohledáme kariérní weby vašich firem a spustíme první sken.","form_state_success_s3":"Po prvním skenu vám přijde e-mail s odkazem pro nastavení hesla. Do 2 hodin v aplikaci uvidíte, kde vaše firmy nabírají.","form_state_success_foot":"Bez poplatků a bez platební karty. Po skončení zkoušky se sami rozhodnete, jestli pokračovat."}</script>
+<svg xmlns="http://www.w3.org/2000/svg" hidden><symbol id="i-menu" viewBox="0 -960 960 960"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></symbol></svg>
+<script type="application/json" id="i18n">{"hero_video_play":"Přehrát ukázku","hero_video_pause":"Pozastavit ukázku","trial_submitting":"Odesílám seznam…","nav_menu_open":"Otevřít menu","nav_menu_close":"Zavřít menu","form_err_required":"Vyplňte prosím jméno, pracovní e-mail a název agentury.","form_err_email":"Zkontrolujte prosím e-mail, má vypadat jako jan@agentura.cz.","form_err_file_large":"Soubor je příliš velký (nejvýš 5 MB).","form_err_file_type":"Nahrajte prosím Excel (.xlsx, .xls) nebo .csv.","form_err_generic":"Něco se pokazilo. Napište mi prosím přímo na krystof@talentradar.eu.","form_state_success_title":"Hotovo, zkušební verzi připravujeme","form_state_success_s1":"Potvrzovací e-mail vám právě odešel. Když ho nevidíte, podívejte se do spamu.","form_state_success_s2":"Automaticky založíme zkušební účet, dohledáme kariérní weby vašich firem a spustíme první sken.","form_state_success_s3":"Po prvním skenu vám přijde e-mail s odkazem pro nastavení hesla. Do 2 hodin v aplikaci uvidíte, kde vaše firmy nabírají.","form_state_success_foot":"Bez poplatků a bez platební karty. Po skončení zkoušky se sami rozhodnete, jestli pokračovat."}</script>
 </body>
 </html>

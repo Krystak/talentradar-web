@@ -15,14 +15,27 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 
-/** Every file under public/ on disk, as "public/…" -> null (content read lazily). */
+/** Names public/.assetsignore keeps from being published (plain names and **\/name). */
+export function ignoredNames(dir = join(ROOT, "public")) {
+  const p = join(dir, ".assetsignore");
+  const names = new Set([".assetsignore"]);
+  if (!existsSync(p)) return names;
+  for (const line of readFileSync(p, "utf8").split(/\r?\n/)) {
+    const v = line.trim();
+    if (v && !v.startsWith("#")) names.add(v.replace(/^\*\*\//, ""));
+  }
+  return names;
+}
+
+/** Every published file under public/ on disk, as "public/…" -> null (content read lazily). */
 export function diskFiles(dir = join(ROOT, "public")) {
   const out = new Map();
+  const ignored = ignoredNames(dir);
   const walk = (d) => {
     for (const name of readdirSync(d)) {
       const p = join(d, name);
       if (statSync(p).isDirectory()) walk(p);
-      else out.set(relative(ROOT, p).replace(/\\/g, "/"), null);
+      else if (!ignored.has(name)) out.set(relative(ROOT, p).replace(/\\/g, "/"), null);
     }
   };
   if (existsSync(dir)) walk(dir);
@@ -142,11 +155,12 @@ export function contrast(a, b) {
 
 /** Text tokens on the surfaces they are used on; each must reach WCAG AA (4.5:1). */
 export const CONTRAST_PAIRS = [
-  ["--ink", "--paper"], ["--ink-2", "--paper"], ["--orange-ink", "--paper"], ["--ink", "--card"], ["--ink-2", "--card"],
-  ["--text-on-dark-2", "--navy-900"], ["--mist", "--navy-900"], ["--mist", "--navy-850"], ["--mist", "--navy-950"],
-  ["--c-text", "--c-bg"], ["--c-text-2", "--c-bg"], ["--c-muted", "--c-bg"],
-  ["--c-text", "--c-surface"], ["--c-text-2", "--c-surface"], ["--c-muted", "--c-surface"],
-  ["--c-muted", "--c-bg-deep"], ["--c-text-2", "--c-bg-deep"], ["--c-accent-hover", "--c-bg"], ["--c-accent-hover", "--c-surface"],
+  // dark bands and panels
+  ["--text-on-dark", "--navy-900"], ["--text-on-dark-2", "--navy-900"], ["--mist", "--navy-900"], ["--orange", "--navy-900"],
+  ["--text-on-dark-2", "--navy-850"], ["--mist", "--navy-850"], ["--orange", "--navy-850"], ["--mist", "--navy-800"], ["--mist", "--navy-950"],
+  // light bands and cards
+  ["--ink", "--paper"], ["--ink-2", "--paper"], ["--orange-ink", "--paper"],
+  ["--ink", "--card"], ["--ink-2", "--card"], ["--orange-ink", "--card"], ["--ok-ink", "--card"], ["--error-ink", "--card"],
 ];
 
 // ── The check ───────────────────────────────────────────────────────────────
@@ -157,9 +171,11 @@ const ALLOWED_SCRIPT_HOSTS = []; // no third-party scripts at all
  * Checks a site. files: Map "public/…" -> content|null; redirects: the Worker's
  * 301 map; workerFirst: wrangler.toml run_worker_first. Returns { errors, warnings }.
  */
-export function checkSite(files, { redirects = {}, workerFirst = [], origin = "https://talentradar.eu" } = {}) {
+export function checkSite(files, { redirects = {}, workerFirst = [], origin = "https://talentradar.eu", release = false } = {}) {
   const errors = [];
   const warnings = [];
+  // --release: what may stay while building is a blocker before the merge
+  const unfinished = (msg) => (release ? errors : warnings).push(msg);
   const pages = [...files.keys()].filter((p) => p.endsWith(".html")).sort();
   const at = (path) => answer(path, files, redirects, workerFirst);
   const ids = new Map();
@@ -189,6 +205,8 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
     }
     for (const m of html.matchAll(/<img\b[^>]*>/g)) {
       for (const a of ["alt", "width", "height"]) if (attr(m[0], a) === null) errors.push(`${page}: <img> without ${a}: ${m[0].slice(0, 80)}`);
+      // an empty alt is fine only for an image hidden from assistive tech on purpose (the logo next to its name)
+      if (attr(m[0], "alt") === "" && attr(m[0], "aria-hidden") !== "true") unfinished(`${page}: <img> with an empty alt: ${m[0].slice(0, 80)}`);
     }
     for (const m of html.matchAll(/\sstyle="([^"]*)"/g)) {
       for (const s of smallFonts(m[1], `${page} style`, {})) errors.push(`${s.where}: font-size ${s.value} (${s.px}px) < 12px`);
@@ -196,8 +214,9 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
     // Places still waiting for Kryštof and unfilled {variables} of the text map never reach a page
     if (/\[Kryštof/.test(html)) errors.push(`${page}: contains a [Kryštof…] placeholder`);
     for (const m of html.matchAll(/\{(demo\.[a-z_0-9]+|c\d\.[a-z_0-9]+|clip\.[a-z_]+|t\d|as_of|minutes|date)\}/g)) errors.push(`${page}: unfilled variable {${m[1]}}`);
-    if (/ukazka-v0/.test(html)) warnings.push(`${page}: uses the placeholder video ukazka-v0 (media replaces it before merging)`);
-    if (/\[TEXT\]/.test(html)) warnings.push(`${page}: contains [TEXT] placeholders`);
+    if (/ukazka-v0/.test(html)) unfinished(`${page}: uses the placeholder video ukazka-v0 (media replaces it before merging)`);
+    if (/\[TEXT\]/.test(html)) unfinished(`${page}: contains [TEXT] placeholders`);
+    if (/lorem/i.test(html)) unfinished(`${page}: contains lorem ipsum`);
 
     // internal links and assets answer 200 at exactly that address
     for (const m of html.matchAll(/\s(href|src|poster)="([^"]+)"/g)) {
@@ -271,7 +290,11 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
       return /^#[0-9a-f]{6}$/i.test(v || "") ? v : null;
     };
     for (const [fg, bg] of CONTRAST_PAIRS) {
-      if (!hex(fg) || !hex(bg)) continue;
+      if (!hex(fg) || !hex(bg)) {
+        // a pair this check cannot read (a renamed token) must not pass silently
+        errors.push(`${path}: contrast pair ${fg} on ${bg}: token missing or not a #rrggbb value`);
+        continue;
+      }
       const ratio = contrast(hex(fg), hex(bg));
       if (ratio < 4.5) errors.push(`${path}: ${fg} on ${bg} contrast ${ratio.toFixed(2)} < 4.5`);
     }
@@ -288,7 +311,9 @@ export function workerFirstPatterns() {
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const { REDIRECTS } = await import("../worker-routes.gen.js");
-  const { errors, warnings } = checkSite(diskFiles(), { redirects: REDIRECTS, workerFirst: workerFirstPatterns() });
+  // node tools/check-site.mjs --release (npm run check:release): unfinished things are errors
+  const release = process.argv.includes("--release");
+  const { errors, warnings } = checkSite(diskFiles(), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release });
   for (const w of warnings) console.warn(`warning: ${w}`);
   for (const e of errors) console.error(`error: ${e}`);
   console.log(`${errors.length} errors, ${warnings.length} warnings`);

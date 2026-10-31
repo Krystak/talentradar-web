@@ -58,7 +58,7 @@ export function heroStats(feed) {
 
 // ── Offline guard ───────────────────────────────────────────────────────────
 
-const LOCAL_HOSTS = /^(localhost|127\.0\.0\.1|\[::1\]|.+\.localhost)$/i;
+const LOCAL_HOSTS = /^(localhost|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|0\.0\.0\.0|\[::1\]|.+\.localhost)$/i;
 
 /**
  * True when the Worker must not call anything outside: `npm run dev` sets
@@ -186,6 +186,11 @@ function videoHeaders(source, pathname) {
  * iPhone needs to play a video at all. Static assets answer a Range request with
  * the whole file (200), so the Worker cuts the range out of it; should assets
  * ever answer 206 themselves, that answer is passed on.
+ *
+ * CPU: the cut streams the file through the Worker without copying, which the
+ * budget of the site's videos keeps cheap (hero ≤ 1.5 MB, chapter clips ≤ 2.5 MB,
+ * tour ≤ 10 MB). A file over ~10 MB needs its CPU time checked on production
+ * (Free plan: 10 ms per request) before it goes under /video/.
  */
 export async function serveVideo(request, env) {
   const url = new URL(request.url);
@@ -199,6 +204,7 @@ export async function serveVideo(request, env) {
   if (asset.status === 206) {
     const headers = videoHeaders(asset, url.pathname);
     for (const h of ["Content-Range", "Content-Length"]) if (asset.headers.get(h)) headers.set(h, asset.headers.get(h));
+    if (head && asset.body) await asset.body.cancel();
     return new Response(head ? null : asset.body, { status: 206, headers });
   }
   if (asset.status !== 200 || !asset.body) return asset;

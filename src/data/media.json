@@ -1,0 +1,13 @@
+{
+  "_note": "Videos on the site, one entry per clip. The media stream replaces the ukazka-v0 placeholders with public/video/<id>.<lang>.mp4|webm|webp (and <id>-mobile.<lang>.* 4:5 for the phone); {lang} in a path becomes cs or en. clip_date: the recording date shown in the captions ({clip.date}); null = the sentence is left out. Display widths: tokens.css --video-*.",
+  "clip_date": null,
+  "clips": {
+    "hero": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
+    "how1": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
+    "how2": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
+    "how3": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
+    "how4": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
+    "ats": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
+    "tour": { "mode": "tour", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "tracks": [], "width": 960, "height": 540 }
+  }
+}

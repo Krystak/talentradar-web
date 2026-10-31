@@ -23,8 +23,8 @@
   <script>document.documentElement.className = "js";</script>
   <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/site.css?v=9e508e4111">
-  <script type="module" src="/js/site.js?v=791f41c59e"></script>
+  <link rel="stylesheet" href="/css/site.css?v=8bc80058a1">
+  <script type="module" src="/js/site.js?v=ddeb33e4fa"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -36,7 +36,7 @@
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="logo" href="/">
-      <img src="/falcon.svg" alt="" width="32" height="32">
+      <img src="/falcon.svg" alt="" aria-hidden="true" width="32" height="32">
       <span class="logo__word" data-brand><span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radar</span></span></span>
     </a>
     <nav class="site-nav" id="site-nav" aria-label="Hlavní menu">
@@ -58,13 +58,14 @@
 </header>
 
 <main id="main">
-<article class="article container">
+<div class="band band--light">
+  <article class="article container">
 <nav class="crumbs" aria-label="Drobečková navigace">
   <a href="/">Domů</a>
   <span>/</span>
   <a href="/blog/">Výzkum</a>
   <span>/</span>
-  <span>Pozice otevřené déle než 35 dní (&gt;35 dní)</span>
+  <span aria-current="page">Pozice otevřené déle než 35 dní</span>
 </nav>
 
 <div class="article-meta">
@@ -129,7 +130,7 @@
     <h3>Nové pozice i pozice otevřené 45 a víc dní, automaticky.</h3>
     <p class="small">Hlídejte kariérní weby svých klientů dvakrát denně, s AI klasifikací a skutečným stářím každé pozice.</p>
     <div>
-      <a class="btn btn-primary" href="/#zkusit">Vyzkoušet zdarma →</a>
+      <a class="btn btn-primary" href="/#zkusit">Vyzkoušet zdarma</a>
     </div>
     <div class="mono">✓ Bez platební karty &nbsp;•&nbsp; ✓ Až 150 firem ve zkoušce &nbsp;•&nbsp; ✓ Zrušit můžete kdykoli</div>
   </div>
@@ -143,7 +144,8 @@
   </div>
 </div>
 
-</article>
+  </article>
+</div>
 
 </main>
 <footer class="site-footer">
@@ -151,7 +153,7 @@
     <div class="site-footer__grid">
       <div>
         <a class="logo" href="/">
-          <img src="/falcon.svg" alt="" width="32" height="32">
+          <img src="/falcon.svg" alt="" aria-hidden="true" width="32" height="32">
           <span class="logo__word" data-brand><span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radar</span></span></span>
         </a>
         <p>Všechny otevřené pozice vašich firem, vedle vašeho ATS. Vzniklo v agentuře v Dublinu.</p>
@@ -193,6 +195,6 @@
 
 <!-- Material Symbols (Apache License 2.0, src/icons/LICENSE-material-symbols.txt) -->
 <svg xmlns="http://www.w3.org/2000/svg" hidden><symbol id="i-menu" viewBox="0 -960 960 960"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></symbol></svg>
-<script type="application/json" id="i18n">{"hero_video_play":"Přehrát ukázku","hero_video_pause":"Pozastavit ukázku","trial_submitting":"Odesílám seznam…","nav_menu_open":"Otevřít menu","nav_menu_close":"Zavřít menu","form_err_required":"Vyplňte prosím jméno, pracovní e-mail a název agentury.","form_err_email":"Zkontrolujte prosím e-mail, má vypadat jako jan@agentura.cz.","form_err_file_large":"Soubor je příliš velký (nejvýš 8 MB).","form_err_file_type":"Nahrajte prosím Excel (.xlsx, .xls) nebo .csv.","form_err_generic":"Něco se pokazilo. Napište mi prosím přímo na krystof@talentradar.eu.","form_state_success_title":"Hotovo, zkušební verzi připravujeme","form_state_success_s1":"Potvrzovací e-mail vám právě odešel. Když ho nevidíte, podívejte se do spamu.","form_state_success_s2":"Automaticky založíme zkušební účet, dohledáme kariérní weby vašich firem a spustíme první sken.","form_state_success_s3":"Po prvním skenu vám přijde e-mail s odkazem pro nastavení hesla. Do 2 hodin v aplikaci uvidíte, kde vaše firmy nabírají.","form_state_success_foot":"Bez poplatků a bez platební karty. Po skončení zkoušky se sami rozhodnete, jestli pokračovat."}</script>
+<script type="application/json" id="i18n">{"hero_video_play":"Přehrát ukázku","hero_video_pause":"Pozastavit ukázku","trial_submitting":"Odesílám seznam…","nav_menu_open":"Otevřít menu","nav_menu_close":"Zavřít menu","form_err_required":"Vyplňte prosím jméno, pracovní e-mail a název agentury.","form_err_email":"Zkontrolujte prosím e-mail, má vypadat jako jan@agentura.cz.","form_err_file_large":"Soubor je příliš velký (nejvýš 5 MB).","form_err_file_type":"Nahrajte prosím Excel (.xlsx, .xls) nebo .csv.","form_err_generic":"Něco se pokazilo. Napište mi prosím přímo na krystof@talentradar.eu.","form_state_success_title":"Hotovo, zkušební verzi připravujeme","form_state_success_s1":"Potvrzovací e-mail vám právě odešel. Když ho nevidíte, podívejte se do spamu.","form_state_success_s2":"Automaticky založíme zkušební účet, dohledáme kariérní weby vašich firem a spustíme první sken.","form_state_success_s3":"Po prvním skenu vám přijde e-mail s odkazem pro nastavení hesla. Do 2 hodin v aplikaci uvidíte, kde vaše firmy nabírají.","form_state_success_foot":"Bez poplatků a bez platební karty. Po skončení zkoušky se sami rozhodnete, jestli pokračovat."}</script>
 </body>
 </html>

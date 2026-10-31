@@ -28,5 +28,28 @@ export function missingRequired(payload) {
   return !payload.name || !payload.email || !payload.company;
 }
 
-/** Largest file the form accepts (the Worker refuses base64 over 8 MB). */
-export const MAX_FILE_BYTES = 8 * 1024 * 1024;
+/**
+ * Largest file the form accepts: 5 MB, as the page and the Worker's message say.
+ * Base64 makes it ~6.7 MB, under the Worker's 8 MB cap on fileData.
+ */
+export const MAX_FILE_BYTES = 5 * 1024 * 1024;
+
+/**
+ * What the visitor sees after POST /api/demo: { ok: true } or { ok: false, message }.
+ * The Worker's own refusals (400 and 429, JSON with `error`) say what to fix, in the
+ * visitor's language. Anything else, a 413 or 500 from the platform, a non-JSON body
+ * or a dropped connection, gets the page's generic message, never a SyntaxError.
+ */
+export async function demoResult(res, genericMessage) {
+  let data = null;
+  try {
+    data = await res.json();
+  } catch {
+    data = null;
+  }
+  if (res.ok && data && data.success) return { ok: true };
+  if ((res.status === 400 || res.status === 429) && data && typeof data.error === "string" && data.error) {
+    return { ok: false, message: data.error };
+  }
+  return { ok: false, message: genericMessage };
+}

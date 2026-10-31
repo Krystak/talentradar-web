@@ -92,6 +92,7 @@ export function loadSite(overrides = {}) {
     config, i18n, pages, posts, charts, icons, templates, content, css, js,
     plans: readJson("data/plans.json"),
     demoStats: readJson("data/demo-stats.json"),
+    media: readJson("data/media.json"),
     headers: read("_headers"),
   };
 }
@@ -165,7 +166,9 @@ export function legacyRedirects(site, all = routes(site)) {
     "/cs/": url("home", "cs"),
     "/index.html": url("home", def),
     "/blog/index.html": url("blog", def),
-    "/gdpr.html": url("gdpr", def),
+    // gdpr.html was English by default, and the app lists it as the privacy
+    // policy for connector directories (frontend/src/AiApps.tsx): English stays.
+    "/gdpr.html": url("gdpr", "en"),
   };
   for (const id of Object.keys(posts)) {
     for (const suffix of ["", ".html"]) {
@@ -260,6 +263,8 @@ export function siteVars(site, lang) {
     "demo.avg_new_per_day": vars["c1.avg"],
     "demo.new_days": vars["c1.days"],
     "demo.companies_new_7d": n(s.companies_new_7d),
+    // null until the media stream records the clips: sentences with it are left out
+    "clip.date": site.media && site.media.clip_date ? d(site.media.clip_date, true) : null,
   });
   return vars;
 }
@@ -276,7 +281,8 @@ const SOURCE_GROUP = { "Jobs.cz / Teamio": "jobscz", "Company ATS": "ats", "Own 
 export function fillText(value, vars, where) {
   const HOLE = "\u0000";
   let s = value.replace(/\[Kryštof[^\]]*\]/g, HOLE);
-  s = s.replace(/\{([a-z0-9_.]+)\}/gi, (all, name) => {
+  // {name} is a variable; {{…}} in a text is just text (render never reads it as a template)
+  s = s.replace(/(?<!\{)\{([a-z0-9_.]+)\}(?!\})/gi, (all, name) => {
     if (vars[name] !== undefined && vars[name] !== null) return String(vars[name]);
     if (/^t\d$/.test(name)) return "";
     if (/^clip\./.test(name)) return HOLE;
@@ -294,7 +300,10 @@ export function fillText(value, vars, where) {
 function text(site, ctx, key, local = {}) {
   const raw = lookup(site.i18n[ctx.lang], key);
   if (raw === undefined) throw new Error(`${ctx.where} [${ctx.lang}]: unknown i18n key ${key}`);
-  return fillText(raw, { ...ctx.vars, ...local }, `${ctx.where} [${ctx.lang}] ${key}`);
+  // "3 400" never breaks between its digits (Czech thousands separator), nor "5 MB", "1 990 Kč", "24 %" before the unit
+  return fillText(raw, { ...ctx.vars, ...local }, `${ctx.where} [${ctx.lang}] ${key}`)
+    .replace(/(\d) (\d{3})(?!\d)/g, "$1\u00a0$2")
+    .replace(/(\d) (MB|kB|Kč|€|%|min)(?![\p{L}])/gu, "$1\u00a0$2");
 }
 
 function blogList(site, ctx, limit) {
@@ -309,14 +318,21 @@ function blogList(site, ctx, limit) {
   <article>
     <h3 class="post-card__title"><a href="${href}">${escapeHtml(p.title)}</a></h3>
     <p class="post-card__meta">${escapeHtml(meta)}</p>
-    <p class="post-card__desc">${escapeHtml(p.description)}</p>
+    ${limit ? "" : `<p class="post-card__desc">${escapeHtml(p.description)}</p>`}
   </article>
 </li>`;
   });
-  return `<ul class="post-list" role="list">\n${items.join("\n")}\n</ul>`;
+  // the home page row (limit): title and meta only; the blog index adds the description
+  return `<ul class="post-list${limit ? " post-list--compact" : ""}" role="list">\n${items.join("\n")}\n</ul>`;
 }
 
-/** Renders a template string for one page: partials first, then tokens until none remain. */
+/**
+ * Renders a template string for one page: partials first, then every token in a
+ * single pass. What a token puts in is final and never read as a template again,
+ * so a text cannot smuggle in {{…}} and a literal "{{" in a text cannot break the
+ * build. The only templates are our own files (src/layouts, pages, partials,
+ * content, blog) and *_html texts, which are rendered explicitly where used.
+ */
 function render(site, tpl, ctx, where) {
   let out = tpl;
   for (let i = 0; i < 12 && /\{\{>/.test(out); i++) {
@@ -326,15 +342,7 @@ function render(site, tpl, ctx, where) {
       return p;
     });
   }
-  for (let pass = 0; pass < 8; pass++) {
-    let changed = false;
-    out = out.replace(/\{\{\s*([^{}]+?)\s*\}\}/g, (_, token) => {
-      changed = true;
-      return resolve(site, token, ctx, where);
-    });
-    if (!changed) return out;
-  }
-  throw new Error(`${where}: tokens nested too deep`);
+  return out.replace(/\{\{\s*([^{}]+?)\s*\}\}/g, (_, token) => resolve(site, token, ctx, where));
 }
 
 function resolve(site, token, ctx, where) {
@@ -345,7 +353,8 @@ function resolve(site, token, ctx, where) {
     const key = token.slice(2);
     if (lookup(site.i18n[ctx.lang], key) === undefined) fail("unknown i18n key");
     const v = text(site, ctx, key);
-    return key.endsWith("_html") ? v : escapeHtml(v);
+    // an *_html text is ours and may link ({{url:gdpr}}); any other text is plain
+    return key.endsWith("_html") ? render(site, v, ctx, `${where} ${key}`) : escapeHtml(v);
   }
   if (token.startsWith("h1:")) {
     // two-line H1 of the map: the first sentence, then the rest in the accent
@@ -357,9 +366,33 @@ function resolve(site, token, ctx, where) {
   if (token === "proof:stat3") {
     // "more than half": only while the lower bound really is over half (text map, ID 17)
     if (site.demoStats.companies_new_7d * 2 <= site.demoStats.companies) return "";
-    return `<li><strong class="proof__n">${escapeHtml(text(site, ctx, "proof_stat3_value"))}</strong><span class="proof__l">${escapeHtml(text(site, ctx, "proof_stat3_label"))}</span></li>`;
+    return `<li><strong class="proof__n proof__n--text">${escapeHtml(text(site, ctx, "proof_stat3_value"))}</strong><span class="proof__l">${escapeHtml(text(site, ctx, "proof_stat3_label"))}</span></li>`;
   }
   if (token.startsWith("uri:")) return encodeURIComponent(text(site, ctx, token.slice(4)));
+  if (token.startsWith("list:")) {
+    // a text of several sentences as a list with a check per sentence (hero_note, direction C 3.3)
+    ctx.icons.add("check");
+    // list items carry no closing full stop (lead, etapa 2 kolo 1); the text in the map keeps it
+    return listItems(text(site, ctx, token.slice(5)))
+      .map((s) => `<li><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg><span>${escapeHtml(s)}</span></li>`)
+      .join("");
+  }
+  if (token.startsWith("video:")) {
+    const [id, ariaKey, captionKey] = token.slice(6).split(":");
+    return videoFigure(site, ctx, id, ariaKey, captionKey, where);
+  }
+  if (token.startsWith("media:")) {
+    const [id, field] = token.slice(6).split(":");
+    const clip = site.media.clips[id] || fail("unknown clip");
+    const lang = (p) => p.replace("{lang}", ctx.lang);
+    if (field === "json") {
+      // a chapter tab's whole clip (all sources, the phone cut) for site.js (js/media.js clipFor)
+      const cut = (c) => ({ poster: lang(c.poster), sources: c.sources.map((s) => ({ src: lang(s.src), type: s.type })) });
+      return escapeHtml(JSON.stringify({ ...cut(clip), mobile: clip.mobile ? cut({ ...clip, ...clip.mobile }) : null }));
+    }
+    const v = field === "src" ? clip.sources[0].src : field === "poster" ? clip.poster : fail("unknown media field");
+    return lang(v);
+  }
   if (token.startsWith("url:")) {
     const [id, lang] = token.slice(4).split("@");
     return ctx.url(id, lang || ctx.lang) || fail("unknown page");
@@ -388,7 +421,7 @@ function resolve(site, token, ctx, where) {
   if (token.startsWith("content:")) {
     const c = site.content[`${token.slice(8)}.${ctx.lang}`];
     if (c === undefined) fail("unknown content");
-    return c;
+    return render(site, c, ctx, `${where} content`);
   }
   if (token === "blog:list") return blogList(site, ctx, 0);
   if (token === "blog:latest") return blogList(site, ctx, 3);
@@ -411,12 +444,62 @@ function resolve(site, token, ctx, where) {
  * Only text between tags changes; attributes and running text stay plain.
  */
 export function brandify(html) {
+  // a tag, with ">" allowed inside quoted attribute values
+  const TAG = String.raw`(?:[^>"']|"[^"]*"|'[^']*')*`;
   const word = (str) =>
     str.replace(/\b(Talent)(Radar[\p{L}]*)/gu, '<span class="brand"><span class="brand__a">$1</span><span class="brand__b">$2</span></span>');
-  const inside = (chunk) => chunk.split(/(<[^>]+>)/).map((part) => (part.startsWith("<") ? part : word(part))).join("");
+  const inside = (chunk) => chunk.split(new RegExp(`(<${TAG}>)`)).map((part) => (part.startsWith("<") ? part : word(part))).join("");
   return html
-    .replace(/<(h[1-4])\b[^>]*>[\s\S]*?<\/\1>/g, inside)
-    .replace(/<([a-z0-9]+)\b[^>]*\sdata-brand\b[^>]*>[\s\S]*?<\/\1>/g, inside);
+    .replace(new RegExp(`<(h[1-4])\\b${TAG}>[\\s\\S]*?<\\/\\1>`, "g"), inside)
+    .replace(new RegExp(`<([a-z0-9]+)\\b(?:[^>"']|"[^"]*"|'[^']*')*?\\sdata-brand(?=[\\s>=])${TAG}>[\\s\\S]*?<\\/\\1>`, "g"), inside);
+}
+
+/**
+ * A clip of src/data/media.json in a browser frame. Loops (hero, chapters, V6)
+ * are muted, lazy (preload none) and get a pause button in the frame bar; the
+ * tour plays only on a click. A clip with a 4:5 phone cut gets both videos, CSS
+ * shows one, and only the shown one is ever loaded (site.js).
+ */
+function videoFigure(site, ctx, id, ariaKey, captionKey, where) {
+  const clip = site.media.clips[id];
+  if (!clip) throw new Error(`${where}: unknown clip ${id}`);
+  const lang = (p) => p.replace("{lang}", ctx.lang);
+  const aria = escapeHtml(text(site, ctx, ariaKey));
+  const loop = clip.mode === "loop";
+  const video = (c, cls) => {
+    const attrs = loop ? "muted loop playsinline controls" : "controls playsinline";
+    const sources = c.sources.map((s) => `<source src="${lang(s.src)}" type="${s.type}">`).join("");
+    const tracks = (c.tracks || [])
+      .map((tr) => `<track kind="subtitles" srclang="${tr.srclang}" label="${escapeHtml(text(site, ctx, tr.label))}" src="${lang(tr.src)}"${tr.srclang === ctx.lang ? " default" : ""}>`)
+      .join("");
+    const play = !loop ? `<button class="video__play" type="button" hidden>${escapeHtml(text(site, ctx, "demo_play"))}</button>` : "";
+    return `<div class="frame__screen ${cls}"><video ${attrs} preload="none" width="${c.width || clip.width}" height="${c.height || clip.height}" poster="${lang(c.poster)}" aria-label="${aria}">${sources}${tracks}</video>${play}</div>`;
+  };
+  let toggle = "";
+  if (loop) {
+    ctx.icons.add("pause");
+    toggle = `<button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span>${escapeHtml(text(site, ctx, "hero_video_pause"))}</span></button>`;
+  }
+  const caption = captionKey ? escapeHtml(text(site, ctx, captionKey)) : "";
+  return `<figure class="video video--${id}${clip.mobile ? " video--has-mobile" : ""}" ${loop ? "data-autoplay" : "data-facade"}>
+  <div class="frame">
+    <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">${escapeHtml(text(site, ctx, "video_frame_url"))}</span>${toggle}</div>
+    ${video(clip, "video--desktop")}${clip.mobile ? `\n    ${video({ ...clip, ...clip.mobile }, "video--mobile")}` : ""}
+  </div>
+  <figcaption>${caption}</figcaption>
+</figure>`;
+}
+
+/**
+ * A text of sentences as list items, without their closing full stop. A new item
+ * starts only at ". " before a capital letter, so "s.r.o.", "1. 11." or "e.g."
+ * inside a sentence never split it.
+ */
+export function listItems(str) {
+  return str
+    .split(/(?<=[.!?])\s+(?=\p{Lu})/u)
+    .map((s) => s.trim().replace(/\.$/, ""))
+    .filter(Boolean);
 }
 
 /** Paragraphs, captions and list items left empty by a dropped sentence go too. */
@@ -443,6 +526,11 @@ function ticks(max) {
 
 /** A column with a 4 px rounded data end and a square foot on the baseline. */
 function columnPath(x, y, w, h) {
+  // a value above zero stays visible however small (1 role among 141): at least 3 units
+  if (h > 0 && h < 3) {
+    y -= 3 - h;
+    h = 3;
+  }
   const r = Math.min(4, w / 2, h);
   return `M${r1(x)} ${r1(y + h)}V${r1(y + r)}Q${r1(x)} ${r1(y)} ${r1(x + r)} ${r1(y)}H${r1(x + w - r)}Q${r1(x + w)} ${r1(y)} ${r1(x + w)} ${r1(y + r)}V${r1(y + h)}Z`;
 }
@@ -453,23 +541,28 @@ function barPath(x, y, w, h) {
   return `M${r1(x)} ${r1(y)}H${r1(x + w - r)}Q${r1(x + w)} ${r1(y)} ${r1(x + w)} ${r1(y + r)}V${r1(y + h - r)}Q${r1(x + w)} ${r1(y + h)} ${r1(x + w - r)} ${r1(y + h)}H${r1(x)}Z`;
 }
 
+const SHRM_URL = "https://www.shrm.org/topics-tools/research/recruiting-benchmarking/full-data-brief";
+
 function renderChart(site, chart, ctx) {
   const n = { "nove-pozice-po-dnech": 1, "stari-pozic": 2, "zdroje-pozic": 3 }[chart.id];
   if (!n) throw new Error(`Chart ${chart.id}: no renderer yet (etapa 2)`);
   const t = (k) => text(site, ctx, `chart${n}_${k}`);
   const source = text(site, ctx, n === 1 ? "chart_source" : "chart_source_short", { as_of: formatDate(chart.as_of, ctx.lang, true) });
   const body = n === 1 ? dailyChart(chart, ctx, t) : n === 2 ? ageChart(chart, ctx, t, site) : sourcesChart(chart, ctx, t);
+  // chart 2 leans on SHRM's time to fill: its source is a visible line under the caption, linked as in the article
+  const shrm = n === 2 ? `\n  <p class="chart__ref"><a href="${SHRM_URL}" rel="noopener">${escapeHtml(text(site, ctx, "chart2_note_source"))}</a></p>` : "";
+  // what supports the chart (the method note, the table) waits behind one click
   return `<figure class="chart" id="ch-${chart.id}" data-reveal>
   <figcaption class="chart__head">
     <h3 class="chart__title">${escapeHtml(t("title"))}</h3>
     <p class="chart__lead">${escapeHtml(t("lead"))}</p>
   </figcaption>
 ${body.svg}
-  <p class="chart__caption">${escapeHtml(t("caption"))}</p>
-  <p class="chart__note">${escapeHtml(t("note"))}</p>
+  <p class="chart__caption">${escapeHtml(t("caption"))}</p>${shrm}
   <p class="chart__source">${escapeHtml(source)}</p>
   <details class="chart__data">
     <summary>${escapeHtml(text(site, ctx, "chart_table_toggle"))}</summary>
+    <p class="chart__note">${escapeHtml(t("note"))}</p>
 ${body.table}
   </details>
 </figure>`;
@@ -478,7 +571,7 @@ ${body.table}
 /** Columns with an axis: shared by the daily chart and the age chart. */
 function columns(chart, ctx, t, rows, { label, value, highlight, valueLabel, title }) {
   const fmt = NUMBER[ctx.lang];
-  const W = 400, H = 300, left = 40, right = 8, top = 28, bottom = 64;
+  const W = 400, H = 264, left = 40, right = 8, top = 28, bottom = 64;
   const plotW = W - left - right, plotH = H - top - bottom;
   const max = Math.max(...rows.map(value));
   const tk = ticks(max);
@@ -495,7 +588,8 @@ function columns(chart, ctx, t, rows, { label, value, highlight, valueLabel, tit
     parts.push(`<g class="chart__mark${highlight(r) ? " is-hi" : ""}" style="--i:${i}" tabindex="0" role="listitem" aria-label="${escapeHtml(name)}"><title>${escapeHtml(name)}</title><rect class="chart__hit" x="${r1(left + slot * i)}" y="${top}" width="${r1(slot)}" height="${plotH}"></rect><path class="chart__bar" d="${columnPath(cx - bw / 2, y(value(r)), bw, h)}"></path></g>`);
     if (valueLabel(r)) parts.push(svgText(r1(cx), r1(y(value(r)) - 6), fmt(value(r)), 'class="chart__value" text-anchor="middle"'));
     const l = label(r);
-    const [a, b] = l.length > 5 && l.includes("–") ? [l.slice(0, l.indexOf("–") + 1), l.slice(l.indexOf("–") + 1)] : [l, ""];
+    // a range on two lines ("14–" over "29") so neighbouring labels never touch
+    const [a, b] = l.length > 3 && l.includes("–") ? [l.slice(0, l.indexOf("–") + 1), l.slice(l.indexOf("–") + 1)] : [l, ""];
     parts.push(`<text class="chart__tick" x="${r1(cx)}" y="${H - bottom + 18}" text-anchor="middle"><tspan x="${r1(cx)}">${escapeHtml(a)}</tspan>${b ? `<tspan x="${r1(cx)}" dy="16">${escapeHtml(b)}</tspan>` : ""}</text>`);
   });
   parts.push(`<line class="chart__axis" x1="${left}" x2="${W - right}" y1="${top + plotH}" y2="${top + plotH}"></line>`);
@@ -513,7 +607,7 @@ const tableOf = (head, rows) => `    <table>
       <tbody>${rows.map(([th, ...tds]) => `<tr><th scope="row">${escapeHtml(th)}</th>${tds.map((td) => `<td>${escapeHtml(td)}</td>`).join("")}</tr>`).join("")}</tbody>
     </table>`;
 
-/** Chart 1: new roles per day, one hue, values only on the highest and lowest day. */
+/** Chart 1: new roles per day, one neutral hue (nothing to stress), values only on the highest and lowest day. */
 function dailyChart(chart, ctx, t) {
   const fmt = NUMBER[ctx.lang];
   const rows = chart.rows;
@@ -523,57 +617,65 @@ function dailyChart(chart, ctx, t) {
   const svg = columns(chart, ctx, t, rows, {
     label: day,
     value: (r) => r.new_roles,
-    highlight: () => true,
+    highlight: () => false,
     valueLabel: (r) => r.new_roles === lo || r.new_roles === hi,
     title: (r) => `${day(r)}: ${fmt(r.new_roles)}`,
   });
   return { svg, table: tableOf([t("axis_x"), t("axis_y")], rows.map((r) => [day(r), fmt(r.new_roles)])) };
 }
 
+/**
+ * A noun for a count: forms "1|2–4|0 and 5+" (Czech: 1 otevřená pozice, 3 otevřené
+ * pozice, 17 otevřených pozic); English uses the first two (1 role, 2 roles).
+ */
+export function plural(lang, n, forms) {
+  const [one, few, many] = forms.split("|");
+  if (n === 1) return one;
+  if (lang === "cs") return n >= 2 && n <= 4 ? few : many;
+  return few;
+}
+
 /** Chart 2: open roles by days since posting, the 45–365 bands in the accent. */
 function ageChart(chart, ctx, t) {
   const fmt = NUMBER[ctx.lang];
-  const unit = chart[`unit_${ctx.lang}`];
+  const unit = (n) => plural(ctx.lang, n, t("unit_forms"));
   const svg = columns(chart, ctx, t, chart.rows, {
     label: (r) => r.days,
     value: (r) => r.roles,
     highlight: (r) => r.highlight,
     valueLabel: (r) => r.highlight,
-    title: (r) => `${r.days}: ${fmt(r.roles)} ${unit}`,
+    title: (r) => `${r.days}: ${fmt(r.roles)} ${unit(r.roles)}`,
   });
-  const key = `  <p class="chart__key"><span class="chart__swatch" aria-hidden="true"></span>${escapeHtml(t("legend_hl"))}</p>\n`;
+  const key = `  <p class="chart__key"><span class="chart__swatch" aria-hidden="true"></span><span class="long">${escapeHtml(t("legend_hl"))}</span><span class="short">${escapeHtml(t("legend_hl_short"))}</span></p>\n`;
   return { svg: key + svg, table: tableOf([t("axis_x"), t("axis_y")], chart.rows.map((r) => [r.days, fmt(r.roles)])) };
 }
 
-/** Chart 3: two small sorted bar charts side by side, companies | roles, same group order, one hue. */
+/**
+ * Chart 3: companies by where their roles are read, sorted, one neutral hue with
+ * only "Jobs.cz and Teamio" (what the lead sentence is about) in the accent. The
+ * roles per source are in the data table.
+ */
 function sourcesChart(chart, ctx, t) {
   const fmt = NUMBER[ctx.lang];
   const rows = [...chart.rows].sort((a, b) => b.companies - a.companies);
-  const group = (r) => t(`group_${SOURCE_GROUP[r.group_en]}`);
-  const panel = (measure, titleKey) => {
-    const W = 360, rowH = 44, top = 8, left = 152, right = 44;
-    const H = top + rows.length * rowH;
-    const max = Math.max(...rows.map((r) => r[measure]));
-    const plotW = W - left - right;
-    const marks = rows.map((r, i) => {
-      const y = top + i * rowH;
-      const w = Math.max(2, (r[measure] / max) * plotW);
-      const label = `${group(r)}: ${fmt(r[measure])}`;
-      return `<g class="chart__mark" style="--i:${i}" tabindex="0" role="listitem" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title><rect class="chart__hit" x="0" y="${y}" width="${W}" height="${rowH}"></rect>${svgText(0, y + 27, group(r), 'class="chart__label"')}<path class="chart__bar chart__bar--h" d="${barPath(left, y + 10, w, 24)}"></path>${svgText(r1(left + w + 6), y + 27, fmt(r[measure]), 'class="chart__value"')}</g>`;
-    });
-    const titleId = `${chart.id}-${measure}-t`;
-    return `    <div class="chart__panel">
-      <p class="chart__panel-title" id="${titleId}">${escapeHtml(t(titleKey))}</p>
-      <svg class="chart__svg" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="${titleId} ${chart.id}-d">
-        <g role="list">${marks.join("")}</g>
-      </svg>
-    </div>`;
-  };
-  const svg = `  <p class="visually-hidden" id="${chart.id}-d">${escapeHtml(t("alt"))}</p>
-  <div class="chart__panels">
-${panel("companies", "col_companies")}
-${panel("roles", "col_positions")}
-  </div>\n`;
+  const key = (r) => SOURCE_GROUP[r.group_en];
+  const group = (r) => t(`group_${key(r)}`);
+  const W = 360, rowH = 44, top = 8, left = 152, right = 44;
+  const H = top + rows.length * rowH;
+  const max = Math.max(...rows.map((r) => r.companies));
+  const plotW = W - left - right;
+  const marks = rows.map((r, i) => {
+    const y = top + i * rowH;
+    const w = Math.max(2, (r.companies / max) * plotW);
+    const label = `${group(r)}: ${fmt(r.companies)}`;
+    const hi = key(r) === "jobscz";
+    return `<g class="chart__mark${hi ? " is-hi" : ""}" style="--i:${i}" tabindex="0" role="listitem" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title><rect class="chart__hit" x="0" y="${y}" width="${W}" height="${rowH}"></rect>${svgText(0, y + 27, group(r), 'class="chart__label"')}<path class="chart__bar chart__bar--h" d="${barPath(left, y + 10, w, 24)}"></path>${svgText(r1(left + w + 6), y + 27, fmt(r.companies), `class="chart__value${hi ? " chart__value--hi" : ""}"`)}</g>`;
+  });
+  const svg = `  <p class="chart__panel-title" id="${chart.id}-t">${escapeHtml(t("col_companies"))}</p>
+  <svg class="chart__svg" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="${chart.id}-t ${chart.id}-d">
+    <desc id="${chart.id}-d">${escapeHtml(t("alt"))}</desc>
+    <g role="list">${marks.join("")}</g>
+  </svg>\n`;
   return { svg, table: tableOf([t("group"), t("col_companies"), t("col_positions")], rows.map((r) => [group(r), fmt(r.companies), fmt(r.roles)])) };
 }
 
@@ -679,10 +781,12 @@ export function buildSite(site) {
       preloads: preloads.join("\n  "),
       i18n_json: JSON.stringify(Object.fromEntries(JS_KEYS.map((k) => [k, text(site, ctx, k)]))).replace(/</g, "\\u003c"),
       body_class: `page-${r.id.replace(/[^a-z0-9]+/g, "-")}`,
-      post_body: r.post ? r.post.body : "",
+      post_body: "",
+      crumb: r.post ? escapeHtml(r.post.crumb || r.post.title) : "",
       sprite: "",
     };
     ctx.page.jsonld = jsonLd(site, r, ctx.page);
+    if (r.post) ctx.page.post_body = render(site, r.post.body, ctx, `${where} article`);
     const pageTpl = site.templates[`pages/${r.template}`];
     if (pageTpl === undefined) throw new Error(`${where}: no template src/pages/${r.template}.html`);
     ctx.page.content = render(site, pageTpl, ctx, where);

@@ -594,3 +594,54 @@ test("online on talentradar.eu without OFFLINE_DEV, the channels are called as b
   assert.ok(calls.some((u) => u.startsWith("https://api.telegram.org/")));
   assert.ok(calls.some((u) => u.includes("/wake")));
 });
+
+test("offline also for 0.0.0.0 and the whole 127.0.0.0/8 loopback range", async () => {
+  for (const origin of ["http://0.0.0.0:8830", "http://127.1.2.3:8830"]) {
+    const calls = countingFetch();
+    const req = new Request(`${origin}/api/demo`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: "Test Local", email: "test@agentura.cz", company: "Test s.r.o.", clients: "", website: "", lang: "cs", elapsedMs: 10_000 }),
+    });
+    const res = await worker.fetch(req, allChannels(), {});
+    assert.equal(res.status, 200, origin);
+    assert.deepEqual(calls, [], origin);
+  }
+});
+
+test("a file over the limit is refused in the visitor's language", async () => {
+  const big = "x".repeat(8 * 1024 * 1024 + 1);
+  const cs = await submit(env(), { fileName: "firmy.csv", fileData: big, lang: "cs" });
+  assert.equal(cs.status, 400);
+  assert.deepEqual(await cs.json(), { error: "Nahraný soubor je příliš velký (nejvýš 5 MB).", reason: "file_too_large" });
+  const en = await submit(env(), { fileName: "companies.csv", fileData: big, lang: "en" });
+  assert.deepEqual(await en.json(), { error: "The uploaded file is too large (5 MB at most).", reason: "file_too_large" });
+});
+
+test("a 5 MB file, as the page sends it (base64 data URL), is accepted", async () => {
+  const e = env();
+  const fiveMb = Buffer.alloc(5 * 1024 * 1024, 65).toString("base64");
+  const res = await submit(e, { fileName: "firmy.csv", fileData: `data:text/csv;base64,${fiveMb}` });
+  assert.equal(res.status, 200);
+});
+
+test("the form's other refusals speak the visitor's language; status and Czech text as before", async () => {
+  const cases = [
+    [{ name: "X" }, 400, "Vyplňte prosím platné jméno a příjmení (2 až 100 znaků).", "Please enter a valid full name (2 to 100 characters)."],
+    [{ email: "not-an-address" }, 400, "Zadejte prosím platný pracovní e-mail.", "Please enter a valid work e-mail."],
+    [{ clients: "x".repeat(30001) }, 400, "Text se seznamem firem je příliš dlouhý (maximum je 30 000 znaků). Pošlete ho prosím jako soubor.", "The company list is too long (30,000 characters at most). Please send it as a file."],
+  ];
+  for (const [fields, status, cs, en] of cases) {
+    const a = await submit(env(), { ...fields, lang: "cs" });
+    assert.equal(a.status, status);
+    assert.equal((await a.json()).error, cs);
+    const b = await submit(env(), { ...fields, lang: "en" });
+    assert.equal(b.status, status);
+    assert.equal((await b.json()).error, en);
+  }
+  const e = env();
+  for (let i = 0; i < 5; i++) await submit(e, { lang: "en" });
+  const limited = await submit(e, { lang: "en" });
+  assert.equal(limited.status, 429);
+  assert.equal((await limited.json()).error, "Too many requests. Please try again in an hour.");
+});

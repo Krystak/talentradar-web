@@ -1,13 +1,13 @@
 /*
  * Design tokens: the only place with colours, type sizes, spacing and radii.
- * Etapa 1 = neutral skeleton in today's colours; etapa 2 replaces this file with
- * the chosen variant. base.css and components.css use nothing but these variables.
- * Type scale: docs/strategie/2026-10-31_web-redesign-resers-vzoru.md §6.2.
+ * Values: direction C (docs/strategie/2026-10-31_web-redesign-vizualni-smer.md,
+ * chapter 4, with the adjustments of chapter 3). Components never use a hex
+ * value; they use the role tokens below, which a light band (.band--light)
+ * points at the light palette.
  * Smallest text is --fs-min (12 px); tools/check-site.mjs fails on anything smaller.
  */
 :root {
-  /* palette: names and values of the chosen direction C
-     (docs/strategie/2026-10-31_web-redesign-vizualni-smer.md, chapter 4) */
+  /* palette */
   --navy-950: #0D1320;
   --navy-900: #131B2C;
   --navy-850: #18223A;
@@ -22,60 +22,77 @@
   --ink: #131B2C;
   --ink-2: #4A5570;
   --orange: #FF6B00;
+  --orange-hover: #FF8533;
   --orange-line: #D95700;
   --orange-ink: #B84A00;
   --orange-tint-16: rgba(255, 107, 0, 0.16);
   --orange-tint-22: rgba(255, 107, 0, 0.22);
   --orange-tint-30: rgba(255, 107, 0, 0.30);
+  --steel: #8A95AA;
   --grid: #E3E8EF;
+  --ok: #34D399;
+  --ok-ink: #047857;
+  --error: #F87171;
+  --error-ink: #B42318;
 
-  /* roles used by base.css and components.css (etapa 1: everything on dark;
-     etapa 2 adds the light bands by pointing these at paper / card / ink) */
+  /* roles on a dark band (default) */
   --c-bg: var(--navy-900);
-  --c-bg-deep: var(--navy-950);
-  --c-surface: var(--navy-850);
-  --c-surface-2: var(--navy-800);
+  --c-panel: var(--navy-850);
+  --c-panel-2: var(--navy-800);
+  --c-field: var(--navy-950);
   --c-border: var(--line-dark);
-  --c-border-strong: rgba(255, 255, 255, 0.24);
+  --c-border-strong: rgba(255, 255, 255, 0.28);
   --c-text: var(--text-on-dark);
   --c-text-2: var(--text-on-dark-2);
   --c-muted: var(--mist);
   --c-accent: var(--orange);
-  --c-accent-hover: #FF8533;
-  --c-accent-tint: var(--orange-tint-16);
-  --c-accent-tint-hover: var(--orange-tint-22);
-  --c-ok: #34D399;
-  --c-warn: #FBBF24;
-  --c-error: #F87171;
-  --c-info: #38BDF8;
-  --c-focus: #FFB27A;
+  --c-accent-text: var(--orange);
+  --c-ok: var(--ok);
+  --c-error: var(--error);
+  --c-focus: var(--orange);
 
-  /* chart */
-  --chart-accent: var(--c-accent);
-  --chart-muted: #8A95AA;
+  /* buttons (DESIGN_PRAVIDLA §1, direction C 3.2): tinted, never a solid orange fill */
+  --btn-p-bg: var(--orange-tint-22);
+  --btn-p-bg-hover: var(--orange-tint-30);
+  --btn-p-border: var(--orange);
+  --btn-p-border-hover: var(--orange-hover);
+  --btn-p-text: var(--text-on-dark);
+  --btn-s-bg: transparent;
+  --btn-s-border: rgba(255, 255, 255, 0.28);
+  --btn-s-border-hover: rgba(255, 255, 255, 0.5);
+  --btn-s-text: var(--text-on-dark-2);
+  --btn-s-text-hover: var(--text-on-dark);
+
+  /* charts */
+  --chart-accent: var(--orange);
+  --chart-muted: var(--steel);
   --chart-grid: rgba(255, 255, 255, 0.10);
   --chart-axis: rgba(255, 255, 255, 0.30);
-  --chart-text: var(--c-text-2);
+  --chart-text: var(--text-on-dark-2);
 
-  /* type */
+  /* type: Manrope 800 headings, Inter text */
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: "Manrope", "Inter", system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
 
-  --fs-min: 0.75rem;                              /* 12 px, the floor */
-  --fs-xs: 0.8125rem;                             /* 13 px, kicker */
-  --fs-sm: 0.875rem;                              /* 14 px, caption */
-  --fs-body: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);      /* 16 -> 17 */
-  --fs-lead: clamp(1.125rem, 1.07rem + 0.27vw, 1.25rem);    /* 18 -> 20 */
-  --fs-h3: clamp(1.25rem, 1.2rem + 0.18vw, 1.375rem);       /* 20 -> 22 */
-  --fs-h2: clamp(1.75rem, 1.43rem + 1.43vw, 2.5rem);        /* 28 -> 40 */
-  --fs-h1: clamp(2.25rem, 1.7rem + 2.5vw, 3.5rem);          /* 36 -> 56 */
-  --fs-figure: clamp(2.25rem, 1.9rem + 1.6vw, 3.25rem);     /* proof numbers */
+  --fs-min: 0.75rem;                                   /* 12 px, the floor */
+  --fs-kicker: 0.8125rem;                              /* 13 px, 700, capitals */
+  --fs-sm: 0.875rem;                                   /* 14/20 caption */
+  --fs-nav: 0.9375rem;                                 /* 15 px */
+  --fs-body: 1.0625rem;                                /* 17/27 */
+  --fs-lead: clamp(1.125rem, 1.07rem + 0.27vw, 1.25rem);       /* 18 -> 20 */
+  --fs-h3: clamp(1.25rem, 1.2rem + 0.18vw, 1.375rem);          /* 20 -> 22 */
+  --fs-h2: clamp(1.75rem, 1.43rem + 1.43vw, 2.5rem);           /* 28 -> 40 */
+  --fs-h1: clamp(2.25rem, 1.7rem + 2.5vw, 3.5rem);             /* 36 -> 56 */
+  --fs-h1-lead: clamp(1.625rem, 1.35rem + 1.25vw, 2.5rem);     /* 26 -> 40, first sentence of the H1 */
+  --fs-figure: clamp(2.75rem, 2.4rem + 1.6vw, 3.5rem);         /* 44 -> 56, proof numbers */
+  --fs-price: clamp(2.25rem, 2rem + 1.1vw, 3rem);              /* 36 -> 48 */
 
   --lh-tight: 1.1;
-  --lh-heading: 1.2;
+  --lh-heading: 1.15;
   --lh-body: 1.6;
-  --tracking-h1: -0.02em;
+  --tracking-h1: -0.022em;
+  --tracking-h2: -0.015em;
   --tracking-kicker: 0.1em;
 
   /* space */
@@ -87,21 +104,64 @@
   --space-6: 2rem;
   --space-7: 2.5rem;
   --space-8: 3rem;
-  --space-section: clamp(4rem, 2.6rem + 6vw, 8rem);
-  --gutter: clamp(1rem, 0.6rem + 1.8vw, 2rem);
+  --band-y: clamp(3.5rem, 2.5rem + 3.6vw, 6rem);        /* 56 -> 92 at 1440 (lead, etapa 2 kola 1 a 2: page <= 8 500 px with clip dates) */
+  --head-gap: clamp(1.5rem, 1rem + 1.2vw, 2rem);       /* heading -> content, 24 -> 32 */
+  --gutter: clamp(1rem, 0.6rem + 1.8vw, 1.5rem);       /* 16 -> 24 */
 
   /* layout */
-  --container: 75rem;      /* 1200 px */
-  --measure: 42.5rem;      /* 680 px of running text */
-  --header-h: 4rem;
+  --container: 77.5rem;      /* 1240 px */
+  --measure: 42.5rem;        /* 680 px of running text */
+  --header-h: 4.5rem;        /* 72 px; 64 on a phone */
+  --video-hero: 68.75rem;    /* 1100 px */
+  --video-chapters: 68.75rem;
+  --video-side: 45rem;       /* 720 px, V6 in two columns */
+  --video-tour: 75rem;       /* 1200 px */
 
   /* shape */
   --radius: 12px;
+  --radius-lg: 16px;
   --radius-sm: 8px;
+  --radius-btn: 10px;
   --radius-pill: 999px;
-  --border-accent: 1.5px solid var(--c-accent);
 
   /* motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --dur: 0.6s;
+  --dur: 0.7s;
+}
+
+/* A light band: the same components, light palette (direction C 4, 5). */
+.band--light {
+  --c-bg: var(--paper);
+  --c-panel: var(--card);
+  --c-panel-2: var(--paper);
+  --c-field: var(--card);
+  --c-border: var(--line-light);
+  --c-border-strong: var(--steel);
+  --c-text: var(--ink);
+  --c-text-2: var(--ink-2);
+  --c-muted: var(--ink-2);
+  --c-accent: var(--orange-line);
+  --c-accent-text: var(--orange-ink);
+  --c-ok: var(--ok-ink);
+  --c-error: var(--error-ink);
+  --c-focus: var(--orange-ink);
+  --btn-p-bg: var(--orange-tint-16);
+  --btn-p-bg-hover: var(--orange-tint-22);
+  --btn-p-border: var(--orange-line);
+  --btn-p-border-hover: var(--orange-ink);
+  --btn-p-text: var(--ink);
+  --btn-s-bg: var(--card);
+  --btn-s-border: var(--steel);
+  --btn-s-border-hover: var(--ink-2);
+  --btn-s-text: var(--ink-2);
+  --btn-s-text-hover: var(--ink);
+  --chart-accent: var(--orange-line);
+  --chart-muted: var(--steel);
+  --chart-grid: var(--grid);
+  --chart-axis: #9AA4B6;
+  --chart-text: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  :root { --header-h: 4rem; }
 }

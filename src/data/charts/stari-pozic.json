@@ -47,7 +47,7 @@
   {
    "days": "366+",
    "roles": 1,
-   "highlight": false
+   "highlight": true
   }
  ],
  "note_cs": "Jen pozice, u kterých ATS firmy uvádí datum zveřejnění: 409 z 1382 otevřených pozic ve feedu. Stáří se počítá od data zveřejnění ke skenu 31. 10. 12:00. Pozice otevřené přes 365 dní (stálé inzeráty) radar mezi příležitosti nepočítá.",

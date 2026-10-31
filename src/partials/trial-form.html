@@ -8,6 +8,7 @@
       <p class="note">{{t.trial_candidates_note}}</p>
     </div>
 
+    <div class="trial__grid">
     <div id="form-wrapper" aria-live="polite">
       <form class="form" id="demo-form" method="post" action="#{{t.id_trial}}">
         <!-- Honeypot: people never see it; a bot that fills it gets a quiet "success" (worker.js). -->
@@ -38,8 +39,8 @@
             <label for="clients">{{t.trial_label_clients}}</label>
             <button type="button" class="link-btn" id="clients-help-btn" aria-haspopup="dialog" aria-controls="clients-help">{{icon:help}}{{t.trial_clients_help}}</button>
           </div>
+          <div class="field__pair">
           <textarea id="clients" name="clients" rows="3" placeholder="{{t.trial_placeholder_clients}}" aria-describedby="clients-hint"></textarea>
-          <p class="field__hint" id="clients-hint">{{t.trial_hint_clients}}</p>
           <div class="dropzone" id="drop-zone">
             <input type="file" id="file-upload" accept=".xlsx,.xls,.csv" aria-describedby="upload-note">
             <div class="dropzone__prompt" id="file-prompt">
@@ -50,33 +51,37 @@
               <button type="button" class="dropzone__remove" id="file-remove">{{t.trial_file_remove}}</button>
             </div>
           </div>
+          </div>
+          <p class="field__hint" id="clients-hint">{{t.trial_hint_clients}}</p>
           <p class="note" id="upload-note">{{t.trial_upload_note}}</p>
         </div>
 
         <div class="form__error" id="form-error" role="alert" hidden></div>
 
         <button type="submit" class="btn btn-primary" id="submit-btn">{{t.trial_submit}}</button>
-
-        <p class="form__fine">{{t.trial_list_privacy}}</p>
-        <p class="form__fine">{{t.trial_gdpr_html}}</p>
-
-        <ol class="steps" aria-label="{{t.trial_steps_label}}">
-          <li>{{t.trial_step1}}</li>
-          <li>{{t.trial_step2}}</li>
-          <li>{{t.trial_step3}}</li>
-        </ol>
-        <p class="form__fine">{{t.trial_step_fallback}}</p>
       </form>
     </div>
 
-    <p class="trial__contact">
-      <a href="mailto:{{config.email}}?subject={{uri:story_cta_subject}}">{{t.trial_call}}</a><br>
-      {{t.trial_contact_prefix}} <a href="mailto:{{config.email}}">{{config.email}}</a>
-    </p>
+    <!-- from 1 000 px beside the fields: what happens next, what we do with the list, the consent -->
+    <div class="trial__aside">
+      <ol class="steps" aria-label="{{t.trial_steps_label}}">
+        <li>{{t.trial_step1}}</li>
+        <li>{{t.trial_step2}}</li>
+        <li>{{t.trial_step3}}</li>
+      </ol>
+      <p class="form__fine">{{t.trial_step_fallback}}</p>
+      <p class="form__fine">{{t.trial_list_privacy}}</p>
+      <p class="form__fine">{{t.trial_gdpr_html}}</p>
+      <p class="trial__contact">
+        <a href="mailto:{{config.email}}?subject={{uri:story_cta_subject}}">{{t.trial_call}}</a><br>
+        {{t.trial_contact_prefix}} <a href="mailto:{{config.email}}">{{config.email}}</a>
+      </p>
+    </div>
+    </div>
   </div>
 </div>
 
-<dialog class="dialog" id="clients-help" aria-labelledby="clients-help-title">
+<dialog class="dialog band--light" id="clients-help" aria-labelledby="clients-help-title">
   <div class="dialog__head">
     <div>
       <p class="kicker">{{t.help_kicker}}</p>
@@ -105,7 +110,7 @@
   </ul>
   <p class="note">{{t.help_text_alt}}</p>
   <div class="btn-row">
-    <a class="btn btn-primary" href="{{t.help_template_href}}" download>{{icon:download}}{{t.help_download}}</a>
+    <a class="btn btn-primary" href="{{t.help_template_href}}" download>{{t.help_download}}</a>
     <button type="button" class="btn btn-secondary" data-close-help>{{t.help_close}}</button>
   </div>
 </dialog>

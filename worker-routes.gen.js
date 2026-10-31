@@ -16,7 +16,7 @@ export const REDIRECTS = {
   "/blog/the-4-day-latency-gap.html": "/en/blog/the-4-day-latency-gap",
   "/cs": "/",
   "/cs/": "/",
-  "/gdpr.html": "/gdpr",
+  "/gdpr.html": "/en/gdpr",
   "/index.html": "/"
 };
 

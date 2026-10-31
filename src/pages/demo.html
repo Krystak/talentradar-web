@@ -1,21 +1,20 @@
-<section class="section" aria-labelledby="demo-title">
+<section class="band" aria-labelledby="demo-title">
   <div class="container">
     <div class="section__head">
       <h1 id="demo-title">{{t.demo_h1}}</h1>
       <p>{{t.demo_intro}}</p>
     </div>
-    <figure class="video video--tour" data-facade>
-      <div class="video__frame">
-        <video controls playsinline preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="{{t.demo_video_aria}}">
-          <source src="/video/ukazka-v0.mp4" type="video/mp4">
-        </video>
-        <button class="video__play btn btn-primary" type="button" hidden>{{icon:play_arrow}}{{t.demo_play}}</button>
-      </div>
-      <figcaption>{{t.demo_recorded}}</figcaption>
-    </figure>
-    <div class="grid-2 section-cta">
+    <div class="tour">
+      {{video:tour:demo_video_aria:demo_recorded}}
+    </div>
+  </div>
+</section>
+
+<section class="band band--light" aria-labelledby="demo-chapters-title">
+  <div class="container">
+    <div class="grid-2">
       <div>
-        <h2>{{t.demo_chapters_h}}</h2>
+        <h2 id="demo-chapters-title">{{t.demo_chapters_h}}</h2>
         <ol class="tour-chapters">
           <li>{{t.demo_ch1}}</li>
           <li>{{t.demo_ch2}}</li>
@@ -30,8 +29,14 @@
       </div>
     </div>
     <div class="grid-2 section-cta">
-      <p class="btn-row"><a class="btn btn-secondary" href="{{config.demoUrl}}">{{t.demo_cta_full}} {{icon:open_in_new}}</a> <span class="note">{{t.demo_cta_full_note}}</span></p>
-      <p class="btn-row"><a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">{{t.demo_cta_trial}}</a> <span class="note">{{t.demo_cta_trial_note}}</span></p>
+      <div>
+        <p class="btn-row btn-row--stack"><a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">{{t.demo_cta_trial}}</a></p>
+        <p class="note">{{t.demo_cta_trial_note}}</p>
+      </div>
+      <div>
+        <p class="btn-row btn-row--stack"><a class="btn btn-secondary" href="{{config.demoUrl}}">{{t.demo_cta_full}}</a></p>
+        <p class="note">{{t.demo_cta_full_note}}</p>
+      </div>
     </div>
   </div>
 </section>

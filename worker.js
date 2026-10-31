@@ -83,6 +83,33 @@ const TOO_FAST_ERROR = {
   en: "The form was sent too quickly after the page loaded. Please check your details and send it again.",
 };
 
+// The other refusals of the form, in the visitor's language.
+const REFUSALS = {
+  name: {
+    cs: "Vyplňte prosím platné jméno a příjmení (2 až 100 znaků).",
+    en: "Please enter a valid full name (2 to 100 characters).",
+  },
+  email: {
+    cs: "Zadejte prosím platný pracovní e-mail.",
+    en: "Please enter a valid work e-mail.",
+  },
+  clients: {
+    cs: "Text se seznamem firem je příliš dlouhý (maximum je 30 000 znaků). Pošlete ho prosím jako soubor.",
+    en: "The company list is too long (30,000 characters at most). Please send it as a file.",
+  },
+  rate: {
+    cs: "Příliš mnoho požadavků. Zkuste to prosím za hodinu.",
+    en: "Too many requests. Please try again in an hour.",
+  },
+};
+
+// The page takes files up to 5 MB (MAX_FILE_BYTES in js/demo-form.js); base64 makes
+// that ~6.7 MB, so the 8 MB cap on fileData leaves room and never cuts a 5 MB file.
+const FILE_TOO_LARGE_ERROR = {
+  cs: "Nahraný soubor je příliš velký (nejvýš 5 MB).",
+  en: "The uploaded file is too large (5 MB at most).",
+};
+
 // The last stats worked out in this isolate, with a mark of the feed they came from
 // (its length and opening bytes, where version and generated_at sit): later requests
 // skip parsing the ~540 kB feed until the app writes a new one.
@@ -189,16 +216,16 @@ async function handleDemoSubmission(request, env) {
   const fill = fillTime(elapsedMs, timestamp, Date.now());
   if (fill.ms === null || fill.ms < MIN_FILL_MS) {
     console.warn(`Trial form refused as too fast: ${fill.ms === null ? "no timing" : `${fill.ms} ms`} (${fill.source})`);
-    const formLang = normaliseLang(lang, request.headers.get("accept-language"));
-    return new Response(JSON.stringify({ error: TOO_FAST_ERROR[formLang], reason: "too_fast" }), {
+    return new Response(JSON.stringify({ error: TOO_FAST_ERROR[normaliseLang(lang, request.headers.get("accept-language"))], reason: "too_fast" }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
   }
 
-  // Server-side Validation
+  // Server-side Validation: refusals in the visitor's language (status and reason as before)
+  const formLang = normaliseLang(lang, request.headers.get("accept-language"));
   if (!name || typeof name !== "string" || name.trim().length < 2 || name.trim().length > 100) {
-    return new Response(JSON.stringify({ error: "Vyplňte prosím platné jméno a příjmení (2 až 100 znaků)." }), {
+    return new Response(JSON.stringify({ error: REFUSALS.name[formLang] }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
@@ -206,7 +233,7 @@ async function handleDemoSubmission(request, env) {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!email || typeof email !== "string" || !emailRegex.test(email.trim())) {
-    return new Response(JSON.stringify({ error: "Zadejte prosím platný pracovní e-mail." }), {
+    return new Response(JSON.stringify({ error: REFUSALS.email[formLang] }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
@@ -216,7 +243,6 @@ async function handleDemoSubmission(request, env) {
   // bounces decide whether talentradar.eu lands in spam for everyone else.
   const address = await checkAddress(email, send);
   if (!address.ok && ADDRESS_ERRORS[address.reason]) {
-    const formLang = normaliseLang(lang, request.headers.get("accept-language"));
     return new Response(JSON.stringify({ error: ADDRESS_ERRORS[address.reason][formLang], reason: address.reason }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -227,14 +253,14 @@ async function handleDemoSubmission(request, env) {
   // the template of the trial form, read by the app's CRM import) make a line
   // about three times longer than a bare name, so 150 companies need room.
   if (clients && typeof clients === "string" && clients.length > CLIENTS_TEXT_MAX) {
-    return new Response(JSON.stringify({ error: "Text se seznamem firem je příliš dlouhý (maximum je 30 000 znaků). Pošlete ho prosím jako soubor." }), {
+    return new Response(JSON.stringify({ error: REFUSALS.clients[formLang] }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
   }
 
   if (fileData && typeof fileData === "string" && fileData.length > 8 * 1024 * 1024) {
-    return new Response(JSON.stringify({ error: "Nahraný soubor je příliš velký (maximum je 5 MB)." }), {
+    return new Response(JSON.stringify({ error: FILE_TOO_LARGE_ERROR[formLang], reason: "file_too_large" }), {
       status: 400,
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
@@ -247,7 +273,7 @@ async function handleDemoSubmission(request, env) {
       const currentSubmissions = await env.TALENT_RADAR_KV.get(rateLimitKey);
       const count = currentSubmissions ? parseInt(currentSubmissions, 10) : 0;
       if (count >= 5) {
-        return new Response(JSON.stringify({ error: "Příliš mnoho požadavků. Zkuste to prosím za hodinu." }), {
+        return new Response(JSON.stringify({ error: REFUSALS.rate[formLang] }), {
           status: 429,
           headers: { "Content-Type": "application/json; charset=utf-8" },
         });

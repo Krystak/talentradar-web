@@ -3,7 +3,8 @@
  * charts, the billing switch and the trial form. Every page works without it;
  * this adds behaviour, never content.
  */
-import { demoPayload, missingRequired, MAX_FILE_BYTES } from "./demo-form.js?v=b594a7b598";
+import { demoPayload, demoResult, missingRequired, MAX_FILE_BYTES } from "./demo-form.js?v=ee5c6352b8";
+import { clipFor, clipKey } from "./media.js?v=608603aa77";
 
 const T = (() => {
   try {
@@ -37,55 +38,68 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
   });
 })();
 
+/* MediaQueryList "change" with the old addListener for Safari before 14. */
+const onMediaChange = (mql, fn) => (mql.addEventListener ? mql.addEventListener("change", fn) : mql.addListener(fn));
+/* The phone cut (4:5) shows under 640 px when a clip has one (components.css). */
+const phone = window.matchMedia("(max-width: 640px)");
+/* The video CSS shows in a figure: the desktop cut or the phone cut; the hidden one never loads or plays. */
+const shownVideo = (fig) => [...fig.querySelectorAll("video")].find((v) => v.offsetParent !== null) || fig.querySelector("video");
+
 /* ── Videos: load when near, play when seen, pause off screen; a pause button
       because a loop over 5 s that starts by itself must be stoppable (WCAG 2.2.2).
-      With reduced motion: poster and the native controls only. ── */
+      With reduced motion: poster and the native controls only. The choice of
+      cut is made again when the width changes (a phone turned on its side). ── */
 (function videos() {
-  const figures = document.querySelectorAll("[data-autoplay]");
+  const figures = [...document.querySelectorAll("[data-autoplay]")];
   if (!figures.length || !("IntersectionObserver" in window)) return;
   const label = (btn, paused) => {
     btn.querySelector("span").textContent = paused ? t("hero_video_play", "Play") : t("hero_video_pause", "Pause");
     const use = btn.querySelector("use");
     if (use) use.setAttribute("href", paused ? "#i-play_arrow" : "#i-pause");
   };
+  const run = (fig) => {
+    const v = shownVideo(fig);
+    for (const other of fig.querySelectorAll("video")) if (other !== v) other.pause();
+    if (fig.dataset.inView === "1" && fig.dataset.user !== "paused") {
+      v.preload = "auto";
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+    }
+  };
   const near = new IntersectionObserver((entries) => {
     for (const e of entries) {
-      if (e.isIntersecting) {
-        e.target.preload = "auto";
-        near.unobserve(e.target);
-      }
+      if (!e.isIntersecting) continue;
+      near.unobserve(e.target);
+      shownVideo(e.target).preload = "auto";
     }
   }, { rootMargin: "400px 0px" });
   const seen = new IntersectionObserver((entries) => {
-    for (const { target: v, isIntersecting } of entries) {
-      if (!isIntersecting) {
-        v.pause();
-      } else if (!stillPref.matches && v.dataset.user !== "paused") {
-        v.play().catch(() => {});
-      }
+    for (const { target: fig, isIntersecting } of entries) {
+      fig.dataset.inView = isIntersecting ? "1" : "";
+      run(fig);
     }
   }, { threshold: 0.5 });
-  figures.forEach((fig) => {
-    const v = fig.querySelector("video");
+  const live = figures.filter((fig) => fig.querySelector(".video__toggle") && !stillPref.matches);
+  for (const fig of live) {
     const btn = fig.querySelector(".video__toggle");
-    if (!v || !btn || stillPref.matches) return;
-    v.removeAttribute("controls");
+    for (const v of fig.querySelectorAll("video")) {
+      v.removeAttribute("controls");
+      v.addEventListener("play", () => { if (v === shownVideo(fig)) label(btn, false); });
+      v.addEventListener("pause", () => { if (v === shownVideo(fig)) label(btn, true); });
+    }
     btn.hidden = false;
-    v.addEventListener("play", () => label(btn, false));
-    v.addEventListener("pause", () => label(btn, true));
     btn.addEventListener("click", () => {
-      if (v.paused) {
-        v.dataset.user = "";
-        v.play().catch(() => {});
-      } else {
-        v.dataset.user = "paused";
-        v.pause();
-      }
+      const v = shownVideo(fig);
+      fig.dataset.user = v.paused ? "" : "paused";
+      if (v.paused) v.play().catch(() => {});
+      else v.pause();
     });
     label(btn, true);
-    near.observe(v);
-    seen.observe(v);
-  });
+    near.observe(fig);
+    seen.observe(fig);
+  }
+  onMediaChange(phone, () => live.forEach(run));
 })();
 
 /* ── The tour on /demo: nothing loads before the click (preload none); the
@@ -108,8 +122,33 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
 (function chapters() {
   document.querySelectorAll("[data-chapters]").forEach((root) => {
     const tabs = [...root.querySelectorAll('[role="tab"]')];
-    const video = root.querySelector("video");
+    const fig = root.querySelector("figure.video");
     root.querySelectorAll("[data-js-hidden]").forEach((p) => { p.hidden = true; });
+    // every cut of the chapter's clip: all <source>s (WebM + MP4) for the desktop
+    // video and for the phone video, then load(); only the shown one plays
+    const swap = (tab) => {
+      if (!fig || !tab.dataset.clip) return;
+      let clip;
+      try { clip = JSON.parse(tab.dataset.clip); } catch { return; }
+      for (const v of fig.querySelectorAll("video")) {
+        if (tab.dataset.label) v.setAttribute("aria-label", tab.dataset.label);
+        const cut = clipFor(clip, !!v.closest(".video--mobile"));
+        if (v.dataset.clip === clipKey(cut)) continue;
+        v.dataset.clip = clipKey(cut);
+        v.pause();
+        v.querySelectorAll("source").forEach((s) => s.remove());
+        for (const s of cut.sources) {
+          const el = document.createElement("source");
+          el.src = s.src;
+          el.type = s.type;
+          v.appendChild(el);
+        }
+        v.poster = cut.poster || "";
+        v.load();
+      }
+      const v = shownVideo(fig);
+      if (!stillPref.matches && fig.dataset.inView === "1" && fig.dataset.user !== "paused") v.play().catch(() => {});
+    };
     const select = (tab, focus) => {
       for (const other of tabs) {
         const on = other === tab;
@@ -118,15 +157,15 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
         document.getElementById(other.getAttribute("aria-controls")).hidden = !on;
       }
       if (focus) tab.focus();
-      if (video && tab.dataset.label) video.setAttribute("aria-label", tab.dataset.label);
-      const src = tab.dataset.src;
-      if (video && src && !video.currentSrc.endsWith(src)) {
-        video.poster = tab.dataset.poster || "";
-        video.querySelector("source").src = src;
-        video.load();
-        if (!stillPref.matches && video.dataset.user !== "paused") video.play().catch(() => {});
-      }
+      swap(tab);
     };
+    // the first chapter's clip is in the HTML already; mark it so it isn't loaded twice
+    if (fig && tabs[0] && tabs[0].dataset.clip) {
+      try {
+        const clip = JSON.parse(tabs[0].dataset.clip);
+        for (const v of fig.querySelectorAll("video")) v.dataset.clip = clipKey(clipFor(clip, !!v.closest(".video--mobile")));
+      } catch { /* the HTML clip stays */ }
+    }
     tabs.forEach((tab, i) => {
       tab.addEventListener("click", () => select(tab, false));
       tab.addEventListener("keydown", (e) => {
@@ -141,23 +180,56 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
   });
 })();
 
-/* ── Charts grow in when they come into view (CSS does the motion; without JS
-      or with reduced motion they are simply there) ── */
+/* ── Charts 1 and 3: open beside chart 2 from 760 px; on a phone they wait in a
+      closed <details> (a click, or a screen reader, opens it). ── */
+(function moreCharts() {
+  const more = document.querySelector("[data-charts-more]");
+  if (!more) return;
+  const wide = window.matchMedia("(min-width: 760px)");
+  // is-synced hides the summary on a wide screen (components.css) only once this
+  // has opened the charts; without this script the summary stays as the way in
+  const sync = () => {
+    more.open = wide.matches;
+    more.classList.add("is-synced");
+  };
+  sync();
+  onMediaChange(wide, sync);
+})();
+
+/* ── Charts grow in as they scroll into view. The finished chart is the default:
+      without JS, with reduced motion, for a chart already on screen at load and
+      in a full-page picture nothing is ever hidden. Only a chart about to enter
+      the screen is set to zero (is-pre), and it grows once it is in (is-run). ── */
 (function charts() {
-  const all = document.querySelectorAll("[data-reveal]");
-  if (!("IntersectionObserver" in window) || stillPref.matches) {
-    all.forEach((el) => el.classList.add("is-in"));
-    return;
-  }
-  const io = new IntersectionObserver((entries) => {
+  const all = [...document.querySelectorAll("[data-reveal]")];
+  if (!("IntersectionObserver" in window) || stillPref.matches || !all.length) return;
+  const seen = new IntersectionObserver((entries) => {
     for (const e of entries) {
-      if (e.isIntersecting) {
-        e.target.classList.add("is-in");
-        io.unobserve(e.target);
-      }
+      if (!e.isIntersecting) continue;
+      seen.unobserve(e.target);
+      requestAnimationFrame(() => {
+        e.target.classList.add("is-run");
+        e.target.classList.remove("is-pre");
+      });
     }
-  }, { threshold: 0.25 });
-  all.forEach((el) => io.observe(el));
+  }, { threshold: 0.3 });
+  // prime a chart when it comes within a quarter screen below the viewport;
+  // one that is already on screen by then (a fast scroll, a jump) stays finished
+  const watch = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      watch.unobserve(e.target);
+      if (e.boundingClientRect.top < window.innerHeight) continue;
+      e.target.classList.add("is-pre");
+      seen.observe(e.target);
+    }
+  }, { rootMargin: "0px 0px 25% 0px" });
+  // at load, charts already within reach of the screen stay finished
+  requestAnimationFrame(() => {
+    for (const el of all) {
+      if (el.getBoundingClientRect().top >= window.innerHeight * 1.25) watch.observe(el);
+    }
+  });
 })();
 
 /* ── Pricing: monthly / yearly ── */
@@ -196,6 +268,7 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
   const selected = document.getElementById("file-selected");
   const fileName = document.getElementById("file-name");
   let file = null;
+  let fileReady = Promise.resolve();
 
   const showError = (msg) => {
     error.textContent = msg;
@@ -211,7 +284,7 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
       return;
     }
     if (f.size > MAX_FILE_BYTES) {
-      showError(t("form_err_file_large", "The file is too large (8 MB at most)."));
+      showError(t("form_err_file_large", "The file is too large (5 MB at most)."));
       fileInput.value = "";
       return;
     }
@@ -220,9 +293,14 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
     fileName.textContent = `${f.name} (${Math.round(f.size / 1024)} KB)`;
     prompt.hidden = true;
     selected.hidden = false;
-    const reader = new FileReader();
-    reader.onload = (ev) => { if (file) file.data = ev.target.result; };
-    reader.readAsDataURL(f);
+    // sending waits for this (fileReady), so a file still being read is never left out
+    const current = file;
+    fileReady = new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => { current.data = ev.target.result; resolve(); };
+      reader.onerror = () => resolve();
+      reader.readAsDataURL(f);
+    });
   });
 
   document.getElementById("file-remove").addEventListener("click", (e) => {
@@ -238,6 +316,11 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
     e.preventDefault();
     error.hidden = true;
     error.textContent = "";
+    if (file && !file.data) {
+      submit.disabled = true;
+      await fileReady; // the file is still being read: send it, don't drop it
+      submit.disabled = false;
+    }
     const value = (id) => document.getElementById(id).value;
     let timezone = "";
     try { timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch { /* old browser */ }
@@ -259,23 +342,26 @@ const stillPref = window.matchMedia("(prefers-reduced-motion: reduce)");
     const original = submit.innerHTML;
     submit.disabled = true;
     submit.textContent = t("trial_submitting", "Sending…");
+    const generic = t("form_err_generic", "Something went wrong.");
+    let result;
     try {
       const res = await fetch("/api/demo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-      const result = await res.json().catch(() => ({}));
-      // The Worker's own refusals (400, 429) say what to fix; anything else gets the
-      // page's message in the page's language (its 502 text is English only).
-      if (!res.ok || !result.success) throw new Error((res.status === 400 || res.status === 429) && result.error ? result.error : t("form_err_generic"));
-      const wrap = document.getElementById("form-wrapper");
-      wrap.innerHTML = `<div class="success" tabindex="-1">
+      result = await demoResult(res, generic);
+    } catch {
+      result = { ok: false, message: generic }; // no connection: the browser's own text is English only
+    }
+    if (!result.ok) {
+      showError(result.message);
+      submit.disabled = false;
+      submit.innerHTML = original;
+      return;
+    }
+    const wrap = document.getElementById("form-wrapper");
+    wrap.innerHTML = `<div class="success" tabindex="-1">
   <h3><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg>${esc(t("form_state_success_title"))}</h3>
   <ol><li>${esc(t("form_state_success_s1"))}</li><li>${esc(t("form_state_success_s2"))}</li><li>${esc(t("form_state_success_s3"))}</li></ol>
   <p class="note">${esc(t("form_state_success_foot"))}</p>
 </div>`;
-      wrap.querySelector(".success").focus();
-    } catch (err) {
-      showError((err && err.message) || t("form_err_generic", "Something went wrong."));
-      submit.disabled = false;
-      submit.innerHTML = original;
-    }
+    wrap.querySelector(".success").focus();
   });
 })();

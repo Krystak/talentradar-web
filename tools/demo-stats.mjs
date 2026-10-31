@@ -6,11 +6,23 @@
  * (docs/strategie/2026-10-31_web-redesign-inventura-dat.md, IDs 11, 13, 17):
  *
  *   companies       ID 11: companies in the feed
- *   open_positions  ID 13: totals.open (open roles without off-niche ones; the
- *                   roles list misses the newest, B.L.1, so never count it)
+ *   open_positions  open roles in the feed's list (1 382 on 31. 10.), the same base
+ *                   as charts 2 and 3, so every number on the page adds up
+ *                   (767 + 343 + 272 in chart 3 = the proof strip). totals.open
+ *                   (1 444) is higher because the list misses the newest ~62 roles
+ *                   (B.L.1); the smaller number is the conservative one (lead,
+ *                   etapa 2 kolo 1: a visitor who adds up the chart must get it).
+ *                   totals.open stays in the file as totals_open, unused.
  *   companies_new_7d ID 17: companies with a role first seen in the 7 days
  *                   before the scan, a company's first day under watch left out
  *                   (B.L.5: a lower bound, the feed misses the newest roles)
+ *
+ * A company's first day under watch = the calendar day (UTC, the date part of
+ * `seen`) of the earliest `seen` among all its roles in the feed, open and
+ * archived. Roles first seen that day are what the first scan found already
+ * posted, not new hiring, so they don't count. The feed has no "added on" date
+ * per company, which is why this differs by one from the inventory's 57
+ * (analyza_zivy.py); the site shows only "more than half" (lead, 31. 10.).
  *
  * usage: node tools/demo-stats.mjs <feed.json>   (writes src/data/demo-stats.json)
  */
@@ -37,8 +49,9 @@ export function demoStats(feed) {
     as_of: day(feed.generated_at),
     scan_at: feed.scan.at,
     companies: (feed.companies || []).length,
-    open_positions: feed.totals.open,
+    open_positions: (feed.roles || []).length,
     feed_roles: (feed.roles || []).length,
+    totals_open: feed.totals.open,
     companies_new_7d: fresh.size,
   };
 }

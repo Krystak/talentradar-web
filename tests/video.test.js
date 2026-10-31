@@ -127,3 +127,17 @@ test("parseRange edge cases", () => {
   assert.equal(parseRange("bytes=-", 10), null);
   assert.equal(parseRange(null, 10), null);
 });
+
+test("HEAD with the assets' own 206 sends no body and lets the asset body go", async () => {
+  let cancelled = false;
+  const assets = {
+    async fetch() {
+      const body = new ReadableStream({ cancel() { cancelled = true; } });
+      return new Response(body, { status: 206, headers: { "Content-Range": "bytes 0-1/1000", "Content-Length": "2" } });
+    },
+  };
+  const res = await get("/video/hero-v1.mp4", { Range: "bytes=0-1" }, { ASSETS: assets }, "HEAD");
+  assert.equal(res.status, 206);
+  assert.equal(res.body, null);
+  assert.ok(cancelled);
+});

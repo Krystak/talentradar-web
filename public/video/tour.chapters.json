@@ -7,26 +7,26 @@
     },
     {
       "id": "detail",
-      "start": 20.73,
+      "start": 20.17,
       "title": "Detail pozice"
     },
     {
       "id": "komu-zavolat",
-      "start": 35.66,
+      "start": 33.11,
       "title": "Komu zavolat"
     },
     {
       "id": "kandidat",
-      "start": 67.6,
+      "start": 56.57,
       "title": "Kdo hledá tohoto kandidáta?"
     },
     {
       "id": "ats",
-      "start": 90.19,
+      "start": 77.24,
       "title": "Radar + ATS"
     }
   ],
-  "cs_duration": 107.9,
+  "cs_duration": 95.98,
   "en": [
     {
       "id": "rano",
@@ -35,24 +35,24 @@
     },
     {
       "id": "detail",
-      "start": 20.74,
+      "start": 20.17,
       "title": "Role detail"
     },
     {
       "id": "komu-zavolat",
-      "start": 35.69,
+      "start": 33.23,
       "title": "Whom to call"
     },
     {
       "id": "kandidat",
-      "start": 67.68,
+      "start": 56.67,
       "title": "Who wants this candidate?"
     },
     {
       "id": "ats",
-      "start": 90.2,
+      "start": 78.21,
       "title": "Radar + ATS"
     }
   ],
-  "en_duration": 107.91
+  "en_duration": 96.92
 }

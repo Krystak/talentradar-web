@@ -296,14 +296,86 @@ export function fillText(value, vars, where) {
     .trim();
 }
 
+/**
+ * Czech typography (lead, etapa 4a): a one-letter preposition or conjunction
+ * (v, k, s, z, o, u, a, i) never ends a line, so the space after it is a
+ * no-break space. "a v Praze" gets both.
+ */
+const CS_SINGLE = /(?<=^|[\s(„"\u00a0])([vkszouiaVKSZOUIA]) (?=\S)/gu;
+export function nbspCs(str) {
+  return str.replace(CS_SINGLE, "$1\u00a0");
+}
+
+/** Elements whose content is never prose (an SVG title and desc are names, read aloud): their text keeps its plain spaces. */
+const RAW_ELEMENTS = /^(code|pre|script|style|textarea|title|desc)$/i;
+
+/** Elements that sit inside a line of text: a one-letter word before one binds to it ("v <a>zásadách</a>"). */
+const INLINE_ELEMENTS = /^(a|abbr|b|code|em|i|kbd|mark|q|s|small|span|strong|sub|sup|time|u)$/i;
+
+/**
+ * nbspCs over the text nodes of an HTML fragment only: never inside a tag
+ * (attributes, URLs), a comment, or code, pre, script, style, textarea, title,
+ * desc. The build runs it over the <body> of every Czech page (buildSite), so
+ * texts of the map, templates, articles and the GDPR text all get it, while
+ * <title>, meta, JSON-LD and every attribute (aria-label, data-label…) keep
+ * plain spaces (lead, etapa 4a kolo 2).
+ */
+export function nbspCsHtml(html) {
+  const parts = html.split(/(<!--[\s\S]*?-->|<(?:[^>"']|"[^"]*"|'[^']*')*>)/);
+  let raw = null; // the raw element we are inside, if any
+  return parts
+    .map((part, i) => {
+      if (part.startsWith("<!--")) return part;
+      const tag = part.match(/^<(\/?)([a-z][a-z0-9-]*)/i);
+      if (tag) {
+        const [, close, name] = tag;
+        if (!close && !raw && RAW_ELEMENTS.test(name) && !part.endsWith("/>")) raw = name.toLowerCase();
+        else if (close && raw === name.toLowerCase()) raw = null;
+        return part;
+      }
+      if (raw) return part;
+      let out = nbspCs(part);
+      // the text ends on "v " and an inline element follows: the line may not break there either
+      const next = (parts[i + 1] || "").match(/^<([a-z][a-z0-9-]*)/i);
+      if (next && INLINE_ELEMENTS.test(next[1])) out = out.replace(/(?<=^|[\s(„" ])([vkszouiaVKSZOUIA]) $/u, "$1 ");
+      return out;
+    })
+    .join("");
+}
+
 /** A text of the map for this page, variables filled in (not escaped). */
 function text(site, ctx, key, local = {}) {
   const raw = lookup(site.i18n[ctx.lang], key);
   if (raw === undefined) throw new Error(`${ctx.where} [${ctx.lang}]: unknown i18n key ${key}`);
   // "3 400" never breaks between its digits (Czech thousands separator), nor "5 MB", "1 990 Kč", "24 %" before the unit
-  return fillText(raw, { ...ctx.vars, ...local }, `${ctx.where} [${ctx.lang}] ${key}`)
+  const out = fillText(raw, { ...ctx.vars, ...local }, `${ctx.where} [${ctx.lang}] ${key}`)
     .replace(/(\d) (\d{3})(?!\d)/g, "$1\u00a0$2")
     .replace(/(\d) (MB|kB|Kč|€|%|min)(?![\p{L}])/gu, "$1\u00a0$2");
+  // (no Czech no-break spaces here: a text may end up in an attribute; the page pass adds them to text nodes only)
+  return out;
+}
+
+/** A text going into a URL (an e-mail subject): plain spaces, the no-break ones are for the page only. */
+const plainSpaces = (str) => str.replace(/[ ]/g, " ");
+
+/** Where the "book a demo" buttons go: config.callUrl, or until it is set an e-mail with the call's subject. */
+export function callHref(site, ctx) {
+  const url = String(site.config.callUrl || "").trim();
+  if (url) return url;
+  return `mailto:${site.config.email}?subject=${encodeURIComponent(plainSpaces(text(site, ctx, "story_cta_subject")))}`;
+}
+
+/** The operator line (name, company ID, address): only the items filled in site.config.json, nothing while all are empty. */
+function operatorLine(site, ctx, cls) {
+  const op = site.config.operator || {};
+  const items = [
+    ["name", "operator_name_label"],
+    ["id", "operator_id_label"],
+    ["address", "operator_address_label"],
+  ]
+    .filter(([k]) => String(op[k] || "").trim())
+    .map(([k, label]) => `<span>${escapeHtml(text(site, ctx, label))}: ${escapeHtml(String(op[k]).trim())}</span>`);
+  return items.length ? `<p class="${cls}">${items.join(" · ")}</p>` : "";
 }
 
 function blogList(site, ctx, limit) {
@@ -363,12 +435,17 @@ function resolve(site, token, ctx, where) {
     if (cut < 0) return escapeHtml(v);
     return `<span class="h1-line">${escapeHtml(v.slice(0, cut))}</span> <span class="accent">${escapeHtml(v.slice(cut + 1))}</span>`;
   }
-  if (token === "proof:stat3") {
-    // "more than half": only while the lower bound really is over half (text map, ID 17)
-    if (site.demoStats.companies_new_7d * 2 <= site.demoStats.companies) return "";
-    return `<li><strong class="proof__n proof__n--text">${escapeHtml(text(site, ctx, "proof_stat3_value"))}</strong><span class="proof__l">${escapeHtml(text(site, ctx, "proof_stat3_label"))}</span></li>`;
+  if (token.startsWith("uri:")) return encodeURIComponent(plainSpaces(text(site, ctx, token.slice(4))));
+  if (token === "call:href") return escapeHtml(callHref(site, ctx));
+  if (token.startsWith("operator:")) return operatorLine(site, ctx, `operator operator--${token.slice(9)}`);
+  if (token.startsWith("first:")) {
+    // the first sentence of a text, the rest only from 768 px (a phone keeps the one line that says what it is)
+    const v = text(site, ctx, token.slice(6));
+    const cut = v.search(/(?<=[.!?])\s/);
+    if (cut < 0) return escapeHtml(v);
+    return `${escapeHtml(v.slice(0, cut))}<span class="d-only"> ${escapeHtml(v.slice(cut + 1))}</span>`;
   }
-  if (token.startsWith("uri:")) return encodeURIComponent(text(site, ctx, token.slice(4)));
+  if (token === "tour:chapters") return tourChapters(site, ctx);
   if (token.startsWith("list:")) {
     // a text of several sentences as a list with a check per sentence (hero_note, direction C 3.3)
     ctx.icons.add("check");
@@ -404,8 +481,11 @@ function resolve(site, token, ctx, where) {
     return `<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-${name}"></use></svg>`;
   }
   if (token.startsWith("chart:")) {
-    const chart = site.charts[token.slice(6)];
+    const [id, variant] = token.slice(6).split(":");
+    const chart = site.charts[id];
     if (!chart) fail("unknown chart");
+    if (variant === "m") return renderPhoneChart(site, chart, ctx);
+    if (variant) fail("unknown chart variant");
     return renderChart(site, chart, ctx);
   }
   if (token.startsWith("price:")) {
@@ -458,7 +538,9 @@ export function brandify(html) {
  * A clip of src/data/media.json in a browser frame. Loops (hero, chapters, V6)
  * are muted, lazy (preload none) and get a pause button in the frame bar; the
  * tour plays only on a click. A clip with a 4:5 phone cut gets both videos, CSS
- * shows one, and only the shown one is ever loaded (site.js).
+ * shows one, and only the shown one is ever loaded (site.js). On a phone only
+ * the hero plays by itself; every other loop waits for a tap on its play
+ * button (data-tap-phone, lead etapa 4a).
  */
 function videoFigure(site, ctx, id, ariaKey, captionKey, where) {
   const clip = site.media.clips[id];
@@ -478,13 +560,15 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where) {
   let toggle = "";
   if (loop) {
     ctx.icons.add("pause");
-    toggle = `<button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span>${escapeHtml(text(site, ctx, "hero_video_pause"))}</span></button>`;
+    toggle = `<button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">${escapeHtml(text(site, ctx, "hero_video_pause"))}</span></button>`;
   }
+  const tap = loop && id !== "hero";
+  const start = tap ? `\n    <button class="btn btn-secondary video__start" type="button" hidden>${escapeHtml(text(site, ctx, "hero_video_play"))}</button>` : "";
   const caption = captionKey ? escapeHtml(text(site, ctx, captionKey)) : "";
-  return `<figure class="video video--${id}${clip.mobile ? " video--has-mobile" : ""}" ${loop ? "data-autoplay" : "data-facade"}>
+  return `<figure class="video video--${id}${clip.mobile ? " video--has-mobile" : ""}" ${loop ? `data-autoplay${tap ? " data-tap-phone" : ""}` : "data-facade"}>
   <div class="frame">
     <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">${escapeHtml(text(site, ctx, "video_frame_url"))}</span>${toggle}</div>
-    ${video(clip, "video--desktop")}${clip.mobile ? `\n    ${video({ ...clip, ...clip.mobile }, "video--mobile")}` : ""}
+    ${video(clip, "video--desktop")}${clip.mobile ? `\n    ${video({ ...clip, ...clip.mobile }, "video--mobile")}` : ""}${start}
   </div>
   <figcaption>${caption}</figcaption>
 </figure>`;
@@ -558,7 +642,7 @@ function renderChart(site, chart, ctx) {
     <p class="chart__lead">${escapeHtml(t("lead"))}</p>
   </figcaption>
 ${body.svg}
-  <p class="chart__caption">${escapeHtml(t("caption"))}</p>${shrm}
+  <p class="chart__caption">${escapeHtml(t("caption"))}${n === 2 ? ` ${escapeHtml(whyAfterFirst(t("why")))}` : ""}</p>${shrm}
   <p class="chart__source">${escapeHtml(source)}</p>
   <details class="chart__data">
     <summary>${escapeHtml(text(site, ctx, "chart_table_toggle"))}</summary>
@@ -566,6 +650,90 @@ ${body.svg}
 ${body.table}
   </details>
 </figure>`;
+}
+
+/**
+ * A chart on a phone (lead, etapa 4a): plain HTML bars, one per row, label and
+ * value as real 14 px text, so nothing shrinks with the screen the way SVG text
+ * does. The age chart merges every band of 45 days and more into one "45+" bar,
+ * the only one in the accent; the sentence under it says why it matters. The
+ * list carries the chart's text alternative, and the note, source and date
+ * stay under the chart.
+ */
+function renderPhoneChart(site, chart, ctx) {
+  const n = { "nove-pozice-po-dnech": 1, "stari-pozic": 2, "zdroje-pozic": 3 }[chart.id];
+  if (!n) throw new Error(`Chart ${chart.id}: no phone renderer`);
+  const fmt = NUMBER[ctx.lang];
+  const t = (k) => text(site, ctx, `chart${n}_${k}`);
+  const source = text(site, ctx, n === 1 ? "chart_source" : "chart_source_short", { as_of: formatDate(chart.as_of, ctx.lang, true) });
+  let rows;
+  if (n === 1) {
+    rows = chart.rows.map((r) => ({ label: formatDate(r.date, ctx.lang, false), value: r.new_roles, hi: false }));
+  } else if (n === 2) {
+    const days = text(site, ctx, "chart_days");
+    rows = chart.rows.filter((r) => !r.highlight).map((r) => ({ label: `${r.days} ${days}`, value: r.roles, hi: false }));
+    const long = chart.rows.filter((r) => r.highlight).reduce((a, r) => a + r.roles, 0);
+    rows.push({ label: `${t("legend_hl_short")} ${days}`, value: long, hi: true });
+  } else {
+    rows = [...chart.rows]
+      .sort((a, b) => b.companies - a.companies)
+      .map((r) => ({ label: t(`group_${SOURCE_GROUP[r.group_en]}`), value: r.companies, hi: SOURCE_GROUP[r.group_en] === "jobscz" }));
+  }
+  const max = Math.max(...rows.map((r) => r.value));
+  const bars = rows
+    .map((r, i) => {
+      const w = max ? Math.max(1, Math.round((r.value / max) * 1000) / 10) : 0;
+      return `<li class="hbars__row${r.hi ? " is-hi" : ""}"><span class="hbars__label">${escapeHtml(r.label)}</span><span class="hbars__track" aria-hidden="true"><span class="hbars__bar" style="--w:${w}%;--i:${i}"></span></span><span class="hbars__value">${fmt(r.value)}</span></li>`;
+    })
+    .join("");
+  // the age chart's sentence is why 45+ matters (chart2_why); the others keep their caption
+  const caption = n === 2 ? t("why") : t("caption");
+  return `<figure class="chart chart--m" id="chm-${chart.id}" data-reveal>
+  <figcaption class="chart__head">
+    <h3 class="chart__title">${escapeHtml(t("title"))}</h3>
+    <p class="chart__lead">${escapeHtml(t("lead"))}</p>
+  </figcaption>
+  <ol class="hbars" role="list" aria-label="${escapeHtml(t("alt"))}">${bars}</ol>
+  <p class="chart__caption">${escapeHtml(caption)}</p>
+  <p class="chart__note">${escapeHtml(t("note"))}</p>
+  <p class="chart__source">${escapeHtml(source)}</p>
+</figure>`;
+}
+
+/** Seconds as m:ss for a chapter of the tour. */
+const minutesSeconds = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+
+/**
+ * The tour's chapters on /demo. Once media.json gives the tour its chapter
+ * times (clips.tour.chapters: per language [{ start }] as media's
+ * tour.chapters.json, or a plain list of seconds), each chapter is a button
+ * that jumps the video there. Until then a plain numbered list: a button that
+ * does nothing would be worse than text (lead, etapa 4a).
+ */
+function tourChapters(site, ctx) {
+  const clip = site.media.clips.tour;
+  const raw = clip && clip.chapters ? (Array.isArray(clip.chapters) ? clip.chapters : clip.chapters[ctx.lang]) : null;
+  const times = (Array.isArray(raw) ? raw : [])
+    .map((c) => (typeof c === "number" ? c : Number(c && c.start)))
+    .filter((s) => Number.isFinite(s) && s >= 0);
+  const keys = ["demo_ch1", "demo_ch2", "demo_ch3", "demo_ch4", "demo_ch5"];
+  if (!times.length) {
+    return `<ol class="tour-chapters">${keys.slice(0, 4).map((k) => `<li>${escapeHtml(text(site, ctx, k))}</li>`).join("")}</ol>`;
+  }
+  const items = times.slice(0, keys.length).map(
+    (s, i) => `<li><button class="tour-chapter" type="button" data-seek="${s}"><span class="tour-chapter__time">${minutesSeconds(s)}</span><span>${escapeHtml(text(site, ctx, keys[i]))}</span></button></li>`
+  );
+  return `<ol class="tour-chapters tour-chapters--seek" role="list">${items.join("")}</ol>`;
+}
+
+/**
+ * The age chart's "why" without its first sentence: on a wide screen the caption
+ * above it already says the roles have been up 45 days or more, so the two read
+ * as one paragraph without saying it twice (lead, etapa 4a kolo 3).
+ */
+function whyAfterFirst(why) {
+  const cut = why.search(/(?<=[.!?])\s/);
+  return cut < 0 ? why : why.slice(cut + 1);
 }
 
 /** Columns with an axis: shared by the daily chart and the age chart. */
@@ -686,7 +854,7 @@ const LOCALE = { cs: "cs_CZ", en: "en_IE" };
 /** Texts site.js needs at run time; a page carries only its own language's. */
 const JS_KEYS = [
   "hero_video_play", "hero_video_pause", "trial_submitting", "nav_menu_open", "nav_menu_close",
-  "form_err_required", "form_err_email", "form_err_file_large", "form_err_file_type", "form_err_generic",
+  "form_err_required", "form_err_name", "form_err_name_short", "form_err_email_empty", "form_err_company", "form_err_company_short", "form_err_email", "form_err_file_large", "form_err_file_type", "form_err_generic",
   "form_state_success_title", "form_state_success_s1", "form_state_success_s2", "form_state_success_s3", "form_state_success_foot",
 ];
 
@@ -761,7 +929,8 @@ export function buildSite(site) {
       for (const l of config.langs) links.push(`<link rel="alternate" hreflang="${l}" href="${origin}${urlOf(r.id, l)}">`);
       links.push(`<link rel="alternate" hreflang="x-default" href="${origin}${urlOf(r.id, config.xDefault)}">`);
     }
-    const preloads = ["inter-latin", ...(r.lang === "cs" ? ["inter-latin-ext"] : [])]
+    // Manrope too: the H1 is set in it, and a late swap moved the hero (CLS 0.03, mobile audit 17)
+    const preloads = ["inter-latin", "manrope-latin", ...(r.lang === "cs" ? ["inter-latin-ext", "manrope-latin-ext"] : [])]
       .map((f) => `<link rel="preload" href="/fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`);
     ctx.page = {
       lang: r.lang,
@@ -779,7 +948,8 @@ export function buildSite(site) {
       alt_url: urlOf(r.id, other),
       head_links: links.join("\n  "),
       preloads: preloads.join("\n  "),
-      i18n_json: JSON.stringify(Object.fromEntries(JS_KEYS.map((k) => [k, text(site, ctx, k)]))).replace(/</g, "\\u003c"),
+      // texts site.js writes into the page: Czech ones with their no-break spaces already in (the page pass skips <script>)
+      i18n_json: JSON.stringify(Object.fromEntries(JS_KEYS.map((k) => [k, r.lang === "cs" ? nbspCs(text(site, ctx, k)) : text(site, ctx, k)]))).replace(/</g, "\\u003c"),
       body_class: `page-${r.id.replace(/[^a-z0-9]+/g, "-")}`,
       post_body: "",
       crumb: r.post ? escapeHtml(r.post.crumb || r.post.title) : "",
@@ -803,6 +973,8 @@ export function buildSite(site) {
       "<!--sprite-->",
       sprite.length ? `<!-- Material Symbols (Apache License 2.0, src/icons/LICENSE-material-symbols.txt) -->\n<svg xmlns="http://www.w3.org/2000/svg" hidden>${sprite.join("")}</svg>` : ""
     );
+    // Czech pages: no line ends on a one-letter word, in templates, articles and the GDPR text too (text nodes only)
+    if (r.lang === "cs") html = html.replace(/(<body[^>]*>)([\s\S]*)(<\/body>)/, (m, open, body, close) => open + nbspCsHtml(body) + close);
     files.set(`public/${r.file}`, brandify(dropEmpty(html)));
   }
 

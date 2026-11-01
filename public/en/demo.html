@@ -26,8 +26,9 @@
   <meta name="theme-color" content="#131B2C">
   <script>document.documentElement.className = "js";</script>
   <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/site.css?v=8bc80058a1">
-  <script type="module" src="/js/site.js?v=ddeb33e4fa"></script>
+  <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/site.css?v=1884361092">
+  <script type="module" src="/js/site.js?v=68ca024a20"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -36,27 +37,33 @@
 </head>
 <body class="page-demo">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
+<header class="site-header" data-header>
   <div class="container site-header__inner">
     <a class="logo" href="/en/">
       <img src="/falcon.svg" alt="" aria-hidden="true" width="32" height="32">
       <span class="logo__word" data-brand><span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radar</span></span></span>
     </a>
+    <!-- the menu button comes before the menu, so Tab goes from it into the open menu (CSS puts it on the right) -->
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg></button>
     <nav class="site-nav" id="site-nav" aria-label="Main menu">
       <ul>
         <li><a href="/en/#how-it-works">How it works</a></li>
-        <li><a href="/en/#data">Data</a></li>
+        <li class="d-only"><a href="/en/#data">Data</a></li>
+        <li class="m-only"><a href="/en/#proof">Data</a></li>
         <li><a href="/en/pricing">Pricing</a></li>
         <li><a href="/en/blog/">Blog</a></li>
         <li class="nav-mobile-only"><a href="/en/demo">Tour</a></li>
       </ul>
       <div class="site-nav__aside">
         <a class="lang-switch" href="/demo" hreflang="cs" lang="cs" aria-label="Switch to Czech">CS</a>
-        <a href="https://app.talentradar.eu">Sign in</a>
+        <a class="site-nav__signin" href="https://app.talentradar.eu">Sign in</a>
+      </div>
+      <div class="site-nav__cta m-only">
+        <a class="btn btn-primary" href="/en/#try">Try it free for 14 days</a>
+        <a class="btn btn-secondary" href="mailto:krystof@talentradar.eu?subject=A%20short%20call%20about%20TalentRadar">Book a 15-minute demo</a>
       </div>
     </nav>
-    <a class="btn btn-primary btn--nav" href="/en/#try"><span class="long">Send your company list</span><span class="short">Send list</span></a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg></button>
+    <a class="btn btn-primary btn--nav" href="/en/#try">Try it free for 14 days</a>
   </div>
 </header>
 
@@ -84,12 +91,7 @@
     <div class="grid-2">
       <div>
         <h2 id="demo-chapters-title">Chapters</h2>
-        <ol class="tour-chapters">
-          <li>Morning: what’s new</li>
-          <li>Role detail</li>
-          <li>Whom to call</li>
-          <li>Who wants this candidate?</li>
-        </ol>
+        <ol class="tour-chapters"><li>Morning: what’s new</li><li>Role detail</li><li>Whom to call</li><li>Who wants this candidate?</li></ol>
       </div>
       <div>
         <h2>What’s real and what’s made up</h2>
@@ -99,7 +101,7 @@
     </div>
     <div class="grid-2 section-cta">
       <div>
-        <p class="btn-row btn-row--stack"><a class="btn btn-primary" href="/en/#try">Send your company list</a></p>
+        <p class="btn-row btn-row--stack"><a class="btn btn-primary" href="/en/#try">Try it free for 14 days</a></p>
         <p class="note">The same on your own companies, 14 days free.</p>
       </div>
       <div>
@@ -111,24 +113,25 @@
 </section>
 
 </main>
-<footer class="site-footer">
+<footer class="site-footer" data-footer>
   <div class="container">
     <div class="site-footer__grid">
-      <div>
+      <div class="site-footer__about">
         <a class="logo" href="/en/">
           <img src="/falcon.svg" alt="" aria-hidden="true" width="32" height="32">
           <span class="logo__word" data-brand><span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radar</span></span></span>
         </a>
-        <p>Every open role at your companies, next to your ATS. Born at an agency in Dublin.</p>
+        <p class="d-only">Every open role at your companies, next to your ATS. Born at an agency in Dublin.</p>
       </div>
+      <!-- on a phone the three lists flow into one grid of 48 px tiles (components.css); the headings stay for readers -->
       <nav aria-labelledby="f-product">
         <h2 id="f-product">Product</h2>
         <ul>
-          <li><a href="/en/#how-it-works">How it works</a></li>
+          <li class="d-only"><a href="/en/#how-it-works">How it works</a></li>
           <li><a href="/en/pricing">Pricing</a></li>
-          <li><a href="/en/demo">Tour</a></li>
+          <li class="d-only"><a href="/en/demo">Tour</a></li>
           <li><a href="https://app.talentradar.eu/?demo=showcase">Full demo</a></li>
-          <li><a href="https://app.talentradar.eu">Sign in</a></li>
+          <li class="d-only"><a href="https://app.talentradar.eu">Sign in</a></li>
         </ul>
       </nav>
       <nav aria-labelledby="f-resources">
@@ -142,22 +145,29 @@
       <nav aria-labelledby="f-contact">
         <h2 id="f-contact">Contact</h2>
         <ul>
-          <li><a href="mailto:krystof@talentradar.eu">krystof@talentradar.eu</a></li>
+          <li class="site-footer__mail"><a href="mailto:krystof@talentradar.eu">krystof@talentradar.eu</a></li>
           <li><a href="https://www.linkedin.com/company/talent-radareu" rel="noopener">TalentRadar on LinkedIn</a></li>
-          <li><a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" rel="noopener">Kryštof Pejša</a></li>
+          <li class="d-only"><a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" rel="noopener">Kryštof Pejša</a></li>
         </ul>
       </nav>
     </div>
     <p class="site-footer__slogan" lang="en">Spend time closing, <span>not searching.</span></p>
     <div class="site-footer__bottom">
       <p>© 2026 TalentRadar</p>
-      <!-- Operator line (footer_operator) stays hidden until Kryštof fills it in (lead, 31. 10. 2026). -->
+      
     </div>
   </div>
 </footer>
+<!-- Phone only: both actions within thumb's reach. site.js shows it only while no other main button,
+     the trial form, the footer or the open menu is on screen (one main button per screen, lead etapa 4a). -->
+<div class="action-bar m-only" data-action-bar role="group" aria-label="Quick actions" inert>
+  <a class="btn btn-primary" href="/en/#try">Try free</a>
+  <a class="btn btn-secondary" href="mailto:krystof@talentradar.eu?subject=A%20short%20call%20about%20TalentRadar">15-min demo</a>
+</div>
+
 
 <!-- Material Symbols (Apache License 2.0, src/icons/LICENSE-material-symbols.txt) -->
 <svg xmlns="http://www.w3.org/2000/svg" hidden><symbol id="i-menu" viewBox="0 -960 960 960"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></symbol></svg>
-<script type="application/json" id="i18n">{"hero_video_play":"Play preview","hero_video_pause":"Pause preview","trial_submitting":"Sending your list…","nav_menu_open":"Open menu","nav_menu_close":"Close menu","form_err_required":"Please fill in your name, work e-mail and agency name.","form_err_email":"Please check the e-mail address; it should look like jane@agency.ie.","form_err_file_large":"The file is too large (5 MB at most).","form_err_file_type":"Please upload Excel (.xlsx, .xls) or .csv.","form_err_generic":"Something went wrong. Please write to me directly at krystof@talentradar.eu.","form_state_success_title":"Done, we’re setting up your trial","form_state_success_s1":"A confirmation e-mail is on its way. If you can’t see it, check your spam folder.","form_state_success_s2":"We automatically set up your trial account, find your companies’ career pages and run the first scan.","form_state_success_s3":"After the first scan you get an e-mail with a link to set your password. Within 2 hours you’ll see in the app where your companies are hiring.","form_state_success_foot":"No charges, no credit card. When the trial ends, you decide whether to carry on."}</script>
+<script type="application/json" id="i18n">{"hero_video_play":"Play preview","hero_video_pause":"Pause preview","trial_submitting":"Sending…","nav_menu_open":"Open menu","nav_menu_close":"Close menu","form_err_required":"Please fill in your name, work e-mail and agency name.","form_err_name":"Please fill in your full name.","form_err_name_short":"Please enter your full name.","form_err_email_empty":"Please fill in your work e-mail.","form_err_company":"Please fill in your agency name.","form_err_company_short":"Please enter the full agency name.","form_err_email":"Please check the e-mail address; it should look like jane@agency.ie.","form_err_file_large":"The file is too large (5 MB at most).","form_err_file_type":"Please upload Excel (.xlsx, .xls) or .csv.","form_err_generic":"Something went wrong. Please write to me directly at krystof@talentradar.eu.","form_state_success_title":"Done, we’re setting up your trial","form_state_success_s1":"A confirmation e-mail is on its way. If you can’t see it, check your spam folder.","form_state_success_s2":"We automatically set up your trial account, find your companies’ career pages and run the first scan.","form_state_success_s3":"After the first scan you get an e-mail with a link to set your password. Within 2 hours you’ll see in the app where your companies are hiring.","form_state_success_foot":"No charges, no credit card. When the trial ends, you decide whether to carry on."}</script>
 </body>
 </html>

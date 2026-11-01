@@ -243,7 +243,7 @@ test("the demo numbers come from src/data/demo-stats.json and the chart data, fo
   const html = String(built().get("public/index.html"));
   assert.match(html, /1 382/);
   assert.doesNotMatch(html, /1 444/);
-  assert.match(html, /Víc než polovina/);
+  assert.match(html, /58 ze 100/);
 });
 
 test("one base for every demo number: the proof strip = roles in chart 3 = the total under chart 2", () => {
@@ -256,10 +256,13 @@ test("one base for every demo number: the proof strip = roles in chart 3 = the t
   assert.match(strip, /1 382/);
 });
 
-test('"more than half" is shown only while the lower bound is over half (text map, ID 17)', () => {
+test("the companies with a new role in 7 days are an exact number from demo-stats.json, the same on every width (lead, etapa 4a)", () => {
   const site = loadSite();
-  site.demoStats = { ...site.demoStats, companies_new_7d: 50 };
-  assert.doesNotMatch(String(buildSite(site).get("public/index.html")), /Víc než polovina/);
+  site.demoStats = { ...site.demoStats, companies_new_7d: 37 };
+  const files = buildSite(site);
+  assert.match(String(files.get("public/index.html")), /<li><strong class="proof__n">37 ze 100<\/strong>/);
+  assert.match(String(files.get("public/en/index.html")), /<li><strong class="proof__n">37 of 100<\/strong>/);
+  assert.doesNotMatch(String(files.get("public/index.html")), /Víc než polovina/);
 });
 
 test("demo-stats.json follows the inventory rules on a small feed", () => {
@@ -385,7 +388,8 @@ test("render runs once: a text that contains {{…}} stays text and cannot pull 
   const site = loadSite();
   site.i18n.cs.nf_h1 = "Pozor na {{t.trial_gdpr_html}} a {{";
   const html = String(buildSite(site).get("public/404.html"));
-  assert.match(html, /Pozor na \{\{t\.trial_gdpr_html\}\} a \{\{/);
+  // (Czech: the space after the one-letter "a" is a no-break one)
+  assert.match(html, /Pozor na \{\{t\.trial_gdpr_html\}\} a[  ]\{\{/);
 });
 
 test("brandify: a quoted '>' in a heading's attribute and data-brand-like names", () => {
@@ -440,10 +444,11 @@ test("without site.js the extra charts stay reachable: the summary hides only af
   // no rule hides the summary on the strength of .js (set before the module loads) or for everyone
   assert.doesNotMatch(css, /\.js \.charts__more > summary/);
   for (const m of css.matchAll(/([^{}]*charts__more[^{}]*summary[^{}]*)\{([^}]*)\}/g)) {
-    if (/display:\s*none/.test(m[2])) assert.match(m[1], /is-synced/, `hidden by: ${m[1].trim()}`);
+    // (hiding the summary's own marker, ::-webkit-details-marker, leaves the summary there)
+    if (/display:\s*none/.test(m[2]) && !/::/.test(m[1])) assert.match(m[1], /is-synced/, `hidden by: ${m[1].trim()}`);
   }
   const html = String(built().get("public/index.html"));
-  assert.match(html, /<details class="charts__more" data-charts-more>\s*<summary>Další data z dema \(2 grafy\)<\/summary>/);
+  assert.match(html, /<details class="charts__more" data-charts-more>\s*<summary>Další data z[  ]dema \(2 grafy\)<\/summary>/);
 });
 
 test("chart 2: the 45+ count is every band of 45 days and more, 366+ included, and a band of 1 still has a visible column", () => {
@@ -488,12 +493,12 @@ test("a chapter tab carries its whole clip, and the phone video gets the phone c
   assert.deepEqual(clipFor(tab1, true).sources, clipFor(tab1, false).sources);
 });
 
-test("the recommended plan comes first in the page and is put in the middle only visually from 760 px", () => {
+test("the recommended plan comes first in the page and is put in the middle only visually from 768 px", () => {
   const html = String(built().get("public/index.html"));
   const brief = html.slice(html.indexOf('class="plans plans--brief"'), html.indexOf("</ul>", html.indexOf('class="plans plans--brief"')));
   assert.ok(brief.indexOf("plan--pick") < brief.indexOf("Solo Scout"), "Agency Pro before Solo Scout in the DOM");
   const css = readFileSync(new URL("../public/css/site.css", import.meta.url), "utf8");
-  assert.match(css, /@media \(min-width: 760px\) \{\s*\.plans--brief > li:nth-child\(1\) \{ order: 2; \}/);
+  assert.match(css, /@media \(min-width: 768px\) \{\s*\.plans--brief > li:nth-child\(1\) \{ order: 2; \}/);
 });
 
 test("the contrast check fails on a token pair it cannot read instead of skipping it", () => {

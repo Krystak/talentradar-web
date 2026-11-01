@@ -9,7 +9,7 @@
       <button type="button" aria-pressed="false" data-billing-set="year">{{t.pp_toggle_yearly}} · {{t.pp_toggle_save}}</button>
     </div>
     <div data-billing="month">
-      <ul class="plans" role="list">
+      <ul class="plans plans--page" role="list">
         <li><div class="plan">
           <h2 class="plan__name">{{t.pp_t1_name}}</h2>
           <div class="price--month"><p class="plan__price">{{t.pp_t1_price}} <span class="plan__period">{{t.pp_period_month}}</span></p></div>
@@ -20,12 +20,17 @@
             <li>{{icon:check}}<span>{{t.pp_t1_f2}}</span></li>
             <li>{{icon:check}}<span>{{t.pp_t1_f3}}</span></li>
             <li>{{icon:check}}<span>{{t.pp_t1_f4}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t1_f5}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t1_f6}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t1_f7}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t1_f8}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t1_f9}}</span></li>
           </ul>
+          <details class="plan__more-f" data-wide-open>
+            <summary>{{t.pp_features_more}}</summary>
+            <ul>
+              <li>{{icon:check}}<span>{{t.pp_t1_f5}}</span></li>
+              <li>{{icon:check}}<span>{{t.pp_t1_f6}}</span></li>
+              <li>{{icon:check}}<span>{{t.pp_t1_f7}}</span></li>
+              <li>{{icon:check}}<span>{{t.pp_t1_f8}}</span></li>
+              <li>{{icon:check}}<span>{{t.pp_t1_f9}}</span></li>
+            </ul>
+          </details>
           <a class="btn btn-secondary" href="{{url:home}}#{{t.id_trial}}">{{t.pp_cta}}</a>
         </div></li>
         <li><div class="plan plan--pick">
@@ -39,10 +44,15 @@
             <li>{{icon:check}}<span>{{t.pp_t2_f2}}</span></li>
             <li>{{icon:check}}<span>{{t.pp_t2_f3}}</span></li>
             <li>{{icon:check}}<span>{{t.pp_t2_f4}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t2_f5}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t2_f6}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t2_f7}}</span></li>
           </ul>
+          <details class="plan__more-f" data-wide-open>
+            <summary>{{t.pp_features_more}}</summary>
+            <ul>
+              <li>{{icon:check}}<span>{{t.pp_t2_f5}}</span></li>
+              <li>{{icon:check}}<span>{{t.pp_t2_f6}}</span></li>
+              <li>{{icon:check}}<span>{{t.pp_t2_f7}}</span></li>
+            </ul>
+          </details>
           <a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">{{t.pp_cta}}</a>
         </div></li>
         <li><div class="plan">
@@ -55,11 +65,16 @@
             <li>{{icon:check}}<span>{{t.pp_t3_f2}}</span></li>
             <li>{{icon:check}}<span>{{t.pp_t3_f3}}</span></li>
             <li>{{icon:check}}<span>{{t.pp_t3_f4}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t3_f5}}</span></li>
-            <li>{{icon:check}}<span>{{t.pp_t3_f6}}</span></li>
           </ul>
+          <details class="plan__more-f" data-wide-open>
+            <summary>{{t.pp_features_more}}</summary>
+            <ul>
+              <li>{{icon:check}}<span>{{t.pp_t3_f5}}</span></li>
+              <li>{{icon:check}}<span>{{t.pp_t3_f6}}</span></li>
+            </ul>
+          </details>
           <a class="btn btn-secondary" href="{{url:home}}#{{t.id_trial}}">{{t.pp_cta}}</a>
-          <p class="plan__more"><a class="text-link" href="mailto:{{config.email}}?subject={{uri:story_cta_subject}}">{{t.pp_cta_call}}</a></p>
+          <p class="plan__more"><a class="text-link" href="{{call:href}}">{{t.pp_cta_call}}</a></p>
         </div></li>
       </ul>
     </div>

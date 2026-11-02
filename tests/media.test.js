@@ -12,8 +12,8 @@ import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { buildSite, loadSite } from "../build.mjs";
-import { answer, checkSite, dataClipFiles, hiddenDates, ignoredNames, siteFiles, videoBudget, videoSetProblems, workerFirstPatterns } from "../tools/check-site.mjs";
-import { VIDEO_SWITCH_AT, largestVideo } from "../src/js/media.js";
+import { answer, checkSite, dataClipFiles, hiddenDates, ignoredNames, siteFiles, sourceProblems, videoBudget, videoSetProblems, workerFirstPatterns } from "../tools/check-site.mjs";
+import { VIDEO_SWITCH_AT, clipFor, largestVideo, savesData } from "../src/js/media.js";
 import { AI_LIST_HEADERS, cleanAiList, demoPayload } from "../src/js/demo-form.js";
 import { LENGTH_TOLERANCE, POSTER_MIN_BYTES, chapterProblems, dateProblem, expectedFiles, ffprobeInfo, lengthProblems, recoverInterrupted, releaseCheck, setProblems, setVersion, useSet } from "../tools/media-use.mjs";
 import { REDIRECTS } from "../worker-routes.gen.js";
@@ -35,15 +35,17 @@ test("media.json: every clip has WebM + MP4 and a poster, the phone cut is 4:5, 
   assert.match(version, /^[0-9a-f]{10}$/);
   assert.doesNotMatch(JSON.stringify(clips), /ukazka-v0/);
   for (const [id, clip] of Object.entries(clips)) {
-    assert.deepEqual(clip.sources.map((s) => s.type), ["video/webm", "video/mp4"], id);
+    assert.match(clip.sources[clip.sources.length - 1].type, /^video\/mp4/, `${id}: H.264 for every screen comes last`);
+    assert.equal(clip.sources[clip.sources.length - 1].media, undefined, id);
     assert.equal(clip.width / clip.height, 16 / 10, `${id} is 16:10`);
     assert.match(clip.poster, /\{lang\}\.webp$/, id);
   }
-  for (const id of ["hero", "how1", "how2", "how3", "how4"]) {
+  assert.equal(clips.how4, undefined, "three chapters");
+  for (const id of ["hero", "how1", "how2", "how3"]) {
     const cut = clips[id].mobile;
     assert.ok(cut, `${id} has a phone cut`);
     assert.equal(cut.width / cut.height, 4 / 5, id);
-    assert.deepEqual(cut.sources.map((s) => s.type), ["video/webm", "video/mp4"], id);
+    assert.match(cut.sources[cut.sources.length - 1].type, /^video\/mp4/, id);
     assert.match(cut.poster, /-mobile\.\{lang\}\.webp$/, id);
   }
   assert.equal(clips.ats.mobile, null);
@@ -109,12 +111,12 @@ test("the hero's poster is preloaded per screen, in the page's language, on the 
   }
 });
 
-test("the frame is 16:10 as the clips, and V6 gets its 720 px only from 1 280 px", () => {
+test("the window is 16:10 as the clips, and V6 gets its 720 px only from 1 280 px", () => {
   const css = page(buildSite(loadSite()), "public/css/site.css");
   assert.match(css, /\.frame__screen video \{[^}]*aspect-ratio: 16 \/ 10;/);
   assert.doesNotMatch(css, /16 \/ 9/);
-  assert.match(css, /@media \(min-width: 1280px\) \{ \.ats-grid \{ grid-template-columns: minmax\(0, 1fr\) min\(var\(--video-side\), 60%\); \} \}/);
-  assert.match(css, /--video-side: 45rem;/);
+  assert.match(css, /@media \(min-width: 1280px\) \{ \.ats-grid \{ grid-template-columns: minmax\(0, 1fr\) min\(var\(--video-side\), 66%\); \} \}/);
+  assert.match(css, /--video-side: 48\.75rem;/, "780 px of board, a window of 718 px as before the board");
 });
 
 test("the marker, the chapter times and a left-over .incoming are not published", () => {
@@ -282,7 +284,7 @@ test("media:use with clips git already tracks leaves no marker behind", () => {
 });
 
 for (const [what, spoil, expected, extra] of [
-  ["a missing file", (s) => rmSync(join(s.source, "detail-mobile.en.webm")), /detail-mobile\.en\.webm: missing/],
+  ["a missing file", (s) => rmSync(join(s.source, "rano-mobile.en.webm")), /rano-mobile\.en\.webm: missing/],
   ["four chapters", (s) => { const c = chapters(); c.en.pop(); writeFileSync(join(s.source, "tour.chapters.json"), JSON.stringify(c)); }, /en: 4 chapters, not 5/],
   ["no chapter file", (s) => rmSync(join(s.source, "tour.chapters.json")), /tour\.chapters\.json: missing/],
   ["a file over its budget", (s) => truncateSync(join(s.source, "hero-mobile.cs.mp4"), 900000), /hero-mobile\.cs\.mp4: 0\.90 MB is over its budget of 0\.8 MB/],
@@ -1007,7 +1009,8 @@ test("release sees a date that is there but hidden: a rule on the hero's line or
   assert.deepEqual(hiddenDates(String(buildSite(loadSite()).get("public/css/site.css"))), []);
   assert.deepEqual(hiddenDates(".a { color: red; }\n@media (max-width: 767px) { .hero__caption { display: none; } }"), [".hero__caption"]);
   assert.deepEqual(hiddenDates("/* .x */ .video figcaption { margin: 0; display: none; }"), [".video figcaption"]);
-  assert.deepEqual(hiddenDates(".chapters-video .video figcaption { display: none; } .hero__caption { display: block; }"), []);
+  assert.deepEqual(hiddenDates(".chapters-video .video figcaption { display: none; } .hero__caption { display: block; }"), [".chapters-video .video figcaption"], "under the chapters too (lead, etapa 5)");
+  assert.deepEqual(hiddenDates(".hero__caption { display: block; }"), []);
 });
 
 test("prices in one row on a wide screen, on a phone the label stays in the card", () => {
@@ -1213,4 +1216,186 @@ test("the articles' box says the offer as the form does", () => {
       assert.ok(box.includes(i18n[lang].trial_promo), `${slug}: ${box}`);
     }
   }
+});
+
+// ── Etapa 5: the window on a board, the line under it, three chapters, versions by density ──
+
+test("the frame: no painted bar, a board of the given proportions, none on a light band or a phone, the pause button under the window", () => {
+  const files = buildSite(loadSite());
+  const css = String(files.get("public/css/site.css"));
+  const home = String(files.get("public/index.html"));
+  assert.doesNotMatch(home, /frame__bar|frame__dots|frame__url|app\.talentradar\.eu<\/span>/);
+  assert.doesNotMatch(css, /frame__bar|frame__dots|frame__url/);
+  assert.equal(loadSite().i18n.cs.video_frame_url, undefined);
+  assert.match(css, /\.frame \{[^}]*padding: 3\.27% 4% 1\.82%;[^}]*linear-gradient\(180deg, var\(--navy-800\), var\(--navy-850\)\)/);
+  assert.match(css, /\.frame__window \{[^}]*border-radius: 11px;[^}]*0 0 0 1px rgba\(255, 255, 255, 0\.13\), 0 22px 54px rgba\(4, 7, 14, 0\.55\)/);
+  assert.match(css, /\.band--light \.frame \{[^}]*padding: 0;[^}]*background: none;/);
+  assert.match(css, /\.band--light \.frame__window \{ box-shadow: 0 18px 44px rgba\(19, 27, 44, 0\.28\); \}/);
+  assert.match(css, /\.hero__media \.video \{ margin-inline: auto; max-width: var\(--video-hero\); \}/);
+  assert.match(css, /--video-hero: 68\.75rem/);
+  // the pause button is under the window, 48 px on a phone, not over the picture
+  const hero = home.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
+  assert.ok(hero.indexOf("</video>") < hero.indexOf('class="frame__foot"') && hero.indexOf('class="frame__foot"') < hero.indexOf("video__toggle"));
+  assert.match(css, /\.video__toggle \{ width: 48px; height: 48px; min-height: 48px;/);
+  assert.doesNotMatch(css.match(/\.video__toggle \{ width: 48px[^}]*\}/)[0], /position: absolute/);
+  // the same frame for every clip
+  for (const id of ["hero", "how1", "ats"]) assert.match(home, new RegExp(`video--${id}[\\s\\S]*?<div class="frame">\\s*<div class="frame__window">`), id);
+  assert.match(String(files.get("public/demo.html")), /video--tour[\s\S]*?<div class="frame">\s*<div class="frame__window">/);
+});
+
+test("the line under a video: the words from the text map and the times from media.json, a new clip's data changes it without any code", () => {
+  const home = (edit) => String(buildSite(siteWith(edit)).get("public/index.html"));
+  const hero = (html) => html.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
+  const site = loadSite();
+  const lines = [...hero(home(() => {})).matchAll(/<span class="video__cue-line( is-on)?" data-cues="hero" data-at="([\d.]+)"(?: data-at-mobile="([\d.]+)")?>/g)];
+  assert.deepEqual(lines.map((m) => Number(m[2])), site.media.clips.hero.cues.map((c) => c.at));
+  assert.deepEqual(lines.map((m) => !!m[1]), lines.map((_, i) => i === 0), "the first sentence is the one without JavaScript");
+  const changed = hero(home((m) => { m.clips.hero.cues = [{ at: 1.5, key: "cue_hero_2" }]; }));
+  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Každé ráno, co přibylo\.<\/span>/);
+  assert.equal((changed.match(/video__cue-line/g) || []).length, 1);
+  // every chapter's sentences are in its one figure, so the line has one height for all three
+  const how = home(() => {}).match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0];
+  for (const id of ["how1", "how2", "how3"]) assert.match(how, new RegExp(`data-cues="${id}"`), id);
+  // all the words exist in both languages; 60 characters is the rule, the hero's first sentence from the approved table has 61
+  for (const [id, clip] of Object.entries(site.media.clips)) {
+    for (const cue of clip.cues || []) {
+      for (const lang of ["cs", "en"]) {
+        assert.ok(site.i18n[lang][cue.key], `${id} ${cue.key} ${lang}`);
+        assert.ok(site.i18n[lang][cue.key].length <= 61, `${lang} ${cue.key}: ${site.i18n[lang][cue.key].length} characters`);
+      }
+    }
+  }
+});
+
+test("the line's mechanics: one grid cell, a fixed height; it follows the clip's time, stays on the first with reduced motion", () => {
+  const files = buildSite(loadSite());
+  const css = String(files.get("public/css/site.css"));
+  const js = String(files.get("public/js/site.js"));
+  assert.match(css, /\.video__cue \{ display: grid;/);
+  assert.match(css, /\.video__cue-line \{ grid-area: 1 \/ 1; opacity: 0; visibility: hidden;/);
+  assert.match(js, /v\.addEventListener\("timeupdate", \(\) => \{ if \(v === shownVideo\(fig\)\) showCue\(fig\); \}\);/);
+  assert.match(js, /const live = figures\.filter\(\(fig\) => fig\.querySelector\("\.video__toggle"\) && !stillPref\.matches\);/);
+  assert.match(js, /fig\.dataset\.cueClip = clip\.id;/);
+});
+
+test("three chapters: Morning, Whom to call, Who wants this candidate; the origin and date under the video on a phone too", () => {
+  const files = buildSite(loadSite());
+  const site = loadSite();
+  const css = String(files.get("public/css/site.css"));
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const html = String(files.get(path));
+    assert.equal((html.match(/class="chapter-tab"/g) || []).length, 3, path);
+    assert.equal((html.match(/role="tabpanel"/g) || []).length, 3, path);
+    assert.match(html.match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0], /<figcaption>[^<]*20\d\d/, path);
+    for (const key of ["how_ch1_body", "how_ch1_body_m"]) {
+      assert.doesNotMatch(site.i18n[lang][key], /klient|cílov|bez kontaktu|client|target compan/i, `${lang} ${key}: no groups of companies`);
+    }
+    assert.equal(site.i18n[lang].how_ch4_body, undefined);
+  }
+  assert.match(site.i18n.cs.how_ch1_body, /specializac/);
+  assert.match(site.i18n.cs.how_ch1_body, /AI/);
+  assert.match(site.i18n.en.how_ch1_body, /specialisation/);
+  assert.doesNotMatch(`${site.i18n.cs.how_ch1_body} ${site.i18n.cs.how_ch2_body} ${site.i18n.cs.how_ch3_body}`, /\brol[eíi]\b|mandát/);
+  assert.match(css, /\.chapters \{ display: grid; grid-template-columns: repeat\(3,/);
+  assert.match(css, /@media \(max-width: 560px\) \{\s*\.chapters \{ grid-template-columns: 1fr 1fr; \}\s*\.chapters li:last-child \{ grid-column: 1 \/ -1; \}/);
+  // the video first: 860 px of window at 1 440 px, the text beside it takes what is left (lead, etapa 5)
+  assert.match(css, /\.chapters-layout \{ display: grid; grid-template-columns: minmax\(0, 1fr\) 16\.5rem;/);
+  // the line under the video does not repeat the text beside it
+  for (const lang of ["cs", "en"]) {
+    for (const [id, clip] of Object.entries({ how1: "how_ch1", how2: "how_ch2", how3: "how_ch3" })) {
+      const beside = `${site.i18n[lang][`${clip}_title`]} ${site.i18n[lang][`${clip}_body`]}`.toLowerCase();
+      for (const cue of site.media.clips[id].cues) {
+        const words = site.i18n[lang][cue.key].toLowerCase().replace(/[.,]/g, "");
+        assert.ok(!beside.includes(words), `${lang} ${cue.key} is said in the text beside it`);
+      }
+    }
+  }
+  assert.doesNotMatch(css, /chapters-video \.video figcaption \{ display: none/);
+});
+
+test("versions by pixel density: <source media> in the page and in a tab's clip, their own size and budget, the order of media.json", () => {
+  const hi = "(min-resolution: 1.5dppx) and (min-width: 768px)";
+  const addVersions = (clip) => {
+    clip.sources = [
+      { src: "/video/x.hi.{lang}.mp4", type: 'video/mp4; codecs="av01.0.13M.08"', media: hi, width: 2048, height: 1280, budget_mb: 7 },
+      { src: "/video/x.hi2.{lang}.mp4", type: 'video/mp4; codecs="avc1.640033"', media: hi, width: 2048, height: 1280, budget_mb: 7 },
+      { src: "/video/x.{lang}.mp4", type: "video/mp4" },
+    ];
+  };
+  const files = buildSite(siteWith((m) => { addVersions(m.clips.hero); addVersions(m.clips.how2); }));
+  const home = String(files.get("public/index.html"));
+  const desktop = home.match(/<figure class="video video--hero[\s\S]*?<\/video>/)[0];
+  const sources = [...desktop.matchAll(/<source [^>]*>/g)].map((m) => m[0]);
+  assert.equal(sources.length, 3);
+  assert.match(sources[0], /src="\/video\/x\.hi\.cs\.mp4[^"]*" type="video\/mp4; codecs=&quot;av01\.0\.13M\.08&quot;" media="\(min-resolution: 1\.5dppx\) and \(min-width: 768px\)"/);
+  assert.doesNotMatch(sources[2], /media=/);
+  const tab = JSON.parse(home.match(/id="tab-2"[^>]*data-clip="([^"]+)"/)[1].replace(/&quot;/g, '"').replace(/&amp;/g, "&"));
+  assert.equal(tab.id, "how2");
+  assert.equal(tab.sources[0].media, hi);
+  assert.equal(clipFor(tab, false).sources[0].media, hi);
+  assert.equal(clipFor(tab, false).sources[2].media, undefined);
+  assert.match(String(files.get("public/js/site.js")), /if \(s\.media\) el\.media = s\.media;/);
+  // media:use: sees the version's own size and budget
+  const media = siteWith((m) => addVersions(m.clips.hero)).media;
+  const row = expectedFiles(media).find((f) => f.name === "x.hi.cs.mp4");
+  assert.deepEqual([row.width, row.height, row.budget], [2048, 1280, 7e6]);
+  assert.equal(expectedFiles(media).find((f) => f.name === "x.cs.mp4").width, 1440, "a version without a size has the cut's");
+});
+
+test("a format can go by taking out its rows, nothing else; without an MP4 for every screen media:use and release refuse", () => {
+  const noWebm = siteWith((m) => {
+    for (const clip of Object.values(m.clips)) {
+      clip.sources = clip.sources.filter((s) => s.type !== "video/webm");
+      if (clip.mobile) clip.mobile.sources = clip.mobile.sources.filter((s) => s.type !== "video/webm");
+    }
+  });
+  assert.deepEqual(sourceProblems(noWebm.media), []);
+  assert.doesNotMatch(String(buildSite(noWebm).get("public/index.html")), /\.webm/);
+  assert.deepEqual(sourceProblems(loadSite().media), []);
+  const bad = siteWith((m) => {
+    m.clips.how1.sources = [{ src: "/video/a.{lang}.webm", type: "video/webm" }];
+    m.clips.how2.mobile.sources = [{ src: "/video/a.{lang}.mp4", type: "video/mp4", media: "(min-resolution: 1.5dppx)" }];
+  });
+  assert.deepEqual(sourceProblems(bad.media), ["how1: the last source has to be an MP4 for every screen", "how2 phone: the last source has to be an MP4 for every screen"]);
+});
+
+test("media:use puts a set with density versions in place in one transaction, checks each version's own size and budget", () => {
+  const s = sandbox();
+  try {
+    const hi = "(min-resolution: 1.5dppx) and (min-width: 768px)";
+    s.media.clips.hero.sources.unshift({ src: "/video/hero-hi.{lang}.mp4", type: "video/mp4", media: hi, width: 2048, height: 1280, budget_mb: 7 });
+    writeFileSync(join(s.root, "src/data/media.json"), JSON.stringify(s.media));
+    fakeSet(s.source, s.media);
+    for (const lang of ["cs", "en"]) s.sizes.set(`hero-hi.${lang}.mp4`, { width: 2048, height: 1280 });
+    truncateSync(join(s.source, "hero-hi.cs.mp4"), 6900000);
+    const { problems } = s.use();
+    assert.deepEqual(problems, [], "under its own 7 MB, over the name's 1.5 MB");
+    const version = JSON.parse(s.json()).version;
+    assert.equal(version, setVersion(join(s.root, "public/video"), s.media));
+    // over its budget, and other pixels: refused, nothing changes
+    const before = fingerprint(s.root);
+    truncateSync(join(s.source, "hero-hi.cs.mp4"), 7100000);
+    s.sizes.set("hero-hi.en.mp4", { width: 1920, height: 1200 });
+    const refused = s.use({ date: "2026-11-02" }).problems;
+    assert.ok(refused.some((p) => /hero-hi\.cs\.mp4: 7\.10 MB is over its budget of 7 MB/.test(p)), refused.join("; "));
+    assert.ok(refused.some((p) => /hero-hi\.en\.mp4: 1920×1200, media\.json says 2048×1280/.test(p)), refused.join("; "));
+    assert.deepEqual(fingerprint(s.root), before);
+    // a failure after the swap undoes the versions as well
+    truncateSync(join(s.source, "hero-hi.cs.mp4"), 5000000);
+    s.sizes.set("hero-hi.en.mp4", { width: 2048, height: 1280 });
+    const failed = s.use({ date: "2026-11-02", verify: () => { throw new Error("the release check failed"); } });
+    assert.equal(failed.undone, true);
+    assert.deepEqual(fingerprint(s.root), before);
+  } finally { s.done(); }
+});
+
+test("saving data or on a slow network the videos stay on their poster until asked for", () => {
+  assert.equal(savesData(undefined), false);
+  assert.equal(savesData({}), false);
+  assert.equal(savesData({ effectiveType: "4g" }), false);
+  assert.equal(savesData({ saveData: true, effectiveType: "4g" }), true);
+  for (const type of ["slow-2g", "2g", "3g"]) assert.equal(savesData({ effectiveType: type }), true, type);
+  const js = String(buildSite(loadSite()).get("public/js/site.js"));
+  assert.match(js, /if \(stays\) fig\.dataset\.user = "paused";/);
+  assert.match(js, /waitsForTap\(e\.target\) \|\| stays\) continue;/);
 });

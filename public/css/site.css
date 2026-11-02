@@ -115,8 +115,8 @@
   --header-h: 4.5rem;        /* 72 px; 64 on a phone */
   --video-hero: 68.75rem;    /* 1100 px */
   --video-chapters: 68.75rem;
-  --video-side: 45rem;       /* 720 px, V6 in two columns */
-  --video-tour: 75rem;       /* 1200 px */
+  --video-side: 48.75rem;    /* 780 px: a board around V6's 718 px window, in two columns */
+  --video-tour: 77.5rem;     /* 1240 px, the whole container: a board around the tour's window */
 
   /* shape */
   --radius: 12px;
@@ -505,7 +505,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .ticks li { display: flex; gap: var(--space-2); align-items: flex-start; text-align: left; }
 .ticks .ic { color: var(--c-accent); width: 1.1em; height: 1.1em; margin-top: 0.15em; }
 .hero__media { margin-top: clamp(2rem, 1.5rem + 1.5vw, 2.5rem); background: linear-gradient(var(--navy-900) 0 62%, var(--paper) 62% 100%); }
-.hero__media .video { margin-inline: auto; max-width: min(var(--video-hero), 60rem); }
+.hero__media .video { margin-inline: auto; max-width: var(--video-hero); }
 .band.hero__media-foot { padding-top: var(--space-5); }
 .hero__caption { text-align: center; margin: 0; }
 @media (max-width: 767px) {
@@ -520,19 +520,30 @@ button, input, textarea, select { font: inherit; color: inherit; }
   .hero__caption { text-align: left; }
 }
 
-/* ── Video in a browser frame ── */
+/* ── Video: a window on a board, the line under it inside the board. The board is 36/44/20 px at
+      1 100 px wide (a window of 1 012 × 632), in the same proportions wherever it is narrower. ── */
 .video { margin: 0; }
-.frame { position: relative; overflow: hidden; border-radius: 14px; background: var(--navy-800); border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 30px 80px rgba(5, 10, 22, 0.45); }
-.frame__bar { display: flex; align-items: center; gap: var(--space-3); height: 44px; padding: 0 var(--space-3); background: var(--navy-800); border-bottom: 1px solid rgba(255, 255, 255, 0.08); color: var(--mist); }
-.frame__dots { display: flex; gap: 7px; }
-.frame__dots i { width: 11px; height: 11px; border-radius: 50%; background: #3A4762; }
-.frame__url { flex: 0 1 20rem; margin: 0 auto; text-align: center; font-size: var(--fs-kicker); line-height: 26px; background: rgba(255, 255, 255, 0.06); border-radius: 6px; padding: 0 var(--space-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frame {
+  --frame-text: var(--text-on-dark); --frame-line: var(--line-dark);
+  position: relative; border-radius: 18px; padding: 3.27% 4% 1.82%;
+  background: linear-gradient(180deg, var(--navy-800), var(--navy-850));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.frame__window { position: relative; overflow: hidden; border-radius: 11px; background: #0B111D; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.13), 0 22px 54px rgba(4, 7, 14, 0.55); }
+/* no board on a light band: the window with its shadow, the line on the band */
+.band--light .frame { --frame-text: var(--ink); --frame-line: var(--c-border-strong); padding: 0; border-radius: 0; background: none; box-shadow: none; }
+.band--light .frame__window { box-shadow: 0 18px 44px rgba(19, 27, 44, 0.28); }
+.frame__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 44px; margin-top: var(--space-3); }
+.video__cue { display: grid; flex: 1 1 auto; min-width: 0; margin: 0; text-align: left; font-size: 1.0625rem; line-height: 27px; font-weight: 600; color: var(--frame-text); }
+.video__cue-line { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 200ms ease, visibility 200ms; }
+.video__cue-line.is-on { opacity: 1; visibility: visible; }
+
 .frame__screen { position: relative; background: #0B111D; }
-.frame__screen video { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.frame__screen video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
 .video__toggle {
   display: inline-flex; align-items: center; gap: var(--space-2); flex: none;
-  min-height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-sm);
-  border: 1px solid var(--line-dark); background: transparent; color: var(--text-on-dark);
+  min-height: 44px; padding: 0 var(--space-3); border-radius: var(--radius-sm);
+  border: 1px solid var(--frame-line); background: transparent; color: var(--frame-text);
   font-size: var(--fs-kicker); font-weight: 600; cursor: pointer;
 }
 .video__toggle:hover { border-color: var(--orange); }
@@ -546,9 +557,6 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .video figcaption { margin-top: var(--space-4); font-size: var(--fs-sm); line-height: 1.45; color: var(--c-muted); }
 .video--mobile { display: none; }
 @media (max-width: 767px) {
-  .frame { border-radius: var(--radius); }
-  .frame__dots { display: none; }
-  .frame__url { margin: 0; flex: 1 1 auto; text-align: left; }
   .video--has-mobile .video--desktop { display: none; }
   .video--has-mobile .video--mobile { display: block; }
   .video--has-mobile .video--mobile video { aspect-ratio: 4 / 5; }
@@ -582,7 +590,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .proof__source { margin: var(--space-5) 0 0; padding-top: var(--space-4); border-top: 1px solid var(--c-border); }
 
 /* ── How it works: chapters over the video (dark) ── */
-.chapters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; list-style: none; margin: 0 0 var(--space-4); padding: 0; counter-reset: chap; }
+.chapters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; list-style: none; margin: 0 0 var(--space-4); padding: 0; counter-reset: chap; }
 .chapters li + li { margin-top: 0; }
 .chapter-tab {
   width: 100%; height: 100%; min-height: 60px; text-align: left; cursor: pointer;
@@ -602,7 +610,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .chapters-video { max-width: var(--video-chapters); }
 /* from 1 100 px the chapter text and the demo link sit beside the video, not under it */
 @media (min-width: 1100px) {
-  .chapters-layout { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: var(--space-7); align-items: start; }
+  /* the video first: its window is 860 px at 1 440 px, the text beside it takes what is left (lead, etapa 5) */
+  .chapters-layout { display: grid; grid-template-columns: minmax(0, 1fr) 16.5rem; gap: var(--space-6); align-items: start; }
   .chapters-layout .chapter-panel { margin-top: 0; }
   .chapters-layout .section-cta { margin-top: var(--space-5); }
   .chapters-layout .btn-row { flex-direction: column; align-items: flex-start; }
@@ -612,8 +621,14 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .chapter-panel p { color: var(--c-text-2); }
 .no-js .chapters { display: none; }
 @media (max-width: 860px) {
-  .chapters { grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .chapters { gap: var(--space-2); }
   .chapter-tab { min-height: 64px; padding: var(--space-3); font-size: var(--fs-sm); }
+}
+/* three tiles in a row leave "kandidáta?" no room on a phone: two, and the longest under them */
+@media (max-width: 560px) {
+  .chapters { grid-template-columns: 1fr 1fr; }
+  .chapters li:last-child { grid-column: 1 / -1; }
+  .chapters li:last-child .chapter-tab { min-height: 48px; align-items: center; }
 }
 
 /* ── Charts (on a light band: white cards) ── */
@@ -686,7 +701,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .ats-grid { display: grid; gap: var(--space-7); align-items: start; }
 @media (min-width: 1000px) { .ats-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
 /* V6 is recorded for 720 px (its smallest text is 12.3 px there), so it gets them as soon as they fit */
-@media (min-width: 1280px) { .ats-grid { grid-template-columns: minmax(0, 1fr) min(var(--video-side), 60%); } }
+@media (min-width: 1280px) { .ats-grid { grid-template-columns: minmax(0, 1fr) min(var(--video-side), 66%); } }
 .ats-grid .video { max-width: var(--video-side); }
 .split-cards { display: grid; gap: var(--space-4); }
 .split-card { background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius); padding: var(--space-5); }
@@ -1076,11 +1091,16 @@ video::cue { line-height: 1.5; }
   .ticks { margin-top: var(--space-4); gap: var(--space-2); font-size: 0.9375rem; }
   .hero__media { margin-top: 20px; }
 
-  /* video on a phone: no browser bar, the pause button in the corner, a 4:5 frame
-     (a clip without a 4:5 cut would sit inside it whole) */
-  .frame__bar { position: absolute; z-index: 2; top: var(--space-2); right: var(--space-2); height: auto; padding: 0; background: none; border: 0; }
-  .frame__url { display: none; }
-  .video__toggle { width: 48px; height: 48px; min-height: 48px; padding: 0; justify-content: center; border-radius: 50%; background: rgba(13, 19, 32, 0.82); border-color: rgba(255, 255, 255, 0.28); }
+  /* video on a phone: no board, a 4:5 window (a clip without a 4:5 cut would sit inside it whole),
+     the line and the pause button under it, never on the picture */
+  .frame { padding: 0; border-radius: 0; background: none; box-shadow: none; }
+  .frame__window { border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.13); }
+  .band--light .frame__window { box-shadow: 0 0 0 1px var(--c-border-strong); }
+  /* the hero's line stands on the light band its window runs into */
+  .hero__media .frame { --frame-text: var(--ink); --frame-line: var(--steel); }
+  .frame__foot { min-height: 48px; margin-top: var(--space-2); gap: var(--space-3); }
+  .video__cue { font-size: 1rem; line-height: 24px; }
+  .video__toggle { width: 48px; height: 48px; min-height: 48px; padding: 0; justify-content: center; border-radius: 50%; }
   .video__toggle .ic { width: 22px; height: 22px; }
   .video__toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .video[data-autoplay] .frame__screen video { aspect-ratio: 4 / 5; object-fit: contain; }
@@ -1122,8 +1142,6 @@ video::cue { line-height: 1.5; }
   .chapter-panel { margin-top: 0; }
   .chapter-panel h3 { margin-bottom: var(--space-2); }
   .chapter-panel p:last-child { margin-bottom: 0; }
-  /* the demo's honesty line with its date is whole under the hero video; under the chapters' video it would be the fifth time */
-  .chapters-video .video figcaption { display: none; }
 
   /* next to your ATS: one card at a time behind "I have / don't have an ATS" */
   .ats-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin-bottom: var(--space-3); }
@@ -1241,7 +1259,9 @@ video::cue { line-height: 1.5; }
   .hero__sub { margin-top: var(--space-2); font-size: 1rem; }
   .hero__cta { margin-top: var(--space-4); }
   .ticks { margin-top: var(--space-3); }
-  .hero__media .video { max-width: calc((100vh - var(--header-h) - 44px - 24px) * 16 / 10); }
+  .hero__media .frame { padding: var(--space-2) var(--space-3); }
+  .hero__media .frame__foot { margin-top: var(--space-1); }
+  .hero__media .video { max-width: calc((100vh - var(--header-h) - 44px - 32px - 24px) * 16 / 10 + 2 * var(--space-3)); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -114,8 +114,8 @@
   --header-h: 4.5rem;        /* 72 px; 64 on a phone */
   --video-hero: 68.75rem;    /* 1100 px */
   --video-chapters: 68.75rem;
-  --video-side: 45rem;       /* 720 px, V6 in two columns */
-  --video-tour: 75rem;       /* 1200 px */
+  --video-side: 48.75rem;    /* 780 px: a board around V6's 718 px window, in two columns */
+  --video-tour: 77.5rem;     /* 1240 px, the whole container: a board around the tour's window */
 
   /* shape */
   --radius: 12px;

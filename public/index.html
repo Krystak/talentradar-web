@@ -29,10 +29,10 @@
   <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" as="image" href="/video/hero-mobile.cs.webp?v=1f8c0d8ce6" media="(max-width: 767px)" fetchpriority="high">
-  <link rel="preload" as="image" href="/video/hero.cs.webp?v=1f8c0d8ce6" media="(min-width: 768px)" fetchpriority="high">
-  <link rel="stylesheet" href="/css/site.css?v=6339ca4c54">
-  <script type="module" src="/js/site.js?v=dd68c32392"></script>
+  <link rel="preload" as="image" href="/video/hero-mobile.cs.webp?v=e21852803a" media="(max-width: 767px)" fetchpriority="high">
+  <link rel="preload" as="image" href="/video/hero.cs.webp?v=e21852803a" media="(min-width: 768px)" fetchpriority="high">
+  <link rel="stylesheet" href="/css/site.css?v=32b349040f">
+  <script type="module" src="/js/site.js?v=d2332d9edb"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -95,9 +95,11 @@
     <div class="container">
       <figure class="video video--hero video--has-mobile" data-autoplay>
   <div class="frame">
-    <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">app.talentradar.eu</span><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pozastavit ukázku</span></button></div>
-    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1440" height="900" poster="/video/hero.cs.webp?v=1f8c0d8ce6" aria-label="Ukázka z aplikace: ranní přehled, nová pozice a komu zavolat"><source src="/video/hero.cs.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/hero.cs.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
-    <div class="frame__screen video--mobile"><video muted loop playsinline controls preload="none" width="720" height="900" poster="/video/hero-mobile.cs.webp?v=1f8c0d8ce6" aria-label="Ukázka z aplikace: ranní přehled, nová pozice a komu zavolat"><source src="/video/hero-mobile.cs.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/hero-mobile.cs.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
+    <div class="frame__window">
+      <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1440" height="900" poster="/video/hero.cs.webp?v=e21852803a" aria-label="Ukázka z aplikace: databáze otevřených pozic, co dnes přibylo a detail pozice s odkazem na inzerát"><source src="/video/hero.cs.webm?v=e21852803a" type="video/webm"><source src="/video/hero.cs.mp4?v=e21852803a" type="video/mp4"></video></div>
+      <div class="frame__screen video--mobile"><video muted loop playsinline controls preload="none" width="720" height="900" poster="/video/hero-mobile.cs.webp?v=e21852803a" aria-label="Ukázka z aplikace: databáze otevřených pozic, co dnes přibylo a detail pozice s odkazem na inzerát"><source src="/video/hero-mobile.cs.webm?v=e21852803a" type="video/webm"><source src="/video/hero-mobile.cs.mp4?v=e21852803a" type="video/mp4"></video></div>
+    </div>
+    <div class="frame__foot"><p class="video__cue"><span class="video__cue-line is-on" data-cues="hero" data-at="0" data-at-mobile="0">Jen pozice ve vaší specializaci.</span><span class="video__cue-line" data-cues="hero" data-at="4.1" data-at-mobile="3.3">Každé ráno, co přibylo.</span><span class="video__cue-line" data-cues="hero" data-at="8.3" data-at-mobile="6.6">S odkazem na skutečný inzerát.</span></p><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pozastavit ukázku</span></button></div>
   </div>
 </figure>
     </div>
@@ -175,19 +177,20 @@
     </div>
     <div data-chapters>
       <ul class="chapters" role="tablist" aria-label="Kapitoly ukázky">
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-1" aria-controls="chapter-1" aria-selected="true" data-clip="{&quot;poster&quot;:&quot;/video/rano.cs.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/rano.cs.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/rano.cs.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/rano-mobile.cs.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/rano-mobile.cs.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/rano-mobile.cs.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Ranní přehled: nové pozice u klientů, firem dlouho bez kontaktu a cílových firem, pozice otevřené 45+ dní">Ráno: co je nového</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-2" aria-controls="chapter-2" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/detail.cs.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/detail.cs.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/detail.cs.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/detail-mobile.cs.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/detail-mobile.cs.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/detail-mobile.cs.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Detail pozice s historií firmy a důvodem se ozvat">Detail pozice</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-3" aria-controls="chapter-3" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/komu-zavolat.cs.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/komu-zavolat.cs.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/komu-zavolat.cs.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/komu-zavolat-mobile.cs.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/komu-zavolat-mobile.cs.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/komu-zavolat-mobile.cs.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Karta Komu zavolat a návrh zprávy ve vlastním stylu">Komu zavolat</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-4" aria-controls="chapter-4" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/kandidat.cs.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/kandidat.cs.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/kandidat.cs.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/kandidat-mobile.cs.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/kandidat-mobile.cs.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/kandidat-mobile.cs.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Vložený profil kandidáta a seřazené pozice u firem agentury">Kdo hledá tohoto kandidáta?</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-1" aria-controls="chapter-1" aria-selected="true" data-clip="{&quot;id&quot;:&quot;how1&quot;,&quot;poster&quot;:&quot;/video/rano.cs.webp?v=e21852803a&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/rano.cs.webm?v=e21852803a&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/rano.cs.mp4?v=e21852803a&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/rano-mobile.cs.webp?v=e21852803a&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/rano-mobile.cs.webm?v=e21852803a&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/rano-mobile.cs.mp4?v=e21852803a&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Databáze pozic podle firem: která firma nabírá, co AI odložila stranou a pozice otevřené 45 a víc dní">Ráno: co je nového</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-2" aria-controls="chapter-2" aria-selected="false" tabindex="-1" data-clip="{&quot;id&quot;:&quot;how2&quot;,&quot;poster&quot;:&quot;/video/komu-zavolat.cs.webp?v=e21852803a&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/komu-zavolat.cs.webm?v=e21852803a&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/komu-zavolat.cs.mp4?v=e21852803a&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/komu-zavolat-mobile.cs.webp?v=e21852803a&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/komu-zavolat-mobile.cs.webm?v=e21852803a&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/komu-zavolat-mobile.cs.mp4?v=e21852803a&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Detail pozice: důvod se ozvat, odhad, koho hledat, a první věta návrhu zprávy">Komu zavolat</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-3" aria-controls="chapter-3" aria-selected="false" tabindex="-1" data-clip="{&quot;id&quot;:&quot;how3&quot;,&quot;poster&quot;:&quot;/video/kandidat.cs.webp?v=e21852803a&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/kandidat.cs.webm?v=e21852803a&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/kandidat.cs.mp4?v=e21852803a&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/kandidat-mobile.cs.webp?v=e21852803a&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/kandidat-mobile.cs.webm?v=e21852803a&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/kandidat-mobile.cs.mp4?v=e21852803a&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Vložený profil kandidáta a seřazené pozice u firem agentury">Kdo hledá tohoto kandidáta?</button></li>
       </ul>
       <div class="chapters-layout">
       <div class="chapters-video">
         <figure class="video video--how1 video--has-mobile" data-autoplay data-tap-phone>
   <div class="frame">
-    <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">app.talentradar.eu</span><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pozastavit ukázku</span></button></div>
-    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1280" height="800" poster="/video/rano.cs.webp?v=1f8c0d8ce6" aria-label="Ranní přehled: nové pozice u klientů, firem dlouho bez kontaktu a cílových firem, pozice otevřené 45+ dní"><source src="/video/rano.cs.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/rano.cs.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
-    <div class="frame__screen video--mobile"><video muted loop playsinline controls preload="none" width="720" height="900" poster="/video/rano-mobile.cs.webp?v=1f8c0d8ce6" aria-label="Ranní přehled: nové pozice u klientů, firem dlouho bez kontaktu a cílových firem, pozice otevřené 45+ dní"><source src="/video/rano-mobile.cs.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/rano-mobile.cs.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
+    <div class="frame__window">
+      <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1280" height="800" poster="/video/rano.cs.webp?v=e21852803a" aria-label="Databáze pozic podle firem: která firma nabírá, co AI odložila stranou a pozice otevřené 45 a víc dní"><source src="/video/rano.cs.webm?v=e21852803a" type="video/webm"><source src="/video/rano.cs.mp4?v=e21852803a" type="video/mp4"></video></div>
+      <div class="frame__screen video--mobile"><video muted loop playsinline controls preload="none" width="720" height="900" poster="/video/rano-mobile.cs.webp?v=e21852803a" aria-label="Databáze pozic podle firem: která firma nabírá, co AI odložila stranou a pozice otevřené 45 a víc dní"><source src="/video/rano-mobile.cs.webm?v=e21852803a" type="video/webm"><source src="/video/rano-mobile.cs.mp4?v=e21852803a" type="video/mp4"></video></div>
     <button class="btn btn-secondary video__start" type="button" hidden>Přehrát ukázku</button>
+    </div>
+    <div class="frame__foot"><p class="video__cue"><span class="video__cue-line is-on" data-cues="how1" data-at="0">Která firma nabírá nejvíc.</span><span class="video__cue-line" data-cues="how1" data-at="5">Co neděláte, je stranou.</span><span class="video__cue-line" data-cues="how1" data-at="10">Co visí 45 a víc dní.</span><span class="video__cue-line" data-cues="how2" data-at="0">Proč se ozvat.</span><span class="video__cue-line" data-cues="how2" data-at="5">Koho hledat.</span><span class="video__cue-line" data-cues="how2" data-at="10">Čím začít.</span><span class="video__cue-line" data-cues="how3" data-at="0">Vložte profil.</span><span class="video__cue-line" data-cues="how3" data-at="7">Kdo ho hledá a proč.</span></p><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pozastavit ukázku</span></button></div>
   </div>
   <figcaption>Veřejné demo: firmy a pozice skutečné, agentura a kandidáti vymyšlení. Natočeno 1. 11. 2026.</figcaption>
 </figure>
@@ -196,19 +199,15 @@
       <div class="chapter-panels">
       <div class="chapter-panel" role="tabpanel" id="chapter-1" aria-labelledby="tab-1">
         <h3>Nové pozice u všech vašich firem na jednom místě</h3>
-        <p><span class="d-only">Skeny běží v 6:00 a ve 12:00 vašeho času. V ranním přehledu najdete nové pozice zvlášť u klientů, u firem dlouho bez kontaktu a u cílových firem a k tomu pozice otevřené 45 a víc dní a firmy, kde náhle přibylo pozic.</span><span class="m-only">Skeny běží v 6:00 a ve 12:00. V ranním přehledu najdete nové pozice u klientů, firem dlouho bez kontaktu a cílových firem.</span></p>
+        <p><span class="d-only">Skeny běží v 6:00 a ve 12:00 vašeho času, nové pozice na vás ráno čekají na jednom místě. Stranou je to, co AI podle vašich pravidel vyhodnotí mimo vaši specializaci. Může se splést, proto to zůstává dostupné.</span><span class="m-only">Skeny běží v 6:00 a ve 12:00. Mimo vaši specializaci odloží AI podle vašich pravidel stranou; zůstává to dostupné.</span></p>
       </div>
       <div class="chapter-panel" role="tabpanel" id="chapter-2" aria-labelledby="tab-2" data-js-hidden>
-        <h3>U každé pozice důvod se ozvat</h3>
-        <p>Inzerát, historie firmy u vás a důvod: čerstvá pozice, pozice otevřená 45 a víc dní, nebo firma, se kterou jste dlouho nejednali. AI porovná inzerát s vaší specializací, pozice mimo ni vám nepřekáží.</p>
+        <h3>Komu zavolat a proč právě teď</h3>
+        <p>Důvod je čerstvá pozice, pozice otevřená 45 a víc dní, nebo firma, se kterou jste dlouho nejednali. Z inzerátu odhadneme, kdo o náboru nejspíš rozhoduje, a jedním klikem ho hledáte na LinkedInu nebo přes Google. Návrh zprávy je ve vašem stylu a odešlete ho sami.</p>
       </div>
       <div class="chapter-panel" role="tabpanel" id="chapter-3" aria-labelledby="tab-3" data-js-hidden>
-        <h3>Komu zavolat a co mu napsat</h3>
-        <p>Z inzerátu odhadneme, kdo o náboru nejspíš rozhoduje, a kde ho najít: jedním klikem na LinkedInu nebo přes Google. Vaše kontakty u firmy jsou nahoře. K tomu návrh zprávy ve vašem stylu, který odešlete sami; e-mail navrhne jen tam, kde ho smíte poslat.</p>
-      </div>
-      <div class="chapter-panel" role="tabpanel" id="chapter-4" aria-labelledby="tab-4" data-js-hidden>
-        <h3>Máte kandidáta? Uvidíte, kdo ho hledá</h3>
-        <p>Vložte text CV nebo pár řádků o kandidátovi. Uvidíte otevřené pozice u vašich firem seřazené podle shody, u každé co sedí, co ne a komu zavolat. Profil se neukládá a jméno ani kontakty do AI nejdou.</p>
+        <h3>Od kandidáta k otevřeným pozicím</h3>
+        <p>Stačí text CV nebo pár řádků o kandidátovi. Otevřené pozice u vašich firem seřadíme podle shody, u každé co sedí, co ne a komu zavolat. Profil se neukládá a jméno ani kontakty do AI nejdou.</p>
         <p class="note">Nabídku kandidáta bez jména odešlete jen s jeho souhlasem.</p>
       </div>
       </div>
@@ -335,9 +334,11 @@
       </div>
       <figure class="video video--ats" data-autoplay data-tap-phone>
   <div class="frame">
-    <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">app.talentradar.eu</span><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pozastavit ukázku</span></button></div>
-    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1280" height="800" poster="/video/vedle-ats.cs.webp?v=1f8c0d8ce6" aria-label="Import seznamu firem a stažení nových pozic pro ATS"><source src="/video/vedle-ats.cs.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/vedle-ats.cs.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
+    <div class="frame__window">
+      <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1280" height="800" poster="/video/vedle-ats.cs.webp?v=e21852803a" aria-label="Import seznamu firem a stažení nových pozic pro ATS"><source src="/video/vedle-ats.cs.webm?v=e21852803a" type="video/webm"><source src="/video/vedle-ats.cs.mp4?v=e21852803a" type="video/mp4"></video></div>
     <button class="btn btn-secondary video__start" type="button" hidden>Přehrát ukázku</button>
+    </div>
+    <div class="frame__foot"><p class="video__cue"><span class="video__cue-line is-on" data-cues="ats" data-at="0">Nic se nestěhuje.</span></p><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pozastavit ukázku</span></button></div>
   </div>
   <figcaption>Natočeno v testovacím workspace 1. 11. 2026.</figcaption>
 </figure>

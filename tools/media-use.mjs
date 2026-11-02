@@ -32,7 +32,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameS
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { MEDIA_WORK, clipBytes, expectedFiles, mediaUseOwner, setVersion, videoBudget } from "./check-site.mjs";
+import { MEDIA_WORK, clipBytes, expectedFiles, mediaUseOwner, setVersion, sourceProblems, videoBudget } from "./check-site.mjs";
 
 export { expectedFiles, setVersion };
 
@@ -109,7 +109,7 @@ export function ffprobeInfo(path) {
 
 /** Everything wrong with a set of clips against media.json; an empty list when it can be used. */
 export function setProblems(source, media, { probe = ffprobeInfo } = {}) {
-  const problems = [];
+  const problems = sourceProblems(media);
   const lengths = {};
   for (const file of expectedFiles(media)) {
     const path = join(source, file.name);
@@ -117,7 +117,7 @@ export function setProblems(source, media, { probe = ffprobeInfo } = {}) {
       problems.push(`${file.name}: missing`);
       continue;
     }
-    const budget = videoBudget(file.name);
+    const budget = file.budget || videoBudget(file.name);
     const size = statSync(path).size;
     if (size === 0) {
       problems.push(`${file.name}: empty (0 B)`);

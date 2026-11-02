@@ -4,7 +4,7 @@
  * Every page works without it; this adds behaviour, never content.
  */
 import { demoPayload, demoResult, MAX_FILE_BYTES } from "./demo-form.js";
-import { clipFor, clipKey, largestVideo } from "./media.js";
+import { clipFor, clipKey, largestVideo, savesData } from "./media.js";
 
 const T = (() => {
   try {
@@ -173,6 +173,21 @@ const menu = (() => {
 const shownVideo = (fig) => [...fig.querySelectorAll("video")].find((v) => v.offsetParent !== null) || fig.querySelector("video");
 /* A loop that waits for a tap on a phone (every one but the hero) and has not had it yet. */
 const waitsForTap = (fig) => fig.hasAttribute("data-tap-phone") && phone.matches && fig.dataset.tapped !== "1";
+/* The line under a video says the sentence of this moment of the clip (times: media.json), the first one of a
+   clip that does not play. Without this script and with reduced motion the first sentence stays. */
+const showCue = (fig) => {
+  const all = [...fig.querySelectorAll(".video__cue-line")];
+  if (!all.length) return;
+  const clip = fig.dataset.cueClip || all[0].dataset.cues;
+  const v = shownVideo(fig);
+  const phoneCut = !!v.closest(".video--mobile");
+  const lines = all.filter((l) => l.dataset.cues === clip);
+  let now = lines[0];
+  for (const l of lines) {
+    if (Number(phoneCut && l.dataset.atMobile !== undefined ? l.dataset.atMobile : l.dataset.at) <= v.currentTime) now = l;
+  }
+  for (const l of all) l.classList.toggle("is-on", l === now);
+};
 /* What the video code offers the chapters further down: decide again who plays; this figure, it has just been asked for. */
 let videosChanged = () => {};
 let videoAskedFor = () => {};
@@ -187,8 +202,9 @@ const pageLoaded = new Promise((resolve) => {
       At most one plays: the largest on screen, or the one somebody started by
       hand, while it is on screen; a pause by hand stays. On a phone only
       the hero plays by itself; the others wait for a tap on their play button.
-      With reduced motion: poster and the native controls only. The choice of
-      cut is made again when the width changes. ── */
+      With reduced motion: poster and the native controls only. Saving data or on a
+      slow network: the poster until somebody presses play, nothing loads before
+      that. The choice of cut is made again when the width changes. ── */
 (function videos() {
   const figures = [...document.querySelectorAll("[data-autoplay]")];
   if (!figures.length || !("IntersectionObserver" in window)) return;
@@ -229,9 +245,10 @@ const pageLoaded = new Promise((resolve) => {
     chosen = choose();
     live.forEach(run);
   };
+  const stays = savesData(navigator.connection);
   const near = new IntersectionObserver((entries) => {
     for (const e of entries) {
-      if (!e.isIntersecting || waitsForTap(e.target)) continue;
+      if (!e.isIntersecting || waitsForTap(e.target) || stays) continue;
       near.unobserve(e.target);
       pageLoaded.then(() => { shownVideo(e.target).preload = "auto"; });
     }
@@ -250,8 +267,10 @@ const pageLoaded = new Promise((resolve) => {
   const live = figures.filter((fig) => fig.querySelector(".video__toggle") && !stillPref.matches);
   for (const fig of live) {
     const btn = fig.querySelector(".video__toggle");
+    if (stays) fig.dataset.user = "paused";
     for (const v of fig.querySelectorAll("video")) {
       v.removeAttribute("controls");
+      v.addEventListener("timeupdate", () => { if (v === shownVideo(fig)) showCue(fig); });
       v.addEventListener("play", () => { if (v === shownVideo(fig)) label(btn, false); });
       v.addEventListener("pause", () => { if (v === shownVideo(fig)) label(btn, true); });
     }
@@ -385,11 +404,12 @@ const pageLoaded = new Promise((resolve) => {
         const el = document.createElement("source");
         el.src = s.src;
         el.type = s.type;
+        if (s.media) el.media = s.media;
         v.appendChild(el);
       }
       v.poster = cut.poster || "";
       // a phone that has not tapped play yet loads nothing; the poster changes only
-      if (waitsForTap(fig)) v.preload = "none";
+      if (waitsForTap(fig) || savesData(navigator.connection)) v.preload = "none";
       v.load();
     };
     const swap = (tab) => {
@@ -399,6 +419,8 @@ const pageLoaded = new Promise((resolve) => {
       if (tab.dataset.label) for (const v of fig.querySelectorAll("video")) v.setAttribute("aria-label", tab.dataset.label);
       current = clip;
       showClip();
+      fig.dataset.cueClip = clip.id;
+      showCue(fig);
       videoAskedFor(fig);
     };
     onMediaChange(phone, () => {

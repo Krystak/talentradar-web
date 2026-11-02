@@ -192,7 +192,10 @@ export function dataClipFiles(html) {
 
 // ── The set of clips ────────────────────────────────────────────────────────
 
-/** Every file media.json names, one row per language: { name, width?, height? } (a size for videos and posters). */
+/**
+ * Every file media.json names, one row per language: { name, width?, height?, budget? } (a size for videos and
+ * posters; a version by pixel density has its own size and may have its own budget in MB).
+ */
 export function expectedFiles(media) {
   const rows = new Map();
   const add = (path, size) => {
@@ -205,11 +208,28 @@ export function expectedFiles(media) {
     for (const cut of [clip, clip.mobile && { ...clip, ...clip.mobile }]) {
       if (!cut) continue;
       add(cut.poster, { width: cut.width, height: cut.height });
-      for (const s of cut.sources) add(s.src, { width: cut.width, height: cut.height });
+      for (const s of cut.sources) add(s.src, { width: s.width || cut.width, height: s.height || cut.height, ...(s.budget_mb ? { budget: s.budget_mb * 1e6 } : {}) });
     }
     for (const track of clip.tracks || []) add(track.src);
   }
   return [...rows.values()];
+}
+
+/**
+ * What is wrong with a clip's list of sources. The first that fits a screen and a browser wins, so
+ * the last one has to fit all of them: H.264 in MP4, for no screen in particular. Any other format
+ * and version is optional, and leaving one out takes nothing but its row.
+ */
+export function sourceProblems(media) {
+  const problems = [];
+  for (const [id, clip] of Object.entries(media.clips)) {
+    for (const [what, cut] of [[id, clip], [`${id} phone`, clip.mobile]]) {
+      if (!cut) continue;
+      const last = cut.sources[cut.sources.length - 1];
+      if (!last || last.media || !/^video\/mp4\b/.test(last.type)) problems.push(`${what}: the last source has to be an MP4 for every screen`);
+    }
+  }
+  return problems;
 }
 
 /**
@@ -271,14 +291,13 @@ export function videoSetProblems(media, { root = ROOT, duringMediaUse = false } 
 }
 
 /**
- * Rules that hide a line carrying a recording date, which the HTML alone cannot show. The chapters' caption on a
- * phone may go: the hero's line says the same, with the date (lead, etapa 4), and the check above sees to that.
+ * Rules that hide a line carrying a recording date, which the HTML alone cannot show. Every video has its
+ * origin and date under it, on a phone too (lead, etapa 5).
  */
 export function hiddenDates(css) {
   const out = [];
   for (const m of css.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/([^{}]*\b(?:hero__caption|figcaption)\b[^{}]*)\{[^}]*\bdisplay:\s*none/g)) {
-    const selector = m[1].trim().replace(/\s+/g, " ");
-    if (selector !== ".chapters-video .video figcaption") out.push(selector);
+    out.push(m[1].trim().replace(/\s+/g, " "));
   }
   return out;
 }
@@ -287,7 +306,7 @@ export function hiddenDates(css) {
  * Checks a site. files: Map "public/…" -> content|null; redirects: the Worker's
  * 301 map; workerFirst: wrangler.toml run_worker_first. Returns { errors, warnings }.
  */
-export function checkSite(files, { redirects = {}, workerFirst = [], origin = "https://talentradar.eu", release = false } = {}) {
+export function checkSite(files, { redirects = {}, workerFirst = [], origin = "https://talentradar.eu", release = false, budgets = {} } = {}) {
   const errors = [];
   const warnings = [];
   // --release: what may stay while building is a blocker before the merge
@@ -402,7 +421,7 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
 
   // the videos stay inside their budgets (only files really on disk: a test's made-up page has none)
   for (const path of files.keys()) {
-    const budget = videoBudget(path);
+    const budget = budgets[path.split("/").pop()] || videoBudget(path);
     const disk = join(ROOT, path);
     if (budget && existsSync(disk) && statSync(disk).size > budget) unfinished(`${path}: ${(statSync(disk).size / 1e6).toFixed(2)} MB is over its budget of ${budget / 1e6} MB`);
   }
@@ -460,10 +479,11 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const { REDIRECTS } = await import("../worker-routes.gen.js");
   // node tools/check-site.mjs --release (npm run check:release): unfinished things are errors
   const release = process.argv.includes("--release");
-  const { errors, warnings } = checkSite(diskFiles(), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release });
+  const media = JSON.parse(readFileSync(join(ROOT, "src/data/media.json"), "utf8"));
+  const budgets = Object.fromEntries(expectedFiles(media).filter((f) => f.budget).map((f) => [f.name, f.budget]));
+  const { errors, warnings } = checkSite(diskFiles(), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release, budgets });
   if (release) {
-    const media = JSON.parse(readFileSync(join(ROOT, "src/data/media.json"), "utf8"));
-    errors.push(...videoSetProblems(media, { duringMediaUse: process.argv.includes("--during-media-use") }));
+    errors.push(...sourceProblems(media), ...videoSetProblems(media, { duringMediaUse: process.argv.includes("--during-media-use") }));
   }
   for (const w of warnings) console.warn(`warning: ${w}`);
   for (const e of errors) console.error(`error: ${e}`);

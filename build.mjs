@@ -457,8 +457,8 @@ function resolve(site, token, ctx, where) {
       .join("");
   }
   if (token.startsWith("video:")) {
-    const [id, ariaKey, captionKey] = token.slice(6).split(":");
-    return videoFigure(site, ctx, id, ariaKey, captionKey, where);
+    const [id, ariaKey, captionKey, others] = token.slice(6).split(":");
+    return videoFigure(site, ctx, id, ariaKey, captionKey, where, others ? others.split(",") : []);
   }
   if (token.startsWith("media:")) {
     const [id, field] = token.slice(6).split(":");
@@ -466,8 +466,8 @@ function resolve(site, token, ctx, where) {
     const lang = (p) => mediaUrl(site, p, ctx.lang);
     if (field === "json") {
       // a chapter tab's whole clip (all sources, the phone cut) for site.js (js/media.js clipFor)
-      const cut = (c) => ({ poster: lang(c.poster), sources: c.sources.map((s) => ({ src: lang(s.src), type: s.type })) });
-      return escapeHtml(JSON.stringify({ ...cut(clip), mobile: clip.mobile ? cut({ ...clip, ...clip.mobile }) : null }));
+      const cut = (c) => ({ poster: lang(c.poster), sources: c.sources.map((s) => ({ src: lang(s.src), type: s.type, ...(s.media ? { media: s.media } : {}) })) });
+      return escapeHtml(JSON.stringify({ id, ...cut(clip), mobile: clip.mobile ? cut({ ...clip, ...clip.mobile }) : null }));
     }
     const v = field === "src" ? clip.sources[0].src : field === "poster" ? clip.poster : fail("unknown media field");
     return lang(v);
@@ -560,8 +560,12 @@ function heroPosterPreloads(site, lang) {
 }
 
 /**
- * A clip of src/data/media.json in a browser frame. Loops (hero, chapters, V6)
- * are muted, lazy (preload none) and get a pause button in the frame bar; the
+ * A clip of src/data/media.json: a window on a board (no board on a light band or a
+ * phone), under the window a line that follows the clip (clips.*.cues: times there, words in
+ * the text map) and the pause button. Every sentence is in the HTML in one and the same grid
+ * cell, so the line is as high as its longest one at any width, and nothing moves when it
+ * changes. others: the clips that may follow in this figure (the chapters' tabs).
+ * Loops (hero, chapters, V6) are muted and lazy (preload none); the
  * tour plays only on a click. A clip with a 4:5 phone cut gets both videos, CSS
  * shows one, and only the shown one's video file is ever loaded (site.js). The
  * poster of a video under display: none is still fetched by the browser, at normal
@@ -571,7 +575,7 @@ function heroPosterPreloads(site, lang) {
  * the hero plays by itself; every other loop waits for a tap on its play
  * button (data-tap-phone, lead etapa 4a).
  */
-function videoFigure(site, ctx, id, ariaKey, captionKey, where) {
+function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
   const clip = site.media.clips[id];
   if (!clip) throw new Error(`${where}: unknown clip ${id}`);
   const lang = (p) => mediaUrl(site, p, ctx.lang);
@@ -579,7 +583,7 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where) {
   const loop = clip.mode === "loop";
   const video = (c, cls) => {
     const attrs = loop ? "muted loop playsinline controls" : "controls playsinline";
-    const sources = c.sources.map((s) => `<source src="${lang(s.src)}" type="${s.type}">`).join("");
+    const sources = c.sources.map((s) => `<source src="${lang(s.src)}" type="${escapeHtml(s.type)}"${s.media ? ` media="${escapeHtml(s.media)}"` : ""}>`).join("");
     const tracks = (c.tracks || [])
       .map((tr) => `<track kind="subtitles" srclang="${tr.srclang}" label="${escapeHtml(text(site, ctx, tr.label))}" src="${lang(tr.src)}"${tr.srclang === ctx.lang ? " default" : ""}>`)
       .join("");
@@ -593,13 +597,20 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where) {
   }
   const tap = loop && id !== "hero";
   const start = tap ? `\n    <button class="btn btn-secondary video__start" type="button" hidden>${escapeHtml(text(site, ctx, "hero_video_play"))}</button>` : "";
-  const caption = captionKey ? escapeHtml(text(site, ctx, captionKey)) : "";
+  const lines = [id, ...others].flatMap((clipId) => {
+    const of = site.media.clips[clipId];
+    if (!of) throw new Error(`${where}: unknown clip ${clipId}`);
+    return (of.cues || []).map((cue) => `<span class="video__cue-line" data-cues="${clipId}" data-at="${cue.at}"${cue.at_mobile === undefined ? "" : ` data-at-mobile="${cue.at_mobile}"`}>${escapeHtml(text(site, ctx, cue.key))}</span>`);
+  });
+  if (lines.length) lines[0] = lines[0].replace('class="video__cue-line"', 'class="video__cue-line is-on"');
+  const foot = lines.length || toggle ? `\n    <div class="frame__foot"><p class="video__cue">${lines.join("")}</p>${toggle}</div>` : "";
+  const caption = captionKey ? `\n  <figcaption>${escapeHtml(text(site, ctx, captionKey))}</figcaption>` : "";
   return `<figure class="video video--${id}${clip.mobile ? " video--has-mobile" : ""}" ${loop ? `data-autoplay${tap ? " data-tap-phone" : ""}` : "data-facade"}>
   <div class="frame">
-    <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">${escapeHtml(text(site, ctx, "video_frame_url"))}</span>${toggle}</div>
-    ${video(clip, "video--desktop")}${clip.mobile ? `\n    ${video({ ...clip, ...clip.mobile }, "video--mobile")}` : ""}${start}
-  </div>
-  <figcaption>${caption}</figcaption>
+    <div class="frame__window">
+      ${video(clip, "video--desktop")}${clip.mobile ? `\n      ${video({ ...clip, ...clip.mobile }, "video--mobile")}` : ""}${start}
+    </div>${foot}
+  </div>${caption}
 </figure>`;
 }
 

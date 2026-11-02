@@ -4,7 +4,7 @@
  * Every page works without it; this adds behaviour, never content.
  */
 import { demoPayload, demoResult, MAX_FILE_BYTES } from "./demo-form.js?v=ee5c6352b8";
-import { clipFor, clipKey } from "./media.js?v=608603aa77";
+import { clipFor, clipKey, largestVideo } from "./media.js?v=63088bd799";
 
 const T = (() => {
   try {
@@ -171,6 +171,9 @@ const menu = (() => {
 const shownVideo = (fig) => [...fig.querySelectorAll("video")].find((v) => v.offsetParent !== null) || fig.querySelector("video");
 /* A loop that waits for a tap on a phone (every one but the hero) and has not had it yet. */
 const waitsForTap = (fig) => fig.hasAttribute("data-tap-phone") && phone.matches && fig.dataset.tapped !== "1";
+/* What the video code offers the chapters further down: decide again who plays; this figure, it has just been asked for. */
+let videosChanged = () => {};
+let videoAskedFor = () => {};
 /* Videos load only after the page itself has (lead, etapa 4a: the poster shows at once, the file waits). */
 const pageLoaded = new Promise((resolve) => {
   if (document.readyState === "complete") resolve();
@@ -179,9 +182,11 @@ const pageLoaded = new Promise((resolve) => {
 
 /* ── Videos: load when near, play when seen, pause off screen; a pause button
       because a loop over 5 s that starts by itself must be stoppable (WCAG 2.2.2).
-      On a phone only the hero plays by itself; the others wait for a tap on
-      their play button. With reduced motion: poster and the native controls
-      only. The choice of cut is made again when the width changes. ── */
+      At most one plays: the largest on screen, or the one somebody started by
+      hand, while it is on screen; a pause by hand stays. On a phone only
+      the hero plays by itself; the others wait for a tap on their play button.
+      With reduced motion: poster and the native controls only. The choice of
+      cut is made again when the width changes. ── */
 (function videos() {
   const figures = [...document.querySelectorAll("[data-autoplay]")];
   if (!figures.length || !("IntersectionObserver" in window)) return;
@@ -189,6 +194,16 @@ const pageLoaded = new Promise((resolve) => {
     btn.querySelector("span").textContent = paused ? t("hero_video_play", "Play") : t("hero_video_pause", "Pause");
     const use = btn.querySelector("use");
     if (use) use.setAttribute("href", paused ? "#i-play_arrow" : "#i-pause");
+  };
+  let chosen = null;
+  let asked = null;
+  const area = (fig) => {
+    const r = shownVideo(fig).getBoundingClientRect();
+    return Math.max(0, Math.min(window.innerWidth, r.right) - Math.max(0, r.left)) * Math.max(0, Math.min(window.innerHeight, r.bottom) - Math.max(0, r.top));
+  };
+  const choose = () => {
+    if (asked && !area(asked)) asked = null;
+    return asked || largestVideo(live.filter((fig) => fig.dataset.inView === "1" && !waitsForTap(fig)), area, chosen);
   };
   const run = (fig) => {
     const v = shownVideo(fig);
@@ -198,15 +213,19 @@ const pageLoaded = new Promise((resolve) => {
     const waiting = waitsForTap(fig);
     if (start) start.hidden = !waiting;
     if (toggle) toggle.hidden = waiting;
-    if (!waiting && fig.dataset.inView === "1" && fig.dataset.user !== "paused") {
+    if (fig === chosen && fig.dataset.user !== "paused") {
       pageLoaded.then(() => {
-        if (fig.dataset.inView !== "1" || fig.dataset.user === "paused" || waitsForTap(fig)) return;
+        if (fig !== chosen || fig.dataset.user === "paused") return;
         v.preload = "auto";
         v.play().catch(() => {});
       });
     } else {
       v.pause();
     }
+  };
+  const runAll = () => {
+    chosen = choose();
+    live.forEach(run);
   };
   const near = new IntersectionObserver((entries) => {
     for (const e of entries) {
@@ -218,8 +237,9 @@ const pageLoaded = new Promise((resolve) => {
   const watch = (threshold) => new IntersectionObserver((entries) => {
     for (const { target: fig, isIntersecting } of entries) {
       fig.dataset.inView = isIntersecting ? "1" : "";
-      run(fig);
+      if (!isIntersecting && asked === fig) asked = null;
     }
+    runAll();
   }, { threshold });
   const seen = watch(0.5);
   // the hero sits at the bottom of the first screen: at 390 × 844 the longer English heading leaves
@@ -236,15 +256,20 @@ const pageLoaded = new Promise((resolve) => {
     btn.hidden = false;
     btn.addEventListener("click", () => {
       const v = shownVideo(fig);
-      fig.dataset.user = v.paused ? "" : "paused";
-      if (v.paused) v.play().catch(() => {});
-      else v.pause();
+      const starting = v.paused;
+      fig.dataset.user = starting ? "" : "paused";
+      if (starting) asked = fig;
+      else if (asked === fig) asked = null;
+      runAll();
+      if (starting) v.play().catch(() => {});
     });
     const start = fig.querySelector(".video__start");
     if (start) {
       start.addEventListener("click", () => {
         fig.dataset.tapped = "1";
         fig.dataset.user = "";
+        asked = fig;
+        runAll();
         start.hidden = true;
         const toggle = fig.querySelector(".video__toggle");
         if (toggle) {
@@ -259,9 +284,23 @@ const pageLoaded = new Promise((resolve) => {
     label(btn, true);
     near.observe(fig);
     (fig.classList.contains("video--hero") ? seenHero : seen).observe(fig);
-    run(fig);
   }
-  onMediaChange(phone, () => live.forEach(run));
+  runAll();
+  onMediaChange(phone, runAll);
+  videosChanged = runAll;
+  videoAskedFor = (fig) => {
+    if (live.includes(fig) && fig.dataset.inView === "1" && !waitsForTap(fig)) asked = fig;
+    runAll();
+  };
+  // two can be on screen only in a tall window; the areas are read only then
+  let frame = 0;
+  const looked = () => {
+    frame = 0;
+    if (choose() !== chosen) runAll();
+  };
+  const look = () => { frame = frame || requestAnimationFrame(looked); };
+  window.addEventListener("scroll", look, { passive: true });
+  window.addEventListener("resize", look, { passive: true });
 })();
 
 /* ── The tour on /demo: no video loads before the click (preload none), only the
@@ -330,33 +369,41 @@ const pageLoaded = new Promise((resolve) => {
     const tabs = [...root.querySelectorAll('[role="tab"]')];
     const fig = root.querySelector("figure.video");
     root.querySelectorAll("[data-js-hidden]").forEach((p) => { p.hidden = true; });
-    // every cut of the chapter's clip: all <source>s (WebM + MP4) for the desktop
-    // video and for the phone video, then load(); only the shown one plays
+    // the chapter's clip goes only into the video CSS shows: all its <source>s (WebM + MP4), then load().
+    // The hidden cut stays as it is and loads nothing; it gets the clip when the width makes it the shown one
+    let current = null;
+    const showClip = () => {
+      const v = shownVideo(fig);
+      const cut = clipFor(current, !!v.closest(".video--mobile"));
+      if (v.dataset.clip === clipKey(cut)) return;
+      v.dataset.clip = clipKey(cut);
+      v.pause();
+      v.querySelectorAll("source").forEach((s) => s.remove());
+      for (const s of cut.sources) {
+        const el = document.createElement("source");
+        el.src = s.src;
+        el.type = s.type;
+        v.appendChild(el);
+      }
+      v.poster = cut.poster || "";
+      // a phone that has not tapped play yet loads nothing; the poster changes only
+      if (waitsForTap(fig)) v.preload = "none";
+      v.load();
+    };
     const swap = (tab) => {
       if (!fig || !tab.dataset.clip) return;
       let clip;
       try { clip = JSON.parse(tab.dataset.clip); } catch { return; }
-      for (const v of fig.querySelectorAll("video")) {
-        if (tab.dataset.label) v.setAttribute("aria-label", tab.dataset.label);
-        const cut = clipFor(clip, !!v.closest(".video--mobile"));
-        if (v.dataset.clip === clipKey(cut)) continue;
-        v.dataset.clip = clipKey(cut);
-        v.pause();
-        v.querySelectorAll("source").forEach((s) => s.remove());
-        for (const s of cut.sources) {
-          const el = document.createElement("source");
-          el.src = s.src;
-          el.type = s.type;
-          v.appendChild(el);
-        }
-        v.poster = cut.poster || "";
-        // a phone that has not tapped play yet loads nothing; the poster changes only
-        if (waitsForTap(fig)) v.preload = "none";
-        v.load();
-      }
-      const v = shownVideo(fig);
-      if (!stillPref.matches && !waitsForTap(fig) && fig.dataset.inView === "1" && fig.dataset.user !== "paused") v.play().catch(() => {});
+      if (tab.dataset.label) for (const v of fig.querySelectorAll("video")) v.setAttribute("aria-label", tab.dataset.label);
+      current = clip;
+      showClip();
+      videoAskedFor(fig);
     };
+    onMediaChange(phone, () => {
+      if (!current) return;
+      showClip();
+      videosChanged();
+    });
     const select = (tab, focus) => {
       for (const other of tabs) {
         const on = other === tab;
@@ -718,6 +765,9 @@ const pageLoaded = new Promise((resolve) => {
   <ol><li>${esc(t("form_state_success_s1"))}</li><li>${esc(t("form_state_success_s2"))}</li><li>${esc(t("form_state_success_s3"))}</li></ol>
   <p class="note">${esc(t("form_state_success_foot"))}</p>
 </div>`;
+    // the card has the same steps: once is enough
+    const next = document.querySelector(".trial__next");
+    if (next) next.hidden = true;
     wrap.querySelector(".success").focus();
   });
 })();

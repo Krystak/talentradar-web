@@ -73,7 +73,7 @@
   /* type: Manrope 800 headings, Inter text */
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: "Manrope", "Inter", system-ui, sans-serif;
-  --font-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+
 
   --fs-min: 0.75rem;                                   /* 12 px, the floor */
   --fs-kicker: 0.8125rem;                              /* 13 px, 700, capitals */

@@ -14,3 +14,16 @@ export function clipFor(clip, phone) {
 export function clipKey(cut) {
   return cut.sources.map((s) => s.src).join("|");
 }
+
+/** A video on screen takes over from the one playing only when this many times larger: equal areas never flick between them. */
+export const VIDEO_SWITCH_AT = 1.25;
+
+/**
+ * Which of the videos on screen plays: never more than one (a tall window shows the hero and the next
+ * video together), the largest. current keeps playing until another is clearly larger.
+ */
+export function largestVideo(videos, areaOf, current) {
+  if (videos.length < 2) return videos[0] || null;
+  const best = videos.reduce((a, b) => (areaOf(b) > areaOf(a) ? b : a));
+  return videos.includes(current) && areaOf(best) < areaOf(current) * VIDEO_SWITCH_AT ? current : best;
+}

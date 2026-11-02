@@ -271,6 +271,19 @@ export function videoSetProblems(media, { root = ROOT, duringMediaUse = false } 
 }
 
 /**
+ * Rules that hide a line carrying a recording date, which the HTML alone cannot show. The chapters' caption on a
+ * phone may go: the hero's line says the same, with the date (lead, etapa 4), and the check above sees to that.
+ */
+export function hiddenDates(css) {
+  const out = [];
+  for (const m of css.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/([^{}]*\b(?:hero__caption|figcaption)\b[^{}]*)\{[^}]*\bdisplay:\s*none/g)) {
+    const selector = m[1].trim().replace(/\s+/g, " ");
+    if (selector !== ".chapters-video .video figcaption") out.push(selector);
+  }
+  return out;
+}
+
+/**
  * Checks a site. files: Map "public/…" -> content|null; redirects: the Worker's
  * 301 map; workerFirst: wrangler.toml run_worker_first. Returns { errors, warnings }.
  */
@@ -326,6 +339,15 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
       // within this figure only: the next figure's date must not count for it
       const caption = (m[0].match(/<figcaption>([\s\S]*?)<\/figcaption>/) || [])[1] || "";
       if (!/20\d\d/.test(caption)) unfinished(`${page}: the caption of the ${m[1]} video has no recording date`);
+    }
+    // the hero's date is in the line under it, one version per screen, and each of them has to have it
+    if (/video--hero\b/.test(html)) {
+      const line = (html.match(/class="[^"]*\bhero__caption\b[^"]*">([\s\S]*?)<\/p>/) || [])[1] || "";
+      const on = (cls) => (line.match(new RegExp(`<span class="${cls}">([\\s\\S]*?)</span>`)) || [])[1];
+      const shared = line.replace(/<span class="(?:d-only|m-only)">[\s\S]*?<\/span>/g, "");
+      for (const [cls, screen] of [["d-only", "wide screen"], ["m-only", "phone"]]) {
+        if (!/20\d\d/.test(`${shared} ${on(cls) || ""}`)) unfinished(`${page}: the line under the hero video has no recording date on a ${screen}`);
+      }
     }
     if (/video--tour\b/.test(html)) {
       const chapters = (html.match(/class="tour-chapter"/g) || []).length;
@@ -403,6 +425,7 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
   for (const path of [...files.keys()].filter((p) => p.endsWith(".css"))) {
     const css = content(files, path);
     for (const s of smallFonts(css, path)) errors.push(`${s.where}: font-size ${s.value} (${s.px}px) < 12px`);
+    for (const selector of hiddenDates(css)) unfinished(`${path}: ${selector} hides a recording date from view`);
     const tokens = tokensOf(css);
     const hex = (name) => {
       let v = tokens[name];

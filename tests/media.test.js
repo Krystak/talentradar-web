@@ -12,7 +12,8 @@ import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { buildSite, loadSite } from "../build.mjs";
-import { answer, checkSite, dataClipFiles, ignoredNames, siteFiles, videoBudget, videoSetProblems, workerFirstPatterns } from "../tools/check-site.mjs";
+import { answer, checkSite, dataClipFiles, hiddenDates, ignoredNames, siteFiles, videoBudget, videoSetProblems, workerFirstPatterns } from "../tools/check-site.mjs";
+import { VIDEO_SWITCH_AT, largestVideo } from "../src/js/media.js";
 import { LENGTH_TOLERANCE, POSTER_MIN_BYTES, chapterProblems, dateProblem, expectedFiles, ffprobeInfo, lengthProblems, recoverInterrupted, releaseCheck, setProblems, setVersion, useSet } from "../tools/media-use.mjs";
 import { REDIRECTS } from "../worker-routes.gen.js";
 
@@ -943,4 +944,112 @@ test("real ffprobe: sizes of a poster and a video, a length, and a poster that i
     const none = ffprobeInfo(join(dir, "x.webp"));
     assert.deepEqual([none.width, none.height], [0, 0], "ffprobe answers without an error, the sizes give it away");
   } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+// ── Review in a browser, etapa 4 round 2 ────────────────────────────────────
+
+test("site.js imports what the shared module gives it (a missing name stops the whole script)", () => {
+  const js = String(buildSite(loadSite()).get("public/js/site.js"));
+  const imported = (js.match(/import \{([^}]+)\} from "\.\/media\.js[^"]*"/) || [])[1] || "";
+  for (const name of ["clipFor", "clipKey", "largestVideo"]) assert.ok(imported.split(",").map((n) => n.trim()).includes(name), name);
+});
+
+test("one video at a time: the largest on screen, and the one playing stays until another is clearly larger", () => {
+  const sizes = { hero: 300, rano: 200 };
+  const area = (id) => sizes[id];
+  assert.equal(largestVideo([], area, null), null);
+  assert.equal(largestVideo(["rano"], area, "hero"), "rano", "the other one has left");
+  assert.equal(largestVideo(["hero", "rano"], area, null), "hero");
+  assert.equal(largestVideo(["hero", "rano"], area, "hero"), "hero");
+  assert.equal(largestVideo(["hero", "rano"], area, "rano"), "hero", "1.5× larger takes over");
+  sizes.hero = 200 * VIDEO_SWITCH_AT - 1;
+  assert.equal(largestVideo(["hero", "rano"], area, "rano"), "rano", "a little larger does not: no flicking between two");
+  sizes.hero = 200 * VIDEO_SWITCH_AT;
+  assert.equal(largestVideo(["hero", "rano"], area, "rano"), "hero");
+});
+
+test("site.js: who plays is decided in one place, the chapters ask there, and a tab only loads the cut that is shown", () => {
+  const js = String(buildSite(loadSite()).get("public/js/site.js"));
+  assert.match(js, /largestVideo\(live\.filter\(/);
+  assert.match(js, /if \(fig === chosen && fig\.dataset\.user !== "paused"\)/);
+  const chapters = js.slice(js.indexOf("(function chapters()"));
+  assert.doesNotMatch(chapters.slice(0, chapters.indexOf("keepInView")), /\.play\(\)/, "a tab never starts a video past the one place");
+  assert.match(js, /videoAskedFor\(fig\);/);
+  assert.doesNotMatch(js, /for \(const v of fig\.querySelectorAll\("video"\)\) \{\s*if \(tab\.dataset\.label\)/, "no load() over both cuts");
+  assert.match(js, /const v = shownVideo\(fig\);\s*const cut = clipFor\(current,/);
+});
+
+test("the charts' text: three cards in a row only from 1 208 px, two from 816 px, and all three cards end on one line", () => {
+  const css = String(buildSite(loadSite()).get("public/css/site.css"));
+  assert.match(css, /@media \(min-width: 816px\) \{ \.charts__more-grid \{ grid-template-columns: 1fr 1fr; \} \}/);
+  assert.match(css, /@media \(min-width: 1208px\) \{\s*\.charts \{ grid-template-columns: 1fr 2fr; \}/);
+  assert.doesNotMatch(css, /\.charts \{[^}]*align-items: start/);
+  assert.match(css, /\.charts \.chart__caption \{ margin-bottom: auto; \}/);
+});
+
+test("the recording date is in the line under the hero, on both screens, in both languages; without a date the line goes and release says so", () => {
+  const files = buildSite(loadSite());
+  const line = (path) => String(files.get(path)).match(/hero__caption">([\s\S]*?)<\/p>/)[1];
+  for (const path of ["public/index.html", "public/en/index.html"]) {
+    const spans = [...line(path).matchAll(/<span class="(d-only|m-only)">([\s\S]*?)<\/span>/g)];
+    assert.deepEqual(spans.map((m) => m[1]), ["d-only", "m-only"], path);
+    for (const m of spans) assert.match(m[2], /20\d\d/, `${path} ${m[1]}`);
+  }
+  const release = (edit) => checkSite(siteFiles(buildSite(siteWith(edit))), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
+  const what = "the line under the hero video has no recording date";
+  assert.ok(!release(() => {}).some((e) => e.includes(what)));
+  const none = release((m) => { m.clip_date = null; });
+  for (const screen of ["on a wide screen", "on a phone"]) assert.ok(none.some((e) => e.startsWith("public/index.html") && e.includes(`${what} ${screen}`)), screen);
+});
+
+test("release sees a date that is there but hidden: a rule on the hero's line or a caption", () => {
+  assert.deepEqual(hiddenDates(String(buildSite(loadSite()).get("public/css/site.css"))), []);
+  assert.deepEqual(hiddenDates(".a { color: red; }\n@media (max-width: 767px) { .hero__caption { display: none; } }"), [".hero__caption"]);
+  assert.deepEqual(hiddenDates("/* .x */ .video figcaption { margin: 0; display: none; }"), [".video figcaption"]);
+  assert.deepEqual(hiddenDates(".chapters-video .video figcaption { display: none; } .hero__caption { display: block; }"), []);
+});
+
+test("prices in one row on a wide screen, on a phone the label stays in the card", () => {
+  const css = String(buildSite(loadSite()).get("public/css/site.css"));
+  assert.match(css, /@media \(min-width: 768px\) \{\s*\.plan \{ position: relative; \}\s*\.plan__badge \{ position: absolute;/);
+});
+
+test("the tour's subtitle lines have room for their descenders", () => {
+  assert.match(String(buildSite(loadSite()).get("public/css/site.css")), /video::cue \{ line-height: 1\.5; \}/);
+});
+
+test("articles in the look of the site: no monospace, no // in labels, no typed ticks, green and red only for a state; the words stay", () => {
+  const files = buildSite(loadSite());
+  assert.doesNotMatch(String(files.get("public/css/site.css")), /font-mono|monospace/);
+  const articles = [...files.keys()].filter((p) => /public\/(en\/)?blog\/[a-z0-9-]+\.html$/.test(p) && !p.endsWith("index.html"));
+  assert.equal(articles.length, 6);
+  for (const path of articles) {
+    const html = String(files.get(path));
+    assert.doesNotMatch(html, /\/\/ [A-ZÁ-Ž]/, path);
+    assert.doesNotMatch(html, /[✓✕]/, path);
+    assert.doesNotMatch(html, /tone-(amber|blue)/, path);
+    for (const m of html.matchAll(/class="mono tone-(green|red)">([\s\S]*?)<\/div>/g)) assert.match(m[2], /#i-(check|close)/, `${path}: ${m[2]}`);
+    assert.match(html, /<ul class="ticks"><li><svg class="ic"[^>]*><use href="#i-check"><\/use><\/svg><span>/, path);
+  }
+  assert.match(String(files.get("public/blog/kolik-stoji-mrtve-inzeraty.html")), /Bez platební karty/);
+});
+
+test("the GDPR page's headings are the size they are in an article; after sending the form the steps are not said twice", () => {
+  const files = buildSite(loadSite());
+  assert.match(String(files.get("public/css/site.css")), /\.prose h2, \.article h2 \{ font-size: var\(--fs-h3\);/);
+  assert.match(String(files.get("public/js/site.js")), /querySelector\("\.trial__next"\);\s*if \(next\) next\.hidden = true;/);
+});
+
+test("Czech and Slovak letters come from the small font files: what they cover is what the pages use, and the small ones are preloaded", () => {
+  const files = buildSite(loadSite());
+  const css = String(files.get("public/css/site.css"));
+  for (const m of css.matchAll(/url\("\/fonts\/[a-z]+-latin-ext\.woff2"\)[\s\S]*?unicode-range: ([^;}]+)/g)) assert.equal(m[1].trim(), "U+0100-017F");
+  for (const [path, content] of files) {
+    if (!path.endsWith(".html")) continue;
+    assert.doesNotMatch(String(content), /[ƀ-ʺḀ-ỿ]/u, `${path}: a letter neither font file has`);
+  }
+  for (const name of ["inter", "manrope"]) {
+    const size = statSync(new URL(`../public/fonts/${name}-latin-ext.woff2`, import.meta.url)).size;
+    assert.ok(size < 30000, `${name}-latin-ext is ${size} B`);
+  }
 });

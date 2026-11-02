@@ -299,19 +299,24 @@
 .chart__data { margin-top: var(--space-2); font-size: var(--fs-sm); }
 .chart__data summary { cursor: pointer; color: var(--c-text); font-weight: 600; min-height: 44px; display: flex; align-items: center; }
 .chart__data table { max-width: 28rem; }
-/* chart 2 leads; charts 1 and 3 beside it (all three in a row from 1 100 px) or behind a click on a phone */
+/* chart 2 leads; charts 1 and 3 beside it (all three in a row from 1 208 px) or behind a click on a phone.
+   The widths are the charts' 12 px: their SVG text scales with the card (narrower cards: 10.7 px at 1 104 px, 11.3 px at 768 px) */
 .charts__more > summary { cursor: pointer; font-weight: 700; min-height: 48px; display: flex; align-items: center; padding: 0 var(--space-5); border: 1px solid var(--c-border); border-radius: var(--radius); background: var(--c-panel); }
 .charts__more[open] > summary { margin-bottom: var(--space-4); }
 .charts__more-grid { display: grid; gap: var(--space-6); }
 @media (min-width: 768px) {
   /* hidden only after site.js has opened the charts (is-synced): without it the summary stays */
   .charts__more.is-synced > summary { display: none; }
-  .charts__more-grid { grid-template-columns: 1fr 1fr; }
 }
-@media (min-width: 1100px) {
-  .charts { grid-template-columns: 1fr 2fr; align-items: start; }
-  .charts .chart { padding: var(--space-5); }
+@media (min-width: 816px) { .charts__more-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1208px) {
+  .charts { grid-template-columns: 1fr 2fr; }
+  .charts .chart { padding: var(--space-5); display: flex; flex-direction: column; }
   .charts .chart__lead { font-size: 1.125rem; }
+  /* three cards, one bottom line: a shorter card's free space goes between its sentence and its source */
+  .charts .chart__caption { margin-bottom: auto; }
+  .charts__more.is-synced .charts__more-grid { height: 100%; }
+  .charts__more.is-synced::details-content { height: 100%; }
 }
 /* the finished chart is the default; site.js primes (is-pre) only a chart about to scroll in */
 @media (prefers-reduced-motion: no-preference) {
@@ -344,6 +349,13 @@
 .plan { height: 100%; display: flex; flex-direction: column; gap: var(--space-2); background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6); }
 .plan--pick { border: 2px solid var(--c-accent); box-shadow: 0 12px 32px rgba(19, 27, 44, 0.08); }
 .plan__badge { align-self: flex-start; font-size: var(--fs-min); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-accent-text); border: 1px solid var(--c-accent); background: var(--orange-tint-16); border-radius: 6px; padding: 4px 10px; }
+/* beside other plans the label sits on the card's edge, so the prices are in one row */
+@media (min-width: 768px) {
+  .plan { position: relative; }
+  .plan__badge { position: absolute; top: 0; left: var(--space-6); transform: translateY(-50%); }
+  .plan--pick { padding-block-start: calc(var(--space-5) - 1px); }
+  .plan--pick .plan__badge { background: var(--card); }
+}
 .plan__name { margin: 0; font-size: var(--fs-h3); }
 .plan__price { font-family: var(--font-display); font-size: var(--fs-price); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin: var(--space-2) 0 0; white-space: nowrap; }
 .plan__period { font-family: var(--font-body); font-size: var(--fs-body); font-weight: 500; color: var(--c-text-2); letter-spacing: 0; }
@@ -483,19 +495,20 @@
 .crumbs a { color: var(--c-text); }
 .article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
 .tag { font-size: var(--fs-min); font-weight: 700; letter-spacing: 0.05em; border: 1px solid var(--c-accent); color: var(--c-accent-text); border-radius: var(--radius-pill); padding: 2px var(--space-3); }
-.mono { font-family: var(--font-mono); font-size: var(--fs-min); color: var(--c-muted); }
+/* a small label in an article; the accent for what it names, green and red only for a state */
+.mono { font-size: var(--fs-sm); font-weight: 500; color: var(--c-muted); }
+.mono[class*="tone-"] { font-weight: 600; }
+.mono .ic { width: 1.1em; height: 1.1em; margin-right: var(--space-1); }
 .tone-accent { color: var(--c-accent-text); }
-.tone-amber { color: #8A5A00; }
 .tone-green { color: var(--c-ok); }
 .tone-red { color: var(--c-error); }
-.tone-blue { color: #075985; }
 .article h1 { font-size: clamp(1.875rem, 1.4rem + 2vw, 2.75rem); }
 .article .lead { border-left: 3px solid var(--c-accent); padding-left: var(--space-4); }
 .byline { display: flex; align-items: center; gap: var(--space-4); padding-bottom: var(--space-5); margin-bottom: var(--space-5); border-bottom: 1px solid var(--c-border); }
 .byline__photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: center 15%; border: 2px solid var(--c-accent); }
 .byline__name { font-weight: 700; }
 .byline__role { font-size: var(--fs-sm); color: var(--c-muted); }
-.prose h2 { font-size: var(--fs-h3); margin-top: var(--space-7); }
+.prose h2, .article h2 { font-size: var(--fs-h3); margin-top: var(--space-7); }
 .prose > p, .prose li { color: var(--c-text-2); }
 .prose .small, .article .small { font-size: var(--fs-sm); color: var(--c-muted); }
 .panel { background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius-lg); padding: var(--space-5); margin: var(--space-6) 0; }
@@ -513,11 +526,13 @@
 .dot--blue { background: #0284C7; }
 .sep { color: var(--c-muted); font-size: var(--fs-min); padding-inline: 2px; }
 .sources { margin-top: var(--space-7); padding-top: var(--space-5); border-top: 1px solid var(--c-border); font-size: var(--fs-sm); }
-.sources__title { font-family: var(--font-mono); font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
+.sources__title { font-family: var(--font-body); font-weight: 700; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
 .sources li { color: var(--c-muted); }
 .sources a { color: var(--c-text); }
 .article-cta { margin-top: var(--space-8); border: 2px solid var(--c-accent); border-radius: var(--radius-lg); background: var(--c-panel); padding: var(--space-6); text-align: center; }
 .article-cta p { color: var(--c-text-2); }
+.article-cta > .mono { display: block; margin-bottom: var(--space-2); }
+.article-cta .ticks { justify-content: center; margin: var(--space-4) 0 0; font-size: var(--fs-sm); color: var(--c-text-2); }
 
 /* ── Footer ── */
 .site-footer { background: var(--navy-950); color: var(--mist); border-top: 1px solid var(--line-dark); padding-block: var(--space-7) var(--space-5); font-size: var(--fs-sm); }
@@ -653,6 +668,9 @@
   .plan__more-f.is-synced > ul { margin-top: 0; }
 }
 
+/* The tour's subtitles carry the story on a phone: the browser's own tight lines cut off the g and y of the line above */
+video::cue { line-height: 1.5; }
+
 /* Chapters of the tour on /demo, once the clip has chapter times */
 .tour-chapters--seek { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
 .tour-chapters--seek li + li { margin-top: 0; }
@@ -730,7 +748,7 @@
   .chapter-panel { margin-top: 0; }
   .chapter-panel h3 { margin-bottom: var(--space-2); }
   .chapter-panel p:last-child { margin-bottom: 0; }
-  /* the demo's honesty line is whole under the hero video; under the chapters' video it would be the fifth time */
+  /* the demo's honesty line with its date is whole under the hero video; under the chapters' video it would be the fifth time */
   .chapters-video .video figcaption { display: none; }
 
   /* next to your ATS: one card at a time behind "I have / don't have an ATS" */

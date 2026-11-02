@@ -775,7 +775,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
   .trial__aside { padding-left: var(--space-6); border-left: 1px solid var(--c-border); }
 }
 .trial__head { text-align: center; margin-bottom: var(--space-5); }
-.trial__head h2 { margin-bottom: var(--space-3); }
+/* every link to the form lands here, also without JavaScript: right under the bar (html has scroll-padding-top) */
+.trial__head h2 { margin-bottom: var(--space-3); scroll-margin-top: calc(-1 * var(--space-2)); }
 .trial__head p { color: var(--c-text-2); }
 .trial__box { border: 1px solid var(--c-border); border-radius: var(--radius-lg); background: var(--c-panel); padding: clamp(1.25rem, 0.5rem + 3vw, 2.5rem); }
 .badge { display: inline-block; font-size: var(--fs-sm); font-weight: 700; color: var(--c-text); background: var(--orange-tint-16); border: 1px solid var(--c-accent); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); margin-bottom: var(--space-4); }
@@ -1004,6 +1005,22 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .faq__more-btn { width: 100%; margin-top: var(--space-4); }
 
 /* The company list in the form: optional, folded (all widths) */
+/* The first way to a list: the brief for the visitor's own AI. Text without JavaScript, behind a button with it */
+.ai-brief { padding-bottom: var(--space-4); margin-bottom: var(--space-3); border-bottom: 1px solid var(--c-border); }
+.ai-brief__title { font-weight: 700; color: var(--c-text); margin: 0 0 var(--space-2); }
+.ai-brief__lead { font-size: var(--fs-sm); line-height: 1.45; color: var(--c-text-2); margin: 0; }
+.ai-brief__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin-top: var(--space-3); }
+.ai-brief__copy .ic { display: none; color: var(--c-accent); }
+.ai-brief__copy.is-copied .ic { display: inline-block; }
+.field .ai-brief__prompt { display: block; margin-top: var(--space-3); min-height: 0; font-size: var(--fs-sm); line-height: 1.45; overflow-x: hidden; overflow-wrap: anywhere; }
+.js .ai-brief__prompt:not(.is-open) { display: none; }
+.no-js .ai-brief__actions { display: none; }
+.ai-brief .note { margin: var(--space-3) 0 0; }
+@media (max-width: 767px) {
+  .ai-brief__copy { width: 100%; }
+  .ai-brief__show { min-height: 48px; }
+  .field .ai-brief__prompt { font-size: 1rem; }
+}
 .field-acc { border: 1px dashed var(--c-border-strong); border-radius: var(--radius); padding: 0 var(--space-4); background: var(--c-field); }
 .field-acc > summary { font-weight: 600; font-size: 1rem; line-height: 1.4; }
 .field-acc__label { display: block; }

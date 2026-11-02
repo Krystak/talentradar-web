@@ -2,7 +2,7 @@
   <div class="trial__box">
     <div class="trial__head">
       <p class="badge d-only">{{t.trial_badge}}</p>
-      <h2 id="trial-title">{{t.trial_headline}}</h2>
+      <h2 id="{{t.id_trial}}">{{t.trial_headline}}</h2>
       <p class="d-only">{{t.trial_subtext}}</p>
       <p class="note d-only"><strong>{{t.trial_promo}}</strong> {{t.trial_promo_after}}</p>
     </div>
@@ -41,6 +41,17 @@
         <details class="field field-acc" id="clients-acc">
           <summary><span class="field-acc__label">{{t.trial_label_clients}}</span><span class="field-acc__sub">{{t.trial_list_optional}}</span></summary>
           <div class="field-acc__body">
+            <div class="ai-brief" aria-live="off">
+              <p class="ai-brief__title">{{t.trial_ai_title}}</p>
+              <p class="ai-brief__lead">{{t.trial_ai_text}}</p>
+              <div class="ai-brief__actions">
+                <button type="button" class="btn btn-secondary ai-brief__copy" id="ai-brief-copy">{{icon:check}}<span>{{t.trial_ai_copy}}</span></button>
+                <button type="button" class="link-btn ai-brief__show" id="ai-brief-show" aria-expanded="false" aria-controls="ai-brief-prompt">{{t.trial_ai_show}}</button>
+              </div>
+              <span class="visually-hidden" id="ai-brief-status" role="status" aria-live="polite"></span>
+              <textarea class="ai-brief__prompt" id="ai-brief-prompt" rows="16" readonly aria-label="{{t.trial_ai_title}}">{{t.trial_ai_brief}}</textarea>
+              <p class="note">{{t.trial_ai_note}}</p>
+            </div>
             <div class="field__top">
               <label class="visually-hidden" for="clients">{{t.trial_label_clients}}</label>
               <button type="button" class="link-btn" id="clients-help-btn" aria-haspopup="dialog" aria-controls="clients-help">{{icon:help}}{{t.trial_clients_help}}</button>

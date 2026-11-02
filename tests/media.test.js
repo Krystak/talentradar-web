@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { buildSite, loadSite } from "../build.mjs";
 import { answer, checkSite, dataClipFiles, hiddenDates, ignoredNames, siteFiles, videoBudget, videoSetProblems, workerFirstPatterns } from "../tools/check-site.mjs";
 import { VIDEO_SWITCH_AT, largestVideo } from "../src/js/media.js";
+import { AI_LIST_HEADERS, cleanAiList, demoPayload } from "../src/js/demo-form.js";
 import { LENGTH_TOLERANCE, POSTER_MIN_BYTES, chapterProblems, dateProblem, expectedFiles, ffprobeInfo, lengthProblems, recoverInterrupted, releaseCheck, setProblems, setVersion, useSet } from "../tools/media-use.mjs";
 import { REDIRECTS } from "../worker-routes.gen.js";
 
@@ -1051,5 +1052,143 @@ test("Czech and Slovak letters come from the small font files: what they cover i
   for (const name of ["inter", "manrope"]) {
     const size = statSync(new URL(`../public/fonts/${name}-latin-ext.woff2`, import.meta.url)).size;
     assert.ok(size < 30000, `${name}-latin-ext is ${size} B`);
+  }
+});
+
+// ── Round 4: the jump to the form, the brief for an AI ──────────────────────
+
+const AI_BRIEF = {
+  cs: `Připrav seznam firem pro službu TalentRadar, která hlídá, kde firmy nabírají.
+
+Podklady: [přilož export z CRM nebo seznam klientů, případně napiš obory a region, které nás zajímají]
+
+Vrať pouze tabulku jako prostý text, bez úvodu, bez komentáře a bez bloku kódu. Nejvýš 150 řádků. Oddělovač je středník. První řádek musí být přesně:
+Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka
+
+Pravidla:
+- Firma: název firmy, každá firma jen jednou.
+- Kariérní stránka: adresa stránky s volnými pozicemi, jen když ji znáš jistě. Jinak nech prázdné, dohledáme ji. Adresy si nevymýšlej.
+- Poslední kontakt: datum posledního kontaktu s firmou ve tvaru 15. 3. 2024, jen když je v podkladech. Jinak prázdné.
+- Proběhla zakázka: ano nebo ne, jen když to podklady říkají. Jinak prázdné.
+- Nepiš jména lidí, e-maily, telefony ani kandidáty.
+
+Příklad:
+Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka
+Air Bank;airbank.cz/volne-pozice;15. 3. 2024;ano
+Rohlik Group;;;`,
+  en: `Prepare a company list for TalentRadar, a service that tracks where companies are hiring.
+
+Source: [attach a CRM export or your client list, or describe the sectors and region we care about]
+
+Return only the table as plain text, with no introduction, no comment and no code block. At most 150 rows. The separator is a semicolon. The first row must be exactly:
+Company;Careers page;Last contact;Had placement
+
+Rules:
+- Company: the company name, each company only once.
+- Careers page: the address of its open positions page, only if you know it for certain. Otherwise leave it empty, we will look it up. Do not make up addresses.
+- Last contact: the date of the last contact with the company as 15/03/2024, only if it is in the source. Otherwise empty.
+- Had placement: yes or no, only if the source says so. Otherwise empty.
+- Do not include people's names, emails, phone numbers or candidates.
+
+Example:
+Company;Careers page;Last contact;Had placement
+Air Bank;airbank.cz/careers;15/03/2024;yes
+Rohlik Group;;;`,
+};
+const unescapeHtml = (s) => s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
+
+test("the brief for an AI is on the page with the form, word for word in the page's language, without a no-break space", () => {
+  const files = buildSite(loadSite());
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const html = String(files.get(path));
+    const inPage = html.match(/<textarea class="ai-brief__prompt"[^>]*\sreadonly[^>]*>([\s\S]*?)<\/textarea>/);
+    assert.ok(inPage, path);
+    assert.equal(unescapeHtml(inPage[1]), AI_BRIEF[lang], path);
+    assert.doesNotMatch(inPage[1], / /, path);
+    // the first way: above the field and the upload; not sent with the form
+    const brief = html.indexOf('class="ai-brief"');
+    assert.ok(brief > html.indexOf('id="clients-acc"') && brief < html.indexOf('id="clients"') && brief < html.indexOf('id="file-upload"'), path);
+    assert.doesNotMatch(html.match(/<textarea class="ai-brief__prompt"[^>]*>/)[0], /\sname=/, path);
+  }
+});
+
+test("the brief's first row and example match the CSV template of its language, and the cleaning recognises that row", () => {
+  const { i18n } = loadSite();
+  for (const lang of ["cs", "en"]) {
+    const template = readFileSync(new URL(`../public${i18n[lang].help_template_href}`, import.meta.url), "utf8").replace(/^﻿/, "").split(/\r?\n/);
+    const header = template[0].split(/[;,]/).join(";");
+    const brief = i18n[lang].trial_ai_brief.split("\n");
+    assert.equal(brief.filter((l) => l === header).length, 2, `${lang}: the rule and the example`);
+    assert.ok(AI_LIST_HEADERS.includes(header), lang);
+    assert.equal(cleanAiList(i18n[lang].trial_ai_brief.split("\n").slice(-3).join("\n")), i18n[lang].trial_ai_brief.split("\n").slice(-3).join("\n"), `${lang}: the example comes through as it is`);
+  }
+});
+
+test("cleanAiList: what an AI adds around the table goes, cell by cell the quotes go", () => {
+  const table = "Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka\nAir Bank;airbank.cz/volne-pozice;15. 3. 2024;ano\nRohlik Group;;;";
+  assert.equal(cleanAiList(`Tady je váš seznam:\n\n\`\`\`csv\n${table}\n\`\`\`\n\nDejte vědět, kdyby něco chybělo.`), table);
+  assert.equal(cleanAiList(`\`\`\`\n${table}\n\`\`\`\nDejte vědět`), table, "a closing line right after the block");
+  assert.equal(cleanAiList(`${table}\n\nDejte vědět\nHezký den`), table, "every line of the closing words");
+  assert.equal(cleanAiList(table.replace(/\n/g, "\r\n")), table);
+  assert.equal(cleanAiList(`﻿${table}`), table);
+  assert.equal(cleanAiList('"Firma";"Kariérní stránka";"Poslední kontakt";"Proběhla zakázka"\n"Air Bank";"https://airbank.cz/x";"";"ano"'), "Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka\nAir Bank;https://airbank.cz/x;;ano");
+  assert.equal(cleanAiList('"Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka"\n"Air Bank;airbank.cz;;"'), "Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka\nAir Bank;airbank.cz;;", "a quoted whole row");
+  assert.equal(cleanAiList("Here you go:\ncompany;careers page;last contact;had placement\nAir Bank;;;\n\nLet me know."), "company;careers page;last contact;had placement\nAir Bank;;;".replace("company;careers page;last contact;had placement", "company;careers page;last contact;had placement"));
+  // a company without a separator in the table itself stays; so does a row after an empty line that has one
+  assert.equal(cleanAiList("Company;Careers page;Last contact;Had placement\nAir Bank\n\nRohlik Group;;;"), "Company;Careers page;Last contact;Had placement\nAir Bank\nRohlik Group;;;");
+});
+
+test("cleanAiList: without the recognised first row the text stays exactly as it is", () => {
+  for (const typed of ["Rohlik Group", "Rohlik Group\nAir Bank; airbank.cz/volne-pozice\n", "  Tady je seznam:\n\n```\nAir Bank\n```\n", '"Air Bank";"x"', "Firma;Web\nAir Bank;airbank.cz", "", "Air Bank;;;\n\nRohlik"]) {
+    assert.equal(cleanAiList(typed), typed);
+  }
+  assert.equal(cleanAiList(null), "");
+  assert.equal(cleanAiList(undefined), "");
+});
+
+test("the form sends the cleaned list, still as the one text field the Worker reads", () => {
+  const body = demoPayload({ name: "A B", email: "a@example.com", company: "C", clients: "Tady to je:\n```\nCompany;Careers page;Last contact;Had placement\nAir Bank;;;\n```\nBye", lang: "en" });
+  assert.equal(body.clients, "Company;Careers page;Last contact;Had placement\nAir Bank;;;");
+  assert.equal(demoPayload({ clients: "  Rohlik Group\n" }).clients, "Rohlik Group");
+  assert.equal(typeof body.clients, "string");
+});
+
+test("the brief's controls: copying with a way back, said out loud, nothing without JavaScript that does nothing, no monospace", () => {
+  const files = buildSite(loadSite());
+  const css = String(files.get("public/css/site.css"));
+  const js = String(files.get("public/js/site.js"));
+  const html = String(files.get("public/index.html"));
+  assert.match(js, /navigator\.clipboard\.writeText\(brief\.value\)\.then\(copied, byHand\)/);
+  assert.match(js, /document\.execCommand\("copy"\)/);
+  assert.match(html, /id="ai-brief-status" role="status" aria-live="polite"/);
+  assert.match(html, /class="ai-brief" aria-live="off"/, "the form's own live region must not read the whole brief out when it opens");
+  assert.match(css, /\.js \.ai-brief__prompt:not\(\.is-open\) \{ display: none; \}/);
+  assert.match(css, /\.no-js \.ai-brief__actions \{ display: none; \}/);
+  for (const key of ["trial_ai_copied"]) assert.match(html.slice(html.indexOf('id="i18n"')), new RegExp(`"${key}":"Zkopírováno"`));
+  assert.match(String(files.get("public/en/index.html")).slice(String(files.get("public/en/index.html")).indexOf('id="i18n"')), /"trial_ai_copied":"Copied"/);
+  assert.doesNotMatch(html.match(/<div class="ai-brief"[\s\S]*?<\/textarea>/)[0], /[\u{1F300}-\u{1FAFF}☀-➿]/u, "no emoji");
+});
+
+test("a link to the form lands on its heading under the bar; on a phone no focus, and the bar stays while the page moves", () => {
+  const js = String(buildSite(loadSite()).get("public/js/site.js"));
+  assert.match(js, /const wanted = \(\) => title\.getBoundingClientRect\(\)\.top \+ window\.scrollY - \(header \? header\.offsetHeight : 0\) - 8;/);
+  assert.match(js, /if \(!slimBar\.matches\) first\.focus\(\{ preventScroll: true \}\);/);
+  assert.match(js, /y < 80 \|\| holdHeader\) header\.classList\.remove\("is-hidden"\)/);
+  assert.match(js, /addEventListener\("hashchange", \(\) => \{\s*if \(location\.hash === `#\$\{title\.id\}`\) land\(false\);/);
+  // the anchor itself is the heading: right without the script and when the browser jumps on its own
+  const files = buildSite(loadSite());
+  assert.match(String(files.get("public/index.html")), /<h2 id="zkusit">/);
+  assert.match(String(files.get("public/en/index.html")), /<h2 id="try">/);
+  assert.match(String(files.get("public/css/site.css")), /\.trial__head h2 \{[^}]*scroll-margin-top:/);
+});
+
+test("the articles' box says the offer as the form does", () => {
+  const files = buildSite(loadSite());
+  const { i18n } = loadSite();
+  for (const [path, lang, slugs] of [["public/blog/", "cs", ["prvni-dny-po-vypsani-pozice", "dlouho-otevrene-pozice", "kolik-stoji-mrtve-inzeraty"]], ["public/en/blog/", "en", ["the-4-day-latency-gap", "anatomy-of-stale-roles", "hidden-cost-of-dead-vacancies"]]]) {
+    for (const slug of slugs) {
+      const box = String(files.get(`${path}${slug}.html`)).match(/<div class="article-cta">[\s\S]*?<\/span>/)[0].replace(/ /g, " ");
+      assert.ok(box.includes(i18n[lang].trial_promo), `${slug}: ${box}`);
+    }
   }
 });

@@ -12,7 +12,7 @@ export function demoPayload({ name, email, company, clients, website, file, lang
     name: String(name || "").trim(),
     email: String(email || "").trim(),
     company: String(company || "").trim(),
-    clients: String(clients || "").trim(),
+    clients: cleanAiList(clients).trim(),
     fileName: file && file.name ? file.name : null,
     fileData: file && file.data ? file.data : null,
     website: String(website || "").trim(),
@@ -21,6 +21,42 @@ export function demoPayload({ name, email, company, clients, website, file, lang
     timestamp: String(timestamp || ""),
     elapsedMs: Math.round(Number(elapsedMs) || 0),
   };
+}
+
+/** The first row of the table the brief for an AI asks for (trial_ai_brief), one per language. */
+export const AI_LIST_HEADERS = ["Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka", "Company;Careers page;Last contact;Had placement"];
+
+const unquoted = (cell) => cell.trim().replace(/^["„“”](.*)["“”]$/, "$1").trim();
+const listRow = (line) => {
+  const whole = line.trim().match(/^"([^"]*;[^"]*)"$/);
+  return (whole ? whole[1] : line).split(";").map(unquoted).join(";");
+};
+
+/**
+ * A table from the visitor's AI, as the form sends it. An AI often adds an introduction, a code
+ * block, quotes and a closing line, and the app would read each of them as a company. With a
+ * recognised first row: everything before it goes, so do lines with ```, the outer quotes of cells,
+ * and after an empty line or a code block's end the lines without a separator. Without one
+ * the text stays exactly as it is: a list typed by hand is not touched.
+ */
+export function cleanAiList(text) {
+  const raw = String(text ?? "");
+  const lines = raw.split(/\r?\n/);
+  const known = AI_LIST_HEADERS.map((h) => h.toLowerCase());
+  const start = lines.findIndex((line) => known.includes(listRow(line.replace(/^﻿/, "")).toLowerCase()));
+  if (start < 0) return raw;
+  const out = [];
+  let tableEnded = false;
+  for (const line of lines.slice(start)) {
+    if (line.includes("```") || !line.trim()) {
+      tableEnded = true;
+      continue;
+    }
+    if (tableEnded && !line.includes(";")) continue;
+    if (line.includes(";")) tableEnded = false;
+    out.push(listRow(line.replace(/^﻿/, "")));
+  }
+  return out.join("\n");
 }
 
 /** The fields the form must have filled before it is sent: name, e-mail, agency. */

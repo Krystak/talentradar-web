@@ -30,6 +30,8 @@ const slimBar = window.matchMedia("(max-width: 767px), (max-height: 500px) and (
 
 const header = document.querySelector("[data-header]");
 const actionBar = document.querySelector("[data-action-bar]");
+/* A link to the form is moving the page: the bar stays, or the heading would have nothing above it. */
+let holdHeader = false;
 /* Things that keep the bottom bar away; each part of the page that has a say sets its own reason. */
 const barHold = new Set();
 let updateBar = () => {};
@@ -97,7 +99,7 @@ const menu = (() => {
   const check = () => {
     ticking = false;
     const y = window.scrollY;
-    if (!slimBar.matches || menu.isOpen() || y < 80) header.classList.remove("is-hidden");
+    if (!slimBar.matches || menu.isOpen() || y < 80 || holdHeader) header.classList.remove("is-hidden");
     else if (y > lastY + 4) header.classList.add("is-hidden");
     else if (y < lastY - 4) header.classList.remove("is-hidden");
     lastY = y;
@@ -578,35 +580,107 @@ const pageLoaded = new Promise((resolve) => {
 })();
 
 /* ── A link to the trial (the main buttons, the bar, /cenik#zkusit) lands on the
-      form's first field, not on its heading, with the focus in it and nothing
-      over it (lead, etapa 4a). Without this script the anchor still goes to the
-      trial band. ── */
+      form's heading right under the top bar, the first field in view below it
+      (lead, etapa 4 round 4; 4a landed on the field, and the heading was gone).
+      The focus goes into that field, except where a keyboard would then cover
+      the heading. Without this script the anchor is that heading all the same. ── */
 (function toTheForm() {
   const form = document.getElementById("demo-form");
   if (!form) return;
-  const band = form.closest("section");
   const first = document.getElementById("name");
-  if (!band || !first || !band.id) return;
+  const title = form.closest("section") && form.closest("section").querySelector("h2");
+  if (!first || !title || !title.id) return;
+  const wanted = () => title.getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0) - 8;
+  let landing = 0;
   const land = (smooth) => {
-    const field = first.closest(".field") || first;
-    // the top bar hides when the page moves down; above the label a little air
-    const top = field.getBoundingClientRect().top + window.scrollY - 16;
-    window.scrollTo({ top, behavior: smooth && !stillPref.matches ? "smooth" : "auto" });
-    first.focus({ preventScroll: true });
+    const id = ++landing;
+    holdHeader = true;
+    if (header) header.classList.remove("is-hidden");
+    window.scrollTo({ top: wanted(), behavior: smooth && !stillPref.matches ? "smooth" : "auto" });
+    if (!slimBar.matches) first.focus({ preventScroll: true });
+    // when the page has stopped: the bar goes back to its own rules, and anything that moved meanwhile is put right
+    let y = window.scrollY;
+    let still = 0;
+    const settle = () => {
+      if (id !== landing) return;
+      still = window.scrollY === y ? still + 1 : 0;
+      y = window.scrollY;
+      if (still < 12) {
+        requestAnimationFrame(settle);
+        return;
+      }
+      if (Math.abs(wanted() - y) > 2) window.scrollTo({ top: wanted(), behavior: "auto" });
+      holdHeader = false;
+    };
+    requestAnimationFrame(settle);
   };
+  // somebody scrolling or typing takes over
+  for (const type of ["wheel", "touchstart", "keydown"]) {
+    window.addEventListener(type, () => {
+      if (!holdHeader) return;
+      landing++;
+      holdHeader = false;
+    }, { passive: true });
+  }
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a[href]");
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
     const url = new URL(a.href, location.href);
-    if (url.hash !== `#${band.id}` || url.pathname !== location.pathname) return;
+    if (url.hash !== `#${title.id}` || url.pathname !== location.pathname) return;
     e.preventDefault();
     if (location.hash !== url.hash) history.pushState(null, "", url.hash);
     land(true);
   });
-  if (location.hash === `#${band.id}`) {
+  if (location.hash === `#${title.id}`) {
     // arriving from another page: after the layout has settled
     pageLoaded.then(() => requestAnimationFrame(() => land(false)));
   }
+  // the address changed by hand or by going back: the bar and the focus as after a click
+  window.addEventListener("hashchange", () => {
+    if (location.hash === `#${title.id}`) land(false);
+  });
+})();
+
+/* ── The brief for the visitor's own AI: one press copies it. Where the browser
+      refuses, the text is shown and selected, and "copied" is said only when it was. ── */
+(function aiBrief() {
+  const brief = document.getElementById("ai-brief-prompt");
+  const copy = document.getElementById("ai-brief-copy");
+  const show = document.getElementById("ai-brief-show");
+  const status = document.getElementById("ai-brief-status");
+  if (!brief || !copy || !show || !status) return;
+  const open = (on) => {
+    brief.classList.toggle("is-open", on);
+    show.setAttribute("aria-expanded", String(on));
+  };
+  show.addEventListener("click", () => open(!brief.classList.contains("is-open")));
+  const label = copy.querySelector("span");
+  const idle = label.textContent;
+  let timer = 0;
+  const copied = () => {
+    label.textContent = t("trial_ai_copied", "Copied");
+    status.textContent = label.textContent;
+    copy.classList.add("is-copied");
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      label.textContent = idle;
+      status.textContent = "";
+      copy.classList.remove("is-copied");
+    }, 4000);
+  };
+  const byHand = () => {
+    open(true);
+    brief.focus({ preventScroll: true });
+    brief.setSelectionRange(0, brief.value.length);
+    let done = false;
+    try { done = document.execCommand("copy"); } catch { /* the text stays selected */ }
+    if (done) copied();
+    else brief.scrollIntoView({ block: "nearest" });
+  };
+  copy.addEventListener("click", () => {
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(brief.value).then(copied, byHand);
+    else byHand();
+  });
 })();
 
 /* ── Trial form: POST /api/demo, same fields and states as before. Each problem

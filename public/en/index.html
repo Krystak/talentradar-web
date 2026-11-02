@@ -29,8 +29,8 @@
   <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="/video/hero-mobile.en.webp?v=1f8c0d8ce6" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" href="/video/hero.en.webp?v=1f8c0d8ce6" media="(min-width: 768px)" fetchpriority="high">
-  <link rel="stylesheet" href="/css/site.css?v=bd0062b0ae">
-  <script type="module" src="/js/site.js?v=b35767020a"></script>
+  <link rel="stylesheet" href="/css/site.css?v=6339ca4c54">
+  <script type="module" src="/js/site.js?v=cdc40ea8bc"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -429,7 +429,7 @@
 </section>
 
 <!-- 10. Trial (dark); on a phone the founder speaks first, then the form -->
-<section class="band" id="try" aria-labelledby="trial-title">
+<section class="band" aria-labelledby="try">
   <div class="container">
     <div class="trial-story m-only">
       <div class="trial-story__who">
@@ -446,7 +446,7 @@
   <div class="trial__box">
     <div class="trial__head">
       <p class="badge d-only">14 days free · no credit card</p>
-      <h2 id="trial-title">Try it on your own companies</h2>
+      <h2 id="try">Try it on your own companies</h2>
       <p class="d-only">The first scan of your companies runs automatically, and within 2 hours you’ll see in the app where they’re hiring.</p>
       <p class="note d-only"><strong>The first 5 agencies: the first month free, then 3 months at half price.</strong> Once the 5 places are taken, the 14-day free trial applies.</p>
     </div>
@@ -485,9 +485,37 @@
         <details class="field field-acc" id="clients-acc">
           <summary><span class="field-acc__label">Companies to watch (optional, up to 150)</span><span class="field-acc__sub">Not ready to share your clients? A few target companies are enough to try it.</span></summary>
           <div class="field-acc__body">
+            <div class="ai-brief" aria-live="off">
+              <p class="ai-brief__title">The easiest way: let your AI prepare the list</p>
+              <p class="ai-brief__lead">Copy this brief into the AI your company uses, such as ChatGPT, Copilot, Claude or Gemini, and attach a CRM export or your client list. Paste the finished table into the box here.</p>
+              <div class="ai-brief__actions">
+                <button type="button" class="btn btn-secondary ai-brief__copy" id="ai-brief-copy"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg><span>Copy the brief for your AI</span></button>
+                <button type="button" class="link-btn ai-brief__show" id="ai-brief-show" aria-expanded="false" aria-controls="ai-brief-prompt">Show the brief</button>
+              </div>
+              <span class="visually-hidden" id="ai-brief-status" role="status" aria-live="polite"></span>
+              <textarea class="ai-brief__prompt" id="ai-brief-prompt" rows="16" readonly aria-label="The easiest way: let your AI prepare the list">Prepare a company list for TalentRadar, a service that tracks where companies are hiring.
+
+Source: [attach a CRM export or your client list, or describe the sectors and region we care about]
+
+Return only the table as plain text, with no introduction, no comment and no code block. At most 150 rows. The separator is a semicolon. The first row must be exactly:
+Company;Careers page;Last contact;Had placement
+
+Rules:
+- Company: the company name, each company only once.
+- Careers page: the address of its open positions page, only if you know it for certain. Otherwise leave it empty, we will look it up. Do not make up addresses.
+- Last contact: the date of the last contact with the company as 15/03/2024, only if it is in the source. Otherwise empty.
+- Had placement: yes or no, only if the source says so. Otherwise empty.
+- Do not include people's names, emails, phone numbers or candidates.
+
+Example:
+Company;Careers page;Last contact;Had placement
+Air Bank;airbank.cz/careers;15/03/2024;yes
+Rohlik Group;;;</textarea>
+              <p class="note">Your AI handles those files, not us. Use the one your company has approved.</p>
+            </div>
             <div class="field__top">
               <label class="visually-hidden" for="clients">Companies to watch (optional, up to 150)</label>
-              <button type="button" class="link-btn" id="clients-help-btn" aria-haspopup="dialog" aria-controls="clients-help"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-help"></use></svg>What should the list look like?</button>
+              <button type="button" class="link-btn" id="clients-help-btn" aria-haspopup="dialog" aria-controls="clients-help"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-help"></use></svg>Prefer to do it by hand? What the list should look like, with a CSV template</button>
             </div>
             <div class="field__pair">
             <textarea id="clients" name="clients" rows="3" placeholder="One company per line, e.g. “Air Bank; airbank.cz/volne-pozice”, or just “Rohlik Group”." aria-describedby="clients-hint"></textarea>
@@ -666,6 +694,6 @@
 
 <!-- Material Symbols (Apache License 2.0, src/icons/LICENSE-material-symbols.txt) -->
 <svg xmlns="http://www.w3.org/2000/svg" hidden><symbol id="i-check" viewBox="0 -960 960 960"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></symbol><symbol id="i-close" viewBox="0 -960 960 960"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></symbol><symbol id="i-help" viewBox="0 -960 960 960"><path d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></symbol><symbol id="i-menu" viewBox="0 -960 960 960"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></symbol><symbol id="i-pause" viewBox="0 -960 960 960"><path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"/></symbol><symbol id="i-play_arrow" viewBox="0 -960 960 960"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></symbol><symbol id="i-upload" viewBox="0 -960 960 960"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></symbol></svg>
-<script type="application/json" id="i18n">{"hero_video_play":"Play preview","hero_video_pause":"Pause preview","trial_submitting":"Sending…","nav_menu_open":"Open menu","nav_menu_close":"Close menu","form_err_required":"Please fill in your name, work e-mail and agency name.","form_err_name":"Please fill in your full name.","form_err_name_short":"Please enter your full name.","form_err_email_empty":"Please fill in your work e-mail.","form_err_company":"Please fill in your agency name.","form_err_company_short":"Please enter the full agency name.","form_err_email":"Please check the e-mail address; it should look like jane@agency.ie.","form_err_file_large":"The file is too large (5 MB at most).","form_err_file_type":"Please upload Excel (.xlsx, .xls) or .csv.","form_err_generic":"Something went wrong. Please write to me directly at krystof@talentradar.eu.","form_state_success_title":"Done, we’re setting up your trial","form_state_success_s1":"A confirmation e-mail is on its way. If you can’t see it, check your spam folder.","form_state_success_s2":"We automatically set up your trial account, find your companies’ career pages and run the first scan.","form_state_success_s3":"After the first scan you get an e-mail with a link to set your password. Within 2 hours you’ll see in the app where your companies are hiring.","form_state_success_foot":"No charges, no credit card. When the trial ends, you decide whether to carry on."}</script>
+<script type="application/json" id="i18n">{"hero_video_play":"Play preview","hero_video_pause":"Pause preview","trial_submitting":"Sending…","nav_menu_open":"Open menu","nav_menu_close":"Close menu","form_err_required":"Please fill in your name, work e-mail and agency name.","form_err_name":"Please fill in your full name.","form_err_name_short":"Please enter your full name.","form_err_email_empty":"Please fill in your work e-mail.","form_err_company":"Please fill in your agency name.","form_err_company_short":"Please enter the full agency name.","form_err_email":"Please check the e-mail address; it should look like jane@agency.ie.","form_err_file_large":"The file is too large (5 MB at most).","form_err_file_type":"Please upload Excel (.xlsx, .xls) or .csv.","form_err_generic":"Something went wrong. Please write to me directly at krystof@talentradar.eu.","form_state_success_title":"Done, we’re setting up your trial","form_state_success_s1":"A confirmation e-mail is on its way. If you can’t see it, check your spam folder.","form_state_success_s2":"We automatically set up your trial account, find your companies’ career pages and run the first scan.","form_state_success_s3":"After the first scan you get an e-mail with a link to set your password. Within 2 hours you’ll see in the app where your companies are hiring.","form_state_success_foot":"No charges, no credit card. When the trial ends, you decide whether to carry on.","trial_ai_copied":"Copied"}</script>
 </body>
 </html>

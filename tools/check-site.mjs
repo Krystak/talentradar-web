@@ -9,6 +9,7 @@
  * entry and internal link.
  */
 
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -33,9 +34,10 @@ export function diskFiles(dir = join(ROOT, "public")) {
   const ignored = ignoredNames(dir);
   const walk = (d) => {
     for (const name of readdirSync(d)) {
+      if (ignored.has(name)) continue;
       const p = join(d, name);
       if (statSync(p).isDirectory()) walk(p);
-      else if (!ignored.has(name)) out.set(relative(ROOT, p).replace(/\\/g, "/"), null);
+      else out.set(relative(ROOT, p).replace(/\\/g, "/"), null);
     }
   };
   if (existsSync(dir)) walk(dir);
@@ -188,6 +190,86 @@ export function dataClipFiles(html) {
   return out;
 }
 
+// ── The set of clips ────────────────────────────────────────────────────────
+
+/** Every file media.json names, one row per language: { name, width?, height? } (a size for videos and posters). */
+export function expectedFiles(media) {
+  const rows = new Map();
+  const add = (path, size) => {
+    for (const lang of ["cs", "en"]) {
+      const name = path.replace("{lang}", lang).replace(/^\/video\//, "");
+      rows.set(name, { name, ...size });
+    }
+  };
+  for (const clip of Object.values(media.clips)) {
+    for (const cut of [clip, clip.mobile && { ...clip, ...clip.mobile }]) {
+      if (!cut) continue;
+      add(cut.poster, { width: cut.width, height: cut.height });
+      for (const s of cut.sources) add(s.src, { width: cut.width, height: cut.height });
+    }
+    for (const track of clip.tracks || []) add(track.src);
+  }
+  return [...rows.values()];
+}
+
+/**
+ * A clip file's bytes as the set's hash sees them. Text files with LF line ends: git on
+ * Windows (core.autocrlf) checks them out with CRLF, and a version must not depend on the
+ * machine (the same clips gave 1f8c0d8ce6 on a Mac and 9f4b197659 on a PC, 2. 11. 2026).
+ * Latin-1 there and back keeps every other byte as it is.
+ */
+export function clipBytes(path) {
+  const bytes = readFileSync(path);
+  return /\.(vtt|json)$/.test(path) ? Buffer.from(bytes.toString("latin1").replace(/\r\n/g, "\n"), "latin1") : bytes;
+}
+
+/** A short hash of the set: a new cut of any file is a new address for all of them. Only the files media.json names count. */
+export function setVersion(source, media) {
+  const hash = createHash("sha256");
+  for (const name of expectedFiles(media).map((f) => f.name).sort()) hash.update(name).update(clipBytes(join(source, name)));
+  return hash.digest("hex").slice(0, 10);
+}
+
+/** The work folder of tools/media-use.mjs, while a run is going or after one was interrupted. */
+export const MEDIA_WORK = ".media-use";
+
+/** The other process that holds media:use's lock when it is still alive, else null. */
+export function mediaUseOwner(root = ROOT) {
+  let pid;
+  try {
+    pid = Number(readFileSync(join(root, MEDIA_WORK, "pid"), "utf8"));
+  } catch {
+    return null;
+  }
+  if (!pid || pid === process.pid) return null;
+  try {
+    process.kill(pid, 0);
+    return pid;
+  } catch (err) {
+    return err.code === "EPERM" ? pid : null;
+  }
+}
+
+/**
+ * What is wrong with the clips on disk for a release. /video/* is cached as immutable, so a
+ * clip changed without media:use keeps its address and returning visitors never get it.
+ * duringMediaUse: the check media:use runs on itself, while its own work folder exists.
+ */
+export function videoSetProblems(media, { root = ROOT, duringMediaUse = false } = {}) {
+  const problems = [];
+  const video = join(root, "public/video");
+  if (!duringMediaUse && existsSync(join(root, MEDIA_WORK))) {
+    const owner = mediaUseOwner(root);
+    problems.push(owner ? `${MEDIA_WORK}: a media:use is running (process ${owner}), wait for it and check again` : `${MEDIA_WORK}: left by an interrupted media:use, run npm run media:use -- --recover`);
+  }
+  if (existsSync(join(video, ".incoming"))) problems.push("public/video/.incoming: left by an interrupted media:use, run npm run media:use -- --recover");
+  const missing = expectedFiles(media).filter((f) => !existsSync(join(video, f.name)));
+  if (missing.length) return [...problems, `public/video: ${missing.length} files of the set are missing, for example ${missing[0].name}`];
+  const version = setVersion(video, media);
+  if (media.version !== version) problems.push(`public/video: the files hash to ${version}, media.json says version ${media.version}: a clip changed without npm run media:use`);
+  return problems;
+}
+
 /**
  * Checks a site. files: Map "public/…" -> content|null; redirects: the Worker's
  * 301 map; workerFirst: wrangler.toml run_worker_first. Returns { errors, warnings }.
@@ -240,8 +322,10 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
       if (r.status !== 200) errors.push(`${page}: data-clip file ${src} answers ${r.status}`);
     }
     // the captions that promise a recording date have it, and the tour's chapters are all there
-    for (const m of html.matchAll(/<figure class="video video--(how\d|ats|tour)\b[\s\S]*?<figcaption>([\s\S]*?)<\/figcaption>/g)) {
-      if (!/20\d\d/.test(m[2])) unfinished(`${page}: the caption of the ${m[1]} video has no recording date`);
+    for (const m of html.matchAll(/<figure class="video video--(how\d|ats|tour)\b[\s\S]*?<\/figure>/g)) {
+      // within this figure only: the next figure's date must not count for it
+      const caption = (m[0].match(/<figcaption>([\s\S]*?)<\/figcaption>/) || [])[1] || "";
+      if (!/20\d\d/.test(caption)) unfinished(`${page}: the caption of the ${m[1]} video has no recording date`);
     }
     if (/video--tour\b/.test(html)) {
       const chapters = (html.match(/class="tour-chapter"/g) || []).length;
@@ -354,6 +438,10 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   // node tools/check-site.mjs --release (npm run check:release): unfinished things are errors
   const release = process.argv.includes("--release");
   const { errors, warnings } = checkSite(diskFiles(), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release });
+  if (release) {
+    const media = JSON.parse(readFileSync(join(ROOT, "src/data/media.json"), "utf8"));
+    errors.push(...videoSetProblems(media, { duringMediaUse: process.argv.includes("--during-media-use") }));
+  }
   for (const w of warnings) console.warn(`warning: ${w}`);
   for (const e of errors) console.error(`error: ${e}`);
   console.log(`${errors.length} errors, ${warnings.length} warnings`);

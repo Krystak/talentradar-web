@@ -1,1 +1,3 @@
 .wrangler/
+# the copy tools/media-use.mjs keeps while it runs
+.media-use/

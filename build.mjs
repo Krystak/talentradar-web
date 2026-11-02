@@ -549,7 +549,8 @@ function mediaUrl(site, path, lang) {
 /**
  * The hero's poster is what the first screen paints largest, and a poster is only
  * found once the video is laid out: without these two lines LCP on a phone was
- * ~0.9 s later (etapa 4, measured). One per cut, so each screen fetches only its own.
+ * ~0.9 s later (etapa 4, measured). One per cut, so only the poster of this screen gets
+ * high priority. It does not keep the other one from loading: see videoFigure.
  */
 function heroPosterPreloads(site, lang) {
   const clip = site.media.clips.hero;
@@ -562,7 +563,11 @@ function heroPosterPreloads(site, lang) {
  * A clip of src/data/media.json in a browser frame. Loops (hero, chapters, V6)
  * are muted, lazy (preload none) and get a pause button in the frame bar; the
  * tour plays only on a click. A clip with a 4:5 phone cut gets both videos, CSS
- * shows one, and only the shown one is ever loaded (site.js). On a phone only
+ * shows one, and only the shown one's video file is ever loaded (site.js). The
+ * poster of a video under display: none is still fetched by the browser, at normal
+ * priority (Chromium, 2. 11. 2026, / in CS: 137 kB more at 390 px, 73 kB at 1 440 px).
+ * Left so on purpose: a poster out of the HTML changes how the first screen paints
+ * and a video without one is not verified on an iPhone. On a phone only
  * the hero plays by itself; every other loop waits for a tap on its play
  * button (data-tap-phone, lead etapa 4a).
  */
@@ -747,7 +752,9 @@ function tourChapters(site, ctx) {
   const items = times.slice(0, keys.length).map(
     (s, i) => `<li><button class="tour-chapter" type="button" data-seek="${s}"><span class="tour-chapter__time">${minutesSeconds(s)}</span><span>${escapeHtml(text(site, ctx, keys[i]))}</span></button></li>`
   );
-  return `<ol class="tour-chapters tour-chapters--seek" role="list">${items.join("")}</ol>`;
+  // without JavaScript the buttons would do nothing: the same chapters as text, the native controls can go to those times
+  const plain = times.slice(0, keys.length).map((s, i) => `<li><span class="tour-chapter__time">${minutesSeconds(s)}</span> ${escapeHtml(text(site, ctx, keys[i]))}</li>`);
+  return `<ol class="tour-chapters tour-chapters--text">${plain.join("")}</ol><ol class="tour-chapters tour-chapters--seek" role="list">${items.join("")}</ol>`;
 }
 
 /**

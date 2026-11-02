@@ -1018,8 +1018,12 @@ button, input, textarea, select { font: inherit; color: inherit; }
   background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius-sm);
   color: var(--c-text); font-weight: 600;
 }
-.tour-chapter:hover { border-color: var(--c-border-strong); }
+.tour-chapter:hover,
+.tour-chapter[aria-current="true"] { border-color: var(--c-border-strong); }
 .tour-chapter__time { min-width: 2.75rem; color: var(--c-muted); font-weight: 500; font-variant-numeric: tabular-nums; }
+/* the buttons only work with JavaScript; without it the same chapters are text beside the video's native controls */
+.no-js .tour-chapters--seek,
+.js .tour-chapters--text { display: none; }
 
 @media (max-width: 767px) {
   .container { padding-inline: 16px; }

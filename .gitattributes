@@ -1,0 +1,6 @@
+# public/video only: a clip must look the same on every machine, whatever core.autocrlf says.
+public/video/*.vtt text eol=lf
+public/video/*.json text eol=lf
+public/video/*.mp4 binary
+public/video/*.webm binary
+public/video/*.webp binary

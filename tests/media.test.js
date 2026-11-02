@@ -4,13 +4,16 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, truncateSync, writeFileSync } from "node:fs";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { copyFileSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, truncateSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { buildSite, loadSite } from "../build.mjs";
-import { answer, checkSite, dataClipFiles, ignoredNames, siteFiles, videoBudget, workerFirstPatterns } from "../tools/check-site.mjs";
-import { chapterProblems, dateProblem, expectedFiles, setProblems, setVersion, useSet } from "../tools/media-use.mjs";
+import { answer, checkSite, dataClipFiles, ignoredNames, siteFiles, videoBudget, videoSetProblems, workerFirstPatterns } from "../tools/check-site.mjs";
+import { LENGTH_TOLERANCE, POSTER_MIN_BYTES, chapterProblems, dateProblem, expectedFiles, ffprobeInfo, lengthProblems, recoverInterrupted, releaseCheck, setProblems, setVersion, useSet } from "../tools/media-use.mjs";
 import { REDIRECTS } from "../worker-routes.gen.js";
 
 const copy = (x) => JSON.parse(JSON.stringify(x));
@@ -112,10 +115,11 @@ test("the frame is 16:10 as the clips, and V6 gets its 720 px only from 1 280 px
   assert.match(css, /--video-side: 45rem;/);
 });
 
-test("the marker and the chapter times are not published", () => {
+test("the marker, the chapter times and a left-over .incoming are not published", () => {
   const names = ignoredNames();
   assert.ok(names.has(".gitignore"));
   assert.ok(names.has("tour.chapters.json"));
+  assert.ok(names.has(".incoming"));
   assert.equal(answer("/video/tour.chapters.json", siteFiles(), REDIRECTS, workerFirstPatterns()).status, 404);
   assert.equal(answer("/video/.gitignore", siteFiles(), REDIRECTS, workerFirstPatterns()).status, 404);
 });
@@ -147,6 +151,16 @@ test("release: a caption without its date and a tour without five chapters stop 
   }
 });
 
+test("release: V6 without its date stops it, and a figure's date does not count for the figure before it", () => {
+  const release = (edit) => checkSite(siteFiles(buildSite(siteWith(edit))), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
+  const what = "ats video has no recording date";
+  assert.ok(release((m) => { m.clips.ats.clip_date = null; }).some((e) => e.includes(what)), "V6 without a date");
+  assert.ok(!release(() => {}).some((e) => e.includes(what)), "V6 with its date");
+  const { errors } = check('<figure class="video video--how1" data-autoplay></figure><figure class="video video--tour" data-facade><figcaption>Natočeno 3. 11. 2026.</figcaption></figure>', true);
+  assert.ok(errors.some((e) => e.startsWith("public/x.html") && e.includes("how1 video has no recording date")));
+  assert.ok(!errors.some((e) => e.startsWith("public/x.html") && e.includes("tour video has no recording date")));
+});
+
 test("the budgets of the videos", () => {
   assert.equal(videoBudget("public/video/hero.cs.mp4"), 1.5e6);
   assert.equal(videoBudget("hero-mobile.en.webm"), 0.8e6);
@@ -166,10 +180,11 @@ const chapters = (shift = 0) => ({
   cs_duration: 100 + shift,
   en_duration: 110 + shift,
 });
-/** A made-up set: every file media.json names, a few bytes each, and sizes that a fake ffprobe reads back. */
+const fakePoster = (seed) => Buffer.alloc(POSTER_MIN_BYTES, seed);
+/** A made-up set: every file media.json names, a few bytes each (posters as many as one has to have), and sizes that a fake ffprobe reads back. */
 function fakeSet(dir, media) {
   mkdirSync(dir, { recursive: true });
-  for (const f of expectedFiles(media)) writeFileSync(join(dir, f.name), f.name.endsWith(".vtt") ? "WEBVTT\n" : `fake ${f.name}`);
+  for (const f of expectedFiles(media)) writeFileSync(join(dir, f.name), f.name.endsWith(".vtt") ? "WEBVTT\n" : f.name.endsWith(".webp") ? fakePoster(f.name) : `fake ${f.name}`);
   writeFileSync(join(dir, "tour.chapters.json"), JSON.stringify(chapters()));
 }
 function sandbox() {
@@ -178,14 +193,42 @@ function sandbox() {
   mkdirSync(join(root, "public/video"), { recursive: true });
   const media = JSON.parse(readFileSync(REAL, "utf8"));
   writeFileSync(join(root, "src/data/media.json"), JSON.stringify(media));
-  const sizes = new Map(expectedFiles(media).filter((f) => f.width).map((f) => [f.name, { width: f.width, height: f.height }]));
-  const probe = (path) => sizes.get(path.split(/[\\/]/).pop());
   const source = join(root, "set");
+  const { sizes, lengths, probe } = fakeProbe(media, source);
   fakeSet(source, media);
-  const use = (extra = {}) => useSet({ source, date: "2026-11-03", root, today: TODAY, probe, tracked: [], ...extra });
+  const use = (extra = {}) => useSet({ source, date: "2026-11-03", root, today: TODAY, probe, tracked: [], staged: [], ...extra });
   const json = () => readFileSync(join(root, "src/data/media.json"), "utf8");
-  return { root, media, source, sizes, probe, use, json, done: () => rmSync(root, { recursive: true, force: true }) };
+  return { root, media, source, sizes, lengths, probe, use, json, done: () => rmSync(root, { recursive: true, force: true }) };
 }
+/** ffprobe for a made-up set: the sizes media.json expects; the length tour.chapters.json says, unless a test sets the real one. */
+function fakeProbe(media, source) {
+  const sizes = new Map(expectedFiles(media).filter((f) => f.width).map((f) => [f.name, { width: f.width, height: f.height }]));
+  const lengths = new Map();
+  const probe = (path) => {
+    const name = path.split(/[\\/]/).pop();
+    const lang = (name.match(/^tour\.(cs|en)\./) || [])[1];
+    if (!lang) return sizes.get(name);
+    const said = existsSync(join(source, "tour.chapters.json")) ? JSON.parse(readFileSync(join(source, "tour.chapters.json"), "utf8"))[`${lang}_duration`] : undefined;
+    return { ...sizes.get(name), duration: lengths.has(name) ? lengths.get(name) : said };
+  };
+  return { sizes, lengths, probe };
+}
+/** Every file a run may change, with its hash: equal fingerprints mean nothing changed, byte for byte. */
+function fingerprint(root) {
+  const out = {};
+  const add = (rel) => { out[rel] = createHash("sha256").update(readFileSync(join(root, rel))).digest("hex"); };
+  const walk = (dir) => {
+    for (const name of readdirSync(join(root, dir))) {
+      const rel = `${dir}/${name}`;
+      if (statSync(join(root, rel)).isDirectory()) walk(rel);
+      else add(rel);
+    }
+  };
+  walk("public");
+  for (const rel of ["src/data/media.json", "build-manifest.json", "worker-routes.gen.js"]) if (existsSync(join(root, rel))) add(rel);
+  return out;
+}
+const leftovers = (root) => [".media-use", "public/video/.incoming"].filter((p) => existsSync(join(root, p)));
 
 test("media:use puts the set in place: files, date, chapters without titles, version; V6's date stays; the marker hides it from git", () => {
   const s = sandbox();
@@ -236,20 +279,36 @@ test("media:use with clips git already tracks leaves no marker behind", () => {
   } finally { s.done(); }
 });
 
-for (const [what, spoil, expected] of [
+for (const [what, spoil, expected, extra] of [
   ["a missing file", (s) => rmSync(join(s.source, "detail-mobile.en.webm")), /detail-mobile\.en\.webm: missing/],
   ["four chapters", (s) => { const c = chapters(); c.en.pop(); writeFileSync(join(s.source, "tour.chapters.json"), JSON.stringify(c)); }, /en: 4 chapters, not 5/],
   ["no chapter file", (s) => rmSync(join(s.source, "tour.chapters.json")), /tour\.chapters\.json: missing/],
   ["a file over its budget", (s) => truncateSync(join(s.source, "hero-mobile.cs.mp4"), 900000), /hero-mobile\.cs\.mp4: 0\.90 MB is over its budget of 0\.8 MB/],
   ["other pixels than media.json", (s) => s.sizes.set("rano.cs.webm", { width: 1440, height: 900 }), /rano\.cs\.webm: 1440×900, media\.json says 1280×800/],
   ["a subtitle file that is none", (s) => writeFileSync(join(s.source, "tour.en.vtt"), "nope"), /tour\.en\.vtt: not a WebVTT file/],
+  ["an empty poster", (s) => truncateSync(join(s.source, "rano.cs.webp"), 0), /rano\.cs\.webp: empty \(0 B\)/],
+  ["an empty video", (s) => truncateSync(join(s.source, "rano.cs.mp4"), 0), /rano\.cs\.mp4: empty \(0 B\)/],
+  ["a poster of one byte", (s) => writeFileSync(join(s.source, "rano.cs.webp"), "x"), /rano\.cs\.webp: 1 B is too small for a poster/],
+  ["a poster of 16 × 16 pixels", (s) => s.sizes.set("rano.cs.webp", { width: 16, height: 16 }), /rano\.cs\.webp: 16×16, media\.json says 1280×800/],
+  ["a phone poster of the desktop cut's pixels", (s) => s.sizes.set("hero-mobile.en.webp", { width: 1440, height: 900 }), /hero-mobile\.en\.webp: 1440×900, media\.json says 720×900/],
+  ["a length the video does not have", (s) => s.lengths.set("tour.cs.webm", 100 + LENGTH_TOLERANCE + 0.1), /cs_duration is 100 s, tour\.cs\.webm is 100\.60 s long/],
+  ["a video without a length", (s) => s.lengths.set("tour.en.mp4", NaN), /tour\.en\.mp4: ffprobe gives no length/],
+  ["a chapter past the real end, with a length made up to fit (review, etapa 4)", (s) => {
+    const c = chapters();
+    c.cs[4].start = 500;
+    c.cs_duration = 999;
+    writeFileSync(join(s.source, "tour.chapters.json"), JSON.stringify(c));
+    s.lengths.set("tour.cs.mp4", 95.98);
+    s.lengths.set("tour.cs.webm", 95.98);
+  }, /chapter ats starts at 500 s, the video is 95\.98 s long/],
+  ["clips staged for a commit", () => {}, /clips staged for a commit: public\/video\/hero\.cs\.mp4/, { staged: ["public/video/hero.cs.mp4"] }],
 ]) {
   test(`media:use refuses ${what} and changes nothing`, () => {
     const s = sandbox();
     try {
       spoil(s);
       const before = s.json();
-      const { problems, version } = s.use();
+      const { problems, version } = s.use(extra);
       assert.ok(problems.some((p) => expected.test(p)), problems.join("; "));
       assert.equal(version, undefined);
       assert.equal(s.json(), before);
@@ -269,6 +328,14 @@ test("media:use refuses a bad date and a folder that is not there", () => {
     assert.equal(s.json(), before);
     assert.deepEqual(readdirSync(join(s.root, "public/video")), []);
   } finally { s.done(); }
+});
+
+test("the length tolerance: a rounded length passes, the shortest cut decides for the chapters", () => {
+  const c = chapters();
+  const lengths = { "tour.cs.mp4": 99.99, "tour.cs.webm": 100 - LENGTH_TOLERANCE, "tour.en.mp4": 110, "tour.en.webm": 110 };
+  assert.deepEqual(lengthProblems(c, lengths), []);
+  c.cs[4].start = 99.6;
+  assert.ok(lengthProblems(c, lengths).some((p) => p.startsWith("cs: chapter ats starts at 99.6 s")));
 });
 
 test("chapter and date rules on their own", () => {
@@ -300,4 +367,580 @@ test("the version depends on the files of the set, not on where they are", () =>
     assert.notEqual(setVersion(other, s.media), a);
     assert.deepEqual(setProblems(s.source, s.media, { probe: s.probe }), []);
   } finally { s.done(); }
+});
+
+test("the version does not depend on line ends in text files (core.autocrlf), but it does on every byte of a video", () => {
+  const s = sandbox();
+  try {
+    const crlf = (name) => writeFileSync(join(s.source, name), readFileSync(join(s.source, name), "latin1").replace(/\n/g, "\r\n"), "latin1");
+    writeFileSync(join(s.source, "tour.cs.vtt"), "WEBVTT\n\n00:00.000 --> 00:01.000\nŘádek\n");
+    const lf = setVersion(s.source, s.media);
+    crlf("tour.cs.vtt");
+    assert.match(readFileSync(join(s.source, "tour.cs.vtt"), "utf8"), /\r\n/);
+    assert.equal(setVersion(s.source, s.media), lf);
+    writeFileSync(join(s.source, "hero.cs.mp4"), "a\nb\n");
+    const video = setVersion(s.source, s.media);
+    crlf("hero.cs.mp4");
+    assert.notEqual(setVersion(s.source, s.media), video);
+    // the same version means the same bytes: a CRLF checkout goes on the site with LF
+    const { problems } = s.use();
+    assert.deepEqual(problems, []);
+    assert.equal(readFileSync(join(s.root, "public/video/tour.cs.vtt"), "utf8"), "WEBVTT\n\n00:00.000 --> 00:01.000\nŘádek\n");
+    assert.equal(readFileSync(join(s.root, "public/video/hero.cs.mp4"), "latin1"), "a\r\nb\r\n", "a video is copied as it is");
+  } finally { s.done(); }
+});
+
+test(".gitattributes speaks only about public/video", () => {
+  const lines = readFileSync(new URL("../.gitattributes", import.meta.url), "utf8").split(/\r?\n/).filter((l) => l && !l.startsWith("#"));
+  assert.ok(lines.length);
+  for (const line of lines) assert.match(line, /^public\/video\/\*\.(vtt|json) text eol=lf$|^public\/video\/\*\.(mp4|webm|webp) binary$/);
+});
+
+test("release: the files on disk have to be the version media.json says, whatever the checkout's line ends", () => {
+  const s = sandbox();
+  try {
+    assert.deepEqual(s.use().problems, []);
+    const video = join(s.root, "public/video");
+    const problems = () => videoSetProblems(JSON.parse(s.json()), { root: s.root });
+    assert.deepEqual(problems(), []);
+    // a checkout of the same clips with CRLF is not a change
+    writeFileSync(join(video, "tour.en.vtt"), readFileSync(join(video, "tour.en.vtt"), "utf8").replace(/\n/g, "\r\n"));
+    assert.deepEqual(problems(), []);
+    // a clip changed by hand is
+    writeFileSync(join(video, "hero.cs.webp"), "another poster");
+    assert.ok(problems().some((p) => p.includes("a clip changed without npm run media:use")));
+    rmSync(join(video, "hero.cs.webp"));
+    assert.ok(problems().some((p) => p.includes("hero.cs.webp") && p.includes("missing")));
+  } finally { s.done(); }
+});
+
+test("release: a work folder or an .incoming left behind stops it, except for media:use's own check", () => {
+  const s = sandbox();
+  try {
+    assert.deepEqual(s.use().problems, []);
+    const media = JSON.parse(s.json());
+    mkdirSync(join(s.root, ".media-use"));
+    assert.ok(videoSetProblems(media, { root: s.root }).some((p) => p.includes("--recover")));
+    assert.deepEqual(videoSetProblems(media, { root: s.root, duringMediaUse: true }), []);
+    rmSync(join(s.root, ".media-use"), { recursive: true });
+    mkdirSync(join(s.root, "public/video/.incoming"));
+    assert.ok(videoSetProblems(media, { root: s.root }).some((p) => p.includes(".incoming")));
+    recoverInterrupted(s.root);
+    assert.deepEqual(leftovers(s.root), []);
+  } finally { s.done(); }
+});
+
+test("files that are not part of the set: not copied, not in the version, not removed, and listed", () => {
+  const s = sandbox();
+  try {
+    const clean = setVersion(s.source, s.media);
+    writeFileSync(join(s.source, "hero.cs.jpg"), "an old still");
+    writeFileSync(join(s.source, "notes.json"), "{}");
+    writeFileSync(join(s.root, "public/video/hero.en.jpg"), "already here");
+    writeFileSync(join(s.root, "public/video/.gitkeep"), "");
+    assert.equal(setVersion(s.source, s.media), clean);
+    const { problems, version, warnings } = s.use();
+    assert.deepEqual(problems, []);
+    assert.equal(version, clean);
+    assert.ok(!existsSync(join(s.root, "public/video/hero.cs.jpg")), "not copied");
+    assert.ok(!existsSync(join(s.root, "public/video/notes.json")), "not copied");
+    assert.equal(readFileSync(join(s.root, "public/video/hero.en.jpg"), "utf8"), "already here", "not removed");
+    assert.deepEqual(warnings, ["not part of the set, not copied: hero.cs.jpg, notes.json", "in public/video but not part of the set, left there (and published): hero.en.jpg"]);
+    assert.deepEqual(videoSetProblems(JSON.parse(s.json()), { root: s.root }), []);
+  } finally { s.done(); }
+});
+
+// ── media:use as one transaction ────────────────────────────────────────────
+
+const STEPS = ["backup copied", "backup", "copied", "first file in place", "all files in place", "media.json written", "media.json"];
+/** A set in place and the next one waiting: a new cut, new chapter times, a new date. */
+function nextSet(s) {
+  assert.deepEqual(s.use().problems, []);
+  writeFileSync(join(s.source, "hero.cs.webm"), "another cut");
+  writeFileSync(join(s.source, "tour.chapters.json"), JSON.stringify(chapters(3)));
+  return fingerprint(s.root);
+}
+
+for (const at of [...STEPS, "verify"]) {
+  test(`media:use that fails at "${at}" puts everything back, byte for byte`, () => {
+    const s = sandbox();
+    try {
+      const before = nextSet(s);
+      const fail = () => { throw new Error(`failed at ${at}`); };
+      const { problems, undone } = s.use({ date: "2026-11-02", step: (name) => { if (name === at) fail(); }, verify: at === "verify" ? fail : undefined });
+      assert.deepEqual(problems, [`failed at ${at}`]);
+      assert.equal(undone, true);
+      assert.deepEqual(fingerprint(s.root), before);
+      assert.deepEqual(leftovers(s.root), []);
+    } finally { s.done(); }
+  });
+}
+
+test("media:use that fails on the first set removes what the run added: no clips, no marker, no new files", () => {
+  const s = sandbox();
+  try {
+    const before = fingerprint(s.root);
+    const { problems } = s.use({
+      verify: () => {
+        mkdirSync(join(s.root, "public/new/deep"), { recursive: true });
+        writeFileSync(join(s.root, "public/new/deep/page.html"), "made by the build");
+        writeFileSync(join(s.root, "build-manifest.json"), "{}");
+        throw new Error("the release check failed");
+      },
+    });
+    assert.deepEqual(problems, ["the release check failed"]);
+    assert.deepEqual(fingerprint(s.root), before);
+    assert.deepEqual(readdirSync(join(s.root, "public/video")), []);
+    assert.ok(!existsSync(join(s.root, "public/new")));
+    assert.ok(!existsSync(join(s.root, "build-manifest.json")));
+  } finally { s.done(); }
+});
+
+/** A real process that dies at a stage: no catch runs, no handler runs. */
+function killedRun(s, at) {
+  const tool = new URL("../tools/media-use.mjs", import.meta.url).href;
+  const script = join(s.root, "killed.mjs");
+  writeFileSync(script, `
+    import { readFileSync } from "node:fs";
+    import { join } from "node:path";
+    import { expectedFiles, useSet } from ${JSON.stringify(tool)};
+    const [root, source, at] = process.argv.slice(2);
+    const media = JSON.parse(readFileSync(join(root, "src/data/media.json"), "utf8"));
+    const sizes = new Map(expectedFiles(media).filter((f) => f.width).map((f) => [f.name, f]));
+    const chapters = JSON.parse(readFileSync(join(source, "tour.chapters.json"), "utf8"));
+    const probe = (path) => {
+      const name = path.replaceAll(String.fromCharCode(92), "/").split("/").pop();
+      const lang = name.startsWith("tour.cs.") ? "cs" : name.startsWith("tour.en.") ? "en" : null;
+      return { ...sizes.get(name), duration: lang ? chapters[lang + "_duration"] : undefined };
+    };
+    const die = () => process.kill(process.pid, "SIGKILL");
+    useSet({ source, date: "2026-11-01", root, probe, tracked: [], staged: [], step: (name) => { if (name === at) die(); }, verify: at === "verify" ? die : undefined });
+    console.log("survived");
+  `);
+  const run = spawnSync(process.execPath, [script, s.root, s.source, at], { encoding: "utf8", timeout: 60000 });
+  rmSync(script);
+  assert.doesNotMatch(run.stdout, /survived/, run.stderr);
+  assert.notEqual(run.status, 0);
+}
+
+for (const at of ["lock", ...STEPS, "verify"]) {
+  test(`media:use killed at "${at}": the release check refuses, and the next run puts everything back`, () => {
+    const s = sandbox();
+    try {
+      const before = nextSet(s);
+      killedRun(s, at);
+      assert.ok(existsSync(join(s.root, ".media-use")));
+      const media = JSON.parse(s.json());
+      assert.ok(videoSetProblems(media, { root: s.root }).some((p) => p.includes("--recover")));
+      // a refused run still undoes the interrupted one first
+      const { problems, recovered } = s.use({ date: "not a date" });
+      assert.ok(problems.some((p) => p.startsWith("--date")));
+      assert.equal(recovered, !["lock", "backup copied"].includes(at), "before the whole copy exists nothing has changed");
+      assert.deepEqual(fingerprint(s.root), before);
+      assert.deepEqual(leftovers(s.root), []);
+      assert.ok(!existsSync(join(s.root, "src/data/media.json.tmp")));
+    } finally { s.done(); }
+  });
+}
+
+test("the undo itself can be interrupted and repeated; the new files wait outside public/", () => {
+  const s = sandbox();
+  try {
+    const before = nextSet(s);
+    killedRun(s, "copied");
+    assert.ok(existsSync(join(s.root, ".media-use/incoming/hero.cs.webm")));
+    assert.ok(!existsSync(join(s.root, "public/video/.incoming")));
+    assert.deepEqual(fingerprint(s.root), before, "nothing in public/ has changed yet");
+    recoverInterrupted(s.root);
+    killedRun(s, "media.json");
+    let moved = 0;
+    assert.throws(() => recoverInterrupted(s.root, { step: () => { if (++moved === 5) throw new Error("killed"); } }), /killed/);
+    assert.equal(recoverInterrupted(s.root), true);
+    assert.deepEqual(fingerprint(s.root), before);
+    assert.deepEqual(leftovers(s.root), []);
+    assert.equal(recoverInterrupted(s.root), false, "nothing left to undo");
+  } finally { s.done(); }
+});
+
+test("media:use leaves a run that is still going alone", () => {
+  const s = sandbox();
+  try {
+    const before = nextSet(s);
+    mkdirSync(join(s.root, ".media-use/backup"), { recursive: true });
+    writeFileSync(join(s.root, ".media-use/pid"), String(process.ppid));
+    const { problems } = s.use({ date: "2026-11-02" });
+    assert.ok(problems[0].includes(`process ${process.ppid}`), problems.join("; "));
+    assert.ok(existsSync(join(s.root, ".media-use/backup")));
+    assert.deepEqual(fingerprint(s.root), before);
+  } finally { s.done(); }
+});
+
+test("clips staged in a real repository stop it before anything changes; once the last commit has clips, staging is legitimate and no marker stays", () => {
+  const s = sandbox();
+  try {
+    const git = (...args) => execFileSync("git", ["-c", "user.name=test", "-c", "user.email=test@example.com", "-c", "core.autocrlf=false", ...args], { cwd: s.root, stdio: "pipe" });
+    git("init", "-q");
+    const clip = join(s.root, "public/video/hero.cs.mp4");
+    writeFileSync(clip, "a clip");
+    git("add", "public/video/hero.cs.mp4");
+    const before = fingerprint(s.root);
+    const staged = s.use({ tracked: undefined, staged: undefined });
+    assert.ok(staged.problems.some((p) => p.includes("clips staged for a commit: public/video/hero.cs.mp4")), staged.problems.join("; "));
+    assert.deepEqual(fingerprint(s.root), before);
+    git("commit", "-q", "-m", "clips");
+    writeFileSync(clip, "a new cut");
+    git("add", "public/video/hero.cs.mp4");
+    const merged = s.use({ tracked: undefined, staged: undefined });
+    assert.deepEqual(merged.problems, []);
+    assert.match(merged.note, /tracked by git/);
+    assert.ok(!existsSync(join(s.root, "public/video/.gitignore")));
+  } finally { s.done(); }
+});
+
+// ── The whole way: a copy of the repo with made-up clips, the real build and release check ──
+
+const REPO = fileURLToPath(new URL("..", import.meta.url));
+/** This repo without git, tests and clips, in a temporary folder. The tools work on the folder they are in. */
+function repoCopy() {
+  const root = mkdtempSync(join(tmpdir(), "media-use-repo-"));
+  const skip = new Set([".git", ".wrangler", ".media-use", "node_modules", "tests"]);
+  cpSync(REPO, root, {
+    recursive: true,
+    filter: (src) => {
+      const rel = relative(REPO, src).replace(/\\/g, "/");
+      return !skip.has(rel.split("/")[0]) && !rel.startsWith("public/video/");
+    },
+  });
+  mkdirSync(join(root, "public/video"), { recursive: true });
+  const media = JSON.parse(readFileSync(join(root, "src/data/media.json"), "utf8"));
+  const source = join(root, "set");
+  fakeSet(source, media);
+  const { probe } = fakeProbe(media, source);
+  const use = (extra = {}) => useSet({ source, date: "2026-11-02", root, today: TODAY, probe, tracked: [], staged: [], verify: releaseCheck(root, "pipe"), ...extra });
+  const release = () => spawnSync(process.execPath, ["tools/check-site.mjs", "--release"], { cwd: root, encoding: "utf8", timeout: 60000 });
+  return { root, source, use, release, done: () => rmSync(root, { recursive: true, force: true }) };
+}
+
+test("[TEXT] in cs.json: the release check fails after the swap and clips, media.json and public/ are what they were (review, etapa 4)", () => {
+  const c = repoCopy();
+  try {
+    assert.deepEqual(c.use().problems, []);
+    assert.equal(c.release().status, 0, "the first set is good");
+    const before = fingerprint(c.root);
+    const cs = join(c.root, "src/i18n/cs.json");
+    const text = readFileSync(cs, "utf8");
+    writeFileSync(cs, text.replace('"demo_play": "Přehrát prohlídku"', '"demo_play": "[TEXT]"'));
+    writeFileSync(join(c.source, "hero.cs.webm"), "another cut");
+    const { problems, undone, version } = c.use({ date: "2026-11-03" });
+    assert.ok(problems.length, "it fails");
+    assert.equal(undone, true);
+    assert.equal(version, undefined);
+    assert.deepEqual(fingerprint(c.root), before);
+    assert.deepEqual(leftovers(c.root), []);
+    // and with the text put right the same set goes through
+    writeFileSync(cs, text);
+    const again = c.use({ date: "2026-11-03" });
+    assert.deepEqual(again.problems, []);
+    assert.notDeepEqual(fingerprint(c.root), before);
+    assert.equal(c.release().status, 0);
+  } finally { c.done(); }
+});
+
+test("check:release in a real run: a poster changed without media:use stops it, the same clips with CRLF subtitles do not", () => {
+  const c = repoCopy();
+  try {
+    assert.deepEqual(c.use().problems, []);
+    const vtt = join(c.root, "public/video/tour.cs.vtt");
+    assert.equal(readFileSync(vtt, "utf8"), "WEBVTT\n");
+    writeFileSync(vtt, "WEBVTT\r\n");
+    const same = c.release();
+    assert.equal(same.status, 0, same.stderr);
+    writeFileSync(join(c.root, "public/video/hero.cs.webp"), "another poster");
+    const changed = c.release();
+    assert.equal(changed.status, 1);
+    assert.match(changed.stderr, /a clip changed without npm run media:use/);
+  } finally { c.done(); }
+});
+
+test("the tour's chapter says which one is playing; without JavaScript the chapters are text, not buttons; the hero starts earlier than the other loops", () => {
+  const files = buildSite(loadSite());
+  const js = String(files.get("public/js/site.js"));
+  const styles = String(files.get("public/css/site.css"));
+  assert.match(styles, /\.no-js \.tour-chapters--seek,\s*\.js \.tour-chapters--text \{ display: none; \}/);
+  const demo = String(files.get("public/en/demo.html"));
+  const plain = demo.match(/<ol class="tour-chapters tour-chapters--text">[\s\S]*?<\/ol>/)[0];
+  assert.match(plain, /<li><span class="tour-chapter__time">0:00<\/span> Morning/);
+  assert.equal((plain.match(/<li>/g) || []).length, 5);
+  assert.doesNotMatch(plain, /<button/);
+  assert.match(js, /b\.setAttribute\("aria-current", "true"\)/);
+  assert.match(js, /const seen = watch\(0\.5\);/);
+  assert.match(js, /const seenHero = watch\(0\.25\);/);
+  assert.match(js, /\(fig\.classList\.contains\("video--hero"\) \? seenHero : seen\)\.observe\(fig\)/);
+});
+
+test("the article's sentence reads as the lead chose it", () => {
+  const en = String(buildSite(loadSite()).get("public/en/blog/the-4-day-latency-gap.html"));
+  assert.match(en, /Being one of the first to bring relevant people shows you know the market\./);
+  assert.doesNotMatch(en, /among the first/);
+});
+
+// ── More than one process: the lock, --recover next to a live run, a copy older than the last commit ──
+
+const until = async (what, ms = 30000) => {
+  const end = Date.now() + ms;
+  while (!what()) {
+    if (Date.now() > end) throw new Error("waited too long");
+    await new Promise((res) => setTimeout(res, 15));
+  }
+};
+const toolUrl = new URL("../tools/media-use.mjs", import.meta.url).href;
+/** A real run in its own process that stays in its last stage until the file go exists; ends by printing its result. */
+function liveRun(root, source, go, date = "2026-11-01") {
+  const script = join(root, `live-${Math.random().toString(36).slice(2)}.mjs`);
+  writeFileSync(script, `
+    import { existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+    import { join } from "node:path";
+    import { expectedFiles, useSet } from ${JSON.stringify(toolUrl)};
+    const [root, source, date, go, me] = process.argv.slice(2);
+    rmSync(me);
+    const media = JSON.parse(readFileSync(join(root, "src/data/media.json"), "utf8"));
+    const sizes = new Map(expectedFiles(media).filter((f) => f.width).map((f) => [f.name, f]));
+    const chapters = JSON.parse(readFileSync(join(source, "tour.chapters.json"), "utf8"));
+    const probe = (path) => {
+      const name = path.replaceAll(String.fromCharCode(92), "/").split("/").pop();
+      const lang = name.startsWith("tour.cs.") ? "cs" : name.startsWith("tour.en.") ? "en" : null;
+      return { ...sizes.get(name), duration: lang ? chapters[lang + "_duration"] : undefined };
+    };
+    const wait = () => { writeFileSync(go + ".waiting", ""); while (!existsSync(go)) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 15); };
+    console.log(JSON.stringify(useSet({ source, date, root, probe, tracked: [], staged: [], verify: wait })));
+  `);
+  const child = spawn(process.execPath, [script, root, source, date, go, script], { stdio: ["ignore", "pipe", "pipe"] });
+  let out = "";
+  let err = "";
+  child.stdout.on("data", (d) => { out += d; });
+  child.stderr.on("data", (d) => { err += d; });
+  return new Promise((res) => child.on("exit", () => res(out ? JSON.parse(out) : { crashed: err })));
+}
+const ownSet = (s, name, cut) => {
+  const dir = join(s.root, name);
+  cpSync(s.source, dir, { recursive: true });
+  writeFileSync(join(dir, "hero.cs.webm"), cut);
+  return dir;
+};
+const deadProcess = () => spawnSync(process.execPath, ["-e", ""]).pid;
+
+test("--recover next to a live run: it refuses, the run finishes, the files hash to the version (review k2, M1, real processes)", async () => {
+  const c = repoCopy();
+  try {
+    assert.deepEqual(c.use().problems, []);
+    writeFileSync(join(c.source, "hero.cs.webp"), fakePoster("a new poster"));
+    const go = join(c.root, "go");
+    const run = liveRun(c.root, c.source, go);
+    await until(() => existsSync(join(c.root, ".media-use/backup")));
+    const recover = spawnSync(process.execPath, ["tools/media-use.mjs", "--recover"], { cwd: c.root, encoding: "utf8", timeout: 60000 });
+    assert.equal(recover.status, 1, recover.stdout);
+    assert.match(recover.stderr, /another media:use is running \(process \d+\)/);
+    assert.match(recover.stderr, /--force-recover/);
+    assert.ok(existsSync(join(c.root, ".media-use/backup")), "the copy is still there");
+    const release = c.release();
+    assert.equal(release.status, 1);
+    assert.match(release.stderr, /a media:use is running \(process \d+\)/);
+    assert.doesNotMatch(release.stderr, /interrupted/);
+    writeFileSync(go, "");
+    const result = await run;
+    assert.deepEqual(result.problems, [], result.crashed);
+    const media = JSON.parse(readFileSync(join(c.root, "src/data/media.json"), "utf8"));
+    assert.equal(media.version, result.version);
+    assert.deepEqual(videoSetProblems(media, { root: c.root }), []);
+    assert.deepEqual(leftovers(c.root), []);
+  } finally { c.done(); }
+});
+
+test("--force-recover next to a live run goes back, and the run then says it did not stay and nothing was undone by it", async () => {
+  const s = sandbox();
+  try {
+    const before = nextSet(s);
+    const go = join(s.root, "go");
+    const run = liveRun(s.root, s.source, go);
+    await until(() => existsSync(`${go}.waiting`));
+    assert.throws(() => recoverInterrupted(s.root), /another media:use is running/);
+    assert.equal(recoverInterrupted(s.root, { force: true }), true);
+    assert.deepEqual(fingerprint(s.root), before);
+    writeFileSync(go, "");
+    const result = await run;
+    assert.equal(result.undone, false, JSON.stringify(result));
+    assert.match(result.problems.join(" "), /copy of the state before this run is gone/);
+    assert.equal(result.version, undefined);
+    assert.deepEqual(fingerprint(s.root), before);
+    assert.deepEqual(leftovers(s.root), []);
+  } finally { s.done(); }
+});
+
+test("a failed run whose copy has disappeared does not say that nothing changed", () => {
+  const s = sandbox();
+  try {
+    nextSet(s);
+    const { problems, undone } = s.use({
+      date: "2026-11-02",
+      step: (name) => { if (name === "media.json") rmSync(join(s.root, ".media-use/backup"), { recursive: true }); },
+      verify: () => { throw new Error("the release check failed"); },
+    });
+    assert.equal(undone, false);
+    assert.match(problems.join(" "), /copy of the state before this run is gone/);
+  } finally { s.done(); }
+});
+
+for (const gap of [0, 100, 500, 1500]) {
+  test(`two runs ${gap} ms apart: one has the lock from its first step, the other changes nothing (review k2, M2, real processes)`, async () => {
+    const s = sandbox();
+    try {
+      nextSet(s);
+      const go = join(s.root, "go");
+      const a = ownSet(s, "set-a", "cut a");
+      const b = ownSet(s, "set-b", "cut b");
+      const first = liveRun(s.root, a, go, "2026-11-01");
+      await new Promise((res) => setTimeout(res, gap));
+      const second = liveRun(s.root, b, go, "2026-10-31");
+      // the one without the lock ends by itself, the other waits in its last stage
+      const loser = await Promise.race([first, second]);
+      assert.match((loser.problems || []).join(" "), /another media:use is running \(process \d+\)/, JSON.stringify(loser));
+      assert.equal(loser.version, undefined);
+      writeFileSync(go, "");
+      const results = await Promise.all([first, second]);
+      const winners = results.filter((r) => r.problems && !r.problems.length);
+      assert.equal(winners.length, 1, JSON.stringify(results));
+      const media = JSON.parse(s.json());
+      assert.equal(media.version, winners[0].version);
+      assert.deepEqual(videoSetProblems(media, { root: s.root }), []);
+      assert.deepEqual(leftovers(s.root), []);
+    } finally { s.done(); }
+  });
+}
+
+test("a lock whose process is gone does not stand in the way; check:release tells running from interrupted", () => {
+  const s = sandbox();
+  try {
+    nextSet(s);
+    mkdirSync(join(s.root, ".media-use"));
+    const media = () => JSON.parse(s.json());
+    writeFileSync(join(s.root, ".media-use/pid"), String(process.ppid));
+    assert.ok(videoSetProblems(media(), { root: s.root }).some((p) => p.includes(`a media:use is running (process ${process.ppid})`)));
+    const gone = deadProcess();
+    writeFileSync(join(s.root, ".media-use/pid"), String(gone));
+    assert.ok(videoSetProblems(media(), { root: s.root }).some((p) => p.includes("left by an interrupted media:use")));
+    assert.deepEqual(s.use({ date: "2026-11-02" }).problems, []);
+    assert.deepEqual(leftovers(s.root), []);
+    // a lock with no number in it: its process died between creating and writing
+    mkdirSync(join(s.root, ".media-use"));
+    writeFileSync(join(s.root, ".media-use/pid"), "");
+    assert.deepEqual(s.use({ date: "2026-11-02" }).problems, []);
+    assert.deepEqual(leftovers(s.root), []);
+  } finally { s.done(); }
+});
+
+/** A repository of made-up clips: killed run, then two commits made on top of the copy it left. */
+function killedThenCommitted(s) {
+  const git = (...args) => execFileSync("git", ["-c", "user.name=test", "-c", "user.email=test@example.com", "-c", "core.autocrlf=false", ...args], { cwd: s.root, stdio: "pipe" });
+  git("init", "-q");
+  git("add", "public", "src/data/media.json");
+  git("commit", "-q", "-m", "the state before");
+  const clean = fingerprint(s.root);
+  writeFileSync(join(s.source, "hero.cs.webm"), "another cut");
+  killedRun(s, "media.json");
+  assert.ok(existsSync(join(s.root, ".media-use/backup")));
+  const media = JSON.parse(readFileSync(join(s.root, "src/data/media.json"), "utf8"));
+  media.committed_later = true;
+  writeFileSync(join(s.root, "src/data/media.json"), JSON.stringify(media));
+  git("add", "src/data/media.json");
+  git("commit", "-q", "-m", "a change in media.json");
+  writeFileSync(join(s.root, "public/from-merge.html"), "<html>");
+  git("add", "public/from-merge.html");
+  git("commit", "-q", "-m", "a new page");
+  return { clean, after: fingerprint(s.root) };
+}
+
+test("a copy older than the last commit: the next run and --recover refuse and touch nothing, --force-recover goes back (review k2, M3)", () => {
+  const s = sandbox();
+  try {
+    const { clean, after } = killedThenCommitted(s);
+    const { problems, recovered, version } = s.use({ date: "2026-11-02" });
+    assert.match(problems.join(" "), /was taken at commit [0-9a-f]{7}, this worktree is at [0-9a-f]{7}/);
+    assert.match(problems.join(" "), /--force-recover/);
+    assert.equal(recovered, false);
+    assert.equal(version, undefined);
+    assert.deepEqual(fingerprint(s.root), after);
+    assert.ok(existsSync(join(s.root, "public/from-merge.html")));
+    assert.match(s.json(), /committed_later/);
+    assert.ok(existsSync(join(s.root, ".media-use/backup")), "the copy stays for the decision");
+    assert.throws(() => recoverInterrupted(s.root), /was taken at commit/);
+    assert.deepEqual(fingerprint(s.root), after);
+    assert.equal(recoverInterrupted(s.root, { force: true }), true);
+    assert.deepEqual(fingerprint(s.root), clean);
+    assert.deepEqual(leftovers(s.root), []);
+  } finally { s.done(); }
+});
+
+test("--recover and --force-recover as processes: killed run, a copy older than the last commit, a copy without its list", () => {
+  const c = repoCopy();
+  const cli = (...args) => spawnSync(process.execPath, ["tools/media-use.mjs", ...args], { cwd: c.root, encoding: "utf8", timeout: 60000 });
+  try {
+    assert.deepEqual(c.use().problems, []);
+    const before = fingerprint(c.root);
+    writeFileSync(join(c.source, "hero.cs.webm"), "another cut");
+    killedRun(c, "media.json");
+    assert.notDeepEqual(fingerprint(c.root), before);
+    assert.equal(c.release().status, 1);
+    const undone = cli("--recover");
+    assert.equal(undone.status, 0, undone.stderr);
+    assert.match(undone.stdout, /the interrupted run was undone/);
+    assert.deepEqual(fingerprint(c.root), before);
+    assert.match(cli("--recover").stdout, /nothing to undo/);
+
+    const { clean, after } = killedThenCommitted(c);
+    const refused = cli("--recover");
+    assert.equal(refused.status, 1);
+    assert.match(refused.stderr, /^error: the copy in \.media-use\/ was taken at commit/);
+    assert.doesNotMatch(refused.stderr, /\n\s+at /, "no stack trace");
+    assert.deepEqual(fingerprint(c.root), after);
+    const forced = cli("--force-recover");
+    assert.equal(forced.status, 0, forced.stderr);
+    assert.deepEqual(fingerprint(c.root), clean);
+
+    mkdirSync(join(c.root, ".media-use/backup"), { recursive: true });
+    const noList = cli("--recover");
+    assert.equal(noList.status, 1);
+    assert.match(noList.stderr, /^error: \.media-use\/backup has no readable before\.json/);
+    assert.doesNotMatch(noList.stderr, /\n\s+at /, "no stack trace");
+    assert.deepEqual(fingerprint(c.root), clean);
+    const run = c.use({ date: "2026-11-02" });
+    assert.match(run.problems.join(" "), /has no readable before\.json/);
+    assert.deepEqual(fingerprint(c.root), clean);
+  } finally { c.done(); }
+});
+
+test("a media.json.tmp in the old place goes with the next undo", () => {
+  const s = sandbox();
+  try {
+    nextSet(s);
+    mkdirSync(join(s.root, ".media-use"));
+    writeFileSync(join(s.root, "src/data/media.json.tmp"), "half");
+    recoverInterrupted(s.root);
+    assert.ok(!existsSync(join(s.root, "src/data/media.json.tmp")));
+  } finally { s.done(); }
+});
+
+const realPoster = fileURLToPath(new URL("../public/video/hero.cs.webp", import.meta.url));
+const realTour = fileURLToPath(new URL("../public/video/tour.cs.webm", import.meta.url));
+test("real ffprobe: sizes of a poster and a video, a length, and a poster that is none", { skip: !existsSync(realPoster) || !existsSync(realTour) || spawnSync("ffprobe", ["-version"]).status !== 0 }, () => {
+  const poster = ffprobeInfo(realPoster);
+  assert.deepEqual([poster.width, poster.height], [1440, 900]);
+  const tour = ffprobeInfo(realTour);
+  assert.deepEqual([tour.width, tour.height], [1280, 800]);
+  assert.ok(tour.duration > 30, String(tour.duration));
+  const dir = mkdtempSync(join(tmpdir(), "media-use-probe-"));
+  try {
+    writeFileSync(join(dir, "x.webp"), "x");
+    const none = ffprobeInfo(join(dir, "x.webp"));
+    assert.deepEqual([none.width, none.height], [0, 0], "ffprobe answers without an error, the sizes give it away");
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });

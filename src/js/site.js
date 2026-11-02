@@ -166,7 +166,8 @@ const menu = (() => {
   updateBar();
 })();
 
-/* The video CSS shows in a figure: the desktop cut or the phone cut; the hidden one never loads or plays. */
+/* The video CSS shows in a figure: the desktop cut or the phone cut. The hidden one's file never loads or plays
+   (its poster does: the browser fetches a poster even under display: none, see videoFigure in build.mjs). */
 const shownVideo = (fig) => [...fig.querySelectorAll("video")].find((v) => v.offsetParent !== null) || fig.querySelector("video");
 /* A loop that waits for a tap on a phone (every one but the hero) and has not had it yet. */
 const waitsForTap = (fig) => fig.hasAttribute("data-tap-phone") && phone.matches && fig.dataset.tapped !== "1";
@@ -214,12 +215,16 @@ const pageLoaded = new Promise((resolve) => {
       pageLoaded.then(() => { shownVideo(e.target).preload = "auto"; });
     }
   }, { rootMargin: "400px 0px" });
-  const seen = new IntersectionObserver((entries) => {
+  const watch = (threshold) => new IntersectionObserver((entries) => {
     for (const { target: fig, isIntersecting } of entries) {
       fig.dataset.inView = isIntersecting ? "1" : "";
       run(fig);
     }
-  }, { threshold: 0.5 });
+  }, { threshold });
+  const seen = watch(0.5);
+  // the hero sits at the bottom of the first screen: at 390 × 844 the longer English heading leaves
+  // 37 % of it showing (Czech 53 %), and at half it would stand still in one language only
+  const seenHero = watch(0.25);
   const live = figures.filter((fig) => fig.querySelector(".video__toggle") && !stillPref.matches);
   for (const fig of live) {
     const btn = fig.querySelector(".video__toggle");
@@ -253,15 +258,17 @@ const pageLoaded = new Promise((resolve) => {
     }
     label(btn, true);
     near.observe(fig);
-    seen.observe(fig);
+    (fig.classList.contains("video--hero") ? seenHero : seen).observe(fig);
     run(fig);
   }
   onMediaChange(phone, () => live.forEach(run));
 })();
 
-/* ── The tour on /demo: nothing loads before the click (preload none). One play
-      button: the native controls come only once it plays. Chapter buttons
-      (when the clip has chapter times) jump there and play. ── */
+/* ── The tour on /demo: no video loads before the click (preload none), only the
+      subtitles of the page's language, which load as soon as their track is on
+      (about 1.4 kB). One play button: the native controls come only once it plays.
+      Chapter buttons (when the clip has chapter times) jump there and play, and the
+      one the video is in has aria-current. ── */
 (function tour() {
   document.querySelectorAll("[data-facade]").forEach((fig) => {
     const v = fig.querySelector("video");
@@ -283,7 +290,18 @@ const pageLoaded = new Promise((resolve) => {
     });
     v.addEventListener("play", started);
   });
-  document.querySelectorAll(".tour-chapter[data-seek]").forEach((chapter) => {
+  const buttons = [...document.querySelectorAll(".tour-chapter[data-seek]")];
+  const played = document.querySelector("[data-facade] video");
+  if (played && buttons.length) {
+    played.addEventListener("timeupdate", () => {
+      const now = buttons.filter((b) => Number(b.dataset.seek) <= played.currentTime + 0.05).pop();
+      for (const b of buttons) {
+        if (b === now) b.setAttribute("aria-current", "true");
+        else b.removeAttribute("aria-current");
+      }
+    });
+  }
+  buttons.forEach((chapter) => {
     chapter.addEventListener("click", () => {
       const v = document.querySelector("[data-facade] video");
       if (!v) return;

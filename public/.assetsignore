@@ -6,3 +6,6 @@
 **/.gitignore
 tour.chapters.json
 **/tour.chapters.json
+# only older versions of media:use made this folder here; it must not be published when one was interrupted
+.incoming
+**/.incoming

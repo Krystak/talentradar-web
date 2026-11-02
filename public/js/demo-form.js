@@ -35,26 +35,31 @@ const listRow = (line) => {
 /**
  * A table from the visitor's AI, as the form sends it. An AI often adds an introduction, a code
  * block, quotes and a closing line, and the app would read each of them as a company. With a
- * recognised first row: everything before it goes, so do lines with ```, the outer quotes of cells,
- * and after an empty line or a code block's end the lines without a separator. Without one
- * the text stays exactly as it is: a list typed by hand is not touched.
+ * recognised first row: everything before it goes, so do lines with ``` and the outer quotes of cells.
+ * After an empty line or a code block's end the table goes on only with rows of as many separators
+ * as the first row: the first other line ends it, and all that follows goes ("Dejte vědět; rád pomůžu"
+ * is no company). Inside the table a row with fewer stays. Without a recognised first row the
+ * text stays exactly as it is: a list typed by hand is not touched.
  */
 export function cleanAiList(text) {
   const raw = String(text ?? "");
   const lines = raw.split(/\r?\n/);
   const known = AI_LIST_HEADERS.map((h) => h.toLowerCase());
-  const start = lines.findIndex((line) => known.includes(listRow(line.replace(/^﻿/, "")).toLowerCase()));
+  const start = lines.findIndex((line) => known.includes(listRow(line.replace(/^\uFEFF/, "")).toLowerCase()));
   if (start < 0) return raw;
+  const separators = (row) => row.split(";").length - 1;
+  const width = separators(lines[start]);
   const out = [];
-  let tableEnded = false;
+  let gap = false;
   for (const line of lines.slice(start)) {
     if (line.includes("```") || !line.trim()) {
-      tableEnded = true;
+      gap = true;
       continue;
     }
-    if (tableEnded && !line.includes(";")) continue;
-    if (line.includes(";")) tableEnded = false;
-    out.push(listRow(line.replace(/^﻿/, "")));
+    const row = listRow(line.replace(/^\uFEFF/, ""));
+    if (gap && separators(row) !== width) break;
+    gap = false;
+    out.push(row);
   }
   return out.join("\n");
 }

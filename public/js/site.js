@@ -3,7 +3,7 @@
  * phone, videos, chapters, charts, the billing switch and the trial form.
  * Every page works without it; this adds behaviour, never content.
  */
-import { demoPayload, demoResult, MAX_FILE_BYTES } from "./demo-form.js?v=8724927ec1";
+import { demoPayload, demoResult, MAX_FILE_BYTES } from "./demo-form.js?v=1b59b1995c";
 import { clipFor, clipKey, largestVideo } from "./media.js?v=63088bd799";
 
 const T = (() => {
@@ -649,9 +649,11 @@ const pageLoaded = new Promise((resolve) => {
   const show = document.getElementById("ai-brief-show");
   const status = document.getElementById("ai-brief-status");
   if (!brief || !copy || !show || !status) return;
+  const showLabel = show.textContent;
   const open = (on) => {
     brief.classList.toggle("is-open", on);
     show.setAttribute("aria-expanded", String(on));
+    show.textContent = on ? t("trial_ai_hide", showLabel) : showLabel;
   };
   show.addEventListener("click", () => open(!brief.classList.contains("is-open")));
   const label = copy.querySelector("span");

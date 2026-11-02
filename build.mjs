@@ -887,7 +887,7 @@ const JS_KEYS = [
   "hero_video_play", "hero_video_pause", "trial_submitting", "nav_menu_open", "nav_menu_close",
   "form_err_required", "form_err_name", "form_err_name_short", "form_err_email_empty", "form_err_company", "form_err_company_short", "form_err_email", "form_err_file_large", "form_err_file_type", "form_err_generic",
   "form_state_success_title", "form_state_success_s1", "form_state_success_s2", "form_state_success_s3", "form_state_success_foot",
-  "trial_ai_copied",
+  "trial_ai_copied", "trial_ai_hide",
 ];
 
 function jsonLd(site, r, page) {

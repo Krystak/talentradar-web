@@ -351,6 +351,7 @@
   "trial_ai_brief": "Připrav seznam firem pro službu TalentRadar, která hlídá, kde firmy nabírají.\n\nPodklady: [přilož export z CRM nebo seznam klientů, případně napiš obory a region, které nás zajímají]\n\nVrať pouze tabulku jako prostý text, bez úvodu, bez komentáře a bez bloku kódu. Nejvýš 150 řádků. Oddělovač je středník. První řádek musí být přesně:\nFirma;Kariérní stránka;Poslední kontakt;Proběhla zakázka\n\nPravidla:\n- Firma: název firmy, každá firma jen jednou.\n- Kariérní stránka: adresa stránky s volnými pozicemi, jen když ji znáš jistě. Jinak nech prázdné, dohledáme ji. Adresy si nevymýšlej.\n- Poslední kontakt: datum posledního kontaktu s firmou ve tvaru 15. 3. 2024, jen když je v podkladech. Jinak prázdné.\n- Proběhla zakázka: ano nebo ne, jen když to podklady říkají. Jinak prázdné.\n- Nepiš jména lidí, e-maily, telefony ani kandidáty.\n\nPříklad:\nFirma;Kariérní stránka;Poslední kontakt;Proběhla zakázka\nAir Bank;airbank.cz/volne-pozice;15. 3. 2024;ano\nRohlik Group;;;",
   "trial_ai_copied": "Zkopírováno",
   "trial_ai_copy": "Zkopírovat zadání pro AI",
+  "trial_ai_hide": "Skrýt zadání",
   "trial_ai_note": "Podklady zpracuje vaše AI, ne my. Použijte tu, kterou máte ve firmě schválenou.",
   "trial_ai_show": "Zobrazit zadání",
   "trial_ai_text": "Zkopírujte zadání do AI, kterou ve firmě používáte, například ChatGPT, Copilot, Claude nebo Gemini, a přiložte export z CRM nebo seznam klientů. Hotovou tabulku vložte sem do pole.",

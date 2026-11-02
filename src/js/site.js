@@ -649,9 +649,11 @@ const pageLoaded = new Promise((resolve) => {
   const show = document.getElementById("ai-brief-show");
   const status = document.getElementById("ai-brief-status");
   if (!brief || !copy || !show || !status) return;
+  const showLabel = show.textContent;
   const open = (on) => {
     brief.classList.toggle("is-open", on);
     show.setAttribute("aria-expanded", String(on));
+    show.textContent = on ? t("trial_ai_hide", showLabel) : showLabel;
   };
   show.addEventListener("click", () => open(!brief.classList.contains("is-open")));
   const label = copy.querySelector("span");

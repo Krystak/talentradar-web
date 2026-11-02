@@ -351,6 +351,7 @@
   "trial_ai_brief": "Prepare a company list for TalentRadar, a service that tracks where companies are hiring.\n\nSource: [attach a CRM export or your client list, or describe the sectors and region we care about]\n\nReturn only the table as plain text, with no introduction, no comment and no code block. At most 150 rows. The separator is a semicolon. The first row must be exactly:\nCompany;Careers page;Last contact;Had placement\n\nRules:\n- Company: the company name, each company only once.\n- Careers page: the address of its open positions page, only if you know it for certain. Otherwise leave it empty, we will look it up. Do not make up addresses.\n- Last contact: the date of the last contact with the company as 15/03/2024, only if it is in the source. Otherwise empty.\n- Had placement: yes or no, only if the source says so. Otherwise empty.\n- Do not include people's names, emails, phone numbers or candidates.\n\nExample:\nCompany;Careers page;Last contact;Had placement\nAir Bank;airbank.cz/careers;15/03/2024;yes\nRohlik Group;;;",
   "trial_ai_copied": "Copied",
   "trial_ai_copy": "Copy the brief for your AI",
+  "trial_ai_hide": "Hide the brief",
   "trial_ai_note": "Your AI handles those files, not us. Use the one your company has approved.",
   "trial_ai_show": "Show the brief",
   "trial_ai_text": "Copy this brief into the AI your company uses, such as ChatGPT, Copilot, Claude or Gemini, and attach a CRM export or your client list. Paste the finished table into the box here.",

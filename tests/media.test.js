@@ -1138,6 +1138,28 @@ test("cleanAiList: what an AI adds around the table goes, cell by cell the quote
   assert.equal(cleanAiList("Company;Careers page;Last contact;Had placement\nAir Bank\n\nRohlik Group;;;"), "Company;Careers page;Last contact;Had placement\nAir Bank\nRohlik Group;;;");
 });
 
+test("cleanAiList: after the table only rows as wide as the first row go on; the first other line ends it; inside the table a shorter row stays", () => {
+  const head = "Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka";
+  const table = `${head}\nAir Bank;airbank.cz;;ano`;
+  assert.equal(cleanAiList(`${table}\n\nDejte vědět; rád pomůžu`), table, "a closing sentence with a semicolon is no company");
+  assert.equal(cleanAiList(`\`\`\`\n${table}\n\`\`\`\nDejte vědět; rád pomůžu`), table, "right after the code block too");
+  assert.equal(cleanAiList(`${table}\n\nDejte vědět; rád pomůžu\nRohlik Group;;;`), table, "all that follows the first such line goes");
+  assert.equal(cleanAiList(`${table}\n\nA;b;c;d;e`), table, "more separators than the first row");
+  assert.equal(cleanAiList(`${table}\n\nRohlik Group;;;`), `${table}\nRohlik Group;;;`, "a row as wide as the first one goes on");
+  assert.equal(cleanAiList(`${table}\nRohlik Group;web\nSeznam\nAlza;;;`), `${table}\nRohlik Group;web\nSeznam\nAlza;;;`, "shorter rows with no empty line before them stay");
+  assert.equal(cleanAiList(`${table}\n\n"Rohlik Group";"";"";""`), `${table}\nRohlik Group;;;`, "quotes do not change the width");
+});
+
+test("the brief's button says what it will do, also after the fallback has opened it", () => {
+  const files = buildSite(loadSite());
+  const js = String(files.get("public/js/site.js"));
+  assert.match(js, /show\.textContent = on \? t\("trial_ai_hide", showLabel\) : showLabel;/);
+  assert.match(js, /const byHand = \(\) => \{\s*open\(true\);/, "the fallback opens through the same function");
+  const i18n = (path) => { const html = String(files.get(path)); return html.slice(html.indexOf('id="i18n"')); };
+  assert.match(i18n("public/index.html"), /"trial_ai_hide":"Skrýt zadání"/);
+  assert.match(i18n("public/en/index.html"), /"trial_ai_hide":"Hide the brief"/);
+});
+
 test("cleanAiList: without the recognised first row the text stays exactly as it is", () => {
   for (const typed of ["Rohlik Group", "Rohlik Group\nAir Bank; airbank.cz/volne-pozice\n", "  Tady je seznam:\n\n```\nAir Bank\n```\n", '"Air Bank";"x"', "Firma;Web\nAir Bank;airbank.cz", "", "Air Bank;;;\n\nRohlik"]) {
     assert.equal(cleanAiList(typed), typed);

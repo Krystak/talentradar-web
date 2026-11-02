@@ -267,6 +267,8 @@ const pageLoaded = new Promise((resolve) => {
     const v = fig.querySelector("video");
     const btn = fig.querySelector(".video__play");
     if (!v || !btn) return;
+    // the page's language: WebKit ignores <track default> and goes by the system's (English subtitles on the Czech page, etapa 4)
+    for (const track of v.textTracks) track.mode = track.language === document.documentElement.lang ? "showing" : "disabled";
     btn.hidden = false;
     v.removeAttribute("controls");
     const started = () => {

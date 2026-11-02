@@ -265,6 +265,8 @@ export function siteVars(site, lang) {
     "demo.companies_new_7d": n(s.companies_new_7d),
     // null until the media stream records the clips: sentences with it are left out
     "clip.date": site.media && site.media.clip_date ? d(site.media.clip_date, true) : null,
+    // V6 is not retaken with the morning clips, so it keeps the date it was recorded on
+    "clip.ats_date": site.media && site.media.clips && site.media.clips.ats && site.media.clips.ats.clip_date ? d(site.media.clips.ats.clip_date, true) : null,
   });
   return vars;
 }
@@ -461,7 +463,7 @@ function resolve(site, token, ctx, where) {
   if (token.startsWith("media:")) {
     const [id, field] = token.slice(6).split(":");
     const clip = site.media.clips[id] || fail("unknown clip");
-    const lang = (p) => p.replace("{lang}", ctx.lang);
+    const lang = (p) => mediaUrl(site, p, ctx.lang);
     if (field === "json") {
       // a chapter tab's whole clip (all sources, the phone cut) for site.js (js/media.js clipFor)
       const cut = (c) => ({ poster: lang(c.poster), sources: c.sources.map((s) => ({ src: lang(s.src), type: s.type })) });
@@ -535,6 +537,28 @@ export function brandify(html) {
 }
 
 /**
+ * The address of a media file for one language. /video/* is cached for a year as
+ * immutable and the clips keep their names when they are retaken, so the address
+ * carries media.json's version (a hash of the set, written by tools/media-use.mjs).
+ */
+function mediaUrl(site, path, lang) {
+  const p = path.replace("{lang}", lang);
+  return site.media.version ? `${p}?v=${site.media.version}` : p;
+}
+
+/**
+ * The hero's poster is what the first screen paints largest, and a poster is only
+ * found once the video is laid out: without these two lines LCP on a phone was
+ * ~0.9 s later (etapa 4, measured). One per cut, so each screen fetches only its own.
+ */
+function heroPosterPreloads(site, lang) {
+  const clip = site.media.clips.hero;
+  const link = (poster, media) => `<link rel="preload" as="image" href="${mediaUrl(site, poster, lang)}"${media ? ` media="${media}"` : ""} fetchpriority="high">`;
+  if (!clip.mobile) return [link(clip.poster)];
+  return [link(clip.mobile.poster, "(max-width: 767px)"), link(clip.poster, "(min-width: 768px)")];
+}
+
+/**
  * A clip of src/data/media.json in a browser frame. Loops (hero, chapters, V6)
  * are muted, lazy (preload none) and get a pause button in the frame bar; the
  * tour plays only on a click. A clip with a 4:5 phone cut gets both videos, CSS
@@ -545,7 +569,7 @@ export function brandify(html) {
 function videoFigure(site, ctx, id, ariaKey, captionKey, where) {
   const clip = site.media.clips[id];
   if (!clip) throw new Error(`${where}: unknown clip ${id}`);
-  const lang = (p) => p.replace("{lang}", ctx.lang);
+  const lang = (p) => mediaUrl(site, p, ctx.lang);
   const aria = escapeHtml(text(site, ctx, ariaKey));
   const loop = clip.mode === "loop";
   const video = (c, cls) => {
@@ -932,6 +956,7 @@ export function buildSite(site) {
     // Manrope too: the H1 is set in it, and a late swap moved the hero (CLS 0.03, mobile audit 17)
     const preloads = ["inter-latin", "manrope-latin", ...(r.lang === "cs" ? ["inter-latin-ext", "manrope-latin-ext"] : [])]
       .map((f) => `<link rel="preload" href="/fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`);
+    if (r.id === "home") preloads.push(...heroPosterPreloads(site, r.lang));
     ctx.page = {
       lang: r.lang,
       other_lang: other,

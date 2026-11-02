@@ -1,6 +1,6 @@
 {
   "ats_clip_alt": "Importing a company list and downloading new roles for an ATS",
-  "ats_clip_caption": "Recorded in a test workspace on {clip.date}.",
+  "ats_clip_caption": "Recorded in a test workspace on {clip.ats_date}.",
   "ats_h2": "Nothing to migrate. No ATS? One is included.",
   "ats_have_body": "Send your company list as Excel, CSV or a CRM export. Download the new roles as an import file for Bullhorn or Vincere; for any other ATS there’s Excel and a generic CSV. Your candidates stay in your ATS.",
   "ats_have_mode": "In the app this is the Radar only mode: TalentRadar watches the roles, your candidates stay in your ATS.",
@@ -346,7 +346,7 @@
   "story_linkedin": "Kryštof on LinkedIn",
   "story_name": "Kryštof Pejša",
   "story_photo_alt": "Kryštof Pejša, founder of TalentRadar",
-  "story_role": "Founder of TalentRadar",
+  "story_role": "founder of TalentRadar",
   "story_short_m": "In Dublin I watched experienced headhunters go through clients’ career pages every Monday and copy links into spreadsheets. I wrote a system that does it by itself: over two months it followed 180 companies and caught more than 3,400 open roles. Today it is TalentRadar.",
   "trial_badge": "14 days free · no credit card",
   "trial_call": "Rather go through it together? Book a 15-minute demo.",

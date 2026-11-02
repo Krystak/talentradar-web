@@ -1,13 +1,255 @@
 {
-  "_note": "Videos on the site, one entry per clip. The media stream replaces the ukazka-v0 placeholders with public/video/<id>.<lang>.mp4|webm|webp (and <id>-mobile.<lang>.* 4:5 for the phone); {lang} in a path becomes cs or en. clip_date: the recording date shown in the captions ({clip.date}); null = the sentence is left out. Display widths: tokens.css --video-*.",
-  "clip_date": null,
+  "_note": "Videos on the site, one entry per clip; {lang} in a path becomes cs or en. A set of clips goes on the site with `npm run media:use -- <folder> --date YYYY-MM-DD`, which checks it and writes clip_date (the recording date shown in the captions, {clip.date}; null = the sentence is left out), version (?v= on the addresses, because /video/* is cached as immutable and clips keep their names) and clips.tour.chapters (from tour.chapters.json). clips.ats.clip_date is V6's own date ({clip.ats_date}): V6 is not retaken with the rest, so media:use leaves it alone. Display widths: tokens.css --video-*.",
+  "clip_date": "2026-11-01",
+  "version": "1f8c0d8ce6",
   "clips": {
-    "hero": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
-    "how1": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
-    "how2": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
-    "how3": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
-    "how4": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
-    "ats": { "mode": "loop", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "width": 960, "height": 540 },
-    "tour": { "mode": "tour", "poster": "/video/ukazka-v0.webp", "sources": [{ "src": "/video/ukazka-v0.mp4", "type": "video/mp4" }], "mobile": null, "tracks": [], "width": 960, "height": 540 }
+    "hero": {
+      "mode": "loop",
+      "poster": "/video/hero.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/hero.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/hero.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/hero-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/hero-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/hero-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1440,
+      "height": 900
+    },
+    "how1": {
+      "mode": "loop",
+      "poster": "/video/rano.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/rano.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/rano.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/rano-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/rano-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/rano-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1280,
+      "height": 800
+    },
+    "how2": {
+      "mode": "loop",
+      "poster": "/video/detail.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/detail.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/detail.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/detail-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/detail-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/detail-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1440,
+      "height": 900
+    },
+    "how3": {
+      "mode": "loop",
+      "poster": "/video/komu-zavolat.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/komu-zavolat.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/komu-zavolat.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/komu-zavolat-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/komu-zavolat-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/komu-zavolat-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1440,
+      "height": 900
+    },
+    "how4": {
+      "mode": "loop",
+      "poster": "/video/kandidat.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/kandidat.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/kandidat.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/kandidat-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/kandidat-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/kandidat-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1280,
+      "height": 800
+    },
+    "ats": {
+      "mode": "loop",
+      "poster": "/video/vedle-ats.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/vedle-ats.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/vedle-ats.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": null,
+      "width": 1280,
+      "height": 800,
+      "clip_date": "2026-11-01"
+    },
+    "tour": {
+      "mode": "tour",
+      "poster": "/video/tour.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/tour.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/tour.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": null,
+      "width": 1280,
+      "height": 800,
+      "tracks": [
+        {
+          "srclang": "cs",
+          "label": "demo_track_cs",
+          "src": "/video/tour.cs.vtt"
+        },
+        {
+          "srclang": "en",
+          "label": "demo_track_en",
+          "src": "/video/tour.en.vtt"
+        }
+      ],
+      "chapters": {
+        "cs": [
+          {
+            "id": "rano",
+            "start": 0
+          },
+          {
+            "id": "detail",
+            "start": 20.17
+          },
+          {
+            "id": "komu-zavolat",
+            "start": 33.11
+          },
+          {
+            "id": "kandidat",
+            "start": 56.57
+          },
+          {
+            "id": "ats",
+            "start": 77.24
+          }
+        ],
+        "en": [
+          {
+            "id": "rano",
+            "start": 0
+          },
+          {
+            "id": "detail",
+            "start": 20.17
+          },
+          {
+            "id": "komu-zavolat",
+            "start": 33.23
+          },
+          {
+            "id": "kandidat",
+            "start": 56.67
+          },
+          {
+            "id": "ats",
+            "start": 78.21
+          }
+        ]
+      }
+    }
   }
 }

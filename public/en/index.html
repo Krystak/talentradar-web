@@ -27,8 +27,10 @@
   <script>document.documentElement.className = "js";</script>
   <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/site.css?v=1884361092">
-  <script type="module" src="/js/site.js?v=68ca024a20"></script>
+  <link rel="preload" as="image" href="/video/hero-mobile.en.webp?v=1f8c0d8ce6" media="(max-width: 767px)" fetchpriority="high">
+  <link rel="preload" as="image" href="/video/hero.en.webp?v=1f8c0d8ce6" media="(min-width: 768px)" fetchpriority="high">
+  <link rel="stylesheet" href="/css/site.css?v=f982c1d322">
+  <script type="module" src="/js/site.js?v=5d797e3e6f"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -89,10 +91,11 @@
   </div>
   <div class="hero__media">
     <div class="container">
-      <figure class="video video--hero" data-autoplay>
+      <figure class="video video--hero video--has-mobile" data-autoplay>
   <div class="frame">
     <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">app.talentradar.eu</span><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pause preview</span></button></div>
-    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="App preview: the morning overview, a new role and whom to call"><source src="/video/ukazka-v0.mp4" type="video/mp4"></video></div>
+    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1440" height="900" poster="/video/hero.en.webp?v=1f8c0d8ce6" aria-label="App preview: the morning overview, a new role and whom to call"><source src="/video/hero.en.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/hero.en.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
+    <div class="frame__screen video--mobile"><video muted loop playsinline controls preload="none" width="720" height="900" poster="/video/hero-mobile.en.webp?v=1f8c0d8ce6" aria-label="App preview: the morning overview, a new role and whom to call"><source src="/video/hero-mobile.en.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/hero-mobile.en.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
   </div>
 </figure>
     </div>
@@ -170,20 +173,21 @@
     </div>
     <div data-chapters>
       <ul class="chapters" role="tablist" aria-label="Preview chapters">
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-1" aria-controls="chapter-1" aria-selected="true" data-clip="{&quot;poster&quot;:&quot;/video/ukazka-v0.webp&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/ukazka-v0.mp4&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:null}" data-label="Morning overview: new roles at clients, companies you haven’t spoken to in a while and target companies, roles open 45+ days">Morning: what’s new</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-2" aria-controls="chapter-2" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/ukazka-v0.webp&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/ukazka-v0.mp4&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:null}" data-label="Role detail with the company’s history and a reason to call">Role detail</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-3" aria-controls="chapter-3" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/ukazka-v0.webp&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/ukazka-v0.mp4&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:null}" data-label="The Whom to call card and a draft message in your own style">Whom to call</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-4" aria-controls="chapter-4" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/ukazka-v0.webp&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/ukazka-v0.mp4&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:null}" data-label="A pasted candidate profile and the matching roles at the agency’s companies">Who wants this candidate?</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-1" aria-controls="chapter-1" aria-selected="true" data-clip="{&quot;poster&quot;:&quot;/video/rano.en.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/rano.en.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/rano.en.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/rano-mobile.en.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/rano-mobile.en.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/rano-mobile.en.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Morning overview: new roles at clients, companies you haven’t spoken to in a while and target companies, roles open 45+ days">Morning: what’s new</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-2" aria-controls="chapter-2" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/detail.en.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/detail.en.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/detail.en.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/detail-mobile.en.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/detail-mobile.en.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/detail-mobile.en.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="Role detail with the company’s history and a reason to call">Role detail</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-3" aria-controls="chapter-3" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/komu-zavolat.en.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/komu-zavolat.en.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/komu-zavolat.en.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/komu-zavolat-mobile.en.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/komu-zavolat-mobile.en.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/komu-zavolat-mobile.en.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="The Whom to call card and a draft message in your own style">Whom to call</button></li>
+        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-4" aria-controls="chapter-4" aria-selected="false" tabindex="-1" data-clip="{&quot;poster&quot;:&quot;/video/kandidat.en.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/kandidat.en.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/kandidat.en.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}],&quot;mobile&quot;:{&quot;poster&quot;:&quot;/video/kandidat-mobile.en.webp?v=1f8c0d8ce6&quot;,&quot;sources&quot;:[{&quot;src&quot;:&quot;/video/kandidat-mobile.en.webm?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/webm&quot;},{&quot;src&quot;:&quot;/video/kandidat-mobile.en.mp4?v=1f8c0d8ce6&quot;,&quot;type&quot;:&quot;video/mp4&quot;}]}}" data-label="A pasted candidate profile and the matching roles at the agency’s companies">Who wants this candidate?</button></li>
       </ul>
       <div class="chapters-layout">
       <div class="chapters-video">
-        <figure class="video video--how1" data-autoplay data-tap-phone>
+        <figure class="video video--how1 video--has-mobile" data-autoplay data-tap-phone>
   <div class="frame">
     <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">app.talentradar.eu</span><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pause preview</span></button></div>
-    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="Morning overview: new roles at clients, companies you haven’t spoken to in a while and target companies, roles open 45+ days"><source src="/video/ukazka-v0.mp4" type="video/mp4"></video></div>
+    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1280" height="800" poster="/video/rano.en.webp?v=1f8c0d8ce6" aria-label="Morning overview: new roles at clients, companies you haven’t spoken to in a while and target companies, roles open 45+ days"><source src="/video/rano.en.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/rano.en.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
+    <div class="frame__screen video--mobile"><video muted loop playsinline controls preload="none" width="720" height="900" poster="/video/rano-mobile.en.webp?v=1f8c0d8ce6" aria-label="Morning overview: new roles at clients, companies you haven’t spoken to in a while and target companies, roles open 45+ days"><source src="/video/rano-mobile.en.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/rano-mobile.en.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
     <button class="btn btn-secondary video__start" type="button" hidden>Play preview</button>
   </div>
-  <figcaption>Public demo: the companies and roles are real, the agency and candidates are made up.</figcaption>
+  <figcaption>Public demo: the companies and roles are real, the agency and candidates are made up. Recorded 1 Nov 2026.</figcaption>
 </figure>
       </div>
       <div>
@@ -330,9 +334,10 @@
       <figure class="video video--ats" data-autoplay data-tap-phone>
   <div class="frame">
     <div class="frame__bar"><span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="frame__url" aria-hidden="true">app.talentradar.eu</span><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pause preview</span></button></div>
-    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="960" height="540" poster="/video/ukazka-v0.webp" aria-label="Importing a company list and downloading new roles for an ATS"><source src="/video/ukazka-v0.mp4" type="video/mp4"></video></div>
+    <div class="frame__screen video--desktop"><video muted loop playsinline controls preload="none" width="1280" height="800" poster="/video/vedle-ats.en.webp?v=1f8c0d8ce6" aria-label="Importing a company list and downloading new roles for an ATS"><source src="/video/vedle-ats.en.webm?v=1f8c0d8ce6" type="video/webm"><source src="/video/vedle-ats.en.mp4?v=1f8c0d8ce6" type="video/mp4"></video></div>
     <button class="btn btn-secondary video__start" type="button" hidden>Play preview</button>
   </div>
+  <figcaption>Recorded in a test workspace on 1 Nov 2026.</figcaption>
 </figure>
     </div>
     <div class="systems d-only">
@@ -391,7 +396,7 @@
       <p class="kicker">Who’s behind it</p>
       <h2 id="story-title">Built inside an agency, for agencies</h2>
       <p>In Dublin I worked at <a href="https://www.linkedin.com/company/ingenio-global/" rel="noopener">Ingenio Global</a>, the recruitment agency run by <a href="https://www.linkedin.com/in/rob-magee-749891/" rel="noopener">Rob Magee</a>. Every Monday morning, experienced headhunters there went through clients’ career pages and copied links into spreadsheets. So I wrote a system that does it by itself. For the next two months it ran in production: it watched 180 companies and caught more than 3,400 open roles. That system is now TalentRadar. When you get in touch, you deal with me directly.</p>
-      <p class="story__sign"><strong>Kryštof Pejša</strong>, Founder of TalentRadar · <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" rel="noopener">Kryštof on LinkedIn</a></p>
+      <p class="story__sign"><strong>Kryštof Pejša</strong>, founder of TalentRadar · <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" rel="noopener">Kryštof on LinkedIn</a></p>
       <p class="btn-row btn-row--stack">
         <a class="btn btn-secondary" href="mailto:krystof@talentradar.eu?subject=A%20short%20call%20about%20TalentRadar">Book a 15-minute demo</a>
         <span class="note">Shown on your own companies.</span>
@@ -429,7 +434,7 @@
     <div class="trial-story m-only">
       <div class="trial-story__who">
         <img class="trial-story__photo" src="/img/krystof-416.webp" alt="Kryštof Pejša, founder of TalentRadar" width="64" height="64" loading="lazy" decoding="async">
-        <p><strong>Kryštof Pejša</strong><span>Founder of TalentRadar</span></p>
+        <p><strong>Kryštof Pejša</strong><span>founder of TalentRadar</span></p>
       </div>
       <p>In Dublin I watched experienced headhunters go through clients’ career pages every Monday and copy links into spreadsheets. I wrote a system that does it by itself: over two months it followed 180 companies and caught more than 3,400 open roles. Today it is TalentRadar.</p>
       <p class="btn-row btn-row--stack">

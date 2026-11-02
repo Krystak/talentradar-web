@@ -411,10 +411,13 @@ test("Czech plural of a chart unit: 1 / 2–4 / 5+ (English: 1 / more)", () => {
 });
 
 test("the recording date fills the captions once media sets it; until then the sentence is left out", () => {
-  const before = String(built().get("public/index.html"));
-  assert.doesNotMatch(before, /Natočeno/);
   const site = loadSite();
-  site.media = { ...site.media, clip_date: "2026-11-02" };
+  site.media = JSON.parse(JSON.stringify(site.media));
+  site.media.clip_date = null;
+  site.media.clips.ats.clip_date = null;
+  const before = String(buildSite(site).get("public/index.html"));
+  assert.doesNotMatch(before, /Natočeno/);
+  site.media.clip_date = "2026-11-02";
   assert.match(String(buildSite(site).get("public/index.html")), /Natočeno 2\.\u00a011\.\u00a02026\./);
 });
 
@@ -476,6 +479,12 @@ test("list items: a new item only at '. ' before a capital, never inside 's.r.o.
 test("a chapter tab carries its whole clip, and the phone video gets the phone cut with every source", () => {
   const site = loadSite();
   site.media = JSON.parse(JSON.stringify(site.media));
+  site.media.version = null;
+  site.media.clips.how1 = {
+    mode: "loop", width: 1600, height: 900, poster: "/video/v1.{lang}.webp",
+    sources: [{ src: "/video/v1.{lang}.webm", type: "video/webm" }, { src: "/video/v1.{lang}.mp4", type: "video/mp4" }],
+    mobile: null,
+  };
   site.media.clips.how2 = {
     mode: "loop", width: 1600, height: 900, poster: "/video/v3.{lang}.webp",
     sources: [{ src: "/video/v3.{lang}.webm", type: "video/webm" }, { src: "/video/v3.{lang}.mp4", type: "video/mp4" }],

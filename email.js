@@ -209,7 +209,7 @@ export function confirmationEmail(name, lang, companies = null) {
     const stepsCs = [
       ["done", companies ? `Registrace a seznam firem (${companies})` : "Registrace a seznam firem", ""],
       ["now", "Workspace a první sken", "Dohledáme kariérní stránky vašich firem a projdeme otevřené pozice. U menšího seznamu pár minut, u 100 a více firem déle."],
-      ["next", "Přihlášení", "Pošlu vám druhý e-mail s odkazem na nastavení hesla a s prvními nalezenými rolemi."],
+      ["next", "Přihlášení", "Pošlu vám druhý e-mail s odkazem na nastavení hesla a s prvními nalezenými pozicemi."],
     ];
     const intro = have
       ? `Díky za zájem o TalentRadar. ${have} Chystáme pro vaši agenturu samostatný workspace a první sken.`

@@ -1,6 +1,6 @@
 {
   "ats_clip_alt": "Import seznamu firem a stažení nových pozic pro ATS",
-  "ats_clip_caption": "Natočeno v testovacím workspace {clip.date}.",
+  "ats_clip_caption": "Natočeno v testovacím workspace {clip.ats_date}.",
   "ats_h2": "Nic se nestěhuje. Kdo ATS nemá, má ho v ceně.",
   "ats_have_body": "Pošlete seznam firem z Excelu, CSV nebo CRM. Nové pozice si stáhnete jako soubor pro import do Bullhornu nebo Vincere; pro ostatní ATS, třeba Datacruit, Recruitis nebo Teamio, je tu Excel a obecné CSV. Kandidáti zůstanou ve vašem ATS.",
   "ats_have_mode": "V aplikaci se tomu říká režim Jen radar: TalentRadar hlídá pozice a kandidáty máte dál ve svém ATS.",
@@ -346,7 +346,7 @@
   "story_linkedin": "Kryštof na LinkedInu",
   "story_name": "Kryštof Pejša",
   "story_photo_alt": "Kryštof Pejša, zakladatel TalentRadaru",
-  "story_role": "Zakladatel TalentRadaru",
+  "story_role": "zakladatel TalentRadaru",
   "story_short_m": "V Dublinu jsem viděl zkušené headhuntery každé pondělí obcházet kariérní weby klientů a přepisovat odkazy do tabulek. Napsal jsem systém, který to dělá sám: během dvou měsíců sledoval 180 firem a zachytil přes 3 400 otevřených pozic. Z něj je dnes TalentRadar.",
   "trial_badge": "14 dní zdarma · bez platební karty",
   "trial_call": "Chcete to radši projít spolu? Domluvte si 15minutovou ukázku.",

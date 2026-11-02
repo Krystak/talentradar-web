@@ -173,7 +173,7 @@ function videoHeaders(source, pathname) {
   const ext = pathname.split(".").pop().toLowerCase();
   headers.set("Content-Type", VIDEO_TYPES[ext] || source.headers.get("Content-Type") || "application/octet-stream");
   headers.set("Accept-Ranges", "bytes");
-  // Files under /video/ carry a version in the name (hero-v2.mp4), so a new cut is a new address.
+  // Addresses under /video/ carry a version (?v=<hash of the set>, tools/media-use.mjs), so a new cut is a new address.
   headers.set("Cache-Control", "public, max-age=31536000, immutable");
   for (const h of ["ETag", "Last-Modified"]) {
     if (source.headers.get(h)) headers.set(h, source.headers.get(h));

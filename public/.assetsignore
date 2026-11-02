@@ -1,3 +1,8 @@
 # Files in public/ that are not published (Workers static assets).
 .gitkeep
 **/.gitkeep
+# the local marker that keeps clips out of git, and the chapter times (they are in the pages)
+.gitignore
+**/.gitignore
+tour.chapters.json
+**/tour.chapters.json

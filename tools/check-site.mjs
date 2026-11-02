@@ -167,6 +167,27 @@ export const CONTRAST_PAIRS = [
 
 const ALLOWED_SCRIPT_HOSTS = []; // no third-party scripts at all
 
+/** The size a video file may have in bytes (lead prompt B2), or null for anything that is not a video. */
+export function videoBudget(path) {
+  const name = path.split("/").pop();
+  if (!/\.(mp4|webm)$/.test(name)) return null;
+  const mb = name.startsWith("hero-mobile.") ? 0.8 : name.startsWith("hero.") ? 1.5 : name.startsWith("tour.") ? 10 : 2.5;
+  return mb * 1e6;
+}
+
+/** Every file a chapter tab's data-clip names: site.js loads them later, so no src= shows them. */
+export function dataClipFiles(html) {
+  const out = [];
+  for (const m of html.matchAll(/\sdata-clip="([^"]+)"/g)) {
+    const clip = JSON.parse(m[1].replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&"));
+    for (const cut of [clip, clip.mobile]) {
+      if (!cut) continue;
+      out.push(cut.poster, ...cut.sources.map((s) => s.src));
+    }
+  }
+  return out;
+}
+
 /**
  * Checks a site. files: Map "public/…" -> content|null; redirects: the Worker's
  * 301 map; workerFirst: wrangler.toml run_worker_first. Returns { errors, warnings }.
@@ -214,6 +235,18 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
     // Places still waiting for Kryštof and unfilled {variables} of the text map never reach a page
     if (/\[Kryštof/.test(html)) errors.push(`${page}: contains a [Kryštof…] placeholder`);
     for (const m of html.matchAll(/\{(demo\.[a-z_0-9]+|c\d\.[a-z_0-9]+|clip\.[a-z_]+|t\d|as_of|minutes|date)\}/g)) errors.push(`${page}: unfilled variable {${m[1]}}`);
+    for (const src of dataClipFiles(html)) {
+      const r = at(src.split("?")[0]);
+      if (r.status !== 200) errors.push(`${page}: data-clip file ${src} answers ${r.status}`);
+    }
+    // the captions that promise a recording date have it, and the tour's chapters are all there
+    for (const m of html.matchAll(/<figure class="video video--(how\d|ats|tour)\b[\s\S]*?<figcaption>([\s\S]*?)<\/figcaption>/g)) {
+      if (!/20\d\d/.test(m[2])) unfinished(`${page}: the caption of the ${m[1]} video has no recording date`);
+    }
+    if (/video--tour\b/.test(html)) {
+      const chapters = (html.match(/class="tour-chapter"/g) || []).length;
+      if (chapters !== 5) unfinished(`${page}: the tour has ${chapters} chapter buttons, not 5`);
+    }
     if (/ukazka-v0/.test(html)) unfinished(`${page}: uses the placeholder video ukazka-v0 (media replaces it before merging)`);
     if (/\[TEXT\]/.test(html)) unfinished(`${page}: contains [TEXT] placeholders`);
     if (/lorem/i.test(html)) unfinished(`${page}: contains lorem ipsum`);
@@ -259,6 +292,13 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
       const otherLang = (back.match(/<html lang="([a-z]{2})"/) || [])[1];
       if (otherLang !== l) errors.push(`${page}: hreflang ${l} points at a page in lang="${otherLang}"`);
     }
+  }
+
+  // the videos stay inside their budgets (only files really on disk: a test's made-up page has none)
+  for (const path of files.keys()) {
+    const budget = videoBudget(path);
+    const disk = join(ROOT, path);
+    if (budget && existsSync(disk) && statSync(disk).size > budget) unfinished(`${path}: ${(statSync(disk).size / 1e6).toFixed(2)} MB is over its budget of ${budget / 1e6} MB`);
   }
 
   // sitemap: exactly the indexable pages, each at an address that answers 200

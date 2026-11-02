@@ -193,7 +193,10 @@ test("every block of every page has at most one main button; the bar, the menu a
 // ── The tour's chapters ─────────────────────────────────────────────────────
 
 test("/demo: chapters are a plain list until the tour has chapter times, then buttons of at least 48 px that jump there", () => {
-  const plain = String(built().get("public/demo.html"));
+  const bare = loadSite();
+  bare.media = JSON.parse(JSON.stringify(bare.media));
+  bare.media.clips.tour.chapters = null;
+  const plain = String(buildSite(bare).get("public/demo.html"));
   assert.match(plain, /<ol class="tour-chapters"><li>Ráno: co je nového<\/li>/);
   assert.doesNotMatch(plain, /tour-chapter"/);
 
@@ -247,4 +250,15 @@ test("phone and wide layouts: .m-only shows only up to 767 px and .d-only only f
   // the trial form says what is wrong itself
   assert.match(home, /<form class="form" id="demo-form" method="post" action="#zkusit" novalidate>/);
   for (const id of ["name", "email", "company", "file"]) assert.match(home, new RegExp(`<div class="field__error" id="${id}-error" hidden></div>`));
+});
+
+test("the founder's role reads lower case inside the signature and starts with a capital on its own line", () => {
+  const files = built();
+  const cs = String(files.get("public/index.html"));
+  assert.match(cs, /<strong>Kryštof Pejša<\/strong>, zakladatel TalentRadaru ·/);
+  assert.match(cs, /<strong>Kryštof Pejša<\/strong><span>zakladatel TalentRadaru<\/span>/);
+  assert.match(String(files.get("public/en/index.html")), /<strong>Kryštof Pejša<\/strong>, founder of TalentRadar ·/);
+  const css = String(files.get("public/css/site.css"));
+  assert.match(css, /\.trial-story__who span \{ display: block;/);
+  assert.match(css, /\.trial-story__who span::first-letter \{ text-transform: uppercase; \}/);
 });

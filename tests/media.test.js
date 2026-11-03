@@ -1627,7 +1627,7 @@ test("a line for one screen only: it takes no room on the other, and a phone wit
 test("the hero's phone cut: its times say what the V1 phone clip shows, the first sentence of the wide cut is not on it", () => {
   const { hero } = loadSite().media.clips;
   const lineAt = (t) => { const seen = hero.cues.filter((c) => c.at_mobile !== null && c.at_mobile !== undefined && c.at_mobile <= t); return seen.sort((a, b) => a.at_mobile - b.at_mobile).pop().key; };
-  assert.deepEqual([0, 6.1, 6.2, 8.9, 9, 11.4].map(lineAt), ["cue_hero_2", "cue_hero_2", "cue_hero_3", "cue_hero_3", "cue_hero_2", "cue_hero_2"]);
+  assert.deepEqual([0, 4.9, 5, 7.4, 7.5, 9.9].map(lineAt), ["cue_hero_2", "cue_hero_2", "cue_hero_3", "cue_hero_3", "cue_hero_2", "cue_hero_2"]);
   assert.equal(hero.mobile.waits, undefined);
   assert.equal(hero.mobile.clip_date, "2026-11-03");
 });

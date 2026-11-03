@@ -194,6 +194,18 @@
   font-size: var(--fs-kicker); font-weight: 600; cursor: pointer;
 }
 .video__toggle:hover { border-color: var(--orange); }
+/* From 1 024 px the line and the pause button of the hero and the chapters lie in a strip over the bottom of the window (lead,
+   3. 11. 2026): pulled up by its own height, so it covers the window's bottom edge exactly and the board closes under the window.
+   Narrower, without the script and with reduced motion they stay under it: the native controls are in that very place then. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .js .video--hero .frame, .js .chapters-video .frame { padding-bottom: 3.27%; }
+  .js .video--hero .frame__foot, .js .chapters-video .frame__foot {
+    --frame-text: #fff; --frame-line: rgba(255, 255, 255, 0.34);
+    position: relative; z-index: 1; height: 66px; min-height: 0; margin-top: -66px; padding: 12px 20px 10px;
+    border-radius: 0 0 11px 11px;
+    background: linear-gradient(180deg, rgba(7, 10, 17, 0), rgba(7, 10, 17, 0.82) 30%, rgba(7, 10, 17, 0.9));
+  }
+}
 .video__play {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   min-height: 56px; padding: 0 var(--space-6); border-radius: var(--radius-pill);

@@ -1579,6 +1579,21 @@ test("what chapters 2 and 3 say about the estimate and the AI matches the clips:
   assert.match(en.how_ch3_body, /In the demo only rules do the ranking, no AI\.$/);
 });
 
+test("from 1 024 px the line and the pause button lie over the bottom of the hero's and the chapters' window; narrower, without the script and with reduced motion under it", () => {
+  const files = buildSite(loadSite());
+  const css = String(files.get("public/css/site.css"));
+  const block = css.match(/@media \(min-width: 1024px\) and \(prefers-reduced-motion: no-preference\) \{[\s\S]*?\n\}/)[0];
+  assert.match(block, /\.js \.video--hero \.frame__foot, \.js \.chapters-video \.frame__foot \{/);
+  assert.match(block, /height: 66px; min-height: 0; margin-top: -66px;/, "pulled up by exactly its own height: the page gets no taller");
+  assert.match(block, /--frame-text: #fff;/);
+  assert.doesNotMatch(block, /video--ats|video--tour/);
+  // the sentences stay in the page's order, after the video, in the same figure
+  const hero = String(files.get("public/index.html")).match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
+  assert.ok(hero.indexOf("</video>") < hero.indexOf('class="video__cue"'));
+  assert.match(String(files.get("public/index.html")), /<html lang="cs" class="no-js">/);
+  assert.match(String(files.get("public/index.html")), /document\.documentElement\.className = "js"/);
+});
+
 test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's broad focus said", () => {
   const { i18n } = loadSite();
   assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem, jen ve vaší specializaci.");

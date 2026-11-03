@@ -4,7 +4,7 @@
  * Every page works without it; this adds behaviour, never content.
  */
 import { demoPayload, demoResult, MAX_FILE_BYTES } from "./demo-form.js?v=1b59b1995c";
-import { clipFor, clipKey, largestVideo, savesData } from "./media.js?v=ab69c4e567";
+import { clipFor, clipKey, cueNow, largestVideo, savesData } from "./media.js?v=0a3d18d98f";
 
 const T = (() => {
   try {
@@ -181,12 +181,21 @@ const showCue = (fig) => {
   const clip = fig.dataset.cueClip || all[0].dataset.cues;
   const v = shownVideo(fig);
   const phoneCut = !!v.closest(".video--mobile");
-  const lines = all.filter((l) => l.dataset.cues === clip);
-  let now = lines[0];
-  for (const l of lines) {
-    if (Number(phoneCut && l.dataset.atMobile !== undefined ? l.dataset.atMobile : l.dataset.at) <= v.currentTime) now = l;
-  }
+  const now = cueNow(all.filter((l) => l.dataset.cues === clip), v.currentTime, phoneCut);
+  // the same sentence again (a loop that ends on the line it starts with): nothing changes, so nothing fades
+  const on = all.find((l) => l.classList.contains("is-on"));
+  if (on && on.dataset.cues === clip && on.textContent === now.textContent) return;
   for (const l of all) l.classList.toggle("is-on", l === now);
+};
+/* timeupdate comes about four times a second, so a line would change up to 250 ms after the cut it belongs to.
+   Where the browser tells, each frame shown is the moment to look (nothing runs while the video stands). */
+const followFrames = (v, look) => {
+  if (!v.requestVideoFrameCallback) return;
+  const frame = () => {
+    look();
+    v.requestVideoFrameCallback(frame);
+  };
+  v.requestVideoFrameCallback(frame);
 };
 /* What the video code offers the chapters further down: decide again who plays; this figure, it has just been asked for. */
 let videosChanged = () => {};
@@ -270,7 +279,9 @@ const pageLoaded = new Promise((resolve) => {
     if (stays) fig.dataset.user = "paused";
     for (const v of fig.querySelectorAll("video")) {
       v.removeAttribute("controls");
-      v.addEventListener("timeupdate", () => { if (v === shownVideo(fig)) showCue(fig); });
+      const look = () => { if (v === shownVideo(fig)) showCue(fig); };
+      v.addEventListener("timeupdate", look);
+      followFrames(v, look);
       v.addEventListener("play", () => { if (v === shownVideo(fig)) label(btn, false); });
       v.addEventListener("pause", () => { if (v === shownVideo(fig)) label(btn, true); });
     }

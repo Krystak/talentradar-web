@@ -183,6 +183,10 @@
 
 .frame__screen { position: relative; background: #0B111D; }
 .frame__screen video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+/* A loop is on its own layer before it starts, not only once it plays: the window often sits on a fraction of a
+   pixel, and otherwise the picture moves by that fraction when the poster gives way to the first frame
+   (1 440 × 900, 3. 11. 2026: poster against first frame 24,4 dB without this, 32,9 dB with it). */
+.video[data-autoplay] .frame__screen video { will-change: transform; }
 .video__toggle {
   display: inline-flex; align-items: center; gap: var(--space-2); flex: none;
   min-height: 44px; padding: 0 var(--space-3); border-radius: var(--radius-sm);

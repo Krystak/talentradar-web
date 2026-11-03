@@ -1,0 +1,285 @@
+{
+  "_note": "Videos on the site, one entry per clip; {lang} in a path becomes cs or en. A set of clips goes on the site with `npm run media:use -- <folder> --date YYYY-MM-DD`, which checks it and writes clip_date (the recording date shown in the captions, {clip.date}; null = the sentence is left out), version (?v= on the addresses, because /video/* is cached as immutable and clips keep their names) and clips.tour.chapters (from tour.chapters.json). clips.ats.clip_date is V6's own date ({clip.ats_date}): V6 is not retaken with the rest, so media:use leaves it alone. sources: in the order the browser tries them, the first that fits wins; { src, type, media?, width?, height?, budget_mb? }, media for a version by pixel density such as \"(min-resolution: 1.5dppx) and (min-width: 768px)\", with its own size and budget; the last one must be an MP4 for every screen, any other format goes by taking out its rows. cues: the line under the video, { at, at_mobile?, key }, seconds and a key of the text map. Display widths: tokens.css --video-*.",
+  "clip_date": "2026-11-01",
+  "version": "e21852803a",
+  "clips": {
+    "hero": {
+      "mode": "loop",
+      "poster": "/video/hero.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/hero.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/hero.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/hero-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/hero-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/hero-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1440,
+      "height": 900,
+      "cues": [
+        {
+          "at": 0,
+          "at_mobile": 0,
+          "key": "cue_hero_1"
+        },
+        {
+          "at": 4.1,
+          "at_mobile": 3.3,
+          "key": "cue_hero_2"
+        },
+        {
+          "at": 8.3,
+          "at_mobile": 6.6,
+          "key": "cue_hero_3"
+        }
+      ]
+    },
+    "how1": {
+      "mode": "loop",
+      "poster": "/video/rano.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/rano.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/rano.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/rano-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/rano-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/rano-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1280,
+      "height": 800,
+      "cues": [
+        {
+          "at": 0,
+          "key": "cue_morning_1"
+        },
+        {
+          "at": 5,
+          "key": "cue_morning_2"
+        },
+        {
+          "at": 10,
+          "key": "cue_morning_3"
+        }
+      ]
+    },
+    "how2": {
+      "mode": "loop",
+      "poster": "/video/komu-zavolat.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/komu-zavolat.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/komu-zavolat.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/komu-zavolat-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/komu-zavolat-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/komu-zavolat-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1440,
+      "height": 900,
+      "cues": [
+        {
+          "at": 0,
+          "key": "cue_call_1"
+        },
+        {
+          "at": 5,
+          "key": "cue_call_2"
+        },
+        {
+          "at": 10,
+          "key": "cue_call_3"
+        }
+      ]
+    },
+    "how3": {
+      "mode": "loop",
+      "poster": "/video/kandidat.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/kandidat.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/kandidat.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": {
+        "poster": "/video/kandidat-mobile.{lang}.webp",
+        "sources": [
+          {
+            "src": "/video/kandidat-mobile.{lang}.webm",
+            "type": "video/webm"
+          },
+          {
+            "src": "/video/kandidat-mobile.{lang}.mp4",
+            "type": "video/mp4"
+          }
+        ],
+        "width": 720,
+        "height": 900
+      },
+      "width": 1280,
+      "height": 800,
+      "cues": [
+        {
+          "at": 0,
+          "key": "cue_candidate_1"
+        },
+        {
+          "at": 7,
+          "key": "cue_candidate_2"
+        }
+      ]
+    },
+    "ats": {
+      "mode": "loop",
+      "poster": "/video/vedle-ats.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/vedle-ats.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/vedle-ats.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": null,
+      "width": 1280,
+      "height": 800,
+      "clip_date": "2026-11-01",
+      "cues": [
+        {
+          "at": 0,
+          "key": "cue_ats_1"
+        }
+      ]
+    },
+    "tour": {
+      "mode": "tour",
+      "poster": "/video/tour.{lang}.webp",
+      "sources": [
+        {
+          "src": "/video/tour.{lang}.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/tour.{lang}.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "mobile": null,
+      "width": 1280,
+      "height": 800,
+      "tracks": [
+        {
+          "srclang": "cs",
+          "label": "demo_track_cs",
+          "src": "/video/tour.cs.vtt"
+        },
+        {
+          "srclang": "en",
+          "label": "demo_track_en",
+          "src": "/video/tour.en.vtt"
+        }
+      ],
+      "chapters": {
+        "cs": [
+          {
+            "id": "rano",
+            "start": 0
+          },
+          {
+            "id": "detail",
+            "start": 20.17
+          },
+          {
+            "id": "komu-zavolat",
+            "start": 33.11
+          },
+          {
+            "id": "kandidat",
+            "start": 56.57
+          },
+          {
+            "id": "ats",
+            "start": 77.24
+          }
+        ],
+        "en": [
+          {
+            "id": "rano",
+            "start": 0
+          },
+          {
+            "id": "detail",
+            "start": 20.17
+          },
+          {
+            "id": "komu-zavolat",
+            "start": 33.23
+          },
+          {
+            "id": "kandidat",
+            "start": 56.67
+          },
+          {
+            "id": "ats",
+            "start": 78.21
+          }
+        ]
+      }
+    }
+  }
+}

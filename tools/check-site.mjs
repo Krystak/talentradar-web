@@ -168,6 +168,16 @@ export const CONTRAST_PAIRS = [
 // ── The check ───────────────────────────────────────────────────────────────
 
 const ALLOWED_SCRIPT_HOSTS = []; // no third-party scripts at all
+const LANGS = ["cs", "en"];
+
+/**
+ * A clip as one language has it. by_lang.<lang> replaces what it names for that language: a language
+ * whose new cut has not come yet keeps its older one there, and taking the entry out is the whole change.
+ */
+export function clipIn(clip, lang) {
+  const own = clip.by_lang && clip.by_lang[lang];
+  return own ? { ...clip, ...own } : clip;
+}
 
 /** The size a video file may have in bytes (lead prompt B2), or null for anything that is not a video. */
 export function videoBudget(path) {
@@ -198,21 +208,31 @@ export function dataClipFiles(html) {
  */
 export function expectedFiles(media) {
   const rows = new Map();
-  const add = (path, size) => {
-    for (const lang of ["cs", "en"]) {
-      const name = path.replace("{lang}", lang).replace(/^\/video\//, "");
-      rows.set(name, { name, ...size });
+  for (const whole of Object.values(media.clips)) {
+    for (const lang of LANGS) {
+      const add = (path, size) => {
+        const name = path.replace("{lang}", lang).replace(/^\/video\//, "");
+        rows.set(name, { name, ...size });
+      };
+      const clip = clipIn(whole, lang);
+      for (const cut of [clip, clip.mobile && { ...clip, ...clip.mobile }]) {
+        if (!cut) continue;
+        add(cut.poster, { width: cut.width, height: cut.height });
+        for (const s of cut.sources) add(s.src, { width: s.width || cut.width, height: s.height || cut.height, ...(s.budget_mb ? { budget: s.budget_mb * 1e6 } : {}) });
+      }
+      for (const track of clip.tracks || []) add(track.src);
     }
-  };
-  for (const clip of Object.values(media.clips)) {
-    for (const cut of [clip, clip.mobile && { ...clip, ...clip.mobile }]) {
-      if (!cut) continue;
-      add(cut.poster, { width: cut.width, height: cut.height });
-      for (const s of cut.sources) add(s.src, { width: s.width || cut.width, height: s.height || cut.height, ...(s.budget_mb ? { budget: s.budget_mb * 1e6 } : {}) });
-    }
-    for (const track of clip.tracks || []) add(track.src);
   }
   return [...rows.values()];
+}
+
+/** Everything the site's languages have of a clip, with a name for messages: [[name, cut]]. */
+function cutsOf(id, clip) {
+  const cuts = [[id, clip], [`${id} phone`, clip.mobile]];
+  for (const [lang, own] of Object.entries(clip.by_lang || {})) {
+    cuts.push([`${id} ${lang}`, own.sources ? own : null], [`${id} ${lang} phone`, own.mobile]);
+  }
+  return cuts.filter(([, cut]) => cut);
 }
 
 /**
@@ -223,13 +243,24 @@ export function expectedFiles(media) {
 export function sourceProblems(media) {
   const problems = [];
   for (const [id, clip] of Object.entries(media.clips)) {
-    for (const [what, cut] of [[id, clip], [`${id} phone`, clip.mobile]]) {
-      if (!cut) continue;
+    for (const lang of Object.keys(clip.by_lang || {})) if (!LANGS.includes(lang)) problems.push(`${id}: by_lang has ${lang}, the site has ${LANGS.join(" and ")}`);
+    for (const [what, cut] of cutsOf(id, clip)) {
       const last = cut.sources[cut.sources.length - 1];
       if (!last || last.media || !/^video\/mp4\b/.test(last.type)) problems.push(`${what}: the last source has to be an MP4 for every screen`);
     }
   }
   return problems;
+}
+
+/** The cuts media.json says are not the final ones yet (waits: what replaces them). A release has none; a working set may. */
+export function waitingCuts(media) {
+  return Object.entries(media.clips).flatMap(([id, clip]) => cutsOf(id, clip).filter(([, cut]) => cut.waits).map(([what, cut]) => `${what}: still the older cut, waits for ${cut.waits}`));
+}
+
+/** Files in a folder of clips that media.json does not name: not copied, not in the version, and published when they are in public/video. */
+export function filesOutsideSet(dir, media) {
+  const known = new Set([...expectedFiles(media).map((f) => f.name), "tour.chapters.json", ".gitignore", ".gitkeep"]);
+  return existsSync(dir) ? readdirSync(dir).filter((n) => !known.has(n) && !n.includes("ukazka-v0") && statSync(join(dir, n)).isFile()) : [];
 }
 
 /**
@@ -287,6 +318,8 @@ export function videoSetProblems(media, { root = ROOT, duringMediaUse = false } 
   if (missing.length) return [...problems, `public/video: ${missing.length} files of the set are missing, for example ${missing[0].name}`];
   const version = setVersion(video, media);
   if (media.version !== version) problems.push(`public/video: the files hash to ${version}, media.json says version ${media.version}: a clip changed without npm run media:use`);
+  const outside = filesOutsideSet(video, media);
+  if (!duringMediaUse && outside.length) problems.push(`public/video: ${outside.length} files are not part of the set and would be published: ${outside.join(", ")}`);
   return problems;
 }
 
@@ -483,7 +516,8 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const budgets = Object.fromEntries(expectedFiles(media).filter((f) => f.budget).map((f) => [f.name, f.budget]));
   const { errors, warnings } = checkSite(diskFiles(), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release, budgets });
   if (release) {
-    errors.push(...sourceProblems(media), ...videoSetProblems(media, { duringMediaUse: process.argv.includes("--during-media-use") }));
+    const duringMediaUse = process.argv.includes("--during-media-use");
+    errors.push(...sourceProblems(media), ...videoSetProblems(media, { duringMediaUse }), ...(duringMediaUse ? [] : waitingCuts(media)));
   }
   for (const w of warnings) console.warn(`warning: ${w}`);
   for (const e of errors) console.error(`error: ${e}`);

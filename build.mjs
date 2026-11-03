@@ -28,6 +28,8 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { clipIn } from "./tools/check-site.mjs";
+
 export const ROOT = dirname(fileURLToPath(import.meta.url));
 const SRC = join(ROOT, "src");
 const MANIFEST = "build-manifest.json";
@@ -268,6 +270,13 @@ export function siteVars(site, lang) {
     // V6 is not retaken with the morning clips, so it keeps the date it was recorded on
     "clip.ats_date": site.media && site.media.clips && site.media.clips.ats && site.media.clips.ats.clip_date ? d(site.media.clips.ats.clip_date, true) : null,
   });
+  // the hero is retaken a language and a screen at a time: each says the day it was recorded on, a clip without its own the set's
+  const hero = site.media && site.media.clips && site.media.clips.hero && clipIn(site.media.clips.hero, lang);
+  if (hero) {
+    const day = (cut) => (cut.clip_date || site.media.clip_date ? d(cut.clip_date || site.media.clip_date, true) : null);
+    vars["clip.hero_date"] = day(hero);
+    vars["clip.hero_phone_date"] = day(hero.mobile || hero);
+  }
   return vars;
 }
 
@@ -462,7 +471,7 @@ function resolve(site, token, ctx, where) {
   }
   if (token.startsWith("media:")) {
     const [id, field] = token.slice(6).split(":");
-    const clip = site.media.clips[id] || fail("unknown clip");
+    const clip = clipIn(site.media.clips[id] || fail("unknown clip"), ctx.lang);
     const lang = (p) => mediaUrl(site, p, ctx.lang);
     if (field === "json") {
       // a chapter tab's whole clip (all sources, the phone cut) for site.js (js/media.js clipFor)
@@ -553,7 +562,7 @@ function mediaUrl(site, path, lang) {
  * high priority. It does not keep the other one from loading: see videoFigure.
  */
 function heroPosterPreloads(site, lang) {
-  const clip = site.media.clips.hero;
+  const clip = clipIn(site.media.clips.hero, lang);
   const link = (poster, media) => `<link rel="preload" as="image" href="${mediaUrl(site, poster, lang)}"${media ? ` media="${media}"` : ""} fetchpriority="high">`;
   if (!clip.mobile) return [link(clip.poster)];
   return [link(clip.mobile.poster, "(max-width: 767px)"), link(clip.poster, "(min-width: 768px)")];
@@ -576,8 +585,8 @@ function heroPosterPreloads(site, lang) {
  * button (data-tap-phone, lead etapa 4a).
  */
 function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
-  const clip = site.media.clips[id];
-  if (!clip) throw new Error(`${where}: unknown clip ${id}`);
+  if (!site.media.clips[id]) throw new Error(`${where}: unknown clip ${id}`);
+  const clip = clipIn(site.media.clips[id], ctx.lang);
   const lang = (p) => mediaUrl(site, p, ctx.lang);
   const aria = escapeHtml(text(site, ctx, ariaKey));
   const loop = clip.mode === "loop";
@@ -598,9 +607,10 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
   const tap = loop && id !== "hero";
   const start = tap ? `\n    <button class="btn btn-secondary video__start" type="button" hidden>${escapeHtml(text(site, ctx, "hero_video_play"))}</button>` : "";
   const lines = [id, ...others].flatMap((clipId) => {
-    const of = site.media.clips[clipId];
-    if (!of) throw new Error(`${where}: unknown clip ${clipId}`);
-    return (of.cues || []).map((cue) => `<span class="video__cue-line" data-cues="${clipId}" data-at="${cue.at}"${cue.at_mobile === undefined ? "" : ` data-at-mobile="${cue.at_mobile}"`}>${escapeHtml(text(site, ctx, cue.key))}</span>`);
+    if (!site.media.clips[clipId]) throw new Error(`${where}: unknown clip ${clipId}`);
+    const of = clipIn(site.media.clips[clipId], ctx.lang);
+    // at_mobile null: a line the phone cut does not have (js/media.js cueNow)
+    return (of.cues || []).map((cue) => `<span class="video__cue-line" data-cues="${clipId}" data-at="${cue.at}"${cue.at_mobile === undefined ? "" : ` data-at-mobile="${cue.at_mobile === null ? "none" : cue.at_mobile}"`}>${escapeHtml(text(site, ctx, cue.key))}</span>`);
   });
   if (lines.length) lines[0] = lines[0].replace('class="video__cue-line"', 'class="video__cue-line is-on"');
   const foot = lines.length || toggle ? `\n    <div class="frame__foot"><p class="video__cue">${lines.join("")}</p>${toggle}</div>` : "";

@@ -12,6 +12,18 @@ export function clipFor(clip, phone) {
   return { poster: cut.poster, sources: cut.sources.map((s) => ({ src: s.src, type: s.type, ...(s.media ? { media: s.media } : {}) })) };
 }
 
+/**
+ * The line under a video at this moment of the clip: the last one whose time has come, the first before that.
+ * lines: elements with data-at and maybe data-at-mobile, the time on the phone cut ("none": not on that cut).
+ */
+export function cueNow(lines, time, phoneCut) {
+  let now = lines[0];
+  for (const l of lines) {
+    if (Number(phoneCut && l.dataset.atMobile !== undefined ? l.dataset.atMobile : l.dataset.at) <= time) now = l;
+  }
+  return now;
+}
+
 /** A key that changes whenever the sources of a cut change (to skip a needless reload). */
 export function clipKey(cut) {
   return cut.sources.map((s) => s.src).join("|");

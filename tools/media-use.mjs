@@ -3,6 +3,7 @@
  * Puts a set of clips on the site in one step, without touching any code:
  *
  *   npm run media:use -- ~/Documents/tr-web-media/public/video --date 2026-11-03
+ *   npm run media:use -- <folder with one clip's new files> --keep-rest
  *   npm run media:use -- --recover     (only undoes a run that was interrupted)
  *   npm run media:use -- --force-recover     (the same when --recover refuses, see below)
  *
@@ -19,6 +20,11 @@
  * taken, because it would overwrite them; --force-recover goes ahead all the same.
  * V6 keeps its own date (clips.ats.clip_date): it is not retaken with the rest.
  *
+ * --keep-rest is for one clip at a time: its row in media.json is edited first (sources, poster, cues,
+ * its own clip_date), the folder has only what is new, and every other file of the set comes from
+ * public/video as it is. The same checks and the same way back; the dates stay what media.json says,
+ * so it takes no --date. A whole set with --date writes the top clip_date and leaves a clip's own alone.
+ *
  * Only the files media.json names and tour.chapters.json are copied. Anything else in the
  * folder, or already in public/video, is left where it is and listed as a warning.
  *
@@ -32,7 +38,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameS
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { MEDIA_WORK, clipBytes, expectedFiles, mediaUseOwner, setVersion, sourceProblems, videoBudget } from "./check-site.mjs";
+import { MEDIA_WORK, clipBytes, expectedFiles, filesOutsideSet, mediaUseOwner, setVersion, sourceProblems, videoBudget } from "./check-site.mjs";
 
 export { expectedFiles, setVersion };
 
@@ -108,8 +114,14 @@ export function ffprobeInfo(path) {
 }
 
 /** Everything wrong with a set of clips against media.json; an empty list when it can be used. */
-export function setProblems(source, media, { probe = ffprobeInfo } = {}) {
+export function setProblems(source, media, { probe = ffprobeInfo, today } = {}) {
   const problems = sourceProblems(media);
+  for (const [id, clip] of Object.entries(media.clips)) {
+    for (const cut of [clip, clip.mobile, ...Object.values(clip.by_lang || {})]) {
+      const bad = cut && cut.clip_date ? dateProblem(cut.clip_date, today) : null;
+      if (bad) problems.push(`${id}: clip_date, ${bad.replace(/^--date /, "")}`);
+    }
+  }
   const lengths = {};
   for (const file of expectedFiles(media)) {
     const path = join(source, file.name);
@@ -410,13 +422,25 @@ export function releaseCheck(root = REPO, stdio = "inherit") {
   };
 }
 
+/**
+ * --keep-rest: the whole set in one folder of the work folder, what the given folder has and the rest
+ * from public/video. What is in neither is simply not there, and the check of the set says so.
+ */
+function composeSet(folder, video, media, work) {
+  const set = join(work, "set");
+  mkdirSync(set, { recursive: true });
+  for (const name of [...expectedFiles(media).map((f) => f.name), CHAPTER_FILE]) {
+    const from = [folder, video].map((dir) => join(dir, name)).find((path) => existsSync(path));
+    if (from) copyFileSync(from, join(set, name));
+  }
+  return set;
+}
+
 /** Files that are not part of the set, in its folder and in public/video: not copied, not removed, not in the version. */
 function foreignFiles(from, video, media) {
-  const known = new Set([...expectedFiles(media).map((f) => f.name), CHAPTER_FILE, ".gitignore", ".gitkeep"]);
-  const foreign = (dir) => (existsSync(dir) ? readdirSync(dir).filter((n) => !known.has(n) && !n.includes("ukazka-v0") && statSync(join(dir, n)).isFile()) : []);
   const warnings = [];
-  const inSource = foreign(from);
-  const inVideo = foreign(video);
+  const inSource = filesOutsideSet(from, media);
+  const inVideo = filesOutsideSet(video, media);
   if (inSource.length) warnings.push(`not part of the set, not copied: ${inSource.join(", ")}`);
   if (inVideo.length) warnings.push(`in public/video but not part of the set, left there (and published): ${inVideo.join(", ")}`);
   return warnings;
@@ -428,7 +452,7 @@ function foreignFiles(from, video, media) {
  * undone is false when a failed run could not put everything back. verify throws when the result
  * must not stay. step is called between the stages (tests).
  */
-export function useSet({ source, date, root = REPO, today, probe, tracked = trackedClips(root), staged = stagedClips(root, tracked), verify = () => {}, step = () => {} }) {
+export function useSet({ source, date, keepRest = false, root = REPO, today, probe, tracked = trackedClips(root), staged = stagedClips(root, tracked), verify = () => {}, step = () => {} }) {
   const owner = takeLock(root);
   if (owner) return { problems: [running(owner)], recovered: false };
   step("lock");
@@ -447,20 +471,26 @@ export function useSet({ source, date, root = REPO, today, probe, tracked = trac
   try {
     media = JSON.parse(readFileSync(mediaPath, "utf8"));
     from = resolve(source);
+    const folder = from;
     const problems = [];
-    const bad = dateProblem(date, today);
+    const bad = keepRest ? null : dateProblem(date, today);
     if (bad) problems.push(bad);
     if (!existsSync(from) || !statSync(from).isDirectory()) problems.push(`${source}: not a folder`);
-    else problems.push(...setProblems(from, media, { probe }));
+    else {
+      if (keepRest) from = composeSet(folder, video, media, work);
+      problems.push(...setProblems(from, media, { probe, today }));
+    }
     if (staged.length) problems.push(`clips staged for a commit: ${staged.join(", ")}`);
     if (problems.length) {
+      clearWork(work);
       releaseLock(root);
       return { problems, recovered };
     }
     chapters = JSON.parse(readFileSync(join(from, CHAPTER_FILE), "utf8"));
     version = setVersion(from, media);
-    warnings = foreignFiles(from, video, media);
+    warnings = foreignFiles(folder, video, media);
   } catch (err) {
+    clearWork(work);
     releaseLock(root);
     return { problems: [firstLine(err.message)], recovered };
   }
@@ -483,7 +513,7 @@ export function useSet({ source, date, root = REPO, today, probe, tracked = trac
       writeFileSync(marker, "# Local to this worktree: a working set of clips is never committed from here (tools/media-use.mjs)\n*\n");
     }
 
-    media.clip_date = date;
+    if (!keepRest) media.clip_date = date;
     media.version = version;
     media.clips.tour.chapters = Object.fromEntries(LANGS.map((lang) => [lang, chapters[lang].map((c) => ({ id: c.id, start: c.start }))]));
     const tmp = join(work, "media.json.tmp");
@@ -535,12 +565,13 @@ function main(argv) {
   }
   const dateAt = argv.indexOf("--date");
   const date = dateAt >= 0 ? argv[dateAt + 1] : undefined;
-  const source = argv.find((a, i) => !a.startsWith("--") && i !== dateAt + 1);
-  if (!source || !date) {
-    console.error("usage: npm run media:use -- <folder with the clips> --date YYYY-MM-DD");
+  const keepRest = argv.includes("--keep-rest");
+  const source = argv.find((a, i) => !a.startsWith("--") && (dateAt < 0 || i !== dateAt + 1));
+  if (!source || keepRest === !!date) {
+    console.error("usage: npm run media:use -- <folder with the whole set> --date YYYY-MM-DD\n       npm run media:use -- <folder with one clip's new files> --keep-rest   (its date is in its row of media.json)");
     return 2;
   }
-  const { problems, version, note, warnings, recovered, undone } = useSet({ source, date, verify: releaseCheck() });
+  const { problems, version, note, warnings, recovered, undone } = useSet({ source, date, keepRest, verify: releaseCheck() });
   if (recovered) console.log("an interrupted run was undone first");
   if (problems.length) {
     for (const p of problems) console.error(`error: ${p}`);
@@ -548,7 +579,7 @@ function main(argv) {
     return 1;
   }
   for (const w of warnings) console.warn(`warning: ${w}`);
-  console.log(`clips in place: clip_date ${date}, version ${version}; ${note}`);
+  console.log(`clips in place: ${date ? `clip_date ${date}, ` : ""}version ${version}; ${note}`);
   try {
     const status = execFileSync("git", ["status", "--short", "--", "public/video", "src/data/media.json"], { cwd: REPO, encoding: "utf8", timeout: 30000 });
     console.log(status || "git status: no change in public/video or media.json");

@@ -12,8 +12,8 @@ import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { buildSite, loadSite } from "../build.mjs";
-import { answer, checkSite, dataClipFiles, hiddenDates, ignoredNames, siteFiles, sourceProblems, videoBudget, videoSetProblems, workerFirstPatterns } from "../tools/check-site.mjs";
-import { VIDEO_SWITCH_AT, clipFor, largestVideo, savesData } from "../src/js/media.js";
+import { answer, checkSite, clipIn, dataClipFiles, filesOutsideSet, hiddenDates, ignoredNames, siteFiles, sourceProblems, videoBudget, videoSetProblems, waitingCuts, workerFirstPatterns } from "../tools/check-site.mjs";
+import { VIDEO_SWITCH_AT, clipFor, cueNow, largestVideo, savesData } from "../src/js/media.js";
 import { AI_LIST_HEADERS, cleanAiList, demoPayload } from "../src/js/demo-form.js";
 import { LENGTH_TOLERANCE, POSTER_MIN_BYTES, chapterProblems, dateProblem, expectedFiles, ffprobeInfo, lengthProblems, recoverInterrupted, releaseCheck, setProblems, setVersion, useSet } from "../tools/media-use.mjs";
 import { REDIRECTS } from "../worker-routes.gen.js";
@@ -38,7 +38,7 @@ test("media.json: every clip has WebM + MP4 and a poster, the phone cut is 4:5, 
     assert.match(clip.sources[clip.sources.length - 1].type, /^video\/mp4/, `${id}: H.264 for every screen comes last`);
     assert.equal(clip.sources[clip.sources.length - 1].media, undefined, id);
     assert.equal(clip.width / clip.height, 16 / 10, `${id} is 16:10`);
-    assert.match(clip.poster, /\{lang\}\.webp$/, id);
+    assert.match(clip.poster, /\{lang\}(\.\d+)?\.webp$/, id);
   }
   assert.equal(clips.how4, undefined, "three chapters");
   for (const id of ["hero", "how1", "how2", "how3"]) {
@@ -46,7 +46,7 @@ test("media.json: every clip has WebM + MP4 and a poster, the phone cut is 4:5, 
     assert.ok(cut, `${id} has a phone cut`);
     assert.equal(cut.width / cut.height, 4 / 5, id);
     assert.match(cut.sources[cut.sources.length - 1].type, /^video\/mp4/, id);
-    assert.match(cut.poster, /-mobile\.\{lang\}\.webp$/, id);
+    assert.match(cut.poster, /-mobile\.\{lang\}(\.\d+)?\.webp$/, id);
   }
   assert.equal(clips.ats.mobile, null);
   assert.equal(clips.tour.mobile, null);
@@ -103,9 +103,14 @@ test("every video address carries the set's version, a new version changes them 
 
 test("the hero's poster is preloaded per screen, in the page's language, on the home page only", () => {
   const files = buildSite(siteWith((m) => { m.version = null; }));
-  assert.match(page(files, "public/index.html"), /<link rel="preload" as="image" href="\/video\/hero-mobile\.cs\.webp" media="\(max-width: 767px\)" fetchpriority="high">/);
-  assert.match(page(files, "public/index.html"), /<link rel="preload" as="image" href="\/video\/hero\.cs\.webp" media="\(min-width: 768px\)" fetchpriority="high">/);
-  assert.match(page(files, "public/en/index.html"), /href="\/video\/hero-mobile\.en\.webp" media="\(max-width: 767px\)"/);
+  const { hero } = loadSite().media.clips;
+  // the names come from media.json: a new cut of the hero changes them, not what this says
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const clip = clipIn(hero, lang);
+    const name = (cut) => cut.poster.replace("{lang}", lang);
+    assert.ok(page(files, path).includes(`<link rel="preload" as="image" href="${name(clip.mobile)}" media="(max-width: 767px)" fetchpriority="high">`), `${path} phone`);
+    assert.ok(page(files, path).includes(`<link rel="preload" as="image" href="${name(clip)}" media="(min-width: 768px)" fetchpriority="high">`), `${path} wide`);
+  }
   for (const path of ["public/demo.html", "public/en/demo.html", "public/cenik.html", "public/blog/index.html"]) {
     assert.doesNotMatch(page(files, path), /rel="preload" as="image"/, path);
   }
@@ -176,7 +181,8 @@ test("the budgets of the videos", () => {
 
 // ── tools/media-use.mjs ─────────────────────────────────────────────────────
 
-const REAL = new URL("../src/data/media.json", import.meta.url);
+// tests of the tool work on a set frozen here, so that replacing a clip on the site changes none of them
+const REAL = new URL("./media-set.fixture.json", import.meta.url);
 const TODAY = new Date(2026, 10, 3, 12);
 const chapters = (shift = 0) => ({
   cs: ["rano", "detail", "komu-zavolat", "kandidat", "ats"].map((id, i) => ({ id, start: i ? i * 20 + shift : 0, title: id })),
@@ -450,7 +456,10 @@ test("files that are not part of the set: not copied, not in the version, not re
     assert.ok(!existsSync(join(s.root, "public/video/notes.json")), "not copied");
     assert.equal(readFileSync(join(s.root, "public/video/hero.en.jpg"), "utf8"), "already here", "not removed");
     assert.deepEqual(warnings, ["not part of the set, not copied: hero.cs.jpg, notes.json", "in public/video but not part of the set, left there (and published): hero.en.jpg"]);
-    assert.deepEqual(videoSetProblems(JSON.parse(s.json()), { root: s.root }), []);
+    // media:use only warns, a release does not go out with them (review k2: hero.*.jpg answered 200)
+    assert.deepEqual(videoSetProblems(JSON.parse(s.json()), { root: s.root, duringMediaUse: true }), []);
+    assert.deepEqual(videoSetProblems(JSON.parse(s.json()), { root: s.root }), ["public/video: 1 files are not part of the set and would be published: hero.en.jpg"]);
+    assert.deepEqual(filesOutsideSet(join(s.root, "public/video"), JSON.parse(s.json())), ["hero.en.jpg"]);
   } finally { s.done(); }
 });
 
@@ -616,6 +625,7 @@ function repoCopy() {
     },
   });
   mkdirSync(join(root, "public/video"), { recursive: true });
+  writeFileSync(join(root, "src/data/media.json"), readFileSync(REAL));
   const media = JSON.parse(readFileSync(join(root, "src/data/media.json"), "utf8"));
   const source = join(root, "set");
   fakeSet(source, media);
@@ -1001,7 +1011,12 @@ test("the recording date is in the line under the hero, on both screens, in both
   const release = (edit) => checkSite(siteFiles(buildSite(siteWith(edit))), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
   const what = "the line under the hero video has no recording date";
   assert.ok(!release(() => {}).some((e) => e.includes(what)));
-  const none = release((m) => { m.clip_date = null; });
+  const none = release((m) => {
+    m.clip_date = null;
+    delete m.clips.hero.clip_date;
+    if (m.clips.hero.mobile) delete m.clips.hero.mobile.clip_date;
+    for (const own of Object.values(m.clips.hero.by_lang || {})) delete own.clip_date;
+  });
   for (const screen of ["on a wide screen", "on a phone"]) assert.ok(none.some((e) => e.startsWith("public/index.html") && e.includes(`${what} ${screen}`)), screen);
 });
 
@@ -1247,7 +1262,7 @@ test("the line under a video: the words from the text map and the times from med
   const home = (edit) => String(buildSite(siteWith(edit)).get("public/index.html"));
   const hero = (html) => html.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
   const site = loadSite();
-  const lines = [...hero(home(() => {})).matchAll(/<span class="video__cue-line( is-on)?" data-cues="hero" data-at="([\d.]+)"(?: data-at-mobile="([\d.]+)")?>/g)];
+  const lines = [...hero(home(() => {})).matchAll(/<span class="video__cue-line( is-on)?" data-cues="hero" data-at="([\d.]+)"(?: data-at-mobile="([\d.]+|none)")?>/g)];
   assert.deepEqual(lines.map((m) => Number(m[2])), site.media.clips.hero.cues.map((c) => c.at));
   assert.deepEqual(lines.map((m) => !!m[1]), lines.map((_, i) => i === 0), "the first sentence is the one without JavaScript");
   const changed = hero(home((m) => { m.clips.hero.cues = [{ at: 1.5, key: "cue_hero_2" }]; }));
@@ -1273,7 +1288,9 @@ test("the line's mechanics: one grid cell, a fixed height; it follows the clip's
   const js = String(files.get("public/js/site.js"));
   assert.match(css, /\.video__cue \{ display: grid;/);
   assert.match(css, /\.video__cue-line \{ grid-area: 1 \/ 1; opacity: 0; visibility: hidden;/);
-  assert.match(js, /v\.addEventListener\("timeupdate", \(\) => \{ if \(v === shownVideo\(fig\)\) showCue\(fig\); \}\);/);
+  assert.match(js, /const look = \(\) => \{ if \(v === shownVideo\(fig\)\) showCue\(fig\); \};\s*v\.addEventListener\("timeupdate", look\);\s*followFrames\(v, look\);/);
+  assert.match(js, /requestVideoFrameCallback\(frame\)/);
+  assert.match(js, /on\.textContent === now\.textContent\) return;/);
   assert.match(js, /const live = figures\.filter\(\(fig\) => fig\.querySelector\("\.video__toggle"\) && !stillPref\.matches\);/);
   assert.match(js, /fig\.dataset\.cueClip = clip\.id;/);
 });
@@ -1339,7 +1356,7 @@ test("versions by pixel density: <source media> in the page and in a tab's clip,
   const media = siteWith((m) => addVersions(m.clips.hero)).media;
   const row = expectedFiles(media).find((f) => f.name === "x.hi.cs.mp4");
   assert.deepEqual([row.width, row.height, row.budget], [2048, 1280, 7e6]);
-  assert.equal(expectedFiles(media).find((f) => f.name === "x.cs.mp4").width, 1440, "a version without a size has the cut's");
+  assert.equal(expectedFiles(media).find((f) => f.name === "x.cs.mp4").width, media.clips.hero.width, "a version without a size has the cut's");
 });
 
 test("a format can go by taking out its rows, nothing else; without an MP4 for every screen media:use and release refuse", () => {
@@ -1398,4 +1415,246 @@ test("saving data or on a slow network the videos stay on their poster until ask
   const js = String(buildSite(loadSite()).get("public/js/site.js"));
   assert.match(js, /if \(stays\) fig\.dataset\.user = "paused";/);
   assert.match(js, /waitsForTap\(e\.target\) \|\| stays\) continue;/);
+});
+
+// ── A clip replaced one language and one screen at a time ───────────────────
+
+/** A clip's new cut for Czech, the older one stays for English (the fixture's hero). */
+const heroNewForCzech = (m) => {
+  const { hero } = m.clips;
+  hero.by_lang = { en: { waits: "V1 EN", clip_date: "2026-11-01", poster: hero.poster, sources: hero.sources, width: hero.width, height: hero.height, cues: hero.cues } };
+  hero.mobile = { waits: "V1 telefon", clip_date: "2026-11-01", ...hero.mobile };
+  hero.clip_date = "2026-11-03";
+  hero.poster = "/video/hero.{lang}.1920.webp";
+  hero.width = 1920;
+  hero.height = 1200;
+  hero.sources = [
+    { src: "/video/hero.{lang}.2048.60.mp4", type: "video/mp4", media: "(min-resolution: 1.5dppx) and (min-width: 768px)", width: 2048, height: 1280, budget_mb: 7 },
+    { src: "/video/hero.{lang}.1440.60.mp4", type: "video/mp4", width: 1440, height: 900, budget_mb: 4.5 },
+  ];
+  hero.cues = [{ at: 0, at_mobile: 0, key: "cue_hero_1" }, { at: 3.95, at_mobile: 3.3, key: "cue_hero_2" }, { at: 12.5, at_mobile: null, key: "cue_hero_1" }];
+};
+const frozen = () => JSON.parse(readFileSync(REAL, "utf8"));
+
+test("by_lang: the set has each language's own files, the new name only where it is, and taking the entry out is the whole change", () => {
+  const media = frozen();
+  heroNewForCzech(media);
+  const names = expectedFiles(media).map((f) => f.name);
+  for (const name of ["hero.cs.2048.60.mp4", "hero.cs.1440.60.mp4", "hero.cs.1920.webp", "hero.en.webm", "hero.en.mp4", "hero.en.webp", "hero-mobile.cs.mp4", "hero-mobile.en.mp4"]) assert.ok(names.includes(name), name);
+  for (const name of ["hero.en.2048.60.mp4", "hero.en.1920.webp", "hero.cs.webm", "hero.cs.mp4", "hero.cs.webp"]) assert.ok(!names.includes(name), name);
+  const row = (name) => expectedFiles(media).find((f) => f.name === name);
+  assert.deepEqual([row("hero.cs.1920.webp").width, row("hero.en.webp").width, row("hero.cs.1440.60.mp4").budget], [1920, 1440, 4.5e6]);
+  assert.equal(clipIn(media.clips.hero, "cs"), media.clips.hero);
+  assert.equal(clipIn(media.clips.hero, "en").poster, "/video/hero.{lang}.webp");
+  delete media.clips.hero.by_lang;
+  assert.ok(expectedFiles(media).map((f) => f.name).includes("hero.en.2048.60.mp4"));
+  assert.ok(!expectedFiles(media).map((f) => f.name).includes("hero.en.webm"));
+});
+
+test("by_lang with times only: a language on the same files, with its own lines; the phone cut's files are untouched", () => {
+  const edit = (m) => {
+    m.clips = frozen().clips;
+    heroNewForCzech(m);
+    m.clips.hero.by_lang.en = { clip_date: "2026-11-03", cues: [{ at: 0, at_mobile: 0, key: "cue_hero_1" }, { at: 4.27, at_mobile: 3.3, key: "cue_hero_2" }] };
+    m.version = null;
+  };
+  const site = siteWith(edit);
+  assert.deepEqual(sourceProblems(site.media), []);
+  const names = expectedFiles(site.media).map((f) => f.name);
+  for (const name of ["hero.en.2048.60.mp4", "hero.en.1440.60.mp4", "hero.en.1920.webp", "hero-mobile.en.mp4"]) assert.ok(names.includes(name), name);
+  assert.ok(!names.includes("hero.en.webm"));
+  const files = buildSite(site);
+  const en = page(files, "public/en/index.html").match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
+  assert.match(en, /src="\/video\/hero\.en\.2048\.60\.mp4"/);
+  assert.match(en, /data-at="4\.27"/);
+  assert.doesNotMatch(en, /data-at="3\.95"/);
+  assert.match(page(files, "public/index.html"), /data-at="3\.95"/);
+});
+
+test("by_lang: its cuts are held to the same rule, and only the site's languages", () => {
+  const media = frozen();
+  heroNewForCzech(media);
+  assert.deepEqual(sourceProblems(media), []);
+  media.clips.hero.by_lang.en.sources = [{ src: "/video/hero.{lang}.webm", type: "video/webm" }];
+  assert.deepEqual(sourceProblems(media), ["hero en: the last source has to be an MP4 for every screen"]);
+  media.clips.hero.by_lang = { de: media.clips.hero.by_lang.en };
+  assert.ok(sourceProblems(media).some((p) => p.includes("by_lang has de")));
+});
+
+test("by_lang on the page: each language its files, poster, preload and times; the hidden phone cut stays", () => {
+  const files = buildSite(siteWith((m) => { m.clips = frozen().clips; heroNewForCzech(m); m.version = null; }));
+  const figure = (path) => page(files, path).match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
+  const cs = figure("public/index.html");
+  const en = figure("public/en/index.html");
+  assert.deepEqual([...cs.match(/<video [\s\S]*?<\/video>/)[0].matchAll(/<source src="([^"]+)"/g)].map((m) => m[1]), ["/video/hero.cs.2048.60.mp4", "/video/hero.cs.1440.60.mp4"]);
+  assert.deepEqual([...en.match(/<video [\s\S]*?<\/video>/)[0].matchAll(/<source src="([^"]+)"/g)].map((m) => m[1]), ["/video/hero.en.webm", "/video/hero.en.mp4"]);
+  assert.match(cs, /poster="\/video\/hero\.cs\.1920\.webp"/);
+  assert.match(cs, /width="1920" height="1200"/);
+  assert.match(en, /poster="\/video\/hero\.en\.webp"/);
+  assert.match(cs, /poster="\/video\/hero-mobile\.cs\.webp"/);
+  assert.match(page(files, "public/index.html"), /rel="preload" as="image" href="\/video\/hero\.cs\.1920\.webp" media="\(min-width: 768px\)"/);
+  assert.match(page(files, "public/en/index.html"), /rel="preload" as="image" href="\/video\/hero\.en\.webp" media="\(min-width: 768px\)"/);
+  assert.match(cs, /data-at="3\.95" data-at-mobile="3\.3"/);
+  assert.match(cs, /data-at="12\.5" data-at-mobile="none"/);
+  assert.doesNotMatch(en, /data-at="3\.95"/);
+  assert.match(en, /data-at="4\.1"/);
+});
+
+test("the date says what each cut is: the hero's own by language and screen, the others the set's", () => {
+  const files = buildSite(siteWith((m) => { m.clips = frozen().clips; heroNewForCzech(m); }));
+  const line = (path, cls) => page(files, path).match(new RegExp(`hero__caption"><span class="d-only">[\\s\\S]*?</p>`))[0].match(new RegExp(`<span class="${cls}">([\\s\\S]*?)</span>`))[1];
+  assert.match(line("public/index.html", "d-only"), /^Natočeno 3\.\u00a011\.\u00a02026 /);
+  assert.match(line("public/index.html", "m-only"), /^Natočeno 1\.\u00a011\.\u00a02026 /);
+  assert.match(line("public/en/index.html", "d-only"), /^Recorded 1\u00a0Nov\u00a02026 /);
+  assert.match(page(files, "public/index.html").match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0], /Natočeno 1\.\u00a011\.\u00a02026\./);
+  // without its own, the hero says the set's
+  const set = buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-10-20"; }));
+  assert.match(page(set, "public/index.html").match(/hero__caption">[\s\S]*?<\/p>/)[0], /Natočeno 20\.\u00a010\.\u00a02026 /);
+});
+
+test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's broad focus said", () => {
+  const { i18n } = loadSite();
+  assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem, jen ve vaší specializaci.");
+  assert.equal(i18n.cs.cue_hero_2, "Každé ráno, co přibylo.");
+  assert.equal(i18n.cs.cue_hero_3, "S odkazem na skutečný inzerát.");
+  for (const [lang, broad] of [["cs", /širokým zaměřením|široce zaměřená/], ["en", /broad focus/]]) {
+    for (const key of ["hero_video_caption", "hero_video_caption_m"]) {
+      assert.doesNotMatch(i18n[lang][key], /\b100\b/, `${lang} ${key}`);
+      assert.match(i18n[lang][key], broad, `${lang} ${key}`);
+      assert.match(i18n[lang][key], /\{clip\.hero(_phone)?_date\}/, `${lang} ${key}`);
+    }
+    assert.doesNotMatch(i18n[lang].hero_video_poster_alt, /Ranní|morning/i, lang);
+  }
+  // measured in Chromium, 3. 11. 2026: longer than this and the phone's line takes one more row at 360 px (Czech) and 390 px (English)
+  assert.ok(i18n.cs.hero_video_caption_m.replace("{clip.hero_phone_date}", "3. 11. 2026").length <= 90);
+  assert.ok(i18n.en.hero_video_caption_m.replace("{clip.hero_phone_date}", "1 Nov 2026").length <= 94);
+});
+
+test("a loop is on its own layer before it plays, so the picture does not move when the poster gives way to the first frame", () => {
+  assert.match(String(buildSite(loadSite()).get("public/css/site.css")), /\.video\[data-autoplay\] \.frame__screen video \{ will-change: transform; \}/);
+});
+
+test("cueNow: the last line whose time has come, on the phone cut by its own times, a line the phone cut does not have never", () => {
+  const line = (at, atMobile) => ({ dataset: { at: String(at), ...(atMobile === undefined ? {} : { atMobile: String(atMobile) }) } });
+  const lines = [line(0, 0), line(3.95, 3.3), line(8.55, 6.6), line(12.5, "none")];
+  const at = (time, phone) => lines.indexOf(cueNow(lines, time, phone));
+  assert.deepEqual([0, 3.94, 3.95, 8.54, 8.55, 12.49, 12.5, 14.99].map((t) => at(t, false)), [0, 0, 1, 1, 2, 2, 3, 3]);
+  assert.deepEqual([0, 3.29, 3.3, 6.6, 12.5, 12.8].map((t) => at(t, true)), [0, 0, 1, 2, 2, 2]);
+  const noPhoneTime = [line(0), line(5)];
+  assert.equal(noPhoneTime.indexOf(cueNow(noPhoneTime, 5, true)), 1, "without one, the clip's time");
+});
+
+test("waits: release names every cut that is not the final one, media:use's own check does not stop on them", () => {
+  const media = frozen();
+  assert.deepEqual(waitingCuts(media), []);
+  heroNewForCzech(media);
+  assert.deepEqual(waitingCuts(media), ["hero phone: still the older cut, waits for V1 telefon", "hero en: still the older cut, waits for V1 EN"]);
+  delete media.clips.hero.by_lang;
+  delete media.clips.hero.mobile.waits;
+  assert.deepEqual(waitingCuts(media), []);
+  const c = repoCopy();
+  try {
+    assert.deepEqual(c.use().problems, []);
+    const path = join(c.root, "src/data/media.json");
+    const placed = JSON.parse(readFileSync(path, "utf8"));
+    placed.clips.how1.waits = "V2";
+    writeFileSync(path, JSON.stringify(placed));
+    const release = c.release();
+    assert.equal(release.status, 1);
+    assert.match(release.stderr, /how1: still the older cut, waits for V2/);
+    assert.equal(spawnSync(process.execPath, ["tools/check-site.mjs", "--release", "--during-media-use"], { cwd: c.root, encoding: "utf8", timeout: 60000 }).status, 0);
+  } finally { c.done(); }
+});
+
+/** A set in place, then media.json names a new Czech hero and a folder holds only its files. */
+function oneClipLater() {
+  const s = sandbox();
+  assert.deepEqual(s.use().problems, []);
+  const media = JSON.parse(s.json());
+  heroNewForCzech(media);
+  writeFileSync(join(s.root, "src/data/media.json"), JSON.stringify(media));
+  const folder = join(s.root, "new");
+  mkdirSync(folder);
+  const write = (name, body) => writeFileSync(join(folder, name), body);
+  write("hero.cs.2048.60.mp4", "new 2048");
+  write("hero.cs.1440.60.mp4", "new 1440");
+  write("hero.cs.1920.webp", fakePoster("new poster"));
+  const sizes = new Map(expectedFiles(media).filter((f) => f.width).map((f) => [f.name, { width: f.width, height: f.height, duration: 100 }]));
+  const probe = (path) => {
+    const name = path.split(/[\\/]/).pop();
+    const lang = (name.match(/^tour\.(cs|en)\./) || [])[1];
+    return { ...sizes.get(name), duration: lang === "en" ? 110 : 100 };
+  };
+  const one = (extra = {}) => useSet({ source: folder, keepRest: true, root: s.root, today: TODAY, probe, tracked: [], staged: [], ...extra });
+  return { ...s, media, folder, write, sizes, one };
+}
+
+test("--keep-rest: one clip's files go in, every other file stays what it is, the dates stay what media.json says, the version is new", () => {
+  const s = oneClipLater();
+  try {
+    const before = JSON.parse(s.json());
+    const other = readFileSync(join(s.root, "public/video/rano.cs.mp4"));
+    const { problems, version, warnings } = s.one();
+    assert.deepEqual(problems, []);
+    const after = JSON.parse(s.json());
+    assert.equal(after.clip_date, before.clip_date, "the set's date is not touched");
+    assert.equal(after.clips.hero.clip_date, "2026-11-03");
+    assert.equal(after.version, version);
+    assert.notEqual(version, before.version);
+    assert.equal(readFileSync(join(s.root, "public/video/hero.cs.2048.60.mp4"), "utf8"), "new 2048");
+    assert.ok(readFileSync(join(s.root, "public/video/rano.cs.mp4")).equals(other));
+    assert.ok(existsSync(join(s.root, "public/video/hero.en.webm")), "English keeps its cut");
+    assert.ok(existsSync(join(s.root, "public/video/tour.chapters.json")));
+    assert.deepEqual(leftovers(s.root), []);
+    assert.ok(warnings.some((w) => w.includes("hero.cs.webm")), "the older Czech files are listed");
+    assert.equal(version, setVersion(join(s.root, "public/video"), after), "the files on disk are that version");
+    assert.deepEqual(videoSetProblems(after, { root: s.root, duringMediaUse: true }), []);
+  } finally { s.done(); }
+});
+
+test("--keep-rest: what media.json names and is in neither folder stops it, and nothing changes; the same for a date in the future or a poster of the wrong size", () => {
+  for (const [what, spoil, expected] of [
+    ["a file nobody delivered", (s) => rmSync(join(s.folder, "hero.cs.1440.60.mp4")), /hero\.cs\.1440\.60\.mp4: missing/],
+    ["a recording date in the future", (s) => { const m = JSON.parse(s.json()); m.clips.hero.clip_date = "2026-12-24"; writeFileSync(join(s.root, "src/data/media.json"), JSON.stringify(m)); }, /hero: clip_date, 2026-12-24: in the future/],
+    ["a poster of the wrong size", (s) => s.sizes.set("hero.cs.1920.webp", { width: 1440, height: 900 }), /hero\.cs\.1920\.webp: 1440×900, media\.json says 1920×1200/],
+    ["a version over its budget", (s) => truncateSync(join(s.folder, "hero.cs.1440.60.mp4"), 4600000), /hero\.cs\.1440\.60\.mp4: 4\.60 MB is over its budget of 4\.5 MB/],
+  ]) {
+    const s = oneClipLater();
+    try {
+      spoil(s);
+      const before = fingerprint(s.root);
+      const { problems, version } = s.one();
+      assert.ok(problems.some((p) => expected.test(p)), `${what}: ${problems.join("; ")}`);
+      assert.equal(version, undefined, what);
+      assert.deepEqual(fingerprint(s.root), before, what);
+      assert.deepEqual(leftovers(s.root), [], what);
+    } finally { s.done(); }
+  }
+});
+
+test("--keep-rest: a release check that fails puts everything back", () => {
+  const s = oneClipLater();
+  try {
+    const before = fingerprint(s.root);
+    const { problems, undone } = s.one({ verify: () => { throw new Error("the check says no"); } });
+    assert.deepEqual(problems, ["the check says no"]);
+    assert.equal(undone, true);
+    assert.deepEqual(fingerprint(s.root), before);
+    assert.ok(!existsSync(join(s.root, "public/video/hero.cs.2048.60.mp4")));
+    assert.deepEqual(leftovers(s.root), []);
+  } finally { s.done(); }
+});
+
+test("a whole set with --date writes the set's date and leaves a clip's own alone, as V6's", () => {
+  const s = oneClipLater();
+  try {
+    const whole = s.folder;
+    for (const f of expectedFiles(s.media)) if (!existsSync(join(whole, f.name))) writeFileSync(join(whole, f.name), f.name.endsWith(".vtt") ? "WEBVTT\n" : f.name.endsWith(".webp") ? fakePoster(f.name) : `fake ${f.name}`);
+    writeFileSync(join(whole, "tour.chapters.json"), JSON.stringify(chapters()));
+    const { problems } = s.one({ keepRest: false, date: "2026-11-02" });
+    assert.deepEqual(problems, []);
+    const after = JSON.parse(s.json());
+    assert.equal(after.clip_date, "2026-11-02");
+    assert.equal(after.clips.hero.clip_date, "2026-11-03");
+  } finally { s.done(); }
 });

@@ -1262,8 +1262,8 @@ test("the line under a video: the words from the text map and the times from med
   const home = (edit) => String(buildSite(siteWith(edit)).get("public/index.html"));
   const hero = (html) => html.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
   const site = loadSite();
-  const lines = [...hero(home(() => {})).matchAll(/<span class="video__cue-line( is-on)?" data-cues="hero" data-at="([\d.]+)"(?: data-at-mobile="([\d.]+|none)")?>/g)];
-  assert.deepEqual(lines.map((m) => Number(m[2])), site.media.clips.hero.cues.map((c) => c.at));
+  const lines = [...hero(home(() => {})).matchAll(/<span class="video__cue-line( is-on)?(?: [dm]-only| m-first)*" data-cues="hero" data-at="([\d.]+|none)"(?: data-at-mobile="([\d.]+|none)")?>/g)];
+  assert.deepEqual(lines.map((m) => (m[2] === "none" ? null : Number(m[2]))), site.media.clips.hero.cues.map((c) => c.at));
   assert.deepEqual(lines.map((m) => !!m[1]), lines.map((_, i) => i === 0), "the first sentence is the one without JavaScript");
   const changed = hero(home((m) => { m.clips.hero.cues = [{ at: 1.5, key: "cue_hero_2" }]; }));
   assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Každé ráno, co přibylo\.<\/span>/);
@@ -1290,7 +1290,7 @@ test("the line's mechanics: one grid cell, a fixed height; it follows the clip's
   assert.match(css, /\.video__cue-line \{ grid-area: 1 \/ 1; opacity: 0; visibility: hidden;/);
   assert.match(js, /const look = \(\) => \{ if \(v === shownVideo\(fig\)\) showCue\(fig\); \};\s*v\.addEventListener\("timeupdate", look\);\s*followFrames\(v, look\);/);
   assert.match(js, /requestVideoFrameCallback\(frame\)/);
-  assert.match(js, /on\.textContent === now\.textContent\) return;/);
+  assert.match(js, /on\.textContent === now\.textContent && on\.getClientRects\(\)\.length\) return;/);
   assert.match(js, /const live = figures\.filter\(\(fig\) => fig\.querySelector\("\.video__toggle"\) && !stillPref\.matches\);/);
   assert.match(js, /fig\.dataset\.cueClip = clip\.id;/);
 });
@@ -1572,6 +1572,45 @@ test("the text under the hero: the sentences of the cut sheet, no number of comp
 
 test("a loop is on its own layer before it plays, so the picture does not move when the poster gives way to the first frame", () => {
   assert.match(String(buildSite(loadSite()).get("public/css/site.css")), /\.video\[data-autoplay\] \.frame__screen video \{ will-change: transform; \}/);
+});
+
+test("a line for one screen only: it takes no room on the other, and a phone without the script shows its own first sentence", () => {
+  const cues = [
+    { at: 0, at_mobile: null, key: "cue_hero_1" },
+    { at: 2.9, at_mobile: 0, key: "cue_hero_2" },
+    { at: 11, at_mobile: 6.2, key: "cue_hero_3" },
+    { at: null, at_mobile: 9, key: "cue_hero_2" },
+  ];
+  const files = buildSite(siteWith((m) => { m.clips.hero.cues = cues; }));
+  const html = page(files, "public/index.html").match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
+  assert.match(html, /<span class="video__cue-line is-on d-only" data-cues="hero" data-at="0" data-at-mobile="none">/);
+  assert.match(html, /<span class="video__cue-line m-first" data-cues="hero" data-at="2\.9" data-at-mobile="0">/);
+  assert.match(html, /<span class="video__cue-line" data-cues="hero" data-at="11" data-at-mobile="6\.2">/);
+  assert.match(html, /<span class="video__cue-line m-only" data-cues="hero" data-at="none" data-at-mobile="9">/);
+  const js = String(files.get("public/js/site.js"));
+  assert.match(js, /querySelectorAll\("\.video__cue-line\.m-first"\)\) l\.classList\.remove\("m-first"\)/);
+  assert.match(js, /onMediaChange\(phone, firstLines\)/);
+  assert.match(String(files.get("public/css/site.css")), /\.video__cue-line\.m-first \{ opacity: 1; visibility: visible; \}/);
+  // a clip whose first line is for both screens stays as it was
+  const plain = page(buildSite(siteWith((m) => { m.clips.hero.cues = [{ at: 0, at_mobile: 0, key: "cue_hero_1" }]; })), "public/index.html");
+  assert.match(plain, /<span class="video__cue-line is-on" data-cues="hero" data-at="0" data-at-mobile="0">/);
+  assert.doesNotMatch(plain, /m-first"/);
+});
+
+test("the hero's phone cut: its times say what the V1 phone clip shows, the first sentence of the wide cut is not on it", () => {
+  const { hero } = loadSite().media.clips;
+  const lineAt = (t) => { const seen = hero.cues.filter((c) => c.at_mobile !== null && c.at_mobile !== undefined && c.at_mobile <= t); return seen.sort((a, b) => a.at_mobile - b.at_mobile).pop().key; };
+  assert.deepEqual([0, 6.1, 6.2, 8.9, 9, 11.4].map(lineAt), ["cue_hero_2", "cue_hero_2", "cue_hero_3", "cue_hero_3", "cue_hero_2", "cue_hero_2"]);
+  assert.equal(hero.mobile.waits, undefined);
+  assert.equal(hero.mobile.clip_date, "2026-11-03");
+});
+
+test("cueNow on a cut that lacks the page's first line: its own first line from the start, and a line of the other cut never", () => {
+  const line = (at, atMobile) => ({ dataset: { at: String(at), atMobile: String(atMobile) } });
+  const lines = [line(0, "none"), line(2.9, 0), line(11, 6.2), line(13.1, "none"), line("none", 9)];
+  const at = (time, phone) => lines.indexOf(cueNow(lines, time, phone));
+  assert.deepEqual([0, 6.19, 6.2, 8.99, 9, 11.49].map((t) => at(t, true)), [1, 1, 2, 2, 4, 4]);
+  assert.deepEqual([0, 2.89, 2.9, 10.99, 11, 13.1, 13.99].map((t) => at(t, false)), [0, 0, 1, 1, 2, 3, 3]);
 });
 
 test("cueNow: the last line whose time has come, on the phone cut by its own times, a line the phone cut does not have never", () => {

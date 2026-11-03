@@ -17,9 +17,10 @@ export function clipFor(clip, phone) {
  * lines: elements with data-at and maybe data-at-mobile, the time on the phone cut ("none": not on that cut).
  */
 export function cueNow(lines, time, phoneCut) {
-  let now = lines[0];
+  const at = (l) => Number(phoneCut && l.dataset.atMobile !== undefined ? l.dataset.atMobile : l.dataset.at);
+  let now = lines.find((l) => Number.isFinite(at(l))) || lines[0];
   for (const l of lines) {
-    if (Number(phoneCut && l.dataset.atMobile !== undefined ? l.dataset.atMobile : l.dataset.at) <= time) now = l;
+    if (at(l) <= time) now = l;
   }
   return now;
 }

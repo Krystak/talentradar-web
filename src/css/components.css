@@ -751,6 +751,8 @@ video::cue { line-height: 1.5; }
   .hero__media .frame { --frame-text: var(--ink); --frame-line: var(--steel); }
   .frame__foot { min-height: 48px; margin-top: var(--space-2); gap: var(--space-3); }
   .video__cue { font-size: 1rem; line-height: 24px; }
+  /* Without the script a phone shows its own first sentence, not the wide cut's (build.mjs videoFigure). */
+  .video__cue-line.m-first { opacity: 1; visibility: visible; }
   .video__toggle { width: 48px; height: 48px; min-height: 48px; padding: 0; justify-content: center; border-radius: 50%; }
   .video__toggle .ic { width: 22px; height: 22px; }
   .video__toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

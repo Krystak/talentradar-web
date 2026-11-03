@@ -184,7 +184,7 @@ const showCue = (fig) => {
   const now = cueNow(all.filter((l) => l.dataset.cues === clip), v.currentTime, phoneCut);
   // the same sentence again (a loop that ends on the line it starts with): nothing changes, so nothing fades
   const on = all.find((l) => l.classList.contains("is-on"));
-  if (on && on.dataset.cues === clip && on.textContent === now.textContent) return;
+  if (on && on.dataset.cues === clip && on.textContent === now.textContent && on.getClientRects().length) return;
   for (const l of all) l.classList.toggle("is-on", l === now);
 };
 /* timeupdate comes about four times a second, so a line would change up to 250 ms after the cut it belongs to.
@@ -273,6 +273,11 @@ const pageLoaded = new Promise((resolve) => {
   // the hero sits at the bottom of the first screen: at 390 × 844 the longer English heading leaves
   // 37 % of it showing (Czech 53 %), and at half it would stand still in one language only
   const seenHero = watch(0.25);
+  // from here the script says which line shows: the first of this screen's cut, also where the clip stands still
+  const firstLines = () => figures.forEach(showCue);
+  for (const l of document.querySelectorAll(".video__cue-line.m-first")) l.classList.remove("m-first");
+  firstLines();
+  onMediaChange(phone, firstLines);
   const live = figures.filter((fig) => fig.querySelector(".video__toggle") && !stillPref.matches);
   for (const fig of live) {
     const btn = fig.querySelector(".video__toggle");

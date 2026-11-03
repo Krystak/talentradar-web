@@ -610,10 +610,18 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
   const lines = [id, ...others].flatMap((clipId) => {
     if (!site.media.clips[clipId]) throw new Error(`${where}: unknown clip ${clipId}`);
     const of = clipIn(site.media.clips[clipId], ctx.lang);
-    // at_mobile null: a line the phone cut does not have (js/media.js cueNow)
-    return (of.cues || []).map((cue) => `<span class="video__cue-line" data-cues="${clipId}" data-at="${cue.at}"${cue.at_mobile === undefined ? "" : ` data-at-mobile="${cue.at_mobile === null ? "none" : cue.at_mobile}"`}>${escapeHtml(text(site, ctx, cue.key))}</span>`);
+    // at_mobile null: a line the phone cut does not have; at null: a line only the phone cut has (js/media.js cueNow).
+    // Such a line takes no room on the other screen. m-first: the phone's first sentence, while the page's first is not for a phone
+    const cues = of.cues || [];
+    const phoneFirst = clipId === id && cues.length && cues[0].at_mobile === null ? cues.find((c) => c.at_mobile !== null) : null;
+    return cues.map((cue) => {
+      const only = cue.at_mobile === null ? " d-only" : cue.at === null ? " m-only" : "";
+      const first = cue === phoneFirst ? " m-first" : "";
+      const atMobile = cue.at_mobile === undefined ? "" : ` data-at-mobile="${cue.at_mobile === null ? "none" : cue.at_mobile}"`;
+      return `<span class="video__cue-line${only}${first}" data-cues="${clipId}" data-at="${cue.at === null ? "none" : cue.at}"${atMobile}>${escapeHtml(text(site, ctx, cue.key))}</span>`;
+    });
   });
-  if (lines.length) lines[0] = lines[0].replace('class="video__cue-line"', 'class="video__cue-line is-on"');
+  if (lines.length) lines[0] = lines[0].replace('class="video__cue-line', 'class="video__cue-line is-on');
   const foot = lines.length || toggle ? `\n    <div class="frame__foot"><p class="video__cue">${lines.join("")}</p>${toggle}</div>` : "";
   // {clip.date} under a video is the day that cut was recorded: its own clip_date, else the set's. Clips that share a figure
   // (the chapters) may differ, and then every sentence is in the HTML in one grid cell, as the line under the window:

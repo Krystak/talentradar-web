@@ -1562,6 +1562,23 @@ test("chapter 1's words say what the clip shows: in alphabetical order it proves
   }
 });
 
+test("the description of chapters 2 and 3 says what the Czech clips show: no draft in V3, the order by rules in V4 (cut sheets V3, V4)", () => {
+  const { cs } = loadSite().i18n;
+  assert.doesNotMatch(cs.how_clip2_alt, /návrh|zpráv/i);
+  assert.match(cs.how_clip2_alt, /LinkedIn/);
+  assert.match(cs.how_clip3_alt, /podle pravidel/);
+  assert.doesNotMatch(cs.how_clip3_alt, /\bAI\b/);
+});
+
+test("what chapters 2 and 3 say about the estimate and the AI matches the clips: by the role's title, and rules only in the demo", () => {
+  const { cs, en } = loadSite().i18n;
+  assert.match(cs.how_ch2_body, /Podle názvu pozice odhadneme/);
+  assert.match(en.how_ch2_body, /From the role’s title we estimate/);
+  assert.doesNotMatch(cs.how_ch2_body, /Z inzerátu/);
+  assert.match(cs.how_ch3_body, /V ukázce řadí jen pravidla, bez AI\.$/);
+  assert.match(en.how_ch3_body, /In the demo only rules do the ranking, no AI\.$/);
+});
+
 test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's broad focus said", () => {
   const { i18n } = loadSite();
   assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem, jen ve vaší specializaci.");

@@ -1623,14 +1623,15 @@ test("a phone does not fetch the wide cut's poster, nor the other way round: a l
   }
   assert.match(home.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0], /<div class="frame__screen video--mobile" style="--poster:url\(\/video\/hero-mobile\./);
   assert.match(page(files, "public/demo.html"), /<video[^>]*\sposter="\/video\/tour\.cs\./);
-  assert.match(String(files.get("public/css/site.css")), /\.frame__screen \{ position: relative; background: #0B111D var\(--poster, none\) center \/ cover no-repeat; \}/);
+  assert.match(String(files.get("public/css/site.css")), /\.frame__screen \{ position: relative; background: #0B111D var\(--poster, none\) center \/ 100% 100% no-repeat; \}/);
   const js = String(files.get("public/js/site.js"));
   assert.match(js, /setProperty\("--poster", cut\.poster \? `url\(\$\{cut\.poster\}\)` : "none"\)/);
-  // the shown video gets the real file from the script, a hidden one nothing
-  assert.match(js, /const realPosters = \(\) => \{/);
-  assert.match(js, /if \(!v\.offsetParent\) continue;/);
-  assert.match(js, /onMediaChange\(phone, firstLines\)/);
-  assert.match(js, /v\.poster = cut\.poster \|\| "";/);
+  // no real poster on a loop's video, ever: it would count as a later, larger paint. The video is transparent until it has a frame
+  assert.doesNotMatch(js, /v\.poster\b|realPosters/);
+  assert.match(js, /addEventListener\("loadeddata", \(\) => v\.classList\.add\("has-frame"\)\)/);
+  assert.match(js, /addEventListener\("emptied", \(\) => v\.classList\.remove\("has-frame"\)\)/);
+  const css = String(files.get("public/css/site.css"));
+  assert.match(css, /\.js \.video\[data-autoplay\] video:not\(\[controls\]\):not\(\.has-frame\) \{ opacity: 0; \}/, "not where the native controls stay");
 });
 
 test("a poster named in the page that is not there is an error", () => {
@@ -1640,7 +1641,7 @@ test("a poster named in the page that is not there is an error", () => {
 });
 
 test("a loop is on its own layer before it plays, so the picture does not move when the poster gives way to the first frame", () => {
-  assert.match(String(buildSite(loadSite()).get("public/css/site.css")), /\.video\[data-autoplay\] \.frame__screen video \{ will-change: transform; \}/);
+  assert.match(String(buildSite(loadSite()).get("public/css/site.css")), /\.video\[data-autoplay\] \.frame__screen, \.video\[data-autoplay\] \.frame__screen video \{ will-change: transform; \}/);
 });
 
 test("a line for one screen only: it takes no room on the other, and a phone without the script shows its own first sentence", () => {

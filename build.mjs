@@ -602,8 +602,7 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
     const play = !loop ? `<button class="video__play" type="button" hidden>${escapeHtml(text(site, ctx, "demo_play"))}</button>` : "";
     // a loop's poster is the background of its screen: a browser fetches the poster of a video under display: none, not the background of an element under it
     const paint = loop ? ` style="--poster:url(${lang(c.poster)})"` : "";
-    // with controls and no poster at all Chromium paints the video grey over that background: a poster that shows nothing keeps it clear,
-    // without the script too; the script gives the shown video the real file (realPosters in site.js)
+    // with controls and no poster at all Chromium paints the video grey over that background: a poster that shows nothing keeps it clear
     const poster = ` poster="${loop ? CLEAR_POSTER : lang(c.poster)}"`;
     return `<div class="frame__screen ${cls}"${paint}><video ${attrs} preload="none" width="${c.width || clip.width}" height="${c.height || clip.height}"${poster} aria-label="${aria}">${sources}${tracks}</video>${play}</div>`;
   };

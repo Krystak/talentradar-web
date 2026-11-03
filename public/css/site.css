@@ -538,12 +538,18 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .video__cue-line { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 200ms ease, visibility 200ms; }
 .video__cue-line.is-on { opacity: 1; visibility: visible; }
 
-.frame__screen { position: relative; background: #0B111D var(--poster, none) center / cover no-repeat; }
+/* The poster fills the screen exactly as the video does. With cover it was worked out from the box rounded to whole pixels, and on a
+   window of 632.5 px it came out 0.2 px wider than the first frame (3. 11. 2026). */
+.frame__screen { position: relative; background: #0B111D var(--poster, none) center / 100% 100% no-repeat; }
 .frame__screen video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
 /* A loop is on its own layer before it starts, not only once it plays: the window often sits on a fraction of a
    pixel, and otherwise the picture moves by that fraction when the poster gives way to the first frame
    (1 440 × 900, 3. 11. 2026: poster against first frame 24,4 dB without this, 32,9 dB with it). */
-.video[data-autoplay] .frame__screen video { will-change: transform; }
+.video[data-autoplay] .frame__screen, .video[data-autoplay] .frame__screen video { will-change: transform; }
+/* Until a loop has a frame its video is transparent and the poster, the background of its screen, is what shows. A real poster on the
+   video counts as a later, larger paint (LCP in Czech 3 500 ms against 2 800 ms, 3. 11. 2026) and with a clear one Chromium keeps its
+   control bar on a phone. Where the native controls stay (no script, reduced motion) the video stays visible. */
+.js .video[data-autoplay] video:not([controls]):not(.has-frame) { opacity: 0; }
 .video__toggle {
   display: inline-flex; align-items: center; gap: var(--space-2); flex: none;
   min-height: 44px; padding: 0 var(--space-3); border-radius: var(--radius-sm);

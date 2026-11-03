@@ -273,17 +273,8 @@ const pageLoaded = new Promise((resolve) => {
   // the hero sits at the bottom of the first screen: at 390 × 844 the longer English heading leaves
   // 37 % of it showing (Czech 53 %), and at half it would stand still in one language only
   const seenHero = watch(0.25);
-  // from here the script says which line shows: the first of this screen's cut, also where the clip stands still.
-  // And the shown video gets its real poster, the file already on its screen: over the clear one of the HTML Chromium keeps
-  // its control bar until the first frame (3. 11. 2026). A hidden video gets none, so nothing more is fetched
-  const realPosters = () => {
-    for (const v of document.querySelectorAll("[data-autoplay] video")) {
-      if (!v.offsetParent) continue;
-      const poster = v.closest(".frame__screen").style.getPropertyValue("--poster").trim().slice(4, -1);
-      if (poster && v.getAttribute("poster") !== poster) v.poster = poster;
-    }
-  };
-  const firstLines = () => { figures.forEach(showCue); realPosters(); };
+  // from here the script says which line shows: the first of this screen's cut, also where the clip stands still
+  const firstLines = () => figures.forEach(showCue);
   for (const l of document.querySelectorAll(".video__cue-line.m-first")) l.classList.remove("m-first");
   firstLines();
   onMediaChange(phone, firstLines);
@@ -293,6 +284,9 @@ const pageLoaded = new Promise((resolve) => {
     if (stays) fig.dataset.user = "paused";
     for (const v of fig.querySelectorAll("video")) {
       v.removeAttribute("controls");
+      // transparent until it has a frame, so the poster on the screen behind it shows (components.css)
+      v.addEventListener("loadeddata", () => v.classList.add("has-frame"));
+      v.addEventListener("emptied", () => v.classList.remove("has-frame"));
       const look = () => { if (v === shownVideo(fig)) showCue(fig); };
       v.addEventListener("timeupdate", look);
       followFrames(v, look);
@@ -433,7 +427,6 @@ const pageLoaded = new Promise((resolve) => {
         v.appendChild(el);
       }
       v.closest(".frame__screen").style.setProperty("--poster", cut.poster ? `url(${cut.poster})` : "none");
-      v.poster = cut.poster || "";
       // a phone that has not tapped play yet loads nothing; the poster changes only
       if (waitsForTap(fig) || savesData(navigator.connection)) v.preload = "none";
       v.load();

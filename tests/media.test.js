@@ -1596,7 +1596,15 @@ test("from 1 024 px the line and the pause button lie over the bottom of the her
 
 test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's broad focus said", () => {
   const { i18n } = loadSite();
-  assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem, jen ve vaší specializaci.");
+  assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem.");
+  assert.equal(i18n.en.cue_hero_1, "All your companies’ open roles.");
+  // the specialisation belongs to V2 (Kryštof, 3. 11.): nothing in the hero says it; the caption's broad focus of the demo agency stays
+  for (const lang of ["cs", "en"]) {
+    for (const key of ["hero_sub", "cue_hero_1", "cue_hero_2", "cue_hero_3", "hero_video_aria", "hero_video_poster_alt", "hero_video_caption", "hero_video_caption_m"]) {
+      assert.doesNotMatch(String(i18n[lang][key]), /specializ|specialis|\bniche\b/i, `${lang} ${key}`);
+    }
+  }
+  assert.equal(i18n.cs.cue_morning_2, "Co neděláte, je stranou.");
   assert.equal(i18n.cs.cue_hero_2, "Každé ráno, co přibylo.");
   assert.equal(i18n.cs.cue_hero_3, "S odkazem na skutečný inzerát.");
   for (const [lang, broad] of [["cs", /širokým zaměřením|široce zaměřená/], ["en", /broad focus/]]) {

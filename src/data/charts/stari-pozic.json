@@ -1,8 +1,8 @@
 {
  "id": "stari-pozic",
- "as_of": "2026-10-31",
- "source_cs": "Data z veřejného dema TalentRadaru: 100 českých firem (z toho 26 z IT a softwaru), skeny v 6:00 a ve 12:00, stav k 31. 10. 2026.",
- "source_en": "Data from TalentRadar’s public demo: 100 Czech companies (26 of them in IT and software), scans at 6:00 and 12:00, as of 31 Oct 2026.",
+ "as_of": "2026-11-03",
+ "source_cs": "Data z veřejného dema TalentRadaru: 100 českých firem (z toho 26 z IT a softwaru), skeny v 6:00 a ve 12:00, stav k 3. 11. 2026.",
+ "source_en": "Data from TalentRadar’s public demo: 100 Czech companies (26 of them in IT and software), scans at 6:00 and 12:00, as of 3 Nov 2026.",
  "title_cs": "Jak dlouho jsou pozice otevřené",
  "title_en": "How long roles stay open",
  "unit_cs": "otevřených pozic",
@@ -11,32 +11,32 @@
  "rows": [
   {
    "days": "0–6",
-   "roles": 25,
+   "roles": 34,
    "highlight": false
   },
   {
    "days": "7–13",
-   "roles": 55,
+   "roles": 59,
    "highlight": false
   },
   {
    "days": "14–29",
-   "roles": 89,
+   "roles": 76,
    "highlight": false
   },
   {
    "days": "30–44",
-   "roles": 141,
+   "roles": 130,
    "highlight": false
   },
   {
    "days": "45–89",
-   "roles": 41,
+   "roles": 52,
    "highlight": true
   },
   {
    "days": "90–179",
-   "roles": 40,
+   "roles": 39,
    "highlight": true
   },
   {
@@ -50,9 +50,9 @@
    "highlight": true
   }
  ],
- "note_cs": "Jen pozice, u kterých ATS firmy uvádí datum zveřejnění: 409 z 1382 otevřených pozic ve feedu. Stáří se počítá od data zveřejnění ke skenu 31. 10. 12:00. Do pozic otevřených 45 a víc dní patří i ty nad 365 dní.",
- "note_en": "Only roles whose company ATS gives a posting date: 409 of 1382 open roles in the feed. Age runs from the posting date to the scan on 31 Oct, 12:00. Roles open 45 days or more include those over 365 days.",
- "alt_cs": "Z 409 pozic s datem zveřejnění je 99 (24 %) otevřených 45 a více dní.",
- "alt_en": "Of 409 roles with a posting date, 99 (24%) have been open for 45 days or more.",
- "method": "core/role_age.py: stáří od posted_at. Na webu 45+ = všechna pásma od 45 dní včetně 366+ (lead 31. 10.; aplikace v counts_as_open_long(45) bere jen 45–365 dní). Skript analyza_zivy.py."
+ "note_cs": "Jen pozice, u kterých ATS firmy uvádí datum zveřejnění: 408 z 1333 otevřených pozic ve feedu. Stáří se počítá od data zveřejnění ke skenu 3. 11. 2026. Do pozic otevřených 45 a víc dní patří i ty nad 365 dní.",
+ "note_en": "Only roles whose company ATS gives a posting date: 408 of 1333 open roles in the feed. Age runs from the posting date to the scan on 3 Nov 2026. Roles open 45 days or more include those over 365 days.",
+ "alt_cs": "Z 408 pozic s datem zveřejnění je 109 (27 %) otevřených 45 a více dní.",
+ "alt_en": "Of 408 roles with a posting date, 109 (27%) have been open for 45 days or more.",
+ "method": "core/role_age.py: stáří od posted_at. Na webu 45+ = všechna pásma od 45 dní včetně 366+ (lead 31. 10.; aplikace v counts_as_open_long(45) bere jen 45–365 dní). tools/demo-stats.mjs."
 }

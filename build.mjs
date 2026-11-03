@@ -250,7 +250,6 @@ export function siteVars(site, lang) {
       "c2.base": n(base),
       "c2.n_45": n(n45),
       "c2.share_45": n(Math.round((n45 / base) * 100)),
-      "c2.total": n(site.demoStats.feed_roles),
     });
   }
   const sources = site.charts["zdroje-pozic"];
@@ -261,6 +260,8 @@ export function siteVars(site, lang) {
   Object.assign(vars, {
     "demo.as_of": d(s.as_of, true),
     "demo.companies": n(s.companies),
+    "demo.companies_open": n(s.companies_open),
+    "demo.scan_time": new Date(s.scan_at).toLocaleTimeString("cs-CZ", { timeZone: "Europe/Prague", hour: "numeric", minute: "2-digit" }),
     "demo.open_positions": n(s.open_positions),
     "demo.avg_new_per_day": vars["c1.avg"],
     "demo.new_days": vars["c1.days"],
@@ -614,7 +615,23 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
   });
   if (lines.length) lines[0] = lines[0].replace('class="video__cue-line"', 'class="video__cue-line is-on"');
   const foot = lines.length || toggle ? `\n    <div class="frame__foot"><p class="video__cue">${lines.join("")}</p>${toggle}</div>` : "";
-  const caption = captionKey ? `\n  <figcaption>${escapeHtml(text(site, ctx, captionKey))}</figcaption>` : "";
+  // {clip.date} under a video is the day that cut was recorded: its own clip_date, else the set's. Clips that share a figure
+  // (the chapters) may differ, and then every sentence is in the HTML in one grid cell, as the line under the window:
+  // one height, whichever is showing. The phone cut's date is its own too (its clip_date, not the wide cut's).
+  const caption = (() => {
+    if (!captionKey) return "";
+    const said = (cut) => {
+      const day = cut.clip_date || site.media.clip_date;
+      return escapeHtml(text(site, ctx, captionKey, { "clip.date": day ? formatDate(day, ctx.lang, true) : null }));
+    };
+    const rows = [id, ...others].map((clipId) => {
+      const of = clipIn(site.media.clips[clipId], ctx.lang);
+      return { clipId, wide: said(of), phone: said(of.mobile || of) };
+    });
+    if (rows.every((r) => r.wide === rows[0].wide && r.phone === rows[0].wide)) return `\n  <figcaption>${rows[0].wide}</figcaption>`;
+    const line = (r, i) => `<span class="video__caption-line${i ? "" : " is-on"}" data-cues="${r.clipId}">${r.wide === r.phone ? r.wide : `<span class="d-only">${r.wide}</span><span class="m-only">${r.phone}</span>`}</span>`;
+    return `\n  <figcaption><span class="video__captions">${rows.map(line).join("")}</span></figcaption>`;
+  })();
   return `<figure class="video video--${id}${clip.mobile ? " video--has-mobile" : ""}" ${loop ? `data-autoplay${tap ? " data-tap-phone" : ""}` : "data-facade"}>
   <div class="frame">
     <div class="frame__window">
@@ -808,8 +825,9 @@ function columns(chart, ctx, t, rows, { label, value, highlight, valueLabel, tit
     parts.push(`<g class="chart__mark${highlight(r) ? " is-hi" : ""}" style="--i:${i}" tabindex="0" role="listitem" aria-label="${escapeHtml(name)}"><title>${escapeHtml(name)}</title><rect class="chart__hit" x="${r1(left + slot * i)}" y="${top}" width="${r1(slot)}" height="${plotH}"></rect><path class="chart__bar" d="${columnPath(cx - bw / 2, y(value(r)), bw, h)}"></path></g>`);
     if (valueLabel(r)) parts.push(svgText(r1(cx), r1(y(value(r)) - 6), fmt(value(r)), 'class="chart__value" text-anchor="middle"'));
     const l = label(r);
-    // a range on two lines ("14–" over "29") so neighbouring labels never touch
-    const [a, b] = l.length > 3 && l.includes("–") ? [l.slice(0, l.indexOf("–") + 1), l.slice(l.indexOf("–") + 1)] : [l, ""];
+    // a range on two lines ("14–" over "29") so neighbouring labels never touch; a date too once there are more than six ("26." over "10.")
+    const space = rows.length > 6 ? l.search(/\s/) : -1;
+    const [a, b] = l.length > 3 && l.includes("–") ? [l.slice(0, l.indexOf("–") + 1), l.slice(l.indexOf("–") + 1)] : space > 0 ? [l.slice(0, space), l.slice(space + 1)] : [l, ""];
     parts.push(`<text class="chart__tick" x="${r1(cx)}" y="${H - bottom + 18}" text-anchor="middle"><tspan x="${r1(cx)}">${escapeHtml(a)}</tspan>${b ? `<tspan x="${r1(cx)}" dy="16">${escapeHtml(b)}</tspan>` : ""}</text>`);
   });
   parts.push(`<line class="chart__axis" x1="${left}" x2="${W - right}" y1="${top + plotH}" y2="${top + plotH}"></line>`);

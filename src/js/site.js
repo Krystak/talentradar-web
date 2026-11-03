@@ -432,6 +432,7 @@ const pageLoaded = new Promise((resolve) => {
       showClip();
       fig.dataset.cueClip = clip.id;
       showCue(fig);
+      for (const l of fig.querySelectorAll(".video__caption-line")) l.classList.toggle("is-on", l.dataset.cues === clip.id);
       videoAskedFor(fig);
     };
     onMediaChange(phone, () => {

@@ -9,7 +9,7 @@ import { readFileSync } from "node:fs";
 
 import { brandify, buildSite, checkKeys, compareWithDisk, fillText, legacyRedirects, listItems, loadSite, plural, price, routes, siteVars } from "../build.mjs";
 import { clipFor, clipKey } from "../src/js/media.js";
-import { demoStats } from "../tools/demo-stats.mjs";
+import { appFromHar, chartsFrom, demoStats } from "../tools/demo-stats.mjs";
 import { answer, checkSite, minPx, siteFiles, smallFonts, workerFirstPatterns } from "../tools/check-site.mjs";
 import { REDIRECTS } from "../worker-routes.gen.js";
 import worker from "../worker.js";
@@ -232,28 +232,42 @@ test("the demo numbers come from src/data/demo-stats.json and the chart data, fo
   const site = loadSite();
   const cs = siteVars(site, "cs");
   const en = siteVars(site, "en");
-  assert.equal(cs["demo.open_positions"], "1 382");
-  assert.equal(en["demo.open_positions"], "1,382");
-  assert.equal(cs["demo.as_of"], "31. 10. 2026");
-  assert.equal(en["demo.as_of"], "31 Oct 2026");
-  assert.equal(cs["c1.avg"], "44");
-  assert.equal(cs["c2.share_45"], "24");
-  assert.equal(cs["c2.n_45"], "99");
+  // the numbers of the scan of 3. 11. 2026, 6:01, the one under the hero's take (build/prouzek)
+  assert.equal(cs["demo.open_positions"], "1\u00a0438");
+  assert.equal(en["demo.open_positions"], "1,438");
+  assert.equal(cs["demo.companies_open"], "99");
+  assert.equal(cs["demo.scan_time"], "6:01");
+  assert.equal(cs["demo.as_of"].replace(/\u00a0/g, " "), "3. 11. 2026");
+  assert.equal(en["demo.as_of"].replace(/\u00a0/g, " "), "3 Nov 2026");
+  assert.equal(cs["c1.avg"], "36");
+  assert.equal(cs["c1.days"], "8");
+  assert.equal(cs["c1.min"], "1");
+  assert.equal(cs["c2.share_45"], "27");
+  assert.equal(cs["c2.n_45"], "109");
   assert.equal(cs["c3.jobscz_companies"], "55");
-  const html = String(built().get("public/index.html"));
-  assert.match(html, /1 382/);
-  assert.doesNotMatch(html, /1 444/);
-  assert.match(html, /58 ze 100/);
+  const html = String(built().get("public/index.html")).replace(/\u00a0/g, " ");
+  assert.match(html, /1 438/);
+  assert.doesNotMatch(html, /1 394|1 382/);
+  assert.match(html, /53 ze 100/);
+  assert.match(html, /otevřených pozic u 99 českých firem/);
+  assert.match(html, /Veřejné demo TalentRadaru po skenu 3\. 11\. 2026 v 6:01: hlídá 100 českých firem, 99 z nich má otevřené pozice\./);
+  assert.match(String(built().get("public/en/index.html")).replace(/\u00a0/g, " "), /public demo after the scan of 3 Nov 2026 at 6:01: it watches 100 Czech companies, 99 of them have open roles\./);
+  assert.match(html, /Co radar vidí u 100 českých firem/);
 });
 
 test("one base for every demo number: the proof strip = roles in chart 3 = the total under chart 2", () => {
   const site = loadSite();
   const roles = site.charts["zdroje-pozic"].rows.reduce((a, r) => a + r.roles, 0);
   assert.equal(site.demoStats.open_positions, roles, "a visitor who adds up chart 3 gets the proof strip's number");
-  assert.equal(siteVars(site, "cs")["c2.total"], siteVars(site, "cs")["demo.open_positions"]);
   const html = String(built().get("public/index.html"));
   const strip = html.slice(html.indexOf('class="proof"'), html.indexOf("</ul>", html.indexOf('class="proof"')));
-  assert.match(strip, /1 382/);
+  assert.match(strip.replace(/\u00a0/g, " "), /1 438/);
+  // the under-chart sentence and the strip are one day: nothing on the page says another
+  for (const id of ["nove-pozice-po-dnech", "stari-pozic", "zdroje-pozic"]) assert.equal(site.charts[id].as_of, site.demoStats.as_of, id);
+  const sentences = [...html.matchAll(/Zdroj: veřejné demo TalentRadaru[^<]*/g)].map((m) => m[0].replace(/\u00a0/g, " "));
+  assert.ok(sentences.length >= 3);
+  for (const s of sentences) assert.match(s, /stav k 3\. 11\. 2026\./);
+  assert.doesNotMatch(html.replace(/\u00a0/g, " "), /stav k 31\. 10\./);
 });
 
 test("the companies with a new role in 7 days are an exact number from demo-stats.json, the same on every width (lead, etapa 4a)", () => {
@@ -278,12 +292,82 @@ test("demo-stats.json follows the inventory rules on a small feed", () => {
     ],
     archived: [],
   };
-  const s = demoStats(feed);
-  assert.equal(s.open_positions, 4, "the roles in the list, the base of the charts (not totals.open)");
+  const s = demoStats(feed, { scan_at: "2026-10-31T11:00:00Z", active_total: 9, companies_open: 2, by_company: {} });
+  assert.equal(s.open_positions, 9, "the app's active roles, the clip's first number and the base of chart 3 (not totals.open, not the list)");
+  assert.equal(s.companies_open, 2);
   assert.equal(s.totals_open, 7);
+  assert.equal(s.feed_roles, 4);
   assert.equal(s.companies, 3);
   assert.equal(s.companies_new_7d, 1);
   assert.equal(s.as_of, "2026-10-31");
+  assert.throws(() => demoStats(feed, { scan_at: "2026-10-31T05:00:00Z", active_total: 9, companies_open: 2, by_company: {} }), /save the feed right after the take/, "a feed and a take of two scans never mix");
+});
+
+test("demo-stats: the app's numbers come out of a take's HAR, and they have to add up", () => {
+  const entry = (url, body, status = 200) => ({ request: { url }, response: { status, content: { text: JSON.stringify(body) } } });
+  const companies = [{ name: "A", count: 5 }, { name: "B", count: 3 }];
+  const har = (active) => ({ log: { entries: [
+    entry("https://app/api/notifications/unread", {}),
+    entry("https://app/api/home", { last_scan: { at: "S" }, pipeline: { companies: 2 } }),
+    entry("https://app/api/bdm/roles/12", { facets: { active_total: 1, companies: [] } }),
+    entry("https://app/api/bdm/roles?fit=active&segment=all&page=1", { facets: { active_total: active, companies } }),
+    entry("https://app/api/bdm/roles?fit=active&segment=prospects&page=1", { facets: { active_total: 1, companies: [] } }),
+  ] } });
+  assert.deepEqual(appFromHar(har(8)), { scan_at: "S", active_total: 8, companies_open: 2, by_company: { A: 5, B: 3 } });
+  assert.throws(() => appFromHar(har(9)), /add up to 8, its active roles are 9/);
+  assert.throws(() => appFromHar({ log: { entries: [] } }), /no answer from the app/);
+});
+
+test("demo-stats: the charts of one moment; the day of the data left out of chart 1, every band of chart 2, chart 3 adds up to the strip", () => {
+  const feed = {
+    generated_at: "2026-11-03T05:08:00Z",
+    scan: { at: "2026-11-03T05:01:00Z" },
+    daily_new: { "2026-10-25": 1000, "2026-10-26": 66, "2026-10-27": 10, "2026-11-02": 1, "2026-11-03": 45 },
+    companies: [{ name: "A", ats: "Jobs.cz" }, { name: "B", ats: "Workday" }, { name: "C", ats: "Kariérní web" }, { name: "D", ats: "Jobs.cz" }],
+    roles: [
+      { co: 1, posted: "" },
+      { co: 2, posted: "2026-11-03" }, // 0 days
+      { co: 2, posted: "2026-09-19" }, // 45 days: the first of the highlight
+      { co: 2, posted: "2026-09-20" }, // 44 days
+      { co: 2, posted: "2025-01-01" }, // 366+, counts too
+    ],
+  };
+  const app = { by_company: { A: 5, B: 3, C: 2 }, active_total: 10 };
+  const old = {
+    "nove-pozice-po-dnech": { title_cs: "stays", source_cs: "Data, stav k 31. 10. 2026.", source_en: "Data, as of 31 Oct 2026.", rows: [{ date: "2026-10-26", new_roles: 58, all_found: 66, left_out_first_scan: 8 }] },
+    "stari-pozic": { source_cs: "Data, stav k 31. 10. 2026.", source_en: "Data, as of 31 Oct 2026.", rows: [] },
+    "zdroje-pozic": { source_cs: "Data, stav k 31. 10. 2026.", source_en: "Data, as of 31 Oct 2026.", rows: [{ group_cs: "J", group_en: "Jobs.cz / Teamio" }, { group_cs: "A", group_en: "Company ATS" }, { group_cs: "W", group_en: "Own careers site" }] },
+  };
+  const c = chartsFrom(feed, app, old);
+  const daily = c["nove-pozice-po-dnech"];
+  assert.deepEqual(daily.rows.map((r) => [r.date, r.new_roles]), [["2026-10-26", 58], ["2026-10-27", 10], ["2026-11-02", 1]], "from 26. 10., what a first day found stays out, the day with only a morning scan is not there, a day with 1 is");
+  assert.equal(daily.title_cs, "stays");
+  for (const chart of Object.values(c)) {
+    assert.equal(chart.as_of, "2026-11-03");
+    assert.match(chart.source_cs, /stav k 3\. 11\. 2026\.$/);
+    assert.match(chart.source_en, /as of 3 Nov 2026\.$/);
+  }
+  const age = Object.fromEntries(c["stari-pozic"].rows.map((b) => [b.days, b.roles]));
+  assert.deepEqual([age["0–6"], age["30–44"], age["45–89"], age["366+"]], [1, 1, 1, 1]);
+  assert.deepEqual(c["stari-pozic"].rows.filter((b) => b.highlight).map((b) => b.days), ["45–89", "90–179", "180–365", "366+"]);
+  assert.match(c["stari-pozic"].alt_cs, /Z 4 pozic s datem zveřejnění je 2 \(50 %\)/);
+  const sources = c["zdroje-pozic"].rows;
+  assert.deepEqual(sources.map((r) => [r.group_en, r.companies, r.roles]), [["Jobs.cz / Teamio", 2, 5], ["Company ATS", 1, 3], ["Own careers site", 1, 2]]);
+  assert.equal(sources.reduce((a, r) => a + r.roles, 0), app.active_total);
+});
+
+test("chart 1 with more than six days: the date under a column on two lines, so neighbours never touch; with six, one", () => {
+  const under = (site) => {
+    const html = String(buildSite(site).get("public/index.html"));
+    return html.slice(html.indexOf('id="ch-nove-pozice-po-dnech"'), html.indexOf("</figure>", html.indexOf('id="ch-nove-pozice-po-dnech"')));
+  };
+  const site = loadSite();
+  const ticks = (fig) => [...fig.matchAll(/<text class="chart__tick"[^>]*>([\s\S]*?)<\/text>/g)].map((m) => (m[1].match(/<tspan/g) || []).length);
+  assert.equal(site.charts["nove-pozice-po-dnech"].rows.length, 8);
+  assert.ok(ticks(under(site)).every((n) => n === 2));
+  site.charts = JSON.parse(JSON.stringify(site.charts));
+  site.charts["nove-pozice-po-dnech"].rows = site.charts["nove-pozice-po-dnech"].rows.slice(0, 6);
+  assert.ok(ticks(under(site)).every((n) => n === 1));
 });
 
 test("the prices in the text map match src/data/plans.json (core/plans.py): monthly, yearly = 10 months, 12-month list price", () => {

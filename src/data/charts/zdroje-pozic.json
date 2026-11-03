@@ -1,8 +1,8 @@
 {
  "id": "zdroje-pozic",
- "as_of": "2026-10-31",
- "source_cs": "Data z veřejného dema TalentRadaru: 100 českých firem (z toho 26 z IT a softwaru), skeny v 6:00 a ve 12:00, stav k 31. 10. 2026.",
- "source_en": "Data from TalentRadar’s public demo: 100 Czech companies (26 of them in IT and software), scans at 6:00 and 12:00, as of 31 Oct 2026.",
+ "as_of": "2026-11-03",
+ "source_cs": "Data z veřejného dema TalentRadaru: 100 českých firem (z toho 26 z IT a softwaru), skeny v 6:00 a ve 12:00, stav k 3. 11. 2026.",
+ "source_en": "Data from TalentRadar’s public demo: 100 Czech companies (26 of them in IT and software), scans at 6:00 and 12:00, as of 3 Nov 2026.",
  "title_cs": "Odkud pozice čteme",
  "title_en": "Where the roles come from",
  "unit_cs": "firem a otevřených pozic",
@@ -13,7 +13,7 @@
    "group_cs": "Jobs.cz / Teamio",
    "group_en": "Jobs.cz / Teamio",
    "companies": 55,
-   "roles": 767,
+   "roles": 790,
    "sources": [
     "Jobs.cz"
    ]
@@ -22,7 +22,7 @@
    "group_cs": "ATS firmy",
    "group_en": "Company ATS",
    "companies": 24,
-   "roles": 343,
+   "roles": 350,
    "sources": [
     "Ashby",
     "Eightfold",
@@ -39,15 +39,15 @@
    "group_cs": "Vlastní kariérní web",
    "group_en": "Own careers site",
    "companies": 21,
-   "roles": 272,
+   "roles": 298,
    "sources": [
     "Kariérní web"
    ]
   }
  ],
- "note_cs": "Skupina „ATS firmy“: Greenhouse, Workday, Ashby, Oracle Recruiting, Recruitee, Lever, SuccessFactors, Phenom, Eightfold. Pozice = otevřené pozice ve feedu dema (bez pozic mimo zaměření).",
- "note_en": "“Company ATS”: Greenhouse, Workday, Ashby, Oracle Recruiting, Recruitee, Lever, SuccessFactors, Phenom, Eightfold. Roles = open roles in the demo feed (roles outside the niche left out).",
+ "note_cs": "Skupina „ATS firmy“: Greenhouse, Workday, Ashby, Oracle Recruiting, Recruitee, Lever, SuccessFactors, Phenom, Eightfold. Pozice = všechny aktivní pozice v aplikaci dema, i mimo zaměření agentury.",
+ "note_en": "“Company ATS”: Greenhouse, Workday, Ashby, Oracle Recruiting, Recruitee, Lever, SuccessFactors, Phenom, Eightfold. Roles = all active roles in the demo app, including those outside the agency’s niche.",
  "alt_cs": "55 ze 100 firem dema čteme z Jobs.cz a Teamia, 21 z vlastního kariérního webu a 24 z ATS firmy.",
  "alt_en": "For 55 of the demo’s 100 companies we read Jobs.cz and Teamio, for 21 their own careers site and for 24 the company’s ATS.",
- "method": "firmy: companies[].ats z /api/sandbox (= DEMO_COMPANIES ve scripts/refresh_live_radar.py); pozice: roles[] podle firmy. Skript analyza_zivy.py."
+ "method": "firmy: companies[].ats z /api/sandbox; pozice: facets.companies z /api/bdm/roles (HAR záběru), součet = facets.active_total. tools/demo-stats.mjs."
 }

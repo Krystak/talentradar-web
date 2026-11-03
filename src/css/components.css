@@ -202,6 +202,10 @@
 }
 .video__play:hover { background: rgba(40, 30, 30, 0.92); }
 .video figcaption { margin-top: var(--space-4); font-size: var(--fs-sm); line-height: 1.45; color: var(--c-muted); }
+/* Clips of one figure recorded on different days: one grid cell, so the caption is as high as its longest sentence whichever shows. */
+.video__captions { display: grid; }
+.video__caption-line { grid-area: 1 / 1; visibility: hidden; }
+.video__caption-line.is-on { visibility: visible; }
 .video--mobile { display: none; }
 @media (max-width: 767px) {
   .video--has-mobile .video--desktop { display: none; }

@@ -391,6 +391,10 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
       // within this figure only: the next figure's date must not count for it
       const caption = (m[0].match(/<figcaption>([\s\S]*?)<\/figcaption>/) || [])[1] || "";
       if (!/20\d\d/.test(caption)) unfinished(`${page}: the caption of the ${m[1]} video has no recording date`);
+      // clips of one figure with their own days: each of them has to have it
+      for (const row of caption.matchAll(/<span class="video__caption-line[^>]*data-cues="([^"]+)">([\s\S]*?)<\/span>(?=<span class="video__caption-line|<\/span>$)/g)) {
+        if (!/20\d\d/.test(row[2])) unfinished(`${page}: the caption of the ${row[1]} video has no recording date`);
+      }
     }
     // the hero's date is in the line under it, one version per screen, and each of them has to have it
     if (/video--hero\b/.test(html)) {

@@ -1303,7 +1303,7 @@ test("three chapters: Morning, Whom to call, Who wants this candidate; the origi
     const html = String(files.get(path));
     assert.equal((html.match(/class="chapter-tab"/g) || []).length, 3, path);
     assert.equal((html.match(/role="tabpanel"/g) || []).length, 3, path);
-    assert.match(html.match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0], /<figcaption>[^<]*20\d\d/, path);
+    assert.match(html.match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0].match(/<figcaption>[\s\S]*?<\/figcaption>/)[0], /20\d\d/, path);
     for (const key of ["how_ch1_body", "how_ch1_body_m"]) {
       assert.doesNotMatch(site.i18n[lang][key], /klient|cílov|bez kontaktu|client|target compan/i, `${lang} ${key}: no groups of companies`);
     }
@@ -1510,6 +1510,46 @@ test("the date says what each cut is: the hero's own by language and screen, the
   // without its own, the hero says the set's
   const set = buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-10-20"; }));
   assert.match(page(set, "public/index.html").match(/hero__caption">[\s\S]*?<\/p>/)[0], /Natočeno 20\.\u00a010\.\u00a02026 /);
+});
+
+test("the date under the chapters: one sentence while all three clips share a day, each clip its own day when they do not", () => {
+  const how = (files, path = "public/index.html") => page(files, path).match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0];
+  const clips = (edit) => buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; edit(m); }));
+  const same = how(clips(() => {}));
+  assert.match(same, /<figcaption>[^<]*Natočeno 1\.\u00a011\.\u00a02026\.<\/figcaption>/);
+  assert.doesNotMatch(same, /video__caption-line/);
+
+  const files = clips((m) => { m.clips.how2.clip_date = "2026-11-03"; });
+  const lines = [...how(files).match(/<figcaption>([\s\S]*?)<\/figcaption>/)[1].matchAll(/<span class="video__caption-line( is-on)?" data-cues="(how\d)">([\s\S]*?)<\/span>(?=<span class="video__caption-line|<\/span>$)/g)];
+  assert.deepEqual(lines.map((l) => l[2]), ["how1", "how2", "how3"]);
+  assert.deepEqual(lines.map((l) => !!l[1]), [true, false, false], "without JavaScript the first chapter's, the one that shows");
+  // the wide cut of how2 is new, its phone cut is not: each screen is told the day of what it plays
+  assert.match(lines[0][3], /^[^<]*Natočeno 1\.\u00a011\.\u00a02026\.$/);
+  assert.match(lines[1][3], /<span class="d-only">[^<]*Natočeno 3\.\u00a011\.\u00a02026\.<\/span><span class="m-only">[^<]*Natočeno 1\.\u00a011\.\u00a02026\.<\/span>/);
+  assert.match(how(files, "public/en/index.html"), /Recorded 3\u00a0Nov\u00a02026\./);
+
+  // a language still on its older cut says that cut's day
+  const en = clips((m) => { m.clips.how2.clip_date = "2026-11-03"; m.clips.how2.by_lang = { en: { clip_date: "2026-11-01" } }; });
+  assert.doesNotMatch(how(en, "public/en/index.html"), /video__caption-line/);
+  assert.match(how(en), /Natočeno 3\.\u00a011\.\u00a02026\./);
+
+  const css = String(files.get("public/css/site.css"));
+  assert.match(css, /\.video__captions \{ display: grid; \}/);
+  assert.match(css, /\.video__caption-line \{ grid-area: 1 \/ 1; visibility: hidden; \}/);
+  assert.match(String(files.get("public/js/site.js")), /fig\.querySelectorAll\("\.video__caption-line"\)\) l\.classList\.toggle\("is-on", l\.dataset\.cues === clip\.id\)/);
+});
+
+test("a clip with its own day says it under its own figure; release wants a date for each clip of a figure", () => {
+  const tour = buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; m.clips.tour.clip_date = "2026-11-03"; }));
+  assert.match(page(tour, "public/demo.html").match(/<figcaption>[\s\S]*?<\/figcaption>/)[0], /Natočeno 3\.\u00a011\.\u00a02026\./);
+  const errors = (edit) => checkSite(siteFiles(buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; edit(m); }))), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
+  const missing = /the caption of the how\d video has no recording date/;
+  assert.ok(!errors((m) => { m.clips.how2.clip_date = "2026-11-03"; }).some((e) => missing.test(e)));
+  // how1 has its day, how2 and how3 have none: the sentence goes for them, and release names them
+  const none = errors((m) => { m.clip_date = null; m.clips.how1.clip_date = "2026-11-03"; m.clips.how1.mobile.clip_date = "2026-11-03"; });
+  assert.ok(none.some((e) => e.includes("the caption of the how2 video has no recording date")), none.join("; "));
+  assert.ok(none.some((e) => e.includes("the caption of the how3 video has no recording date")));
+  assert.ok(!none.some((e) => e.includes("the caption of the how1 video")));
 });
 
 test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's broad focus said", () => {

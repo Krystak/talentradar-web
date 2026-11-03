@@ -121,11 +121,12 @@ test("wide screens: under the age chart the caption and the 'why' read as one pa
   assert.equal((caption.match(/45 a víc dní/g) || []).length, 1, "the caption says it once");
   assert.doesNotMatch(fig, /Inzerát visí/);
   // the note under it counts from the data, never typed in
-  assert.match(fig, /Počítáme jen 409 z 1 382 pozic, u kterých firma uvádí datum zveřejnění/);
   const site = loadSite();
+  const base = site.charts["stari-pozic"].rows.reduce((a, r) => a + r.roles, 0);
+  assert.match(fig, new RegExp(`Počítáme jen ${base} pozic, u kterých firma uvádí datum zveřejnění`));
   site.charts = JSON.parse(JSON.stringify(site.charts));
   site.charts["stari-pozic"].rows[0].roles += 10;
-  assert.match(String(buildSite(site).get("public/index.html")).split(" ").join(" "), /Počítáme jen 419 z 1 382 pozic/);
+  assert.match(String(buildSite(site).get("public/index.html")).replace(/\u00a0/g, " "), new RegExp(`Počítáme jen ${base + 10} pozic`));
 });
 
 // ── Placeholders, the call link, the operator ─────────────────────────────
@@ -232,10 +233,10 @@ test("phone chart of the age of roles: one bar in the accent, 45+, the sum of ev
   assert.equal(rows.length, 5);
   const hi = rows.filter((r) => r.includes("is-hi"));
   assert.equal(hi.length, 1);
-  assert.match(hi[0], /45\+ dní<\/span>[\s\S]*<span class="hbars__value">99<\/span>/);
-  assert.match(fig, /<ol class="hbars" role="list" aria-label="Z 409 pozic s datem zveřejnění je 99 \(24 %\) otevřených 45 a víc dní\.">/);
+  assert.match(hi[0], /45\+ dní<\/span>[\s\S]*<span class="hbars__value">109<\/span>/);
+  assert.match(fig, /<ol class="hbars" role="list" aria-label="Z 408 pozic s datem zveřejnění je 109 \(27 %\) otevřených 45 a víc dní\.">/);
   assert.match(fig, /Inzerát visí 45 a víc dní\. Někde jde o průběžný nábor/);
-  assert.match(fig, /Zdroj: veřejné demo TalentRadaru, stav k 31\. 10\. 2026/);
+  assert.match(fig, /Zdroj: veřejné demo TalentRadaru, stav k 3. 11. 2026/);
   assert.doesNotMatch(fig, /SHRM/);
 });
 

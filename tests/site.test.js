@@ -498,10 +498,12 @@ test("the recording date fills the captions once media sets it; until then the s
   const site = loadSite();
   site.media = JSON.parse(JSON.stringify(site.media));
   site.media.clip_date = null;
-  site.media.clips.ats.clip_date = null;
-  delete site.media.clips.hero.clip_date;
-  if (site.media.clips.hero.mobile) delete site.media.clips.hero.mobile.clip_date;
-  for (const own of Object.values(site.media.clips.hero.by_lang || {})) delete own.clip_date;
+  // no clip has a day of its own either, whichever has been retaken by now
+  for (const clip of Object.values(site.media.clips)) {
+    delete clip.clip_date;
+    if (clip.mobile) delete clip.mobile.clip_date;
+    for (const own of Object.values(clip.by_lang || {})) delete own.clip_date;
+  }
   const before = String(buildSite(site).get("public/index.html"));
   assert.doesNotMatch(before, /Natočeno/);
   site.media.clip_date = "2026-11-02";

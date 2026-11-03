@@ -1552,6 +1552,16 @@ test("a clip with its own day says it under its own figure; release wants a date
   assert.ok(!none.some((e) => e.includes("the caption of the how1 video")));
 });
 
+test("chapter 1's words say what the clip shows: in alphabetical order it proves no 'most', and what it sets aside there was not set aside by AI (cut sheet V2)", () => {
+  const { i18n } = loadSite();
+  assert.equal(i18n.cs.cue_morning_1, "Kde se nabírá, firma po firmě.");
+  assert.equal(i18n.en.cue_morning_1, "Where they’re hiring, company by company.");
+  for (const lang of ["cs", "en"]) {
+    assert.doesNotMatch(i18n[lang].cue_morning_1, /nejvíc|most/, lang);
+    assert.doesNotMatch(i18n[lang].how_clip1_alt, /\bAI\b/, lang);
+  }
+});
+
 test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's broad focus said", () => {
   const { i18n } = loadSite();
   assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem, jen ve vaší specializaci.");

@@ -88,7 +88,7 @@ test("V6 keeps its own recording date when the other clips get a new one, and lo
 
 test("every video address carries the set's version, a new version changes them all, none without one", () => {
   const addresses = (html) => [
-    ...[...html.matchAll(/\s(?:src|poster)="(\/video\/[^"]+)"/g)].map((m) => m[1]),
+    ...[...html.matchAll(/\s(?:src|poster)="(\/video\/[^"]+)"|--poster:url\((\/video\/[^)]+)\)/g)].map((m) => m[1] || m[2]),
     ...dataClipFiles(html),
     ...[...html.matchAll(/<link rel="preload" as="image" href="(\/video\/[^"]+)"/g)].map((m) => m[1]),
   ];
@@ -1488,10 +1488,10 @@ test("by_lang on the page: each language its files, poster, preload and times; t
   const en = figure("public/en/index.html");
   assert.deepEqual([...cs.match(/<video [\s\S]*?<\/video>/)[0].matchAll(/<source src="([^"]+)"/g)].map((m) => m[1]), ["/video/hero.cs.2048.60.mp4", "/video/hero.cs.1440.60.mp4"]);
   assert.deepEqual([...en.match(/<video [\s\S]*?<\/video>/)[0].matchAll(/<source src="([^"]+)"/g)].map((m) => m[1]), ["/video/hero.en.webm", "/video/hero.en.mp4"]);
-  assert.match(cs, /poster="\/video\/hero\.cs\.1920\.webp"/);
+  assert.match(cs, /--poster:url\(\/video\/hero\.cs\.1920\.webp\)/);
   assert.match(cs, /width="1920" height="1200"/);
-  assert.match(en, /poster="\/video\/hero\.en\.webp"/);
-  assert.match(cs, /poster="\/video\/hero-mobile\.cs\.webp"/);
+  assert.match(en, /--poster:url\(\/video\/hero\.en\.webp\)/);
+  assert.match(cs, /--poster:url\(\/video\/hero-mobile\.cs\.webp\)/);
   assert.match(page(files, "public/index.html"), /rel="preload" as="image" href="\/video\/hero\.cs\.1920\.webp" media="\(min-width: 768px\)"/);
   assert.match(page(files, "public/en/index.html"), /rel="preload" as="image" href="\/video\/hero\.en\.webp" media="\(min-width: 768px\)"/);
   assert.match(cs, /data-at="3\.95" data-at-mobile="3\.3"/);
@@ -1595,6 +1595,33 @@ test("the text under the hero: the sentences of the cut sheet, no number of comp
   // measured in Chromium, 3. 11. 2026: longer than this and the phone's line takes one more row at 360 px (Czech) and 390 px (English)
   assert.ok(i18n.cs.hero_video_caption_m.replace("{clip.hero_phone_date}", "3. 11. 2026").length <= 90);
   assert.ok(i18n.en.hero_video_caption_m.replace("{clip.hero_phone_date}", "1 Nov 2026").length <= 94);
+});
+
+test("a phone does not fetch the wide cut's poster, nor the other way round: a loop's poster is the background of its screen, which CSS hides; the tour on its click keeps the attribute", () => {
+  const files = buildSite(loadSite());
+  const home = page(files, "public/index.html");
+  for (const id of ["hero", "how1", "ats"]) {
+    const fig = home.match(new RegExp(`<figure class="video video--${id}[\\s\\S]*?</figure>`))[0];
+    assert.doesNotMatch(fig, /<video[^>]*\sposter="\/video/, id);
+    assert.match(fig, /<video[^>]*\sposter="data:image\/gif;base64,/, id);
+    assert.match(fig, /<div class="frame__screen video--desktop" style="--poster:url\(\/video\/[^)]+\.webp\?v=[^)]+\)">/, id);
+  }
+  assert.match(home.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0], /<div class="frame__screen video--mobile" style="--poster:url\(\/video\/hero-mobile\./);
+  assert.match(page(files, "public/demo.html"), /<video[^>]*\sposter="\/video\/tour\.cs\./);
+  assert.match(String(files.get("public/css/site.css")), /\.frame__screen \{ position: relative; background: #0B111D var\(--poster, none\) center \/ cover no-repeat; \}/);
+  const js = String(files.get("public/js/site.js"));
+  assert.match(js, /setProperty\("--poster", cut\.poster \? `url\(\$\{cut\.poster\}\)` : "none"\)/);
+  // the shown video gets the real file from the script, a hidden one nothing
+  assert.match(js, /const realPosters = \(\) => \{/);
+  assert.match(js, /if \(!v\.offsetParent\) continue;/);
+  assert.match(js, /onMediaChange\(phone, firstLines\)/);
+  assert.match(js, /v\.poster = cut\.poster \|\| "";/);
+});
+
+test("a poster named in the page that is not there is an error", () => {
+  const files = siteFiles(buildSite(siteWith((m) => { m.clips.hero.poster = "/video/nope.{lang}.webp"; })));
+  const { errors } = checkSite(files, { redirects: REDIRECTS, workerFirst: workerFirstPatterns() });
+  assert.ok(errors.some((e) => e.includes("/video/nope.cs.webp") && e.includes("404")), errors.join("; "));
 });
 
 test("a loop is on its own layer before it plays, so the picture does not move when the poster gives way to the first frame", () => {

@@ -577,14 +577,16 @@ function heroPosterPreloads(site, lang) {
  * changes. others: the clips that may follow in this figure (the chapters' tabs).
  * Loops (hero, chapters, V6) are muted and lazy (preload none); the
  * tour plays only on a click. A clip with a 4:5 phone cut gets both videos, CSS
- * shows one, and only the shown one's video file is ever loaded (site.js). The
- * poster of a video under display: none is still fetched by the browser, at normal
- * priority (Chromium, 2. 11. 2026, / in CS: 137 kB more at 390 px, 73 kB at 1 440 px).
- * Left so on purpose: a poster out of the HTML changes how the first screen paints
- * and a video without one is not verified on an iPhone. On a phone only
+ * shows one, and only the shown one's files are ever loaded (site.js), its poster too:
+ * it is the background of the screen (--poster), because a poster attribute under
+ * display: none is still fetched (Chromium, 3. 11. 2026, / in CS: 220 of 504 kB at 390 px).
+ * Works without the script; a poster of one clear pixel on a video is not verified on
+ * an iPhone. On a phone only
  * the hero plays by itself; every other loop waits for a tap on its play
  * button (data-tap-phone, lead etapa 4a).
  */
+const CLEAR_POSTER = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAAAABAAEAAAIBAAA=";
+
 function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
   if (!site.media.clips[id]) throw new Error(`${where}: unknown clip ${id}`);
   const clip = clipIn(site.media.clips[id], ctx.lang);
@@ -598,7 +600,12 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
       .map((tr) => `<track kind="subtitles" srclang="${tr.srclang}" label="${escapeHtml(text(site, ctx, tr.label))}" src="${lang(tr.src)}"${tr.srclang === ctx.lang ? " default" : ""}>`)
       .join("");
     const play = !loop ? `<button class="video__play" type="button" hidden>${escapeHtml(text(site, ctx, "demo_play"))}</button>` : "";
-    return `<div class="frame__screen ${cls}"><video ${attrs} preload="none" width="${c.width || clip.width}" height="${c.height || clip.height}" poster="${lang(c.poster)}" aria-label="${aria}">${sources}${tracks}</video>${play}</div>`;
+    // a loop's poster is the background of its screen: a browser fetches the poster of a video under display: none, not the background of an element under it
+    const paint = loop ? ` style="--poster:url(${lang(c.poster)})"` : "";
+    // with controls and no poster at all Chromium paints the video grey over that background: a poster that shows nothing keeps it clear,
+    // without the script too; the script gives the shown video the real file (realPosters in site.js)
+    const poster = ` poster="${loop ? CLEAR_POSTER : lang(c.poster)}"`;
+    return `<div class="frame__screen ${cls}"${paint}><video ${attrs} preload="none" width="${c.width || clip.width}" height="${c.height || clip.height}"${poster} aria-label="${aria}">${sources}${tracks}</video>${play}</div>`;
   };
   let toggle = "";
   if (loop) {

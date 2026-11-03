@@ -538,7 +538,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .video__cue-line { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 200ms ease, visibility 200ms; }
 .video__cue-line.is-on { opacity: 1; visibility: visible; }
 
-.frame__screen { position: relative; background: #0B111D; }
+.frame__screen { position: relative; background: #0B111D var(--poster, none) center / cover no-repeat; }
 .frame__screen video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
 /* A loop is on its own layer before it starts, not only once it plays: the window often sits on a fraction of a
    pixel, and otherwise the picture moves by that fraction when the poster gives way to the first frame

@@ -414,8 +414,8 @@ export function checkSite(files, { redirects = {}, workerFirst = [], origin = "h
     if (/lorem/i.test(html)) unfinished(`${page}: contains lorem ipsum`);
 
     // internal links and assets answer 200 at exactly that address
-    for (const m of html.matchAll(/\s(href|src|poster)="([^"]+)"/g)) {
-      const raw = m[2];
+    for (const m of html.matchAll(/\s(href|src|poster)="([^"]+)"|--poster:url\(([^)]+)\)/g)) {
+      const raw = m[2] || m[3];
       if (!raw.startsWith("/") || raw.startsWith("//")) continue;
       const [pathQ, hash] = raw.split("#");
       const path = pathQ.split("?")[0];

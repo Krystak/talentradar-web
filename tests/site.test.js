@@ -415,7 +415,9 @@ test("the form on both home pages has the same fields as before", () => {
     const page = readFileSync(new URL(path, import.meta.url), "utf8");
     const form = page.slice(page.indexOf('<form class="form" id="demo-form"'), page.indexOf("</form>"));
     for (const name of ["name", "email", "company", "clients", "website", "timestamp"]) assert.match(form, new RegExp(`name="${name}"`), `${path}: ${name}`);
-    assert.match(form, /type="file" id="file-upload" accept="\.xlsx,\.xls,\.csv"/);
+    // .xls the app cannot read yet (W14): the page neither accepts nor promises it
+    assert.match(form, /type="file" id="file-upload" accept="\.xlsx,\.csv"/);
+    assert.doesNotMatch(page, /\bxls\b/i, path);
     assert.match(form, /<div class="hp" aria-hidden="true">/);
     for (const name of ["name", "email", "company"]) assert.match(form, new RegExp(`id="${name}" name="${name}" required`), `${path}: ${name} required`);
   }
@@ -515,6 +517,19 @@ test("the trial form takes files up to 5 MB, as the page says", () => {
   const site = loadSite();
   assert.match(site.i18n.cs.trial_upload_types, /5 MB/);
   assert.match(site.i18n.en.form_err_file_large, /5 MB/);
+});
+
+test("the trial form takes .xlsx and .csv, not .xls the app cannot read yet (W14)", () => {
+  const js = readFileSync(new URL("../src/js/site.js", import.meta.url), "utf8");
+  assert.match(js, /if \(!\/\\\.\(xlsx\|csv\)\$\/i\.test\(f\.name\)\)/);
+  assert.match(js, /t\("form_err_file_type", "Please upload Excel \(\.xlsx\) or \.csv\."\)/);
+  const site = loadSite();
+  for (const lang of ["cs", "en"]) {
+    for (const key of ["trial_upload_types", "form_err_file_type", "help_rule_e"]) {
+      assert.match(site.i18n[lang][key], /\(\.xlsx\)/, `${lang}.${key}`);
+      assert.doesNotMatch(site.i18n[lang][key], /\bxls\b/i, `${lang}.${key}`);
+    }
+  }
 });
 
 test("the form's answer: success, the Worker's own refusal, and anything else as the generic message", async () => {

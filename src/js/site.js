@@ -790,8 +790,8 @@ const pageLoaded = new Promise((resolve) => {
   fileInput.addEventListener("change", () => {
     const f = fileInput.files && fileInput.files[0];
     if (!f) return;
-    if (!/\.(xlsx|xls|csv)$/i.test(f.name)) {
-      showFileError(t("form_err_file_type", "Please upload Excel (.xlsx, .xls) or .csv."));
+    if (!/\.(xlsx|csv)$/i.test(f.name)) {
+      showFileError(t("form_err_file_type", "Please upload Excel (.xlsx) or .csv."));
       fileInput.value = "";
       return;
     }

@@ -385,6 +385,15 @@ test("the four-column template, uploaded, is stored whole and its companies coun
   }
 });
 
+test("every company in the templates has a careers page or at least a website (W14: a bare name is not tracked)", async () => {
+  for (const name of ["klienti-sablona.csv", "clients-template.csv"]) {
+    const [, ...rows] = (await templateFile(name)).toString("utf8").trim().split(/\r?\n/);
+    assert.equal(rows.length, 3, name);
+    for (const row of rows) assert.ok(row.split(/[;,]/)[1].trim(), `${name}: ${row}`);
+    assert.ok(rows.includes(name.startsWith("klienti") ? "Rohlik Group;rohlik.cz;;" : "Rohlik Group,rohlik.cz,,"), name);
+  }
+});
+
 test("a four-column list pasted as text stays whole in the lead", async () => {
   const clients = "Air Bank; airbank.cz; 15. 3. 2024; ano\nRohlik Group\nSeznam.cz; https://kariera.seznam.cz; 2. 11. 2023; ne";
   const e = env();

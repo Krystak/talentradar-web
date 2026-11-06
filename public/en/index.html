@@ -30,7 +30,7 @@
   <link rel="preload" as="image" href="/video/hero-mobile.en.1080.webp?v=c423afc838" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" href="/video/hero.en.1920.webp?v=c423afc838" media="(min-width: 768px)" fetchpriority="high">
   <link rel="stylesheet" href="/css/site.css?v=c8260cd73c">
-  <script type="module" src="/js/site.js?v=b888310dc8"></script>
+  <script type="module" src="/js/site.js?v=6a564f3ded"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -503,7 +503,7 @@ Company;Careers page;Last contact;Had placement
 
 Rules:
 - Company: the company name, each company only once.
-- Careers page: the address of its open positions page, only if you know it for certain. Otherwise leave it empty, we will look it up. Do not make up addresses.
+- Careers page: the address of the page with open roles, or at least the company website, only if you are sure of it. Don't make addresses up.
 - Last contact: the date of the last contact with the company as 15/03/2024, only if it is in the source. Otherwise empty.
 - Had placement: yes or no, only if the source says so. Otherwise empty.
 - Do not include people's names, emails, phone numbers or candidates.
@@ -511,7 +511,7 @@ Rules:
 Example:
 Company;Careers page;Last contact;Had placement
 Air Bank;airbank.cz/careers;15/03/2024;yes
-Rohlik Group;;;</textarea>
+Rohlik Group;rohlik.cz;;</textarea>
               <p class="note">Your AI handles those files, not us. Use the one your company has approved.</p>
             </div>
             <div class="field__top">
@@ -519,11 +519,11 @@ Rohlik Group;;;</textarea>
               <button type="button" class="link-btn" id="clients-help-btn" aria-haspopup="dialog" aria-controls="clients-help"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-help"></use></svg>Prefer to do it by hand? What the list should look like, with a CSV template</button>
             </div>
             <div class="field__pair">
-            <textarea id="clients" name="clients" rows="3" placeholder="One company per line, e.g. “Air Bank; airbank.cz/volne-pozice”, or just “Rohlik Group”." aria-describedby="clients-hint"></textarea>
+            <textarea id="clients" name="clients" rows="3" placeholder="One company per line, e.g. “Air Bank; airbank.cz/volne-pozice” or “Rohlik Group; rohlik.cz”." aria-describedby="clients-hint"></textarea>
             <div class="dropzone" id="drop-zone">
-              <input type="file" id="file-upload" accept=".xlsx,.xls,.csv" aria-describedby="upload-note">
+              <input type="file" id="file-upload" accept=".xlsx,.csv" aria-describedby="upload-note">
               <div class="dropzone__prompt" id="file-prompt">
-                <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-upload"></use></svg><strong>Upload your company list or a CRM export</strong><span>Excel (.xlsx, .xls) or .csv, up to 5 MB</span>
+                <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-upload"></use></svg><strong>Upload your company list or a CRM export</strong><span>Excel (.xlsx) or .csv, up to 5 MB</span>
               </div>
               <div class="dropzone__file" id="file-selected" hidden>
                 <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg><strong id="file-name"></strong>
@@ -532,7 +532,7 @@ Rohlik Group;;;</textarea>
             </div>
             </div>
             <div class="field__error" id="file-error" hidden></div>
-            <p class="field__hint" id="clients-hint">Active clients and target companies; the name and careers page are enough. We find any missing careers pages.</p>
+            <p class="field__hint" id="clients-hint">Active clients and target companies, each with a link to its careers page. A company website also works: we try to find the careers page from it, though not always successfully.</p>
             <p class="note" id="upload-note">No list at hand? Send the form without it and we’ll get in touch.</p>
             <p class="note">Please don’t send us candidates. You try the candidate search in the app, and the profile isn’t stored.</p>
             <p class="note">We use your company list only for your trial account and never pass it on. An uploaded file deletes itself after 90 days.</p>
@@ -552,7 +552,7 @@ Rohlik Group;;;</textarea>
         <summary>What happens next</summary>
         <ol class="steps" aria-label="What happens next">
           <li>A confirmation e-mail arrives right away.</li>
-          <li>We automatically set up your trial account, find your companies’ career pages and run the first scan.</li>
+          <li>We automatically set up your trial account, try to find the careers page for companies without a link and run the first scan.</li>
           <li>After the first scan you get an e-mail to sign in. Within 2 hours you’ll see in the app where your companies are hiring.</li>
         </ol>
         <p class="form__fine">If anything gets stuck, say with an unusual careers page, I’ll get in touch personally.</p>
@@ -581,17 +581,17 @@ Rohlik Group;;;</textarea>
       <tbody>
         <tr class="help-table__names"><th scope="row">1</th><td><strong>Company</strong></td><td><strong>Careers page</strong></td><td><strong>Last contact</strong></td><td><strong>Had placement</strong></td></tr>
         <tr><th scope="row">2</th><td data-label="Company">Air Bank</td><td data-label="Careers page">airbank.cz/volne-pozice</td><td data-label="Last contact">15/03/2024</td><td data-label="Had placement">yes</td></tr>
-        <tr><th scope="row">3</th><td data-label="Company">Rohlik Group</td><td class="muted" data-label="Careers page">(empty, we find it)</td><td data-label="Last contact"></td><td data-label="Had placement"></td></tr>
+        <tr><th scope="row">3</th><td data-label="Company">Rohlik Group</td><td class="muted" data-label="Careers page">(company website, we try to find the careers page)</td><td data-label="Last contact"></td><td data-label="Had placement"></td></tr>
         <tr><th scope="row">4</th><td data-label="Company">Seznam.cz</td><td data-label="Careers page">kariera.seznam.cz</td><td data-label="Last contact">02/11/2023</td><td data-label="Had placement">no</td></tr>
       </tbody>
     </table>
   </div>
   <ul>
     <li>Column A, Company: the company name (required).</li>
-    <li>Column B, Careers page: a link to the page where the company lists its open roles (optional, we find missing ones).</li>
+    <li>Column B, Careers page: a link to the page where the company lists its open roles. If you don’t know it, enter the company website and we try to find the careers page. We can’t track a company with neither.</li>
     <li>Column C, Last contact: when you last dealt with the company (optional). TalentRadar uses it to spot lapsed clients.</li>
     <li>Column D, Had placement: yes or no (optional).</li>
-    <li>A whole CRM export is fine; we skip the other columns. Up to 150 companies, Excel (.xlsx, .xls) or .csv.</li>
+    <li>A whole CRM export is fine; we skip the other columns. Up to 150 companies, Excel (.xlsx) or .csv.</li>
   </ul>
   <p class="note">No file? Type one company per line into the field, e.g. “Air Bank; airbank.cz/volne-pozice” or just “Rohlik Group”.</p>
   <div class="btn-row dialog__actions">
@@ -695,6 +695,6 @@ Rohlik Group;;;</textarea>
 
 <!-- Material Symbols (Apache License 2.0, src/icons/LICENSE-material-symbols.txt) -->
 <svg xmlns="http://www.w3.org/2000/svg" hidden><symbol id="i-check" viewBox="0 -960 960 960"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></symbol><symbol id="i-close" viewBox="0 -960 960 960"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></symbol><symbol id="i-help" viewBox="0 -960 960 960"><path d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></symbol><symbol id="i-menu" viewBox="0 -960 960 960"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></symbol><symbol id="i-pause" viewBox="0 -960 960 960"><path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"/></symbol><symbol id="i-play_arrow" viewBox="0 -960 960 960"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></symbol><symbol id="i-upload" viewBox="0 -960 960 960"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></symbol></svg>
-<script type="application/json" id="i18n">{"hero_video_play":"Play preview","hero_video_pause":"Pause preview","trial_submitting":"Sending…","nav_menu_open":"Open menu","nav_menu_close":"Close menu","form_err_required":"Please fill in your name, work e-mail and agency name.","form_err_name":"Please fill in your full name.","form_err_name_short":"Please enter your full name.","form_err_email_empty":"Please fill in your work e-mail.","form_err_company":"Please fill in your agency name.","form_err_company_short":"Please enter the full agency name.","form_err_email":"Please check the e-mail address; it should look like jane@agency.ie.","form_err_file_large":"The file is too large (5 MB at most).","form_err_file_type":"Please upload Excel (.xlsx, .xls) or .csv.","form_err_generic":"Something went wrong. Please write to me directly at krystof@talentradar.eu.","form_state_success_title":"Done, we’re setting up your trial","form_state_success_s1":"A confirmation e-mail is on its way. If you can’t see it, check your spam folder.","form_state_success_s2":"We automatically set up your trial account, find your companies’ career pages and run the first scan.","form_state_success_s3":"After the first scan you get an e-mail with a link to set your password. Within 2 hours you’ll see in the app where your companies are hiring.","form_state_success_foot":"No charges, no credit card. When the trial ends, you decide whether to carry on.","trial_ai_copied":"Copied","trial_ai_hide":"Hide the brief"}</script>
+<script type="application/json" id="i18n">{"hero_video_play":"Play preview","hero_video_pause":"Pause preview","trial_submitting":"Sending…","nav_menu_open":"Open menu","nav_menu_close":"Close menu","form_err_required":"Please fill in your name, work e-mail and agency name.","form_err_name":"Please fill in your full name.","form_err_name_short":"Please enter your full name.","form_err_email_empty":"Please fill in your work e-mail.","form_err_company":"Please fill in your agency name.","form_err_company_short":"Please enter the full agency name.","form_err_email":"Please check the e-mail address; it should look like jane@agency.ie.","form_err_file_large":"The file is too large (5 MB at most).","form_err_file_type":"Please upload Excel (.xlsx) or .csv.","form_err_generic":"Something went wrong. Please write to me directly at krystof@talentradar.eu.","form_state_success_title":"Done, we’re setting up your trial","form_state_success_s1":"A confirmation e-mail is on its way. If you can’t see it, check your spam folder.","form_state_success_s2":"We automatically set up your trial account, try to find the careers page for companies without a link and run the first scan.","form_state_success_s3":"After the first scan you get an e-mail with a link to set your password. Within 2 hours you’ll see in the app where your companies are hiring.","form_state_success_foot":"No charges, no credit card. When the trial ends, you decide whether to carry on.","trial_ai_copied":"Copied","trial_ai_hide":"Hide the brief"}</script>
 </body>
 </html>

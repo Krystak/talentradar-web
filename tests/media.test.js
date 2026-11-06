@@ -1085,7 +1085,7 @@ Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka
 
 Pravidla:
 - Firma: název firmy, každá firma jen jednou.
-- Kariérní stránka: adresa stránky s volnými pozicemi, jen když ji znáš jistě. Jinak nech prázdné, dohledáme ji. Adresy si nevymýšlej.
+- Kariérní stránka: adresa stránky s volnými pozicemi, nebo aspoň web firmy, jen když je znáš jistě. Adresy si nevymýšlej.
 - Poslední kontakt: datum posledního kontaktu s firmou ve tvaru 15. 3. 2024, jen když je v podkladech. Jinak prázdné.
 - Proběhla zakázka: ano nebo ne, jen když to podklady říkají. Jinak prázdné.
 - Nepiš jména lidí, e-maily, telefony ani kandidáty.
@@ -1093,7 +1093,7 @@ Pravidla:
 Příklad:
 Firma;Kariérní stránka;Poslední kontakt;Proběhla zakázka
 Air Bank;airbank.cz/volne-pozice;15. 3. 2024;ano
-Rohlik Group;;;`,
+Rohlik Group;rohlik.cz;;`,
   en: `Prepare a company list for TalentRadar, a service that tracks where companies are hiring.
 
 Source: [attach a CRM export or your client list, or describe the sectors and region we care about]
@@ -1103,7 +1103,7 @@ Company;Careers page;Last contact;Had placement
 
 Rules:
 - Company: the company name, each company only once.
-- Careers page: the address of its open positions page, only if you know it for certain. Otherwise leave it empty, we will look it up. Do not make up addresses.
+- Careers page: the address of the page with open roles, or at least the company website, only if you are sure of it. Don't make addresses up.
 - Last contact: the date of the last contact with the company as 15/03/2024, only if it is in the source. Otherwise empty.
 - Had placement: yes or no, only if the source says so. Otherwise empty.
 - Do not include people's names, emails, phone numbers or candidates.
@@ -1111,7 +1111,7 @@ Rules:
 Example:
 Company;Careers page;Last contact;Had placement
 Air Bank;airbank.cz/careers;15/03/2024;yes
-Rohlik Group;;;`,
+Rohlik Group;rohlik.cz;;`,
 };
 const unescapeHtml = (s) => s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
 

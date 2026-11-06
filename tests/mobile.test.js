@@ -104,7 +104,7 @@ test("the Czech footer keeps the English slogan, as the English one does (Kryšt
 test("texts site.js writes into a Czech page carry the no-break spaces too (as characters in the JSON, not entities)", () => {
   const html = String(built().get("public/index.html"));
   const json = JSON.parse(html.match(/<script type="application\/json" id="i18n">([\s\S]*?)<\/script>/)[1]);
-  assert.match(json.form_state_success_s2, /firem a spustíme/);
+  assert.match(json.form_state_success_s2, /u firem bez odkazu zkusíme najít kariérní stránku a spustíme/);
   assert.doesNotMatch(html.match(/<script type="application\/json" id="i18n">[\s\S]*?<\/script>/)[0], /&nbsp;|\\u00a0/);
   assert.equal(json.form_err_name_short, "Zadejte prosím celé jméno.");
   assert.equal(json.form_err_company_short, "Zadejte prosím celý název agentury.");

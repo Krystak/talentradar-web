@@ -161,7 +161,7 @@
   "help_rule_d": "Column D, Had placement: yes or no (optional).",
   "help_rule_e": "A whole CRM export is fine; we skip the other columns. Up to 150 companies, Excel (.xlsx) or .csv.",
   "help_template_href": "/files/clients-template.csv",
-  "help_text_alt": "No file? Type one company per line into the field, e.g. “Air Bank; airbank.cz/volne-pozice” or just “Rohlik Group”.",
+  "help_text_alt": "No file? Type one company per line into the field, e.g. “Air Bank; airbank.cz/volne-pozice” or “Rohlik Group; rohlik.cz”.",
   "help_title": "How to prepare your company list",
   "hero_cta_primary": "Try it free for 14 days",
   "hero_cta_secondary": "Book a 15-minute demo",

@@ -532,6 +532,23 @@ test("the trial form takes .xlsx and .csv, not .xls the app cannot read yet (W14
   }
 });
 
+test("no text of the trial form offers a bare company name, the example carries its website (W14)", () => {
+  const site = loadSite();
+  for (const lang of ["cs", "en"]) {
+    const texts = Object.entries(site.i18n[lang]).filter(([key]) => /^(trial_|help_|form_)/.test(key));
+    assert.ok(texts.length > 20, lang);
+    for (const [key, text] of texts) {
+      assert.doesNotMatch(text, /jen „Rohlik Group“|just “Rohlik Group”/, `${lang}.${key}`);
+      assert.doesNotMatch(text, /[„“]Rohlik Group[“”]/, `${lang}.${key}: a quoted name without its website`);
+    }
+    for (const key of ["trial_placeholder_clients", "help_text_alt"]) assert.match(site.i18n[lang][key], /Rohlik Group; rohlik\.cz/, `${lang}.${key}`);
+  }
+  for (const path of ["../public/index.html", "../public/en/index.html"]) {
+    const page = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.doesNotMatch(page, /jen „Rohlik Group“|just “Rohlik Group”/, path);
+  }
+});
+
 test("the form's answer: success, the Worker's own refusal, and anything else as the generic message", async () => {
   const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
   assert.deepEqual(await demoResult(json(200, { success: true }), "G"), { ok: true });

@@ -161,7 +161,7 @@
   "help_rule_d": "Sloupec D, Proběhla zakázka: ano, nebo ne (nepovinné).",
   "help_rule_e": "Klidně pošlete celý export z CRM, ostatní sloupce přeskočíme. Až 150 firem, Excel (.xlsx) nebo .csv.",
   "help_template_href": "/files/klienti-sablona.csv",
-  "help_text_alt": "Soubor nemáte? Do pole napište jednu firmu na řádek, třeba „Air Bank; airbank.cz/volne-pozice“ nebo jen „Rohlik Group“.",
+  "help_text_alt": "Soubor nemáte? Do pole napište jednu firmu na řádek, třeba „Air Bank; airbank.cz/volne-pozice“ nebo „Rohlik Group; rohlik.cz“.",
   "help_title": "Jak připravit seznam firem",
   "hero_cta_primary": "Vyzkoušet 14 dní zdarma",
   "hero_cta_secondary": "Domluvit 15minutovou ukázku",

@@ -257,6 +257,20 @@ export function waitingCuts(media) {
   return Object.entries(media.clips).flatMap(([id, clip]) => cutsOf(id, clip).filter(([, cut]) => cut.waits).map(([what, cut]) => `${what}: still the older cut, waits for ${cut.waits}`));
 }
 
+/**
+ * The demo agency became an IT and software agency on 6 Nov 2026 (app main 5f5d1ef, deployed 18:24;
+ * its first scan 7 Nov 6:00), and the captions say so. A clip recorded in the demo before that shows
+ * the broad profile, so it cannot go on the site with them. V6 (ats) shows the agency's own ATS with
+ * made-up data, not the demo's roles, and keeps its date.
+ */
+export const DEMO_PROFILE_SINCE = "2026-11-07";
+export function staleProfileCuts(media, since = DEMO_PROFILE_SINCE) {
+  return Object.entries(media.clips).filter(([id]) => id !== "ats").flatMap(([id, clip]) => cutsOf(id, clip)
+    .map(([what, cut]) => [what, cut.clip_date || clip.clip_date])
+    .filter(([, date]) => date && date < since)
+    .map(([what, date]) => `${what}: recorded ${date}, before the demo's IT profile (${since}); the captions say IT and software`));
+}
+
 /** Files in a folder of clips that media.json does not name: not copied, not in the version, and published when they are in public/video. */
 export function filesOutsideSet(dir, media) {
   const known = new Set([...expectedFiles(media).map((f) => f.name), "tour.chapters.json", ".gitignore", ".gitkeep"]);
@@ -521,7 +535,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const { errors, warnings } = checkSite(diskFiles(), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release, budgets });
   if (release) {
     const duringMediaUse = process.argv.includes("--during-media-use");
-    errors.push(...sourceProblems(media), ...videoSetProblems(media, { duringMediaUse }), ...(duringMediaUse ? [] : waitingCuts(media)));
+    errors.push(...sourceProblems(media), ...videoSetProblems(media, { duringMediaUse }), ...(duringMediaUse ? [] : [...waitingCuts(media), ...staleProfileCuts(media)]));
   }
   for (const w of warnings) console.warn(`warning: ${w}`);
   for (const e of errors) console.error(`error: ${e}`);

@@ -12,7 +12,7 @@ import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { buildSite, loadSite } from "../build.mjs";
-import { answer, checkSite, clipIn, dataClipFiles, filesOutsideSet, hiddenDates, ignoredNames, siteFiles, sourceProblems, videoBudget, videoSetProblems, waitingCuts, workerFirstPatterns } from "../tools/check-site.mjs";
+import { answer, checkSite, clipIn, dataClipFiles, filesOutsideSet, hiddenDates, ignoredNames, siteFiles, sourceProblems, staleProfileCuts, videoBudget, videoSetProblems, waitingCuts, workerFirstPatterns } from "../tools/check-site.mjs";
 import { VIDEO_SWITCH_AT, clipFor, cueNow, largestVideo, savesData } from "../src/js/media.js";
 import { AI_LIST_HEADERS, cleanAiList, demoPayload } from "../src/js/demo-form.js";
 import { LENGTH_TOLERANCE, POSTER_MIN_BYTES, chapterProblems, dateProblem, expectedFiles, ffprobeInfo, lengthProblems, recoverInterrupted, releaseCheck, setProblems, setVersion, useSet } from "../tools/media-use.mjs";
@@ -1594,11 +1594,12 @@ test("from 1 024 px the line and the pause button lie over the bottom of the her
   assert.match(String(files.get("public/index.html")), /document\.documentElement\.className = "js"/);
 });
 
-test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's broad focus said", () => {
+test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's IT focus said", () => {
   const { i18n } = loadSite();
   assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem.");
   assert.equal(i18n.en.cue_hero_1, "All your companies’ open roles.");
-  // the specialisation belongs to V2 (Kryštof, 3. 11.): nothing in the hero says it; the caption's broad focus of the demo agency stays
+  // the specialisation belongs to V2 (Kryštof, 3. 11.): nothing in the hero says it. The caption says what the demo agency is:
+  // IT and software since 6. 11. (it said a broad focus before); staleProfileCuts keeps older clips off a release
   for (const lang of ["cs", "en"]) {
     for (const key of ["hero_sub", "cue_hero_1", "cue_hero_2", "cue_hero_3", "hero_video_aria", "hero_video_poster_alt", "hero_video_caption", "hero_video_caption_m"]) {
       assert.doesNotMatch(String(i18n[lang][key]), /specializ|specialis|\bniche\b/i, `${lang} ${key}`);
@@ -1607,10 +1608,11 @@ test("the text under the hero: the sentences of the cut sheet, no number of comp
   assert.equal(i18n.cs.cue_morning_2, "Co neděláte, je stranou.");
   assert.equal(i18n.cs.cue_hero_2, "Každé ráno, co přibylo.");
   assert.equal(i18n.cs.cue_hero_3, "S odkazem na skutečný inzerát.");
-  for (const [lang, broad] of [["cs", /širokým zaměřením|široce zaměřená/], ["en", /broad focus/]]) {
+  for (const [lang, broad] of [["cs", /zaměřená na IT a software|IT agentura/], ["en", /IT and software|IT agency/]]) {
     for (const key of ["hero_video_caption", "hero_video_caption_m"]) {
       assert.doesNotMatch(i18n[lang][key], /\b100\b/, `${lang} ${key}`);
       assert.match(i18n[lang][key], broad, `${lang} ${key}`);
+      assert.doesNotMatch(i18n[lang][key], /širok|široce|broad/i, `${lang} ${key}`);
       assert.match(i18n[lang][key], /\{clip\.hero(_phone)?_date\}/, `${lang} ${key}`);
     }
     assert.doesNotMatch(i18n[lang].hero_video_poster_alt, /Ranní|morning/i, lang);
@@ -1699,6 +1701,23 @@ test("cueNow: the last line whose time has come, on the phone cut by its own tim
   assert.deepEqual([0, 3.29, 3.3, 6.6, 12.5, 12.8].map((t) => at(t, true)), [0, 0, 1, 2, 2, 2]);
   const noPhoneTime = [line(0), line(5)];
   assert.equal(noPhoneTime.indexOf(cueNow(noPhoneTime, 5, true)), 1, "without one, the clip's time");
+});
+
+test("a release has no clip recorded in the demo before its IT profile; V6 keeps its own date", () => {
+  const media = frozen();
+  media.clips.hero.clip_date = "2026-11-06";
+  media.clips.how1.clip_date = "2026-11-09";
+  media.clips.how1.by_lang = { en: { sources: [{ src: "/video/rano.en.mp4", type: "video/mp4" }], clip_date: "2026-11-01" } };
+  media.clips.ats.clip_date = "2026-11-01";
+  const found = staleProfileCuts(media);
+  assert.ok(found.some((m) => m.startsWith("hero: recorded 2026-11-06")), found.join(" | "));
+  assert.ok(found.some((m) => m.startsWith("how1 en: recorded 2026-11-01")), found.join(" | "));
+  assert.ok(!found.some((m) => m.startsWith("how1:")), found.join(" | "));
+  assert.ok(!found.some((m) => m.startsWith("ats")), found.join(" | "));
+  for (const id of Object.keys(media.clips)) {
+    for (const cut of [media.clips[id], media.clips[id].mobile, ...Object.values(media.clips[id].by_lang || {})]) if (cut && cut.clip_date) cut.clip_date = "2026-11-10";
+  }
+  assert.deepEqual(staleProfileCuts(media), []);
 });
 
 test("waits: release names every cut that is not the final one, media:use's own check does not stop on them", () => {

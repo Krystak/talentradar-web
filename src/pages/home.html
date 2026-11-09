@@ -67,30 +67,14 @@
       <p>{{t.how_sub}}</p>
     </div>
     <div data-chapters>
-      <ul class="chapters" role="tablist" aria-label="{{t.how_chapters_aria}}">
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-1" aria-controls="chapter-1" aria-selected="true" data-clip="{{media:how1:json}}" data-label="{{t.how_clip1_alt}}">{{t.how_ch1_tab}}</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-2" aria-controls="chapter-2" aria-selected="false" tabindex="-1" data-clip="{{media:how2:json}}" data-label="{{t.how_clip2_alt}}">{{t.how_ch2_tab}}</button></li>
-        <li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-3" aria-controls="chapter-3" aria-selected="false" tabindex="-1" data-clip="{{media:how3:json}}" data-label="{{t.how_clip3_alt}}">{{t.how_ch3_tab}}</button></li>
-      </ul>
+      {{chapters:tabs:how0,how1,how2,how3}}
       <div class="chapters-layout">
       <div class="chapters-video">
-        {{video:how1:how_clip1_alt:how_clip_caption:how2,how3}}
+        {{chapters:video:how_clip_caption}}
       </div>
       <div>
       <div class="chapter-panels">
-      <div class="chapter-panel" role="tabpanel" id="chapter-1" aria-labelledby="tab-1">
-        <h3>{{t.how_ch1_title}}</h3>
-        <p><span class="d-only">{{t.how_ch1_body}}</span><span class="m-only">{{t.how_ch1_body_m}}</span></p>
-      </div>
-      <div class="chapter-panel" role="tabpanel" id="chapter-2" aria-labelledby="tab-2" data-js-hidden>
-        <h3>{{t.how_ch2_title}}</h3>
-        <p>{{t.how_ch2_body}}</p>
-      </div>
-      <div class="chapter-panel" role="tabpanel" id="chapter-3" aria-labelledby="tab-3" data-js-hidden>
-        <h3>{{t.how_ch3_title}}</h3>
-        <p>{{t.how_ch3_body}}</p>
-        <p class="note">{{t.how_ch3_rule}}</p>
-      </div>
+      {{chapters:panels}}
       </div>
       <p class="btn-row btn-row--stack section-cta"><a class="btn btn-secondary" href="{{config.demoUrl}}">{{t.how_cta}}</a> <span class="note d-only">{{t.how_cta_note}}</span></p>
       </div>

@@ -289,15 +289,23 @@
 .chapter-panel h3 { margin-bottom: var(--space-2); }
 .chapter-panel p { color: var(--c-text-2); }
 .no-js .chapters { display: none; }
+/* four chapters (V5 on, build.mjs chapters): four in a row, 2 × 2 from 860 px down */
+.chapters--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 860px) {
   .chapters { gap: var(--space-2); }
   .chapter-tab { min-height: 64px; padding: var(--space-3); font-size: var(--fs-sm); }
+  .chapters--4 { grid-template-columns: 1fr 1fr; }
+  /* 2 × 2 tiles of one line each: the line in the middle, not at the top of an empty tile */
+  .chapters--4 .chapter-tab { align-items: center; }
 }
 /* three tiles in a row leave "kandidáta?" no room on a phone: two, and the longest under them */
 @media (max-width: 560px) {
   .chapters { grid-template-columns: 1fr 1fr; }
-  .chapters li:last-child { grid-column: 1 / -1; }
-  .chapters li:last-child .chapter-tab { min-height: 48px; align-items: center; }
+  .chapters:not(.chapters--4) li:last-child { grid-column: 1 / -1; }
+  .chapters:not(.chapters--4) li:last-child .chapter-tab { min-height: 48px; align-items: center; }
+  /* four in 2 × 2: "Kdo hledá tohoto kandidáta?" in two lines from 360 px (three at 15 px with the usual padding, 9. 11. 2026) */
+  .chapters--4 .chapter-tab { gap: 6px; padding-inline: 8px; font-size: var(--fs-sm); }
+  .chapters--4 .chapter-tab::before { width: 20px; height: 20px; }
 }
 
 /* ── Charts (on a light band: white cards) ── */
@@ -776,6 +784,8 @@ video::cue { line-height: 1.5; }
   .video__toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .video[data-autoplay] .frame__screen video { aspect-ratio: 4 / 5; object-fit: contain; }
   .video--has-mobile .video--mobile video { object-fit: cover; }
+  /* a chapter without its own phone cut (V5 for now): its wide clip is whole in the 4:5 window (contain, above), and so is its poster */
+  .video--phone-wide .video--mobile { background-size: contain; }
   .video__start { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(13, 19, 32, 0.9); }
   .video__start:hover { background: rgba(13, 19, 32, 0.96); }
   .video figcaption { margin-top: var(--space-3); }

@@ -466,6 +466,7 @@ function resolve(site, token, ctx, where) {
       .map((s) => `<li><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg><span>${escapeHtml(s)}</span></li>`)
       .join("");
   }
+  if (token.startsWith("chapters:")) return chapters(site, ctx, token.slice(9), where);
   if (token.startsWith("video:")) {
     const [id, ariaKey, captionKey, others] = token.slice(6).split(":");
     return videoFigure(site, ctx, id, ariaKey, captionKey, where, others ? others.split(",") : []);
@@ -473,6 +474,7 @@ function resolve(site, token, ctx, where) {
   if (token.startsWith("media:")) {
     const [id, field] = token.slice(6).split(":");
     const clip = clipIn(site.media.clips[id] || fail("unknown clip"), ctx.lang);
+    if (clip.off) fail("the clip is off in media.json");
     const lang = (p) => mediaUrl(site, p, ctx.lang);
     if (field === "json") {
       // a chapter tab's whole clip (all sources, the phone cut) for site.js (js/media.js clipFor)
@@ -588,8 +590,15 @@ function heroPosterPreloads(site, lang) {
 const CLEAR_POSTER = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAAAABAAEAAAIBAAA=";
 
 function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
-  if (!site.media.clips[id]) throw new Error(`${where}: unknown clip ${id}`);
+  for (const clipId of [id, ...others]) {
+    if (!site.media.clips[clipId]) throw new Error(`${where}: unknown clip ${clipId}`);
+    if (site.media.clips[clipId].off) throw new Error(`${where}: clip ${clipId} is off in media.json`);
+  }
   const clip = clipIn(site.media.clips[id], ctx.lang);
+  // A clip without a phone cut in a figure whose other clips have one (V5, how0, for now): the phone's video plays
+  // its wide cut, whole in the 4:5 window (video--phone-wide, components.css; site.js sets it for each chapter).
+  const anyPhone = [id, ...others].some((clipId) => clipIn(site.media.clips[clipId], ctx.lang).mobile);
+  const phone = clip.mobile ? { ...clip, ...clip.mobile } : anyPhone ? clip : null;
   const lang = (p) => mediaUrl(site, p, ctx.lang);
   const aria = escapeHtml(text(site, ctx, ariaKey));
   const loop = clip.mode === "loop";
@@ -646,13 +655,60 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
     const line = (r, i) => `<span class="video__caption-line${i ? "" : " is-on"}" data-cues="${r.clipId}">${r.wide === r.phone ? r.wide : `<span class="d-only">${r.wide}</span><span class="m-only">${r.phone}</span>`}</span>`;
     return `\n  <figcaption><span class="video__captions">${rows.map(line).join("")}</span></figcaption>`;
   })();
-  return `<figure class="video video--${id}${clip.mobile ? " video--has-mobile" : ""}" ${loop ? `data-autoplay${tap ? " data-tap-phone" : ""}` : "data-facade"}>
+  return `<figure class="video video--${id}${phone ? " video--has-mobile" : ""}${phone === clip ? " video--phone-wide" : ""}" ${loop ? `data-autoplay${tap ? " data-tap-phone" : ""}` : "data-facade"}>
   <div class="frame">
     <div class="frame__window">
-      ${video(clip, "video--desktop")}${clip.mobile ? `\n      ${video({ ...clip, ...clip.mobile }, "video--mobile")}` : ""}${start}
+      ${video(clip, "video--desktop")}${phone ? `\n      ${video(phone, "video--mobile")}` : ""}${start}
     </div>${foot}
   </div>${caption}
 </figure>`;
+}
+
+/**
+ * The chapters over the "How it works" video (home.html). {{chapters:tabs:how0,how1,…}} are the tabs, then
+ * {{chapters:video:<caption key>}} is the one figure and {{chapters:panels}} the texts, both of the clips the tabs
+ * listed. A clip with off: true in media.json (or none there) is left out (V5, how0, until it is recorded clean: the section is
+ * then exactly the three chapters it was). The first clip left is the one in the HTML and its tab the selected
+ * one; the others load only on a click (site.js). Clip howN takes its words from how_chN_* and how_clipN_alt and
+ * its ids are tab-N and chapter-N; how_chN_body_m (the phone's text) and how_chN_rule (a note) when the map has them.
+ * Four tabs are chapters--4 (components.css: four in a row, 2 × 2 on a narrow screen).
+ */
+function chapters(site, ctx, token, where) {
+  const fail = (msg) => {
+    throw new Error(`${where} [${ctx.lang}]: ${msg} in {{chapters:${token}}}`);
+  };
+  const t = (key) => resolve(site, `t.${key}`, ctx, where);
+  const [part, list] = token.split(":");
+  if (part === "tabs") {
+    const ids = list ? list.split(",") : fail("no clips");
+    for (const id of ids) if (!/^how\d$/.test(id)) fail(`${id} is not a chapter clip (howN)`);
+    // a chapter media.json does not have is off as well (a set from before V5)
+    ctx.chapters = ids.filter((id) => site.media.clips[id] && !site.media.clips[id].off);
+    if (!ctx.chapters.length) fail("every clip is off");
+    const tabs = ctx.chapters.map((id, i) => {
+      const n = id.slice(3);
+      const state = i ? ' aria-selected="false" tabindex="-1"' : ' aria-selected="true"';
+      return `<li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-${n}" aria-controls="chapter-${n}"${state} data-clip="${resolve(site, `media:${id}:json`, ctx, where)}" data-label="${t(`how_clip${n}_alt`)}">${t(`how_ch${n}_tab`)}</button></li>`;
+    });
+    return `<ul class="chapters${tabs.length === 4 ? " chapters--4" : ""}" role="tablist" aria-label="${t("how_chapters_aria")}">\n        ${tabs.join("\n        ")}\n      </ul>`;
+  }
+  if (!ctx.chapters) fail("no {{chapters:tabs:…}} before it");
+  if (part === "video") {
+    const [first, ...rest] = ctx.chapters;
+    return videoFigure(site, ctx, first, `how_clip${first.slice(3)}_alt`, list, where, rest);
+  }
+  if (part === "panels") {
+    const has = (key) => lookup(site.i18n[ctx.lang], key) !== undefined;
+    const panels = ctx.chapters.map((id, i) => {
+      const n = id.slice(3);
+      const k = (rest) => `how_ch${n}_${rest}`;
+      const body = has(k("body_m")) ? `<span class="d-only">${t(k("body"))}</span><span class="m-only">${t(k("body_m"))}</span>` : t(k("body"));
+      const rule = has(k("rule")) ? `\n        <p class="note">${t(k("rule"))}</p>` : "";
+      return `<div class="chapter-panel" role="tabpanel" id="chapter-${n}" aria-labelledby="tab-${n}"${i ? " data-js-hidden" : ""}>\n        <h3>${t(k("title"))}</h3>\n        <p>${body}</p>${rule}\n      </div>`;
+    });
+    return panels.join("\n      ");
+  }
+  return fail("unknown part");
 }
 
 /**

@@ -38,7 +38,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameS
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { MEDIA_WORK, clipBytes, expectedFiles, filesOutsideSet, mediaUseOwner, setVersion, sourceProblems, videoBudget } from "./check-site.mjs";
+import { MEDIA_WORK, clipBytes, expectedFiles, filesOutsideSet, liveClips, mediaUseOwner, setVersion, sourceProblems, videoBudget } from "./check-site.mjs";
 
 export { expectedFiles, setVersion };
 
@@ -116,7 +116,7 @@ export function ffprobeInfo(path) {
 /** Everything wrong with a set of clips against media.json; an empty list when it can be used. */
 export function setProblems(source, media, { probe = ffprobeInfo, today } = {}) {
   const problems = sourceProblems(media);
-  for (const [id, clip] of Object.entries(media.clips)) {
+  for (const [id, clip] of liveClips(media)) {
     for (const cut of [clip, clip.mobile, ...Object.values(clip.by_lang || {})]) {
       const bad = cut && cut.clip_date ? dateProblem(cut.clip_date, today) : null;
       if (bad) problems.push(`${id}: clip_date, ${bad.replace(/^--date /, "")}`);

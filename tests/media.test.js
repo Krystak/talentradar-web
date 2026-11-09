@@ -1314,7 +1314,7 @@ test("three chapters: Morning, Whom to call, Who wants this candidate; the origi
   assert.match(site.i18n.en.how_ch1_body, /specialisation/);
   assert.doesNotMatch(`${site.i18n.cs.how_ch1_body} ${site.i18n.cs.how_ch2_body} ${site.i18n.cs.how_ch3_body}`, /\brol[eíi]\b|mandát/);
   assert.match(css, /\.chapters \{ display: grid; grid-template-columns: repeat\(3,/);
-  assert.match(css, /@media \(max-width: 560px\) \{\s*\.chapters \{ grid-template-columns: 1fr 1fr; \}\s*\.chapters li:last-child \{ grid-column: 1 \/ -1; \}/);
+  assert.match(css, /@media \(max-width: 560px\) \{\s*\.chapters \{ grid-template-columns: 1fr 1fr; \}\s*\.chapters:not\(\.chapters--4\) li:last-child \{ grid-column: 1 \/ -1; \}/);
   // the video first: 860 px of window at 1 440 px, the text beside it takes what is left (lead, etapa 5)
   assert.match(css, /\.chapters-layout \{ display: grid; grid-template-columns: minmax\(0, 1fr\) 16\.5rem;/);
   // the line under the video does not repeat the text beside it
@@ -1328,6 +1328,164 @@ test("three chapters: Morning, Whom to call, Who wants this candidate; the origi
     }
   }
   assert.doesNotMatch(css, /chapters-video \.video figcaption \{ display: none/);
+});
+
+// ── V5 "Celá databáze" (clips.how0): off until it is recorded clean, one line puts it on ──
+
+const tabsOf = (html) => [...html.matchAll(/<button class="chapter-tab" type="button" role="tab" id="tab-(\d)" aria-controls="chapter-(\d)" aria-selected="(true|false)"( tabindex="-1")? data-clip="([^"]+)" data-label="[^"]+">/g)]
+  .map((m) => ({ n: m[1], controls: m[2], selected: m[3] === "true", tabindex: !!m[4], clip: JSON.parse(m[5].replace(/&quot;/g, '"').replace(/&amp;/g, "&")) }));
+const howSection = (html) => html.slice(html.indexOf("<div data-chapters>"), html.indexOf('<p class="btn-row btn-row--stack section-cta">'));
+const v5On = (m) => { delete m.clips.how0.off; };
+
+test("V5 off (as committed): the section is the three chapters it was, how1 first and selected, nothing of V5 expected or published", () => {
+  const { media } = loadSite();
+  assert.equal(media.clips.how0.off, true, "the branch stays releasable without V5");
+  const files = buildSite(loadSite());
+  for (const path of ["public/index.html", "public/en/index.html"]) {
+    const html = page(files, path);
+    const how = howSection(html);
+    assert.deepEqual(tabsOf(how).map((t) => [t.n, t.controls, t.selected, t.tabindex, t.clip.id]), [["1", "1", true, false, "how1"], ["2", "2", false, true, "how2"], ["3", "3", false, true, "how3"]], path);
+    assert.match(how, /<ul class="chapters" role="tablist"/, path);
+    assert.match(how, /<figure class="video video--how1 video--has-mobile" data-autoplay data-tap-phone>/, path);
+    assert.match(how, /<div class="chapter-panel" role="tabpanel" id="chapter-1" aria-labelledby="tab-1">\n/, path);
+    assert.equal((how.match(/role="tabpanel"/g) || []).length, 3, path);
+    assert.equal((how.match(/ data-js-hidden/g) || []).length, 2, path);
+    assert.doesNotMatch(html, /databaze|how0|tab-0|chapter-0|chapters--4|video--phone-wide/, path);
+  }
+  assert.ok(!expectedFiles(media).some((f) => f.name.startsWith("databaze.")));
+  assert.ok(!waitingCuts(media).some((w) => w.startsWith("how0")));
+  // its files left in public/video would be published unchecked: release says so
+  const dir = mkdtempSync(join(tmpdir(), "v5-"));
+  try {
+    writeFileSync(join(dir, "databaze.cs.1600.60.mp4"), "x");
+    assert.deepEqual(filesOutsideSet(dir, media), ["databaze.cs.1600.60.mp4"]);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("V5 off: the HTML of the section is the one the three tabs were written by hand as (51656e5)", () => {
+  const files = buildSite(loadSite());
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const how = howSection(page(files, path));
+    const t = loadSite().i18n[lang];
+    const tab = (n, sel) => `<li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-${n}" aria-controls="chapter-${n}" aria-selected="${sel}"${sel ? "" : ' tabindex="-1"'} data-clip="`;
+    assert.ok(how.startsWith(`<div data-chapters>\n      <ul class="chapters" role="tablist" aria-label="${t.how_chapters_aria}">\n        ${tab(1, true)}`), path);
+    assert.ok(how.includes(`</li>\n        ${tab(2, false)}`) && how.includes(`</li>\n        ${tab(3, false)}`), path);
+    assert.match(how, /<\/button><\/li>\n      <\/ul>\n      <div class="chapters-layout">\n      <div class="chapters-video">\n        <figure class="video video--how1 /, path);
+    assert.match(how, /<div class="chapter-panels">\n      <div class="chapter-panel" role="tabpanel" id="chapter-1" aria-labelledby="tab-1">\n        <h3>[^<]+<\/h3>\n        <p><span class="d-only">[^<]+<\/span><span class="m-only">[^<]+<\/span><\/p>\n      <\/div>\n      <div class="chapter-panel" role="tabpanel" id="chapter-2" aria-labelledby="tab-2" data-js-hidden>\n        <h3>[^<]+<\/h3>\n        <p>[^<]+<\/p>\n      <\/div>\n      <div class="chapter-panel" role="tabpanel" id="chapter-3" aria-labelledby="tab-3" data-js-hidden>\n        <h3>[^<]+<\/h3>\n        <p>[^<]+<\/p>\n        <p class="note">[^<]+<\/p>\n      <\/div>\n      <\/div>\n      $/, path);
+  }
+});
+
+test("V5 on: four chapters, how0 first and selected, its clip in the figure and the other three to follow, release wants its files", () => {
+  const files = buildSite(siteWith(v5On));
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const html = page(files, path);
+    const how = howSection(html);
+    const tabs = tabsOf(how);
+    assert.deepEqual(tabs.map((t) => [t.n, t.controls, t.selected, t.tabindex, t.clip.id]), [["0", "0", true, false, "how0"], ["1", "1", false, true, "how1"], ["2", "2", false, true, "how2"], ["3", "3", false, true, "how3"]], path);
+    assert.match(how, /<ul class="chapters chapters--4" role="tablist"/, path);
+    assert.match(how, new RegExp(`id="tab-0"[^>]*>${loadSite().i18n[lang].how_ch0_tab}</button>`), path);
+    // the figure: V5 in the HTML (no phone cut yet: the wide one in the phone's video), the three others' lines and captions to follow
+    const fig = how.match(/<figure class="video video--how0 video--has-mobile video--phone-wide" data-autoplay data-tap-phone>[\s\S]*?<\/figure>/)[0];
+    assert.match(fig, new RegExp(`<div class="frame__screen video--desktop" style="--poster:url\\(/video/databaze\\.${lang}\\.1600\\.webp\\?v=[0-9a-f]+\\)">`));
+    assert.match(fig, new RegExp(`<div class="frame__screen video--mobile" style="--poster:url\\(/video/databaze\\.${lang}\\.1600\\.webp\\?v=[0-9a-f]+\\)"><video [^>]*><source src="/video/databaze\\.${lang}\\.1600\\.60\\.mp4`));
+    assert.equal(tabs[0].clip.mobile, null);
+    for (const id of ["how0", "how1", "how2", "how3"]) assert.match(fig, new RegExp(`class="video__cue-line[^"]*" data-cues="${id}"`), `${path} ${id}`);
+    assert.match(fig, /<span class="video__cue-line is-on" data-cues="how0" data-at="0">/);
+    // the caption: one sentence while the four share a day (EN now), else one line per clip, V5's first
+    const caption = fig.match(/<figcaption>([\s\S]*?)<\/figcaption>/)[1];
+    assert.match(caption, /20\d\d/, path);
+    if (/video__caption-line/.test(caption)) assert.match(caption, /^<span class="video__captions"><span class="video__caption-line is-on" data-cues="how0">[^<]*20\d\d/, path);
+    // the panels: chapter 0 shown, the other three hidden until their tab
+    const panels = [...how.matchAll(/<div class="chapter-panel" role="tabpanel" id="chapter-(\d)" aria-labelledby="tab-(\d)"( data-js-hidden)?>/g)].map((m) => [m[1], m[2], !!m[3]]);
+    assert.deepEqual(panels, [["0", "0", false], ["1", "1", true], ["2", "2", true], ["3", "3", true]], path);
+    const t = loadSite().i18n[lang];
+    assert.ok(how.replace(/ /g, " ").includes(`id="chapter-0" aria-labelledby="tab-0">\n        <h3>${t.how_ch0_title}</h3>\n        <p>${t.how_ch0_body}</p>\n      </div>`), path);
+  }
+  // the four tabs: four in a row, 2 × 2 from 860 px down, the last tile no longer under the others; a tab without a phone cut is whole on a phone
+  const css = String(files.get("public/css/site.css"));
+  assert.match(css, /\.chapters--4 \{ grid-template-columns: repeat\(4, minmax\(0, 1fr\)\); \}/);
+  assert.match(css, /@media \(max-width: 860px\) \{[^}]*\}[^}]*\}\s*\.chapters--4 \{ grid-template-columns: 1fr 1fr; \}/);
+  assert.match(css, /\.chapters--4 \.chapter-tab \{ align-items: center; \}/);
+  // "Kdo hledá tohoto kandidáta?" in two lines from 360 px (headless Chromium, 9. 11. 2026)
+  assert.match(css, /@media \(max-width: 560px\) \{[\s\S]*?\.chapters--4 \.chapter-tab \{ gap: 6px; padding-inline: 8px; font-size: var\(--fs-sm\); \}\s*\.chapters--4 \.chapter-tab::before \{ width: 20px; height: 20px; \}/);
+  assert.match(css, /\.video--phone-wide \.video--mobile \{ background-size: contain; \}/);
+  const js = String(files.get("public/js/site.js"));
+  assert.match(js, /fig\.classList\.toggle\("video--phone-wide", !clip\.mobile && fig\.classList\.contains\("video--has-mobile"\)\);/);
+  // keyboard: arrows go round all the tabs there are, Home and End to the first and the last
+  assert.match(js, /else if \(step\) select\(tabs\[\(i \+ step \+ tabs\.length\) % tabs\.length\], true\);/);
+  assert.match(js, /if \(e\.key === "Home"\) select\(tabs\[0\], true\);\s*else if \(e\.key === "End"\) select\(tabs\[tabs\.length - 1\], true\);/);
+  // the set: V5's files are expected, with their sizes and budgets, and the page's data-clip names them
+  const { media } = siteWith(v5On);
+  const names = expectedFiles(media).map((f) => f.name);
+  for (const lang of ["cs", "en"]) for (const f of ["1600.webp", "1600.60.mp4", "1440.60.mp4"]) assert.ok(names.includes(`databaze.${lang}.${f}`), `databaze.${lang}.${f}`);
+  assert.deepEqual(["width", "height", "budget"].map((k) => expectedFiles(media).find((f) => f.name === "databaze.cs.1600.60.mp4")[k]), [1600, 1000, 5e6]);
+  assert.ok(dataClipFiles(page(files, "public/index.html")).some((src) => src.startsWith("/video/databaze.cs.1440.60.mp4")));
+  assert.deepEqual(sourceProblems(media), []);
+});
+
+test("V5 on and off in the release check: its files missing are an error only when it is on", () => {
+  const release = (edit) => checkSite(siteFiles(buildSite(siteWith(edit))), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
+  const missing = (errors) => errors.filter((e) => /databaze\./.test(e));
+  assert.deepEqual(missing(release(() => {})), []);
+  const on = missing(release(v5On));
+  for (const lang of ["cs", "en"]) assert.ok(on.some((e) => e.includes(`data-clip file /video/databaze.${lang}.1440.60.mp4`)), on.join("; "));
+  // the set on disk (videoSetProblems): a root with no V5 files is short of them only when V5 is on
+  const s = sandbox();
+  try {
+    assert.deepEqual(s.use().problems, []);
+    const off = JSON.parse(s.json());
+    off.clips.how0 = copy(loadSite().media.clips.how0);
+    assert.deepEqual(videoSetProblems(off, { root: s.root }), []);
+    const live = copy(off);
+    delete live.clips.how0.off;
+    assert.match(videoSetProblems(live, { root: s.root }).join("; "), /files of the set are missing, for example databaze\./);
+  } finally { s.done(); }
+});
+
+test("media:use: with V5 off a set without it goes on; with V5 on its files are required, checked and put in place", () => {
+  const s = sandbox();
+  try {
+    const how0 = copy(loadSite().media.clips.how0);
+    const write = (m) => writeFileSync(join(s.root, "src/data/media.json"), JSON.stringify(m));
+    const off = { ...copy(s.media), clips: { how0, ...copy(s.media.clips) } };
+    write(off);
+    assert.deepEqual(s.use().problems, []);
+    assert.equal(JSON.parse(s.json()).clips.how0.off, true, "media:use keeps the switch as it is");
+    const on = copy(off);
+    delete on.clips.how0.off;
+    write(on);
+    const { problems } = s.use();
+    for (const lang of ["cs", "en"]) assert.ok(problems.includes(`databaze.${lang}.1600.60.mp4: missing`), problems.join("; "));
+    fakeSet(s.source, on);
+    for (const f of expectedFiles(on)) if (f.width) s.sizes.set(f.name, { width: f.width, height: f.height });
+    assert.deepEqual(s.use().problems, []);
+    assert.ok(existsSync(join(s.root, "public/video/databaze.en.1440.60.mp4")));
+    assert.equal(JSON.parse(s.json()).clips.how0.off, undefined);
+  } finally { s.done(); }
+});
+
+test("V5's words: both languages, no made-up numbers, no 'role' in Czech, the line under the video says what the text beside it does not", () => {
+  const site = loadSite();
+  for (const lang of ["cs", "en"]) {
+    const t = site.i18n[lang];
+    for (const key of ["how_ch0_tab", "how_ch0_title", "how_ch0_body", "how_clip0_alt"]) assert.ok(t[key], `${lang} ${key}`);
+    assert.doesNotMatch(`${t.how_ch0_title} ${t.how_ch0_body} ${t.how_clip0_alt}`, /\d/, `${lang}: the counts are the app's, the site says none`);
+    const beside = `${t.how_ch0_title} ${t.how_ch0_body}`.toLowerCase();
+    for (const cue of site.media.clips.how0.cues) assert.ok(!beside.includes(t[cue.key].toLowerCase().replace(/[.,]/g, "")), `${lang} ${cue.key}`);
+  }
+  assert.doesNotMatch(`${site.i18n.cs.how_ch0_title} ${site.i18n.cs.how_ch0_body}`, /\brol[eíi]\b|mandát/);
+});
+
+test("off is for a chapter: a clip that is off cannot sit in a figure of its own, and the chapters never go empty", () => {
+  assert.throws(() => buildSite(siteWith((m) => { m.clips.ats.off = true; })), /clip ats is off in media\.json/);
+  assert.throws(() => buildSite(siteWith((m) => { for (const id of ["how1", "how2", "how3"]) m.clips[id].off = true; })), /every clip is off/);
+  // a media.json without the row (a set from before V5) is the same as off
+  const without = buildSite(siteWith((m) => { delete m.clips.how0; }));
+  for (const path of ["public/index.html", "public/en/index.html"]) assert.equal(page(without, path), page(buildSite(loadSite()), path), path);
+  // another chapter off works the same way: its tab, text and lines go, the first one left is selected
+  const how = howSection(page(buildSite(siteWith((m) => { m.clips.how1.off = true; })), "public/index.html"));
+  assert.deepEqual(tabsOf(how).map((t) => [t.n, t.selected]), [["2", true], ["3", false]]);
+  assert.doesNotMatch(how, /data-cues="how1"|id="chapter-1"/);
 });
 
 test("versions by pixel density: <source media> in the page and in a tab's clip, their own size and budget, the order of media.json", () => {

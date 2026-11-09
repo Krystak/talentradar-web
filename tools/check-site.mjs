@@ -179,6 +179,15 @@ export function clipIn(clip, lang) {
   return own ? { ...clip, ...own } : clip;
 }
 
+/**
+ * The clips that are on the site: [[id, clip]]. A clip with off: true (V5, clips.how0, until it is recorded clean) is left
+ * out everywhere, its chapter tab too (build.mjs chapterIds): no files of it are expected or published, nothing of it is checked.
+ * Taking the flag out is the whole switch.
+ */
+export function liveClips(media) {
+  return Object.entries(media.clips).filter(([, clip]) => !clip.off);
+}
+
 /** The size a video file may have in bytes (lead prompt B2), or null for anything that is not a video. */
 export function videoBudget(path) {
   const name = path.split("/").pop();
@@ -208,7 +217,7 @@ export function dataClipFiles(html) {
  */
 export function expectedFiles(media) {
   const rows = new Map();
-  for (const whole of Object.values(media.clips)) {
+  for (const [, whole] of liveClips(media)) {
     for (const lang of LANGS) {
       const add = (path, size) => {
         const name = path.replace("{lang}", lang).replace(/^\/video\//, "");
@@ -242,7 +251,7 @@ function cutsOf(id, clip) {
  */
 export function sourceProblems(media) {
   const problems = [];
-  for (const [id, clip] of Object.entries(media.clips)) {
+  for (const [id, clip] of liveClips(media)) {
     for (const lang of Object.keys(clip.by_lang || {})) if (!LANGS.includes(lang)) problems.push(`${id}: by_lang has ${lang}, the site has ${LANGS.join(" and ")}`);
     for (const [what, cut] of cutsOf(id, clip)) {
       const last = cut.sources[cut.sources.length - 1];
@@ -254,7 +263,7 @@ export function sourceProblems(media) {
 
 /** The cuts media.json says are not the final ones yet (waits: what replaces them). A release has none; a working set may. */
 export function waitingCuts(media) {
-  return Object.entries(media.clips).flatMap(([id, clip]) => cutsOf(id, clip).filter(([, cut]) => cut.waits).map(([what, cut]) => `${what}: still the older cut, waits for ${cut.waits}`));
+  return liveClips(media).flatMap(([id, clip]) => cutsOf(id, clip).filter(([, cut]) => cut.waits).map(([what, cut]) => `${what}: still the older cut, waits for ${cut.waits}`));
 }
 
 /**
@@ -265,7 +274,7 @@ export function waitingCuts(media) {
  */
 export const DEMO_PROFILE_SINCE = "2026-11-07";
 export function staleProfileCuts(media, since = DEMO_PROFILE_SINCE) {
-  return Object.entries(media.clips).filter(([id]) => id !== "ats").flatMap(([id, clip]) => cutsOf(id, clip)
+  return liveClips(media).filter(([id]) => id !== "ats").flatMap(([id, clip]) => cutsOf(id, clip)
     .map(([what, cut]) => [what, cut.clip_date || clip.clip_date])
     .filter(([, date]) => date && date < since)
     .map(([what, date]) => `${what}: recorded ${date}, before the demo's IT profile (${since}); the captions say IT and software`));

@@ -437,6 +437,8 @@ const pageLoaded = new Promise((resolve) => {
       try { clip = JSON.parse(tab.dataset.clip); } catch { return; }
       if (tab.dataset.label) for (const v of fig.querySelectorAll("video")) v.setAttribute("aria-label", tab.dataset.label);
       current = clip;
+      // a chapter without its own phone cut plays its wide one whole on a phone (build.mjs videoFigure)
+      fig.classList.toggle("video--phone-wide", !clip.mobile && fig.classList.contains("video--has-mobile"));
       showClip();
       fig.dataset.cueClip = clip.id;
       showCue(fig);

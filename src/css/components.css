@@ -167,7 +167,7 @@
       1 100 px wide (a window of 1 012 × 632), in the same proportions wherever it is narrower. ── */
 .video { margin: 0; }
 .frame {
-  --frame-text: var(--text-on-dark); --frame-line: var(--line-dark);
+  --frame-text: var(--text-on-dark); --frame-line: var(--line-dark); --frame-accent: var(--c-accent-text);
   position: relative; border-radius: 18px; padding: 3.27% 4% 1.82%;
   background: linear-gradient(180deg, var(--navy-800), var(--navy-850));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -180,6 +180,16 @@
 .video__cue { display: grid; flex: 1 1 auto; min-width: 0; margin: 0; text-align: left; font-size: 1.0625rem; line-height: 27px; font-weight: 600; color: var(--frame-text); }
 .video__cue-line { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 200ms ease, visibility 200ms; }
 .video__cue-line.is-on { opacity: 1; visibility: visible; }
+/* A playing loop's line is read along with it (site.js readCue, js/media.js wordSchedule): the word being read in the
+   accent, the words read in full, the rest dimmer, and once read the line stands whole. Colour and opacity only, never
+   the weight: no word gets wider, the line never moves. Not with reduced motion: the line shows whole, as without the script. */
+.video__word { transition: color 150ms ease, opacity 150ms ease; }
+.video__cue-line.is-reading .video__word { opacity: 0.6; }
+.video__cue-line.is-reading .video__word.is-said { opacity: 1; }
+.video__cue-line.is-reading .video__word.is-now { opacity: 1; color: var(--frame-accent); }
+@media (prefers-reduced-motion: reduce) {
+  .video__cue-line.is-reading .video__word, .video__cue-line.is-reading .video__word.is-now { opacity: 1; color: inherit; transition: none; }
+}
 
 /* The poster fills the screen exactly as the video does. With cover it was worked out from the box rounded to whole pixels, and on a
    window of 632.5 px it came out 0.2 px wider than the first frame (3. 11. 2026). */
@@ -206,7 +216,7 @@
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .js .video--hero .frame, .js .chapters-video .frame { padding-bottom: 3.27%; }
   .js .video--hero .frame__foot, .js .chapters-video .frame__foot {
-    --frame-text: #fff; --frame-line: rgba(255, 255, 255, 0.34);
+    --frame-text: #fff; --frame-line: rgba(255, 255, 255, 0.34); --frame-accent: var(--orange);
     position: relative; z-index: 1; height: 66px; min-height: 0; margin-top: -66px; padding: 12px 20px 10px;
     border-radius: 0 0 11px 11px;
     background: linear-gradient(180deg, rgba(7, 10, 17, 0), rgba(7, 10, 17, 0.82) 30%, rgba(7, 10, 17, 0.9));
@@ -774,7 +784,7 @@ video::cue { line-height: 1.5; }
   .frame__window { border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.13); }
   .band--light .frame__window { box-shadow: 0 0 0 1px var(--c-border-strong); }
   /* the hero's line stands on the light band its window runs into */
-  .hero__media .frame { --frame-text: var(--ink); --frame-line: var(--steel); }
+  .hero__media .frame { --frame-text: var(--ink); --frame-line: var(--steel); --frame-accent: var(--orange-ink); }
   .frame__foot { min-height: 48px; margin-top: var(--space-2); gap: var(--space-3); }
   .video__cue { font-size: 1rem; line-height: 24px; }
   /* Without the script a phone shows its own first sentence, not the wide cut's (build.mjs videoFigure). */

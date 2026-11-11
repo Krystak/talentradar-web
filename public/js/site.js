@@ -4,7 +4,7 @@
  * Every page works without it; this adds behaviour, never content.
  */
 import { demoPayload, demoResult, MAX_FILE_BYTES } from "./demo-form.js?v=1b59b1995c";
-import { clipFor, clipKey, cueNow, largestVideo, savesData } from "./media.js?v=3cb3dccc82";
+import { clipFor, clipKey, cueNow, cueSpan, cueTime, largestVideo, savesData, wordAt, wordSchedule } from "./media.js?v=1ca3663ded";
 
 const T = (() => {
   try {
@@ -175,7 +175,7 @@ const shownVideo = (fig) => [...fig.querySelectorAll("video")].find((v) => v.off
 const waitsForTap = (fig) => fig.hasAttribute("data-tap-phone") && phone.matches && fig.dataset.tapped !== "1";
 /* The line under a video says the sentence of this moment of the clip (times: media.json), the first one of a
    clip that does not play. Without this script and with reduced motion the first sentence stays. */
-const showCue = (fig) => {
+const pickCue = (fig) => {
   const all = [...fig.querySelectorAll(".video__cue-line")];
   if (!all.length) return;
   const clip = fig.dataset.cueClip || all[0].dataset.cues;
@@ -186,6 +186,76 @@ const showCue = (fig) => {
   const on = all.find((l) => l.classList.contains("is-on"));
   if (on && on.dataset.cues === clip && on.textContent === now.textContent && on.getClientRects().length) return;
   for (const l of all) l.classList.toggle("is-on", l === now);
+};
+/* The words of a loop's lines once split (splitWords): line -> { spans, words, k: the word read, span, schedule }. */
+const wordsOf = new WeakMap();
+/* Per figure the cut it reads: { key: clip|cut, times, seam, t: the clip's time last seen, wrapped: it has come round since }. */
+const readState = new WeakMap();
+/* A loop's line in words, to be read along with the clip (js/media.js wordSchedule). What shows is aria-hidden word by
+   word; a screen reader gets the sentence once and whole from a visually hidden copy. Split at plain spaces only: a
+   no-break space (Czech "v", "s", "45 dní") keeps its words in one, so the line wraps as it did. */
+const splitWords = (line) => {
+  const text = line.textContent.trim();
+  const words = text.split(/[ \t\r\n]+/);
+  const whole = document.createElement("span");
+  whole.className = "visually-hidden";
+  whole.textContent = text;
+  const shown = document.createElement("span");
+  shown.setAttribute("aria-hidden", "true");
+  words.forEach((word, i) => {
+    if (i) shown.append(" ");
+    const w = document.createElement("span");
+    w.className = "video__word";
+    w.textContent = word;
+    shown.append(w);
+  });
+  line.replaceChildren(whole, shown);
+  wordsOf.set(line, { spans: [...shown.children], words, k: -1, span: NaN, schedule: null });
+};
+/* k: the word being read (accent), words before it said, after it not yet; words.length: all said; -1: no reading,
+   the line as it always was. Classes change only when k does: a few times a second, never every frame. */
+const markWord = (line, k) => {
+  const w = wordsOf.get(line);
+  if (w.k === k) return;
+  w.k = k;
+  line.classList.toggle("is-reading", k >= 0);
+  w.spans.forEach((span, i) => {
+    span.classList.toggle("is-said", i < k);
+    span.classList.toggle("is-now", i === k);
+  });
+};
+/* The words of the line on screen follow the clip's time: a pause stops them where they are, a clip that has not
+   started (its poster, a phone before the tap) and reduced motion show the line whole. */
+const readCue = (fig) => {
+  const line = fig.querySelector(".video__cue-line.is-on");
+  const w = line && wordsOf.get(line);
+  if (!w) return;
+  const v = shownVideo(fig);
+  if (stillPref.matches || (v.paused && !v.currentTime)) return markWord(line, -1);
+  const phoneCut = !!v.closest(".video--mobile");
+  const key = `${line.dataset.cues}|${phoneCut}`;
+  let s = readState.get(fig);
+  if (!s || s.key !== key) {
+    const cut = [...fig.querySelectorAll(".video__cue-line")]
+      .filter((l) => l.dataset.cues === line.dataset.cues && Number.isFinite(cueTime(l, phoneCut)))
+      .sort((a, b) => cueTime(a, phoneCut) - cueTime(b, phoneCut));
+    const seam = cut.length > 2 && cut[0].textContent === cut[cut.length - 1].textContent;
+    s = { key, times: cut.map((l) => cueTime(l, phoneCut)), seam, t: 0, wrapped: false };
+    readState.set(fig, s);
+  }
+  const time = v.currentTime;
+  if (time < s.t - 1) s.wrapped = true;
+  s.t = time;
+  const { elapsed, span } = cueSpan(s.times, time, v.duration, s.seam, s.wrapped);
+  if (w.span !== span) {
+    w.span = span;
+    w.schedule = wordSchedule(w.words, span);
+  }
+  markWord(line, wordAt(w.schedule, elapsed));
+};
+const showCue = (fig) => {
+  pickCue(fig);
+  readCue(fig);
 };
 /* timeupdate comes about four times a second, so a line would change up to 250 ms after the cut it belongs to.
    Where the browser tells, each frame shown is the moment to look (nothing runs while the video stands). */
@@ -279,6 +349,8 @@ const pageLoaded = new Promise((resolve) => {
   firstLines();
   onMediaChange(phone, firstLines);
   const live = figures.filter((fig) => fig.querySelector(".video__toggle") && !stillPref.matches);
+  // their lines are read along with the clip, word by word (readCue); every line of a figure at once, so they compare alike
+  for (const fig of live) fig.querySelectorAll(".video__cue-line").forEach(splitWords);
   for (const fig of live) {
     const btn = fig.querySelector(".video__toggle");
     if (stays) fig.dataset.user = "paused";

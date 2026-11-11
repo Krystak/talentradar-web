@@ -26,6 +26,18 @@ const siteWith = (edit) => {
   return site;
 };
 const page = (files, path) => String(files.get(path));
+/**
+ * The tour is off (Kryštof 11. 11. 2026, until it is retaken) and /demo plays the hero and the chapters. Its code stays:
+ * these put it back on, with /demo as it was with it (tests/demo-tour.fixture.html), so the tests of the tour still hold.
+ */
+const TOUR_PAGE = readFileSync(new URL("./demo-tour.fixture.html", import.meta.url), "utf8");
+const withTour = (site) => {
+  site.media = copy(site.media);
+  delete site.media.clips.tour.off;
+  site.templates = { ...site.templates, "pages/demo": TOUR_PAGE };
+  return site;
+};
+const tourSite = (edit = () => {}) => withTour(siteWith(edit));
 
 // ── media.json ──────────────────────────────────────────────────────────────
 
@@ -55,8 +67,8 @@ test("media.json: every clip has WebM + MP4 and a poster, the phone cut is 4:5, 
   for (const lang of ["cs", "en"]) assert.equal(clips.tour.chapters[lang].length, 5, lang);
 });
 
-test("/demo: the five chapters are buttons with the times of this language, the fifth is the Radar + ATS one", () => {
-  const files = buildSite(loadSite());
+test("the tour on: /demo's five chapters are buttons with the times of this language, the fifth is the Radar + ATS one", () => {
+  const files = buildSite(tourSite());
   const { chapters } = loadSite().media.clips.tour;
   for (const [path, lang, fifth] of [["public/demo.html", "cs", /Kandidáti a.pipeline \(Radar \+ ATS\)/], ["public/en/demo.html", "en", /Candidates and pipeline \(Radar \+ ATS\)/]]) {
     const html = page(files, path);
@@ -643,7 +655,9 @@ test("[TEXT] in cs.json: the release check fails after the swap and clips, media
     const before = fingerprint(c.root);
     const cs = join(c.root, "src/i18n/cs.json");
     const text = readFileSync(cs, "utf8");
-    writeFileSync(cs, text.replace('"demo_play": "Přehrát prohlídku"', '"demo_play": "[TEXT]"'));
+    const spoilt = text.replace('"demo_h1": "TalentRadar v krátkých ukázkách"', '"demo_h1": "[TEXT]"');
+    assert.notEqual(spoilt, text, "a text /demo shows");
+    writeFileSync(cs, spoilt);
     writeFileSync(join(c.source, "hero.cs.webm"), "another cut");
     const { problems, undone, version } = c.use({ date: "2026-11-03" });
     assert.ok(problems.length, "it fails");
@@ -681,7 +695,7 @@ test("the tour's chapter says which one is playing; without JavaScript the chapt
   const js = String(files.get("public/js/site.js"));
   const styles = String(files.get("public/css/site.css"));
   assert.match(styles, /\.no-js \.tour-chapters--seek,\s*\.js \.tour-chapters--text \{ display: none; \}/);
-  const demo = String(files.get("public/en/demo.html"));
+  const demo = String(buildSite(tourSite()).get("public/en/demo.html"));
   const plain = demo.match(/<ol class="tour-chapters tour-chapters--text">[\s\S]*?<\/ol>/)[0];
   assert.match(plain, /<li><span class="tour-chapter__time">0:00<\/span> Morning/);
   assert.equal((plain.match(/<li>/g) || []).length, 5);
@@ -1255,7 +1269,7 @@ test("the frame: no painted bar, a board of the given proportions, none on a lig
   assert.doesNotMatch(css.match(/\.video__toggle \{ width: 48px[^}]*\}/)[0], /position: absolute/);
   // the same frame for every clip
   for (const id of ["hero", "how1", "ats"]) assert.match(home, new RegExp(`video--${id}[\\s\\S]*?<div class="frame">\\s*<div class="frame__window">`), id);
-  assert.match(String(files.get("public/demo.html")), /video--tour[\s\S]*?<div class="frame">\s*<div class="frame__window">/);
+  assert.match(String(buildSite(tourSite()).get("public/demo.html")), /video--tour[\s\S]*?<div class="frame">\s*<div class="frame__window">/);
 });
 
 test("the line under a video: the words from the text map and the times from media.json, a new clip's data changes it without any code", () => {
@@ -1698,7 +1712,7 @@ test("the date under the chapters: one sentence while all three clips share a da
 });
 
 test("a clip with its own day says it under its own figure; release wants a date for each clip of a figure", () => {
-  const tour = buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; m.clips.tour.clip_date = "2026-11-03"; }));
+  const tour = buildSite(tourSite((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; m.clips.tour.clip_date = "2026-11-03"; }));
   assert.match(page(tour, "public/demo.html").match(/<figcaption>[\s\S]*?<\/figcaption>/)[0], /Natočeno 3\.\u00a011\.\u00a02026\./);
   const errors = (edit) => checkSite(siteFiles(buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; edit(m); }))), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
   const missing = /the caption of the how\d video has no recording date/;
@@ -1790,7 +1804,7 @@ test("a phone does not fetch the wide cut's poster, nor the other way round: a l
     assert.match(fig, /<div class="frame__screen video--desktop" style="--poster:url\(\/video\/[^)]+\.webp\?v=[^)]+\)">/, id);
   }
   assert.match(home.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0], /<div class="frame__screen video--mobile" style="--poster:url\(\/video\/hero-mobile\./);
-  assert.match(page(files, "public/demo.html"), /<video[^>]*\sposter="\/video\/tour\.cs\./);
+  assert.match(page(buildSite(tourSite()), "public/demo.html"), /<video[^>]*\sposter="\/video\/tour\.cs\./);
   assert.match(String(files.get("public/css/site.css")), /\.frame__screen \{ position: relative; background: #0B111D var\(--poster, none\) center \/ 100% 100% no-repeat; \}/);
   const js = String(files.get("public/js/site.js"));
   assert.match(js, /setProperty\("--poster", cut\.poster \? `url\(\$\{cut\.poster\}\)` : "none"\)/);
@@ -1991,4 +2005,115 @@ test("a whole set with --date writes the set's date and leaves a clip's own alon
     assert.equal(after.clip_date, "2026-11-02");
     assert.equal(after.clips.hero.clip_date, "2026-11-03");
   } finally { s.done(); }
+});
+
+// ── The tour off, V6 final (Kryštof 11. 11. 2026): /demo plays the hero and the chapters until the tour is retaken ──
+
+test("the tour off (as committed), V6 final: nothing of the tour expected, waiting or checked, V6 waits for nothing and keeps its date; one line puts the tour back", () => {
+  const { media } = loadSite();
+  assert.equal(media.clips.tour.off, true, "the tour is not on the site until it is retaken");
+  assert.equal(media.clips.ats.waits, undefined, "V6 stays as it is");
+  assert.equal(media.clips.ats.clip_date, "2026-11-01");
+  assert.ok(!expectedFiles(media).some((f) => f.name.startsWith("tour.")));
+  assert.ok(!waitingCuts(media).some((w) => /^(tour|ats)\b/.test(w)), waitingCuts(media).join("; "));
+  assert.ok(!staleProfileCuts(media).some((w) => /^(tour|ats)\b/.test(w)));
+  // on again: its files, its wait and its age are back in the release check
+  const on = copy(media);
+  delete on.clips.tour.off;
+  assert.ok(expectedFiles(on).some((f) => f.name === "tour.cs.mp4"));
+  assert.ok(expectedFiles(on).some((f) => f.name === "tour.en.vtt"));
+  assert.ok(waitingCuts(on).some((w) => w.startsWith("tour:")));
+  // its files left in public/video would be published unchecked: release names them (the chapter times are never published)
+  const dir = mkdtempSync(join(tmpdir(), "tour-off-"));
+  try {
+    for (const name of ["tour.cs.mp4", "tour.chapters.json"]) writeFileSync(join(dir, name), "x");
+    assert.deepEqual(filesOutsideSet(dir, media), ["tour.cs.mp4"]);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+  // a page that still asks for the tour does not build
+  assert.throws(() => buildSite({ ...loadSite(), templates: { ...loadSite().templates, "pages/demo": TOUR_PAGE } }), /clip tour is off in media\.json/);
+});
+
+test("the tour off: /demo plays the home page's hero with its lines and dated caption, then the home page's chapters; nothing of the tour, no word of one", () => {
+  const files = buildSite(loadSite());
+  for (const [path, homePath, lang] of [["public/demo.html", "public/index.html", "cs"], ["public/en/demo.html", "public/en/index.html", "en"]]) {
+    const html = page(files, path);
+    const home = page(files, homePath);
+    const main = html.slice(html.indexOf('<main id="main">'), html.indexOf("</main>"));
+    assert.doesNotMatch(main, /video--tour|tour-chapter|data-facade|video__play|<track|\/video\/tour\./, path);
+    // the hero: the same figure as on the home page (a loop, the line under it), its dated caption on both screens
+    const heroOf = (h) => h.match(/<figure class="video video--hero video--has-mobile" data-autoplay>[\s\S]*?<\/figure>/)[0];
+    assert.equal(heroOf(main), heroOf(home), path);
+    assert.match(heroOf(main), /<video muted loop playsinline controls preload="none"/);
+    assert.match(heroOf(main), /class="video__cue-line is-on[^"]*" data-cues="hero"/);
+    assert.match(main, /<p class="note hero__caption"><span class="d-only">[^<]*20\d\d[^<]*<\/span><span class="m-only">[^<]*20\d\d[^<]*<\/span><\/p>/, path);
+    // under it the chapters: the home page's tabs, figure and panels
+    const chapters = main.slice(main.indexOf("<div data-chapters>"));
+    assert.deepEqual(tabsOf(chapters), tabsOf(howSection(home)), path);
+    assert.deepEqual(tabsOf(chapters).map((t) => t.clip.id), ["how1", "how2", "how3"], path);
+    const figOf = (h) => h.match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0];
+    assert.equal(figOf(chapters), figOf(home), path);
+    assert.equal((chapters.match(/role="tabpanel"/g) || []).length, 3, path);
+    assert.ok(main.indexOf("video--hero") < main.indexOf("<div data-chapters>"), "the hero first");
+    // what the page says: no tour, no two minutes, no chapters with times, in the head neither
+    const words = `${html.slice(0, html.indexOf("</head>"))} ${main.replace(/<[^>]+>/g, " ")}`.replace(/\u00a0/g, " ");
+    assert.doesNotMatch(words, lang === "cs" ? /prohlídk|2 minut|dvouminut|kapitol/i : /\btour\b|2-minute|two-minute|chapters/i, path);
+  }
+  // nothing on /demo stops a release
+  const errors = checkSite(siteFiles(files), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
+  assert.deepEqual(errors.filter((e) => /^public\/(en\/)?demo\.html/.test(e)), []);
+});
+
+test("no link to /demo promises the tour: menu, footer and 404 say what is there", () => {
+  const files = buildSite(loadSite());
+  let links = 0;
+  for (const [path, body] of files) {
+    if (!String(path).endsWith(".html")) continue;
+    for (const m of String(body).matchAll(/<a [^>]*href="\/(?:en\/)?demo"[^>]*>([\s\S]*?)<\/a>/g)) {
+      links++;
+      assert.doesNotMatch(m[1].replace(/\u00a0/g, " "), /prohlídk|\btour\b|2 min|90 s/i, `${path}: ${m[1]}`);
+    }
+  }
+  assert.ok(links >= 4, `${links} links`);
+});
+
+test("the tour off: media:use takes a set without the tour and without tour.chapters.json, copies none, leaves its chapter times alone; on again it wants them", () => {
+  const s = sandbox();
+  try {
+    const write = (m) => writeFileSync(join(s.root, "src/data/media.json"), JSON.stringify(m));
+    const off = copy(s.media);
+    off.clips.tour.off = true;
+    write(off);
+    for (const name of readdirSync(s.source)) if (name.startsWith("tour.")) rmSync(join(s.source, name));
+    assert.deepEqual(s.use().problems, []);
+    const m = JSON.parse(s.json());
+    assert.equal(m.clips.tour.off, true, "media:use keeps the switch as it is");
+    assert.deepEqual(m.clips.tour.chapters, off.clips.tour.chapters);
+    assert.deepEqual(readdirSync(join(s.root, "public/video")).filter((n) => n.startsWith("tour.")), []);
+    assert.deepEqual(videoSetProblems(m, { root: s.root }), []);
+    // one clip at a time works the same way
+    const one = join(s.root, "one");
+    mkdirSync(one);
+    const name = expectedFiles(m).find((f) => f.name.endsWith(".mp4")).name;
+    writeFileSync(join(one, name), "another cut");
+    assert.deepEqual(s.use({ source: one, keepRest: true, date: undefined }).problems, []);
+    assert.equal(readFileSync(join(s.root, "public/video", name), "utf8"), "another cut");
+    // on again: the tour's files and its chapters are required
+    const on = JSON.parse(s.json());
+    delete on.clips.tour.off;
+    write(on);
+    const { problems } = s.use();
+    assert.ok(problems.includes("tour.chapters.json: missing"), problems.join("; "));
+    assert.ok(problems.includes("tour.cs.mp4: missing"), problems.join("; "));
+  } finally { s.done(); }
+});
+
+test("V3's new line waits for its times: cue_call_li in both languages, next to the other lines of V3", () => {
+  const { cs, en } = loadSite().i18n;
+  assert.equal(cs.cue_call_li, "Hledání na LinkedInu jedním klikem.");
+  assert.equal(en.cue_call_li, "One click to a LinkedIn search.");
+  for (const t of [cs, en]) {
+    const keys = Object.keys(t);
+    assert.equal(keys.indexOf("cue_call_li"), keys.indexOf("cue_call_3") + 1);
+    assert.ok(t.cue_call_li.length <= 60);
+  }
 });

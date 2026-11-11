@@ -1,3 +1,5 @@
+<!-- /demo while the tour is off (media.json clips.tour.off): the hero's loop as on the home page, then the same
+     chapters as "How it works" there. With the tour on again, its page is tests/demo-tour.fixture.html. -->
 <section class="band" aria-labelledby="demo-title">
   <div class="container">
     <div class="section__head">
@@ -5,23 +7,40 @@
       <p>{{t.demo_intro}}</p>
     </div>
     <div class="tour">
-      {{video:tour:demo_video_aria:demo_recorded}}
+      {{video:hero:hero_video_aria}}
+      <p class="note hero__caption"><span class="d-only">{{t.hero_video_caption}}</span><span class="m-only">{{t.hero_video_caption_m}}</span></p>
     </div>
   </div>
 </section>
 
-<section class="band band--light" aria-labelledby="demo-chapters-title">
+<section class="band" aria-labelledby="demo-chapters-title">
   <div class="container">
-    <div class="grid-2">
-      <div>
-        <h2 id="demo-chapters-title">{{t.demo_chapters_h}}</h2>
-        {{tour:chapters}}
+    <div class="section__head">
+      <h2 id="demo-chapters-title">{{t.demo_chapters_h}}</h2>
+      <p>{{t.how_sub}}</p>
+    </div>
+    <div data-chapters>
+      {{chapters:tabs:how0,how1,how2,how3}}
+      <div class="chapters-layout">
+      <div class="chapters-video">
+        {{chapters:video:how_clip_caption}}
       </div>
       <div>
-        <h2>{{t.demo_real_h}}</h2>
-        <p>{{t.demo_real}}</p>
-        <p>{{t.demo_fake}}</p>
+      <div class="chapter-panels">
+      {{chapters:panels}}
       </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--light" aria-labelledby="demo-real-title">
+  <div class="container">
+    <div class="measure">
+      <h2 id="demo-real-title">{{t.demo_real_h}}</h2>
+      <p>{{t.demo_real}}</p>
+      <p>{{t.demo_fake}}</p>
     </div>
     <div class="grid-2 section-cta">
       <div>

@@ -849,6 +849,8 @@ const minutesSeconds = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)
  */
 function tourChapters(site, ctx) {
   const clip = site.media.clips.tour;
+  // the tour off (Kryštof 11. 11. 2026, until it is retaken): its chapters would point at a video that is not there
+  if (clip && clip.off) throw new Error(`${ctx.where} [${ctx.lang}]: clip tour is off in media.json in {{tour:chapters}}`);
   const raw = clip && clip.chapters ? (Array.isArray(clip.chapters) ? clip.chapters : clip.chapters[ctx.lang]) : null;
   const times = (Array.isArray(raw) ? raw : [])
     .map((c) => (typeof c === "number" ? c : Number(c && c.start)))

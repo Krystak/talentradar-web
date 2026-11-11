@@ -9,7 +9,7 @@
  *
  * It is one transaction, and one run at a time: a lock comes first. Then the set is checked:
  * all files media.json names for both languages, the sizes in pixels of videos and posters and
- * the lengths (ffprobe), the budgets, the tour's five chapters, the date. Then public/, media.json
+ * the lengths (ffprobe), the budgets, the tour's five chapters (while the tour is on), the date. Then public/, media.json
  * and what the build writes are copied to .media-use/ (outside public/, so nothing of it can be
  * published), the files go in place,
  * media.json gets the three things that go with a set of clips (clip_date, the tour's chapter
@@ -57,6 +57,14 @@ const ROOT_FILES = ["src/data/media.json", "build-manifest.json", "worker-routes
 export const LENGTH_TOLERANCE = 0.5;
 /** A poster smaller than this is no picture of the app: one flat colour is 1.2-2.4 kB, the smallest real poster 28 kB (1. 11. 2026). */
 export const POSTER_MIN_BYTES = 5000;
+
+/**
+ * Whether the tour is on the site. Off (clips.tour.off, Kryštof 11. 11. 2026, until it is retaken), a set has no
+ * tour and no tour.chapters.json: none is required, copied or written into media.json.
+ */
+export const tourOn = (media) => !!(media.clips.tour && !media.clips.tour.off);
+/** What a set copies: the files media.json names, and the tour's chapters while it is on. */
+const setNames = (media) => [...expectedFiles(media).map((f) => f.name), ...(tourOn(media) ? [CHAPTER_FILE] : [])];
 
 /** What is wrong with tour.chapters.json; an empty list when it is fine. */
 export function chapterProblems(chapters) {
@@ -150,6 +158,7 @@ export function setProblems(source, media, { probe = ffprobeInfo, today } = {}) 
       if (/^tour\..*\.(mp4|webm)$/.test(file.name)) lengths[file.name] = got.duration;
     }
   }
+  if (!tourOn(media)) return problems;
   const chaptersPath = join(source, CHAPTER_FILE);
   if (!existsSync(chaptersPath)) problems.push(`${CHAPTER_FILE}: missing`);
   else {
@@ -397,7 +406,7 @@ function placeSet({ from, root, media, version, step }) {
   const video = join(root, "public/video");
   const incoming = join(root, MEDIA_WORK, "incoming");
   mkdirSync(incoming, { recursive: true });
-  const names = [...expectedFiles(media).map((f) => f.name), CHAPTER_FILE];
+  const names = setNames(media);
   for (const name of names) {
     if (/\.(vtt|json)$/.test(name)) writeFileSync(join(incoming, name), clipBytes(join(from, name)));
     else copyFileSync(join(from, name), join(incoming, name));
@@ -429,7 +438,7 @@ export function releaseCheck(root = REPO, stdio = "inherit") {
 function composeSet(folder, video, media, work) {
   const set = join(work, "set");
   mkdirSync(set, { recursive: true });
-  for (const name of [...expectedFiles(media).map((f) => f.name), CHAPTER_FILE]) {
+  for (const name of setNames(media)) {
     const from = [folder, video].map((dir) => join(dir, name)).find((path) => existsSync(path));
     if (from) copyFileSync(from, join(set, name));
   }
@@ -486,7 +495,7 @@ export function useSet({ source, date, keepRest = false, root = REPO, today, pro
       releaseLock(root);
       return { problems, recovered };
     }
-    chapters = JSON.parse(readFileSync(join(from, CHAPTER_FILE), "utf8"));
+    chapters = tourOn(media) ? JSON.parse(readFileSync(join(from, CHAPTER_FILE), "utf8")) : null;
     version = setVersion(from, media);
     warnings = foreignFiles(folder, video, media);
   } catch (err) {
@@ -515,7 +524,7 @@ export function useSet({ source, date, keepRest = false, root = REPO, today, pro
 
     if (!keepRest) media.clip_date = date;
     media.version = version;
-    media.clips.tour.chapters = Object.fromEntries(LANGS.map((lang) => [lang, chapters[lang].map((c) => ({ id: c.id, start: c.start }))]));
+    if (chapters) media.clips.tour.chapters = Object.fromEntries(LANGS.map((lang) => [lang, chapters[lang].map((c) => ({ id: c.id, start: c.start }))]));
     const tmp = join(work, "media.json.tmp");
     writeFileSync(tmp, `${JSON.stringify(media, null, 2)}\n`);
     step("media.json written");

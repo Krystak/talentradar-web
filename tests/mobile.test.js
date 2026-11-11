@@ -193,9 +193,18 @@ test("every block of every page has at most one main button; the bar, the menu a
 
 // ── The tour's chapters ─────────────────────────────────────────────────────
 
-test("/demo: chapters are a plain list until the tour has chapter times, then buttons of at least 48 px that jump there", () => {
+// the tour is off until it is retaken (11. 11. 2026); with it on again, /demo is tests/demo-tour.fixture.html
+const TOUR_PAGE = readFileSync(new URL("./demo-tour.fixture.html", import.meta.url), "utf8");
+const withTour = (site) => {
+  delete site.media.clips.tour.off;
+  site.templates = { ...site.templates, "pages/demo": TOUR_PAGE };
+  return site;
+};
+
+test("the tour on: /demo's chapters are a plain list until the tour has chapter times, then buttons of at least 48 px that jump there", () => {
   const bare = loadSite();
   bare.media = JSON.parse(JSON.stringify(bare.media));
+  withTour(bare);
   bare.media.clips.tour.chapters = null;
   const plain = String(buildSite(bare).get("public/demo.html"));
   assert.match(plain, /<ol class="tour-chapters"><li>Ráno: co je nového<\/li>/);
@@ -203,6 +212,7 @@ test("/demo: chapters are a plain list until the tour has chapter times, then bu
 
   const site = loadSite();
   site.media = JSON.parse(JSON.stringify(site.media));
+  withTour(site);
   // media's tour.chapters.json: per language, { start } in seconds
   site.media.clips.tour.chapters = {
     cs: [{ start: 0 }, { start: 20.73 }, { start: 35.66 }, { start: 67.6 }, { start: 90.19 }],

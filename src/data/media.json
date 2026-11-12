@@ -1,7 +1,7 @@
 {
   "_note": "Videos on the site, one entry per clip; {lang} in a path becomes cs or en. A set of clips goes on the site with `npm run media:use -- <folder> --date YYYY-MM-DD` (one clip: edit its row, then `npm run media:use -- <folder> --keep-rest`), which checks it and writes clip_date (the recording date shown in the captions, {clip.date}; null = the sentence is left out), version (?v= on the addresses, because /video/* is cached as immutable and clips keep their names) and clips.tour.chapters (from tour.chapters.json). clips.ats.clip_date is V6's own date ({clip.ats_date}): V6 is not retaken with the rest, so media:use leaves it alone. sources: in the order the browser tries them, the first that fits wins; { src, type, media?, width?, height?, budget_mb? }, media for a version by pixel density such as \"(min-resolution: 1.5dppx) and (min-width: 768px)\", with its own size and budget; the last one must be an MP4 for every screen, any other format goes by taking out its rows. cues: the line under the video, { at, at_mobile?, key }, seconds and a key of the text map. Display widths: tokens.css --video-*. A clip's own clip_date is the day that clip was recorded, what {clip.date} says under it (hero: {clip.hero_date}, its phone cut {clip.hero_phone_date}); a phone cut says its own or the set's, not the wide cut's. by_lang.<lang> replaces what it names for one language, the older cut of a language still waiting; taking it out is the change. waits: this cut is not the final one, what replaces it; check:release says so until it is gone. at_mobile null: a line the phone cut does not have; at null: a line only the phone cut has. All times of the text under a clip are in its cues here, nowhere else. off: true leaves a clip off the site and out of the set for a while: no tab, no files expected, nothing of it checked (the 90 s tour, since 11. 11. 2026 until it is retaken from the new clips: /demo plays the hero and the chapters instead, and media:use then neither needs nor writes its chapters); taking that line out puts it on, then media:use with its files. A chapter that is gone for good has no row and no place in {{chapters:tabs:…}} (home.html, demo.html): how1, \"Ráno: co je nového\", since 12. 11. 2026, when \"Databáze rolí\" (how0) took over what it showed; the chapters are how0, how2 and how3, numbered 1–3 on the page. how0 (on the site since 12. 11. 2026) has no phone cut yet: a phone plays its wide cut whole (mobile null), and no clip_date of its own, so it says the set's.",
   "clip_date": "2026-11-12",
-  "version": "d1a03a0825",
+  "version": "597eeefc36",
   "clips": {
     "hero": {
       "mode": "loop",
@@ -91,7 +91,11 @@
           "key": "cue_db_5"
         },
         {
-          "at": 17.15,
+          "at": 19.15,
+          "key": "cue_db_6"
+        },
+        {
+          "at": 23.65,
           "key": "cue_db_1"
         }
       ]

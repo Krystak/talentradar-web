@@ -1816,14 +1816,14 @@ test("a clip with its own day says it under its own figure; release wants a date
 
 test("chapter 1's words say what the clip shows: the lines of the plan's table, and in the description nothing the clip does not show (plan 12. 11. 2026, 2–3)", () => {
   const { i18n, media } = loadSite();
-  assert.deepEqual(media.clips.how0.cues.map((c) => [c.at, c.key]), [[0, "cue_db_1"], [2.6, "cue_db_2"], [5, "cue_db_3"], [7.4, "cue_db_4"], [13.7, "cue_db_5"], [17.15, "cue_db_1"]]);   // zkouska 12. 11. odpoledne: 45+ od nejkratsi (klik na OTEVRENO +0,8 s) a cteni 3,0 s
+  assert.deepEqual(media.clips.how0.cues.map((c) => [c.at, c.key]), [[0, "cue_db_1"], [2.6, "cue_db_2"], [5, "cue_db_3"], [7.4, "cue_db_4"], [13.7, "cue_db_5"], [19.15, "cue_db_6"], [23.65, "cue_db_1"]]);   // zkouska 12. 11. vecer: 45+ od nejkratsi a detail projede zalozky Prehled, Uprava, Zdroj, Historie (Krystof: „kazdemu venovat 2 sekundy“)
   const lines = {
-    cs: ["Kolik je otevřeno a kolik přibylo.", "Nejdřív vaši klienti.", "Pak firmy, které chcete získat.", "Co visí 45 a víc dní.", "A u každé pozice detail."],
-    en: ["How many are open, how many are new.", "Your clients first.", "Then the companies you want to win.", "What has been open for 45 days or more.", "And the detail of every role."],
+    cs: ["Kolik je otevřeno a kolik přibylo.", "Nejdřív vaši klienti.", "Pak firmy, které chcete získat.", "Co visí 45 a víc dní.", "A u každé pozice detail.", "Odkud pozice je a od kdy je venku."],
+    en: ["How many are open, how many are new.", "Your clients first.", "Then the companies you want to win.", "What has been open for 45 days or more.", "And the detail of every role.", "Where the role comes from and since when."],
   };
   for (const lang of ["cs", "en"]) {
-    assert.deepEqual([1, 2, 3, 4, 5].map((n) => i18n[lang][`cue_db_${n}`]), lines[lang], lang);
-    assert.equal(i18n[lang].cue_db_6, undefined, lang);
+    assert.deepEqual([1, 2, 3, 4, 5, 6].map((n) => i18n[lang][`cue_db_${n}`]), lines[lang], lang);
+    assert.equal(i18n[lang].cue_db_7, undefined, lang);
     // "By company" and the roles set aside are not in the clip, only in the text beside it; nor the posting, the hero's
     assert.doesNotMatch(i18n[lang].how_clip0_alt, /\bAI\b|podle firem|by company|odlož|stranou|set aside|inzerát|posting|řazení|sort/i, lang);
     assert.match(i18n[lang].how_clip0_alt, lang === "cs" ? /klient[\s\S]*prospekt[\s\S]*45[\s\S]*detail/ : /client[\s\S]*prospect[\s\S]*45[\s\S]*detail/, lang);

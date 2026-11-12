@@ -1869,12 +1869,14 @@ test("from 1 024 px the line and the pause button lie over the bottom of the her
 
 test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's IT focus said", () => {
   const { i18n } = loadSite();
-  assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem.");
-  assert.equal(i18n.en.cue_hero_1, "All your companies’ open roles.");
-  // the specialisation belongs to V2 (Kryštof, 3. 11.), since 12. 11. to chapter 1's text: nothing in the hero says it. The caption says what the demo agency is:
+  assert.equal(i18n.cs.cue_hero_1, "Pozice ve vaší specializaci, firma po firmě.");   // Kryštof 12. 11.: ukazujeme role ve specializaci agentury, ne všechny role firmy
+  assert.equal(i18n.en.cue_hero_1, "Roles in your specialism, company by company.");
+  // Kryštof 12. 11.: "nahore nekam vecpat, ze vlastne ukazujeme role na kterou se agentura specializuje, ne vsechny role dane firmy" (3. 11. it was V2's alone):
+  // the sentence under the title and the hero's first line say it, the other hero texts do not repeat it. The caption says what the demo agency is:
   // IT and software since 6. 11. (it said a broad focus before); staleProfileCuts keeps older clips off a release
   for (const lang of ["cs", "en"]) {
-    for (const key of ["hero_sub", "cue_hero_1", "cue_hero_2", "cue_hero_3", "hero_video_aria", "hero_video_poster_alt", "hero_video_caption", "hero_video_caption_m"]) {
+    for (const key of ["hero_sub", "cue_hero_1"]) assert.match(String(i18n[lang][key]), /specializ|specialis/i, `${lang} ${key}`);
+    for (const key of ["cue_hero_2", "cue_hero_3", "hero_video_aria", "hero_video_poster_alt", "hero_video_caption", "hero_video_caption_m"]) {
       assert.doesNotMatch(String(i18n[lang][key]), /specializ|specialis|\bniche\b/i, `${lang} ${key}`);
     }
   }

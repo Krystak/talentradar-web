@@ -1816,7 +1816,7 @@ test("a clip with its own day says it under its own figure; release wants a date
 
 test("chapter 1's words say what the clip shows: the lines of the plan's table, and in the description nothing the clip does not show (plan 12. 11. 2026, 2–3)", () => {
   const { i18n, media } = loadSite();
-  assert.deepEqual(media.clips.how0.cues.map((c) => [c.at, c.key]), [[0, "cue_db_1"], [2.6, "cue_db_2"], [5, "cue_db_3"], [7.4, "cue_db_4"], [12.45, "cue_db_5"], [15.9, "cue_db_1"]]);   // 15,9: Esc ve zkousce 12. 11. (take.json vd), plan mel 16
+  assert.deepEqual(media.clips.how0.cues.map((c) => [c.at, c.key]), [[0, "cue_db_1"], [2.6, "cue_db_2"], [5, "cue_db_3"], [7.4, "cue_db_4"], [13.7, "cue_db_5"], [17.15, "cue_db_1"]]);   // zkouska 12. 11. odpoledne: 45+ od nejkratsi (klik na OTEVRENO +0,8 s) a cteni 3,0 s
   const lines = {
     cs: ["Kolik je otevřeno a kolik přibylo.", "Nejdřív vaši klienti.", "Pak firmy, které chcete získat.", "Co visí 45 a víc dní.", "A u každé pozice detail."],
     en: ["How many are open, how many are new.", "Your clients first.", "Then the companies you want to win.", "What has been open for 45 days or more.", "And the detail of every role."],

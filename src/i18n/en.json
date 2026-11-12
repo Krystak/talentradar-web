@@ -198,7 +198,7 @@
   "how_chapters_aria": "Preview chapters",
   "how_clip0_alt": "The role database from top to bottom: the counts in the header, the companies with their roles and a change of sort order",
   "how_clip1_alt": "The role database by company: where they’re hiring, what is set aside and roles open 45+ days",
-  "how_clip2_alt": "A role’s detail: the reason to get in touch, an estimate of who to look for, and the first line of a draft",
+  "how_clip2_alt": "A role’s detail: the reason to get in touch, an estimate of who to look for, and the Search LinkedIn button",
   "how_clip3_alt": "A pasted candidate profile and the matching roles at the agency’s companies",
   "how_clip_caption": "Public demo: the companies and roles are real, the agency and candidates are made up. Recorded {clip.date}.",
   "how_cta": "Open the full demo",

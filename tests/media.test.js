@@ -1787,9 +1787,12 @@ test("chapter 1's words say what the clip shows: in alphabetical order it proves
 });
 
 test("the description of chapters 2 and 3 says what the Czech clips show: no draft in V3, the order by rules in V4 (cut sheets V3, V4)", () => {
-  const { cs } = loadSite().i18n;
+  const { cs, en } = loadSite().i18n;
   assert.doesNotMatch(cs.how_clip2_alt, /návrh|zpráv/i);
   assert.match(cs.how_clip2_alt, /LinkedIn/);
+  // 12. 11. 2026 (revize): EN říkalo „the first line of a draft“, klip V3 žádný návrh neukazuje
+  assert.doesNotMatch(en.how_clip2_alt, /draft|message/i);
+  assert.match(en.how_clip2_alt, /LinkedIn/);
   assert.match(cs.how_clip3_alt, /podle pravidel/);
   assert.doesNotMatch(cs.how_clip3_alt, /\bAI\b/);
 });

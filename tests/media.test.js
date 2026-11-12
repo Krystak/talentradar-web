@@ -43,7 +43,8 @@ const tourSite = (edit = () => {}) => withTour(siteWith(edit));
  * plays the wide cut whole, mobile null), the frozen set (tests/media-set.fixture.json) has them for hero and how1–3.
  */
 const FIXTURE_CLIPS = JSON.parse(readFileSync(new URL("./media-set.fixture.json", import.meta.url), "utf8")).clips;
-const withPhones = (m, ids = ["hero", "how1", "how2", "how3"]) => { for (const id of ids) m.clips[id].mobile = copy(FIXTURE_CLIPS[id].mobile); };
+// how1 ("Ráno: co je nového") is off the site for good since 12. 11. 2026: the chapters that take them are how2 and how3
+const withPhones = (m, ids = ["hero", "how2", "how3"]) => { for (const id of ids) m.clips[id].mobile = copy(FIXTURE_CLIPS[id].mobile); };
 
 // ── media.json ──────────────────────────────────────────────────────────────
 
@@ -58,9 +59,10 @@ test("media.json: every clip has WebM + MP4 and a poster, the phone cut is 4:5, 
     assert.equal(clip.width / clip.height, 16 / 10, `${id} is 16:10`);
     assert.match(clip.poster, /\{lang\}(\.\d+)?\.webp$/, id);
   }
-  assert.equal(clips.how4, undefined, "four chapters, how0–how3");
+  assert.equal(clips.how4, undefined, "three chapters, how0, how2, how3");
+  assert.equal(clips.how1, undefined, "\"Ráno: co je nového\" is gone for good (12. 11. 2026), its row too");
   // as committed (12. 11. 2026): no phone cut, a phone plays each clip's wide cut whole
-  for (const id of ["hero", "how0", "how1", "how2", "how3"]) assert.equal(clips[id].mobile, null, `${id}: no phone cut`);
+  for (const id of ["hero", "how0", "how2", "how3"]) assert.equal(clips[id].mobile, null, `${id}: no phone cut`);
   // a phone cut, where there is one (here or in the frozen set), is 4:5, ends with an MP4 for every screen, its poster is -mobile
   const phoneCuts = [...Object.entries(clips), ...Object.entries(FIXTURE_CLIPS).map(([id, c]) => [`fixture ${id}`, c])].filter(([, c]) => c.mobile);
   assert.ok(phoneCuts.length >= 4, "the frozen set has the phone cuts to hold the rule to");
@@ -113,8 +115,8 @@ test("every video address carries the set's version, a new version changes them 
     ...dataClipFiles(html),
     ...[...html.matchAll(/<link rel="preload" as="image" href="(\/video\/[^"]+)"/g)].map((m) => m[1]),
   ];
-  // as committed (four chapters, no phone cut: 22 on 12. 11. 2026), and with the phone cuts of the frozen set (38)
-  for (const [what, phones, least] of [["as committed", () => {}, 20], ["with phone cuts", withPhones, 31]]) {
+  // as committed (three chapters, no phone cut: 19 on 12. 11. 2026), and with the phone cuts of the frozen set (32)
+  for (const [what, phones, least] of [["as committed", () => {}, 19], ["with phone cuts", withPhones, 32]]) {
     const a = addresses(page(buildSite(siteWith((m) => { phones(m); m.version = "aaaaaaaaaa"; })), "public/index.html"));
     assert.ok(a.length >= least, `${what}: ${a.length} addresses`);
     for (const url of a) assert.match(url, /\?v=aaaaaaaaaa$/, `${what}: ${url}`);
@@ -1306,9 +1308,10 @@ test("the line under a video: the words from the text map and the times from med
   const changed = hero(home((m) => { m.clips.hero.cues = [{ at: 1.5, key: "cue_hero_2" }]; }));
   assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Každé ráno, co přibylo\.<\/span>/);
   assert.equal((changed.match(/video__cue-line/g) || []).length, 1);
-  // every chapter's sentences are in its one figure (as committed the first chapter's, how0), so the line has one height for all four
+  // every chapter's sentences are in its one figure (as committed the first chapter's, how0), so the line has one height for all three
   const how = home(() => {}).match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
-  for (const id of ["how0", "how1", "how2", "how3"]) assert.match(how, new RegExp(`data-cues="${id}"`), id);
+  for (const id of ["how0", "how2", "how3"]) assert.match(how, new RegExp(`data-cues="${id}"`), id);
+  assert.doesNotMatch(how, /data-cues="how1"/, "\"Ráno: co je nového\" is gone (12. 11. 2026)");
   // all the words exist in both languages; 60 characters is the rule, the hero's first sentence from the approved table has 61
   for (const [id, clip] of Object.entries(site.media.clips)) {
     for (const cue of clip.cues || []) {
@@ -1333,32 +1336,42 @@ test("the line's mechanics: one grid cell, a fixed height; it follows the clip's
   assert.match(js, /fig\.dataset\.cueClip = clip\.id;/);
 });
 
-test("four chapters as committed: The whole database, Morning, Whom to call, Who wants this candidate; the origin and date under the video on a phone too", () => {
+test("three chapters as committed: Role database, Whom to call, Who wants this candidate; the origin and date under the video on a phone too", () => {
   const files = buildSite(loadSite());
   const site = loadSite();
   const css = String(files.get("public/css/site.css"));
   for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
     const html = String(files.get(path));
-    assert.equal((html.match(/class="chapter-tab"/g) || []).length, 4, path);
-    assert.equal((html.match(/role="tabpanel"/g) || []).length, 4, path);
-    assert.match(html, /<ul class="chapters chapters--4" role="tablist"/, path);
+    assert.equal((html.match(/class="chapter-tab"/g) || []).length, 3, path);
+    assert.equal((html.match(/role="tabpanel"/g) || []).length, 3, path);
+    assert.match(html, /<ul class="chapters" role="tablist"/, path);
+    assert.doesNotMatch(html, /chapters--4/, path);
+    const t = site.i18n[lang];
+    assert.deepEqual([...html.matchAll(/<button class="chapter-tab"[^>]*>([^<]+)<\/button>/g)].map((m) => m[1].replace(/ /g, " ")), [t.how_ch0_tab, t.how_ch2_tab, t.how_ch3_tab], path);
     assert.match(html.match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0].match(/<figcaption>[\s\S]*?<\/figcaption>/)[0], /20\d\d/, path);
-    for (const key of ["how_ch1_body", "how_ch1_body_m"]) {
-      assert.doesNotMatch(site.i18n[lang][key], /klient|cílov|bez kontaktu|client|target compan/i, `${lang} ${key}: no groups of companies`);
+    // "Ráno: co je nového" (how1) is gone for good (12. 11. 2026): no tab, panel, line or word of it
+    assert.doesNotMatch(html, /tab-1"|chapter-1"|data-cues="how1"|\/video\/rano\./, path);
+    for (const key of Object.keys(t)) assert.doesNotMatch(key, /^(how_ch1_|how_clip1_|cue_morning_)/, `${lang} ${key}`);
+    // what the morning chapter said goes on in chapter 1: the groups of companies it narrows to, the scans, AI by your rules
+    for (const key of ["how_ch0_body", "how_ch0_body_m"]) {
+      assert.match(t[key], lang === "cs" ? /klient[\s\S]*prospekt/ : /client[\s\S]*prospect/, `${lang} ${key}`);
+      assert.match(t[key], /6:00[\s\S]*12:00/, `${lang} ${key}`);
+      assert.match(t[key], /\bAI\b/, `${lang} ${key}`);
     }
-    assert.equal(site.i18n[lang].how_ch4_body, undefined);
+    assert.equal(t.how_ch1_body, undefined);
+    assert.equal(t.how_ch4_body, undefined);
   }
-  assert.match(site.i18n.cs.how_ch1_body, /specializac/);
-  assert.match(site.i18n.cs.how_ch1_body, /AI/);
-  assert.match(site.i18n.en.how_ch1_body, /specialisation/);
-  assert.doesNotMatch(`${site.i18n.cs.how_ch1_body} ${site.i18n.cs.how_ch2_body} ${site.i18n.cs.how_ch3_body}`, /\brol[eíi]\b|mandát/);
+  assert.match(site.i18n.cs.how_ch0_body, /specializac/);
+  assert.match(site.i18n.cs.how_ch0_body, /může splést/);
+  assert.match(site.i18n.en.how_ch0_body, /specialisation/);
+  assert.doesNotMatch(`${site.i18n.cs.how_ch0_body} ${site.i18n.cs.how_ch0_body_m} ${site.i18n.cs.how_ch2_body} ${site.i18n.cs.how_ch3_body}`, /\brol[eíi]\b|mandát/);
   assert.match(css, /\.chapters \{ display: grid; grid-template-columns: repeat\(3,/);
   assert.match(css, /@media \(max-width: 560px\) \{\s*\.chapters \{ grid-template-columns: 1fr 1fr; \}\s*\.chapters:not\(\.chapters--4\) li:last-child \{ grid-column: 1 \/ -1; \}/);
   // the video first: 860 px of window at 1 440 px, the text beside it takes what is left (lead, etapa 5)
   assert.match(css, /\.chapters-layout \{ display: grid; grid-template-columns: minmax\(0, 1fr\) 16\.5rem;/);
   // the line under the video does not repeat the text beside it
   for (const lang of ["cs", "en"]) {
-    for (const [id, clip] of Object.entries({ how0: "how_ch0", how1: "how_ch1", how2: "how_ch2", how3: "how_ch3" })) {
+    for (const [id, clip] of Object.entries({ how0: "how_ch0", how2: "how_ch2", how3: "how_ch3" })) {
       const beside = `${site.i18n[lang][`${clip}_title`]} ${site.i18n[lang][`${clip}_body`]}`.toLowerCase();
       for (const cue of site.media.clips[id].cues) {
         const words = site.i18n[lang][cue.key].toLowerCase().replace(/[.,]/g, "");
@@ -1369,59 +1382,64 @@ test("four chapters as committed: The whole database, Morning, Whom to call, Who
   assert.doesNotMatch(css, /chapters-video \.video figcaption \{ display: none/);
 });
 
-// ── V5 "Celá databáze" (clips.how0): off until it is recorded clean, one line puts it on ──
+// ── Chapter 1 "Databáze rolí" (clips.how0): on since 12. 11. 2026, off: true stays its switch (a release without it, ──
+// ── lead plan 12. 11. 2026, 5.3); "Ráno: co je nového" (how1) is gone for good, its row in media.json too        ──
 
 const tabsOf = (html) => [...html.matchAll(/<button class="chapter-tab" type="button" role="tab" id="tab-(\d)" aria-controls="chapter-(\d)" aria-selected="(true|false)"( tabindex="-1")? data-clip="([^"]+)" data-label="[^"]+">/g)]
   .map((m) => ({ n: m[1], controls: m[2], selected: m[3] === "true", tabindex: !!m[4], clip: JSON.parse(m[5].replace(/&quot;/g, '"').replace(/&amp;/g, "&")) }));
 const howSection = (html) => html.slice(html.indexOf("<div data-chapters>"), html.indexOf('<p class="btn-row btn-row--stack section-cta">'));
 const v5On = (m) => { delete m.clips.how0.off; };
 const v5Off = (m) => { m.clips.how0.off = true; };
-/** V5 off with the three chapters' phone cuts: the section as it was before V5 (51656e5), whatever media.json now says. */
-const before5 = (m) => { v5Off(m); withPhones(m); };
+/** how0 off with the other chapters' phone cuts (the frozen set's): the section without chapter 1, whatever media.json now says. */
+const without0 = (m) => { v5Off(m); withPhones(m); };
 
-test("V5 off: the section is the three chapters it was, how1 first and selected, nothing of V5 expected or published", () => {
-  const { media } = siteWith(before5);
-  const files = buildSite(siteWith(before5));
+test("how0 off: the section is the two chapters left, how2 first and selected, nothing of how0 or how1 expected or published", () => {
+  const { media } = siteWith(without0);
+  const files = buildSite(siteWith(without0));
   for (const path of ["public/index.html", "public/en/index.html"]) {
     const html = page(files, path);
     const how = howSection(html);
-    assert.deepEqual(tabsOf(how).map((t) => [t.n, t.controls, t.selected, t.tabindex, t.clip.id]), [["1", "1", true, false, "how1"], ["2", "2", false, true, "how2"], ["3", "3", false, true, "how3"]], path);
+    assert.deepEqual(tabsOf(how).map((t) => [t.n, t.controls, t.selected, t.tabindex, t.clip.id]), [["2", "2", true, false, "how2"], ["3", "3", false, true, "how3"]], path);
     assert.match(how, /<ul class="chapters" role="tablist"/, path);
-    assert.match(how, /<figure class="video video--how1 video--has-mobile" data-autoplay data-tap-phone>/, path);
-    assert.match(how, /<div class="chapter-panel" role="tabpanel" id="chapter-1" aria-labelledby="tab-1">\n/, path);
-    assert.equal((how.match(/role="tabpanel"/g) || []).length, 3, path);
-    assert.equal((how.match(/ data-js-hidden/g) || []).length, 2, path);
-    assert.doesNotMatch(html, /databaze|how0|tab-0|chapter-0|chapters--4|video--phone-wide/, path);
+    assert.match(how, /<figure class="video video--how2 video--has-mobile" data-autoplay data-tap-phone>/, path);
+    assert.match(how, /<div class="chapter-panel" role="tabpanel" id="chapter-2" aria-labelledby="tab-2">\n/, path);
+    assert.equal((how.match(/role="tabpanel"/g) || []).length, 2, path);
+    assert.equal((how.match(/ data-js-hidden/g) || []).length, 1, path);
+    assert.doesNotMatch(html, /databaze|rano\.|how0|how1|tab-0|tab-1"|chapter-0|chapter-1"|chapters--4|video--phone-wide/, path);
   }
-  assert.ok(!expectedFiles(media).some((f) => f.name.startsWith("databaze.")));
+  assert.ok(!expectedFiles(media).some((f) => f.name.startsWith("databaze.") || f.name.startsWith("rano.")));
   assert.ok(!waitingCuts(media).some((w) => w.startsWith("how0")));
-  // its files left in public/video would be published unchecked: release says so
+  // its files left in public/video would be published unchecked: release says so, and of the morning's files too
   const dir = mkdtempSync(join(tmpdir(), "v5-"));
   try {
     writeFileSync(join(dir, "databaze.cs.1600.60.mp4"), "x");
     assert.deepEqual(filesOutsideSet(dir, media), ["databaze.cs.1600.60.mp4"]);
+    rmSync(join(dir, "databaze.cs.1600.60.mp4"));
+    writeFileSync(join(dir, "rano.cs.1600.60.mp4"), "x");
+    assert.deepEqual(filesOutsideSet(dir, loadSite().media), ["rano.cs.1600.60.mp4"]);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test("V5 off: the HTML of the section is the one the three tabs were written by hand as (51656e5)", () => {
-  const files = buildSite(siteWith(before5));
+test("the HTML of the section as committed: the three tabs as they were written by hand (51656e5), chapter 1 selected with its phone text", () => {
+  const files = buildSite(loadSite());
   for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
     const how = howSection(page(files, path));
     const t = loadSite().i18n[lang];
     const tab = (n, sel) => `<li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-${n}" aria-controls="chapter-${n}" aria-selected="${sel}"${sel ? "" : ' tabindex="-1"'} data-clip="`;
-    assert.ok(how.startsWith(`<div data-chapters>\n      <ul class="chapters" role="tablist" aria-label="${t.how_chapters_aria}">\n        ${tab(1, true)}`), path);
+    assert.ok(how.startsWith(`<div data-chapters>\n      <ul class="chapters" role="tablist" aria-label="${t.how_chapters_aria}">\n        ${tab(0, true)}`), path);
     assert.ok(how.includes(`</li>\n        ${tab(2, false)}`) && how.includes(`</li>\n        ${tab(3, false)}`), path);
-    assert.match(how, /<\/button><\/li>\n      <\/ul>\n      <div class="chapters-layout">\n      <div class="chapters-video">\n        <figure class="video video--how1 /, path);
-    assert.match(how, /<div class="chapter-panels">\n      <div class="chapter-panel" role="tabpanel" id="chapter-1" aria-labelledby="tab-1">\n        <h3>[^<]+<\/h3>\n        <p><span class="d-only">[^<]+<\/span><span class="m-only">[^<]+<\/span><\/p>\n      <\/div>\n      <div class="chapter-panel" role="tabpanel" id="chapter-2" aria-labelledby="tab-2" data-js-hidden>\n        <h3>[^<]+<\/h3>\n        <p>[^<]+<\/p>\n      <\/div>\n      <div class="chapter-panel" role="tabpanel" id="chapter-3" aria-labelledby="tab-3" data-js-hidden>\n        <h3>[^<]+<\/h3>\n        <p>[^<]+<\/p>\n        <p class="note">[^<]+<\/p>\n      <\/div>\n      <\/div>\n      $/, path);
+    assert.equal(tabsOf(how).length, 3, path);
+    assert.match(how, /<\/button><\/li>\n      <\/ul>\n      <div class="chapters-layout">\n      <div class="chapters-video">\n        <figure class="video video--how0" /, path);
+    assert.match(how, /<div class="chapter-panels">\n      <div class="chapter-panel" role="tabpanel" id="chapter-0" aria-labelledby="tab-0">\n        <h3>[^<]+<\/h3>\n        <p><span class="d-only">[^<]+<\/span><span class="m-only">[^<]+<\/span><\/p>\n      <\/div>\n      <div class="chapter-panel" role="tabpanel" id="chapter-2" aria-labelledby="tab-2" data-js-hidden>\n        <h3>[^<]+<\/h3>\n        <p>[^<]+<\/p>\n      <\/div>\n      <div class="chapter-panel" role="tabpanel" id="chapter-3" aria-labelledby="tab-3" data-js-hidden>\n        <h3>[^<]+<\/h3>\n        <p>[^<]+<\/p>\n        <p class="note">[^<]+<\/p>\n      <\/div>\n      <\/div>\n      $/, path);
   }
 });
 
-test("V5 on (as committed): four chapters, how0 first and selected, its clip in the figure and the other three to follow, release wants its files", () => {
-  assert.equal(loadSite().media.clips.how0.off, undefined, "V5 is on the site since 12. 11. 2026");
+test("how0 on (as committed): three chapters, how0 first and selected, its clip in the figure and the other two to follow, release wants its files", () => {
+  assert.equal(loadSite().media.clips.how0.off, undefined, "chapter 1 is on the site since 12. 11. 2026");
   const files = buildSite(siteWith(v5On));
   // as committed no chapter has a phone cut: one screen, the wide cut, on a phone too; with the others' phone cuts
-  // (the frozen set's), V5 alone has none and the phone's screen plays its wide cut whole (video--phone-wide)
-  const phoneFiles = buildSite(siteWith((m) => { v5On(m); withPhones(m, ["how1", "how2", "how3"]); }));
+  // (the frozen set's), how0 alone has none and the phone's screen plays its wide cut whole (video--phone-wide)
+  const phoneFiles = buildSite(siteWith((m) => { v5On(m); withPhones(m, ["how2", "how3"]); }));
   for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
     const plain = howSection(page(files, path)).match(/<figure class="video video--how0[^"]*"[^>]*>[\s\S]*?<\/figure>/)[0];
     assert.match(plain, /^<figure class="video video--how0" data-autoplay data-tap-phone>/, path);
@@ -1431,10 +1449,10 @@ test("V5 on (as committed): four chapters, how0 first and selected, its clip in 
     for (const html of [page(files, path), page(phoneFiles, path)]) {
     const how = howSection(html);
     const tabs = tabsOf(how);
-    assert.deepEqual(tabs.map((t) => [t.n, t.controls, t.selected, t.tabindex, t.clip.id]), [["0", "0", true, false, "how0"], ["1", "1", false, true, "how1"], ["2", "2", false, true, "how2"], ["3", "3", false, true, "how3"]], path);
-    assert.match(how, /<ul class="chapters chapters--4" role="tablist"/, path);
+    assert.deepEqual(tabs.map((t) => [t.n, t.controls, t.selected, t.tabindex, t.clip.id]), [["0", "0", true, false, "how0"], ["2", "2", false, true, "how2"], ["3", "3", false, true, "how3"]], path);
+    assert.match(how, /<ul class="chapters" role="tablist"/, path);
     assert.match(how, new RegExp(`id="tab-0"[^>]*>${loadSite().i18n[lang].how_ch0_tab}</button>`), path);
-    // the figure: V5 in the HTML, the three others' lines and captions to follow
+    // the figure: chapter 1 in the HTML, the two others' lines and captions to follow
     const fig = how.match(/<figure class="video video--how0[^"]*"[^>]*>[\s\S]*?<\/figure>/)[0];
     if (html === page(phoneFiles, path)) {
       assert.match(fig, /^<figure class="video video--how0 video--has-mobile video--phone-wide" data-autoplay data-tap-phone>/, path);
@@ -1443,20 +1461,21 @@ test("V5 on (as committed): four chapters, how0 first and selected, its clip in 
     }
     assert.match(fig, new RegExp(`<div class="frame__screen video--desktop" style="--poster:url\\(/video/databaze\\.${lang}\\.1600\\.webp\\?v=[0-9a-f]+\\)">`));
     assert.equal(tabs[0].clip.mobile, null);
-    for (const id of ["how0", "how1", "how2", "how3"]) assert.match(fig, new RegExp(`class="video__cue-line[^"]*" data-cues="${id}"`), `${path} ${id}`);
+    for (const id of ["how0", "how2", "how3"]) assert.match(fig, new RegExp(`class="video__cue-line[^"]*" data-cues="${id}"`), `${path} ${id}`);
+    assert.doesNotMatch(fig, /data-cues="how1"/, path);
     assert.match(fig, /<span class="video__cue-line is-on" data-cues="how0" data-at="0">/);
-    // the caption: one sentence while the four share a day (EN now), else one line per clip, V5's first
+    // the caption: one sentence while the three share a day, else one line per clip, chapter 1's first
     const caption = fig.match(/<figcaption>([\s\S]*?)<\/figcaption>/)[1];
     assert.match(caption, /20\d\d/, path);
     if (/video__caption-line/.test(caption)) assert.match(caption, /^<span class="video__captions"><span class="video__caption-line is-on" data-cues="how0">[^<]*20\d\d/, path);
-    // the panels: chapter 0 shown, the other three hidden until their tab
+    // the panels: chapter 0 shown, the other two hidden until their tab
     const panels = [...how.matchAll(/<div class="chapter-panel" role="tabpanel" id="chapter-(\d)" aria-labelledby="tab-(\d)"( data-js-hidden)?>/g)].map((m) => [m[1], m[2], !!m[3]]);
-    assert.deepEqual(panels, [["0", "0", false], ["1", "1", true], ["2", "2", true], ["3", "3", true]], path);
+    assert.deepEqual(panels, [["0", "0", false], ["2", "2", true], ["3", "3", true]], path);
     const t = loadSite().i18n[lang];
-    assert.ok(how.replace(/ /g, " ").includes(`id="chapter-0" aria-labelledby="tab-0">\n        <h3>${t.how_ch0_title}</h3>\n        <p>${t.how_ch0_body}</p>\n      </div>`), path);
+    assert.ok(how.replace(/ /g, " ").includes(`id="chapter-0" aria-labelledby="tab-0">\n        <h3>${t.how_ch0_title}</h3>\n        <p><span class="d-only">${t.how_ch0_body}</span><span class="m-only">${t.how_ch0_body_m}</span></p>\n      </div>`), path);
     }
   }
-  // the four tabs: four in a row, 2 × 2 from 860 px down, the last tile no longer under the others; a tab without a phone cut is whole on a phone
+  // four tabs (a set with four chapters, build.mjs chapters--4): four in a row, 2 × 2 from 860 px down, the last tile no longer under the others; a tab without a phone cut is whole on a phone
   const css = String(files.get("public/css/site.css"));
   assert.match(css, /\.chapters--4 \{ grid-template-columns: repeat\(4, minmax\(0, 1fr\)\); \}/);
   assert.match(css, /@media \(max-width: 860px\) \{[^}]*\}[^}]*\}\s*\.chapters--4 \{ grid-template-columns: 1fr 1fr; \}/);
@@ -1469,7 +1488,7 @@ test("V5 on (as committed): four chapters, how0 first and selected, its clip in 
   // keyboard: arrows go round all the tabs there are, Home and End to the first and the last
   assert.match(js, /else if \(step\) select\(tabs\[\(i \+ step \+ tabs\.length\) % tabs\.length\], true\);/);
   assert.match(js, /if \(e\.key === "Home"\) select\(tabs\[0\], true\);\s*else if \(e\.key === "End"\) select\(tabs\[tabs\.length - 1\], true\);/);
-  // the set: V5's files are expected, with their sizes and budgets, and the page's data-clip names them
+  // the set: chapter 1's files are expected, with their sizes and budgets, and the page's data-clip names them
   const { media } = siteWith(v5On);
   const names = expectedFiles(media).map((f) => f.name);
   for (const lang of ["cs", "en"]) for (const f of ["1600.webp", "1600.60.mp4", "1440.60.mp4"]) assert.ok(names.includes(`databaze.${lang}.${f}`), `databaze.${lang}.${f}`);
@@ -1524,32 +1543,41 @@ test("media:use: with V5 off a set without it goes on; with V5 on its files are 
   } finally { s.done(); }
 });
 
-test("V5's words: both languages, no made-up numbers, no 'role' in Czech, the line under the video says what the text beside it does not", () => {
+test("chapter 1's words: both languages, no made-up numbers, no 'role' in Czech, the line under the video says what the text beside it does not", () => {
   const site = loadSite();
   for (const lang of ["cs", "en"]) {
     const t = site.i18n[lang];
-    for (const key of ["how_ch0_tab", "how_ch0_title", "how_ch0_body", "how_clip0_alt"]) assert.ok(t[key], `${lang} ${key}`);
-    assert.doesNotMatch(`${t.how_ch0_title} ${t.how_ch0_body} ${t.how_clip0_alt}`, /\d/, `${lang}: the counts are the app's, the site says none`);
+    for (const key of ["how_ch0_tab", "how_ch0_title", "how_ch0_body", "how_ch0_body_m", "how_clip0_alt"]) assert.ok(t[key], `${lang} ${key}`);
+    // the counts are the app's, the site says none; the numbers it may say are the product's rules, the scan times and
+    // the 45 days of the app's own filter (12. 11. 2026, plan 3), and nothing else
+    const words = `${t.how_ch0_title} ${t.how_ch0_body} ${t.how_ch0_body_m} ${t.how_clip0_alt}`;
+    assert.deepEqual([...new Set(words.match(/\d+(?::\d+)?/g))].sort(), ["12:00", "45", "6:00"], `${lang}: the counts are the app's, the site says none`);
+    assert.doesNotMatch(words.replace(/\b(6|12):00\b|\b45(?=\s+(a víc|days))/g, ""), /\d/, `${lang}: 45 only as the days of the filter`);
     const beside = `${t.how_ch0_title} ${t.how_ch0_body}`.toLowerCase();
     for (const cue of site.media.clips.how0.cues) assert.ok(!beside.includes(t[cue.key].toLowerCase().replace(/[.,]/g, "")), `${lang} ${cue.key}`);
   }
-  assert.doesNotMatch(`${site.i18n.cs.how_ch0_title} ${site.i18n.cs.how_ch0_body}`, /\brol[eíi]\b|mandát/);
+  assert.doesNotMatch(`${site.i18n.cs.how_ch0_title} ${site.i18n.cs.how_ch0_body} ${site.i18n.cs.how_ch0_body_m}`, /\brol[eíi]\b|mandát/);
 });
 
 test("off is for a chapter: a clip that is off cannot sit in a figure of its own, and the chapters never go empty", () => {
   assert.throws(() => buildSite(siteWith((m) => { m.clips.ats.off = true; })), /clip ats is off in media\.json/);
-  assert.throws(() => buildSite(siteWith((m) => { for (const id of ["how0", "how1", "how2", "how3"]) m.clips[id].off = true; })), /every clip is off/);
-  assert.throws(() => buildSite(siteWith((m) => { v5Off(m); for (const id of ["how1", "how2", "how3"]) m.clips[id].off = true; })), /every clip is off/);
-  // a media.json without the row (a set from before V5) is the same as off
+  assert.throws(() => buildSite(siteWith((m) => { for (const id of ["how0", "how2", "how3"]) m.clips[id].off = true; })), /every clip is off/);
+  assert.throws(() => buildSite(siteWith((m) => { v5Off(m); for (const id of ["how2", "how3"]) m.clips[id].off = true; })), /every clip is off/);
+  // a media.json without the row is the same as off (how1 since 12. 11. 2026, gone for good: no row, no place in the tabs)
   const without = buildSite(siteWith((m) => { delete m.clips.how0; }));
   for (const path of ["public/index.html", "public/en/index.html"]) assert.equal(page(without, path), page(buildSite(siteWith(v5Off)), path), path);
+  const site = loadSite();
+  for (const name of ["pages/home", "pages/demo"]) assert.match(site.templates[name], /\{\{chapters:tabs:how0,how2,how3\}\}/, name);
+  // the frozen set's how1 put back into media.json changes nothing: the tabs do not name it
+  const back = buildSite(siteWith((m) => { m.clips.how1 = copy(FIXTURE_CLIPS.how1); }));
+  for (const path of ["public/index.html", "public/en/index.html"]) assert.equal(page(back, path), page(buildSite(loadSite()), path), path);
   // another chapter off works the same way: its tab, text and lines go, the first one left is selected
-  const how = howSection(page(buildSite(siteWith((m) => { v5Off(m); m.clips.how1.off = true; })), "public/index.html"));
-  assert.deepEqual(tabsOf(how).map((t) => [t.n, t.selected]), [["2", true], ["3", false]]);
-  assert.doesNotMatch(how, /data-cues="how1"|id="chapter-1"/);
-  const four = howSection(page(buildSite(siteWith((m) => { v5On(m); m.clips.how1.off = true; })), "public/index.html"));
-  assert.deepEqual(tabsOf(four).map((t) => [t.n, t.selected]), [["0", true], ["2", false], ["3", false]]);
-  assert.doesNotMatch(four, /data-cues="how1"|id="chapter-1"/);
+  const how = howSection(page(buildSite(siteWith((m) => { v5Off(m); m.clips.how2.off = true; })), "public/index.html"));
+  assert.deepEqual(tabsOf(how).map((t) => [t.n, t.selected]), [["3", true]]);
+  assert.doesNotMatch(how, /data-cues="how2"|id="chapter-2"/);
+  const three = howSection(page(buildSite(siteWith((m) => { v5On(m); m.clips.how2.off = true; })), "public/index.html"));
+  assert.deepEqual(tabsOf(three).map((t) => [t.n, t.selected]), [["0", true], ["3", false]]);
+  assert.doesNotMatch(three, /data-cues="how2"|id="chapter-2"/);
 });
 
 test("versions by pixel density: <source media> in the page and in a tab's clip, their own size and budget, the order of media.json", () => {
@@ -1594,10 +1622,10 @@ test("a format can go by taking out its rows, nothing else; without an MP4 for e
   assert.deepEqual(sourceProblems(loadSite().media), []);
   const bad = siteWith((m) => {
     withPhones(m, ["how2"]);
-    m.clips.how1.sources = [{ src: "/video/a.{lang}.webm", type: "video/webm" }];
+    m.clips.how0.sources = [{ src: "/video/a.{lang}.webm", type: "video/webm" }];
     m.clips.how2.mobile.sources = [{ src: "/video/a.{lang}.mp4", type: "video/mp4", media: "(min-resolution: 1.5dppx)" }];
   });
-  assert.deepEqual(sourceProblems(bad.media), ["how1: the last source has to be an MP4 for every screen", "how2 phone: the last source has to be an MP4 for every screen"]);
+  assert.deepEqual(sourceProblems(bad.media), ["how0: the last source has to be an MP4 for every screen", "how2 phone: the last source has to be an MP4 for every screen"]);
 });
 
 test("media:use puts a set with density versions in place in one transaction, checks each version's own size and budget", () => {
@@ -1659,6 +1687,16 @@ const heroNewForCzech = (m) => {
   hero.cues = [{ at: 0, at_mobile: 0, key: "cue_hero_1" }, { at: 3.95, at_mobile: 3.3, key: "cue_hero_2" }, { at: 12.5, at_mobile: null, key: "cue_hero_1" }];
 };
 const frozen = () => JSON.parse(readFileSync(REAL, "utf8"));
+/**
+ * The frozen set with its chapters as the site has them since 12. 11. 2026 (how0, how2, how3): its how1, dated and with a
+ * phone cut, in chapter 1's place with chapter 1's lines; "Ráno: co je nového" (how1) is not on the site any more.
+ */
+const frozenNow = () => {
+  const m = frozen();
+  m.clips.how0 = { ...m.clips.how1, cues: copy(loadSite().media.clips.how0.cues) };
+  delete m.clips.how1;
+  return m;
+};
 
 test("by_lang: the set has each language's own files, the new name only where it is, and taking the entry out is the whole change", () => {
   const media = frozen();
@@ -1725,27 +1763,27 @@ test("by_lang on the page: each language its files, poster, preload and times; t
 });
 
 test("the date says what each cut is: the hero's own by language and screen, the others the set's", () => {
-  const files = buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = frozen().clip_date; heroNewForCzech(m); }));
+  const files = buildSite(siteWith((m) => { m.clips = frozenNow().clips; m.clip_date = frozen().clip_date; heroNewForCzech(m); }));
   const line = (path, cls) => page(files, path).match(new RegExp(`hero__caption"><span class="d-only">[\\s\\S]*?</p>`))[0].match(new RegExp(`<span class="${cls}">([\\s\\S]*?)</span>`))[1];
   assert.match(line("public/index.html", "d-only"), /^Natočeno 3\.\u00a011\.\u00a02026 /);
   assert.match(line("public/index.html", "m-only"), /^Natočeno 1\.\u00a011\.\u00a02026 /);
   assert.match(line("public/en/index.html", "d-only"), /^Recorded 1\u00a0Nov\u00a02026 /);
-  assert.match(page(files, "public/index.html").match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0], /Natočeno 1\.\u00a011\.\u00a02026\./);
+  assert.match(page(files, "public/index.html").match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0], /Natočeno 1\.\u00a011\.\u00a02026\./);
   // without its own, the hero says the set's
   const set = buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-10-20"; }));
   assert.match(page(set, "public/index.html").match(/hero__caption">[\s\S]*?<\/p>/)[0], /Natočeno 20\.\u00a010\.\u00a02026 /);
 });
 
 test("the date under the chapters: one sentence while all three clips share a day, each clip its own day when they do not", () => {
-  const how = (files, path = "public/index.html") => page(files, path).match(/<figure class="video video--how1[\s\S]*?<\/figure>/)[0];
-  const clips = (edit) => buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; edit(m); }));
+  const how = (files, path = "public/index.html") => page(files, path).match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
+  const clips = (edit) => buildSite(siteWith((m) => { m.clips = frozenNow().clips; m.clip_date = "2026-11-01"; edit(m); }));
   const same = how(clips(() => {}));
   assert.match(same, /<figcaption>[^<]*Natočeno 1\.\u00a011\.\u00a02026\.<\/figcaption>/);
   assert.doesNotMatch(same, /video__caption-line/);
 
   const files = clips((m) => { m.clips.how2.clip_date = "2026-11-03"; });
   const lines = [...how(files).match(/<figcaption>([\s\S]*?)<\/figcaption>/)[1].matchAll(/<span class="video__caption-line( is-on)?" data-cues="(how\d)">([\s\S]*?)<\/span>(?=<span class="video__caption-line|<\/span>$)/g)];
-  assert.deepEqual(lines.map((l) => l[2]), ["how1", "how2", "how3"]);
+  assert.deepEqual(lines.map((l) => l[2]), ["how0", "how2", "how3"]);
   assert.deepEqual(lines.map((l) => !!l[1]), [true, false, false], "without JavaScript the first chapter's, the one that shows");
   // the wide cut of how2 is new, its phone cut is not: each screen is told the day of what it plays
   assert.match(lines[0][3], /^[^<]*Natočeno 1\.\u00a011\.\u00a02026\.$/);
@@ -1766,24 +1804,32 @@ test("the date under the chapters: one sentence while all three clips share a da
 test("a clip with its own day says it under its own figure; release wants a date for each clip of a figure", () => {
   const tour = buildSite(tourSite((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; m.clips.tour.clip_date = "2026-11-03"; }));
   assert.match(page(tour, "public/demo.html").match(/<figcaption>[\s\S]*?<\/figcaption>/)[0], /Natočeno 3\.\u00a011\.\u00a02026\./);
-  const errors = (edit) => checkSite(siteFiles(buildSite(siteWith((m) => { m.clips = frozen().clips; m.clip_date = "2026-11-01"; edit(m); }))), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
+  const errors = (edit) => checkSite(siteFiles(buildSite(siteWith((m) => { m.clips = frozenNow().clips; m.clip_date = "2026-11-01"; edit(m); }))), { redirects: REDIRECTS, workerFirst: workerFirstPatterns(), release: true }).errors;
   const missing = /the caption of the how\d video has no recording date/;
   assert.ok(!errors((m) => { m.clips.how2.clip_date = "2026-11-03"; }).some((e) => missing.test(e)));
-  // how1 has its day, how2 and how3 have none: the sentence goes for them, and release names them
-  const none = errors((m) => { m.clip_date = null; m.clips.how1.clip_date = "2026-11-03"; m.clips.how1.mobile.clip_date = "2026-11-03"; });
+  // how0 has its day, how2 and how3 have none: the sentence goes for them, and release names them
+  const none = errors((m) => { m.clip_date = null; m.clips.how0.clip_date = "2026-11-03"; m.clips.how0.mobile.clip_date = "2026-11-03"; });
   assert.ok(none.some((e) => e.includes("the caption of the how2 video has no recording date")), none.join("; "));
   assert.ok(none.some((e) => e.includes("the caption of the how3 video has no recording date")));
-  assert.ok(!none.some((e) => e.includes("the caption of the how1 video")));
+  assert.ok(!none.some((e) => e.includes("the caption of the how0 video")));
 });
 
-test("chapter 1's words say what the clip shows: in alphabetical order it proves no 'most', and what it sets aside there was not set aside by AI (cut sheet V2)", () => {
-  const { i18n } = loadSite();
-  assert.equal(i18n.cs.cue_morning_1, "Kde se nabírá, firma po firmě.");
-  assert.equal(i18n.en.cue_morning_1, "Where they’re hiring, company by company.");
+test("chapter 1's words say what the clip shows: the lines of the plan's table, and in the description nothing the clip does not show (plan 12. 11. 2026, 2–3)", () => {
+  const { i18n, media } = loadSite();
+  assert.deepEqual(media.clips.how0.cues.map((c) => [c.at, c.key]), [[0, "cue_db_1"], [2.6, "cue_db_2"], [5, "cue_db_3"], [7.4, "cue_db_4"], [12.45, "cue_db_5"], [15.9, "cue_db_1"]]);   // 15,9: Esc ve zkousce 12. 11. (take.json vd), plan mel 16
+  const lines = {
+    cs: ["Kolik je otevřeno a kolik přibylo.", "Nejdřív vaši klienti.", "Pak firmy, které chcete získat.", "Co visí 45 a víc dní.", "A u každé pozice detail."],
+    en: ["How many are open, how many are new.", "Your clients first.", "Then the companies you want to win.", "What has been open for 45 days or more.", "And the detail of every role."],
+  };
   for (const lang of ["cs", "en"]) {
-    assert.doesNotMatch(i18n[lang].cue_morning_1, /nejvíc|most/, lang);
-    assert.doesNotMatch(i18n[lang].how_clip1_alt, /\bAI\b/, lang);
+    assert.deepEqual([1, 2, 3, 4, 5].map((n) => i18n[lang][`cue_db_${n}`]), lines[lang], lang);
+    assert.equal(i18n[lang].cue_db_6, undefined, lang);
+    // "By company" and the roles set aside are not in the clip, only in the text beside it; nor the posting, the hero's
+    assert.doesNotMatch(i18n[lang].how_clip0_alt, /\bAI\b|podle firem|by company|odlož|stranou|set aside|inzerát|posting|řazení|sort/i, lang);
+    assert.match(i18n[lang].how_clip0_alt, lang === "cs" ? /klient[\s\S]*prospekt[\s\S]*45[\s\S]*detail/ : /client[\s\S]*prospect[\s\S]*45[\s\S]*detail/, lang);
   }
+  assert.equal(i18n.cs.how_ch0_tab, "Databáze rolí");
+  assert.equal(i18n.en.how_ch0_tab, "Role database");
 });
 
 test("the description of chapters 2 and 3 says what the Czech clips show: no draft in V3, the order by rules in V4 (cut sheets V3, V4)", () => {
@@ -1825,14 +1871,14 @@ test("the text under the hero: the sentences of the cut sheet, no number of comp
   const { i18n } = loadSite();
   assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem.");
   assert.equal(i18n.en.cue_hero_1, "All your companies’ open roles.");
-  // the specialisation belongs to V2 (Kryštof, 3. 11.): nothing in the hero says it. The caption says what the demo agency is:
+  // the specialisation belongs to V2 (Kryštof, 3. 11.), since 12. 11. to chapter 1's text: nothing in the hero says it. The caption says what the demo agency is:
   // IT and software since 6. 11. (it said a broad focus before); staleProfileCuts keeps older clips off a release
   for (const lang of ["cs", "en"]) {
     for (const key of ["hero_sub", "cue_hero_1", "cue_hero_2", "cue_hero_3", "hero_video_aria", "hero_video_poster_alt", "hero_video_caption", "hero_video_caption_m"]) {
       assert.doesNotMatch(String(i18n[lang][key]), /specializ|specialis|\bniche\b/i, `${lang} ${key}`);
     }
   }
-  assert.equal(i18n.cs.cue_morning_2, "Co neděláte, je stranou.");
+  for (const [lang, said] of [["cs", /specializac/], ["en", /specialisation/]]) assert.match(i18n[lang].how_ch0_body, said, lang);
   assert.equal(i18n.cs.cue_hero_2, "Každé ráno, co přibylo.");
   assert.equal(i18n.cs.cue_hero_3, "S odkazem na skutečný inzerát.");
   for (const [lang, broad] of [["cs", /zaměřená na IT a software|IT agentura/], ["en", /IT and software|IT agency/]]) {
@@ -1922,7 +1968,7 @@ test("the hero without a phone cut (12. 11. 2026): a phone plays the wide cut wh
     assert.equal(cue.at_mobile, undefined, `${cue.key}: no phone time without a phone cut`);
     assert.equal(typeof cue.at, "number", `${cue.key}: no line only for a phone cut`);
   }
-  for (const id of ["how1", "how2", "how3"]) {
+  for (const id of ["how0", "how2", "how3"]) {
     assert.equal(rest[id].mobile, null, id);
     assert.equal(rest[id].by_lang, undefined, `${id}: the English cut is today's`);
     for (const cue of rest[id].cues) assert.equal(cue.at_mobile, undefined, `${id} ${cue.key}`);
@@ -2136,10 +2182,10 @@ test("the tour off: /demo plays the home page's hero with its lines and dated ca
     // under it the chapters: the home page's tabs, figure and panels
     const chapters = main.slice(main.indexOf("<div data-chapters>"));
     assert.deepEqual(tabsOf(chapters), tabsOf(howSection(home)), path);
-    assert.deepEqual(tabsOf(chapters).map((t) => t.clip.id), ["how0", "how1", "how2", "how3"], path);
+    assert.deepEqual(tabsOf(chapters).map((t) => t.clip.id), ["how0", "how2", "how3"], path);
     const figOf = (h) => h.match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
     assert.equal(figOf(chapters), figOf(home), path);
-    assert.equal((chapters.match(/role="tabpanel"/g) || []).length, 4, path);
+    assert.equal((chapters.match(/role="tabpanel"/g) || []).length, 3, path);
     assert.ok(main.indexOf("video--hero") < main.indexOf("<div data-chapters>"), "the hero first");
     // what the page says: no tour, no two minutes, no chapters with times, in the head neither
     const words = `${html.slice(0, html.indexOf("</head>"))} ${main.replace(/<[^>]+>/g, " ")}`.replace(/\u00a0/g, " ");

@@ -667,8 +667,8 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
 /**
  * The chapters over the "How it works" video (home.html). {{chapters:tabs:how0,how1,…}} are the tabs, then
  * {{chapters:video:<caption key>}} is the one figure and {{chapters:panels}} the texts, both of the clips the tabs
- * listed. A clip with off: true in media.json (or none there) is left out (V5, how0, until it is recorded clean: the section is
- * then exactly the three chapters it was). The first clip left is the one in the HTML and its tab the selected
+ * listed. A clip with off: true in media.json (or none there) is left out (how0, chapter 1, keeps the switch for a
+ * release without it; how1, "Ráno", is gone for good since 12. 11. 2026: no row, not in the tabs). The first clip left is the one in the HTML and its tab the selected
  * one; the others load only on a click (site.js). Clip howN takes its words from how_chN_* and how_clipN_alt and
  * its ids are tab-N and chapter-N; how_chN_body_m (the phone's text) and how_chN_rule (a note) when the map has them.
  * Four tabs are chapters--4 (components.css: four in a row, 2 × 2 on a narrow screen).

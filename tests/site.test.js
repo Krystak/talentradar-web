@@ -601,7 +601,7 @@ test("a chapter tab carries its whole clip, and the phone video gets the phone c
   const site = loadSite();
   site.media = JSON.parse(JSON.stringify(site.media));
   site.media.version = null;
-  site.media.clips.how1 = {
+  site.media.clips.how0 = {
     mode: "loop", width: 1600, height: 900, poster: "/video/v1.{lang}.webp",
     sources: [{ src: "/video/v1.{lang}.webm", type: "video/webm" }, { src: "/video/v1.{lang}.mp4", type: "video/mp4" }],
     mobile: null,
@@ -619,8 +619,8 @@ test("a chapter tab carries its whole clip, and the phone video gets the phone c
   assert.equal(clipFor(clip, true).poster, "/video/v3-mobile.cs.webp");
   assert.notEqual(clipKey(clipFor(clip, false)), clipKey(clipFor(clip, true)));
   // a chapter without a phone cut gives the phone video the desktop sources
-  const tab1 = JSON.parse(unq(html.match(/id="tab-1"[^>]*data-clip="([^"]+)"/)[1]));
-  assert.deepEqual(clipFor(tab1, true).sources, clipFor(tab1, false).sources);
+  const tab0 = JSON.parse(unq(html.match(/id="tab-0"[^>]*data-clip="([^"]+)"/)[1]));
+  assert.deepEqual(clipFor(tab0, true).sources, clipFor(tab0, false).sources);
 });
 
 test("the recommended plan comes first in the page and is put in the middle only visually from 768 px", () => {

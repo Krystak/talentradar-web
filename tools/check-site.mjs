@@ -180,7 +180,7 @@ export function clipIn(clip, lang) {
 }
 
 /**
- * The clips that are on the site: [[id, clip]]. A clip with off: true (V5, clips.how0, until it is recorded clean) is left
+ * The clips that are on the site: [[id, clip]]. A clip with off: true (the tour, until it is retaken) is left
  * out everywhere, its chapter tab too (build.mjs chapterIds): no files of it are expected or published, nothing of it is checked.
  * Taking the flag out is the whole switch.
  */

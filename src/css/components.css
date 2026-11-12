@@ -238,7 +238,7 @@
 @media (max-width: 767px) {
   .video--has-mobile .video--desktop { display: none; }
   .video--has-mobile .video--mobile { display: block; }
-  .video--has-mobile .video--mobile video { aspect-ratio: 4 / 5; }
+  .video--has-mobile:not(.video--phone-wide) .video--mobile video { aspect-ratio: 4 / 5; }
 }
 
 /* ── Proof strip (light) ── */
@@ -792,9 +792,10 @@ video::cue { line-height: 1.5; }
   .video__toggle { width: 48px; height: 48px; min-height: 48px; padding: 0; justify-content: center; border-radius: 50%; }
   .video__toggle .ic { width: 22px; height: 22px; }
   .video__toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .video[data-autoplay] .frame__screen video { aspect-ratio: 4 / 5; object-fit: contain; }
-  .video--has-mobile .video--mobile video { object-fit: cover; }
-  /* a chapter without its own phone cut (V5 for now): its wide clip is whole in the 4:5 window (contain, above), and so is its poster */
+  /* A clip without its own phone cut keeps its own 16:10 window on a phone (12. 11. 2026): in a 4:5 one the poster, the screen's
+     background at 100% 100%, was stretched tall and the video sat letterboxed over it ("divně se strečuje", Kryštof). Only a real
+     4:5 cut gets the 4:5 window. */
+  .video--has-mobile:not(.video--phone-wide) .video--mobile video { object-fit: cover; }
   .video--phone-wide .video--mobile { background-size: contain; }
   .video__start { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(13, 19, 32, 0.9); }
   .video__start:hover { background: rgba(13, 19, 32, 0.96); }

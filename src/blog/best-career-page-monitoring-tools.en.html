@@ -111,7 +111,7 @@
   <ul>
     <li><strong>Day-one outreach during the golden window:</strong> Ashby's study of ~13 million applications shows week-one inbound applications run 2.5–3× higher than any subsequent week <sup><a href="#src-en-1">[1]</a></sup> (<a href="{{url:post:the-4-day-latency-gap}}">read our latency-gap breakdown</a>).</li>
     <li><strong>Spotting stalled roles open 30+ and 45+ days:</strong> SHRM's 2026 benchmarking puts median time-to-fill at 39 days for non-executive roles and 45 days for executive seats <sup><a href="#src-en-2">[2]</a></sup>. In our public demo, 27% of dated listings (109 of 408) have been open 45+ days <sup><a href="#src-en-4">[4]</a></sup>—warm openings where hiring managers feel the bottleneck (<a href="{{url:post:anatomy-of-stale-roles}}">see the stale-role BD playbook</a>).</li>
-    <li><strong>Eliminating ghost-job waste:</strong> Greenhouse classifies 18–22% of quarterly postings as ghost jobs <sup><a href="#src-en-3">[3]</a></sup>. Verified archival confirms removals on the next scan before clearing a role from your active board.</li>
+    <li><strong>Eliminating ghost-job waste without false removals:</strong> Greenhouse classifies 18–22% of quarterly postings as ghost jobs <sup><a href="#src-en-3">[3]</a></sup>. In TalentRadar, a temporary site blip does not wipe your board: an untouched role is only auto-archived after missing <strong>two consecutive scans and at least two calendar days</strong>. If more than half of a company's roles (for sites with 10+ listings) vanish in a single scan, it is treated as a partial fetch and nothing is archived—and roles consultants are actively working on stay in the pipeline with a gone-from-site warning.</li>
     <li><strong>Predictable agency pricing:</strong> Plans start at {{price:solo}}/month for solo headhunters (50 companies), {{price:pro}}/month for teams (150 companies, unlimited users, Claude &amp; ChatGPT MCP), and {{price:scale}}/month for large agencies (400 companies, custom site connectors).</li>
   </ul>
 
@@ -119,10 +119,10 @@
   <p>Generic diff tools are excellent for monitoring pricing pages, compliance updates, or a few simple HTML pages. Once applied to 50–200 client career pages running on embedded JavaScript widgets (Workday, Ashby, Greenhouse, Lever, Teamtailor, Teamio), they frequently trigger noise from cookie banners or analytics scripts and never give consultants an ATS-ready list of roles, hiring-manager links, or Bullhorn/Vincere imports.</p>
 
   <h3>3. DIY scrapers and workflows (Apify, n8n, custom scripts)</h3>
-  <p>A custom n8n or Apify stack works well when an agency has engineering bandwidth to write parsers for dozens of ATS endpoints, handle pagination and site redesigns, and prevent a temporary careers-page outage from wiping historical notes. Once you factor in engineering upkeep, most boutique and mid-size agencies spend less with an off-the-shelf radar.</p>
+  <p>A custom n8n or Apify stack works well when an agency has engineering bandwidth to write parsers for dozens of ATS endpoints, catch silent breakages after CSS or DOM updates, and engineer multi-scan disappearance rules plus auto-restoration if a company re-lists an archived role. Once you factor in engineering upkeep, most boutique and mid-size agencies spend less with an off-the-shelf radar.</p>
 
   <h3>4. Job boards and LinkedIn as a secondary layer</h3>
-  <p>Board alerts and LinkedIn Sales Navigator remain useful for tracking leadership moves and company headcount growth, but they lag behind direct career pages and reset posting dates on renewals. For an end-to-end rollout plan, read our <a href="{{url:post:how-to-monitor-client-career-pages}}">step-by-step guide to monitoring client career pages</a>.</p>
+  <p>Board alerts and LinkedIn Sales Navigator remain useful for tracking leadership moves and company headcount growth, but they lag behind direct career pages and reset posting dates on renewals. For an end-to-end rollout plan, read our <a href="{{url:post:how-to-monitor-client-career-pages}}">step-by-step guide to monitoring client career pages</a> or our regional breakdown on <a href="{{url:post:track-company-hiring-czechia-cee}}">tracking company hiring in Czechia &amp; CEE</a>.</p>
 
   <h2>Frequently asked questions</h2>
   <div class="faq">

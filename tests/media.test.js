@@ -1870,8 +1870,8 @@ test("from 1 024 px the line and the pause button lie over the bottom of the her
 
 test("the text under the hero: V3 hero cues and proof copy without placeholders, IT demo focus in captions", () => {
   const { i18n } = loadSite();
-  assert.equal(i18n.cs.cue_hero_1, "Firmy s novými rolemi. Kdo nabírá a kolik přibylo.");
-  assert.equal(i18n.en.cue_hero_1, "Companies with new roles. Who is hiring and how many.");
+  assert.equal(i18n.cs.cue_hero_1, "Kdo za 24 h a 7 dní nabírá, ze 100 sledovaných firem.");
+  assert.equal(i18n.en.cue_hero_1, "Who’s hiring over 24h and 7 days, across 100 companies.");
   assert.equal(i18n.cs.cue_hero_2, "Koho už u firmy znáte a komu zavolat.");
   assert.equal(i18n.en.cue_hero_2, "Who you already know there and who to call.");
   assert.equal(i18n.cs.cue_hero_3, "Koncept oslovení připravený jedním klikem.");

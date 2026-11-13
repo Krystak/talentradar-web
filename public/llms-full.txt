@@ -28,6 +28,7 @@
 ## Key Pages (English)
 - [Home](https://talentradar.eu/en/): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.
 - [Pricing](https://talentradar.eu/en/pricing): Solo Scout, Agency Pro, and Scale tiers in EUR/CZK with monthly and yearly billing.
+- [Comparison](https://talentradar.eu/en/compare): Five ways to spot who is hiring, building with AI yourself vs ready-made tools, and competitor pricing.
 - [App Preview](https://talentradar.eu/en/demo): Short captioned clips from the public TalentRadar demo.
 - [Research & Blog](https://talentradar.eu/en/blog/): Data-backed articles and agency BD playbooks.
 - [Privacy Policy](https://talentradar.eu/en/gdpr): GDPR data processing details.
@@ -36,6 +37,7 @@
 ## Key Pages (Czech)
 - [Domů](https://talentradar.eu/): Přehled funkce radaru, data z veřejného dema, časté dotazy a zkušební přístup zdarma.
 - [Ceník](https://talentradar.eu/cenik): Tarify Solo Scout, Agency Pro a Scale v CZK bez DPH.
+- [Srovnání](https://talentradar.eu/srovnani): Pět cest jak zjistit, kdo nabírá, vlastní AI vs hotový nástroj a srovnání nástrojů s cenami.
 - [Ukázky](https://talentradar.eu/demo): Krátké ukázky z veřejného dema aplikace.
 - [Blog a výzkum](https://talentradar.eu/blog/): Návody a data pro personální agentury.
 - [Zásady ochrany osobních údajů](https://talentradar.eu/gdpr): Zpracování údajů dle GDPR.
@@ -101,6 +103,18 @@ You pay for 10 months and use 12, so 2 months are free.
 
 ### Do prices include VAT?
 Prices exclude VAT.
+
+### Why do you treat Teamio separately from regular job boards?
+Teamio is a company ATS used across Czechia and Slovakia by a large share of employers to power their career pages and Jobs.cz listings—it is not a typical job aggregator. We haven’t found another international monitoring tool that watches local employers across Teamio, Jobs.cz, global ATS systems, and standard career websites together.
+
+### Why doesn’t TalentRadar include a database of manager emails and phone numbers?
+Bulk buying and reselling personal email addresses and mobile numbers outside your existing CRM contacts runs into strict EU GDPR rules. Instead of selling contact lists, TalentRadar surfaces colleagues you already know from your CRM, estimates the likely hiring manager from the role title, and opens a one-click LinkedIn or Google search.
+
+### What does the CRM and ATS export actually support?
+You upload your target company list from Excel, CSV, or a CRM export. Newly caught and open roles export as ready-to-import files for Bullhorn and Vincere, or as Excel and generic CSV for any other ATS or CRM. Your candidates stay in your own system.
+
+### If a role has been open for 45+ days, does that automatically mean the company wants an agency?
+Not always. Some roles represent continuous or evergreen hiring. Still, passing 45 days usually means the role is at or past normal time-to-fill (39–45 days median in SHRM benchmarking)—giving you a concrete reason to call, not a guarantee of a fee.
 
 ### Does TalentRadar monitor Czech platforms like Teamio and Jobs.cz alongside international ATS systems?
 Yes. TalentRadar reads open vacancies from Teamio and Jobs.cz alongside global ATS platforms such as Greenhouse, Lever, Workday, Ashby, Teamtailor, SmartRecruiters, Personio, Recruitee, SuccessFactors, and Oracle Recruiting, as well as custom corporate career sites across Czechia and Central Europe.
@@ -180,6 +194,18 @@ Zaplatíte 10 měsíců a používáte 12, tedy 2 měsíce zdarma.
 
 ### Jsou ceny s DPH?
 Ceny jsou bez DPH.
+
+### Proč uvádíte Teamio zvlášť od běžných pracovních portálů?
+Teamio je firemní ATS (systém pro správu náborů firmy), přes které v Česku a na Slovensku publikuje velká část zaměstnavatelů své kariérní stránky a inzeráty na Jobs.cz. Nenašli jsme jiný mezinárodní monitoring, který by hlídání lokálních firem stavěl na kombinaci Teamia, Jobs.cz, světových ATS i běžných kariérních webů.
+
+### Proč TalentRadar nedodává databázi e-mailů a telefonů na manažery?
+Hromadný nákup a přeprodej osobních e-mailů a telefonních čísel mimo kontakty z vlastního CRM naráží v Evropské unii na pravidla GDPR. Místo databáze kontaktů TalentRadar ukáže kolegy, které už u firmy znáte z CRM, odhadne roli hiring manažera a jedním klikem ho vyhledá na LinkedInu nebo Googlu.
+
+### Co přesně umí export do CRM a ATS?
+Seznam hlídaných firem nahrajete z Excelu, CSV nebo exportu z CRM. Nové a otevřené pozice si stáhnete jako připravený soubor pro import do Bullhornu a Vincere, nebo jako Excel a obecné CSV pro ostatní ATS a CRM. Kandidáti zůstávají u vás.
+
+### Když je pozice otevřená přes 45 dní, znamená to automaticky, že firma hledá agenturu?
+Ne vždy. Část takových pozic tvoří průběžný nábor. Stáří 45 a víc dní ale ukazuje, že pozice pravděpodobně překročila běžnou dobu obsazení (medián v průzkumu SHRM je 39–45 dní) — dává vám to konkrétní důvod a záminku firmě zavolat, ne jistotu zakázky.
 
 ### Sleduje TalentRadar i české systémy Teamio a Jobs.cz vedle zahraničních ATS?
 Ano. TalentRadar čte otevřené pozice z portálů Teamio a Jobs.cz současně se zahraničními ATS systémy jako Greenhouse, Lever, Workday, Ashby, Teamtailor, SmartRecruiters, Personio, Recruitee, SuccessFactors či Oracle Recruiting i přímo z vlastních kariérních stránek českých a středoevropských firem.

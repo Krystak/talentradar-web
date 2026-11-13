@@ -1,6 +1,7 @@
 {
   "home": { "template": "home", "path": { "cs": "", "en": "" } },
   "pricing": { "template": "pricing", "path": { "cs": "cenik", "en": "pricing" } },
+  "compare": { "template": "compare", "path": { "cs": "srovnani", "en": "compare" } },
   "demo": { "template": "demo", "path": { "cs": "demo", "en": "demo" } },
   "blog": { "template": "blog-index", "path": { "cs": "blog/", "en": "blog/" } },
   "gdpr": { "template": "gdpr", "path": { "cs": "gdpr", "en": "gdpr" } },

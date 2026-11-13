@@ -31,7 +31,7 @@
   <link rel="preload" href="/fonts/manrope-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="/video/hero-mobile.cs.1080.webp?v=0e9727835b" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" href="/video/hero.cs.1920.webp?v=0e9727835b" media="(min-width: 768px)" fetchpriority="high">
-  <link rel="stylesheet" href="/css/site.css?v=4f04e64efb">
+  <link rel="stylesheet" href="/css/site.css?v=7e8a0b57ee">
   <script type="module" src="/js/site.js?v=9ea3f179c0"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -357,6 +357,117 @@
   </div>
 </section>
 
+<!-- 6b. Five ways comparison (deep dark band): table on wide screens, cards on mobile -->
+<section class="band band--deep" id="srovnani-cest" aria-labelledby="home-cmp-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="kicker">Srovnání cest</p>
+      <h2 id="home-cmp-title">Pět způsobů, jak zjistit, kdo nabírá. Kdy stačí který.</h2>
+      <p>Ruční kontrola, obecný hlídač i vlastní skript v AI mají své místo. Záleží na počtu firem a na tom, kolik času chcete trávit údržbou.</p>
+    </div>
+
+    <div class="cmp-table-wrap cmp-ways-desktop">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th scope="col">Parametr</th>
+            <th scope="col">Ručně (Excel)</th>
+            <th scope="col">Obecný hlídač stránek (Visualping, Distill)</th>
+            <th scope="col">Databáze inzerátů</th>
+            <th scope="col">Vlastní AI agent nebo automatizace (ChatGPT, n8n, Apify)</th>
+            <th scope="col" class="cmp-col-tr">Hotový nástroj pro agentury (TalentRadar)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Hlídá vaše firmy</th>
+            <td>Ano</td>
+            <td>Ano (jednoduché weby)</td>
+            <td>Částečně (jen co má)</td>
+            <td>Ano (co si nastavíte)</td>
+            <td class="cmp-col-tr">Ano (seznam z vašeho CRM)</td>
+          </tr>
+          <tr>
+            <th scope="row">Česko a Slovensko</th>
+            <td>Ano</td>
+            <td>Ano (bez napojení na ATS)</td>
+            <td>Většinou bez záruky (hlavně US/UK)</td>
+            <td>Jak si to naprogramujete</td>
+            <td class="cmp-col-tr">Ano (kariérní weby, ATS, Jobs.cz, Teamio)</td>
+          </tr>
+          <tr>
+            <th scope="row">Kdo to udržuje</th>
+            <td>Recruiter</td>
+            <td>Vy (ladění upozornění)</td>
+            <td>Dodavatel</td>
+            <td>Vy, každý týden po rozbití webu</td>
+            <td class="cmp-col-tr">Dodavatel</td>
+          </tr>
+          <tr>
+            <th scope="row">Kdy stačí</th>
+            <td>Do 10–15 firem</td>
+            <td>5–20 jednoduchých webů</td>
+            <td>Pro globální trh a vlastní skripty</td>
+            <td>Když máte čas ladit a 10–30 firem</td>
+            <td class="cmp-col-tr">Od 20–30 firem, když nechcete řešit techniku</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cmp-ways-cards">
+      <article class="way-card">
+        <h3>Ručně (Excel)</h3>
+        <dl class="way-card__dl">
+          <div><dt>Hlídá vaše firmy</dt><dd>Ano</dd></div>
+          <div><dt>Česko a Slovensko</dt><dd>Ano</dd></div>
+          <div><dt>Kdo to udržuje</dt><dd>Recruiter</dd></div>
+          <div><dt>Kdy stačí</dt><dd>Do 10–15 firem</dd></div>
+        </dl>
+      </article>
+      <article class="way-card">
+        <h3>Obecný hlídač stránek (Visualping, Distill)</h3>
+        <dl class="way-card__dl">
+          <div><dt>Hlídá vaše firmy</dt><dd>Ano (jednoduché weby)</dd></div>
+          <div><dt>Česko a Slovensko</dt><dd>Ano (bez napojení na ATS)</dd></div>
+          <div><dt>Kdo to udržuje</dt><dd>Vy (ladění upozornění)</dd></div>
+          <div><dt>Kdy stačí</dt><dd>5–20 jednoduchých webů</dd></div>
+        </dl>
+      </article>
+      <article class="way-card">
+        <h3>Databáze inzerátů</h3>
+        <dl class="way-card__dl">
+          <div><dt>Hlídá vaše firmy</dt><dd>Částečně (jen co má)</dd></div>
+          <div><dt>Česko a Slovensko</dt><dd>Většinou bez záruky (hlavně US/UK)</dd></div>
+          <div><dt>Kdo to udržuje</dt><dd>Dodavatel</dd></div>
+          <div><dt>Kdy stačí</dt><dd>Pro globální trh a vlastní skripty</dd></div>
+        </dl>
+      </article>
+      <article class="way-card">
+        <h3>Vlastní AI agent nebo automatizace (ChatGPT, n8n, Apify)</h3>
+        <dl class="way-card__dl">
+          <div><dt>Hlídá vaše firmy</dt><dd>Ano (co si nastavíte)</dd></div>
+          <div><dt>Česko a Slovensko</dt><dd>Jak si to naprogramujete</dd></div>
+          <div><dt>Kdo to udržuje</dt><dd>Vy, každý týden po rozbití webu</dd></div>
+          <div><dt>Kdy stačí</dt><dd>Když máte čas ladit a 10–30 firem</dd></div>
+        </dl>
+      </article>
+      <article class="way-card way-card--pick">
+        <h3>Hotový nástroj pro agentury (<span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radar</span></span>)</h3>
+        <dl class="way-card__dl">
+          <div><dt>Hlídá vaše firmy</dt><dd>Ano (seznam z vašeho CRM)</dd></div>
+          <div><dt>Česko a Slovensko</dt><dd>Ano (kariérní weby, ATS, Jobs.cz, Teamio)</dd></div>
+          <div><dt>Kdo to udržuje</dt><dd>Dodavatel</dd></div>
+          <div><dt>Kdy stačí</dt><dd>Od 20–30 firem, když nechcete řešit techniku</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <p class="cmp-note">Pokud jste dva a hlídáte dvacet firem, postavte si to v ChatGPT nebo n8n, zvládnete to. Pokud jste deset a firem je sto padesát, budete potřebovat někoho, kdo to bude každý týden opravovat.</p>
+    <p class="cmp-more"><a class="btn btn-secondary" href="/srovnani">Podrobné srovnání s cenami</a></p>
+  </div>
+</section>
+
 <!-- 7. Pricing in brief (light; dark on a phone): price on top, one main button on the recommended card -->
 <section class="band band--light band--m-dark" id="cenik-v-kostce" aria-labelledby="pricing-title">
   <div class="container">
@@ -669,6 +780,7 @@ Rohlik Group;rohlik.cz;;</textarea>
         <h2 id="f-resources">Zdroje</h2>
         <ul>
           <li><a href="/blog/">Blog</a></li>
+          <li><a href="/srovnani">Srovnání</a></li>
           <li><a href="/#caste-dotazy">Časté dotazy</a></li>
           <li><a href="/gdpr">Zásady ochrany osobních údajů</a></li>
         </ul>

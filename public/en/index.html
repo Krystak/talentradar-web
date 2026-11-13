@@ -29,7 +29,7 @@
   <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="/video/hero-mobile.en.1080.webp?v=0e9727835b" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" href="/video/hero.en.1920.webp?v=0e9727835b" media="(min-width: 768px)" fetchpriority="high">
-  <link rel="stylesheet" href="/css/site.css?v=4f04e64efb">
+  <link rel="stylesheet" href="/css/site.css?v=7e8a0b57ee">
   <script type="module" src="/js/site.js?v=9ea3f179c0"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -355,6 +355,117 @@
   </div>
 </section>
 
+<!-- 6b. Five ways comparison (deep dark band): table on wide screens, cards on mobile -->
+<section class="band band--deep" id="comparison" aria-labelledby="home-cmp-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="kicker">Comparing options</p>
+      <h2 id="home-cmp-title">Five ways to spot who’s hiring. When each one works.</h2>
+      <p>Manual checks, generic monitors, and DIY AI scripts all have a place. The right choice depends on how many accounts you watch and who fixes what breaks.</p>
+    </div>
+
+    <div class="cmp-table-wrap cmp-ways-desktop">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th scope="col">Dimension</th>
+            <th scope="col">Manually (Excel)</th>
+            <th scope="col">Generic page monitor (Visualping, Distill)</th>
+            <th scope="col">Job posting database</th>
+            <th scope="col">Custom AI agent or automation (ChatGPT, n8n, Apify)</th>
+            <th scope="col" class="cmp-col-tr">Purpose-built agency tool (TalentRadar)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Watches your companies</th>
+            <td>Yes</td>
+            <td>Yes (simple sites)</td>
+            <td>Partially (only what’s indexed)</td>
+            <td>Yes (what you configure)</td>
+            <td class="cmp-col-tr">Yes (your CRM list)</td>
+          </tr>
+          <tr>
+            <th scope="row">Czechia &amp; Slovakia</th>
+            <td>Yes</td>
+            <td>Yes (no ATS parsing)</td>
+            <td>Mostly unverified (mainly US/UK)</td>
+            <td>Whatever you wire up</td>
+            <td class="cmp-col-tr">Yes (career sites, ATS, Jobs.cz, Teamio)</td>
+          </tr>
+          <tr>
+            <th scope="row">Who maintains it</th>
+            <td>Recruiter</td>
+            <td>You (tuning alerts)</td>
+            <td>Vendor</td>
+            <td>You, whenever a site breaks</td>
+            <td class="cmp-col-tr">Vendor</td>
+          </tr>
+          <tr>
+            <th scope="row">When it’s enough</th>
+            <td>Up to 10–15 firms</td>
+            <td>5–20 simple sites</td>
+            <td>Global market &amp; custom scripts</td>
+            <td>10–30 firms if you enjoy fixing scripts</td>
+            <td class="cmp-col-tr">20–30+ firms without technical upkeep</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cmp-ways-cards">
+      <article class="way-card">
+        <h3>Manually (Excel)</h3>
+        <dl class="way-card__dl">
+          <div><dt>Watches your companies</dt><dd>Yes</dd></div>
+          <div><dt>Czechia &amp; Slovakia</dt><dd>Yes</dd></div>
+          <div><dt>Who maintains it</dt><dd>Recruiter</dd></div>
+          <div><dt>When it’s enough</dt><dd>Up to 10–15 firms</dd></div>
+        </dl>
+      </article>
+      <article class="way-card">
+        <h3>Generic page monitor (Visualping, Distill)</h3>
+        <dl class="way-card__dl">
+          <div><dt>Watches your companies</dt><dd>Yes (simple sites)</dd></div>
+          <div><dt>Czechia &amp; Slovakia</dt><dd>Yes (no ATS parsing)</dd></div>
+          <div><dt>Who maintains it</dt><dd>You (tuning alerts)</dd></div>
+          <div><dt>When it’s enough</dt><dd>5–20 simple sites</dd></div>
+        </dl>
+      </article>
+      <article class="way-card">
+        <h3>Job posting database</h3>
+        <dl class="way-card__dl">
+          <div><dt>Watches your companies</dt><dd>Partially (only what’s indexed)</dd></div>
+          <div><dt>Czechia &amp; Slovakia</dt><dd>Mostly unverified (mainly US/UK)</dd></div>
+          <div><dt>Who maintains it</dt><dd>Vendor</dd></div>
+          <div><dt>When it’s enough</dt><dd>Global market &amp; custom scripts</dd></div>
+        </dl>
+      </article>
+      <article class="way-card">
+        <h3>Custom AI agent or automation (ChatGPT, n8n, Apify)</h3>
+        <dl class="way-card__dl">
+          <div><dt>Watches your companies</dt><dd>Yes (what you configure)</dd></div>
+          <div><dt>Czechia &amp; Slovakia</dt><dd>Whatever you wire up</dd></div>
+          <div><dt>Who maintains it</dt><dd>You, whenever a site breaks</dd></div>
+          <div><dt>When it’s enough</dt><dd>10–30 firms if you enjoy fixing scripts</dd></div>
+        </dl>
+      </article>
+      <article class="way-card way-card--pick">
+        <h3>Purpose-built agency tool (<span class="brand"><span class="brand__a">Talent</span><span class="brand__b">Radar</span></span>)</h3>
+        <dl class="way-card__dl">
+          <div><dt>Watches your companies</dt><dd>Yes (your CRM list)</dd></div>
+          <div><dt>Czechia &amp; Slovakia</dt><dd>Yes (career sites, ATS, Jobs.cz, Teamio)</dd></div>
+          <div><dt>Who maintains it</dt><dd>Vendor</dd></div>
+          <div><dt>When it’s enough</dt><dd>20–30+ firms without technical upkeep</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <p class="cmp-note">If there are two of you watching twenty companies, build it in ChatGPT or n8n—you’ll manage fine. If there are ten of you watching a hundred and fifty, you’ll need someone fixing broken scrapers every week.</p>
+    <p class="cmp-more"><a class="btn btn-secondary" href="/en/compare">Full comparison with pricing</a></p>
+  </div>
+</section>
+
 <!-- 7. Pricing in brief (light; dark on a phone): price on top, one main button on the recommended card -->
 <section class="band band--light band--m-dark" id="pricing-at-a-glance" aria-labelledby="pricing-title">
   <div class="container">
@@ -667,6 +778,7 @@ Rohlik Group;rohlik.cz;;</textarea>
         <h2 id="f-resources">Resources</h2>
         <ul>
           <li><a href="/en/blog/">Blog</a></li>
+          <li><a href="/en/compare">Compare</a></li>
           <li><a href="/en/#faq">FAQ</a></li>
           <li><a href="/en/gdpr">Privacy policy</a></li>
         </ul>

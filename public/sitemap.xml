@@ -121,6 +121,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/the-4-day-latency-gap"/>
   </url>
   <url>
+    <loc>https://talentradar.eu/en/compare</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/srovnani"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/compare"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/compare"/>
+  </url>
+  <url>
     <loc>https://talentradar.eu/en/demo</loc>
     <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/demo"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/demo"/>
@@ -143,5 +149,11 @@
     <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/gdpr"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/gdpr"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/gdpr"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/srovnani</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/srovnani"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/compare"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/compare"/>
   </url>
 </urlset>

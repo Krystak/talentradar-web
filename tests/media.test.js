@@ -56,13 +56,14 @@ test("media.json: every clip has WebM + MP4 and a poster, the phone cut is 4:5, 
   for (const [id, clip] of Object.entries(clips)) {
     assert.match(clip.sources[clip.sources.length - 1].type, /^video\/mp4/, `${id}: H.264 for every screen comes last`);
     assert.equal(clip.sources[clip.sources.length - 1].media, undefined, id);
-    assert.equal(clip.width / clip.height, 16 / 10, `${id} is 16:10`);
+    assert.equal(clip.width / clip.height, id === "hero" ? 6 / 5 : 16 / 10, `${id} aspect`);
     assert.match(clip.poster, /\{lang\}(\.\d+)?\.webp$/, id);
   }
   assert.equal(clips.how4, undefined, "three chapters, how0, how2, how3");
   assert.equal(clips.how1, undefined, "\"Ráno: co je nového\" is gone for good (12. 11. 2026), its row too");
-  // as committed (12. 11. 2026): no phone cut, a phone plays each clip's wide cut whole
-  for (const id of ["hero", "how0", "how2", "how3"]) assert.equal(clips[id].mobile, null, `${id}: no phone cut`);
+  // V3 hero has a dedicated 4:5 phone cut; chapters play their wide cut on a phone
+  assert.ok(clips.hero.mobile, "hero has a phone cut");
+  for (const id of ["how0", "how2", "how3"]) assert.equal(clips[id].mobile, null, `${id}: no phone cut`);
   // a phone cut, where there is one (here or in the frozen set), is 4:5, ends with an MP4 for every screen, its poster is -mobile
   const phoneCuts = [...Object.entries(clips), ...Object.entries(FIXTURE_CLIPS).map(([id, c]) => [`fixture ${id}`, c])].filter(([, c]) => c.mobile);
   assert.ok(phoneCuts.length >= 4, "the frozen set has the phone cuts to hold the rule to");
@@ -128,8 +129,8 @@ test("every video address carries the set's version, a new version changes them 
 });
 
 test("the hero's poster is preloaded per screen, in the page's language, on the home page only", () => {
-  // with a phone cut: one poster per screen
-  const site = siteWith((m) => { m.version = null; withPhones(m, ["hero"]); });
+  // as committed (V3 has a phone cut): one poster per screen
+  const site = siteWith((m) => { m.version = null; });
   const files = buildSite(site);
   const { hero } = site.media.clips;
   // the names come from media.json: a new cut of the hero changes them, not what this says
@@ -142,21 +143,21 @@ test("the hero's poster is preloaded per screen, in the page's language, on the 
   for (const path of ["public/demo.html", "public/en/demo.html", "public/cenik.html", "public/blog/index.html"]) {
     assert.doesNotMatch(page(files, path), /rel="preload" as="image"/, path);
   }
-  // as committed, without a phone cut (mobile null): the phone plays the wide cut, so the one wide poster for every screen
-  const committed = buildSite(siteWith((m) => { m.version = null; }));
-  assert.equal(loadSite().media.clips.hero.mobile, null);
+  // without a phone cut (mobile null): the phone plays the wide cut, so the one wide poster for every screen
+  const single = buildSite(siteWith((m) => { m.version = null; m.clips.hero.mobile = null; }));
   for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
-    const links = [...page(committed, path).matchAll(/<link rel="preload" as="image"[^>]*>/g)].map((m) => m[0]);
+    const links = [...page(single, path).matchAll(/<link rel="preload" as="image"[^>]*>/g)].map((m) => m[0]);
     assert.deepEqual(links, [`<link rel="preload" as="image" href="${clipIn(loadSite().media.clips.hero, lang).poster.replace("{lang}", lang)}" fetchpriority="high">`], path);
   }
   for (const path of ["public/demo.html", "public/en/demo.html", "public/cenik.html", "public/blog/index.html"]) {
-    assert.doesNotMatch(page(committed, path), /rel="preload" as="image"/, path);
+    assert.doesNotMatch(page(single, path), /rel="preload" as="image"/, path);
   }
 });
 
-test("the window is 16:10 as the clips, and V6 gets its 720 px only from 1 280 px", () => {
+test("the window is 16:10 (hero 6:5) as the clips, and V6 gets its 720 px only from 1 280 px", () => {
   const css = page(buildSite(loadSite()), "public/css/site.css");
   assert.match(css, /\.frame__screen video \{[^}]*aspect-ratio: 16 \/ 10;/);
+  assert.match(css, /\.video--hero \.frame__screen video \{[^}]*aspect-ratio: 6 \/ 5;/);
   assert.doesNotMatch(css, /16 \/ 9/);
   assert.match(css, /@media \(min-width: 1280px\) \{ \.ats-grid \{ grid-template-columns: minmax\(0, 1fr\) min\(var\(--video-side\), 66%\); \} \}/);
   assert.match(css, /--video-side: 48\.75rem;/, "780 px of board, a window of 718 px as before the board");
@@ -1306,7 +1307,7 @@ test("the line under a video: the words from the text map and the times from med
   assert.deepEqual(lines.map((m) => (m[2] === "none" ? null : Number(m[2]))), site.media.clips.hero.cues.map((c) => c.at));
   assert.deepEqual(lines.map((m) => !!m[1]), lines.map((_, i) => i === 0), "the first sentence is the one without JavaScript");
   const changed = hero(home((m) => { m.clips.hero.cues = [{ at: 1.5, key: "cue_hero_2" }]; }));
-  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Každé ráno, co přibylo\.<\/span>/);
+  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Koho už u firmy znáte a komu zavolat\.<\/span>/);
   assert.equal((changed.match(/video__cue-line/g) || []).length, 1);
   // every chapter's sentences are in its one figure (as committed the first chapter's, how0), so the line has one height for all three
   const how = home(() => {}).match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
@@ -1867,22 +1868,22 @@ test("from 1 024 px the line and the pause button lie over the bottom of the her
   assert.match(String(files.get("public/index.html")), /document\.documentElement\.className = "js"/);
 });
 
-test("the text under the hero: the sentences of the cut sheet, no number of companies against the 99 in the clip, the demo's IT focus said", () => {
+test("the text under the hero: V3 hero cues and proof copy without placeholders, IT demo focus in captions", () => {
   const { i18n } = loadSite();
-  assert.equal(i18n.cs.cue_hero_1, "Otevřené pozice všech vašich firem.");   // Kryštof 12. 11.: titulek nechat, specializaci říká věta pod nadpisem
-  assert.equal(i18n.en.cue_hero_1, "All your companies’ open roles.");
-  // Kryštof 12. 11.: "nahore nekam vecpat, ze vlastne ukazujeme role na kterou se agentura specializuje, ne vsechny role dane firmy" (3. 11. it was V2's alone):
-  // the sentence under the title says it, the other hero texts do not repeat it. The caption says what the demo agency is:
-  // IT and software since 6. 11. (it said a broad focus before); staleProfileCuts keeps older clips off a release
+  assert.equal(i18n.cs.cue_hero_1, "Firmy s novými rolemi. Kdo nabírá a kolik přibylo.");
+  assert.equal(i18n.en.cue_hero_1, "Companies with new roles. Who is hiring and how many.");
+  assert.equal(i18n.cs.cue_hero_2, "Koho už u firmy znáte a komu zavolat.");
+  assert.equal(i18n.en.cue_hero_2, "Who you already know there and who to call.");
+  assert.equal(i18n.cs.cue_hero_3, "Koncept oslovení připravený jedním klikem.");
+  assert.equal(i18n.en.cue_hero_3, "An outreach draft ready in one click.");
   for (const lang of ["cs", "en"]) {
-    for (const key of ["hero_sub"]) assert.match(String(i18n[lang][key]), /specializ|specialis/i, `${lang} ${key}`);
+    assert.doesNotMatch(String(i18n[lang].hero_sub), /ATS|\[ČÍSLO/i, `${lang} hero_sub`);
+    assert.doesNotMatch(String(i18n[lang].hero_proof), /přes měsíc|over a month|\[ČÍSLO/i, `${lang} hero_proof`);
     for (const key of ["cue_hero_1", "cue_hero_2", "cue_hero_3", "hero_video_aria", "hero_video_poster_alt", "hero_video_caption", "hero_video_caption_m"]) {
       assert.doesNotMatch(String(i18n[lang][key]), /specializ|specialis|\bniche\b/i, `${lang} ${key}`);
     }
   }
   for (const [lang, said] of [["cs", /specializac/], ["en", /specialisation/]]) assert.match(i18n[lang].how_ch0_body, said, lang);
-  assert.equal(i18n.cs.cue_hero_2, "Každé ráno, co přibylo.");
-  assert.equal(i18n.cs.cue_hero_3, "S odkazem na skutečný inzerát.");
   for (const [lang, broad] of [["cs", /zaměřená na IT a software|IT agentura/], ["en", /IT and software|IT agency/]]) {
     for (const key of ["hero_video_caption", "hero_video_caption_m"]) {
       assert.doesNotMatch(i18n[lang][key], /\b100\b/, `${lang} ${key}`);
@@ -1911,11 +1912,11 @@ test("a phone does not fetch the wide cut's poster, nor the other way round: a l
       for (const screen of fig.match(/<div class="frame__screen video--mobile"[^>]*>/g) || []) assert.match(screen, /style="--poster:url\(\/video\/[^)]+\.webp\?v=[^)]+\)"/, id);
     }
   }
-  assert.match(phoneHome.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0], /<div class="frame__screen video--mobile" style="--poster:url\(\/video\/hero-mobile\./);
-  // without a phone cut a phone shows the one screen there is, the wide cut with its own poster (no 4:5 screen, no class that hides it)
-  const hero = home.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
-  assert.match(hero, /^<figure class="video video--hero" data-autoplay>/);
-  assert.doesNotMatch(hero, /video--mobile|hero-mobile/);
+  assert.match(home.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0], /<div class="frame__screen video--mobile" style="--poster:url\(\/video\/hero-mobile\./);
+  // chapters (without a phone cut) show the one screen there is, the wide cut with its own poster (no 4:5 screen, no class that hides it)
+  const how0 = home.match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
+  assert.match(how0, /^<figure class="video video--how0"[^>]*>/);
+  assert.doesNotMatch(how0, /video--mobile|how0-mobile/);
   assert.match(page(buildSite(tourSite()), "public/demo.html"), /<video[^>]*\sposter="\/video\/tour\.cs\./);
   assert.match(String(files.get("public/css/site.css")), /\.frame__screen \{ position: relative; background: #0B111D var\(--poster, none\) center \/ 100% 100% no-repeat; \}/);
   const js = String(files.get("public/js/site.js"));
@@ -1961,14 +1962,15 @@ test("a line for one screen only: it takes no room on the other, and a phone wit
   assert.doesNotMatch(plain, /m-first"/);
 });
 
-test("the hero without a phone cut (12. 11. 2026): a phone plays the wide cut whole, with the wide cut's lines and the wide cut's date", () => {
+test("the V3 hero has its own 4:5 phone cut and 2026-11-13 date while chapters stay on their wide 2026-11-12 cut", () => {
   const { hero, ...rest } = loadSite().media.clips;
-  assert.equal(hero.mobile, null);
+  assert.ok(hero.mobile);
+  assert.equal(hero.mobile.width / hero.mobile.height, 4 / 5);
   assert.equal(hero.waits, undefined);
-  assert.equal(hero.clip_date, "2026-11-12");
+  assert.equal(hero.clip_date, "2026-11-13");
+  assert.equal(hero.mobile.clip_date, "2026-11-13");
   for (const cue of hero.cues) {
-    assert.equal(cue.at_mobile, undefined, `${cue.key}: no phone time without a phone cut`);
-    assert.equal(typeof cue.at, "number", `${cue.key}: no line only for a phone cut`);
+    assert.equal(typeof cue.at, "number", `${cue.key}: desktop time`);
   }
   for (const id of ["how0", "how2", "how3"]) {
     assert.equal(rest[id].mobile, null, id);
@@ -1976,11 +1978,12 @@ test("the hero without a phone cut (12. 11. 2026): a phone plays the wide cut wh
     for (const cue of rest[id].cues) assert.equal(cue.at_mobile, undefined, `${id} ${cue.key}`);
   }
   const files = buildSite(loadSite());
-  for (const [path, date] of [["public/index.html", /Natočeno 12\. 11\. 2026 /], ["public/en/index.html", /[Rr]ecorded 12 Nov 2026\b/]]) {
+  for (const [path, date] of [["public/index.html", /Natočeno 13\.\s*11\.\s*2026 /], ["public/en/index.html", /[Rr]ecorded 13\s*Nov\s*2026\b/]]) {
     const html = page(files, path);
     const fig = html.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
-    assert.doesNotMatch(fig, /data-at-mobile|video__cue-line[^"]*(?:d-only|m-only|m-first)/, path);
-    // {clip.hero_phone_date}: the day of what the phone plays, the wide cut's
+    assert.match(fig, /class="video video--hero video--has-mobile"/, path);
+    assert.match(fig, /hero-mobile\./, path);
+    // {clip.hero_phone_date}: the day of what the phone plays
     const caption = html.match(/hero__caption"><span class="d-only">([\s\S]*?)<\/span><span class="m-only">([\s\S]*?)<\/span>/);
     assert.match(caption[1], date, path);
     assert.match(caption[2], date, path);
@@ -1988,7 +1991,7 @@ test("the hero without a phone cut (12. 11. 2026): a phone plays the wide cut wh
   // the date of a phone cut that has its own is that one (the frozen set's phone cut, a day of its own)
   const own = buildSite(siteWith((m) => { withPhones(m, ["hero"]); m.clips.hero.mobile.clip_date = "2026-11-03"; }));
   const m = page(own, "public/index.html").match(/hero__caption"><span class="d-only">([\s\S]*?)<\/span><span class="m-only">([\s\S]*?)<\/span>/);
-  assert.match(m[1], /Natočeno 12\. 11\. 2026 /);
+  assert.match(m[1], /Natočeno 13\.\s*11\.\s*2026 /);
   assert.match(m[2], /Natočeno 3\. 11\. 2026 /);
 });
 

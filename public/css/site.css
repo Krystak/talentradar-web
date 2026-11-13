@@ -493,31 +493,37 @@ button, input, textarea, select { font: inherit; color: inherit; }
   .logo__word { font-size: 1.0625rem; }
 }
 
-/* ── Hero (dark; the product frame runs into the light band below) ── */
-.hero { background: var(--c-bg); color: var(--c-text); padding-top: clamp(2rem, 0.5rem + 4vw, 4rem); text-align: center; }
-.hero h1 { max-width: 70rem; margin: 0 auto; }
-.hero .h1-line { display: block; font-size: var(--fs-h1-lead); line-height: 1.2; color: var(--mist); letter-spacing: -0.015em; margin-bottom: var(--space-2); }
+/* ── Hero (dark V3 two-column: copy + proof left, cropped live-demo video right) ── */
+.hero { background: var(--c-bg); color: var(--c-text); padding-block: clamp(1.5rem, 0.75rem + 2vw, 3rem) clamp(2rem, 1rem + 2.5vw, 3.5rem); text-align: left; }
+.hero__grid { display: grid; gap: var(--space-6); grid-template-columns: minmax(0, 1fr); align-items: center; }
+.hero__copy { min-width: 0; }
+.hero h1 { font-size: clamp(1.875rem, 1.45rem + 1.25vw, 2.5rem); line-height: 1.12; max-width: 36rem; margin: 0; }
+.hero .h1-line { display: block; font-size: clamp(1.1875rem, 1rem + 0.5vw, 1.4375rem); line-height: 1.25; color: var(--mist); letter-spacing: -0.015em; margin-bottom: var(--space-2); }
 .hero .accent { display: block; color: var(--text-on-dark); }
-.hero__sub { max-width: 42.5rem; margin: var(--space-4) auto 0; font-size: var(--fs-lead); line-height: 1.5; color: var(--text-on-dark-2); }
-.hero__cta { justify-content: center; margin-top: var(--space-7); }
-.ticks { list-style: none; padding: 0; margin: var(--space-5) 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2) var(--space-6); font-size: 0.9375rem; line-height: 1.45; color: var(--c-text-2); }
+.hero__sub { max-width: 34rem; margin: var(--space-4) 0 0; font-size: clamp(1.0625rem, 1rem + 0.2vw, 1.1875rem); line-height: 1.5; color: var(--text-on-dark-2); }
+.hero__cta { justify-content: flex-start; margin-top: var(--space-5); gap: var(--space-3); }
+.ticks { list-style: none; padding: 0; margin: var(--space-4) 0 0; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: var(--space-2) var(--space-5); font-size: 0.9375rem; line-height: 1.45; color: var(--c-text-2); }
 .ticks li + li { margin-top: 0; }
 .ticks li { display: flex; gap: var(--space-2); align-items: flex-start; text-align: left; }
-.ticks .ic { color: var(--c-accent); width: 1.1em; height: 1.1em; margin-top: 0.15em; }
-.hero__media { margin-top: clamp(2rem, 1.5rem + 1.5vw, 2.5rem); background: linear-gradient(var(--navy-900) 0 62%, var(--paper) 62% 100%); }
+.ticks .ic { color: var(--c-accent); width: 1.1em; height: 1.1em; margin-top: 0.15em; flex: none; }
+.hero__proof { margin-top: var(--space-5); padding: var(--space-3) var(--space-4); max-width: 34rem; background: var(--c-panel); border: 1px solid var(--c-border); border-left: 3px solid var(--c-accent); border-radius: var(--radius); }
+.hero__proof p { margin: 0; font-size: var(--fs-sm); line-height: 1.5; color: var(--c-text-2); }
+.hero__media { margin-top: 0; min-width: 0; }
 .hero__media .video { margin-inline: auto; max-width: var(--video-hero); }
-.band.hero__media-foot { padding-top: var(--space-5); }
-.hero__caption { text-align: center; margin: 0; }
-@media (max-width: 767px) {
-  .ticks { flex-direction: column; align-items: flex-start; width: fit-content; margin-inline: auto; }
+.hero__caption { text-align: left; margin: var(--space-3) 0 0; }
+.tour .video--hero { max-width: 42rem; margin-inline: auto; }
+.tour .hero__caption { max-width: 42rem; margin-inline: auto; }
+@media (min-width: 1024px) {
+  .hero__grid { grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr); gap: clamp(1.75rem, 2.5vw, 2.75rem); }
+  .hero__media .frame { padding: 2.5% 3%; }
+}
+@media (max-width: 1023px) {
+  .hero__media .video { max-width: 42rem; margin-inline: 0; }
 }
 @media (max-width: 767px) {
-  .hero { text-align: left; }
-  .hero__sub { margin-left: 0; }
+  .ticks { flex-direction: column; align-items: flex-start; width: fit-content; margin-inline: 0; }
   .hero__cta { flex-direction: column; align-items: stretch; }
   .hero__cta .btn { width: 100%; }
-  .ticks { margin-inline: 0; }
-  .hero__caption { text-align: left; }
 }
 
 /* ── Video: a window on a board, the line under it inside the board. The board is 36/44/20 px at
@@ -552,6 +558,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
    window of 632.5 px it came out 0.2 px wider than the first frame (3. 11. 2026). */
 .frame__screen { position: relative; background: #0B111D var(--poster, none) center / 100% 100% no-repeat; }
 .frame__screen video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.video--hero .frame__screen video { aspect-ratio: 6 / 5; }
 /* A loop is on its own layer before it starts, not only once it plays: the window often sits on a fraction of a
    pixel, and otherwise the picture moves by that fraction when the poster gives way to the first frame
    (1 440 × 900, 3. 11. 2026: poster against first frame 24,4 dB without this, 32,9 dB with it). */
@@ -576,8 +583,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
     --frame-text: #fff; --frame-line: rgba(255, 255, 255, 0.34); --frame-accent: var(--orange);
     position: relative; z-index: 1; height: 66px; min-height: 0; margin-top: -66px; padding: 12px 20px 10px;
     border-radius: 0 0 11px 11px;
-    background: linear-gradient(180deg, rgba(7, 10, 17, 0), rgba(7, 10, 17, 0.82) 30%, rgba(7, 10, 17, 0.9));
+    background: linear-gradient(180deg, rgba(7, 10, 17, 0), rgba(7, 10, 17, 0.88) 28%, rgba(7, 10, 17, 0.96));
   }
+  .js .video--hero .video__cue { font-size: 0.9375rem; line-height: 22px; }
 }
 .video__play {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
@@ -1147,8 +1155,8 @@ video::cue { line-height: 1.5; }
   .frame { padding: 0; border-radius: 0; background: none; box-shadow: none; }
   .frame__window { border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.13); }
   .band--light .frame__window { box-shadow: 0 0 0 1px var(--c-border-strong); }
-  /* the hero's line stands on the light band its window runs into */
-  .hero__media .frame { --frame-text: var(--ink); --frame-line: var(--steel); --frame-accent: var(--orange-ink); }
+  /* on V3 the hero's video and its line stay on the dark hero band */
+  .hero__media .frame { --frame-text: var(--text-on-dark); --frame-line: var(--line-dark); --frame-accent: var(--c-accent-text); }
   .frame__foot { min-height: 48px; margin-top: var(--space-2); gap: var(--space-3); }
   .video__cue { font-size: 1rem; line-height: 24px; }
   /* Without the script a phone shows its own first sentence, not the wide cut's (build.mjs videoFigure). */
@@ -1317,7 +1325,7 @@ video::cue { line-height: 1.5; }
   .ticks { margin-top: var(--space-3); }
   .hero__media .frame { padding: var(--space-2) var(--space-3); }
   .hero__media .frame__foot { margin-top: var(--space-1); }
-  .hero__media .video { max-width: calc((100vh - var(--header-h) - 44px - 32px - 24px) * 16 / 10 + 2 * var(--space-3)); }
+  .hero__media .video { max-width: calc((100vh - var(--header-h) - 44px - 32px - 24px) * 6 / 5 + 2 * var(--space-3)); }
 }
 
 @media (prefers-reduced-motion: reduce) {

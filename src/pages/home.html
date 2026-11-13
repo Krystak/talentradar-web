@@ -2,32 +2,35 @@
      screen-reader order never changes): .m-only parts show only there, .d-only parts only from 768 px.
      Lead, etapa 4a: maketa M1 with parts of M2. -->
 
-<!-- 2. Hero (dark; the product frame runs into the light band below) -->
+<!-- 2. Hero (dark V3 two-column: copy + proof left, cropped app video right; stacked on phone) -->
 <section class="hero" aria-labelledby="hero-title">
-  <div class="container">
-    <h1 id="hero-title">{{h1:hero_h1}}</h1>
-    <p class="hero__sub">{{first:hero_sub}}</p>
-    <div class="btn-row hero__cta">
-      <a class="btn btn-primary" href="#{{t.id_trial}}">{{t.hero_cta_primary}}</a>
-      <a class="btn btn-secondary" href="{{call:href}}">{{t.hero_cta_secondary}}</a>
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <h1 id="hero-title">{{h1:hero_h1}}</h1>
+      <p class="hero__sub">{{t.hero_sub}}</p>
+      <div class="btn-row hero__cta">
+        <a class="btn btn-primary" href="#{{t.id_trial}}">{{t.hero_cta_primary}}</a>
+        <a class="btn btn-secondary" href="{{call:href}}">{{t.hero_cta_secondary}}</a>
+      </div>
+      <ul class="ticks" role="list">{{list:hero_note}}</ul>
+      <aside class="hero__proof" aria-label="{{t.hero_proof_label}}">
+        <p>{{t.hero_proof}}</p>
+      </aside>
+      <div class="founder m-only">
+        <img class="founder__photo" src="/img/email/krystof-96.jpg" alt="{{t.story_photo_alt}}" width="40" height="40" decoding="async">
+        <p><strong>{{t.proof_story_by}}</strong><span>{{t.hero_founder}}</span></p>
+      </div>
     </div>
-    <ul class="ticks" role="list">{{list:hero_note}}</ul>
-    <div class="founder m-only">
-      <img class="founder__photo" src="/img/email/krystof-96.jpg" alt="{{t.story_photo_alt}}" width="40" height="40" decoding="async">
-      <p><strong>{{t.proof_story_by}}</strong><span>{{t.hero_founder}}</span></p>
-    </div>
-  </div>
-  <div class="hero__media">
-    <div class="container">
+    <div class="hero__media">
       {{video:hero:hero_video_aria}}
+      <p class="note hero__caption"><span class="d-only">{{t.hero_video_caption}}</span><span class="m-only">{{t.hero_video_caption_m}}</span></p>
     </div>
   </div>
 </section>
 
 <!-- 3. Proof strip (light); on a phone it also carries the 45+ chart and the other data behind one tap -->
-<section class="band band--light hero__media-foot" id="{{t.id_proof}}" aria-label="{{t.proof_aria}}">
+<section class="band band--light" id="{{t.id_proof}}" aria-label="{{t.proof_aria}}">
   <div class="container">
-    <p class="note hero__caption"><span class="d-only">{{t.hero_video_caption}}</span><span class="m-only">{{t.hero_video_caption_m}}</span></p>
     <div class="proof-block">
       <p class="kicker">{{t.proof_label}}</p>
       <div class="proof-wrap">

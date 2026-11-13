@@ -149,6 +149,6 @@ test("the styles: colour and opacity only (the line keeps its width and height),
   assert.match(css, /\.video__cue-line\.is-reading \.video__word\.is-now \{ opacity: 1; color: var\(--frame-accent\); \}/);
   assert.match(css, /--frame-accent: var\(--c-accent-text\)/, "on the board and on a light band the band's accent text");
   assert.match(css, /--frame-text: #fff; --frame-line: rgba\(255, 255, 255, 0\.34\); --frame-accent: var\(--orange\);/, "the strip over the window");
-  assert.match(css, /\.hero__media \.frame \{ --frame-text: var\(--ink\); --frame-line: var\(--steel\); --frame-accent: var\(--orange-ink\); \}/, "the hero's line on the light band on a phone");
+  assert.match(css, /\.hero__media \.frame \{ --frame-text: var\(--text-on-dark\); --frame-line: var\(--line-dark\); --frame-accent: var\(--c-accent-text\); \}/, "on V3 the hero sits on the dark band on a phone too");
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.video__cue-line\.is-reading \.video__word, \.video__cue-line\.is-reading \.video__word\.is-now \{ opacity: 1; color: inherit; transition: none; \}/);
 });

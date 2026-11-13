@@ -2,6 +2,7 @@ https://talentradar.eu/
 https://talentradar.eu/blog/
 https://talentradar.eu/blog/dlouho-otevrene-pozice
 https://talentradar.eu/blog/jak-automaticky-sledovat-karierni-stranky-firem
+https://talentradar.eu/blog/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope
 https://talentradar.eu/blog/kolik-stoji-mrtve-inzeraty
 https://talentradar.eu/blog/nastroje-na-sledovani-kariernich-stranek-firem
 https://talentradar.eu/blog/prvni-dny-po-vypsani-pozice
@@ -13,6 +14,7 @@ https://talentradar.eu/en/blog/anatomy-of-stale-roles
 https://talentradar.eu/en/blog/best-career-page-monitoring-tools-for-agencies
 https://talentradar.eu/en/blog/hidden-cost-of-dead-vacancies
 https://talentradar.eu/en/blog/how-to-monitor-client-career-pages
+https://talentradar.eu/en/blog/how-to-track-company-hiring-czechia-and-cee
 https://talentradar.eu/en/blog/the-4-day-latency-gap
 https://talentradar.eu/en/demo
 https://talentradar.eu/en/gdpr

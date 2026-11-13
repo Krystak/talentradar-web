@@ -1081,7 +1081,7 @@ test("articles in the look of the site: no monospace, no // in labels, no typed 
   const files = buildSite(loadSite());
   assert.doesNotMatch(String(files.get("public/css/site.css")), /font-mono|monospace/);
   const articles = [...files.keys()].filter((p) => /public\/(en\/)?blog\/[a-z0-9-]+\.html$/.test(p) && !p.endsWith("index.html"));
-  assert.equal(articles.length, 10);
+  assert.equal(articles.length, 12);
   for (const path of articles) {
     const html = String(files.get(path));
     assert.doesNotMatch(html, /\/\/ [A-ZÁ-Ž]/, path);

@@ -27,6 +27,13 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/how-to-monitor-client-career-pages"/>
   </url>
   <url>
+    <loc>https://talentradar.eu/blog/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/how-to-track-company-hiring-czechia-and-cee"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/how-to-track-company-hiring-czechia-and-cee"/>
+  </url>
+  <url>
     <loc>https://talentradar.eu/blog/kolik-stoji-mrtve-inzeraty</loc>
     <lastmod>2026-10-18</lastmod>
     <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/kolik-stoji-mrtve-inzeraty"/>
@@ -98,6 +105,13 @@
     <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/jak-automaticky-sledovat-karierni-stranky-firem"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/how-to-monitor-client-career-pages"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/how-to-monitor-client-career-pages"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/blog/how-to-track-company-hiring-czechia-and-cee</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/how-to-track-company-hiring-czechia-and-cee"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/how-to-track-company-hiring-czechia-and-cee"/>
   </url>
   <url>
     <loc>https://talentradar.eu/en/blog/the-4-day-latency-gap</loc>

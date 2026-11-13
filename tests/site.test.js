@@ -734,13 +734,15 @@ test("home, pricing, demo and blog index emit valid linked Knowledge Graph JSON-
   }
 });
 
-test("comparison guides exist in CS/EN with Article (image/dateModified), BreadcrumbList, FAQPage JSON-LD and tables", () => {
+test("comparison and regional guides exist in CS/EN with Article (image/dateModified), BreadcrumbList, FAQPage JSON-LD and tables", () => {
   const files = built();
-  for (const [path, lang] of [
-    ["public/blog/jak-automaticky-sledovat-karierni-stranky-firem.html", "cs"],
-    ["public/en/blog/how-to-monitor-client-career-pages.html", "en"],
-    ["public/blog/nastroje-na-sledovani-kariernich-stranek-firem.html", "cs"],
-    ["public/en/blog/best-career-page-monitoring-tools-for-agencies.html", "en"],
+  for (const [path, lang, faqCount] of [
+    ["public/blog/jak-automaticky-sledovat-karierni-stranky-firem.html", "cs", 4],
+    ["public/en/blog/how-to-monitor-client-career-pages.html", "en", 4],
+    ["public/blog/nastroje-na-sledovani-kariernich-stranek-firem.html", "cs", 4],
+    ["public/en/blog/best-career-page-monitoring-tools-for-agencies.html", "en", 4],
+    ["public/blog/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope.html", "cs", 5],
+    ["public/en/blog/how-to-track-company-hiring-czechia-and-cee.html", "en", 5],
   ]) {
     const doc = String(files.get(path));
     assert.match(doc, /<div class="table-wrap">\s*<table>/, `${path}: comparison table`);
@@ -753,7 +755,7 @@ test("comparison guides exist in CS/EN with Article (image/dateModified), Breadc
     assert.equal(article.inLanguage, lang);
     assert.equal(article.image, `https://talentradar.eu/img/og-${lang}.jpg`);
     assert.ok(article.dateModified, `${path}: dateModified`);
-    assert.equal(faq.mainEntity.length, 4);
+    assert.equal(faq.mainEntity.length, faqCount);
   }
 });
 
@@ -774,6 +776,8 @@ test("llms.txt, llms-full.txt and sitemap.txt are generated cleanly with all ind
   assert.match(txt, /https:\/\/talentradar\.eu\/en\/blog\/how-to-monitor-client-career-pages/);
   assert.match(txt, /https:\/\/talentradar\.eu\/blog\/nastroje-na-sledovani-kariernich-stranek-firem/);
   assert.match(txt, /https:\/\/talentradar\.eu\/en\/blog\/best-career-page-monitoring-tools-for-agencies/);
+  assert.match(txt, /https:\/\/talentradar\.eu\/blog\/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope/);
+  assert.match(txt, /https:\/\/talentradar\.eu\/en\/blog\/how-to-track-company-hiring-czechia-and-cee/);
 
   const full = String(files.get("public/llms-full.txt"));
   assert.match(full, /^## Frequently Asked Questions \(English\)/m);

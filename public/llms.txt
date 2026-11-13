@@ -41,6 +41,7 @@
 - [Zásady ochrany osobních údajů](https://talentradar.eu/gdpr): Zpracování údajů dle GDPR.
 
 ## Research Articles (English)
+- [How to Track Company Hiring in Czechia & CEE Directly on Career Pages](https://talentradar.eu/en/blog/how-to-track-company-hiring-czechia-and-cee): Guide for recruitment agencies in the Czech Republic and Central Europe: how to watch client roles across Teamio, Jobs.cz, global ATS platforms (Greenhouse, Workday, Ashby), and corporate career sites.
 - [Best Career Page Monitoring Tools for Recruitment Agencies (2026)](https://talentradar.eu/en/blog/best-career-page-monitoring-tools-for-agencies): Comparison of tools to monitor client and prospect career pages automatically: dedicated ATS radars (TalentRadar), generic change monitors (Visualping, Distill, ChangeDetection), job board alerts, and DIY scrapers (Apify, n8n).
 - [How to Monitor Client Career Pages Automatically for Recruitment Agencies](https://talentradar.eu/en/blog/how-to-monitor-client-career-pages): Four ways recruitment and executive search teams track client career pages: manual checks, job board alerts, generic page-change monitors, and dedicated ATS-aware career-page tracking.
 - [Anatomy of Stale Roles (>35 Days): A High-Probability Pitch in B2B Recruitment](https://talentradar.eu/en/blog/anatomy-of-stale-roles): A role still open after five weeks is at or past a typical time-to-fill. Why that makes a warm pitch, and how to build it.
@@ -48,6 +49,7 @@
 - [The Latency Gap: Why the First Days of a Vacancy Decide Who Wins the Mandate](https://talentradar.eu/en/blog/the-4-day-latency-gap): Companies publish new roles on their own careers page first, and applications peak in the first week. Why the agency that sees a role first gets the conversation with the hiring manager.
 
 ## Odborné články (Czech)
+- [Jak sledovat nábor firem v Česku a střední Evropě přímo na jejich webech](https://talentradar.eu/blog/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope): Průvodce pro personální agentury v ČR a CEE: jak na jednom místě sledovat pozice firem z Teamia, Jobs.cz, globálních ATS (Greenhouse, Workday, Ashby) i vlastních kariérních webů.
 - [Nejlepší nástroje na sledování kariérních stránek firem pro agentury (2026)](https://talentradar.eu/blog/nastroje-na-sledovani-kariernich-stranek-firem): Srovnání kategorií nástrojů pro monitoring náboru a kariérních webů: TalentRadar, obecné hlídače změn (Visualping, Distill, ChangeDetection), alerty portálů a vlastní skripty (Apify, n8n).
 - [Jak automaticky sledovat kariérní stránky firem (pro personální agentury)](https://talentradar.eu/blog/jak-automaticky-sledovat-karierni-stranky-firem): Čtyři způsoby, jak v agentuře hlídat otevřené pozice klientů a cílových firem: ruční kontrola, pracovní portály, obecné hlídače změn a specializovaný radar kariérních webů.
 - [Pozice otevřené déle než 35 dní: nejlepší důvod klienta oslovit](https://talentradar.eu/blog/dlouho-otevrene-pozice): Pozice otevřená déle než pět týdnů se blíží běžné době obsazení, nebo ji už překročila. Proč je to teplý důvod k oslovení a jak ho postavit.

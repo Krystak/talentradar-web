@@ -294,6 +294,36 @@ const pageLoaded = new Promise((resolve) => {
   };
   let chosen = null;
   let asked = null;
+  let retryFig = null;
+  let cancelRetry = null;
+  const retryEvents = ["pointerdown", "keydown", "scroll", "touchstart"];
+  const clearRetry = (fig) => {
+    if (!cancelRetry || (fig && retryFig !== fig)) return;
+    cancelRetry();
+    cancelRetry = null;
+    retryFig = null;
+  };
+  const retryOnInteract = (fig) => {
+    clearRetry();
+    retryFig = fig;
+    const opts = { capture: true, passive: true };
+    const stop = () => {
+      for (const ev of retryEvents) window.removeEventListener(ev, onInteract, opts);
+    };
+    const onInteract = (e) => {
+      if ((e.type === "pointerdown" || e.type === "touchstart") && e.target?.closest?.(".video__toggle, .video__start")) return;
+      stop();
+      if (cancelRetry === stop) cancelRetry = null;
+      if (retryFig === fig) retryFig = null;
+      if (fig !== chosen || fig.dataset.user === "paused" || waitsForTap(fig)) return;
+      const v = shownVideo(fig);
+      v.preload = "auto";
+      Promise.resolve(v.play()).catch(() => {});
+    };
+    cancelRetry = stop;
+    for (const ev of retryEvents) window.addEventListener(ev, onInteract, opts);
+  };
+  const ready = (fig, fn) => (fig.classList.contains("video--hero") ? fn() : pageLoaded.then(fn));
   const area = (fig) => {
     const r = shownVideo(fig).getBoundingClientRect();
     return Math.max(0, Math.min(window.innerWidth, r.right) - Math.max(0, r.left)) * Math.max(0, Math.min(window.innerHeight, r.bottom) - Math.max(0, r.top));
@@ -311,12 +341,15 @@ const pageLoaded = new Promise((resolve) => {
     if (start) start.hidden = !waiting;
     if (toggle) toggle.hidden = waiting;
     if (fig === chosen && fig.dataset.user !== "paused") {
-      pageLoaded.then(() => {
+      ready(fig, () => {
         if (fig !== chosen || fig.dataset.user === "paused") return;
         v.preload = "auto";
-        v.play().catch(() => {});
+        Promise.resolve(v.play()).catch(() => {
+          if (fig === chosen && fig.dataset.user !== "paused") retryOnInteract(fig);
+        });
       });
     } else {
+      clearRetry(fig);
       v.pause();
     }
   };
@@ -329,7 +362,7 @@ const pageLoaded = new Promise((resolve) => {
     for (const e of entries) {
       if (!e.isIntersecting || waitsForTap(e.target) || stays) continue;
       near.unobserve(e.target);
-      pageLoaded.then(() => { shownVideo(e.target).preload = "auto"; });
+      ready(e.target, () => { shownVideo(e.target).preload = "auto"; });
     }
   }, { rootMargin: "400px 0px" });
   const watch = (threshold) => new IntersectionObserver((entries) => {
@@ -362,7 +395,10 @@ const pageLoaded = new Promise((resolve) => {
       const look = () => { if (v === shownVideo(fig)) showCue(fig); };
       v.addEventListener("timeupdate", look);
       followFrames(v, look);
-      v.addEventListener("play", () => { if (v === shownVideo(fig)) label(btn, false); });
+      v.addEventListener("play", () => {
+        clearRetry(fig);
+        if (v === shownVideo(fig)) label(btn, false);
+      });
       v.addEventListener("pause", () => { if (v === shownVideo(fig)) label(btn, true); });
     }
     btn.hidden = false;
@@ -372,8 +408,9 @@ const pageLoaded = new Promise((resolve) => {
       fig.dataset.user = starting ? "" : "paused";
       if (starting) asked = fig;
       else if (asked === fig) asked = null;
+      clearRetry(fig);
       runAll();
-      if (starting) v.play().catch(() => {});
+      if (starting) Promise.resolve(v.play()).catch(() => {});
     });
     const start = fig.querySelector(".video__start");
     if (start) {
@@ -381,6 +418,7 @@ const pageLoaded = new Promise((resolve) => {
         fig.dataset.tapped = "1";
         fig.dataset.user = "";
         asked = fig;
+        clearRetry(fig);
         runAll();
         start.hidden = true;
         const toggle = fig.querySelector(".video__toggle");
@@ -390,7 +428,7 @@ const pageLoaded = new Promise((resolve) => {
         }
         const v = shownVideo(fig);
         v.preload = "auto";
-        v.play().catch(() => {});
+        Promise.resolve(v.play()).catch(() => {});
       });
     }
     label(btn, true);

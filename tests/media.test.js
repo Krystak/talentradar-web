@@ -1081,7 +1081,7 @@ test("articles in the look of the site: no monospace, no // in labels, no typed 
   const files = buildSite(loadSite());
   assert.doesNotMatch(String(files.get("public/css/site.css")), /font-mono|monospace/);
   const articles = [...files.keys()].filter((p) => /public\/(en\/)?blog\/[a-z0-9-]+\.html$/.test(p) && !p.endsWith("index.html"));
-  assert.equal(articles.length, 6);
+  assert.equal(articles.length, 10);
   for (const path of articles) {
     const html = String(files.get(path));
     assert.doesNotMatch(html, /\/\/ [A-ZÁ-Ž]/, path);
@@ -1265,7 +1265,7 @@ test("a link to the form lands on its heading under the bar; on a phone no focus
 test("the articles' box says the offer as the form does", () => {
   const files = buildSite(loadSite());
   const { i18n } = loadSite();
-  for (const [path, lang, slugs] of [["public/blog/", "cs", ["prvni-dny-po-vypsani-pozice", "dlouho-otevrene-pozice", "kolik-stoji-mrtve-inzeraty"]], ["public/en/blog/", "en", ["the-4-day-latency-gap", "anatomy-of-stale-roles", "hidden-cost-of-dead-vacancies"]]]) {
+  for (const [path, lang, slugs] of [["public/blog/", "cs", ["prvni-dny-po-vypsani-pozice", "dlouho-otevrene-pozice", "kolik-stoji-mrtve-inzeraty", "jak-automaticky-sledovat-karierni-stranky-firem", "nastroje-na-sledovani-kariernich-stranek-firem"]], ["public/en/blog/", "en", ["the-4-day-latency-gap", "anatomy-of-stale-roles", "hidden-cost-of-dead-vacancies", "how-to-monitor-client-career-pages", "best-career-page-monitoring-tools-for-agencies"]]]) {
     for (const slug of slugs) {
       const box = String(files.get(`${path}${slug}.html`)).match(/<div class="article-cta">[\s\S]*?<\/span>/)[0].replace(/ /g, " ");
       assert.ok(box.includes(i18n[lang].trial_promo), `${slug}: ${box}`);

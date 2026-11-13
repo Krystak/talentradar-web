@@ -1,0 +1,189 @@
+# TalentRadar
+
+> B2B SaaS platform for recruitment agencies and executive search teams that automatically monitors client and prospect career pages twice a day, surfaces new roles before they reach job boards, flags roles open 45+ days, archives closed listings, and matches candidates to open roles.
+
+## What Problem It Solves
+- Employers publish new roles on their own career page or ATS first; job boards and LinkedIn receive them hours or days later via feeds or paid promotion.
+- TalentRadar checks every tracked company's career page twice daily (06:00 and 12:00 in the agency's timezone), so consultants reach hiring managers during the golden window before inboxes fill up.
+- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export) or as a lightweight built-in ATS (Radar + ATS mode included in every plan).
+- Tracks real posting dates (from the company ATS or first-seen timestamp) to highlight roles open 30+ and 45+ days, and automatically archives disappeared roles after verification to eliminate ghost-job waste.
+- Estimates likely hiring managers from the job posting, links directly to LinkedIn and Google X-Ray search, drafts outreach messages in each consultant's style, and connects to Claude and ChatGPT via MCP on Agency Pro and Scale plans.
+
+## Supported Career Pages & ATS Sources
+- Public career pages and ATS APIs read automatically: Jobs.cz and Teamio, Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Phenom, Jibe, SuccessFactors, Oracle Recruiting, Eightfold, plus custom company career websites.
+- Exports: Excel (.xlsx), generic CSV, and ready-to-import files for Bullhorn and Vincere.
+- Custom career-page connectors available on the Scale plan.
+
+## Public Demo Data Snapshot (as of 2026-11-03)
+- Tracked sample: 100 Czech companies (99 with open roles), 1438 open roles total, average 36 new roles per day, 53 of 100 companies with a new role in 7 days.
+- Sources across the 100 demo companies: 55 via Jobs.cz/Teamio (790 roles), 24 via company ATS (350 roles), and 21 directly from custom careers sites (298 roles).
+- Role age: 109 of 408 dated roles (27%) have been open for 45+ days.
+
+## Pricing (Monthly, No Commitment; Yearly = 10 Months for 12)
+- **Solo Scout**: up to 50 companies — CZK 1,990/month (CZK 19,900/year) or EUR 119/month (EUR 1,190/year), excl. VAT.
+- **Agency Pro**: up to 150 companies — CZK 3,990/month (CZK 39,900/year) or EUR 289/month (EUR 2,890/year), excl. VAT.
+- **Scale**: up to 400 companies — CZK 7,990/month (CZK 79,900/year) or EUR 529/month (EUR 5,290/year), excl. VAT.
+- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Launch offer for the first 5 agencies: first month free, then 3 months at 50% off.
+
+## Key Pages (English)
+- [Home](https://talentradar.eu/en/): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.
+- [Pricing](https://talentradar.eu/en/pricing): Solo Scout, Agency Pro, and Scale tiers in EUR/CZK with monthly and yearly billing.
+- [App Preview](https://talentradar.eu/en/demo): Short captioned clips from the public TalentRadar demo.
+- [Research & Blog](https://talentradar.eu/en/blog/): Data-backed articles and agency BD playbooks.
+- [Privacy Policy](https://talentradar.eu/en/gdpr): GDPR data processing details.
+- [Full AI Context (llms-full.txt)](https://talentradar.eu/llms-full.txt): Complete bilingual product specs, all FAQs, and article Q&As in Markdown.
+
+## Key Pages (Czech)
+- [Domů](https://talentradar.eu/): Přehled funkce radaru, data z veřejného dema, časté dotazy a zkušební přístup zdarma.
+- [Ceník](https://talentradar.eu/cenik): Tarify Solo Scout, Agency Pro a Scale v CZK bez DPH.
+- [Ukázky](https://talentradar.eu/demo): Krátké ukázky z veřejného dema aplikace.
+- [Blog a výzkum](https://talentradar.eu/blog/): Návody a data pro personální agentury.
+- [Zásady ochrany osobních údajů](https://talentradar.eu/gdpr): Zpracování údajů dle GDPR.
+
+## Research Articles (English)
+- [Best Career Page Monitoring Tools for Recruitment Agencies (2026)](https://talentradar.eu/en/blog/best-career-page-monitoring-tools-for-agencies): Comparison of tools to monitor client and prospect career pages automatically: dedicated ATS radars (TalentRadar), generic change monitors (Visualping, Distill, ChangeDetection), job board alerts, and DIY scrapers (Apify, n8n).
+- [How to Monitor Client Career Pages Automatically for Recruitment Agencies](https://talentradar.eu/en/blog/how-to-monitor-client-career-pages): Four ways recruitment and executive search teams track client career pages: manual checks, job board alerts, generic page-change monitors, and dedicated ATS-aware career-page tracking.
+- [Anatomy of Stale Roles (>35 Days): A High-Probability Pitch in B2B Recruitment](https://talentradar.eu/en/blog/anatomy-of-stale-roles): A role still open after five weeks is at or past a typical time-to-fill. Why that makes a warm pitch, and how to build it.
+- [The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale](https://talentradar.eu/en/blog/hidden-cost-of-dead-vacancies): Greenhouse classifies 18–22% of jobs posted on its platform as ghost jobs. How automatic archiving keeps an agency's list of open roles honest.
+- [The Latency Gap: Why the First Days of a Vacancy Decide Who Wins the Mandate](https://talentradar.eu/en/blog/the-4-day-latency-gap): Companies publish new roles on their own careers page first, and applications peak in the first week. Why the agency that sees a role first gets the conversation with the hiring manager.
+
+## Odborné články (Czech)
+- [Nejlepší nástroje na sledování kariérních stránek firem pro agentury (2026)](https://talentradar.eu/blog/nastroje-na-sledovani-kariernich-stranek-firem): Srovnání kategorií nástrojů pro monitoring náboru a kariérních webů: TalentRadar, obecné hlídače změn (Visualping, Distill, ChangeDetection), alerty portálů a vlastní skripty (Apify, n8n).
+- [Jak automaticky sledovat kariérní stránky firem (pro personální agentury)](https://talentradar.eu/blog/jak-automaticky-sledovat-karierni-stranky-firem): Čtyři způsoby, jak v agentuře hlídat otevřené pozice klientů a cílových firem: ruční kontrola, pracovní portály, obecné hlídače změn a specializovaný radar kariérních webů.
+- [Pozice otevřené déle než 35 dní: nejlepší důvod klienta oslovit](https://talentradar.eu/blog/dlouho-otevrene-pozice): Pozice otevřená déle než pět týdnů se blíží běžné době obsazení, nebo ji už překročila. Proč je to teplý důvod k oslovení a jak ho postavit.
+- [Kolik stojí mrtvé inzeráty: proč práce na neexistujících pozicích ubíjí recruitery](https://talentradar.eu/blog/kolik-stoji-mrtve-inzeraty): Greenhouse řadí 18–22 % pozic vypsaných na své platformě mezi ghost jobs. Jak automatická archivace udrží seznam otevřených pozic pravdivý.
+- [Kdo dřív přijde, ten dřív mele: proč o zakázce rozhodují první dny po vypsání pozice](https://talentradar.eu/blog/prvni-dny-po-vypsani-pozice): Firmy zveřejňují nové pozice nejdřív na vlastním kariérním webu a přihlášky vrcholí v prvním týdnu. Proč rozhovor s hiring manažerem získá agentura, která pozici uvidí první.
+
+## Contact
+- Founder: Kryštof Pejša (krystof@talentradar.eu)
+- LinkedIn (Company): https://www.linkedin.com/company/talent-radareu
+- LinkedIn (Founder): https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/
+- Live Public Demo: https://app.talentradar.eu/?demo=showcase
+
+## Frequently Asked Questions (English)
+### Who runs TalentRadar, and who sees our data?
+TalentRadar is run by its founder, Kryštof Pejša, who is also the controller of personal data. Every agency has its own separate database and sees only its own data. Who helps us run the website and the form, and how long we keep the data, is set out in our privacy policy.
+
+### We don’t have an ATS. Is that a problem?
+Not at all. Watching companies and roles needs no ATS. If you want one, every plan includes Radar + ATS: candidates, contacts, jobs, pipeline and placements. It’s deliberately simple, built for small agencies.
+
+### Is reading career pages OK?
+We read only what companies publish for job seekers themselves: public career pages and public ATS APIs. We don’t read LinkedIn automatically; you open the search link yourself.
+
+### Do I have to change my ATS?
+No. TalentRadar runs next to it and nothing moves. A list of companies from your CRM or a spreadsheet is enough. You download the new roles as a file to import into Bullhorn or Vincere, or as a generic CSV. There’s no direct ATS connection yet.
+
+### Which systems does TalentRadar work with?
+It reads roles from Jobs.cz and Teamio, from company ATS (Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Phenom, Jibe, SuccessFactors, Oracle Recruiting, Eightfold) and from ordinary career pages. Out of it you get Excel, a generic CSV and an import file for Bullhorn and Vincere. We connect unusual career pages on request in the Scale plan.
+
+### What if a company fills or withdraws a role?
+When the ad disappears from the site, the next scan notices, the one after confirms it, and TalentRadar archives the role. A careers page that’s briefly down won’t wipe your list. If the company posts the role again, it comes back with its history and notes.
+
+### How does the trial work, and what happens after 14 days?
+The trial lasts 14 days, with no credit card, the features of the Agency Pro plan and up to 150 companies. The first 5 agencies get the first month free instead, then 3 months at half price. Three days before the end you get an e-mail. If you want to carry on, you pick a plan in the app and I send you an invoice. The trial never turns into a paid plan by itself.
+
+### Do you store our candidates?
+No. When you search for a candidate you only paste the profile, and once you’ve searched it’s gone. Before anything goes to the AI we take out the name, e-mail, phone and links. Candidates are stored only if you add them yourself in Radar + ATS.
+
+### How do I pay?
+By invoice, monthly or yearly. Card payment isn’t available yet. Czech and Slovak agencies are invoiced in koruna, Irish agencies in euro.
+
+### What happens after the trial?
+Three days before the end you get an e-mail. If you want to carry on, click “I want to continue” in the app, pick a plan and I send you an invoice. If not, you pay nothing.
+
+### Can I change plan or cancel?
+Yes, there’s no commitment. Just write to me and I switch your plan.
+
+### How does yearly billing work?
+You pay for 10 months and use 12, so 2 months are free.
+
+### Do prices include VAT?
+Prices exclude VAT.
+
+### When should a recruitment agency choose TalentRadar over Visualping or Distill?
+Visualping and Distill are general website-change monitors built for HTML or pixel diffs. They work well for watching a handful of static pages, but on dynamic career sites powered by Greenhouse, Ashby, Workday, or Teamio they require selector maintenance, trigger false alarms from cookie banners or footers, and cannot export structured job lists with posting age into Bullhorn, Vincere, or Excel. TalentRadar parses 18+ ATS platforms and custom career websites into an isolated agency role database.
+
+### Is it better to build a custom career-page scraper in n8n or Apify?
+Building a DIY pipeline in n8n or Apify makes sense only if your agency has ongoing engineering time to maintain ATS parsers, handle anti-bot or markup changes, deduplicate listings, and confirm removals before archiving. For recruiting teams without dedicated developers, a specialised career-page radar starting at €119/month without commitment is faster and more predictable.
+
+### How can an agency track companies that do not post on job boards?
+Point a dedicated career-page monitor at your list of target employers or their career URLs. In TalentRadar's public demo of 100 Czech companies, 45 out of 100 companies are read directly from the employer's ATS or custom careers site rather than local job boards.
+
+### How many client and prospect companies can an agency monitor automatically?
+TalentRadar plans cover 50 companies for a solo headhunter (Solo Scout), 150 companies for agency teams (Agency Pro), and 400 companies with custom connectors for unusual sites (Scale), scanned twice daily.
+
+### Why isn't monitoring job boards like LinkedIn or Jobs.cz enough?
+Employers publish new roles on their own career site or ATS (Greenhouse, Lever, Ashby, Workday, Teamio) first because it is free and immediate. Job boards receive postings later through feeds or paid promotion. In TalentRadar's public demo of 100 Czech companies, 45 out of 100 companies are read directly from the company's ATS or custom careers page rather than Jobs.cz or Teamio.
+
+### What is the difference between a generic page monitor (like Visualping) and an agency career-page radar?
+Generic monitors alert you when raw HTML or pixels change, which breaks on dynamic ATS widgets and does not separate individual job postings from cookie-banner or footer edits. A dedicated tool like TalentRadar parses individual roles, tracks real role age (30+ and 45+ days open), verifies and archives disappeared postings, and exports clean CSV files for Bullhorn, Vincere, or Excel.
+
+### How often should a recruitment agency scan client career pages?
+Checking every tracked company twice a day—such as 06:00 and 12:00 in your timezone—captures new roles the same day they go live without overloading employer websites.
+
+### Do I need to replace my current ATS to monitor client career pages?
+No. TalentRadar runs alongside any ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio, or spreadsheets) in Radar-only mode with Excel, CSV, and import-ready files. Agencies without an ATS can use the built-in Radar + ATS mode included in every plan.
+
+## Časté dotazy (Czech)
+### Kdo TalentRadar provozuje a kdo vidí naše data?
+TalentRadar provozuje jeho zakladatel Kryštof Pejša, který je i správcem osobních údajů. Každá agentura má vlastní oddělenou databázi a vidí jen svá data. Kdo nám pomáhá s provozem webu a formuláře a jak dlouho údaje uchováváme, najdete v zásadách ochrany osobních údajů.
+
+### Nemáme ATS. Nevadí?
+Nevadí. Hlídání firem a pozic ATS nepotřebuje. Kdo chce, má v ceně každého tarifu režim Radar + ATS: kandidáty, kontakty, zakázky, pipeline a umístění. Je záměrně jednoduchý, pro malé agentury.
+
+### Je čtení kariérních webů v pořádku?
+Čteme jen to, co firmy samy zveřejňují pro uchazeče: veřejné kariérní weby a veřejná API ATS. LinkedIn automaticky nečteme, odkaz na hledání si otevřete sami.
+
+### Musím kvůli TalentRadaru měnit ATS?
+Ne. TalentRadar běží vedle něj a nic se nestěhuje. Stačí seznam firem z CRM nebo z Excelu. Nové pozice si stáhnete jako soubor pro import do Bullhornu nebo Vincere, nebo jako obecné CSV. Přímé napojení na ATS zatím nemáme.
+
+### Se kterými systémy TalentRadar umí pracovat?
+Pozice čte z Jobs.cz a Teamia, z ATS firem (Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Phenom, Jibe, SuccessFactors, Oracle Recruiting, Eightfold) i z běžných kariérních webů. Ven dává Excel, obecné CSV a soubor pro import do Bullhornu a Vincere. Neobvyklé kariérní weby napojíme na míru v tarifu Scale.
+
+### Co když firma pozici obsadí nebo stáhne?
+Když inzerát z webu zmizí, nejbližší sken si toho všimne, další to potvrdí a TalentRadar pozici archivuje. Krátký výpadek webu vám tak seznam nesmaže. Když firma pozici vypíše znovu, vrátí se i s historií a poznámkami.
+
+### Jak funguje zkouška a co po 14 dnech?
+Zkouška trvá 14 dní, bez platební karty, s funkcemi tarifu Agency Pro a až 150 firmami. Prvních 5 agentur má místo toho první měsíc zdarma a pak 3 měsíce za polovinu. Tři dny před koncem vám přijde e-mail. Když chcete pokračovat, vyberete v aplikaci tarif a pošlu vám fakturu. Sama se zkouška nezpoplatní.
+
+### Ukládáte naše kandidáty?
+Ne. Při hledání pro kandidáta profil jen vložíte a po hledání zmizí. Než cokoli půjde do AI, odstraníme z něj jméno, e-mail, telefon a odkazy. Kandidáty ukládáte jen vy sami, když používáte režim Radar + ATS.
+
+### Jak se platí?
+Fakturou, měsíčně nebo ročně. Kartou zatím platit nejde. Fakturu vystavuji v korunách, irským agenturám v eurech.
+
+### Co se stane po zkoušce?
+Tři dny před koncem vám přijde e-mail. Když chcete pokračovat, kliknete v aplikaci na „Chci pokračovat“, vyberete tarif a pošlu vám fakturu. Když ne, nic neplatíte.
+
+### Můžu změnit tarif nebo skončit?
+Ano, tarify jsou bez závazku. Stačí mi napsat a tarif přepnu.
+
+### Jak funguje roční platba?
+Zaplatíte 10 měsíců a používáte 12, tedy 2 měsíce zdarma.
+
+### Jsou ceny s DPH?
+Ceny jsou bez DPH.
+
+### Kdy zvolit TalentRadar místo Visualpingu nebo Distillu?
+Visualping a Distill jsou obecné hlídače změn textu nebo pixelů na webu. Hodí se na sledování několika jednoduchých stránek, ale na moderních kariérních portálech s vloženým ATS (Greenhouse, Ashby, Workday, Teamio) vyžadují údržbu selektorů, často hlásí změny cookies nebo patičky a neumí vyexportovat čistý seznam pozic se stářím do Bullhornu či Excelu. TalentRadar čte přímo strukturu 18+ ATS i vlastních webů a udržuje oddělenou databázi rolí.
+
+### Vyplatí se agentuře stavět vlastní scraper kariérních webů v n8n nebo Apify?
+Vlastní automatizace v n8n nebo Apify dává smysl tehdy, pokud má agentura interního vývojáře, který bude průběžně upravovat parsování při každé změně šablony kariérního webu nebo ATS, hlídat duplicity a řešit archivaci zmizelých inzerátů. Pro náborový tým bez vlastního vývoje bývá rychlejší a levnější hotový radar od 1 990 Kč měsíčně bez závazku.
+
+### Jak sledovat firmy, které neinzerují na Jobs.cz ani na LinkedInu?
+Stačí zadat seznam cílových firem nebo odkazů na jejich kariérní stránky. V našem veřejném demu ze 100 českých firem čte TalentRadar 45 firem přímo z firemního ATS nebo vlastního kariérního webu mimo Jobs.cz a Teamio.
+
+### Kolik klientských a cílových firem dokáže personální agentura sledovat automaticky?
+V TalentRadaru podle tarifu od 50 firem pro samostatného headhuntera (Solo Scout), přes 150 firem pro agenturní tým (Agency Pro) až po 400 firem s napojením neobvyklých webů na míru (Scale). Kontrola běží dvakrát denně automaticky.
+
+### Proč nestačí sledovat pracovní portály jako Jobs.cz nebo LinkedIn?
+Firmy zveřejňují nové pozice nejdřív na svém kariérním webu nebo v ATS (Greenhouse, Lever, Ashby, Workday, Teamio), protože je to zdarma a okamžité. Na portály se pozice dostávají se zpožděním přes feedy nebo až při placené propagaci. V našem veřejném demu ze 100 českých firem čteme 45 firem přímo z firemního ATS nebo vlastního kariérního webu mimo Jobs.cz a Teamio.
+
+### Jaký je rozdíl mezi obecným hlídačem změn stránky (např. Visualping) a radarem pro agentury?
+Obecné monitory hlídají změnu HTML nebo pixelů na stránce, ale nerozliší novou pozici od změny patičky nebo náhodné úpravy textu, neumí číst strukturu ATS API a po smazání inzerátu nearchivují pozici s historií. Specializovaný nástroj jako TalentRadar extrahuje jednotlivé pozice, hlídá jejich skutečné stáří (30+ a 45+ dní), ověřeně je archivuje a vyexportuje je do CSV pro Bullhorn, Vincere nebo Excel.
+
+### Jak často je potřeba kariérní weby klientů kontrolovat?
+Pro BD a nábor stačí kontrola dvakrát denně, například v 6:00 a ve 12:00. Umožní to zachytit nové pozice v den vypsání ještě před návalem přihlášek a konkurence a zároveň to nezatěžuje veřejné weby firem.
+
+### Musím kvůli sledování kariérních webů měnit stávající ATS?
+Ne. TalentRadar funguje v režimu Jen radar vedle vašeho stávajícího ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio nebo tabulka) s exportem do CSV a Excelu. Pokud agentura vlastní ATS nemá, může použít vestavěný režim Radar + ATS v ceně každého tarifu.

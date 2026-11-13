@@ -571,6 +571,13 @@
 .prose h2, .article h2 { font-size: var(--fs-h3); margin-top: var(--space-7); }
 .prose > p, .prose li { color: var(--c-text-2); }
 .prose .small, .article .small { font-size: var(--fs-sm); color: var(--c-muted); }
+.prose .table-wrap { overflow-x: auto; border: 1px solid var(--c-border); border-radius: var(--radius-sm); background: var(--c-panel); margin: var(--space-5) 0; }
+.prose .table-wrap table { margin-bottom: 0; }
+.prose .table-wrap th, .prose .table-wrap td { vertical-align: top; color: var(--c-text-2); }
+.prose .table-wrap th { color: var(--c-text); background: var(--c-bg); }
+.prose .table-wrap td:first-child { font-weight: 600; color: var(--c-text); }
+.prose .table-wrap tr:last-child td { border-bottom: 0; }
+.prose .faq { margin: var(--space-5) 0; grid-template-columns: minmax(0, 1fr); }
 .panel { background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius-lg); padding: var(--space-5); margin: var(--space-6) 0; }
 .panel--accent { border: 2px solid var(--c-accent); }
 .panel p { color: var(--c-text-2); }

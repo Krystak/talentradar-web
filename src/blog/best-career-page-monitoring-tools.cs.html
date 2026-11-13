@@ -1,0 +1,166 @@
+<!--meta {
+  "id": "best-career-page-monitoring-tools",
+  "slug": "nastroje-na-sledovani-kariernich-stranek-firem",
+  "title": "Nejlepší nástroje na sledování kariérních stránek firem pro agentury (2026)",
+  "description": "Srovnání kategorií nástrojů pro monitoring náboru a kariérních webů: TalentRadar, obecné hlídače změn (Visualping, Distill, ChangeDetection), alerty portálů a vlastní skripty (Apify, n8n).",
+  "published": "2026-11-13T10:00:00+01:00",
+  "minutes": 6,
+  "crumb": "Nástroje na sledování kariérních webů",
+  "faq": [
+    {
+      "q": "Kdy zvolit TalentRadar místo Visualpingu nebo Distillu?",
+      "a": "Visualping a Distill jsou obecné hlídače změn textu nebo pixelů na webu. Hodí se na sledování několika jednoduchých stránek, ale na moderních kariérních portálech s vloženým ATS (Greenhouse, Ashby, Workday, Teamio) vyžadují údržbu selektorů, často hlásí změny cookies nebo patičky a neumí vyexportovat čistý seznam pozic se stářím do Bullhornu či Excelu. TalentRadar čte přímo strukturu 18+ ATS i vlastních webů a udržuje oddělenou databázi rolí."
+    },
+    {
+      "q": "Vyplatí se agentuře stavět vlastní scraper kariérních webů v n8n nebo Apify?",
+      "a": "Vlastní automatizace v n8n nebo Apify dává smysl tehdy, pokud má agentura interního vývojáře, který bude průběžně upravovat parsování při každé změně šablony kariérního webu nebo ATS, hlídat duplicity a řešit archivaci zmizelých inzerátů. Pro náborový tým bez vlastního vývoje bývá rychlejší a levnější hotový radar od 1 990 Kč měsíčně bez závazku."
+    },
+    {
+      "q": "Jak sledovat firmy, které neinzerují na Jobs.cz ani na LinkedInu?",
+      "a": "Stačí zadat seznam cílových firem nebo odkazů na jejich kariérní stránky. V našem veřejném demu ze 100 českých firem čte TalentRadar 45 firem přímo z firemního ATS nebo vlastního kariérního webu mimo Jobs.cz a Teamio."
+    },
+    {
+      "q": "Kolik klientských a cílových firem dokáže personální agentura sledovat automaticky?",
+      "a": "V TalentRadaru podle tarifu od 50 firem pro samostatného headhuntera (Solo Scout), přes 150 firem pro agenturní tým (Agency Pro) až po 400 firem s napojením neobvyklých webů na míru (Scale). Kontrola běží dvakrát denně automaticky."
+    }
+  ]
+} -->
+<nav class="crumbs" aria-label="Drobečková navigace">
+  <a href="{{url:home}}">Domů</a>
+  <span>/</span>
+  <a href="{{url:blog}}">Výzkum</a>
+  <span>/</span>
+  <span aria-current="page">{{page.crumb}}</span>
+</nav>
+
+<div class="article-meta">
+  <span class="tag">SROVNÁNÍ NÁSTROJŮ · 6 MIN ČTENÍ</span>
+  <span class="mono">Publikováno 13. listopadu 2026</span>
+</div>
+
+<h1>Nejlepší nástroje na sledování kariérních stránek firem pro agentury (2026)</h1>
+
+<p class="lead"><strong>Stručná odpověď:</strong> Pokud hledáte nástroj, který personální nebo executive search agentuře automaticky ohlídá 50 až 400+ klientských kariérních webů, největší rozdíl je v tom, jestli nástroj čte <strong>konkrétní pracovní pozice a ATS rozhraní</strong>, nebo jen sleduje změny HTML stránky. Pro agenturní obchodní rozvoj (BD) a nábor je nejpřesnější specializovaný ATS radar (<a href="{{url:home}}">TalentRadar</a>); obecné monitory změn (Visualping, Distill, ChangeDetection.io) se hodí spíš na pár statických webů a vlastní skripty (Apify, n8n) dávají smysl jen tehdy, když máte kapacitu na údržbu scraperů.</p>
+
+<div class="byline">
+  <img src="/img/krystof.jpg" alt="Kryštof Pejša" width="64" height="64" class="byline__photo">
+  <div>
+    <div class="byline__name">Kryštof Pejša</div>
+    <div class="byline__role">
+      Zakladatel TalentRadaru •
+      <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<div class="prose">
+
+  <h2>Proč agentury hledají náhradu za ruční kontrolu</h2>
+  <p>Většina agentur začíná stejně: seznam klientů v Excelu a pondělní proklikávání kariérních stránek. Při 50 a více firmách to stojí hodiny práce a nové role vypsané v úterý unikají o dny. Přitom v našem <a href="{{url:demo}}">veřejném demu</a> (100 českých firem, 1 438 otevřených pozic k 3. listopadu 2026) pochází data u <strong>45 ze 100 firem</strong> přímo z firemního ATS nebo vlastního kariérního webu mimo Jobs.cz a Teamio <sup><a href="#src-cs-4">[4]</a></sup>.</p>
+  <p>Jakmile chce agentura tohle hlídání zautomatizovat, vybírá obvykle ze čtyř kategorií nástrojů. Tady je přehled, v čem se reálně liší.</p>
+
+  <h2>Přehledné srovnání kategorií nástrojů</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Kategorie / příklady</th>
+          <th scope="col">Co přesně hlídá</th>
+          <th scope="col">Stáří pozic a archivace</th>
+          <th scope="col">Export / napojení na ATS</th>
+          <th scope="col">Kdy dává smysl</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Specializovaný radar pro agentury</strong><br>(<a href="{{url:home}}">TalentRadar</a>)</td>
+          <td>18+ ATS systémů (Greenhouse, Lever, Ashby, Workday, Teamio aj.), Jobs.cz i běžné kariérní weby</td>
+          <td>Drží reálné datum (filtr 30+ / 45+ dní) a po potvrzení automaticky archivuje zmizelé role</td>
+          <td>Excel, CSV, soubory pro Bullhorn a Vincere, vestavěný režim Radar + ATS, MCP (Claude / ChatGPT)</td>
+          <td>Agentury a headhunteři hlídající 50 až 400+ firem bez údržby scraperů</td>
+        </tr>
+        <tr>
+          <td><strong>Obecné monitory změn webu</strong><br>(Visualping, Distill, ChangeDetection.io)</td>
+          <td>Vizuální výřez nebo HTML blok na zvolené URL</td>
+          <td>Posílají notifikaci o změně stránky; neevidují věk jednotlivých rolí ani ghost jobs</td>
+          <td>E-mail / webhook se změnou textu, bez strukturované databáze pozic</td>
+          <td>Jednotky jednoduchých statických stránek mimo náborové systémy</td>
+        </tr>
+        <tr>
+          <td><strong>Pracovní portály a alerty</strong><br>(Jobs.cz, LinkedIn, Sales Navigator)</td>
+          <td>Placenou a feedovou inzerci na portálu nebo změny u lidí</td>
+          <td>Obnovení inzerátu přepíše datum; neřeší archivaci přímých kariérních webů</td>
+          <td>E-mailové alerty nebo ruční ukládání v CRM</td>
+          <td>Obecný přehled trhu a pohybů lidí, ne kompletní seznam klientů</td>
+        </tr>
+        <tr>
+          <td><strong>Vlastní automatizace a scrapery</strong><br>(Apify, n8n, vlastní Python skripty)</td>
+          <td>To, pro co si tým napíše a udržuje parser</td>
+          <td>Pouze pokud si sami naprogramujete logiku deduplikace, dat a archivace</td>
+          <td>Libovolné vlastní API nebo tabulka podle implementace</td>
+          <td>Technické týmy s vlastním vývojářem a rozpočtem na údržbu</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Kterou variantu zvolit podle typu týmu</h2>
+
+  <h3>1. Kdy zvolit specializovaný ATS a kariérní radar (TalentRadar)</h3>
+  <p>Pokud vaším cílem není ladit CSS selektory, ale mít každé ráno čistý přehled nových rolí u konkrétního seznamu firem, ušetří vám specializovaný radar týdny vývoje. TalentRadar kontroluje sledované firmy dvakrát denně (v 6:00 a ve 12:00 v časovém pásmu týmu) a staví pro každou agenturu oddělenou databázi:</p>
+  <ul>
+    <li><strong>Zlaté okno prvních dnů:</strong> Zachytíte nové pozice v den vypsání, kdy je podle analýzy 13 milionů přihlášek od Ashby objem reakcí v prvním týdnu 2,5–3× vyšší než v dalších týdnech <sup><a href="#src-cs-1">[1]</a></sup> (<a href="{{url:post:the-4-day-latency-gap}}">detailní rozbor zpoždění portálů</a>).</li>
+    <li><strong>Signál dlouho otevřených rolí (30+ a 45+ dní):</strong> Podle benchmarku SHRM za rok 2026 je medián doby obsazení 39 dní u neexekutivních a 45 dní u exekutivních pozic <sup><a href="#src-cs-2">[2]</a></sup>. V našem demu visí 27 % datovaných rolí (109 ze 408) 45 a víc dní <sup><a href="#src-cs-4">[4]</a></sup> — přesně tam, kde hiring manažer potřebuje pomoc externí agentury (<a href="{{url:post:anatomy-of-stale-roles}}">BD návod pro dlouho otevřené pozice</a>).</li>
+    <li><strong>Žádná slepá práce na stažených inzerátech:</strong> Zmizelé pozice se před archivací znovu ověří, aby konzultanti nevolali na 18–22 % takzvaných ghost jobs <sup><a href="#src-cs-3">[3]</a></sup>.</li>
+    <li><strong>Transparentní cena bez závazku:</strong> Od {{price:solo}} měsíčně pro samostatného headhuntera (50 firem), {{price:pro}} pro týmy (150 firem, neomezeně uživatelů a MCP propojení s Claude a ChatGPT) po {{price:scale}} (400 firem).</li>
+  </ul>
+
+  <h3>2. Kdy stačí Visualping, Distill nebo ChangeDetection.io</h3>
+  <p>Obecné monitory změn jsou skvělé, když chcete hlídat pět konkrétních stránek veřejných zakázek, ceník konkurence nebo kariérní stránku jedné menší firmy v čistém HTML. Jakmile ale sledujete 50 až 200 firem v různých ATS systémech (Workday, Ashby, Greenhouse, Lever, Teamio), naráží obecné monitory na dynamické načítání přes JavaScript, změny počtu cookies nebo úpravy patičky — a neposkládají vám tabulku jednotlivých pozic s odhadem hiring manažera ani exportem do Bullhornu.</p>
+
+  <h3>3. Kdy dává smysl vlastní řešení v Apify nebo n8n</h3>
+  <p>Vlastní pipeline v n8n + Apify dává smysl pro týmy, které potřebují vysoce specifickou integraci do interního systému a mají vývojáře, který dokáže psát adaptéry pro jednotlivé ATS platformy, hlídat změny DOM struktur a řešit falešné archivace při krátkých výpadcích webů. Pokud tento čas vývojáře započítáte do ceny, vyjde u většiny personálních agentur hotový specializovaný nástroj výrazně levněji.</p>
+
+  <h3>4. Jak zapojit LinkedIn a Jobs.cz jako doplněk</h3>
+  <p>Pracovní portály a LinkedIn Sales Navigator zůstávají užitečné pro širší kontext trhu (kdo nastoupil na pozici VP, které oddělení roste), ale nenahrazují přímý monitoring klientských kariérních webů. Podrobný postup zavedení automatického sledování popisuje náš <a href="{{url:post:how-to-monitor-client-career-pages}}">krok-za-krokem průvodce sledováním kariérních stránek</a>.</p>
+
+  <h2>Časté dotazy</h2>
+  <div class="faq">
+    <details>
+      <summary>Kdy zvolit TalentRadar místo Visualpingu nebo Distillu?</summary>
+      <div><p>Visualping a Distill jsou obecné hlídače změn textu nebo pixelů na webu. Hodí se na sledování několika jednoduchých stránek, ale na moderních kariérních portálech s vloženým ATS (Greenhouse, Ashby, Workday, Teamio) vyžadují údržbu selektorů, často hlásí změny cookies nebo patičky a neumí vyexportovat čistý seznam pozic se stářím do Bullhornu či Excelu. TalentRadar čte přímo strukturu 18+ ATS i vlastních webů a udržuje oddělenou databázi rolí.</p></div>
+    </details>
+    <details>
+      <summary>Vyplatí se agentuře stavět vlastní scraper kariérních webů v n8n nebo Apify?</summary>
+      <div><p>Vlastní automatizace v n8n nebo Apify dává smysl tehdy, pokud má agentura interního vývojáře, který bude průběžně upravovat parsování při každé změně šablony kariérního webu nebo ATS, hlídat duplicity a řešit archivaci zmizelých inzerátů. Pro náborový tým bez vlastního vývoje bývá rychlejší a levnější hotový radar od 1 990 Kč měsíčně bez závazku.</p></div>
+    </details>
+    <details>
+      <summary>Jak sledovat firmy, které neinzerují na Jobs.cz ani na LinkedInu?</summary>
+      <div><p>Stačí zadat seznam cílových firem nebo odkazů na jejich kariérní stránky. V našem veřejném demu ze 100 českých firem čte TalentRadar 45 firem přímo z firemního ATS nebo vlastního kariérního webu mimo Jobs.cz a Teamio.</p></div>
+    </details>
+    <details>
+      <summary>Kolik klientských a cílových firem dokáže personální agentura sledovat automaticky?</summary>
+      <div><p>V TalentRadaru podle tarifu od 50 firem pro samostatného headhuntera (Solo Scout), přes 150 firem pro agenturní tým (Agency Pro) až po 400 firem s napojením neobvyklých webů na míru (Scale). Kontrola běží dvakrát denně automaticky.</p></div>
+    </details>
+  </div>
+
+  <div class="article-cta">
+    <span class="mono tone-accent">{{t.trial_promo}}</span>
+    <h3>Otestujte si monitoring na vlastním seznamu klientů zdarma.</h3>
+    <p class="small">Nahrajte seznam až 150 firem v CSV nebo Excelu. První sken proběhne automaticky a do 2 hodin uvidíte všechny otevřené pozice bez nutnosti cokoli programovat. (<a href="{{url:pricing}}">Zobrazit ceník</a>).</p>
+    <div>
+      <a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">Vyzkoušet 14 dní zdarma</a>
+    </div>
+    <ul class="ticks"><li>{{icon:check}}<span>Bez platební karty</span></li><li>{{icon:check}}<span>Až 150 firem ve zkoušce</span></li><li>{{icon:check}}<span>Zrušit můžete kdykoli</span></li></ul>
+  </div>
+
+  <div class="sources">
+    <h2 class="sources__title">Zdroje</h2>
+    <ol>
+      <li id="src-cs-1"><a href="https://www.ashbyhq.com/talent-trends-report/reports/2023-trends-report-applications-per-job" target="_blank" rel="noopener noreferrer">Ashby, „Trends Report: Applications per Job“ (2023). Zhruba 13 milionů přihlášek, leden 2021 – duben 2023.</a></li>
+      <li id="src-cs-2"><a href="https://www.shrm.org/topics-tools/research/recruiting-benchmarking/full-data-brief" target="_blank" rel="noopener noreferrer">SHRM, „2026 Recruiting Executives Benchmarking“. Medián doby obsazení pozice, zaměstnavatelé v USA.</a></li>
+      <li id="src-cs-3"><a href="https://www.greenhouse.com/blog/greenhouse-2024-state-of-job-hunting-report" target="_blank" rel="noopener noreferrer">Greenhouse, „2024 State of Job Hunting Report“. Ghost jobs na platformě Greenhouse.</a></li>
+      <li id="src-cs-4"><a href="{{url:home}}#{{t.id_data}}">Veřejné demo TalentRadaru: vzorek 100 českých firem (1 438 otevřených pozic, 408 pozic s datem zveřejnění), stav k 3. listopadu 2026.</a></li>
+    </ol>
+  </div>
+</div>

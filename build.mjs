@@ -172,7 +172,9 @@ export function legacyRedirects(site, all = routes(site)) {
     // policy for connector directories (frontend/src/AiApps.tsx): English stays.
     "/gdpr.html": url("gdpr", "en"),
   };
-  for (const id of Object.keys(posts)) {
+  const legacyPostIds = ["anatomy-of-stale-roles", "hidden-cost-of-dead-vacancies", "the-4-day-latency-gap"];
+  for (const id of legacyPostIds) {
+    if (!posts[id]) continue;
     for (const suffix of ["", ".html"]) {
       map[`/blog/${id}${suffix}`] = url(`post:${id}`, "en");
       map[`/blog/${id}-cs${suffix}`] = url(`post:${id}`, "cs");
@@ -1001,28 +1003,333 @@ const JS_KEYS = [
   "trial_ai_copied", "trial_ai_hide",
 ];
 
-function jsonLd(site, r, page) {
+const cleanLdText = (str) => plainSpaces(String(str).replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim());
+
+const APP_FEATURES = {
+  cs: [
+    "Automatické sledování kariérních webů a ATS dvakrát denně (6:00 a 12:00)",
+    "Podpora 18+ ATS platforem i vlastních kariérních stránek",
+    "Skutečné stáří pozice s filtry 30+ a 45+ dní",
+    "Ověřená automatická archivace zmizelých inzerátů",
+    "Odhad hiring manažera a proklik na LinkedIn a Google X-Ray",
+    "Export do Excelu, CSV, Bullhornu a Vincere",
+    "Vestavěný lehký režim Radar + ATS v ceně tarifu",
+    "Párování anonymizovaného kandidáta na otevřené role",
+    "MCP propojení s Claude a ChatGPT (Agency Pro a Scale)",
+  ],
+  en: [
+    "Twice-daily automated career-page and ATS monitoring (06:00 and 12:00)",
+    "Supports 18+ ATS platforms alongside custom career websites",
+    "True posting age tracking with 30+ and 45+ day filters",
+    "Verified automatic archival of disappeared job listings",
+    "Hiring-manager estimation with one-click LinkedIn and Google X-Ray search",
+    "Excel, CSV, Bullhorn, and Vincere export",
+    "Built-in lightweight Radar + ATS mode included in every plan",
+    "Anonymous candidate-to-open-roles matching without storing CVs",
+    "Claude and ChatGPT MCP integration (Agency Pro and Scale)",
+  ],
+};
+
+function orgNode(site, description) {
   const origin = site.config.origin;
-  const org = { "@type": "Organization", name: "TalentRadar", url: `${origin}/`, logo: `${origin}/logo.png` };
-  let data;
+  return {
+    "@type": "Organization",
+    "@id": `${origin}/#organization`,
+    name: "TalentRadar",
+    url: `${origin}/`,
+    logo: { "@type": "ImageObject", url: `${origin}/logo.png` },
+    ...(description ? { description: cleanLdText(description) } : {}),
+    founder: {
+      "@type": "Person",
+      name: "Kryštof Pejša",
+      jobTitle: "Founder",
+      ...(site.config.linkedinFounder ? { sameAs: site.config.linkedinFounder } : {}),
+    },
+    contactPoint: { "@type": "ContactPoint", contactType: "sales", email: site.config.email },
+    sameAs: [site.config.linkedinCompany, site.config.linkedinFounder].filter(Boolean),
+  };
+}
+
+function websiteNode(site, lang) {
+  const origin = site.config.origin;
+  return {
+    "@type": "WebSite",
+    "@id": `${origin}/#website`,
+    name: "TalentRadar",
+    alternateName: "TalentRadar.eu",
+    url: `${origin}/`,
+    inLanguage: lang,
+    publisher: { "@id": `${origin}/#organization` },
+  };
+}
+
+function softwareAppJsonLd(site, r, page, ctx) {
+  const origin = site.config.origin;
+  const currency = site.plans.currency[r.lang];
+  const monthly = site.plans.tiers.map((t) => t.price[currency]);
+  return {
+    "@type": "SoftwareApplication",
+    "@id": `${origin}/#software`,
+    name: "TalentRadar",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: `${origin}${ctx.url("home", r.lang)}`,
+    inLanguage: r.lang,
+    description: cleanLdText(page.description_raw),
+    featureList: APP_FEATURES[r.lang] || APP_FEATURES.en,
+    provider: { "@id": `${origin}/#organization` },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: currency,
+      lowPrice: String(Math.min(...monthly)),
+      highPrice: String(Math.max(...monthly)),
+      offerCount: String(site.plans.tiers.length),
+      offers: site.plans.tiers.map((tier, idx) => ({
+        "@type": "Offer",
+        name: `${tier.name} (${cleanLdText(text(site, ctx, `pricing_t${idx + 1}_limits`))})`,
+        price: String(tier.price[currency]),
+        priceCurrency: currency,
+        url: `${origin}${ctx.url("pricing", r.lang)}`,
+      })),
+    },
+  };
+}
+
+function faqPageJsonLd(lang, items) {
+  return {
+    "@type": "FAQPage",
+    inLanguage: lang,
+    mainEntity: items.map(({ q, a }) => ({
+      "@type": "Question",
+      name: cleanLdText(q),
+      acceptedAnswer: { "@type": "Answer", text: cleanLdText(a) },
+    })),
+  };
+}
+
+function breadcrumbJsonLd(items) {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: cleanLdText(item.name),
+      item: item.url,
+    })),
+  };
+}
+
+function faqItemsFor(site, ctx, kind) {
+  if (kind === "home") {
+    return [7, 2, 8, 1, 3, 4, 5, 6].map((n) => ({
+      q: text(site, ctx, `faq_q${n}`),
+      a: n === 7 ? render(site, text(site, ctx, "faq_a7_html"), ctx, ctx.where || "faq") : text(site, ctx, `faq_a${n}`),
+    }));
+  }
+  return [1, 2, 3, 4, 5].map((n) => ({
+    q: text(site, ctx, `pp_faq_q${n}`),
+    a: text(site, ctx, `pp_faq_a${n}`),
+  }));
+}
+
+function jsonLd(site, r, page, ctx) {
+  if (r.noindex) return "";
+  const origin = site.config.origin;
+  const homeUrl = `${origin}${ctx.url("home", r.lang)}`;
+  const homeName = r.lang === "cs" ? "Domů" : "Home";
+  const org = orgNode(site, r.id === "home" ? page.description_raw : undefined);
+  let graph;
+
   if (r.post) {
-    data = {
-      "@context": "https://schema.org",
+    const blogName = r.lang === "cs" ? "Výzkum" : "Research";
+    const blogUrl = `${origin}${ctx.url("blog", r.lang)}`;
+    const article = {
       "@type": "Article",
-      headline: r.post.title,
-      description: r.post.description,
+      headline: cleanLdText(r.post.title),
+      description: cleanLdText(r.post.description),
+      image: `${origin}/img/og-${r.lang}.jpg`,
       inLanguage: r.lang,
-      author: { "@type": "Person", name: "Kryštof Pejša", jobTitle: "Founder", worksFor: org },
-      publisher: { "@type": "Organization", name: "TalentRadar", logo: { "@type": "ImageObject", url: `${origin}/logo.png` } },
+      author: {
+        "@type": "Person",
+        name: "Kryštof Pejša",
+        jobTitle: "Founder",
+        ...(site.config.linkedinFounder ? { sameAs: site.config.linkedinFounder } : {}),
+        worksFor: { "@id": `${origin}/#organization` },
+      },
+      publisher: { "@id": `${origin}/#organization` },
       datePublished: r.post.published,
+      dateModified: r.post.modified || r.post.published,
       mainEntityOfPage: page.canonical_url,
     };
+    const crumbs = breadcrumbJsonLd([
+      { name: homeName, url: homeUrl },
+      { name: blogName, url: blogUrl },
+      { name: r.post.crumb || r.post.title, url: page.canonical_url },
+    ]);
+    graph = [org, article, crumbs, ...(Array.isArray(r.post.faq) && r.post.faq.length ? [faqPageJsonLd(r.lang, r.post.faq)] : [])];
   } else if (r.id === "home") {
-    data = { "@context": "https://schema.org", ...org, description: page.description_raw, sameAs: ["https://www.linkedin.com/company/talent-radareu"] };
+    graph = [org, websiteNode(site, r.lang), softwareAppJsonLd(site, r, page, ctx), faqPageJsonLd(r.lang, faqItemsFor(site, ctx, "home"))];
+  } else if (r.id === "pricing") {
+    const crumbs = breadcrumbJsonLd([
+      { name: homeName, url: homeUrl },
+      { name: text(site, ctx, "nav_pricing"), url: page.canonical_url },
+    ]);
+    graph = [org, softwareAppJsonLd(site, r, page, ctx), faqPageJsonLd(r.lang, faqItemsFor(site, ctx, "pricing")), crumbs];
+  } else if (r.id === "blog") {
+    const langPosts = Object.values(site.posts)
+      .map((p) => p.lang[r.lang])
+      .sort((a, b) => b.published.localeCompare(a.published) || a.id.localeCompare(b.id));
+    const crumbs = breadcrumbJsonLd([
+      { name: homeName, url: homeUrl },
+      { name: text(site, ctx, "nav_blog"), url: page.canonical_url },
+    ]);
+    graph = [
+      org,
+      {
+        "@type": "CollectionPage",
+        name: cleanLdText(text(site, ctx, "blog_h2")),
+        description: cleanLdText(page.description_raw),
+        url: page.canonical_url,
+        inLanguage: r.lang,
+        publisher: { "@id": `${origin}/#organization` },
+        hasPart: langPosts.map((p) => ({
+          "@type": "Article",
+          headline: cleanLdText(p.title),
+          url: `${origin}${ctx.url(`post:${p.id}`, r.lang)}`,
+        })),
+      },
+      crumbs,
+    ];
   } else {
-    return "";
+    const crumbs = breadcrumbJsonLd([
+      { name: homeName, url: homeUrl },
+      { name: cleanLdText(text(site, ctx, `meta_${r.id}_title`)), url: page.canonical_url },
+    ]);
+    const webPage = {
+      "@type": "WebPage",
+      name: cleanLdText(text(site, ctx, `meta_${r.id}_title`)),
+      description: cleanLdText(page.description_raw),
+      url: page.canonical_url,
+      inLanguage: r.lang,
+      ...(r.id === "demo" ? { about: { "@id": `${origin}/#software` } } : { publisher: { "@id": `${origin}/#organization` } }),
+    };
+    graph = r.id === "demo" ? [org, softwareAppJsonLd(site, r, page, ctx), webPage, crumbs] : [org, webPage, crumbs];
   }
-  return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
+
+  return `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c")}</script>`;
+}
+
+function llmsBaseLines(site, all, urlOf) {
+  const { config, plans, demoStats, charts } = site;
+  const origin = config.origin;
+  const enVars = siteVars(site, "en");
+  const atsSources = site.i18n.en.ats_strip_list;
+  const ageChart = charts["stari-pozic"];
+  const ageBase = ageChart ? ageChart.rows.reduce((a, r) => a + r.roles, 0) : 0;
+  const age45 = ageChart ? ageChart.rows.filter((r) => r.highlight).reduce((a, r) => a + r.roles, 0) : 0;
+  const srcChart = charts["zdroje-pozic"];
+  const srcMap = srcChart ? Object.fromEntries(srcChart.rows.map((r) => [r.group_en, r])) : {};
+  const tierLines = plans.tiers.map((t) => {
+    const czkMonth = t.price.CZK.toLocaleString("en-GB");
+    const eurMonth = t.price.EUR.toLocaleString("en-GB");
+    const czkYear = (t.price.CZK * plans.yearly_paid_months).toLocaleString("en-GB");
+    const eurYear = (t.price.EUR * plans.yearly_paid_months).toLocaleString("en-GB");
+    return `- **${t.name}**: up to ${t.companies} companies — CZK ${czkMonth}/month (CZK ${czkYear}/year) or EUR ${eurMonth}/month (EUR ${eurYear}/year), excl. VAT.`;
+  });
+  const postsEn = Object.values(site.posts)
+    .map((p) => p.lang.en)
+    .sort((a, b) => b.published.localeCompare(a.published) || a.id.localeCompare(b.id));
+  const postsCs = Object.values(site.posts)
+    .map((p) => p.lang.cs)
+    .sort((a, b) => b.published.localeCompare(a.published) || a.id.localeCompare(b.id));
+  const link = (id, lang) => `${origin}${urlOf(id, lang)}`;
+
+  return {
+    origin,
+    postsEn,
+    postsCs,
+    lines: [
+      "# TalentRadar",
+      "",
+      "> B2B SaaS platform for recruitment agencies and executive search teams that automatically monitors client and prospect career pages twice a day, surfaces new roles before they reach job boards, flags roles open 45+ days, archives closed listings, and matches candidates to open roles.",
+      "",
+      "## What Problem It Solves",
+      "- Employers publish new roles on their own career page or ATS first; job boards and LinkedIn receive them hours or days later via feeds or paid promotion.",
+      "- TalentRadar checks every tracked company's career page twice daily (06:00 and 12:00 in the agency's timezone), so consultants reach hiring managers during the golden window before inboxes fill up.",
+      "- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export) or as a lightweight built-in ATS (Radar + ATS mode included in every plan).",
+      "- Tracks real posting dates (from the company ATS or first-seen timestamp) to highlight roles open 30+ and 45+ days, and automatically archives disappeared roles after verification to eliminate ghost-job waste.",
+      "- Estimates likely hiring managers from the job posting, links directly to LinkedIn and Google X-Ray search, drafts outreach messages in each consultant's style, and connects to Claude and ChatGPT via MCP on Agency Pro and Scale plans.",
+      "",
+      "## Supported Career Pages & ATS Sources",
+      `- Public career pages and ATS APIs read automatically: ${atsSources}, plus custom company career websites.`,
+      "- Exports: Excel (.xlsx), generic CSV, and ready-to-import files for Bullhorn and Vincere.",
+      "- Custom career-page connectors available on the Scale plan.",
+      "",
+      `## Public Demo Data Snapshot (as of ${demoStats.as_of})`,
+      `- Tracked sample: ${demoStats.companies} Czech companies (${demoStats.companies_open} with open roles), ${demoStats.open_positions} open roles total, average ${enVars["c1.avg"]} new roles per day, ${demoStats.companies_new_7d} of ${demoStats.companies} companies with a new role in 7 days.`,
+      ...(srcChart
+        ? [`- Sources across the ${demoStats.companies} demo companies: ${srcMap["Jobs.cz / Teamio"]?.companies ?? 0} via Jobs.cz/Teamio (${srcMap["Jobs.cz / Teamio"]?.roles ?? 0} roles), ${srcMap["Company ATS"]?.companies ?? 0} via company ATS (${srcMap["Company ATS"]?.roles ?? 0} roles), and ${srcMap["Own careers site"]?.companies ?? 0} directly from custom careers sites (${srcMap["Own careers site"]?.roles ?? 0} roles).`]
+        : []),
+      ...(ageChart ? [`- Role age: ${age45} of ${ageBase} dated roles (${Math.round((age45 / ageBase) * 100)}%) have been open for 45+ days.`] : []),
+      "",
+      "## Pricing (Monthly, No Commitment; Yearly = 10 Months for 12)",
+      ...tierLines,
+      "- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Launch offer for the first 5 agencies: first month free, then 3 months at 50% off.",
+      "",
+      "## Key Pages (English)",
+      `- [Home](${link("home", "en")}): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.`,
+      `- [Pricing](${link("pricing", "en")}): Solo Scout, Agency Pro, and Scale tiers in EUR/CZK with monthly and yearly billing.`,
+      `- [App Preview](${link("demo", "en")}): Short captioned clips from the public TalentRadar demo.`,
+      `- [Research & Blog](${link("blog", "en")}): Data-backed articles and agency BD playbooks.`,
+      `- [Privacy Policy](${link("gdpr", "en")}): GDPR data processing details.`,
+      `- [Full AI Context (llms-full.txt)](${origin}/llms-full.txt): Complete bilingual product specs, all FAQs, and article Q&As in Markdown.`,
+      "",
+      "## Key Pages (Czech)",
+      `- [Domů](${link("home", "cs")}): Přehled funkce radaru, data z veřejného dema, časté dotazy a zkušební přístup zdarma.`,
+      `- [Ceník](${link("pricing", "cs")}): Tarify Solo Scout, Agency Pro a Scale v CZK bez DPH.`,
+      `- [Ukázky](${link("demo", "cs")}): Krátké ukázky z veřejného dema aplikace.`,
+      `- [Blog a výzkum](${link("blog", "cs")}): Návody a data pro personální agentury.`,
+      `- [Zásady ochrany osobních údajů](${link("gdpr", "cs")}): Zpracování údajů dle GDPR.`,
+      "",
+      "## Research Articles (English)",
+      ...postsEn.map((p) => `- [${cleanLdText(p.title)}](${link(`post:${p.id}`, "en")}): ${cleanLdText(p.description)}`),
+      "",
+      "## Odborné články (Czech)",
+      ...postsCs.map((p) => `- [${cleanLdText(p.title)}](${link(`post:${p.id}`, "cs")}): ${cleanLdText(p.description)}`),
+      "",
+      "## Contact",
+      `- Founder: Kryštof Pejša (${config.email})`,
+      ...(config.linkedinCompany ? [`- LinkedIn (Company): ${config.linkedinCompany}`] : []),
+      ...(config.linkedinFounder ? [`- LinkedIn (Founder): ${config.linkedinFounder}`] : []),
+      `- Live Public Demo: ${config.demoUrl}`,
+      "",
+    ],
+  };
+}
+
+/** Structured Markdown summary for AI search engines and assistants (public/llms.txt). */
+function llmsTxt(site, all, urlOf) {
+  return llmsBaseLines(site, all, urlOf).lines.join("\n");
+}
+
+/** Extended bilingual knowledge base with full FAQs for AI assistants (public/llms-full.txt). */
+function llmsFullTxt(site, all, urlOf) {
+  const base = llmsBaseLines(site, all, urlOf);
+  const varsByLang = Object.fromEntries(site.config.langs.map((l) => [l, siteVars(site, l)]));
+  const faqBlock = (lang, heading) => {
+    const ctx = { lang, dict: site.i18n[lang], vars: varsByLang[lang], icons: new Set(), assetVersions: {}, url: (id, l = lang) => urlOf(id, l), page: {} };
+    const items = [...faqItemsFor(site, ctx, "home"), ...faqItemsFor(site, ctx, "pricing")];
+    const postFaqs = (lang === "cs" ? base.postsCs : base.postsEn).flatMap((p) => p.faq || []);
+    return [
+      heading,
+      ...[...items, ...postFaqs].flatMap(({ q, a }) => [`### ${cleanLdText(q)}`, cleanLdText(a), ""]),
+    ];
+  };
+  return [
+    ...base.lines,
+    ...faqBlock("en", "## Frequently Asked Questions (English)"),
+    ...faqBlock("cs", "## Časté dotazy (Czech)"),
+  ].join("\n");
 }
 
 /** Builds the whole site: Map of repo-relative path -> content (string or Buffer). */
@@ -1099,7 +1406,7 @@ export function buildSite(site) {
       crumb: r.post ? escapeHtml(r.post.crumb || r.post.title) : "",
       sprite: "",
     };
-    ctx.page.jsonld = jsonLd(site, r, ctx.page);
+    ctx.page.jsonld = jsonLd(site, r, ctx.page, ctx);
     if (r.post) ctx.page.post_body = render(site, r.post.body, ctx, `${where} article`);
     const pageTpl = site.templates[`pages/${r.template}`];
     if (pageTpl === undefined) throw new Error(`${where}: no template src/pages/${r.template}.html`);
@@ -1123,20 +1430,23 @@ export function buildSite(site) {
   }
 
   // sitemap: every indexable page at its final address, with its language pairs
-  const entries = all
+  const indexableRoutes = all
     .filter((r) => !r.noindex)
-    .sort((a, b) => a.path.localeCompare(b.path))
-    .map((r) => {
-      const alts = config.langs.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${origin}${urlOf(r.id, l)}"/>`);
-      alts.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${origin}${urlOf(r.id, config.xDefault)}"/>`);
-      const lastmod = r.post ? `\n    <lastmod>${r.post.published.slice(0, 10)}</lastmod>` : "";
-      return `  <url>\n    <loc>${origin}${r.path}</loc>${lastmod}\n${alts.join("\n")}\n  </url>`;
-    });
+    .sort((a, b) => a.path.localeCompare(b.path));
+  const entries = indexableRoutes.map((r) => {
+    const alts = config.langs.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${origin}${urlOf(r.id, l)}"/>`);
+    alts.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${origin}${urlOf(r.id, config.xDefault)}"/>`);
+    const lastmod = r.post ? `\n    <lastmod>${r.post.published.slice(0, 10)}</lastmod>` : "";
+    return `  <url>\n    <loc>${origin}${r.path}</loc>${lastmod}\n${alts.join("\n")}\n  </url>`;
+  });
   files.set(
     "public/sitemap.xml",
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join("\n")}\n</urlset>\n`
   );
+  files.set("public/sitemap.txt", indexableRoutes.map((r) => `${origin}${r.path}`).join("\n") + "\n");
   files.set("public/robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`);
+  files.set("public/llms.txt", llmsTxt(site, all, urlOf));
+  files.set("public/llms-full.txt", llmsFullTxt(site, all, urlOf));
   files.set("public/_headers", site.headers);
 
   const redirects = legacyRedirects(site, all);

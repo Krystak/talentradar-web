@@ -1,0 +1,61 @@
+# TalentRadar
+
+> B2B SaaS platform for recruitment agencies and executive search teams that automatically monitors client and prospect career pages twice a day, surfaces new roles before they reach job boards, flags roles open 45+ days, archives closed listings, and matches candidates to open roles.
+
+## What Problem It Solves
+- Employers publish new roles on their own career page or ATS first; job boards and LinkedIn receive them hours or days later via feeds or paid promotion.
+- TalentRadar checks every tracked company's career page twice daily (06:00 and 12:00 in the agency's timezone), so consultants reach hiring managers during the golden window before inboxes fill up.
+- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export) or as a lightweight built-in ATS (Radar + ATS mode included in every plan).
+- Tracks real posting dates (from the company ATS or first-seen timestamp) to highlight roles open 30+ and 45+ days, and automatically archives disappeared roles after verification to eliminate ghost-job waste.
+- Estimates likely hiring managers from the job posting, links directly to LinkedIn and Google X-Ray search, drafts outreach messages in each consultant's style, and connects to Claude and ChatGPT via MCP on Agency Pro and Scale plans.
+
+## Supported Career Pages & ATS Sources
+- Public career pages and ATS APIs read automatically: Jobs.cz and Teamio, Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Phenom, Jibe, SuccessFactors, Oracle Recruiting, Eightfold, plus custom company career websites.
+- Exports: Excel (.xlsx), generic CSV, and ready-to-import files for Bullhorn and Vincere.
+- Custom career-page connectors available on the Scale plan.
+
+## Public Demo Data Snapshot (as of 2026-11-03)
+- Tracked sample: 100 Czech companies (99 with open roles), 1438 open roles total, average 36 new roles per day, 53 of 100 companies with a new role in 7 days.
+- Sources across the 100 demo companies: 55 via Jobs.cz/Teamio (790 roles), 24 via company ATS (350 roles), and 21 directly from custom careers sites (298 roles).
+- Role age: 109 of 408 dated roles (27%) have been open for 45+ days.
+
+## Pricing (Monthly, No Commitment; Yearly = 10 Months for 12)
+- **Solo Scout**: up to 50 companies — CZK 1,990/month (CZK 19,900/year) or EUR 119/month (EUR 1,190/year), excl. VAT.
+- **Agency Pro**: up to 150 companies — CZK 3,990/month (CZK 39,900/year) or EUR 289/month (EUR 2,890/year), excl. VAT.
+- **Scale**: up to 400 companies — CZK 7,990/month (CZK 79,900/year) or EUR 529/month (EUR 5,290/year), excl. VAT.
+- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Launch offer for the first 5 agencies: first month free, then 3 months at 50% off.
+
+## Key Pages (English)
+- [Home](https://talentradar.eu/en/): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.
+- [Pricing](https://talentradar.eu/en/pricing): Solo Scout, Agency Pro, and Scale tiers in EUR/CZK with monthly and yearly billing.
+- [App Preview](https://talentradar.eu/en/demo): Short captioned clips from the public TalentRadar demo.
+- [Research & Blog](https://talentradar.eu/en/blog/): Data-backed articles and agency BD playbooks.
+- [Privacy Policy](https://talentradar.eu/en/gdpr): GDPR data processing details.
+- [Full AI Context (llms-full.txt)](https://talentradar.eu/llms-full.txt): Complete bilingual product specs, all FAQs, and article Q&As in Markdown.
+
+## Key Pages (Czech)
+- [Domů](https://talentradar.eu/): Přehled funkce radaru, data z veřejného dema, časté dotazy a zkušební přístup zdarma.
+- [Ceník](https://talentradar.eu/cenik): Tarify Solo Scout, Agency Pro a Scale v CZK bez DPH.
+- [Ukázky](https://talentradar.eu/demo): Krátké ukázky z veřejného dema aplikace.
+- [Blog a výzkum](https://talentradar.eu/blog/): Návody a data pro personální agentury.
+- [Zásady ochrany osobních údajů](https://talentradar.eu/gdpr): Zpracování údajů dle GDPR.
+
+## Research Articles (English)
+- [Best Career Page Monitoring Tools for Recruitment Agencies (2026)](https://talentradar.eu/en/blog/best-career-page-monitoring-tools-for-agencies): Comparison of tools to monitor client and prospect career pages automatically: dedicated ATS radars (TalentRadar), generic change monitors (Visualping, Distill, ChangeDetection), job board alerts, and DIY scrapers (Apify, n8n).
+- [How to Monitor Client Career Pages Automatically for Recruitment Agencies](https://talentradar.eu/en/blog/how-to-monitor-client-career-pages): Four ways recruitment and executive search teams track client career pages: manual checks, job board alerts, generic page-change monitors, and dedicated ATS-aware career-page tracking.
+- [Anatomy of Stale Roles (>35 Days): A High-Probability Pitch in B2B Recruitment](https://talentradar.eu/en/blog/anatomy-of-stale-roles): A role still open after five weeks is at or past a typical time-to-fill. Why that makes a warm pitch, and how to build it.
+- [The Hidden Cost of Dead Vacancies: Why Chasing Ghost Roles Burns Consultant Morale](https://talentradar.eu/en/blog/hidden-cost-of-dead-vacancies): Greenhouse classifies 18–22% of jobs posted on its platform as ghost jobs. How automatic archiving keeps an agency's list of open roles honest.
+- [The Latency Gap: Why the First Days of a Vacancy Decide Who Wins the Mandate](https://talentradar.eu/en/blog/the-4-day-latency-gap): Companies publish new roles on their own careers page first, and applications peak in the first week. Why the agency that sees a role first gets the conversation with the hiring manager.
+
+## Odborné články (Czech)
+- [Nejlepší nástroje na sledování kariérních stránek firem pro agentury (2026)](https://talentradar.eu/blog/nastroje-na-sledovani-kariernich-stranek-firem): Srovnání kategorií nástrojů pro monitoring náboru a kariérních webů: TalentRadar, obecné hlídače změn (Visualping, Distill, ChangeDetection), alerty portálů a vlastní skripty (Apify, n8n).
+- [Jak automaticky sledovat kariérní stránky firem (pro personální agentury)](https://talentradar.eu/blog/jak-automaticky-sledovat-karierni-stranky-firem): Čtyři způsoby, jak v agentuře hlídat otevřené pozice klientů a cílových firem: ruční kontrola, pracovní portály, obecné hlídače změn a specializovaný radar kariérních webů.
+- [Pozice otevřené déle než 35 dní: nejlepší důvod klienta oslovit](https://talentradar.eu/blog/dlouho-otevrene-pozice): Pozice otevřená déle než pět týdnů se blíží běžné době obsazení, nebo ji už překročila. Proč je to teplý důvod k oslovení a jak ho postavit.
+- [Kolik stojí mrtvé inzeráty: proč práce na neexistujících pozicích ubíjí recruitery](https://talentradar.eu/blog/kolik-stoji-mrtve-inzeraty): Greenhouse řadí 18–22 % pozic vypsaných na své platformě mezi ghost jobs. Jak automatická archivace udrží seznam otevřených pozic pravdivý.
+- [Kdo dřív přijde, ten dřív mele: proč o zakázce rozhodují první dny po vypsání pozice](https://talentradar.eu/blog/prvni-dny-po-vypsani-pozice): Firmy zveřejňují nové pozice nejdřív na vlastním kariérním webu a přihlášky vrcholí v prvním týdnu. Proč rozhovor s hiring manažerem získá agentura, která pozici uvidí první.
+
+## Contact
+- Founder: Kryštof Pejša (krystof@talentradar.eu)
+- LinkedIn (Company): https://www.linkedin.com/company/talent-radareu
+- LinkedIn (Founder): https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/
+- Live Public Demo: https://app.talentradar.eu/?demo=showcase

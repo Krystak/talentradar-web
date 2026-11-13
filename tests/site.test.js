@@ -160,7 +160,7 @@ test("old addresses that are files again are in run_worker_first, so they answer
 
 test("addresses the app and e-mails link to keep answering", () => {
   const files = siteFiles();
-  for (const path of ["/img/email/logo-96.png", "/img/email/krystof-96.jpg", "/files/clients-template.csv", "/files/klienti-sablona.csv", "/logo.png", "/logo.jpg", "/favicon.ico", "/favicon.svg", "/img/og-banner.jpg", "/robots.txt", "/sitemap.xml"]) {
+  for (const path of ["/img/email/logo-96.png", "/img/email/krystof-96.jpg", "/files/clients-template.csv", "/files/klienti-sablona.csv", "/logo.png", "/logo.jpg", "/favicon.ico", "/favicon.svg", "/img/og-banner.jpg", "/robots.txt", "/sitemap.xml", "/sitemap.txt", "/llms.txt", "/llms-full.txt"]) {
     assert.equal(answer(path, files, REDIRECTS, workerFirstPatterns()).status, 200, path);
   }
   const toml = readFileSync(new URL("../wrangler.toml", import.meta.url), "utf8");
@@ -677,4 +677,110 @@ test("every page shares the image of its language: an existing 1200x630 JPEG und
 
 test("the old share image stays: shared links and the app may still point at it", () => {
   assert.ok(readFileSync(new URL("../public/img/og-banner.jpg", import.meta.url)).length > 0);
+});
+
+// ── SEO & AI visibility: rich JSON-LD and llms.txt ──────────────────────────
+
+function parseJsonLd(htmlText) {
+  const m = htmlText.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  assert.ok(m, "JSON-LD script block present");
+  return JSON.parse(m[1]);
+}
+
+test("home, pricing, demo and blog index emit valid linked Knowledge Graph JSON-LD", () => {
+  const site = loadSite();
+  const files = buildSite(site);
+
+  for (const [path, lang, faqCount, isHome] of [
+    ["public/index.html", "cs", 8, true],
+    ["public/en/index.html", "en", 8, true],
+    ["public/cenik.html", "cs", 5, false],
+    ["public/en/pricing.html", "en", 5, false],
+  ]) {
+    const ld = parseJsonLd(String(files.get(path)));
+    assert.equal(ld["@context"], "https://schema.org", path);
+    assert.ok(Array.isArray(ld["@graph"]), `${path}: @graph`);
+    const types = ld["@graph"].map((node) => node["@type"]);
+    assert.ok(types.includes("Organization"), `${path}: Organization`);
+    if (isHome) assert.ok(types.includes("WebSite"), `${path}: WebSite`);
+    else assert.ok(types.includes("BreadcrumbList"), `${path}: BreadcrumbList`);
+    assert.ok(types.includes("SoftwareApplication"), `${path}: SoftwareApplication`);
+    assert.ok(types.includes("FAQPage"), `${path}: FAQPage`);
+
+    const app = ld["@graph"].find((n) => n["@type"] === "SoftwareApplication");
+    assert.equal(app.applicationCategory, "BusinessApplication");
+    assert.ok(Array.isArray(app.featureList) && app.featureList.length >= 5, `${path}: featureList`);
+    assert.equal(app.offers.priceCurrency, site.plans.currency[lang]);
+    assert.equal(app.offers.offers.length, site.plans.tiers.length);
+
+    const faq = ld["@graph"].find((n) => n["@type"] === "FAQPage");
+    assert.equal(faq.mainEntity.length, faqCount, `${path}: FAQ count`);
+    for (const q of faq.mainEntity) {
+      assert.doesNotMatch(q.name + q.acceptedAnswer.text, /<[^>]+>|\[Kryštof|\u00a0/, `${path}: clean FAQ text`);
+    }
+  }
+
+  for (const [path, expectedType] of [
+    ["public/blog/index.html", "CollectionPage"],
+    ["public/en/blog/index.html", "CollectionPage"],
+    ["public/demo.html", "WebPage"],
+    ["public/en/demo.html", "WebPage"],
+  ]) {
+    const ld = parseJsonLd(String(files.get(path)));
+    const types = ld["@graph"].map((node) => node["@type"]);
+    assert.ok(types.includes("Organization"), `${path}: Organization`);
+    assert.ok(types.includes("BreadcrumbList"), `${path}: BreadcrumbList`);
+    assert.ok(types.includes(expectedType), `${path}: ${expectedType}`);
+  }
+});
+
+test("comparison guides exist in CS/EN with Article (image/dateModified), BreadcrumbList, FAQPage JSON-LD and tables", () => {
+  const files = built();
+  for (const [path, lang] of [
+    ["public/blog/jak-automaticky-sledovat-karierni-stranky-firem.html", "cs"],
+    ["public/en/blog/how-to-monitor-client-career-pages.html", "en"],
+    ["public/blog/nastroje-na-sledovani-kariernich-stranek-firem.html", "cs"],
+    ["public/en/blog/best-career-page-monitoring-tools-for-agencies.html", "en"],
+  ]) {
+    const doc = String(files.get(path));
+    assert.match(doc, /<div class="table-wrap">\s*<table>/, `${path}: comparison table`);
+    const ld = parseJsonLd(doc);
+    assert.ok(Array.isArray(ld["@graph"]), `${path}: @graph`);
+    const article = ld["@graph"].find((n) => n["@type"] === "Article");
+    const faq = ld["@graph"].find((n) => n["@type"] === "FAQPage");
+    const crumbs = ld["@graph"].find((n) => n["@type"] === "BreadcrumbList");
+    assert.ok(article && faq && crumbs, `${path}: Article + FAQPage + BreadcrumbList`);
+    assert.equal(article.inLanguage, lang);
+    assert.equal(article.image, `https://talentradar.eu/img/og-${lang}.jpg`);
+    assert.ok(article.dateModified, `${path}: dateModified`);
+    assert.equal(faq.mainEntity.length, 4);
+  }
+});
+
+test("llms.txt, llms-full.txt and sitemap.txt are generated cleanly with all indexable URLs", () => {
+  const site = loadSite();
+  const files = buildSite(site);
+  assert.ok(files.has("public/llms.txt"));
+  assert.ok(files.has("public/llms-full.txt"));
+  assert.ok(files.has("public/sitemap.txt"));
+
+  const txt = String(files.get("public/llms.txt"));
+  assert.match(txt, /^# TalentRadar/m);
+  for (const tier of site.plans.tiers) assert.ok(txt.includes(tier.name), tier.name);
+  assert.match(txt, /CZK 1,990\/month/);
+  assert.match(txt, /EUR 119\/month/);
+  assert.match(txt, /https:\/\/talentradar\.eu\/llms-full\.txt/);
+  assert.match(txt, /https:\/\/talentradar\.eu\/blog\/jak-automaticky-sledovat-karierni-stranky-firem/);
+  assert.match(txt, /https:\/\/talentradar\.eu\/en\/blog\/how-to-monitor-client-career-pages/);
+  assert.match(txt, /https:\/\/talentradar\.eu\/blog\/nastroje-na-sledovani-kariernich-stranek-firem/);
+  assert.match(txt, /https:\/\/talentradar\.eu\/en\/blog\/best-career-page-monitoring-tools-for-agencies/);
+
+  const full = String(files.get("public/llms-full.txt"));
+  assert.match(full, /^## Frequently Asked Questions \(English\)/m);
+  assert.match(full, /^## Časté dotazy \(Czech\)/m);
+  assert.doesNotMatch(full, /<[^>]+>|\[Kryštof|\u00a0/);
+
+  const smTxt = String(files.get("public/sitemap.txt")).trim().split("\n");
+  const smXmlLocs = [...String(files.get("public/sitemap.xml")).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  assert.deepEqual(smTxt, smXmlLocs);
 });

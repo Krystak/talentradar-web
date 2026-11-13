@@ -1,0 +1,186 @@
+<!--meta {
+  "id": "how-to-monitor-client-career-pages",
+  "slug": "jak-automaticky-sledovat-karierni-stranky-firem",
+  "title": "Jak automaticky sledovat kariérní stránky firem (pro personální agentury)",
+  "description": "Čtyři způsoby, jak v agentuře hlídat otevřené pozice klientů a cílových firem: ruční kontrola, pracovní portály, obecné hlídače změn a specializovaný radar kariérních webů.",
+  "published": "2026-11-13T08:00:00+01:00",
+  "minutes": 6,
+  "crumb": "Jak sledovat kariérní stránky",
+  "faq": [
+    {
+      "q": "Proč nestačí sledovat pracovní portály jako Jobs.cz nebo LinkedIn?",
+      "a": "Firmy zveřejňují nové pozice nejdřív na svém kariérním webu nebo v ATS (Greenhouse, Lever, Ashby, Workday, Teamio), protože je to zdarma a okamžité. Na portály se pozice dostávají se zpožděním přes feedy nebo až při placené propagaci. V našem veřejném demu ze 100 českých firem čteme 45 firem přímo z firemního ATS nebo vlastního kariérního webu mimo Jobs.cz a Teamio."
+    },
+    {
+      "q": "Jaký je rozdíl mezi obecným hlídačem změn stránky (např. Visualping) a radarem pro agentury?",
+      "a": "Obecné monitory hlídají změnu HTML nebo pixelů na stránce, ale nerozliší novou pozici od změny patičky nebo náhodné úpravy textu, neumí číst strukturu ATS API a po smazání inzerátu nearchivují pozici s historií. Specializovaný nástroj jako TalentRadar extrahuje jednotlivé pozice, hlídá jejich skutečné stáří (30+ a 45+ dní), ověřeně je archivuje a vyexportuje je do CSV pro Bullhorn, Vincere nebo Excel."
+    },
+    {
+      "q": "Jak často je potřeba kariérní weby klientů kontrolovat?",
+      "a": "Pro BD a nábor stačí kontrola dvakrát denně, například v 6:00 a ve 12:00. Umožní to zachytit nové pozice v den vypsání ještě před návalem přihlášek a konkurence a zároveň to nezatěžuje veřejné weby firem."
+    },
+    {
+      "q": "Musím kvůli sledování kariérních webů měnit stávající ATS?",
+      "a": "Ne. TalentRadar funguje v režimu Jen radar vedle vašeho stávajícího ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio nebo tabulka) s exportem do CSV a Excelu. Pokud agentura vlastní ATS nemá, může použít vestavěný režim Radar + ATS v ceně každého tarifu."
+    }
+  ]
+} -->
+<nav class="crumbs" aria-label="Drobečková navigace">
+  <a href="{{url:home}}">Domů</a>
+  <span>/</span>
+  <a href="{{url:blog}}">Výzkum</a>
+  <span>/</span>
+  <span aria-current="page">{{page.crumb}}</span>
+</nav>
+
+<div class="article-meta">
+  <span class="tag">PRŮVODCE PRO AGENTURY · 6 MIN ČTENÍ</span>
+  <span class="mono">Publikováno 13. listopadu 2026</span>
+</div>
+
+<h1>Jak automaticky sledovat kariérní stránky firem (pro personální agentury)</h1>
+
+<p class="lead"><strong>Stručná odpověď:</strong> Nejefektivnější způsob, jak v personální nebo executive search agentuře automaticky sledovat desítky až stovky klientských a cílových firem, je specializovaný monitor kariérních stránek a ATS (například <a href="{{url:home}}">TalentRadar</a>), který umí číst přímo strukturovaná data ze systémů jako Greenhouse, Lever, Ashby, Workday nebo Teamio i z vlastních kariérních webů. Ruční obcházení bere konzultantům hodiny týdně, upozornění z pracovních portálů zachytí pozice pozdě a obecné hlídače změn na webu neumí pracovat s jednotlivými inzeráty, stářím pozice ani exportem do ATS.</p>
+
+<div class="byline">
+  <img src="/img/krystof.jpg" alt="Kryštof Pejša" width="64" height="64" class="byline__photo">
+  <div>
+    <div class="byline__name">Kryštof Pejša</div>
+    <div class="byline__role">
+      Zakladatel TalentRadaru •
+      <a href="https://www.linkedin.com/in/kry%C5%A1tof-pej%C5%A1a-ba45983a0/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<div class="prose">
+
+  <h2>Proč záleží na tom, jak a kde pozice sledujete</h2>
+  <p>Každá personální agentura zná stejný problém: klient nebo cílová firma vypíše novou pozici, ale než se o ní konzultant dozví z pracovního portálu nebo z občasné kontroly, má už hiring manažer plnou schránku.</p>
+  <p>Analýza zhruba 13 milionů přihlášek od ATS platformy Ashby ukazuje, že v prvním týdnu po vypsání přijde <strong>2,5–3× víc přihlášek</strong> než v kterémkoli dalším týdnu <sup><a href="#src-cs-1">[1]</a></sup>. Navíc v našem <a href="{{url:demo}}">veřejném demu</a>, které k 3. listopadu 2026 sleduje 100 českých firem (1 438 otevřených pozic), čteme <strong>45 ze 100 firem</strong> přímo z jejich vlastního ATS (24 firem) nebo vlastního kariérního webu (21 firem), nikoli přes Jobs.cz či Teamio <sup><a href="#src-cs-4">[4]</a></sup>.</p>
+  <p>Způsob, jakým tyto stránky kontrolujete, proto přímo rozhoduje o tom, jestli budete s manažerem mluvit první den, nebo až ve chvíli, kdy má na stole deset nabídek od jiných agentur.</p>
+
+  <h2>Srovnání 4 způsobů, jak sledovat kariérní stránky firem</h2>
+  <p>V praxi agentury volí mezi čtyřmi postupy. Následující tabulka shrnuje rozdíly při sledování 50 až 400 cílových firem:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Postup</th>
+          <th scope="col">Kdy uvidí novou pozici</th>
+          <th scope="col">Práce s ATS a vlastním webem</th>
+          <th scope="col">Skutečné stáří a archivace</th>
+          <th scope="col">Vhodné pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. Ruční kontrola v tabulce</td>
+          <td>Jednou týdně (pondělní proklikávání)</td>
+          <td>Konzultant musí každou stránku otevřít ručně</td>
+          <td>Časté chyby a zapomenuté neexistující pozice</td>
+          <td>Nejmenší agentury do 10–15 firem</td>
+        </tr>
+        <tr>
+          <td>2. Alerty na portálech (Jobs.cz, LinkedIn)</td>
+          <td>Až po synchronizaci nebo placené propagaci</td>
+          <td>Chybí firmy, které inzerují jen na svém webu nebo v ATS</td>
+          <td>Portál při obnovení inzerátu přepíše datum</td>
+          <td>Doplňkové sledování trhu, ne kompletní seznam klientů</td>
+        </tr>
+        <tr>
+          <td>3. Obecné monitory a skripty (Visualping, n8n)</td>
+          <td>Podle intervalu, ale bez struktury pozice</td>
+          <td>Rozbije se při změně designu nebo JS načítání ATS</td>
+          <td>Hlásí změnu celé stránky, nesleduje stáří ani archiv</td>
+          <td>Technické týmy s vlastním vývojem a údržbou</td>
+        </tr>
+        <tr>
+          <td>4. Specializovaný radar pro agentury (TalentRadar)</td>
+          <td>2× denně (6:00 a 12:00 v časovém pásmu týmu)</td>
+          <td>Čte 18+ ATS systémů, Jobs.cz/Teamio i běžné kariérní weby</td>
+          <td>Drží datum zveřejnění (filtr 30+ / 45+ dní) a ověřeně archivuje</td>
+          <td>Agentury a headhuntery hlídající 50 až 400+ firem</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Detailní rozbor jednotlivých možností</h2>
+
+  <h3>1. Ruční proklikávání v Excelu nebo CRM</h3>
+  <p>Nejběžnější start: tým si rozdělí seznam klientů a každé pondělí dopoledne otevírá jednu kariérní záložku po druhé. Přestože to nevyžaduje žádný nástroj, při 50 a více firmách zabere kontrola desítky hodin měsíčně a nové role z úterý uniknou na celý týden. Ještě větší problém nastává u zavřených inzerátů: bez systematického porovnávání konzultanti oslovují firmy kvůli rolím, které už dávno zmizely. Podrobně to rozebírá náš <a href="{{url:post:hidden-cost-of-dead-vacancies}}">článek o nákladech mrtvých inzerátů</a>.</p>
+
+  <h3>2. Upozornění na pracovních portálech (Jobs.cz, LinkedIn)</h3>
+  <p>Alerty na pracovních portálech pomohou zachytit veřejnou inzerci, mají ale dvě slepá místa. Prvním je zpoždění mezi vlastním webem firmy a portálem (<a href="{{url:post:the-4-day-latency-gap}}">více o tom, proč rozhodují první dny</a>). Druhým je falešný reset data: když firma na portálu inzerát obnoví, tváří se jako nový, přestože na kariérním webu visí už dva měsíce a hiring manažer dávno bojuje s nedostatkem kandidátů.</p>
+
+  <h3>3. Obecné hlídače změn (Visualping, Distill) nebo vlastní skripty</h3>
+  <p>Nástroje pro sledování změn webových stránek pošlou e-mail pokaždé, když se změní část HTML. Na moderních kariérních stránkách s vloženým ATS widgetem (Greenhouse, Ashby, Workday, SmartRecruiters, Recruitee a další) ale často buď nenačtou dynamický seznam pozic, nebo upozorní na změnu počtu cookies či patičky. Navíc z nich nezískáte čistou databázi jednotlivých rolí, odhad hiring manažera ani export do Bullhornu nebo Vincere. Podrobné srovnání najdete v přehledu <a href="{{url:post:best-career-page-monitoring-tools}}">nejlepších nástrojů na sledování kariérních stránek</a>.</p>
+
+  <h3>4. Specializovaný monitor kariérních stránek (TalentRadar)</h3>
+  <p>Specializovaný radar je navržený přímo pro obchodní rozvoj (BD) a náborové týmy v personálních agenturách. Místo hlídání celé HTML stránky čte přímo jednotlivé otevřené pozice z veřejných ATS rozhraní, portálů i běžných webových stránek a staví nad nimi čistou databázi pro celou agenturu.</p>
+
+  <div class="panel panel--accent">
+    <div class="row">
+      <span class="mono tone-accent">Jak to vypadá v praxi</span>
+      <span class="mono">Veřejné demo · 100 českých firem</span>
+    </div>
+    <h3>Tři signály, které ruční kontrola nezachytí včas</h3>
+    <ul>
+      <li><strong>Nová pozice ještě tentýž den:</strong> Skeny v 6:00 a ve 12:00 odhalí novou roli hned po jejím zveřejnění na webu klienta, než se rozkřikne po portálech <sup><a href="#src-cs-4">[4]</a></sup>.</li>
+      <li><strong>Pozice otevřené 45 a víc dní:</strong> V našem demu ze 408 pozic s datem zveřejnění visí 109 pozic (27 %) 45 a víc dní — tedy na hranici běžné doby obsazení dle SHRM (39 dní u neexekutivních a 45 dní u exekutivních pozic) <sup><a href="#src-cs-2">[2]</a></sup><sup><a href="#src-cs-4">[4]</a></sup>. <a href="{{url:post:anatomy-of-stale-roles}}">Přečíst BD návod pro dlouho otevřené pozice →</a></li>
+      <li><strong>Automatická archivace zmizelých rolí:</strong> Když inzerát z webu zmizí, další sken to ověří a pozici bezpečně archivuje. Konzultanti tak nehledají kandidáty na 18–22 % takzvaných ghost jobs <sup><a href="#src-cs-3">[3]</a></sup>.</li>
+    </ul>
+  </div>
+
+  <h2>Co by měl automatický monitoring v agentuře splňovat</h2>
+  <p>Pokud pro svou agenturu vybíráte způsob automatického sledování firem, ověřte si pět věcí:</p>
+  <ol>
+    <li><strong>Pokrytí ATS i vlastních webů:</strong> Sleduje nejen pracovní portály, ale i běžné kariérní stránky a hlavní ATS systémy (Greenhouse, Lever, Ashby, Workable, Workday, SmartRecruiters, Personio, Teamtailor, Recruitee, Teamio a další).</li>
+    <li><strong>Oddělená databáze a soukromí klientů:</strong> Seznam vašich klientů a cílových firem nesmí vidět jiná agentura. V TalentRadaru má každá agentura vlastní oddělenou databázi.</li>
+    <li><strong>Skutečné stáří pozice:</strong> Nástroj musí držet původní datum zveřejnění z ATS nebo datum prvního zachycení, aby šlo filtrovat 30+ a 45+ dní staré role.</li>
+    <li><strong>Napojení na stávající workflow:</strong> Možnost vyexportovat nové pozice do Excelu, CSV nebo importního souboru pro Bullhorn a Vincere — případně vést kandidáty a zakázky v jednoduchém vestavěném ATS.</li>
+    <li><strong>Rychlý přechod od pozice ke kontaktu:</strong> Odhad pravděpodobného hiring manažera z textu inzerátu a proklik na LinkedIn nebo Google X-Ray, aby konzultant věděl, komu zavolat.</li>
+  </ol>
+
+  <h2>Časté dotazy</h2>
+  <div class="faq">
+    <details>
+      <summary>Proč nestačí sledovat pracovní portály jako Jobs.cz nebo LinkedIn?</summary>
+      <div><p>Firmy zveřejňují nové pozice nejdřív na svém kariérním webu nebo v ATS (Greenhouse, Lever, Ashby, Workday, Teamio), protože je to zdarma a okamžité. Na portály se pozice dostávají se zpožděním přes feedy nebo až při placené propagaci. V našem veřejném demu ze 100 českých firem čteme 45 firem přímo z firemního ATS nebo vlastního kariérního webu mimo Jobs.cz a Teamio.</p></div>
+    </details>
+    <details>
+      <summary>Jaký je rozdíl mezi obecným hlídačem změn stránky (např. Visualping) a radarem pro agentury?</summary>
+      <div><p>Obecné monitory hlídají změnu HTML nebo pixelů na stránce, ale nerozliší novou pozici od změny patičky nebo náhodné úpravy textu, neumí číst strukturu ATS API a po smazání inzerátu nearchivují pozici s historií. Specializovaný nástroj jako TalentRadar extrahuje jednotlivé pozice, hlídá jejich skutečné stáří (30+ a 45+ dní), ověřeně je archivuje a vyexportuje je do CSV pro Bullhorn, Vincere nebo Excel.</p></div>
+    </details>
+    <details>
+      <summary>Jak často je potřeba kariérní weby klientů kontrolovat?</summary>
+      <div><p>Pro BD a nábor stačí kontrola dvakrát denně, například v 6:00 a ve 12:00. Umožní to zachytit nové pozice v den vypsání ještě před návalem přihlášek a konkurence a zároveň to nezatěžuje veřejné weby firem.</p></div>
+    </details>
+    <details>
+      <summary>Musím kvůli sledování kariérních webů měnit stávající ATS?</summary>
+      <div><p>Ne. TalentRadar funguje v režimu Jen radar vedle vašeho stávajícího ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio nebo tabulka) s exportem do CSV a Excelu. Pokud agentura vlastní ATS nemá, může použít vestavěný režim Radar + ATS v ceně každého tarifu.</p></div>
+    </details>
+  </div>
+
+  <div class="article-cta">
+    <span class="mono tone-accent">{{t.trial_promo}}</span>
+    <h3>Vyzkoušejte automatické sledování na vlastním seznamu firem.</h3>
+    <p class="small">Pošlete seznam až 150 firem v CSV nebo Excelu. První sken proběhne automaticky a do 2 hodin uvidíte, kde vaše firmy právě nabírají. Tarify pak začínají od {{price:solo}} měsíčně bez závazku (<a href="{{url:pricing}}">celý ceník</a>).</p>
+    <div>
+      <a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">Vyzkoušet 14 dní zdarma</a>
+    </div>
+    <ul class="ticks"><li>{{icon:check}}<span>Bez platební karty</span></li><li>{{icon:check}}<span>Až 150 firem ve zkoušce</span></li><li>{{icon:check}}<span>Zrušit můžete kdykoli</span></li></ul>
+  </div>
+
+  <div class="sources">
+    <h2 class="sources__title">Zdroje</h2>
+    <ol>
+      <li id="src-cs-1"><a href="https://www.ashbyhq.com/talent-trends-report/reports/2023-trends-report-applications-per-job" target="_blank" rel="noopener noreferrer">Ashby, „Trends Report: Applications per Job“ (2023). Zhruba 13 milionů přihlášek, leden 2021 – duben 2023.</a></li>
+      <li id="src-cs-2"><a href="https://www.shrm.org/topics-tools/research/recruiting-benchmarking/full-data-brief" target="_blank" rel="noopener noreferrer">SHRM, „2026 Recruiting Executives Benchmarking“. Medián doby obsazení pozice, zaměstnavatelé v USA.</a></li>
+      <li id="src-cs-3"><a href="https://www.greenhouse.com/blog/greenhouse-2024-state-of-job-hunting-report" target="_blank" rel="noopener noreferrer">Greenhouse, „2024 State of Job Hunting Report“. Ghost jobs na platformě Greenhouse.</a></li>
+      <li id="src-cs-4"><a href="{{url:home}}#{{t.id_data}}">Veřejné demo TalentRadaru: vzorek 100 českých firem (1 438 otevřených pozic, 408 pozic s datem zveřejnění), stav k 3. listopadu 2026.</a></li>
+    </ol>
+  </div>
+</div>

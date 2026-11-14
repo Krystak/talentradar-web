@@ -28,6 +28,7 @@
 ## Key Pages (English)
 - [Home](https://talentradar.eu/en/): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.
 - [Pricing](https://talentradar.eu/en/pricing): Solo Scout, Agency Pro, and Scale tiers in EUR/CZK with monthly and yearly billing.
+- [Comparison](https://talentradar.eu/en/compare): Five ways to spot who is hiring, building with AI yourself vs ready-made tools, and competitor pricing.
 - [App Preview](https://talentradar.eu/en/demo): Short captioned clips from the public TalentRadar demo.
 - [Research & Blog](https://talentradar.eu/en/blog/): Data-backed articles and agency BD playbooks.
 - [Privacy Policy](https://talentradar.eu/en/gdpr): GDPR data processing details.
@@ -36,6 +37,7 @@
 ## Key Pages (Czech)
 - [Domů](https://talentradar.eu/): Přehled funkce radaru, data z veřejného dema, časté dotazy a zkušební přístup zdarma.
 - [Ceník](https://talentradar.eu/cenik): Tarify Solo Scout, Agency Pro a Scale v CZK bez DPH.
+- [Srovnání](https://talentradar.eu/srovnani): Pět cest jak zjistit, kdo nabírá, vlastní AI vs hotový nástroj a srovnání nástrojů s cenami.
 - [Ukázky](https://talentradar.eu/demo): Krátké ukázky z veřejného dema aplikace.
 - [Blog a výzkum](https://talentradar.eu/blog/): Návody a data pro personální agentury.
 - [Zásady ochrany osobních údajů](https://talentradar.eu/gdpr): Zpracování údajů dle GDPR.

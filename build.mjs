@@ -1126,6 +1126,12 @@ function faqItemsFor(site, ctx, kind) {
       a: n === 7 ? render(site, text(site, ctx, "faq_a7_html"), ctx, ctx.where || "faq") : text(site, ctx, `faq_a${n}`),
     }));
   }
+  if (kind === "compare") {
+    return [1, 2, 3, 4].map((n) => ({
+      q: text(site, ctx, `cmp_faq_q${n}`),
+      a: text(site, ctx, `cmp_faq_a${n}`),
+    }));
+  }
   return [1, 2, 3, 4, 5].map((n) => ({
     q: text(site, ctx, `pp_faq_q${n}`),
     a: text(site, ctx, `pp_faq_a${n}`),
@@ -1211,9 +1217,13 @@ function jsonLd(site, r, page, ctx) {
       description: cleanLdText(page.description_raw),
       url: page.canonical_url,
       inLanguage: r.lang,
-      ...(r.id === "demo" ? { about: { "@id": `${origin}/#software` } } : { publisher: { "@id": `${origin}/#organization` } }),
+      ...(r.id === "demo" || r.id === "compare" ? { about: { "@id": `${origin}/#software` } } : { publisher: { "@id": `${origin}/#organization` } }),
     };
-    graph = r.id === "demo" ? [org, softwareAppJsonLd(site, r, page, ctx), webPage, crumbs] : [org, webPage, crumbs];
+    graph = r.id === "demo"
+      ? [org, softwareAppJsonLd(site, r, page, ctx), webPage, crumbs]
+      : r.id === "compare"
+        ? [org, webPage, faqPageJsonLd(r.lang, faqItemsFor(site, ctx, "compare")), crumbs]
+        : [org, webPage, crumbs];
   }
 
   return `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c")}</script>`;
@@ -1279,6 +1289,7 @@ function llmsBaseLines(site, all, urlOf) {
       "## Key Pages (English)",
       `- [Home](${link("home", "en")}): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.`,
       `- [Pricing](${link("pricing", "en")}): Solo Scout, Agency Pro, and Scale tiers in EUR/CZK with monthly and yearly billing.`,
+      `- [Comparison](${link("compare", "en")}): Five ways to spot who is hiring, building with AI yourself vs ready-made tools, and competitor pricing.`,
       `- [App Preview](${link("demo", "en")}): Short captioned clips from the public TalentRadar demo.`,
       `- [Research & Blog](${link("blog", "en")}): Data-backed articles and agency BD playbooks.`,
       `- [Privacy Policy](${link("gdpr", "en")}): GDPR data processing details.`,
@@ -1287,6 +1298,7 @@ function llmsBaseLines(site, all, urlOf) {
       "## Key Pages (Czech)",
       `- [Domů](${link("home", "cs")}): Přehled funkce radaru, data z veřejného dema, časté dotazy a zkušební přístup zdarma.`,
       `- [Ceník](${link("pricing", "cs")}): Tarify Solo Scout, Agency Pro a Scale v CZK bez DPH.`,
+      `- [Srovnání](${link("compare", "cs")}): Pět cest jak zjistit, kdo nabírá, vlastní AI vs hotový nástroj a srovnání nástrojů s cenami.`,
       `- [Ukázky](${link("demo", "cs")}): Krátké ukázky z veřejného dema aplikace.`,
       `- [Blog a výzkum](${link("blog", "cs")}): Návody a data pro personální agentury.`,
       `- [Zásady ochrany osobních údajů](${link("gdpr", "cs")}): Zpracování údajů dle GDPR.`,
@@ -1318,7 +1330,7 @@ function llmsFullTxt(site, all, urlOf) {
   const varsByLang = Object.fromEntries(site.config.langs.map((l) => [l, siteVars(site, l)]));
   const faqBlock = (lang, heading) => {
     const ctx = { lang, dict: site.i18n[lang], vars: varsByLang[lang], icons: new Set(), assetVersions: {}, url: (id, l = lang) => urlOf(id, l), page: {} };
-    const items = [...faqItemsFor(site, ctx, "home"), ...faqItemsFor(site, ctx, "pricing")];
+    const items = [...faqItemsFor(site, ctx, "home"), ...faqItemsFor(site, ctx, "pricing"), ...faqItemsFor(site, ctx, "compare")];
     const postFaqs = (lang === "cs" ? base.postsCs : base.postsEn).flatMap((p) => p.faq || []);
     return [
       heading,

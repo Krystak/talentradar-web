@@ -55,6 +55,13 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/the-4-day-latency-gap"/>
   </url>
   <url>
+    <loc>https://talentradar.eu/blog/srovnani-jak-zjistit-kdo-nabira</loc>
+    <lastmod>2026-11-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/srovnani-jak-zjistit-kdo-nabira"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/ways-to-see-who-is-hiring-compared"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/ways-to-see-who-is-hiring-compared"/>
+  </url>
+  <url>
     <loc>https://talentradar.eu/cenik</loc>
     <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/cenik"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/pricing"/>
@@ -119,6 +126,13 @@
     <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/prvni-dny-po-vypsani-pozice"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/the-4-day-latency-gap"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/the-4-day-latency-gap"/>
+  </url>
+  <url>
+    <loc>https://talentradar.eu/en/blog/ways-to-see-who-is-hiring-compared</loc>
+    <lastmod>2026-11-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://talentradar.eu/blog/srovnani-jak-zjistit-kdo-nabira"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talentradar.eu/en/blog/ways-to-see-who-is-hiring-compared"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://talentradar.eu/en/blog/ways-to-see-who-is-hiring-compared"/>
   </url>
   <url>
     <loc>https://talentradar.eu/en/compare</loc>

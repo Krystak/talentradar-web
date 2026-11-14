@@ -44,6 +44,7 @@
 - [Zásady ochrany osobních údajů](https://talentradar.eu/gdpr): Zpracování údajů dle GDPR.
 
 ## Research Articles (English)
+- [How to see who is hiring: 5 approaches, real costs & tools for recruitment agencies](https://talentradar.eu/en/blog/ways-to-see-who-is-hiring-compared): A factual comparison of five ways recruitment agencies track open roles at clients and target accounts: manually, page monitors, job databases, DIY AI workflows, and agency tools. Real costs, when to choose each, and six tools compared.
 - [How to Track Company Hiring in Czechia & CEE Directly on Career Pages](https://talentradar.eu/en/blog/how-to-track-company-hiring-czechia-and-cee): Guide for recruitment agencies in the Czech Republic and Central Europe: how to watch client roles across Teamio, Jobs.cz, global ATS platforms (Greenhouse, Workday, Ashby), and corporate career sites.
 - [Best Career Page Monitoring Tools for Recruitment Agencies (2026)](https://talentradar.eu/en/blog/best-career-page-monitoring-tools-for-agencies): Comparison of tools to monitor client and prospect career pages automatically: dedicated ATS radars (TalentRadar), generic change monitors (Visualping, Distill, ChangeDetection), job board alerts, and DIY scrapers (Apify, n8n).
 - [How to Monitor Client Career Pages Automatically for Recruitment Agencies](https://talentradar.eu/en/blog/how-to-monitor-client-career-pages): Four ways recruitment and executive search teams track client career pages: manual checks, job board alerts, generic page-change monitors, and dedicated ATS-aware career-page tracking.
@@ -52,6 +53,7 @@
 - [The Latency Gap: Why the First Days of a Vacancy Decide Who Wins the Mandate](https://talentradar.eu/en/blog/the-4-day-latency-gap): Companies publish new roles on their own careers page first, and applications peak in the first week. Why the agency that sees a role first gets the conversation with the hiring manager.
 
 ## Odborné články (Czech)
+- [Jak zjistit, kdo nabírá: srovnání pěti cest, cen a nástrojů pro personální agentury](https://talentradar.eu/blog/srovnani-jak-zjistit-kdo-nabira): Věcné srovnání pěti cest, jak v personální agentuře hlídat otevřené pozice klientů a cílových firem: ručně, obecným hlídačem, databází inzerátů, vlastním AI agentem a hotovým nástrojem. Skutečné náklady, kdy co zvolit a přehled konkrétních nástrojů.
 - [Jak sledovat nábor firem v Česku a střední Evropě přímo na jejich webech](https://talentradar.eu/blog/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope): Průvodce pro personální agentury v ČR a CEE: jak na jednom místě sledovat pozice firem z Teamia, Jobs.cz, globálních ATS (Greenhouse, Workday, Ashby) i vlastních kariérních webů.
 - [Nejlepší nástroje na sledování kariérních stránek firem pro agentury (2026)](https://talentradar.eu/blog/nastroje-na-sledovani-kariernich-stranek-firem): Srovnání kategorií nástrojů pro monitoring náboru a kariérních webů: TalentRadar, obecné hlídače změn (Visualping, Distill, ChangeDetection), alerty portálů a vlastní skripty (Apify, n8n).
 - [Jak automaticky sledovat kariérní stránky firem (pro personální agentury)](https://talentradar.eu/blog/jak-automaticky-sledovat-karierni-stranky-firem): Čtyři způsoby, jak v agentuře hlídat otevřené pozice klientů a cílových firem: ruční kontrola, pracovní portály, obecné hlídače změn a specializovaný radar kariérních webů.
@@ -116,6 +118,21 @@ You upload your target company list from Excel, CSV, or a CRM export. Newly caug
 
 ### If a role has been open for 45+ days, does that automatically mean the company wants an agency?
 Not always. Some roles represent continuous or evergreen hiring. Still, passing 45 days usually means the role is at or past normal time-to-fill (39–45 days median in SHRM benchmarking)—giving you a concrete reason to call, not a guarantee of a fee.
+
+### Why do you treat Teamio separately from regular job boards?
+Teamio is a company ATS used across Czechia and Slovakia by a large share of employers to power their career pages and Jobs.cz listings—it is not a typical job aggregator. We haven't found another tool that monitors local employers across Teamio, Jobs.cz, international ATS systems, and standard career websites together.
+
+### Why doesn't TalentRadar include a database of manager emails and phone numbers?
+Bulk buying and reselling personal email addresses and mobile numbers outside your existing CRM contacts runs into strict EU GDPR rules. Instead of selling contact lists, TalentRadar surfaces colleagues you already know from your CRM, estimates the likely hiring manager from the role title, and opens a one-click LinkedIn or Google search.
+
+### How do company list upload and CRM / ATS exports work?
+You upload your target company list from Excel (.xlsx), CSV, or a CRM export on every plan including Solo Scout. Newly caught and open roles export as ready-to-import files for Bullhorn and Vincere, or as Excel and generic CSV for any other ATS or CRM. Every plan also connects to Claude and ChatGPT via MCP. Candidates stay in your own system.
+
+### If a role has been open for 45+ days, does that automatically mean the company wants an agency?
+Not always. Some roles represent continuous or evergreen hiring. Still, passing 45 days usually means the role is at or past normal time-to-fill (39–45 days median in SHRM benchmarking)—giving you a concrete reason to call, not a guarantee of a fee.
+
+### When does it pay off to switch from a DIY AI script or page monitor to a purpose-built tool?
+While 1 or 2 people watch up to 20 straightforward career pages, a DIY script or generic monitor costs roughly €6–€32/month (CZK 150–775) plus 1–2 hours of monthly upkeep. Once your watchlist grows past 20–30 companies across different ATS platforms (Workday, Greenhouse, Teamtailor, Teamio) for a larger team, fixing broken templates takes an estimated 4–10 hours a month and a ready-made radar becomes cheaper in both time and money.
 
 ### Does TalentRadar monitor Czech platforms like Teamio and Jobs.cz alongside international ATS systems?
 Yes. TalentRadar reads open vacancies from Teamio and Jobs.cz alongside global ATS platforms such as Greenhouse, Lever, Workday, Ashby, Teamtailor, SmartRecruiters, Personio, Recruitee, SuccessFactors, and Oracle Recruiting, as well as custom corporate career sites across Czechia and Central Europe.
@@ -207,6 +224,21 @@ Seznam hlídaných firem nahrajete z Excelu, CSV nebo exportu z CRM. Nové a ote
 
 ### Když je pozice otevřená přes 45 dní, znamená to automaticky, že firma hledá agenturu?
 Ne vždy. Část takových pozic tvoří průběžný nábor. Stáří 45 a víc dní ale ukazuje, že pozice pravděpodobně překročila běžnou dobu obsazení (medián v průzkumu SHRM je 39–45 dní) — dává vám to konkrétní důvod a záminku firmě zavolat, ne jistotu zakázky.
+
+### Proč uvádíte Teamio zvlášť od běžných pracovních portálů?
+Teamio je firemní ATS (systém pro správu náborů firmy), přes které v Česku a na Slovensku publikuje velká část zaměstnavatelů své kariérní stránky a inzeráty na Jobs.cz. Nenašli jsme jiný nástroj, který by hlídání lokálních firem stavěl na kombinaci Teamia, Jobs.cz, světových ATS i běžných kariérních webů.
+
+### Proč TalentRadar nedodává databázi e-mailů a telefonů na manažery?
+Hromadný nákup a přeprodej osobních e-mailů a telefonních čísel mimo kontakty z vlastního CRM naráží v Evropské unii na pravidla GDPR. Místo databáze kontaktů TalentRadar ukáže kolegy, které už u firmy znáte z CRM, odhadne roli hiring manažera a jedním klikem ho vyhledá na LinkedInu nebo Googlu.
+
+### Jak funguje nahrání seznamu firem a export do našeho CRM nebo ATS?
+Seznam hlídaných firem nahrajete z Excelu (.xlsx), CSV nebo exportu z CRM v každém tarifu včetně Solo Scout. Nové a otevřené pozice si stáhnete jako připravený soubor pro import do Bullhornu a Vincere, nebo jako Excel a obecné CSV pro ostatní ATS a CRM. Ve všech tarifech je navíc napojení na AI asistenty Claude a ChatGPT (MCP). Kandidáti zůstávají u vás.
+
+### Když je pozice otevřená přes 45 dní, znamená to automaticky, že firma hledá agenturu?
+Ne vždy. Část takových pozic tvoří průběžný nábor. Stáří 45 a víc dní ale ukazuje, že pozice pravděpodobně překročila běžnou dobu obsazení (medián v průzkumu SHRM je 39–45 dní) — dává vám to konkrétní důvod a záminku firmě zavolat, ne jistotu zakázky.
+
+### Kdy se vyplatí přejít z vlastního AI skriptu nebo obecného hlídače na hotový nástroj?
+Dokud ve dvou lidech hlídáte do dvaceti jednoduchých kariérních stránek, vyjde vlastní skript nebo hlídač zhruba na 150 až 775 Kč měsíčně a 1–2 hodiny údržby. Jakmile seznam naroste nad 20 až 30 firem s různými ATS (Workday, Greenhouse, Teamtailor, Teamio) a pracuje s ním celý tým, rozbité šablony zaberou odhadem 4–10 hodin měsíčně a hotový nástroj vychází levněji na čas i peníze.
 
 ### Sleduje TalentRadar i české systémy Teamio a Jobs.cz vedle zahraničních ATS?
 Ano. TalentRadar čte otevřené pozice z portálů Teamio a Jobs.cz současně se zahraničními ATS systémy jako Greenhouse, Lever, Workday, Ashby, Teamtailor, SmartRecruiters, Personio, Recruitee, SuccessFactors či Oracle Recruiting i přímo z vlastních kariérních stránek českých a středoevropských firem.

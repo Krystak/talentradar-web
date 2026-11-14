@@ -132,7 +132,7 @@ Claude rešerši prošel a tři klíčová zjištění ověřil přímo na webec
    Hodiny jsou **odhad**, tak je i označ. V článku nejmenuj konkrétní API modely (GPT‑6…, Haiku…). Stačí „levné až střední jazykové modely přes API“ s rozpětím ceny.
 6. **„Kdo to udržuje“ u vlastní AI:** „Vy, každý týden po rozbití webu“ je u 20 jednoduchých webů nadsázka. Napiš „Vy (u desítek firem každý týden)“ nebo podobně.
 7. **RoleDawn a JobBeacon** do článku nedávej (RoleDawn neprodává nové tarify, JobBeacon je pro uchazeče). FinStat a Leadbase taky ne (pozice nehlídají).
-8. **Ceník `pp_t2_f7` (Claude a ChatGPT) a rozpor `cmp_faq_a3` × `pp_t2_f5`** (import firem z CSV: FAQ ho slibuje všem, ceník ho má až u Agency Pro): **neměň**, obojí je otevřená otázka pro Kryštofa. Do článku nepiš, že import má Solo Scout.
+8. **Import seznamu firem z Excelu / CSV umí všechny tarify včetně Solo Scout** (Kryštof 14. 11.: „Ano, umí“). V článku to tak klidně napiš. Text ceníku (`pp_t1_*`, `pp_t2_f5`) **neměň**, ten upravuje Claude zvlášť. Ceník `pp_t2_f7` (Claude a ChatGPT) taky neměň, je to otevřená otázka pro Kryštofa.
 9. **Datum ověření** všech cen v článku: **14. 11. 2026**, kurz ČNB z 13. 11. 2026 (1 USD = 22,101 Kč, 1 EUR = 24,425 Kč, 1 GBP = 29,238 Kč). Ceny v Kč u cizích nástrojů piš jako „asi“.
 
 ## 6. Commit a hlášení

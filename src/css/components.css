@@ -250,7 +250,7 @@
 }
 
 /* ── Proof strip (light) ── */
-.proof-block { margin-top: var(--space-6); }
+.proof-block { margin-top: 0; }
 .proof-wrap { display: grid; gap: var(--space-7); grid-template-columns: minmax(0, 1fr); align-items: start; }
 @media (min-width: 1024px) { .proof-wrap { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); } }
 .proof__story { margin: 0; }
@@ -649,6 +649,12 @@
 @media (min-width: 960px) {
   .cmp-ways-desktop { display: block; }
   .cmp-ways-cards { display: none; }
+  .prose .cmp-ways-desktop,
+  .prose .tool-grid {
+    width: min(68rem, calc(100vw - 4rem));
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 .way-card { background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); }

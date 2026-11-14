@@ -200,9 +200,9 @@ const MONEY = {
   EUR: { cs: (n) => `${NUMBER.cs(n)} €`, en: (n) => `€${NUMBER.en(n)}` },
 };
 
-/** A tier's price in a page's currency: monthly, "year" (10 months) or "year_list" (12). */
+/** A tier's or an add-on's price in a page's currency: monthly, "year" (10 months) or "year_list" (12). */
 export function price(site, lang, tierId, kind) {
-  const tier = site.plans.tiers.find((t) => t.id === tierId);
+  const tier = site.plans.tiers.find((t) => t.id === tierId) || (site.plans.addons || []).find((a) => a.id === tierId);
   if (!tier) throw new Error(`Unknown tier ${tierId}`);
   const currency = site.plans.currency[lang];
   const monthly = tier.price[currency];
@@ -1246,6 +1246,10 @@ function llmsBaseLines(site, all, urlOf) {
     const eurYear = (t.price.EUR * plans.yearly_paid_months).toLocaleString("en-GB");
     return `- **${t.name}**: up to ${t.companies} companies — CZK ${czkMonth}/month (CZK ${czkYear}/year) or EUR ${eurMonth}/month (EUR ${eurYear}/year), excl. VAT.`;
   });
+  for (const a of plans.addons || []) {
+    const forNames = a.for.map((id) => plans.tiers.find((t) => t.id === id).name).join(" or ");
+    tierLines.push(`- **Add-on ${a.name}** for ${forNames}: CZK ${a.price.CZK.toLocaleString("en-GB")}/month or EUR ${a.price.EUR.toLocaleString("en-GB")}/month, excl. VAT, can be added more than once.`);
+  }
   const postsEn = Object.values(site.posts)
     .map((p) => p.lang.en)
     .sort((a, b) => b.published.localeCompare(a.published) || a.id.localeCompare(b.id));

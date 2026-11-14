@@ -29,7 +29,7 @@
   <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/site.css?v=5505fa9019">
+  <link rel="stylesheet" href="/css/site.css?v=7735b19dbf">
   <script type="module" src="/js/site.js?v=9ea3f179c0"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -234,7 +234,7 @@
   <p>Na papíře vypadá vlastní řešení skoro zadarmo, protože licence open-source nástrojů začíná na nule. Ve skutečnosti platíte za dvě věci: provoz (server nebo cloud, prohlížeče pro JavaScriptové weby a jazykové modely přes API) a hlavně hodiny člověka, který scénáře staví a opravuje po změnách webů.</p>
   <p>Modelový rozpočet vychází z veřejných ceníků infrastruktury ke <strong>14. 11. 2026</strong> (<a href="https://n8n.io/pricing/" target="_blank" rel="noopener noreferrer">n8n</a>, <a href="https://apify.com/pricing" target="_blank" rel="noopener noreferrer">Apify</a>, <a href="https://visualping.io/pricing" target="_blank" rel="noopener noreferrer">Visualping</a>, <a href="https://distill.io/pricing" target="_blank" rel="noopener noreferrer">Distill</a>, <a href="https://www.hetzner.com/cloud/" target="_blank" rel="noopener noreferrer">Hetzner Cloud</a>); časovou náročnost uvádíme jako odhad pro běžný mix firem:</p>
 
-  <div class="table-wrap">
+  <div class="table-wrap cmp-ways-desktop">
     <table>
       <thead>
         <tr>
@@ -259,6 +259,25 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="cmp-ways-cards">
+    <article class="way-card">
+      <h3>Malá agentura / solo headhunter <span class="small">(2 lidé, 20 jednoduchých webů)</span></h3>
+      <dl class="way-card__dl">
+        <div><dt>Vlastní stavebnice / hlídač (provoz)</dt><dd><strong>asi 150–775 Kč/měs.</strong> (vlastní VPS od €5,99 ≈ 146 Kč + jazykové modely přes API, nebo n8n Cloud Starter €20 ≈ 489 Kč, případně Distill Starter $15 ≈ 332 Kč či Visualping Personal $14–$35 ≈ 309–774 Kč)</dd></div>
+        <div><dt>Odhad času na stavbu a údržbu</dt><dd>Odhad: <strong>4–8 hodin</strong> úvodní nastavení, <strong>1–2 hodiny měsíčně</strong> ladění a kontrola změn webů</dd></div>
+        <div><dt>Pro srovnání: TalentRadar (bez údržby)</dt><dd><strong>1 990 Kč/měs.</strong> bez DPH (Solo Scout až 50 firem, 1 uživatel; roční platba 10 měsíců z 12)</dd></div>
+      </dl>
+    </article>
+    <article class="way-card">
+      <h3>Střední agentura <span class="small">(10 lidí, 150 firem vč. ATS)</span></h3>
+      <dl class="way-card__dl">
+        <div><dt>Vlastní stavebnice / hlídač (provoz)</dt><dd><strong>asi 960–3 550 Kč/měs.</strong> (n8n Cloud Starter/Pro €20–€50 ≈ 489–1 221 Kč + Apify Starter od $19 ≈ 420 Kč + API modelů 2× denně; Visualping Business 20K $100–$140 ≈ 2 210–3 094 Kč jen pro 5 uživatelů)</dd></div>
+        <div><dt>Odhad času na stavbu a údržbu</dt><dd>Odhad: <strong>25–60 hodin</strong> prvotní stavba (desítky ATS šablon, deduplikace, historie pozic, rozesílka 10 lidem) + <strong>4–10 hodin měsíčně</strong> opravy rozbitých scraperů</dd></div>
+        <div><dt>Pro srovnání: TalentRadar (bez údržby)</dt><dd><strong>3 990 Kč/měs.</strong> bez DPH (Agency Pro až 150 firem, neomezeně uživatelů; dalších +50 firem za 990 Kč/měs.)</dd></div>
+      </dl>
+    </article>
   </div>
 
   <p>U dvou lidí a dvaceti jednoduchých webů dává vlastní skript nebo levný hlídač smysl, pokud vás ladění techniky baví. U deseti konzultantů a sto padesáti firem zaplatíte za cloudový provoz a API zhruba polovinu až plnou cenu hotového tarifu — a k tomu každý měsíc řešíte několik hodin údržby bez jistoty, zda pondělní přehled nepřišel neúplný.</p>

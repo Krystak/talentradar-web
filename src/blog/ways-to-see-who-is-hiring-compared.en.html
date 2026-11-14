@@ -191,7 +191,7 @@
   <p>On paper, a custom setup looks almost free because open-source orchestrators start at zero. In reality, you pay for two things: cloud infrastructure (a server or hosted runner, headless browsers for JavaScript career sites, and language model API calls) plus the human hours spent building and fixing broken parsers.</p>
   <p>This breakdown uses public infrastructure pricing verified on <strong>14 Nov 2026</strong> (<a href="https://n8n.io/pricing/" target="_blank" rel="noopener noreferrer">n8n</a>, <a href="https://apify.com/pricing" target="_blank" rel="noopener noreferrer">Apify</a>, <a href="https://visualping.io/pricing" target="_blank" rel="noopener noreferrer">Visualping</a>, <a href="https://distill.io/pricing" target="_blank" rel="noopener noreferrer">Distill</a>, <a href="https://www.hetzner.com/cloud/" target="_blank" rel="noopener noreferrer">Hetzner Cloud</a>), with build and maintenance hours stated as estimates for a typical agency mix:</p>
 
-  <div class="table-wrap">
+  <div class="table-wrap cmp-ways-desktop">
     <table>
       <thead>
         <tr>
@@ -216,6 +216,25 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="cmp-ways-cards">
+    <article class="way-card">
+      <h3>Small agency / solo desk <span class="small">(2 people, 20 simple websites)</span></h3>
+      <dl class="way-card__dl">
+        <div><dt>DIY stack / monitor (monthly cost)</dt><dd><strong>approx. €6–€32/mo (CZK 150–775)</strong> (self-hosted VPS from €5.99 + LLM APIs, or n8n Cloud Starter €20, or Distill Starter $15 / Visualping Personal $14–$35)</dd></div>
+        <div><dt>Estimated build &amp; upkeep time</dt><dd>Estimate: <strong>4–8 hours</strong> initial setup, <strong>1–2 hours/month</strong> tweaking selectors and checking site edits</dd></div>
+        <div><dt>For reference: TalentRadar (no upkeep)</dt><dd><strong>{{price:solo}}/mo</strong> excl. VAT (Solo Scout up to 50 companies, 1 user; yearly billing = 10 months for 12)</dd></div>
+      </dl>
+    </article>
+    <article class="way-card">
+      <h3>Mid-size agency <span class="small">(10 people, 150 companies incl. ATS)</span></h3>
+      <dl class="way-card__dl">
+        <div><dt>DIY stack / monitor (monthly cost)</dt><dd><strong>approx. €39–€145/mo (CZK 960–3,550)</strong> (n8n Cloud Starter/Pro €20–€50 + Apify Starter from $19 + LLM APIs twice daily; Visualping Business 20K is $100–$140 for only 5 users)</dd></div>
+        <div><dt>Estimated build &amp; upkeep time</dt><dd>Estimate: <strong>25–60 hours</strong> initial build (dozens of ATS templates, deduplication, role-age history, routing to 10 desks) + <strong>4–10 hours/month</strong> fixing broken scrapers</dd></div>
+        <div><dt>For reference: TalentRadar (no upkeep)</dt><dd><strong>{{price:pro}}/mo</strong> excl. VAT (Agency Pro up to 150 companies, unlimited users; +50 companies pack for {{price:extra50}}/mo)</dd></div>
+      </dl>
+    </article>
   </div>
 
   <p>With two people tracking twenty straightforward websites, a light script or low-cost page monitor makes practical sense if you enjoy maintaining workflows. At ten consultants and 150 accounts, cloud tooling and APIs alone approach half to full price of a dedicated plan—before counting several hours every month fixing silent scraper failures.</p>

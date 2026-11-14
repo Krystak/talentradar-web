@@ -1,0 +1,45 @@
+﻿{
+ "results": [
+  {
+   "out": "shots/home-cmp-cs-1440.png",
+   "overflowX": false,
+   "videos": []
+  },
+  {
+   "out": "shots/home-cmp-cs-390.png",
+   "overflowX": false,
+   "videos": []
+  },
+  {
+   "out": "shots/home-cmp-en-1440.png",
+   "overflowX": false,
+   "videos": []
+  },
+  {
+   "out": "shots/home-cmp-en-390.png",
+   "overflowX": false,
+   "videos": []
+  },
+  {
+   "out": "shots/article-cmp-cs-1440.png",
+   "overflowX": false,
+   "videos": []
+  },
+  {
+   "out": "shots/article-cmp-cs-390.png",
+   "overflowX": false,
+   "videos": []
+  },
+  {
+   "out": "shots/article-cmp-en-1440.png",
+   "overflowX": false,
+   "videos": []
+  },
+  {
+   "out": "shots/article-cmp-en-390.png",
+   "overflowX": false,
+   "videos": []
+  }
+ ],
+ "jsErrors": []
+}

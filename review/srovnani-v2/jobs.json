@@ -1,0 +1,66 @@
+[
+  {
+    "path": "/",
+    "w": 1440,
+    "h": 900,
+    "scrollTo": "#srovnani-cest",
+    "wait": 600,
+    "out": "shots/home-cmp-cs-1440.png"
+  },
+  {
+    "path": "/",
+    "w": 390,
+    "h": 844,
+    "scrollTo": "#srovnani-cest",
+    "wait": 600,
+    "out": "shots/home-cmp-cs-390.png"
+  },
+  {
+    "path": "/en/",
+    "w": 1440,
+    "h": 900,
+    "scrollTo": "#comparison",
+    "wait": 600,
+    "out": "shots/home-cmp-en-1440.png"
+  },
+  {
+    "path": "/en/",
+    "w": 390,
+    "h": 844,
+    "scrollTo": "#comparison",
+    "wait": 600,
+    "out": "shots/home-cmp-en-390.png"
+  },
+  {
+    "path": "/blog/srovnani-jak-zjistit-kdo-nabira",
+    "w": 1440,
+    "h": 900,
+    "full": true,
+    "wait": 600,
+    "out": "shots/article-cmp-cs-1440.png"
+  },
+  {
+    "path": "/blog/srovnani-jak-zjistit-kdo-nabira",
+    "w": 390,
+    "h": 844,
+    "full": true,
+    "wait": 600,
+    "out": "shots/article-cmp-cs-390.png"
+  },
+  {
+    "path": "/en/blog/ways-to-see-who-is-hiring-compared",
+    "w": 1440,
+    "h": 900,
+    "full": true,
+    "wait": 600,
+    "out": "shots/article-cmp-en-1440.png"
+  },
+  {
+    "path": "/en/blog/ways-to-see-who-is-hiring-compared",
+    "w": 390,
+    "h": 844,
+    "full": true,
+    "wait": 600,
+    "out": "shots/article-cmp-en-390.png"
+  }
+]

@@ -384,6 +384,22 @@ test("the prices in the text map match src/data/plans.json (core/plans.py): mont
   }
 });
 
+test("the +50 companies add-on: price from src/data/plans.json on the pricing page, the home page and in llms.txt; MCP is listed for every plan", () => {
+  const site = loadSite();
+  const addon = site.plans.addons.find((a) => a.id === "extra50");
+  assert.ok(addon, "plans.json has the extra50 add-on");
+  for (const [path, lang] of [["public/cenik.html", "cs"], ["public/en/pricing.html", "en"], ["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const html = readFileSync(path, "utf8").replace(/ /g, " ");
+    assert.ok(html.includes(price(site, lang, "extra50").replace(/ /g, " ")), `${path}: shows the add-on price`);
+  }
+  for (const lang of ["cs", "en"]) {
+    const d = site.i18n[lang];
+    assert.ok(d.pp_t1_f10 && /MCP/.test(d.pp_t1_f10), `${lang}: Solo Scout lists the MCP connection`);
+    assert.equal(d.pp_t2_f7, undefined, `${lang}: MCP is no longer an Agency Pro extra`);
+  }
+  assert.ok(readFileSync("public/llms.txt", "utf8").includes("Add-on +50 companies"), "llms.txt lists the add-on");
+});
+
 test("no Tailwind CDN and no third-party script on any page", () => {
   for (const [path, content] of built()) {
     if (!path.endsWith(".html")) continue;

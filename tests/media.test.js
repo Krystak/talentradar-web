@@ -1307,7 +1307,7 @@ test("the line under a video: the words from the text map and the times from med
   assert.deepEqual(lines.map((m) => (m[2] === "none" ? null : Number(m[2]))), site.media.clips.hero.cues.map((c) => c.at));
   assert.deepEqual(lines.map((m) => !!m[1]), lines.map((_, i) => i === 0), "the first sentence is the one without JavaScript");
   const changed = hero(home((m) => { m.clips.hero.cues = [{ at: 1.5, key: "cue_hero_2" }]; }));
-  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Koho už u firmy znáte a komu zavolat\.<\/span>/);
+  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Váš klient vypsal novou roli\. Máte důvod zavolat\.<\/span>/);
   assert.equal((changed.match(/video__cue-line/g) || []).length, 1);
   // every chapter's sentences are in its one figure (as committed the first chapter's, how0), so the line has one height for all three
   const how = home(() => {}).match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
@@ -1868,14 +1868,14 @@ test("from 1 024 px the line and the pause button lie over the bottom of the her
   assert.match(String(files.get("public/index.html")), /document\.documentElement\.className = "js"/);
 });
 
-test("the text under the hero: V3 hero cues and proof copy without placeholders, IT demo focus in captions", () => {
+test("the text under the hero: hero-a cues and proof copy without placeholders, IT demo focus in captions", () => {
   const { i18n } = loadSite();
-  assert.equal(i18n.cs.cue_hero_1, "Kdo za 24 h a 7 dní nabírá, ze 100 sledovaných firem.");
-  assert.equal(i18n.en.cue_hero_1, "Who’s hiring over 24h and 7 days, across 100 companies.");
-  assert.equal(i18n.cs.cue_hero_2, "Koho už u firmy znáte a komu zavolat.");
-  assert.equal(i18n.en.cue_hero_2, "Who you already know there and who to call.");
-  assert.equal(i18n.cs.cue_hero_3, "Koncept oslovení připravený jedním klikem.");
-  assert.equal(i18n.en.cue_hero_3, "An outreach draft ready in one click.");
+  assert.equal(i18n.cs.cue_hero_1, "Na první pohled: kdo z vašich firem nově nabírá.");
+  assert.equal(i18n.en.cue_hero_1, "At a glance: which of your companies are hiring.");
+  assert.equal(i18n.cs.cue_hero_2, "Váš klient vypsal novou roli. Máte důvod zavolat.");
+  assert.equal(i18n.en.cue_hero_2, "Your client posted a new role. A reason to call.");
+  assert.equal(i18n.cs.cue_hero_3, "A tady je ten inzerát, přímo na webu firmy.");
+  assert.equal(i18n.en.cue_hero_3, "And here's the posting, on the company's own site.");
   for (const lang of ["cs", "en"]) {
     assert.doesNotMatch(String(i18n[lang].hero_sub), /ATS|\[ČÍSLO/i, `${lang} hero_sub`);
     assert.doesNotMatch(String(i18n[lang].hero_proof), /přes měsíc|over a month|\[ČÍSLO/i, `${lang} hero_proof`);
@@ -1962,13 +1962,13 @@ test("a line for one screen only: it takes no room on the other, and a phone wit
   assert.doesNotMatch(plain, /m-first"/);
 });
 
-test("the V3 hero has its own 4:5 phone cut and 2026-11-13 date while chapters stay on their wide 2026-11-12 cut", () => {
+test("the hero-a hero has its own 4:5 phone cut and 2026-11-14 date while chapters stay on their wide 2026-11-12 cut", () => {
   const { hero, ...rest } = loadSite().media.clips;
   assert.ok(hero.mobile);
   assert.equal(hero.mobile.width / hero.mobile.height, 4 / 5);
   assert.equal(hero.waits, undefined);
-  assert.equal(hero.clip_date, "2026-11-13");
-  assert.equal(hero.mobile.clip_date, "2026-11-13");
+  assert.equal(hero.clip_date, "2026-11-14");
+  assert.equal(hero.mobile.clip_date, "2026-11-14");
   for (const cue of hero.cues) {
     assert.equal(typeof cue.at, "number", `${cue.key}: desktop time`);
   }
@@ -1978,7 +1978,7 @@ test("the V3 hero has its own 4:5 phone cut and 2026-11-13 date while chapters s
     for (const cue of rest[id].cues) assert.equal(cue.at_mobile, undefined, `${id} ${cue.key}`);
   }
   const files = buildSite(loadSite());
-  for (const [path, date] of [["public/index.html", /Natočeno 13\.\s*11\.\s*2026 /], ["public/en/index.html", /[Rr]ecorded 13\s*Nov\s*2026\b/]]) {
+  for (const [path, date] of [["public/index.html", /Natočeno 14\.\s*11\.\s*2026 /], ["public/en/index.html", /[Rr]ecorded 14\s*Nov\s*2026\b/]]) {
     const html = page(files, path);
     const fig = html.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
     assert.match(fig, /class="video video--hero video--has-mobile"/, path);
@@ -1991,7 +1991,7 @@ test("the V3 hero has its own 4:5 phone cut and 2026-11-13 date while chapters s
   // the date of a phone cut that has its own is that one (the frozen set's phone cut, a day of its own)
   const own = buildSite(siteWith((m) => { withPhones(m, ["hero"]); m.clips.hero.mobile.clip_date = "2026-11-03"; }));
   const m = page(own, "public/index.html").match(/hero__caption"><span class="d-only">([\s\S]*?)<\/span><span class="m-only">([\s\S]*?)<\/span>/);
-  assert.match(m[1], /Natočeno 13\.\s*11\.\s*2026 /);
+  assert.match(m[1], /Natočeno 14\.\s*11\.\s*2026 /);
   assert.match(m[2], /Natočeno 3\. 11\. 2026 /);
 });
 

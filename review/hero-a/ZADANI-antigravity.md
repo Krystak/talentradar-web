@@ -20,8 +20,8 @@ Popisky jsou přesně z aplikace, ověřené Claudem v živém demu 14. 11.
 
 | # | Čas (cíl) | Co se děje na obrazovce | Kamera | Titulek pod videem |
 |---|---|---|---|---|
-| 1 | 0,0–4,0 s | **Domov**, aktivní pohled **7 dní**, pás čísel (14. 11.: „160 nových rolí, z toho 23 u klientů“) a pod ním „Firmy s novými rolemi · posledních 7 dní“ se skupinou **Aktivní klienti** nahoře. Kurzor v klidu. Pozdrav („Dobré ráno / odpoledne“) může být v rámu jakýkoli, titulky denní dobu nezmiňují. | celek horní části Domova, pomalý nájezd na pás čísel | `cue_hero_1` |
-| 2 | 4,0–9,5 s | Klik na filtr **„K Aktivní klienti“**. Tabulka se zúží na klienty. Klik na řádek vybraného klienta (bod 4), rozbalí se jeho nové role s odznakem CORE, lokalitou, **datem a časem, kdy role přibyla** (14. 11. u Productboardu „12.11. 06:01“) a řádek **„Zdroj: kariérní stránka“**. | nájezd na rozbalený řádek klienta, název role a datum musí jít přečíst | `cue_hero_2` |
+| 1 | 0,0–4,0 s | **Domov**, aktivní pohled **7 dní**, pás čísel a pod ním „Firmy s novými rolemi · posledních 7 dní“ se skupinou **Aktivní klienti** nahoře. Kurzor v klidu. Pozdrav „Dobré ráno“ (kit nastaví hodiny prohlížeče na ráno; „Dobré odpoledne“ je v kitu ve `FORBID`). Co kit záměrně tlumí nebo zakrývá (pravý sloupec, řádky „z toho N u klientů“, řádek „Zdroj“), nech tak. | celek horní části Domova, pomalý nájezd na tabulku | `cue_hero_1` |
+| 2 | 4,0–9,5 s | Klik na filtr **„K Aktivní klienti“**. Tabulka se zúží na klienty. Klik na řádek vybraného klienta (bod 4), rozbalí se jeho nové role s odznakem CORE, lokalitou a **datem a časem, kdy role přibyla** (14. 11. u Productboardu „12.11. 06:01“). | nájezd na rozbalený řádek klienta, název role a datum musí jít přečíst | `cue_hero_2` |
 | 3 | 9,5–15,0 s | Kurzor na **ikonu otevření inzerátu** (`open_in_new`) u nové role a klik. Otevře se skutečná stránka inzerátu na webu nebo ATS firmy. **Nahoře musí být vidět adresa** (proužek adresy z kitu, `rec.py` `_addr_strip`), jinak to vypadá jako maketa. Krátký nájezd na doménu a nadpis, který sedí s názvem role v aplikaci. | nájezd na adresu a nadpis | `cue_hero_3` |
 | 4 | 15,0–16,0 s | Návrat do aplikace a plynulé prolnutí do prvního snímku (smyčka). | – | – |
 
@@ -47,7 +47,7 @@ Data jsou živá. Před natáčením projdi kandidáty a vezmi prvního, který 
 
 Pravidla:
 1. Firma má v pohledu **7 dní** aspoň jednu novou roli s odznakem **CORE**, IT nebo produktovou (ukázka je IT agentura).
-2. Ikona inzerátu vede na **kariérní web nebo ATS firmy**, **ne na Jobs.cz, Teamio ani jiný portál**. Řádek „Zdroj:“ v rozbalené firmě to napoví, ale rozhoduje adresa odkazu.
+2. Ikona inzerátu vede na **kariérní web nebo ATS firmy**, **ne na Jobs.cz, Teamio ani jiný portál**. Rozhoduje adresa odkazu (`href` ikony = adresa z API).
 3. Stránka inzerátu: HTTP 200, nadpis sedí s názvem role v aplikaci, v rámu **žádný e-mail, telefon, jméno ani fotka náboráře**, **žádná lišta cookies v rámu**. Lištu cookies neodklikávej a ochranu proti botům neobcházej. Když se lišta ukáže, kandidát neprojde. Přesně tohle kontroluje kit `k3/inzerat.py`, použij ho.
 4. Rozbalený řádek firmy se vejde do rámu i na telefonu (ne víc než 3–4 role, ať je řádek čitelný).
 
@@ -67,7 +67,7 @@ Stejný scénář v anglickém rozhraní (přepínač **ENG** vlevo dole v aplik
 - **Kódování:** H.264, **skutečných 60 fps** (`r_frame_rate=60/1`), CRF kolem 22, BT.709 jako dosud. Smyčka bez cuknutí (poslední snímek navazuje na první).
 - **Bez osobních údajů:** jen data dema; vymyšlení lidé dema nesmí být v rámu ve velkém detailu. Na stránce inzerátu viz bod 4.3.
 
-## 7. Odevzdání
+## 7. Odevzdání (soubory; zapojení do webu popisuje PROMPT-antigravity.md)
 
 Složka `C:\Users\Kryštof\tr-web-redesign-podklady\media\hero-a-<datum>\` s:
 - 6 MP4 a 4 WebP podle bodu 6,

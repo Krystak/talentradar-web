@@ -805,56 +805,79 @@ test("llms.txt, llms-full.txt and sitemap.txt are generated cleanly with all ind
   assert.deepEqual(smTxt, smXmlLocs);
 });
 
-test("home comparison section and /srovnani (/en/compare) pages meet content, schema and cross-link rules", () => {
+test("home comparison section and full comparison blog article meet content, schema and cross-link rules", () => {
   const files = built();
+  const csArticleUrl = "/blog/srovnani-jak-zjistit-kdo-nabira";
+  const enArticleUrl = "/en/blog/ways-to-see-who-is-hiring-compared";
 
-  for (const [homePath, compareUrl] of [
-    ["public/index.html", "/srovnani"],
-    ["public/en/index.html", "/en/compare"],
+  for (const [homePath, articleUrl] of [
+    ["public/index.html", csArticleUrl],
+    ["public/en/index.html", enArticleUrl],
   ]) {
     const html = String(files.get(homePath));
-    assert.ok(html.includes(compareUrl), `${homePath}: links to ${compareUrl}`);
-    assert.match(html, /class="cmp-table-wrap cmp-ways-desktop"/, `${homePath}: comparison table`);
-    assert.match(html, /class="cmp-ways-cards"/, `${homePath}: mobile comparison cards`);
+    assert.ok(html.includes(articleUrl), `${homePath}: links to ${articleUrl}`);
+    assert.match(html, /class="cmp-table cmp-table--compact"/, `${homePath}: compact comparison table`);
+    assert.doesNotMatch(html, /class="cmp-ways-cards"/, `${homePath}: no tall mobile cards on home`);
     // Home page must only mention categories & generic examples (Visualping, Distill), no direct competitor brands
-    for (const competitor of ["Recruit Signals", "Vente AI", "Paiger", "TheirStack", "PredictLeads"]) {
+    for (const competitor of ["Saleskit", "Recruit Signals", "Vente AI", "Paiger", "TheirStack", "PredictLeads"]) {
       assert.ok(!html.includes(competitor), `${homePath}: must not name competitor ${competitor}`);
     }
   }
 
+  for (const oldPath of ["public/srovnani.html", "public/en/compare.html"]) {
+    assert.ok(!files.has(oldPath), `${oldPath}: removed`);
+  }
+
   for (const [path, lang] of [
-    ["public/srovnani.html", "cs"],
-    ["public/en/compare.html", "en"],
+    [`public${csArticleUrl}.html`, "cs"],
+    [`public${enArticleUrl}.html`, "en"],
   ]) {
     assert.ok(files.has(path), `${path}: generated`);
     const html = String(files.get(path));
-    for (const tool of ["Recruit Signals", "Vente AI", "Paiger", "TheirStack", "Visualping"]) {
+    for (const tool of ["Saleskit", "Recruit Signals", "Vente AI", "Paiger", "TheirStack", "Visualping"]) {
       assert.ok(html.includes(tool), `${path}: includes ${tool}`);
     }
     assert.ok(!html.includes("{{price:"), `${path}: resolves price tokens`);
     assert.ok(html.includes(lang === "cs" ? "1\u00a0990" : "€119"), `${path}: renders Solo price`);
+    assert.ok(html.includes(lang === "cs" ? "990" : "€59"), `${path}: renders extra50 add-on price`);
     assert.ok(html.includes("<!-- TODO po testu TheirStack: pokrytí CZ -->"), `${path}: keeps TheirStack TODO`);
+    assert.match(html, /class="cmp-table-wrap cmp-ways-desktop"/, `${path}: comparison table`);
     const ld = parseJsonLd(html);
     const types = ld["@graph"].map((n) => n["@type"]);
-    assert.ok(types.includes("WebPage") && types.includes("FAQPage") && types.includes("BreadcrumbList"), `${path}: JSON-LD types`);
+    assert.ok(types.includes("Article") && types.includes("FAQPage") && types.includes("BreadcrumbList"), `${path}: JSON-LD types`);
     const faq = ld["@graph"].find((n) => n["@type"] === "FAQPage");
-    assert.equal(faq.mainEntity.length, 4, `${path}: 4 FAQ entries`);
-    assert.equal(ld["@graph"].find((n) => n["@type"] === "WebPage").inLanguage, lang);
+    assert.equal(faq.mainEntity.length, 5, `${path}: 5 FAQ entries`);
+    assert.equal(ld["@graph"].find((n) => n["@type"] === "Article").inLanguage, lang);
   }
 
-  const csPost = String(files.get("public/blog/nastroje-na-sledovani-kariernich-stranek-firem.html"));
-  const enPost = String(files.get("public/en/blog/best-career-page-monitoring-tools-for-agencies.html"));
-  assert.ok(csPost.includes('href="/srovnani"'), "CS monitoring tools article links to /srovnani");
-  assert.ok(enPost.includes('href="/en/compare"'), "EN monitoring tools article links to /en/compare");
+  for (const [postPath, url] of [
+    ["public/blog/nastroje-na-sledovani-kariernich-stranek-firem.html", csArticleUrl],
+    ["public/en/blog/best-career-page-monitoring-tools-for-agencies.html", enArticleUrl],
+    ["public/blog/jak-automaticky-sledovat-karierni-stranky-firem.html", csArticleUrl],
+    ["public/en/blog/how-to-monitor-client-career-pages.html", enArticleUrl],
+    ["public/blog/jak-sledovat-nabor-firem-v-cr-a-stredni-evrope.html", csArticleUrl],
+    ["public/en/blog/how-to-track-company-hiring-czechia-and-cee.html", enArticleUrl],
+  ]) {
+    const post = String(files.get(postPath));
+    assert.ok(post.includes(`href="${url}"`), `${postPath}: links to ${url}`);
+  }
 
   const sm = String(files.get("public/sitemap.xml"));
-  assert.ok(sm.includes("https://talentradar.eu/srovnani"), "sitemap.xml includes /srovnani");
-  assert.ok(sm.includes("https://talentradar.eu/en/compare"), "sitemap.xml includes /en/compare");
+  assert.ok(sm.includes(`https://talentradar.eu${csArticleUrl}`), "sitemap.xml includes CS comparison article");
+  assert.ok(sm.includes(`https://talentradar.eu${enArticleUrl}`), "sitemap.xml includes EN comparison article");
+  assert.ok(!sm.includes("https://talentradar.eu/srovnani"), "sitemap.xml removes /srovnani");
+  assert.ok(!sm.includes("https://talentradar.eu/en/compare"), "sitemap.xml removes /en/compare");
+
+  const smTxt = String(files.get("public/sitemap.txt"));
+  assert.ok(smTxt.includes(`https://talentradar.eu${csArticleUrl}`), "sitemap.txt includes CS comparison article");
+  assert.ok(smTxt.includes(`https://talentradar.eu${enArticleUrl}`), "sitemap.txt includes EN comparison article");
 
   const llms = String(files.get("public/llms.txt"));
-  assert.ok(llms.includes("https://talentradar.eu/srovnani"), "llms.txt includes /srovnani");
-  assert.ok(llms.includes("https://talentradar.eu/en/compare"), "llms.txt includes /en/compare");
+  assert.ok(llms.includes(`https://talentradar.eu${csArticleUrl}`), "llms.txt includes CS comparison article");
+  assert.ok(llms.includes(`https://talentradar.eu${enArticleUrl}`), "llms.txt includes EN comparison article");
+  assert.ok(!llms.includes("https://talentradar.eu/srovnani"), "llms.txt removes /srovnani");
+  assert.ok(!llms.includes("https://talentradar.eu/en/compare"), "llms.txt removes /en/compare");
 
   const full = String(files.get("public/llms-full.txt"));
-  assert.ok(full.includes("Teamio"), "llms-full.txt includes compare FAQ");
+  assert.ok(full.includes("Teamio"), "llms-full.txt includes comparison FAQ");
 });

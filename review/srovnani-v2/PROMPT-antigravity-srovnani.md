@@ -105,6 +105,36 @@ Do článků `how-to-monitor-client-career-pages`, `track-company-hiring-czechia
    - u všech `overflowX: false` a žádné chyby JS.
 3. **`review/srovnani-v2/texty.md`: všechny nové a změněné texty CS i EN pod sebou** (tabulka na úvodní stránce, článek, patička, odkazy v článcích). U každého tvrzení o konkurenci zdroj. Kryštof chce každou změnu textu vidět před vydáním, tohle je pro něj.
 
+## 5b. Opravy a upřesnění rešerše (Claude, 14. 11. večer). Mají přednost před `reserse.md`
+
+Claude rešerši prošel a tři klíčová zjištění ověřil přímo na webech (Vente AI pricing, Saleskit HR & Recruitment + pricing, Claude support). Při psaní platí:
+
+1. **Test TheirStacku je v `reserse.md` převzatý špatně.** Správně (zdroj `docs/strategie/2026-11-13_konkurence-signara-theirstack-a-spol.md`, kap. 9):
+   - u **6 z 30** firem nula rolí v ČR,
+   - u **dalších 6** méně než polovina, tedy **12 z 30 celkem** pod polovinou,
+   - u **13 z 30** měl TheirStack stejně nebo víc rolí. To vysvětluje specializace ukázky (IT a produkt) a šum v párování názvů firem, ne „anglické ATS“.
+
+   TheirStack má v Česku 25 718 inzerátů za 90 dní. **V článku ani na úvodní stránce test nepoužívej** (rozhoduje Kryštof, viz 4.1).
+2. **Databáze inzerátů v ČR/SR:** nepiš „slabé pokrytí CZ“ ani „hlavně US/UK“. TheirStack mezi 10 hlavními zeměmi uvádí US, UK, IN, FR, DE, CA, JP, BR, ES, NL, takže „hlavně US/UK“ nesedí. Použij CS „Částečně (Česko mezi hlavními zeměmi neuvádějí, pokrytí vašich firem si ověřte)“, v tabulce na úvodní stránce zkráceně „Částečně, ověřte si své firmy“. EN obdobně.
+3. **Vente AI:** základ „Hiring Data Access“ £59/měs. bez DPH (1 000 signálů, neomezeně uživatelů, „Claude / ChatGPT connection (MCP)“), slevy za závazek 3/6/12 měs. −10/−25/−40 %, add-ony +£79 / +£99 / +£499. **Bez zkušební verze.** Navíc:
+   - **ATS integrace na stránce ceníku uvedená není.** V kartě ji uveď jen se zdrojem z jiné stránky Vente, jinak ji vynech.
+   - Vente vylučuje inzeráty personálních agentur („Recruitment Agency listings excluded“).
+4. **Saleskit (Merk): v článku ho zmiň férově**, je to nejbližší český hráč.
+   - Ověřeno: samostatná stránka pro HR a personální agentury, inzeráty z „největších pracovních portálů“ v ČR a SR s historií od roku 2020, MCP (nad daty Merk a Leady).
+   - Reference **Grafton**, v logách i Alma Career, Manuvia a ManpowerGroup.
+   - Ceník má tarify Basic / Standard / Enterprise (do 5 / 10 / 15+ uživatelů), částky veřejné nejsou.
+   - **Má „Start free trial“**, takže v `reserse.md` je „bez self-serve zkoušky“ chybně.
+   - Rozdíl vůči TalentRadaru popiš věcně: Saleskit = portálová inzerce a firemní data celého trhu; TalentRadar = denní hlídání kariérních webů a ATS vašeho seznamu firem, třídění rolí podle zaměření, ATS v ceně. Nepiš, že Saleskit něco „neumí“, pokud to nemáš ze zdroje.
+5. **DIY náklady** (`cmp_ways_r2_c4` a článek):
+   - do tabulky „cca 200–3 500 Kč měsíčně + hodiny práce“,
+   - v článku rozpad: malá agentura 150–775 Kč/měs. (+ 4–8 h stavby, 1–2 h/měs. údržby), střední 960–3 550 Kč/měs. (+ 25–60 h stavby, 4–10 h/měs.).
+
+   Hodiny jsou **odhad**, tak je i označ. V článku nejmenuj konkrétní API modely (GPT‑6…, Haiku…). Stačí „levné až střední jazykové modely přes API“ s rozpětím ceny.
+6. **„Kdo to udržuje“ u vlastní AI:** „Vy, každý týden po rozbití webu“ je u 20 jednoduchých webů nadsázka. Napiš „Vy (u desítek firem každý týden)“ nebo podobně.
+7. **RoleDawn a JobBeacon** do článku nedávej (RoleDawn neprodává nové tarify, JobBeacon je pro uchazeče). FinStat a Leadbase taky ne (pozice nehlídají).
+8. **Ceník `pp_t2_f7` (Claude a ChatGPT) a rozpor `cmp_faq_a3` × `pp_t2_f5`** (import firem z CSV: FAQ ho slibuje všem, ceník ho má až u Agency Pro): **neměň**, obojí je otevřená otázka pro Kryštofa. Do článku nepiš, že import má Solo Scout.
+9. **Datum ověření** všech cen v článku: **14. 11. 2026**, kurz ČNB z 13. 11. 2026 (1 USD = 22,101 Kč, 1 EUR = 24,425 Kč, 1 GBP = 29,238 Kč). Ceny v Kč u cizích nástrojů piš jako „asi“.
+
 ## 6. Commit a hlášení
 
 Commituj na `design/hero-a-2026-11` po logických krocích (sloučení základní větve; článek; úvodní stránka; zrušení `/srovnani` a test; odkazy v článcích; screenshoty a `texty.md`). **Bez pushe.**

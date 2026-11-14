@@ -1,0 +1,125 @@
+{
+ "results": [
+  {
+   "out": "cs-1920x1080.png",
+   "overflowX": false,
+   "videos": [
+    {
+     "src": "hero.cs.1440.60.mp4",
+     "paused": false,
+     "t": 4.11,
+     "box": "629x524",
+     "boxRatio": 1.2,
+     "vidRatio": 1.2,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "out": "cs-1440x900.png",
+   "overflowX": false,
+   "videos": [
+    {
+     "src": "hero.cs.1440.60.mp4",
+     "paused": false,
+     "t": 9.36,
+     "box": "633x528",
+     "boxRatio": 1.2,
+     "vidRatio": 1.2,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "out": "cs-390x844.png",
+   "overflowX": false,
+   "videos": [
+    {
+     "src": "hero-mobile.cs.1080.60.mp4",
+     "paused": true,
+     "t": 0,
+     "box": "358x447",
+     "boxRatio": 0.8,
+     "vidRatio": 0.8,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "out": "cs-390x844-video.png",
+   "overflowX": false,
+   "videos": [
+    {
+     "src": "hero-mobile.cs.1080.60.mp4",
+     "paused": false,
+     "t": 1.44,
+     "box": "358x447",
+     "boxRatio": 0.8,
+     "vidRatio": 0.8,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "out": "en-1920x1080.png",
+   "overflowX": false,
+   "videos": [
+    {
+     "src": "hero.en.1440.60.mp4",
+     "paused": false,
+     "t": 4.33,
+     "box": "629x524",
+     "boxRatio": 1.2,
+     "vidRatio": 1.2,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "out": "en-1440x900.png",
+   "overflowX": false,
+   "videos": [
+    {
+     "src": "hero.en.1440.60.mp4",
+     "paused": false,
+     "t": 9.35,
+     "box": "633x528",
+     "boxRatio": 1.2,
+     "vidRatio": 1.2,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "out": "en-390x844.png",
+   "overflowX": false,
+   "videos": [
+    {
+     "src": "hero-mobile.en.1080.60.mp4",
+     "paused": true,
+     "t": 0,
+     "box": "358x447",
+     "boxRatio": 0.8,
+     "vidRatio": 0.8,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "out": "en-390x844-video.png",
+   "overflowX": false,
+   "videos": [
+    {
+     "src": "hero-mobile.en.1080.60.mp4",
+     "paused": false,
+     "t": 1.43,
+     "box": "358x447",
+     "boxRatio": 0.8,
+     "vidRatio": 0.8,
+     "fit": "cover"
+    }
+   ]
+  }
+ ],
+ "jsErrors": []
+}

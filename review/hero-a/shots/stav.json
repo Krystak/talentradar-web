@@ -1,13 +1,13 @@
 {
  "results": [
   {
-   "out": "cs-1920x1080.png",
+   "out": "shots/cs-1920x1080.png",
    "overflowX": false,
    "videos": [
     {
      "src": "hero.cs.1440.60.mp4",
      "paused": false,
-     "t": 4.11,
+     "t": 3.63,
      "box": "629x524",
      "boxRatio": 1.2,
      "vidRatio": 1.2,
@@ -16,13 +16,13 @@
    ]
   },
   {
-   "out": "cs-1440x900.png",
+   "out": "shots/cs-1440x900.png",
    "overflowX": false,
    "videos": [
     {
      "src": "hero.cs.1440.60.mp4",
      "paused": false,
-     "t": 9.36,
+     "t": 8.91,
      "box": "633x528",
      "boxRatio": 1.2,
      "vidRatio": 1.2,
@@ -31,7 +31,7 @@
    ]
   },
   {
-   "out": "cs-390x844.png",
+   "out": "shots/cs-390x844.png",
    "overflowX": false,
    "videos": [
     {
@@ -46,7 +46,7 @@
    ]
   },
   {
-   "out": "cs-390x844-video.png",
+   "out": "shots/cs-390x844-video.png",
    "overflowX": false,
    "videos": [
     {
@@ -61,13 +61,13 @@
    ]
   },
   {
-   "out": "en-1920x1080.png",
+   "out": "shots/en-1920x1080.png",
    "overflowX": false,
    "videos": [
     {
      "src": "hero.en.1440.60.mp4",
      "paused": false,
-     "t": 4.33,
+     "t": 3.85,
      "box": "629x524",
      "boxRatio": 1.2,
      "vidRatio": 1.2,
@@ -76,13 +76,13 @@
    ]
   },
   {
-   "out": "en-1440x900.png",
+   "out": "shots/en-1440x900.png",
    "overflowX": false,
    "videos": [
     {
      "src": "hero.en.1440.60.mp4",
      "paused": false,
-     "t": 9.35,
+     "t": 8.92,
      "box": "633x528",
      "boxRatio": 1.2,
      "vidRatio": 1.2,
@@ -91,7 +91,7 @@
    ]
   },
   {
-   "out": "en-390x844.png",
+   "out": "shots/en-390x844.png",
    "overflowX": false,
    "videos": [
     {
@@ -106,7 +106,7 @@
    ]
   },
   {
-   "out": "en-390x844-video.png",
+   "out": "shots/en-390x844-video.png",
    "overflowX": false,
    "videos": [
     {

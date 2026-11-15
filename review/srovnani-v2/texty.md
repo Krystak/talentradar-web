@@ -91,7 +91,7 @@ Odkaz tlačítka: `{{url:post:ways-to-see-who-is-hiring-compared}}` → `/blog/s
      6. **Visualping (a Distill)** — obecné hlídače URL (`visualping.io/pricing`, `distill.io/pricing`); Visualping Free $0 (5 stránek, 150 kontrol), Personal $14–$70/měs. (~310–1 545 Kč), Business $140–$350/měs. (~3 095–7 735 Kč; ročně od $10/$100); Distill Free (5 cloud monitorů) / od $15/měs. Nemá ATS parsing ani historii věku rolí 45+ dní.
 
 6. **Kdy TalentRadar není pro vás (`#not-for-you`)**
-   - 4 karty (`.not-grid`): 1. ověřené přímé e-maily/telefony manažerů (→ Recruit Signals / Vente AI v UK/NL), 2. pre-vacancy signály (→ Recruit Signals / PredictLeads / Saleskit), 3. plošné prohledávání trhu nebo surové API mimo vlastní seznam firem (→ TheirStack / Saleskit), 4. okamžité webhooky/Slack na každou změnu URL (→ Visualping Business / TheirStack; TalentRadar běží 2× denně v 6:00 a 12:00 + týdenní e-mail + Excel/CSV/Bullhorn/Vincere + MCP).
+   - 4 karty (`.not-grid`): 1. ověřené přímé e-maily/telefony manažerů (→ pro Británii Recruit Signals nebo Vente AI, pro Nizozemsko Recruit Signals), 2. pre-vacancy signály (kola financování, změny ve vedení nebo tempo růstu týmu → Recruit Signals / PredictLeads), 3. plošné prohledávání trhu nebo surové API mimo vlastní seznam firem (→ TheirStack / Saleskit), 4. okamžité webhooky/Slack na každou změnu URL (→ Visualping Business / TheirStack; TalentRadar běží 2× denně v 6:00 a 12:00 + týdenní e-mail + Excel/CSV/Bullhorn/Vincere + MCP).
 
 7. **Časté otázky ke srovnání (`#cmp-faq`, shodné s JSON-LD `meta.faq`)**
    1. *Proč uvádíte Teamio zvlášť od běžných pracovních portálů?* / *Why do you treat Teamio separately from regular job boards?*

@@ -1015,7 +1015,6 @@ const APP_FEATURES = {
     "Export do Excelu, CSV, Bullhornu a Vincere",
     "Vestavěný lehký režim Radar + ATS v ceně tarifu",
     "Párování anonymizovaného kandidáta na otevřené role",
-    "MCP propojení s Claude a ChatGPT (Agency Pro a Scale)",
   ],
   en: [
     "Twice-daily automated career-page and ATS monitoring (06:00 and 12:00)",
@@ -1026,7 +1025,6 @@ const APP_FEATURES = {
     "Excel, CSV, Bullhorn, and Vincere export",
     "Built-in lightweight Radar + ATS mode included in every plan",
     "Anonymous candidate-to-open-roles matching without storing CVs",
-    "Claude and ChatGPT MCP integration (Agency Pro and Scale)",
   ],
 };
 
@@ -1260,7 +1258,7 @@ function llmsBaseLines(site, all, urlOf) {
       "- TalentRadar checks every tracked company's career page twice daily (06:00 and 12:00 in the agency's timezone), so consultants reach hiring managers during the golden window before inboxes fill up.",
       "- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export) or as a lightweight built-in ATS (Radar + ATS mode included in every plan).",
       "- Tracks real posting dates (from the company ATS or first-seen timestamp) to highlight roles open 30+ and 45+ days, and automatically archives disappeared roles after verification to eliminate ghost-job waste.",
-      "- Estimates likely hiring managers from the job posting, links directly to LinkedIn and Google X-Ray search, drafts outreach messages in each consultant's style, and connects to Claude and ChatGPT via MCP on Agency Pro and Scale plans.",
+      "- Estimates likely hiring managers from the job posting, links directly to LinkedIn and Google X-Ray search, and drafts outreach messages in each consultant's style.",
       "",
       "## Supported Career Pages & ATS Sources",
       `- Public career pages and ATS APIs read automatically: ${atsSources}, plus custom company career websites.`,

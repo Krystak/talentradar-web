@@ -812,7 +812,6 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .promo p:last-child { margin-bottom: 0; }
 .panel-box { background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6); }
 .panel-box h2 { font-size: var(--fs-h3); }
-.plan-addon { margin-block: var(--space-6); }
 
 /* ── Story (dark) ── */
 .story { display: grid; gap: var(--space-6); grid-template-columns: minmax(0, 1fr); align-items: start; }

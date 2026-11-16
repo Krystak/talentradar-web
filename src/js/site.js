@@ -409,12 +409,7 @@ const pageLoaded = new Promise((resolve) => {
       // transparent until it has a frame, so the poster on the screen behind it shows (components.css)
       v.addEventListener("loadeddata", () => v.classList.add("has-frame"));
       v.addEventListener("emptied", () => v.classList.remove("has-frame"));
-      const look = () => {
-        if (v === shownVideo(fig)) {
-          showCue(fig);
-          if (fig.classList.contains("video--hero")) syncHeroSteps(v.currentTime || 0);
-        }
-      };
+      const look = () => { if (v === shownVideo(fig)) showCue(fig); };
       v.addEventListener("timeupdate", look);
       followFrames(v, look);
       v.addEventListener("play", () => {
@@ -463,6 +458,11 @@ const pageLoaded = new Promise((resolve) => {
     if (heroFig && live.includes(heroFig)) {
       heroSteps.hidden = false;
       syncHeroSteps(shownVideo(heroFig).currentTime || 0);
+      for (const v of heroFig.querySelectorAll("video")) {
+        const onStep = () => { if (v === shownVideo(heroFig)) syncHeroSteps(v.currentTime || 0); };
+        v.addEventListener("timeupdate", onStep);
+        followFrames(v, onStep);
+      }
       heroStepBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
           const targetTime = Number(btn.dataset.heroSeek);

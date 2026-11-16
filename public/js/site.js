@@ -186,6 +186,7 @@ const pickCue = (fig) => {
   const on = all.find((l) => l.classList.contains("is-on"));
   if (on && on.dataset.cues === clip && on.textContent === now.textContent && on.getClientRects().length) return;
   for (const l of all) l.classList.toggle("is-on", l === now);
+  syncSteps(fig);
 };
 /* The words of a loop's lines once split (splitWords): line -> { spans, words, k: the word read, span, schedule }. */
 const wordsOf = new WeakMap();
@@ -253,22 +254,32 @@ const readCue = (fig) => {
   }
   markWord(line, wordAt(w.schedule, elapsed));
 };
-const heroSteps = document.querySelector(".hero-steps");
-const heroStepBtns = heroSteps ? [...heroSteps.querySelectorAll("[data-hero-seek]")] : [];
-let heroStepIdx = -1;
-const syncHeroSteps = (time) => {
-  if (!heroStepBtns.length) return;
-  let next = 0;
-  heroStepBtns.forEach((btn, i) => {
-    if (Number(btn.dataset.heroSeek) <= time + 0.05) next = i;
-  });
-  if (next === heroStepIdx) return;
-  heroStepIdx = next;
-  heroStepBtns.forEach((btn, i) => {
-    const on = i === next;
-    btn.classList.toggle("is-active", on);
-    btn.setAttribute("aria-pressed", String(on));
-  });
+/* The pills under a loop (build.mjs videoFigure): the set of the clip playing shows, and the lit pill is the step of
+   the line under the video. Pill n is the clip's n-th different sentence, so a loop that comes back to its first line
+   lights the first pill again. */
+const syncSteps = (fig) => {
+  const box = fig.querySelector(".video-steps");
+  if (!box || box.hidden) return;
+  const line = fig.querySelector(".video__cue-line.is-on");
+  const clip = fig.dataset.cueClip || (line && line.dataset.cues);
+  let step = "";
+  if (line) {
+    const said = [];
+    for (const l of fig.querySelectorAll(".video__cue-line")) {
+      if (l.dataset.cues === line.dataset.cues && !said.includes(l.textContent)) said.push(l.textContent);
+    }
+    step = String(said.indexOf(line.textContent) + 1);
+  }
+  for (const set of box.querySelectorAll(".video-steps__set")) {
+    const mine = set.dataset.cues === clip;
+    set.hidden = !mine;
+    for (const pill of set.querySelectorAll(".video-step")) {
+      const on = mine && pill.dataset.step === step;
+      if (pill.classList.contains("is-active") === on) continue;
+      pill.classList.toggle("is-active", on);
+      pill.setAttribute("aria-pressed", String(on));
+    }
+  }
 };
 const showCue = (fig) => {
   pickCue(fig);
@@ -448,42 +459,41 @@ const pageLoaded = new Promise((resolve) => {
         Promise.resolve(v.play()).catch(() => {});
       });
     }
+    // a pill jumps to its step and plays from there (on a phone it counts as the tap on play)
+    const steps = fig.querySelector(".video-steps");
+    if (steps) {
+      steps.hidden = false;
+      steps.addEventListener("click", (e) => {
+        const pill = e.target.closest(".video-step");
+        if (!pill) return;
+        const v = shownVideo(fig);
+        const at = cueTime(pill, !!v.closest(".video--mobile"));
+        if (!Number.isFinite(at)) return;
+        fig.dataset.tapped = "1";
+        fig.dataset.user = "";
+        asked = fig;
+        clearRetry(fig);
+        if (start && !start.hidden) {
+          start.hidden = true;
+          btn.hidden = false;
+        }
+        runAll();
+        v.preload = "auto";
+        const seek = () => {
+          try { v.currentTime = at; } catch { /* not seekable yet */ }
+          showCue(fig);
+        };
+        if (v.readyState >= 1) seek();
+        else v.addEventListener("loadedmetadata", seek, { once: true });
+        Promise.resolve(v.play()).catch(() => {});
+      });
+      syncSteps(fig);
+    }
     label(btn, true);
     near.observe(fig);
     (fig.classList.contains("video--hero") ? seenHero : seen).observe(fig);
   }
   runAll();
-  /* the step pills under the hero video: they follow the playback and a click jumps to that step */
-  if (heroSteps && !stillPref.matches) {
-    const heroFig = figures.find((fig) => fig.classList.contains("video--hero"));
-    if (heroFig && live.includes(heroFig)) {
-      heroSteps.hidden = false;
-      syncHeroSteps(shownVideo(heroFig).currentTime || 0);
-      for (const v of heroFig.querySelectorAll("video")) {
-        const onStep = () => { if (v === shownVideo(heroFig)) syncHeroSteps(v.currentTime || 0); };
-        v.addEventListener("timeupdate", onStep);
-        followFrames(v, onStep);
-      }
-      heroStepBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const targetTime = Number(btn.dataset.heroSeek);
-          const v = shownVideo(heroFig);
-          heroFig.dataset.user = "";
-          asked = heroFig;
-          clearRetry(heroFig);
-          runAll();
-          v.preload = "auto";
-          const seekAndPlay = () => {
-            try { v.currentTime = targetTime; } catch {}
-            showCue(heroFig);
-          };
-          if (v.readyState >= 1) seekAndPlay();
-          else v.addEventListener("loadedmetadata", seekAndPlay, { once: true });
-          Promise.resolve(v.play()).catch(() => {});
-        });
-      });
-    }
-  }
   onMediaChange(phone, runAll);
   videosChanged = runAll;
   videoAskedFor = (fig) => {

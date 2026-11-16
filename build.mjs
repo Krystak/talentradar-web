@@ -624,6 +624,13 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
   }
   const tap = loop && id !== "hero";
   const start = tap ? `\n    <button class="btn btn-secondary video__start" type="button" hidden>${escapeHtml(text(site, ctx, "hero_video_play"))}</button>` : "";
+  // A loop's steps: its cues by sentence, each sentence once (a loop that ends on its first line does not get it twice).
+  // Label: step_<clip>_<n> when the text map has one (the hero's are shorter than its lines), else the line itself.
+  const stepsOf = (clipId) => {
+    const seen = new Map();
+    for (const cue of clipIn(site.media.clips[clipId], ctx.lang).cues || []) if (!seen.has(cue.key)) seen.set(cue.key, { cue, n: seen.size + 1 });
+    return seen;
+  };
   const lines = [id, ...others].flatMap((clipId) => {
     if (!site.media.clips[clipId]) throw new Error(`${where}: unknown clip ${clipId}`);
     const of = clipIn(site.media.clips[clipId], ctx.lang);
@@ -638,6 +645,23 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
       return `<span class="video__cue-line${only}${first}" data-cues="${clipId}" data-at="${cue.at === null ? "none" : cue.at}"${atMobile}>${escapeHtml(text(site, ctx, cue.key))}</span>`;
     });
   });
+  // Pills under a loop, one set per clip of the figure with two steps or more: they follow the line under the
+  // video and a click jumps there (site.js). Hidden until the script shows them (not with reduced motion).
+  const stepSets = loop
+    ? [id, ...others].flatMap((clipId) => {
+        const steps = [...stepsOf(clipId).values()];
+        if (steps.length < 2) return [];
+        const pills = steps.map(({ cue, n }) => {
+          const only = cue.at_mobile === null ? " d-only" : cue.at === null ? " m-only" : "";
+          const atMobile = cue.at_mobile === undefined ? "" : ` data-at-mobile="${cue.at_mobile === null ? "none" : cue.at_mobile}"`;
+          const own = `step_${clipId}_${n}`;
+          const label = lookup(site.i18n[ctx.lang], own) !== undefined ? text(site, ctx, own) : text(site, ctx, cue.key).replace(/[.…]+$/, "");
+          return `<button class="video-step${only}" type="button" data-step="${n}" data-at="${cue.at === null ? "none" : cue.at}"${atMobile} aria-pressed="false">${n}. ${escapeHtml(label)}</button>`;
+        });
+        return [`<div class="video-steps__set" data-cues="${clipId}">${pills.join("")}</div>`];
+      })
+    : [];
+  const steps = stepSets.length ? `\n  <div class="video-steps" role="group" aria-label="${escapeHtml(text(site, ctx, "video_steps_label"))}" hidden>${stepSets.join("")}</div>` : "";
   if (lines.length) lines[0] = lines[0].replace('class="video__cue-line', 'class="video__cue-line is-on');
   const foot = lines.length || toggle ? `\n    <div class="frame__foot"><p class="video__cue">${lines.join("")}</p>${toggle}</div>` : "";
   // {clip.date} under a video is the day that cut was recorded: its own clip_date, else the set's. Clips that share a figure
@@ -662,7 +686,7 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
     <div class="frame__window">
       ${video(clip, "video--desktop")}${phone ? `\n      ${video(phone, "video--mobile")}` : ""}${start}
     </div>${foot}
-  </div>${caption}
+  </div>${steps}${caption}
 </figure>`;
 }
 

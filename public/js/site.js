@@ -253,6 +253,23 @@ const readCue = (fig) => {
   }
   markWord(line, wordAt(w.schedule, elapsed));
 };
+const heroSteps = document.querySelector(".hero-steps");
+const heroStepBtns = heroSteps ? [...heroSteps.querySelectorAll("[data-hero-seek]")] : [];
+let heroStepIdx = -1;
+const syncHeroSteps = (time) => {
+  if (!heroStepBtns.length) return;
+  let next = 0;
+  heroStepBtns.forEach((btn, i) => {
+    if (Number(btn.dataset.heroSeek) <= time + 0.05) next = i;
+  });
+  if (next === heroStepIdx) return;
+  heroStepIdx = next;
+  heroStepBtns.forEach((btn, i) => {
+    const on = i === next;
+    btn.classList.toggle("is-active", on);
+    btn.setAttribute("aria-pressed", String(on));
+  });
+};
 const showCue = (fig) => {
   pickCue(fig);
   readCue(fig);
@@ -436,6 +453,37 @@ const pageLoaded = new Promise((resolve) => {
     (fig.classList.contains("video--hero") ? seenHero : seen).observe(fig);
   }
   runAll();
+  /* the step pills under the hero video: they follow the playback and a click jumps to that step */
+  if (heroSteps && !stillPref.matches) {
+    const heroFig = figures.find((fig) => fig.classList.contains("video--hero"));
+    if (heroFig && live.includes(heroFig)) {
+      heroSteps.hidden = false;
+      syncHeroSteps(shownVideo(heroFig).currentTime || 0);
+      for (const v of heroFig.querySelectorAll("video")) {
+        const onStep = () => { if (v === shownVideo(heroFig)) syncHeroSteps(v.currentTime || 0); };
+        v.addEventListener("timeupdate", onStep);
+        followFrames(v, onStep);
+      }
+      heroStepBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetTime = Number(btn.dataset.heroSeek);
+          const v = shownVideo(heroFig);
+          heroFig.dataset.user = "";
+          asked = heroFig;
+          clearRetry(heroFig);
+          runAll();
+          v.preload = "auto";
+          const seekAndPlay = () => {
+            try { v.currentTime = targetTime; } catch {}
+            showCue(heroFig);
+          };
+          if (v.readyState >= 1) seekAndPlay();
+          else v.addEventListener("loadedmetadata", seekAndPlay, { once: true });
+          Promise.resolve(v.play()).catch(() => {});
+        });
+      });
+    }
+  }
   onMediaChange(phone, runAll);
   videosChanged = runAll;
   videoAskedFor = (fig) => {

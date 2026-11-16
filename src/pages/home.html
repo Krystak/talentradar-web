@@ -23,6 +23,12 @@
     </div>
     <div class="hero__media">
       {{video:hero:hero_video_aria}}
+      <!-- the seconds match the hero cues in src/data/media.json -->
+      <div class="hero-steps" role="group" aria-label="{{t.hero_steps_label}}" hidden>
+        <button class="hero-step is-active" type="button" data-hero-seek="0" aria-pressed="true">{{t.hero_step_1}}</button>
+        <button class="hero-step" type="button" data-hero-seek="3.5" aria-pressed="false">{{t.hero_step_2}}</button>
+        <button class="hero-step" type="button" data-hero-seek="8.2" aria-pressed="false">{{t.hero_step_3}}</button>
+      </div>
       <p class="note hero__caption"><span class="d-only">{{t.hero_video_caption}}</span><span class="m-only">{{t.hero_video_caption_m}}</span></p>
     </div>
   </div>

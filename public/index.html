@@ -31,8 +31,8 @@
   <link rel="preload" href="/fonts/manrope-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="/video/hero-mobile.cs.1080.webp?v=23fc385862" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" href="/video/hero.cs.1920.webp?v=23fc385862" media="(min-width: 768px)" fetchpriority="high">
-  <link rel="stylesheet" href="/css/site.css?v=35fcbaf16d">
-  <script type="module" src="/js/site.js?v=13d2654282"></script>
+  <link rel="stylesheet" href="/css/site.css?v=c341162e8c">
+  <script type="module" src="/js/site.js?v=0dd88894bf"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -105,6 +105,12 @@
     <div class="frame__foot"><p class="video__cue"><span class="video__cue-line is-on" data-cues="hero" data-at="0">Na první pohled: kdo z vašich firem nově nabírá.</span><span class="video__cue-line" data-cues="hero" data-at="3.5" data-at-mobile="3.5">Váš klient vypsal novou roli. Máte důvod zavolat.</span><span class="video__cue-line" data-cues="hero" data-at="8.2" data-at-mobile="8.2">A tady je ten inzerát, přímo na webu firmy.</span></p><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pozastavit ukázku</span></button></div>
   </div>
 </figure>
+      <!-- the seconds match the hero cues in src/data/media.json -->
+      <div class="hero-steps" role="group" aria-label="Kroky ukázky" hidden>
+        <button class="hero-step is-active" type="button" data-hero-seek="0" aria-pressed="true">1. Přehled firem</button>
+        <button class="hero-step" type="button" data-hero-seek="3.5" aria-pressed="false">2. Aktivní klient</button>
+        <button class="hero-step" type="button" data-hero-seek="8.2" aria-pressed="false">3. Inzerát na webu</button>
+      </div>
       <p class="note hero__caption"><span class="d-only">Natočeno 14. 11. 2026 ve veřejném demu TalentRadaru: firmy a pozice jsou skutečné, agentura vymyšlená, zaměřená na IT a software.</span><span class="m-only">Natočeno 14. 11. 2026 v demu: firmy a pozice skutečné, IT agentura vymyšlená.</span></p>
     </div>
   </div>

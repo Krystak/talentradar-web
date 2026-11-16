@@ -1115,6 +1115,24 @@ video::cue { line-height: 1.5; }
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 24px 64px rgba(4, 7, 14, 0.45);
 }
 
+/* Step pills under the hero video (site.js shows them only with JS and motion allowed) */
+.hero-steps { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.hero-steps[hidden] { display: none; }
+.hero-step {
+  min-height: 36px; padding: 6px 14px;
+  border-radius: var(--radius-pill); border: 1px solid var(--c-border);
+  background: rgba(255, 255, 255, 0.04); color: var(--c-text-2);
+  font: inherit; font-size: var(--fs-sm); font-weight: 600; line-height: 1.25;
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease);
+}
+.hero-step:hover { border-color: var(--c-border-strong); color: var(--text-on-dark); background: rgba(255, 255, 255, 0.08); }
+.hero-step.is-active { background: var(--orange-tint-22); border-color: var(--orange); color: var(--text-on-dark); }
+/* a phone on its side has no room for another row under the video */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-steps { display: none !important; }
+}
+
 /* Only things you can click move under the mouse; a blog card is then one link as on a phone. */
 @media (hover: hover) {
   .post-card { position: relative; transition: transform 0.24s var(--ease), border-color 0.24s var(--ease), box-shadow 0.24s var(--ease); }

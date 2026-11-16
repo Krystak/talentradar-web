@@ -1078,6 +1078,66 @@ video::cue { line-height: 1.5; }
   .hero__media .video { max-width: calc((100vh - var(--header-h) - 44px - 32px - 24px) * 6 / 5 + 2 * var(--space-3)); }
 }
 
+/* ── Motion polish: floating bar, hero depth, hover lift on what you can click, scroll reveal ── */
+/* Desktop: the bar floats as a pill. 8 px gap + 1 px borders + 62 px = 72 px, the same --header-h as before, so the hero still fits the fold. */
+@media (min-width: 1001px) {
+  .site-header {
+    top: 8px;
+    max-width: calc(var(--container) - 2 * var(--gutter));
+    margin: 8px auto 0;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-pill);
+    background: rgba(19, 27, 44, 0.84);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 12px 32px rgba(4, 7, 14, 0.34);
+  }
+  .site-header__inner { min-height: calc(var(--header-h) - 10px); padding-inline: var(--space-5); }
+  .site-nav ul { gap: var(--space-2); }
+  .site-nav ul a {
+    display: inline-flex; align-items: center;
+    padding: 8px 13px; border-radius: var(--radius-pill);
+    transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+  }
+  .site-nav ul a:hover { background: rgba(255, 255, 255, 0.07); }
+  .btn--nav { border-radius: var(--radius-pill); }
+}
+
+.hero {
+  background:
+    radial-gradient(680px 440px at 78% 44%, rgba(255, 107, 0, 0.10), transparent 68%),
+    radial-gradient(600px 400px at 14% 20%, rgba(52, 211, 153, 0.04), transparent 70%),
+    var(--c-bg);
+}
+.hero__proof { box-shadow: 0 10px 28px rgba(4, 7, 14, 0.24); }
+.hero__media .frame {
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 24px 64px rgba(4, 7, 14, 0.45);
+}
+
+/* Only things you can click move under the mouse; a blog card is then one link as on a phone. */
+@media (hover: hover) {
+  .post-card { position: relative; transition: transform 0.24s var(--ease), border-color 0.24s var(--ease), box-shadow 0.24s var(--ease); }
+  .post-card__title a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .post-card:hover { transform: translateY(-3px); border-color: var(--c-border-strong); box-shadow: 0 12px 28px rgba(4, 7, 14, 0.12); }
+  .plan, .faq details { transition: border-color 0.24s var(--ease); }
+  .plan:hover, .faq details:hover { border-color: var(--c-border-strong); }
+  .btn { transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.18s var(--ease); }
+  .btn:hover { transform: translateY(-1px); }
+}
+
+/* site.js adds .has-reveal only with motion allowed; print always shows everything. */
+.has-reveal .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s var(--ease) var(--reveal-delay, 0ms), transform 0.55s var(--ease) var(--reveal-delay, 0ms);
+}
+.has-reveal .reveal.is-visible { opacity: 1; transform: none; }
+@media print {
+  .has-reveal .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
+  .has-reveal .reveal { opacity: 1 !important; transform: none !important; }
 }

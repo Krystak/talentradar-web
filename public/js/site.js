@@ -1001,3 +1001,27 @@ const pageLoaded = new Promise((resolve) => {
     wrap.querySelector(".success").focus();
   });
 })();
+
+/* Sections and cards below the fold rise in once as they scroll into view.
+   Nothing is hidden without the script, with reduced motion, or when printing (components.css). */
+(function scrollReveal() {
+  if (stillPref.matches || !("IntersectionObserver" in window)) return;
+  const targets = [...document.querySelectorAll(".chapters-layout, .charts, .ats-grid > *, .plans > *, .story, .trial-grid > *, .post-card")];
+  if (!targets.length) return;
+  const vh = window.innerHeight || 900;
+  for (const el of targets) {
+    el.classList.add("reveal");
+    const idx = el.parentElement ? [...el.parentElement.children].indexOf(el) : 0;
+    if (idx > 0) el.style.setProperty("--reveal-delay", `${Math.min(idx * 55, 180)}ms`);
+    if (el.getBoundingClientRect().top < vh * 0.96) el.classList.add("is-visible");
+  }
+  document.documentElement.classList.add("has-reveal");
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add("is-visible");
+      io.unobserve(e.target);
+    }
+  }, { rootMargin: "0px 0px -6% 0px", threshold: 0.06 });
+  for (const el of targets) if (!el.classList.contains("is-visible")) io.observe(el);
+})();

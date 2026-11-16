@@ -253,6 +253,23 @@ const readCue = (fig) => {
   }
   markWord(line, wordAt(w.schedule, elapsed));
 };
+const heroSteps = document.querySelector(".hero-steps");
+const heroStepBtns = heroSteps ? [...heroSteps.querySelectorAll("[data-hero-seek]")] : [];
+let heroStepIdx = -1;
+const syncHeroSteps = (time) => {
+  if (!heroStepBtns.length) return;
+  let next = 0;
+  heroStepBtns.forEach((btn, i) => {
+    if (Number(btn.dataset.heroSeek) <= time + 0.05) next = i;
+  });
+  if (next === heroStepIdx) return;
+  heroStepIdx = next;
+  heroStepBtns.forEach((btn, i) => {
+    const on = i === next;
+    btn.classList.toggle("is-active", on);
+    btn.setAttribute("aria-pressed", String(on));
+  });
+};
 const showCue = (fig) => {
   pickCue(fig);
   readCue(fig);
@@ -392,7 +409,12 @@ const pageLoaded = new Promise((resolve) => {
       // transparent until it has a frame, so the poster on the screen behind it shows (components.css)
       v.addEventListener("loadeddata", () => v.classList.add("has-frame"));
       v.addEventListener("emptied", () => v.classList.remove("has-frame"));
-      const look = () => { if (v === shownVideo(fig)) showCue(fig); };
+      const look = () => {
+        if (v === shownVideo(fig)) {
+          showCue(fig);
+          if (fig.classList.contains("video--hero")) syncHeroSteps(v.currentTime || 0);
+        }
+      };
       v.addEventListener("timeupdate", look);
       followFrames(v, look);
       v.addEventListener("play", () => {
@@ -436,6 +458,31 @@ const pageLoaded = new Promise((resolve) => {
     (fig.classList.contains("video--hero") ? seenHero : seen).observe(fig);
   }
   runAll();
+  if (heroSteps && !stillPref.matches) {
+    const heroFig = figures.find((fig) => fig.classList.contains("video--hero"));
+    if (heroFig && live.includes(heroFig)) {
+      heroSteps.hidden = false;
+      syncHeroSteps(shownVideo(heroFig).currentTime || 0);
+      heroStepBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetTime = Number(btn.dataset.heroSeek);
+          const v = shownVideo(heroFig);
+          heroFig.dataset.user = "";
+          asked = heroFig;
+          clearRetry(heroFig);
+          runAll();
+          v.preload = "auto";
+          const seekAndPlay = () => {
+            try { v.currentTime = targetTime; } catch {}
+            showCue(heroFig);
+          };
+          if (v.readyState >= 1) seekAndPlay();
+          else v.addEventListener("loadedmetadata", seekAndPlay, { once: true });
+          Promise.resolve(v.play()).catch(() => {});
+        });
+      });
+    }
+  }
   onMediaChange(phone, runAll);
   videosChanged = runAll;
   videoAskedFor = (fig) => {
@@ -999,5 +1046,35 @@ const pageLoaded = new Promise((resolve) => {
     const next = document.querySelector(".trial__next");
     if (next) next.hidden = true;
     wrap.querySelector(".success").focus();
+  });
+})();
+
+/* ── Subtle scroll-reveal for below-the-fold sections and cards (respects reduced motion and no-JS). ── */
+(function scrollReveal() {
+  if (stillPref.matches || !("IntersectionObserver" in window)) return;
+  const targets = [
+    ...document.querySelectorAll(".proof li, .chapters-layout, .charts, .ats-grid > *, .plans > *, .story, .faq details, .trial-grid > *, .post-card"),
+  ];
+  if (!targets.length) return;
+  const vh = window.innerHeight || 900;
+  targets.forEach((el) => {
+    el.classList.add("reveal");
+    const parent = el.parentElement;
+    if (parent) {
+      const idx = [...parent.children].indexOf(el);
+      if (idx > 0) el.style.setProperty("--reveal-delay", `${Math.min(idx * 55, 180)}ms`);
+    }
+    if (el.getBoundingClientRect().top < vh * 0.96) el.classList.add("is-visible");
+  });
+  document.documentElement.classList.add("has-reveal");
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add("is-visible");
+      io.unobserve(e.target);
+    }
+  }, { rootMargin: "0px 0px -6% 0px", threshold: 0.06 });
+  targets.forEach((el) => {
+    if (!el.classList.contains("is-visible")) io.observe(el);
   });
 })();

@@ -1435,6 +1435,103 @@ video::cue { line-height: 1.5; }
   .hero__media .video { max-width: calc((100vh - var(--header-h) - 44px - 32px - 24px) * 6 / 5 + 2 * var(--space-3)); }
 }
 
+/* ── Heyree-inspired polish on TalentRadar tokens (floating pill nav, hero depth, interactive steps, hover lift, scroll reveal) ── */
+@media (min-width: 1001px) {
+  .site-header {
+    top: 12px;
+    max-width: calc(var(--container) - 2 * var(--gutter));
+    margin: 12px auto 0;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(19, 27, 44, 0.84);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 12px 32px rgba(4, 7, 14, 0.34);
+  }
+  .site-header__inner { min-height: 62px; padding-inline: var(--space-5); }
+  .site-nav ul { gap: var(--space-2); }
+  .site-nav ul a {
+    display: inline-flex; align-items: center;
+    padding: 8px 13px; border-radius: var(--radius-pill);
+    transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+  }
+  .site-nav ul a:hover { background: rgba(255, 255, 255, 0.07); }
+  .btn--nav { border-radius: var(--radius-pill); }
+}
+
+.hero {
+  position: relative;
+  overflow-x: clip;
+  background:
+    radial-gradient(680px 440px at 78% 44%, rgba(255, 107, 0, 0.10), transparent 68%),
+    radial-gradient(600px 400px at 14% 20%, rgba(52, 211, 153, 0.04), transparent 70%),
+    var(--c-bg);
+}
+.hero__proof {
+  background: rgba(24, 34, 58, 0.78);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 28px rgba(4, 7, 14, 0.24);
+}
+.hero__media .frame {
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 24px 64px rgba(4, 7, 14, 0.45);
+}
+
+.hero-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.hero-step {
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--c-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--c-text-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.18s var(--ease);
+}
+.hero-step:hover {
+  border-color: var(--c-border-strong);
+  color: var(--text-on-dark);
+  background: rgba(255, 255, 255, 0.08);
+}
+.hero-step.is-active {
+  background: var(--orange-tint-22);
+  border-color: var(--orange);
+  color: var(--text-on-dark);
+}
+
+@media (hover: hover) {
+  .plan, .card, .faq details, .post-card, .hero__proof {
+    transition: transform 0.24s var(--ease), border-color 0.24s var(--ease), box-shadow 0.24s var(--ease);
+  }
+  .plan:hover, .card:hover, .post-card:hover, .hero__proof:hover {
+    transform: translateY(-3px);
+    border-color: var(--c-border-strong);
+  }
+  .faq details:hover { border-color: var(--c-border-strong); }
+  .btn { transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.18s var(--ease); }
+  .btn:hover { transform: translateY(-1px); }
+}
+
+.has-reveal .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s var(--ease) var(--reveal-delay, 0ms), transform 0.55s var(--ease) var(--reveal-delay, 0ms);
+}
+.has-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
+  .has-reveal .reveal { opacity: 1 !important; transform: none !important; }
 }

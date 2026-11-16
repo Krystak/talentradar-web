@@ -29,8 +29,8 @@
   <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="/video/hero-mobile.en.1080.webp?v=23fc385862" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" href="/video/hero.en.1920.webp?v=23fc385862" media="(min-width: 768px)" fetchpriority="high">
-  <link rel="stylesheet" href="/css/site.css?v=7c43f73c7d">
-  <script type="module" src="/js/site.js?v=9ea3f179c0"></script>
+  <link rel="stylesheet" href="/css/site.css?v=a925847ab8">
+  <script type="module" src="/js/site.js?v=7769e5331a"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -103,6 +103,11 @@
     <div class="frame__foot"><p class="video__cue"><span class="video__cue-line is-on" data-cues="hero" data-at="0">At a glance: which of your companies are hiring.</span><span class="video__cue-line" data-cues="hero" data-at="3.5" data-at-mobile="3.5">Your client posted a new role. A reason to call.</span><span class="video__cue-line" data-cues="hero" data-at="8.2" data-at-mobile="8.2">And here's the posting, on the company's own site.</span></p><button class="video__toggle" type="button" hidden><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pause"></use></svg><span class="video__toggle-label">Pause preview</span></button></div>
   </div>
 </figure>
+      <div class="hero-steps" role="group" aria-label="Preview steps" hidden>
+        <button class="hero-step is-active" type="button" data-hero-seek="0" aria-pressed="true">1. Company overview</button>
+        <button class="hero-step" type="button" data-hero-seek="3.5" aria-pressed="false">2. Active client</button>
+        <button class="hero-step" type="button" data-hero-seek="8.2" aria-pressed="false">3. Live job post</button>
+      </div>
       <p class="note hero__caption"><span class="d-only">Recorded 14 Nov 2026 in TalentRadar’s public demo: the companies and roles are real, the agency is made up, focused on IT and software.</span><span class="m-only">Public demo, recorded 14 Nov 2026: real companies and roles, made-up IT agency.</span></p>
     </div>
   </div>

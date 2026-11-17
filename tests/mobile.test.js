@@ -105,9 +105,14 @@ test("Czech no-break spaces never reach an attribute, <title>, a meta tag or JSO
   assert.equal(nbspCsHtml("<svg><title>a v b</title><desc>o u</desc></svg><p>a v</p>"), "<svg><title>a v b</title><desc>o u</desc></svg><p>a v</p>");
 });
 
-test("the Czech footer keeps the English slogan, as the English one does (Kryštof 22. 10., DESIGN_PRAVIDLA §2)", () => {
-  for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html"]) {
-    assert.match(String(built().get(path)), /<p class="site-footer__slogan" lang="en">Spend time closing, <span>not searching\.<\/span><\/p>/, path);
+const lang = (path) => (path.includes("/en/") ? "en" : "cs");
+
+test("no English slogan in the footer, in either language (lead, 18. 11. 2026: rozhodnutí §9, after the persona test)", () => {
+  for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html", "public/en/pricing.html"]) {
+    const html = String(built().get(path)).replace(/\u00a0/g, " ");
+    assert.doesNotMatch(html, /site-footer__slogan|Spend time closing/, path);
+    // the footer still says what it is, and in plain words, not "every open role"
+    assert.match(html, lang(path) === "cs" ? /Hlídání náboru u vašich firem, vedle vašeho ATS\./ : /Keeps track of hiring at your companies, next to your ATS\./, path);
   }
 });
 

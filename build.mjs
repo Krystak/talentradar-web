@@ -255,6 +255,7 @@ export function siteVars(site, lang) {
       "c2.base": n(base),
       "c2.n_45": n(n45),
       "c2.share_45": n(Math.round((n45 / base) * 100)),
+      "c2.as_of": d(age.as_of, true),
     });
   }
   const sources = site.charts["zdroje-pozic"];
@@ -1274,7 +1275,7 @@ function llmsBaseLines(site, all, urlOf) {
   // the pilot of the first 5 agencies, as the home page and /cenik say it (offer_body_html): half of Agency Pro for 3 months
   const pro = plans.tiers.find((t) => t.id === "pro");
   const half = (n) => (n / 2).toLocaleString("en-GB", Number.isInteger(n / 2) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const pilotLine = `- Pilot for the first 5 agencies: Agency Pro (up to ${pro.companies} companies, unlimited users) at half price for the first 3 months — CZK ${half(pro.price.CZK)} or EUR ${half(pro.price.EUR)}/month instead of CZK ${pro.price.CZK.toLocaleString("en-GB")} or EUR ${pro.price.EUR.toLocaleString("en-GB")}. Paid by invoice from day one; money back if it is not useful within 30 days; then monthly, no commitment.`;
+  const pilotLine = `- Pilot for the first 5 agencies: Agency Pro (up to ${pro.companies} companies, unlimited users) at half price for the first 3 months — CZK ${half(pro.price.CZK)} or EUR ${half(pro.price.EUR)}/month instead of CZK ${pro.price.CZK.toLocaleString("en-GB")} or EUR ${pro.price.EUR.toLocaleString("en-GB")}. After a free overview of where the agency's companies are hiring; paid by invoice from the start of the pilot; money back if it is not useful within 30 days; then monthly, no commitment.`;
 
   return {
     origin,
@@ -1307,7 +1308,7 @@ function llmsBaseLines(site, all, urlOf) {
       "## Pricing (Monthly, No Commitment; Yearly = 10 Months for 12)",
       ...tierLines,
       pilotLine,
-      "- Once the five pilot places are taken: a 14-day free trial, no credit card, up to 150 companies (Agency Pro features).",
+      "- To try it alone without the overview: a 14-day free trial, no credit card, up to 150 companies (Agency Pro features).",
       "",
       "## Key Pages (English)",
       `- [Home](${link("home", "en")}): For agency owners: new roles at your clients, three reasons to call, how the 48-hour overview works, the pilot offer, FAQ, and the client-list form.`,

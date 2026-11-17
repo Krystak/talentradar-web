@@ -1324,7 +1324,7 @@ test("the line under a video: the words from the text map and the times from med
   assert.deepEqual(lines.map((m) => (m[2] === "none" ? null : Number(m[2]))), site.media.clips.hero.cues.map((c) => c.at));
   assert.deepEqual(lines.map((m) => !!m[1]), lines.map((_, i) => i === 0), "the first sentence is the one without JavaScript");
   const changed = hero(home((m) => { m.clips.hero.cues = [{ at: 1.5, key: "cue_hero_2" }]; }));
-  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Váš klient vypsal novou roli\. Máte důvod zavolat\.<\/span>/);
+  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Váš klient vypsal novou pozici\. Máte důvod zavolat\.<\/span>/);
   assert.equal((changed.match(/video__cue-line/g) || []).length, 1);
   // every chapter's sentences are in its one figure (as committed the first chapter's, how0), so the line has one height for all three
   const how = home(() => {}).match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
@@ -1890,7 +1890,8 @@ test("the text under the hero: hero-a cues and proof copy without placeholders, 
   const { i18n } = loadSite();
   assert.equal(i18n.cs.cue_hero_1, "Na první pohled: kdo z vašich firem nově nabírá.");
   assert.equal(i18n.en.cue_hero_1, "At a glance: which of your companies are hiring.");
-  assert.equal(i18n.cs.cue_hero_2, "Váš klient vypsal novou roli. Máte důvod zavolat.");
+  // "pozice", not "role", in what a Czech reader reads (lead, 18. 11. 2026)
+  assert.equal(i18n.cs.cue_hero_2, "Váš klient vypsal novou pozici. Máte důvod zavolat.");
   assert.equal(i18n.en.cue_hero_2, "Your client posted a new role. A reason to call.");
   assert.equal(i18n.cs.cue_hero_3, "A tady je ten inzerát, přímo na webu firmy.");
   assert.equal(i18n.en.cue_hero_3, "And here's the posting, on the company's own site.");

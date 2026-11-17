@@ -13,6 +13,7 @@
       <div class="btn-row hero__cta">
         <a class="btn btn-primary" href="#{{t.id_trial}}">{{t.hero_cta_primary}}</a>
       </div>
+      <p class="hero__start">{{t.hero_start_small}}</p>
       <ul class="ticks" role="list">{{list:hero_note}}</ul>
       <p class="hero__more"><a class="text-link" href="{{config.demoUrl}}">{{t.hero_demo_link}}</a></p>
     </div>
@@ -74,7 +75,8 @@
   </div>
 </section>
 
-<!-- 5. Offer and price (light): the pilot for the first 5, the same words as on /cenik -->
+<!-- 5. Offer and price (light): two steps, the free overview and then the pilot for the first 5 (the same words as on /cenik),
+     and the 14-day trial for whoever wants to try it alone (the form creates it today) -->
 <section class="band band--light" id="{{t.id_pricing}}" aria-labelledby="offer-title">
   <div class="container">
     <div class="section__head">
@@ -83,7 +85,8 @@
     </div>
     <div class="promo measure">
       <p class="lead">{{t.offer_body_html}}</p>
-      <p class="note">{{t.offer_others_html}} {{t.offer_after}} <a class="text-link" href="{{url:pricing}}">{{t.pricing_more}}</a></p>
+      <p class="note">{{t.offer_others_html}} <a class="text-link" href="{{url:pricing}}">{{t.pricing_more}}</a></p>
+      <p class="promo__self">{{t.offer_self_html}}</p>
     </div>
     <p class="btn-row btn-row--stack section-cta"><a class="btn btn-primary" href="#{{t.id_trial}}">{{t.hero_cta_primary}}</a></p>
   </div>

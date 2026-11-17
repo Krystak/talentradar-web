@@ -515,6 +515,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .hero__caption { text-align: left; margin: var(--space-3) 0 0; }
 /* version B: the link to the demo under the hero's one button */
 .hero__more { margin: var(--space-4) 0 0; }
+/* version B: the smaller first step right under the button (ten companies to win instead of the clients) */
+.hero__start { margin: var(--space-3) 0 0; max-width: 34rem; font-size: 0.9375rem; line-height: 1.45; color: var(--text-on-dark-2); }
 .tour .video--hero { max-width: 42rem; margin-inline: auto; }
 .tour .hero__caption { max-width: 42rem; margin-inline: auto; }
 @media (min-width: 1024px) {
@@ -817,6 +819,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .promo { border: 2px solid var(--c-accent); background: var(--orange-tint-16); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6); }
 .promo__label { font-size: var(--fs-kicker); font-weight: 700; letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--c-accent-text); margin-bottom: var(--space-2); }
 .promo p:last-child { margin-bottom: 0; }
+/* version B: the 14-day trial for whoever wants to try it alone, under the pilot */
+.promo__self { margin-top: var(--space-3); font-weight: 600; }
 .panel-box { background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6); }
 .panel-box h2 { font-size: var(--fs-h3); }
 
@@ -1098,9 +1102,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .site-footer li + li { margin-top: var(--space-2); }
 .site-footer a { color: var(--text-on-dark); text-decoration: none; font-weight: 500; }
 .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
-.site-footer__slogan { font-family: var(--font-display); font-size: var(--fs-h3); font-weight: 800; color: var(--text-on-dark); text-align: center; padding-block: var(--space-4); margin-block: var(--space-5); border-block: 1px solid var(--line-dark); }
-.site-footer__slogan span { color: var(--orange); }
-.site-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); color: #9AA5B9; }
+/* the line above the bottom row (it was the English slogan's until 18. 11. 2026) */
+.site-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); color: #9AA5B9; margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line-dark); }
 .site-footer__bottom p { margin: 0; }
 
 /* ── 404 ── */
@@ -1227,6 +1230,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .field-acc > summary { padding-block: var(--space-3); }
 .field-acc__body { padding: var(--space-2) 0 var(--space-4); display: grid; gap: var(--space-3); }
 .field-acc__body p { margin: 0; }
+.field-acc__start { font-size: 0.9375rem; line-height: 1.45; font-weight: 600; }
 .field-acc__body .field__top { justify-content: flex-end; }
 .field-acc > summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
 .field-acc > summary::after { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
@@ -1426,8 +1430,7 @@ video::cue { line-height: 1.5; }
   .site-footer li + li { margin-top: 0; }
   .site-footer li a { display: flex; align-items: center; min-height: 48px; height: 100%; padding: var(--space-2) var(--space-3); border: 1px solid var(--line-dark); border-radius: var(--radius-btn); font-size: 0.9375rem; line-height: 1.3; }
   .site-footer__mail { grid-column: 1 / -1; order: 1; }
-  .site-footer__slogan { margin-block: var(--space-3); padding-block: var(--space-3); }
-  .site-footer__bottom { margin-top: var(--space-3); }
+  .site-footer__bottom { margin-top: var(--space-3); padding-top: var(--space-3); }
 
   /* blog and articles */
   .post-card { position: relative; }

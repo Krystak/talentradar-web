@@ -40,6 +40,7 @@
         <details class="field field-acc" id="clients-acc" open>
           <summary><span class="field-acc__label">{{t.trial_label_clients}}</span><span class="field-acc__sub">{{t.trial_list_optional}}</span></summary>
           <div class="field-acc__body">
+            <p class="field-acc__start">{{t.hero_start_small}}</p>
             <details class="ai-brief-acc">
             <summary>{{t.trial_ai_title}}</summary>
             <div class="ai-brief" aria-live="off">
@@ -60,7 +61,7 @@
             <div class="field__pair">
             <textarea id="clients" name="clients" rows="3" placeholder="{{t.trial_placeholder_clients}}" aria-describedby="clients-hint"></textarea>
             <div class="dropzone" id="drop-zone">
-              <input type="file" id="file-upload" accept=".xlsx,.csv" aria-describedby="upload-note">
+              <input type="file" id="file-upload" accept=".xlsx,.csv">
               <div class="dropzone__prompt" id="file-prompt">
                 {{icon:upload}}<strong>{{t.trial_upload_cta}}</strong><span>{{t.trial_upload_types}}</span>
               </div>
@@ -72,7 +73,6 @@
             </div>
             <div class="field__error" id="file-error" hidden></div>
             <p class="field__hint" id="clients-hint">{{t.trial_hint_clients}}</p>
-            <p class="note" id="upload-note">{{t.trial_upload_note}}</p>
             <p class="note">{{t.trial_candidates_note}}</p>
             <p class="note">{{t.trial_list_privacy}}</p>
           </div>

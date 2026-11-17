@@ -266,7 +266,7 @@ test("the demo numbers come from src/data/demo-stats.json and the chart data, fo
   assert.match(html, /Co radar vidí u 100 českých firem/);
   // version B says one number of the demo, in the second of the three reasons, and llms.txt keeps the rest
   const b = String(built().get("public/index.html")).replace(/\u00a0/g, " ");
-  assert.match(b, /Ve veřejném demu je takových 27 % pozic s datem zveřejnění\./);
+  assert.match(b, /Ve veřejném demu je takových 27 % z 408 pozic s datem zveřejnění \(stav 3\. 11\. 2026\)\./);
   assert.doesNotMatch(b, /1 438|53 ze 100|Co radar vidí/);
   assert.match(String(built().get("public/llms.txt")), /1438 open roles total/);
 });
@@ -654,7 +654,7 @@ test("the offer on the home page (version B, in place of the pricing in brief): 
     assert.ok(at > 0 && offer.length > 100, path);
     const text = norm(offer.replace(/<[^>]+>/g, " ").replace(/\s+/g, " "));
     const p = (tier, kind) => norm(price(site, lang, tier, kind));
-    assert.ok(text.includes(lang === "cs" ? `za ${p("pro", "half")} měsíčně první 3 měsíce místo ${p("pro")}` : `for ${p("pro", "half")} a month for the first 3 months instead of ${p("pro")}`), `${path}: ${text}`);
+    assert.ok(text.includes(lang === "cs" ? `první 3 měsíce za ${p("pro", "half")} místo ${p("pro")} měsíčně` : `for the first 3 months at ${p("pro", "half")} instead of ${p("pro")} a month`), `${path}: ${text}`);
     assert.ok(text.includes(`Solo Scout ${p("solo")}`) && text.includes(`Scale ${p("scale")}`), path);
     assert.equal((offer.match(/class="btn btn-primary"/g) || []).length, 1, path);
     assert.match(offer, new RegExp(`<a class="btn btn-primary" href="#${site.i18n[lang].id_trial}">`), path);
@@ -975,12 +975,14 @@ test("version B: the second reason's share comes from the chart data, not typed 
     const at = html.indexOf(`id="${s.i18n[path.includes("/en/") ? "en" : "cs"].id_data}"`);
     return html.slice(at, html.indexOf("</div>", at));
   };
-  assert.match(card(site, "public/index.html"), /Ve veřejném demu je takových 27 % pozic s datem zveřejnění\./);
-  assert.match(card(site, "public/en/index.html"), /In the public demo, 27% of roles with a posting date are like this\./);
+  // with its base and the day of the data (kontrola faktů 18. 11., PLAYBOOK §7)
+  assert.match(card(site, "public/index.html"), /Ve veřejném demu je takových 27 % z 408 pozic s datem zveřejnění \(stav 3\. 11\. 2026\)\./);
+  assert.match(card(site, "public/en/index.html"), /In the public demo, 27% of 408 roles with a posting date are like this \(as of 3 Nov 2026\)\./);
+  assert.match(card(site, "public/index.html"), /Klient s ní možná potřebuje pomoct\./);
   site.charts = JSON.parse(JSON.stringify(site.charts));
   for (const r of site.charts["stari-pozic"].rows) if (!r.highlight) r.roles *= 3;
   assert.doesNotMatch(card(site, "public/index.html"), /27 %/);
-  assert.match(card(site, "public/index.html"), new RegExp(`takových ${siteVars(site, "cs")["c2.share_45"]} % pozic`));
+  assert.match(card(site, "public/index.html"), new RegExp(`takových ${siteVars(site, "cs")["c2.share_45"]} % z ${siteVars(site, "cs")["c2.base"].replace(/\u00a0/g, " ")} pozic`));
 });
 
 test("version B: the form asks for the list of clients, the list open and the brief for an AI folded, the same fields sent", () => {
@@ -1000,4 +1002,54 @@ test("version B: the form asks for the list of clients, the list open and the br
   }
   const css = readFileSync(new URL("../public/css/site.css", import.meta.url), "utf8");
   assert.match(css, /\.ai-brief-acc > summary::after/);
+});
+
+test("version B after the persona test (lead, 18. 11. 2026): two steps, a smaller first step, nothing that pushes or promises what the app does not do", () => {
+  const site = loadSite();
+  const files = built();
+  const words = (html) => html.replace(/<[^>]+>/g, " ").replace(/[\s ]+/g, " ");
+  for (const [home, pricing, lang] of [["public/index.html", "public/cenik.html", "cs"], ["public/en/index.html", "public/en/pricing.html", "en"]]) {
+    const t = site.i18n[lang];
+    const h = String(files.get(home));
+    const main = h.slice(h.indexOf('<main id="main">'), h.indexOf("</main>"));
+    // the hero: free and with no obligation is the overview; the smaller start right under the one button
+    const hero = main.slice(0, main.indexOf("</section>"));
+    assert.ok(hero.indexOf("hero__cta") < hero.indexOf('class="hero__start"') && hero.indexOf('class="hero__start"') < hero.indexOf('class="ticks"'), home);
+    assert.match(words(hero), lang === "cs" ? /Začněte deseti firmami, které chcete získat/ : /Start with ten companies you want to win/, home);
+    assert.match(words(hero), lang === "cs" ? /Ukázka je zdarma a nezávazná/ : /The overview is free and with no obligation/, home);
+    // the form says the same smaller start
+    const form = h.slice(h.indexOf('id="clients-acc"'), h.indexOf("</details>", h.indexOf('class="field-acc__body"')));
+    assert.ok(form.includes(`<p class="field-acc__start">`), home);
+    // the offer: the pilot comes after the overview, paid from its start; the 5 is said once; the trial alone links to the form
+    const at = main.indexOf(`id="${t.id_pricing}"`);
+    const offer = main.slice(at, main.indexOf("</section>", at));
+    assert.equal((words(offer).match(/\b5\b/g) || []).length, 1, `${home}: the 5 once in the offer`);
+    assert.match(words(offer), lang === "cs" ? /Když budete chtít pokračovat: pilot pro prvních 5 agentur/ : /If you want to carry on: a pilot for the first 5 agencies/, home);
+    assert.match(words(offer), lang === "cs" ? /Platíte od začátku pilotu fakturou/ : /You pay by invoice from the start of the pilot/, home);
+    assert.match(offer, new RegExp(`<p class="promo__self">[^<]*<a class="text-link" href="${lang === "cs" ? "/" : "/en/"}#${t.id_trial}">`), home);
+    // technical words only in the FAQ (and the footer); the hero, reasons, steps, agent, offer and story say it plainly
+    const faqAt = main.indexOf(`id="${t.id_faq}"`);
+    assert.doesNotMatch(words(main.slice(0, faqAt)), /\bATS\b|\bAPI\b|webhook/i, home);
+    // the list of companies: you and I, never "nobody else"
+    assert.match(words(main.slice(faqAt)), lang === "cs" ? /Váš seznam firem vidíte vy a já, abych vám radar nastavil\. Nikomu ho nepředávám a nepoužívám k ničemu jinému\./ : /You and I see your company list, so that I can set up your radar\. I don’t pass it on to anyone or use it for anything else\./, home);
+    // /cenik: no weekly e-mail, no Slack, the label with its range, Scale books a call, the same own-trial line
+    const p = String(files.get(pricing));
+    assert.doesNotMatch(p, /Týdenní přehled|weekly overview|Slack/i, pricing);
+    assert.ok(p.includes(`<span class="plan__badge">${t.pp_t2_badge}</span>`), pricing);
+    assert.match(t.pp_t2_badge, lang === "cs" ? /^Doporučujeme pro 50–150 firem$/ : /^Recommended for 50–150 companies$/);
+    const scale = p.slice(p.lastIndexOf('<li><div class="plan">'), p.indexOf("</div></li>", p.lastIndexOf('<li><div class="plan">')));
+    assert.doesNotMatch(scale, new RegExp(`#${t.id_trial}`), `${pricing}: the trial is Agency Pro, so Scale books a call`);
+    assert.ok(scale.includes(t.pp_cta_call), pricing);
+    assert.match(p, /<p class="promo__self">/, pricing);
+  }
+  // nowhere: scarcity as pressure, the trial "once the places are taken", "nobody else sees", the e-mail 3 days before the end
+  const banned = [/proto jen pět/i, /so only five/i, /pět míst zaplní|jen pět míst/i, /places are taken/i, /nikdo jiný/i, /nobody else/i, /od prvního dne/i, /from day one/i, /Tři dny před koncem vám přijde/, /Three days before the end you get an e-mail/i, /Vezmu ho z firem|vezmu firmy, které uvádíte/i, /Lepší důvod/, /no better reason/i];
+  for (const [path, content] of files) {
+    if (!/\.(html|txt)$/.test(path)) continue;
+    const text = String(content).replace(/ /g, " ");
+    for (const re of banned) assert.doesNotMatch(text, re, `${path}: ${re}`);
+  }
+  // the archive answer says what core/scanner.py does: two missed scans in a row and two days, untouched roles only
+  assert.match(site.i18n.cs.faq_a4, /chybí ve dvou skenech po sobě a od posledního výskytu uplynou aspoň dva dny/);
+  assert.match(site.i18n.en.faq_a4, /missing from two scans in a row and at least two days have passed/);
 });

@@ -506,6 +506,14 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .ticks li + li { margin-top: 0; }
 .ticks li { display: flex; gap: var(--space-2); align-items: flex-start; text-align: left; }
 .ticks .ic { color: var(--c-accent); width: 1.1em; height: 1.1em; margin-top: 0.15em; flex: none; }
+/* under the one main button: the demo and the call as two quiet links (verze A) */
+.hero__links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-3); margin: var(--space-2) 0 0; }
+.hero__links a { display: inline-flex; align-items: center; min-height: 44px; }
+.hero__links-sep { color: var(--c-muted); }
+/* the three safeguards on one line beside the video (Czech is the longest: 497 px of 530 at 1 440 px) */
+.hero__copy .ticks { column-gap: var(--space-3); }
+/* on a phone one link per line: a dot left at the end of a line reads as a stray mark */
+@media (max-width: 767px) { .hero__links { flex-direction: column; align-items: flex-start; } .hero__links-sep { display: none; } }
 .hero__proof { margin-top: var(--space-5); padding: var(--space-3) var(--space-4); max-width: 34rem; background: var(--c-panel); border: 1px solid var(--c-border); border-left: 3px solid var(--c-accent); border-radius: var(--radius); }
 .hero__proof p { margin: 0; font-size: var(--fs-sm); line-height: 1.5; color: var(--c-text-2); }
 .hero__media { margin-top: 0; min-width: 0; }
@@ -632,6 +640,11 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .proof__n--text { white-space: normal; font-size: var(--fs-h2); line-height: 1.15; }
 .proof__l { display: block; margin-top: var(--space-2); color: var(--c-text-2); }
 .proof__source { margin: var(--space-5) 0 0; padding-top: var(--space-4); border-top: 1px solid var(--c-border); }
+/* one figure (verze A): beside the heading from 1 024 px, its own width, never the 3-figure fit */
+.proof--one { grid-template-columns: minmax(0, 1fr); --proof-fit: 30vw; }
+.proof--one + .proof__source { max-width: 34rem; }
+.proof__link { margin: var(--space-4) 0 0; }
+.proof__link a { display: inline-flex; align-items: center; min-height: 44px; }
 
 /* ── How it works: chapters over the video (dark) ── */
 .chapters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; list-style: none; margin: 0 0 var(--space-4); padding: 0; counter-reset: chap; }
@@ -661,11 +674,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
   .chapters-layout .btn-row { flex-direction: column; align-items: flex-start; }
 }
 .chapter-panel { margin-top: var(--space-6); max-width: var(--measure); }
+/* the candidate, a note under the two chapters (verze A) */
+.how-note { margin: var(--space-5) 0 0; max-width: var(--measure); padding: var(--space-3) var(--space-4); background: var(--c-panel); border: 1px solid var(--c-border); border-left: 3px solid var(--c-accent); border-radius: var(--radius); font-size: var(--fs-sm); line-height: 1.5; color: var(--c-text-2); }
 .chapter-panel h3 { margin-bottom: var(--space-2); }
 .chapter-panel p { color: var(--c-text-2); }
 .no-js .chapters { display: none; }
 /* four chapters (V5 on, build.mjs chapters): four in a row, 2 × 2 from 860 px down */
 .chapters--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* two chapters (the home page, verze A): two in a row on every screen */
+.chapters--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 860px) {
   .chapters { gap: var(--space-2); }
   .chapter-tab { min-height: 64px; padding: var(--space-3); font-size: var(--fs-sm); }
@@ -681,6 +698,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
   /* four in 2 × 2: "Kdo hledá tohoto kandidáta?" in two lines from 360 px (three at 15 px with the usual padding, 9. 11. 2026) */
   .chapters--4 .chapter-tab { gap: 6px; padding-inline: 8px; font-size: var(--fs-sm); }
   .chapters--4 .chapter-tab::before { width: 20px; height: 20px; }
+  .chapters.chapters--2 li:last-child { grid-column: auto; }
+  .chapters.chapters--2 li:last-child .chapter-tab { min-height: 64px; }
 }
 
 /* ── Charts (on a light band: white cards) ── */
@@ -819,6 +838,12 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .story__photo { width: 13rem; height: 13rem; border-radius: 50%; object-fit: cover; object-position: center 15%; border: 2px solid var(--c-accent); }
 .story p { color: var(--c-text-2); }
 .story__sign { color: var(--c-text) !important; }
+/* on a phone too since verze A: a smaller face over the text */
+@media (max-width: 767px) { .story__photo { width: 6rem; height: 6rem; } }
+/* the offer for the first 5 (verze A): one framed box under the plans, how you pay under it */
+.pricing-offer { max-width: var(--measure); margin-top: var(--space-5); }
+.pricing-offer p { margin: 0; }
+.pricing-pay { margin-top: var(--space-3); font-size: var(--fs-sm); }
 
 /* ── FAQ (light) ── */
 .faq { display: grid; gap: var(--space-3) var(--space-6); grid-template-columns: minmax(0, 1fr); align-items: start; }
@@ -1021,6 +1046,12 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .way-card__dl dt { font-size: var(--fs-sm); font-weight: 600; color: var(--c-muted); margin-bottom: var(--space-1); }
 .way-card__dl dd { margin: 0; font-size: var(--fs-sm); color: var(--c-text); }
 
+/* your own AI agent (home, verze A): what TalentRadar adds, then the table */
+.cmp-plus { list-style: none; padding: 0; margin: 0 0 var(--space-7); display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.cmp-plus li + li { margin-top: 0; }
+.cmp-plus li { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-4) var(--space-5); background: var(--c-panel); border: 1px solid var(--c-border); border-radius: var(--radius); color: var(--c-text-2); line-height: 1.5; }
+.cmp-plus .ic { color: var(--c-accent); width: 1.25em; height: 1.25em; margin-top: 0.15em; flex: none; }
+.cmp-table-title { margin: 0 0 var(--space-4); }
 .cmp-note { max-width: 48rem; margin: var(--space-5) auto 0; text-align: center; color: var(--c-text-2); font-size: var(--fs-sm); }
 .cmp-note--left { margin-inline: 0; text-align: left; }
 .cmp-more { margin: var(--space-4) 0 0; text-align: center; }
@@ -1147,22 +1178,6 @@ button, input, textarea, select { font: inherit; color: inherit; }
   .chart.is-run .hbars__bar { transition: transform var(--dur) var(--ease) calc(var(--i, 0) * 60ms); }
 }
 
-/* The founder next to the buttons (hero) and before the form (trial) */
-.founder { display: flex; align-items: center; gap: var(--space-3); margin-top: 20px; padding: var(--space-3); border: 1px solid var(--c-border); border-radius: var(--radius); background: var(--c-panel); }
-.founder__photo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; }
-.founder p { margin: 0; font-size: 0.9375rem; line-height: 1.4; color: var(--c-text-2); }
-.founder strong { display: block; }
-.trial-story { padding-bottom: var(--space-5); margin-bottom: var(--space-5); border-bottom: 1px solid var(--c-border); }
-.trial-story__who { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4); }
-.trial-story__photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: center 15%; border: 2px solid var(--c-accent); flex: none; }
-.trial-story__who p { margin: 0; line-height: 1.4; }
-.trial-story__who strong { display: block; }
-.trial-story__who span { display: block; font-size: var(--fs-sm); color: var(--c-muted); }
-/* story_role is written for the middle of the signature ("Kryštof Pejša, zakladatel…"); on its own line here it starts with a capital */
-.trial-story__who span::first-letter { text-transform: uppercase; }
-.trial-story > p { color: var(--c-text-2); }
-.trial-story .btn-row { margin-bottom: 0; }
-
 /* The bar at the bottom: both actions within the thumb's reach (site.js shows it) */
 .action-bar {
   position: fixed; z-index: 45; left: 0; right: 0; bottom: 0;
@@ -1288,6 +1303,9 @@ video::cue { line-height: 1.5; }
   .proof__n { font-size: 1.75rem; }
   @supports (width: 1cqi) { .proof__n { font-size: min(1.75rem, 21cqi); } }
   .proof__l { font-size: 0.9375rem; line-height: 1.4; }
+  /* one figure (verze A): the whole width and a large number */
+  .proof--one { grid-template-columns: minmax(0, 1fr); }
+  .proof--one .proof__n { font-size: 3rem; }
   .proof__source { margin-top: var(--space-4); }
   .proof__data { margin-top: var(--space-4); display: grid; gap: var(--space-3); }
   .charts__more--m { border: 1px solid var(--c-border); border-radius: var(--radius); background: var(--c-panel); padding: 0 var(--space-4); }
@@ -1310,6 +1328,8 @@ video::cue { line-height: 1.5; }
   .chapter-panels { order: 1; }
   .chapters-video { order: 2; margin-top: var(--space-4); }
   .chapters-layout .section-cta { order: 3; margin-top: var(--space-4); }
+  /* the candidate note (verze A) after the video, before the demo link (the same order 3 keeps the source order) */
+  .chapters-layout .how-note { order: 3; margin-top: var(--space-4); }
   .chapter-panel { margin-top: 0; }
   .chapter-panel h3 { margin-bottom: var(--space-2); }
   .chapter-panel p:last-child { margin-bottom: 0; }
@@ -1343,7 +1363,6 @@ video::cue { line-height: 1.5; }
   .plan--row .plan__period { display: block; font-size: var(--fs-sm); }
   .plan--row .plan__for { display: none; }
   .pricing-common { font-size: 0.9375rem; }
-  .pricing-promo { padding: var(--space-3) var(--space-4); border-left: 3px solid var(--c-accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: rgba(255, 107, 0, 0.08); }
   .pricing-more { margin: var(--space-4) 0 0; }
   .pricing-more .text-link {
     display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: var(--radius-btn);

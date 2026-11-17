@@ -1,0 +1,29 @@
+<!-- The data band of the home page until verze A (17. 11. 2026): the three charts, wide and on a phone, as they were.
+     The page no longer shows them (src/data/charts and the chart code stay); the tests of the charts build the home
+     page with this band added at its end (withCharts in the tests), so what they check still holds. -->
+<section class="band band--light" aria-label="charts">
+  <div class="container">
+    <div class="d-only">
+    <div class="charts">
+      {{chart:stari-pozic}}
+      <details class="charts__more" data-charts-more>
+        <summary>{{t.charts_more}}</summary>
+        <div class="charts__more-grid">
+          {{chart:nove-pozice-po-dnech}}
+          {{chart:zdroje-pozic}}
+        </div>
+      </details>
+    </div>
+    </div>
+    <div class="proof__data m-only">
+      {{chart:stari-pozic:m}}
+      <details class="charts__more charts__more--m">
+        <summary>{{t.charts_more}}</summary>
+        <div class="charts__more-grid">
+          {{chart:nove-pozice-po-dnech:m}}
+          {{chart:zdroje-pozic:m}}
+        </div>
+      </details>
+    </div>
+  </div>
+</section>

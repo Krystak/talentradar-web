@@ -19,6 +19,10 @@ const ORIGIN = "https://talentradar.eu";
 const SLUGS = { "the-4-day-latency-gap": "prvni-dny-po-vypsani-pozice", "anatomy-of-stale-roles": "dlouho-otevrene-pozice", "hidden-cost-of-dead-vacancies": "kolik-stoji-mrtve-inzeraty" };
 
 const built = (overrides) => buildSite(loadSite(overrides));
+/** The home page with the data band it had until verze A (17. 11. 2026) put back (tests/charts.fixture.html): the charts left the page, their code and data stay. */
+const CHARTS_BAND = readFileSync(new URL("./charts.fixture.html", import.meta.url), "utf8");
+const withCharts = (site) => ({ ...site, templates: { ...site.templates, "pages/home": site.templates["pages/home"] + CHARTS_BAND } });
+const builtWithCharts = (overrides) => buildSite(withCharts(loadSite(overrides)));
 const html = (files, path) => String(files.get(path));
 
 // ── Build ───────────────────────────────────────────────────────────────────
@@ -195,13 +199,13 @@ test("a page that is not there gets the 404 page of its language, with status 40
 
 test("the Czech home page is Czech in plain HTML; the English one English", () => {
   const cs = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
-  assert.match(cs, /<title>TalentRadar: všechny otevřené pozice vašich firem<\/title>/);
-  assert.match(cs, /<h1[^>]*>.*ATS řídí zakázky, které máte\./);
+  assert.match(cs, /<title>TalentRadar: každé ráno víte, kdo z vašich firem nabírá<\/title>/);
+  assert.match(cs, /<h1[^>]*>Každé ráno víte, kdo z\svašich firem nabírá\./);
   assert.match(cs, /Každá agentura má vlastní oddělenou databázi/);
   const en = readFileSync(new URL("../public/en/index.html", import.meta.url), "utf8");
   assert.match(en, /<html lang="en"/);
-  assert.match(en, /<meta name="description" content="TalentRadar watches/);
-  assert.match(en, /<h1[^>]*>.*Your ATS runs the jobs you already have\./);
+  assert.match(en, /<meta name="description" content="Twice a day TalentRadar goes through/);
+  assert.match(en, /<h1[^>]*>Every morning, know which of your companies are hiring\./);
 });
 
 // ── The text map: variables, Kryštof's placeholders, prices ─────────────────
@@ -245,23 +249,27 @@ test("the demo numbers come from src/data/demo-stats.json and the chart data, fo
   assert.equal(cs["c2.share_45"], "27");
   assert.equal(cs["c2.n_45"], "109");
   assert.equal(cs["c3.jobscz_companies"], "55");
+  // the home page (verze A): one number, the share of roles open 45+ days, with its base and day
   const html = String(built().get("public/index.html")).replace(/\u00a0/g, " ");
-  assert.match(html, /1 438/);
+  assert.match(html, /<strong class="proof__n">27 %<\/strong>/);
   assert.doesNotMatch(html, /1 394|1 382/);
-  assert.match(html, /53 ze 100/);
-  assert.match(html, /otevřených pozic u 99 českých firem/);
-  assert.match(html, /Veřejné demo TalentRadaru po skenu 3\. 11\. 2026 v 6:01: hlídá 100 českých firem, 99 z nich má otevřené pozice\./);
-  assert.match(String(built().get("public/en/index.html")).replace(/\u00a0/g, " "), /public demo after the scan of 3 Nov 2026 at 6:01: it watches 100 Czech companies, 99 of them have open roles\./);
-  assert.match(html, /Co radar vidí u 100 českých firem/);
+  assert.match(html, /Z 408 pozic s datem zveřejnění ve veřejném demu \(100 českých firem, stav 3\. 11\. 2026\)\./);
+  assert.match(String(built().get("public/en/index.html")).replace(/\u00a0/g, " "), /Of 408 roles with a posting date in the public demo \(100 Czech companies, as of 3 Nov 2026\)\./);
+  // the scan's other numbers (the proof strip until verze A) are in llms.txt
+  const llms = String(built().get("public/llms.txt"));
+  assert.match(llms, /Tracked sample: 100 Czech companies \(99 with open roles\), 1438 open roles total, average 36 new roles per day, 53 of 100 companies with a new role in 7 days\./);
+  assert.doesNotMatch(llms, /1394|1382/);
 });
 
-test("one base for every demo number: the proof strip = roles in chart 3 = the total under chart 2", () => {
+test("one base for every demo number: the open roles of the scan = roles in chart 3 = the total under chart 2", () => {
   const site = loadSite();
   const roles = site.charts["zdroje-pozic"].rows.reduce((a, r) => a + r.roles, 0);
-  assert.equal(site.demoStats.open_positions, roles, "a visitor who adds up chart 3 gets the proof strip's number");
-  const html = String(built().get("public/index.html"));
-  const strip = html.slice(html.indexOf('class="proof"'), html.indexOf("</ul>", html.indexOf('class="proof"')));
-  assert.match(strip.replace(/\u00a0/g, " "), /1 438/);
+  assert.equal(site.demoStats.open_positions, roles, "a visitor who adds up chart 3 gets the scan's number");
+  assert.match(String(built().get("public/llms.txt")), /, 1438 open roles total,/);
+  // the proof section's day is the charts' day (its 27 % is chart 2's)
+  const proof = String(built().get("public/index.html")).replace(/\u00a0/g, " ").match(/<p class="note proof__source">([^<]*)<\/p>/)[1];
+  assert.match(proof, /stav 3\. 11\. 2026\)/);
+  const html = String(builtWithCharts().get("public/index.html"));
   // the under-chart sentence and the strip are one day: nothing on the page says another
   for (const id of ["nove-pozice-po-dnech", "stari-pozic", "zdroje-pozic"]) assert.equal(site.charts[id].as_of, site.demoStats.as_of, id);
   const sentences = [...html.matchAll(/Zdroj: veřejné demo TalentRadaru[^<]*/g)].map((m) => m[0].replace(/\u00a0/g, " "));
@@ -270,12 +278,12 @@ test("one base for every demo number: the proof strip = roles in chart 3 = the t
   assert.doesNotMatch(html.replace(/\u00a0/g, " "), /stav k 31\. 10\./);
 });
 
-test("the companies with a new role in 7 days are an exact number from demo-stats.json, the same on every width (lead, etapa 4a)", () => {
+test("the companies with a new role in 7 days are an exact number from demo-stats.json (lead, etapa 4a; in llms.txt since verze A)", () => {
   const site = loadSite();
   site.demoStats = { ...site.demoStats, companies_new_7d: 37 };
   const files = buildSite(site);
-  assert.match(String(files.get("public/index.html")), /<li><strong class="proof__n">37 ze 100<\/strong>/);
-  assert.match(String(files.get("public/en/index.html")), /<li><strong class="proof__n">37 of 100<\/strong>/);
+  assert.match(String(files.get("public/llms.txt")), /, 37 of 100 companies with a new role in 7 days\./);
+  assert.match(String(files.get("public/llms-full.txt")), /, 37 of 100 companies with a new role in 7 days\./);
   assert.doesNotMatch(String(files.get("public/index.html")), /Víc než polovina/);
 });
 
@@ -493,7 +501,7 @@ test("Czech plural of a chart unit: 1 / 2–4 / 5+ (English: 1 / more)", () => {
   assert.equal(plural("cs", 0, forms), "otevřených pozic");
   assert.equal(plural("en", 1, "open role|open roles|open roles"), "open role");
   assert.equal(plural("en", 41, "open role|open roles|open roles"), "open roles");
-  assert.match(String(built().get("public/index.html")), /366\+: 1 otevřená pozice/);
+  assert.match(String(builtWithCharts().get("public/index.html")), /366\+: 1 otevřená pozice/);
 });
 
 test("the recording date fills the captions once media sets it; until then the sentence is left out", () => {
@@ -571,7 +579,7 @@ test("without site.js the extra charts stay reachable: the summary hides only af
     // (hiding the summary's own marker, ::-webkit-details-marker, leaves the summary there)
     if (/display:\s*none/.test(m[2]) && !/::/.test(m[1])) assert.match(m[1], /is-synced/, `hidden by: ${m[1].trim()}`);
   }
-  const html = String(built().get("public/index.html"));
+  const html = String(builtWithCharts().get("public/index.html"));
   assert.match(html, /<details class="charts__more" data-charts-more>\s*<summary>Další data z[  ]dema \(2 grafy\)<\/summary>/);
 });
 
@@ -583,7 +591,7 @@ test("chart 2: the 45+ count is every band of 45 days and more, 366+ included, a
   const over45 = rows.filter((r) => from(r) >= 45).reduce((a, r) => a + r.roles, 0);
   assert.equal(hi, over45);
   assert.equal(siteVars(site, "cs")["c2.n_45"], String(over45));
-  const html = String(built().get("public/index.html"));
+  const html = String(builtWithCharts().get("public/index.html"));
   const fig = html.slice(html.indexOf('id="ch-stari-pozic"'), html.indexOf("</figure>", html.indexOf('id="ch-stari-pozic"')));
   // base: the y of M; top: the y the rounded corner reaches (Q x top)
   const heights = [...fig.matchAll(/class="chart__bar" d="M[\d.]+ ([\d.]+)V[\d.]+Q[\d.]+ ([\d.]+) /g)].map((m) => Number(m[1]) - Number(m[2]));

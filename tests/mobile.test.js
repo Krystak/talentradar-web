@@ -11,6 +11,9 @@ import { buildSite, callHref, loadSite, nbspCs, nbspCsHtml } from "../build.mjs"
 
 const NBSP = " ";
 const built = (overrides) => buildSite(loadSite(overrides));
+/** The home page with the data band it had until verze A (17. 11. 2026) put back (tests/charts.fixture.html): the charts left the page, their code and data stay. */
+const CHARTS_BAND = readFileSync(new URL("./charts.fixture.html", import.meta.url), "utf8");
+const withCharts = (site) => ({ ...site, templates: { ...site.templates, "pages/home": site.templates["pages/home"] + CHARTS_BAND } });
 const css = () => readFileSync(new URL("../public/css/site.css", import.meta.url), "utf8");
 /** The text of an HTML page as a reader sees it: no tags, no script or style content, entities as they are. */
 const visibleText = (html) =>
@@ -113,7 +116,7 @@ test("texts site.js writes into a Czech page carry the no-break spaces too (as c
 });
 
 test("wide screens: under the age chart the caption and the 'why' read as one paragraph, without saying 45 days twice", () => {
-  const html = String(built().get("public/index.html")).split(" ").join(" ");
+  const html = String(buildSite(withCharts(loadSite())).get("public/index.html")).split(" ").join(" ");
   const start = html.indexOf('id="ch-stari-pozic"');
   const fig = html.slice(start, html.indexOf("</figure>", start));
   const caption = fig.match(/<p class="chart__caption">([\s\S]*?)<\/p>/)[1];
@@ -126,7 +129,7 @@ test("wide screens: under the age chart the caption and the 'why' read as one pa
   assert.match(fig, new RegExp(`Počítáme jen ${base} pozic, u kterých firma uvádí datum zveřejnění`));
   site.charts = JSON.parse(JSON.stringify(site.charts));
   site.charts["stari-pozic"].rows[0].roles += 10;
-  assert.match(String(buildSite(site).get("public/index.html")).replace(/\u00a0/g, " "), new RegExp(`Počítáme jen ${base + 10} pozic`));
+  assert.match(String(buildSite(withCharts(site)).get("public/index.html")).replace(/\u00a0/g, " "), new RegExp(`Počítáme jen ${base + 10} pozic`));
 });
 
 // ── Placeholders, the call link, the operator ─────────────────────────────
@@ -146,10 +149,10 @@ test("'book a demo' goes to config.callUrl; while it is empty, to an e-mail with
   const home = String(empty.get("public/index.html"));
   const subject = encodeURIComponent("Krátký hovor o TalentRadaru");
   const mail = `mailto:krystof@talentradar.eu?subject=${subject}`;
-  assert.ok(home.includes(`href="${mail}">Domluvit 15minutovou ukázku</a>`), "hero, menu, story");
+  assert.ok(home.includes(`href="${mail}">Domluvit 15 minut se mnou</a>`), "hero, menu");
   assert.ok(home.includes(`href="${mail}">Ukázka 15${NBSP}min</a>`), "the bottom bar");
   const en = String(empty.get("public/en/index.html"));
-  assert.ok(en.includes(`subject=${encodeURIComponent("A short call about TalentRadar")}">Book a 15-minute demo</a>`));
+  assert.ok(en.includes(`subject=${encodeURIComponent("A short call about TalentRadar")}">Book 15 minutes with me</a>`));
 
   const url = "https://calendar.app.google/abc123";
   const set = built({ callUrl: url });
@@ -235,7 +238,7 @@ test("the tour on: /demo's chapters are a plain list until the tour has chapter 
 // ── The phone's charts and layout ──────────────────────────────────────────
 
 test("phone chart of the age of roles: one bar in the accent, 45+, the sum of every band from 45 days, with its text alternative and source", () => {
-  const html = String(built().get("public/index.html"));
+  const html = String(buildSite(withCharts(loadSite())).get("public/index.html"));
   // (no-break spaces read as plain ones here; the Czech rule has its own test)
   const start = html.indexOf('id="chm-stari-pozic"');
   const fig = html.slice(start, html.indexOf("</figure>", start)).split(NBSP).join(" ");
@@ -263,13 +266,14 @@ test("phone and wide layouts: .m-only shows only up to 767 px and .d-only only f
   for (const id of ["name", "email", "company", "file"]) assert.match(home, new RegExp(`<div class="field__error" id="${id}-error" hidden></div>`));
 });
 
-test("the founder's role reads lower case inside the signature and starts with a capital on its own line", () => {
+test("the founder's role reads lower case inside the signature; since verze A the founder section shows on a phone too, no short copy before the form", () => {
   const files = built();
   const cs = String(files.get("public/index.html"));
-  assert.match(cs, /<strong>Kryštof Pejša<\/strong>, zakladatel TalentRadaru ·/);
-  assert.match(cs, /<strong>Kryštof Pejša<\/strong><span>zakladatel TalentRadaru<\/span>/);
-  assert.match(String(files.get("public/en/index.html")), /<strong>Kryštof Pejša<\/strong>, founder of TalentRadar ·/);
+  assert.match(cs, /<strong>Kryštof Pejša<\/strong>, zakladatel · <a href="https:\/\/www\.linkedin\.com\/in\/[^"]+" rel="noopener">LinkedIn<\/a> · <a href="mailto:krystof@talentradar\.eu">krystof@talentradar\.eu<\/a>/);
+  assert.match(cs, /<section class="band" id="pribeh" aria-labelledby="story-title">/, "not .d-only");
+  assert.doesNotMatch(cs, /class="trial-story|class="founder/);
+  assert.match(String(files.get("public/en/index.html")), /<strong>Kryštof Pejša<\/strong>, founder ·/);
   const css = String(files.get("public/css/site.css"));
-  assert.match(css, /\.trial-story__who span \{ display: block;/);
-  assert.match(css, /\.trial-story__who span::first-letter \{ text-transform: uppercase; \}/);
+  assert.match(css, /@media \(max-width: 767px\) \{ \.story__photo \{ width: 6rem; height: 6rem; \} \}/);
+  assert.doesNotMatch(css, /\.trial-story|\.founder\b/);
 });

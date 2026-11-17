@@ -697,7 +697,8 @@ function videoFigure(site, ctx, id, ariaKey, captionKey, where, others = []) {
  * release without it; how1, "Ráno", is gone for good since 12. 11. 2026: no row, not in the tabs). The first clip left is the one in the HTML and its tab the selected
  * one; the others load only on a click (site.js). Clip howN takes its words from how_chN_* and how_clipN_alt and
  * its ids are tab-N and chapter-N; how_chN_body_m (the phone's text) and how_chN_rule (a note) when the map has them.
- * Four tabs are chapters--4 (components.css: four in a row, 2 × 2 on a narrow screen).
+ * Four tabs are chapters--4 (components.css: four in a row, 2 × 2 on a narrow screen), two are chapters--2
+ * (the home page since verze A, 17. 11. 2026: two in a row on every screen).
  */
 function chapters(site, ctx, token, where) {
   const fail = (msg) => {
@@ -716,7 +717,8 @@ function chapters(site, ctx, token, where) {
       const state = i ? ' aria-selected="false" tabindex="-1"' : ' aria-selected="true"';
       return `<li role="presentation"><button class="chapter-tab" type="button" role="tab" id="tab-${n}" aria-controls="chapter-${n}"${state} data-clip="${resolve(site, `media:${id}:json`, ctx, where)}" data-label="${t(`how_clip${n}_alt`)}">${t(`how_ch${n}_tab`)}</button></li>`;
     });
-    return `<ul class="chapters${tabs.length === 4 ? " chapters--4" : ""}" role="tablist" aria-label="${t("how_chapters_aria")}">\n        ${tabs.join("\n        ")}\n      </ul>`;
+    const count = tabs.length === 4 ? " chapters--4" : tabs.length === 2 ? " chapters--2" : "";
+    return `<ul class="chapters${count}" role="tablist" aria-label="${t("how_chapters_aria")}">\n        ${tabs.join("\n        ")}\n      </ul>`;
   }
   if (!ctx.chapters) fail("no {{chapters:tabs:…}} before it");
   if (part === "video") {
@@ -1298,7 +1300,7 @@ function llmsBaseLines(site, all, urlOf) {
       "",
       "## Pricing (Monthly, No Commitment; Yearly = 10 Months for 12)",
       ...tierLines,
-      "- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Launch offer for the first 5 agencies: first month free, then 3 months at 50% off.",
+      "- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Offer for the first 5 agencies that carry on after the trial: 3 months at half price and a personal setup, money back if it isn't useful within 30 days of the first payment.",
       "",
       "## Key Pages (English)",
       `- [Home](${link("home", "en")}): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.`,

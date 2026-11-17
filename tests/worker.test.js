@@ -544,9 +544,9 @@ test("/cs and /cs/ move to the Czech home page at /, which is Czech without Java
   const html = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
   assert.match(html, /<html lang="cs"/);
   assert.match(html, /<link rel="canonical" href="https:\/\/talentradar\.eu\/">/);
-  assert.match(html, /<meta name="description" content="TalentRadar hlídá/);
+  assert.match(html, /<meta name="description" content="TalentRadar dvakrát denně projde/);
   assert.match(html, /hreflang="cs" href="https:\/\/talentradar\.eu\/"/);
-  assert.doesNotMatch(html, /<meta name="description" content="TalentRadar watches/);
+  assert.doesNotMatch(html, /<meta name="description" content="Twice a day TalentRadar/);
 
   const e = env({ ASSETS: { fetch: async () => { throw new Error("an old address must not reach the assets"); } } });
   for (const path of ["/cs", "/cs/"]) {

@@ -1300,7 +1300,7 @@ function llmsBaseLines(site, all, urlOf) {
       "",
       "## Pricing (Monthly, No Commitment; Yearly = 10 Months for 12)",
       ...tierLines,
-      "- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Offer for the first 5 agencies that carry on after the trial: 3 months at half price and a personal setup, money back if it isn't useful within 30 days of the first payment.",
+      "- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Offer for the first 5 agencies: the first month free, then 3 months at half price and a personal setup.",
       "",
       "## Key Pages (English)",
       `- [Home](${link("home", "en")}): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.`,

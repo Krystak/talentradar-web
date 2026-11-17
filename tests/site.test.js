@@ -872,3 +872,82 @@ test("home comparison section and full comparison blog article meet content, sch
   const full = String(files.get("public/llms-full.txt"));
   assert.ok(full.includes("Teamio"), "llms-full.txt includes comparison FAQ");
 });
+
+// ── Verze A after the persona test and the fact check (lead, opravy 18. 11. 2026) ─────────────────
+
+test("the offer for the first 5 is the app's (core/plans.py): one sentence on the home page, /cenik, the form, the articles, meta and llms.txt", () => {
+  const files = built();
+  const text = (path) => html(files, path).replace(/ /g, " ");
+  const CS = "Prvních 5 agentur: první měsíc zdarma, pak 3 měsíce za polovinu a osobní zavedení.";
+  const EN = "The first 5 agencies: the first month free, then 3 months at half price and a personal setup.";
+  const { i18n } = loadSite();
+  for (const key of ["trial_promo", "pricing_promo", "pp_promo_text"]) {
+    assert.equal(i18n.cs[key], CS, key);
+    assert.equal(i18n.en[key], EN, key);
+  }
+  for (const [path, sentence] of [["public/index.html", CS], ["public/cenik.html", CS], ["public/blog/prvni-dny-po-vypsani-pozice.html", CS], ["public/en/index.html", EN], ["public/en/pricing.html", EN]]) {
+    assert.ok(text(path).includes(sentence), path);
+  }
+  assert.match(text("public/cenik.html"), new RegExp(`<meta name="description" content="[^"]*${CS.replace(/\./g, "\\.")}">`));
+  assert.ok(text("public/llms.txt").includes("Offer for the first 5 agencies: the first month free, then 3 months at half price and a personal setup."));
+  // what the app does not do, or pressure, goes everywhere; the 14 days after the five places only on /cenik
+  for (const [path, body] of files) {
+    if (!/\.(html|txt)$/.test(path)) continue;
+    const t = String(body).replace(/ /g, " ");
+    assert.doesNotMatch(t, /proto jen pět|jen pět míst|only five|peníze vrátím|money back|které po zkoušce pokračují|that carry on after the trial|platíte od prvního dne/i, path);
+    if (!/public\/(cenik|en\/pricing)\.html$/.test(path)) assert.doesNotMatch(t, /Až se 5 míst zaplní|Once the 5 places are taken/, path);
+  }
+  assert.ok(text("public/cenik.html").includes("Až se 5 míst zaplní, platí 14 dní zdarma."));
+});
+
+test("the hero: the three safeguards, then that a few target companies are enough to try it", () => {
+  const files = built();
+  for (const [path, safeguards, note] of [
+    ["public/index.html", ["14 dní zdarma", "Bez platební karty", "Do 48 hodin funguje naplno"], "Na vyzkoušení stačí pár firem, které chcete získat. Klienty můžete přidat později."],
+    ["public/en/index.html", ["14 days free", "No credit card", "Fully working within 48 hours"], "To try it, a few companies you want to win are enough. You can add your clients later."],
+  ]) {
+    const hero = html(files, path).replace(/ /g, " ").match(/<section class="hero"[\s\S]*?<\/section>/)[0];
+    const ticks = [...hero.match(/<ul class="ticks" role="list">([\s\S]*?)<\/ul>/)[1].matchAll(/<span>([^<]+)<\/span>/g)].map((m) => m[1]);
+    assert.deepEqual(ticks, safeguards, path);
+    assert.ok(hero.indexOf(`<p class="hero__try">${note}</p>`) > hero.indexOf('<ul class="ticks"'), path);
+  }
+});
+
+test("the facts the app backs: 48 hours, the e-mail before the end, archiving, the paid features, the proof", () => {
+  const files = built();
+  const text = (path) => html(files, path).replace(/ /g, " ");
+  const home = text("public/index.html");
+  const cenik = text("public/cenik.html");
+  // 48 hours where the trial is explained: the FAQ and the form
+  const H48 = "Do 48 hodin funguje naplno. Co se nenapojí samo, dohledám osobně.";
+  const { i18n } = loadSite();
+  for (const key of ["faq_a5", "trial_subtext", "form_state_success_s3"]) assert.ok(i18n.cs[key].includes(H48), key);
+  // the trial-end e-mail goes only to owners with an e-mail (core/trial_end.py): Kryštof gets in touch
+  assert.ok(cenik.includes("Tři dny před koncem zkoušky se vám ozvu."));
+  assert.ok(home.includes("Tři dny před koncem zkoušky se vám ozvu."));
+  for (const t of [home, cenik]) assert.doesNotMatch(t, /Tři dny před koncem vám přijde e-mail/);
+  // archiving as core/scanner.py does it: two scans in a row and two days
+  assert.match(i18n.cs.faq_a4, /ve dvou skenech po sobě/);
+  assert.match(i18n.cs.faq_a4, /nejdřív ve středu/);
+  // the weekly digest is off and there is no Slack support: neither is sold
+  for (const t of [cenik, text("public/en/pricing.html")]) assert.doesNotMatch(t, /Týdenní přehled e-mailem|weekly overview by e-mail|Podpora přes Slack|Support over Slack/i);
+  assert.ok(cenik.includes('<span class="plan__badge">Doporučujeme pro 50–150 firem</span>'));
+  // the proof promises nothing the radar cannot know; its number keeps the base and the day
+  assert.ok(home.includes("i když vám klient sám nezavolal"));
+  assert.doesNotMatch(home, /dřív než klient zavolá/);
+  // the Czech ATS by name next to the export
+  assert.ok(home.includes("pro Datacruit, Recruitis, Teamio a další jako Excel nebo CSV"));
+});
+
+test("the home page names Dublin and Ingenio at most twice (hero, founder) and its menu has no Data item; #data stays for the blog's links", () => {
+  const files = built();
+  for (const path of ["public/index.html", "public/en/index.html"]) {
+    const page = html(files, path);
+    const visible = page.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ");
+    assert.ok((visible.match(/Dublin/g) || []).length <= 2, `${path}: Dublin`);
+    assert.ok((visible.match(/Ingenio/g) || []).length <= 2, `${path}: Ingenio`);
+    const nav = page.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0];
+    assert.doesNotMatch(nav, /#data"/, path);
+    assert.match(page, /<section class="band band--light" id="data"/, path);
+  }
+});

@@ -23,7 +23,7 @@
 - **Solo Scout**: up to 50 companies — CZK 1,990/month (CZK 19,900/year) or EUR 119/month (EUR 1,190/year), excl. VAT.
 - **Agency Pro**: up to 150 companies — CZK 3,990/month (CZK 39,900/year) or EUR 289/month (EUR 2,890/year), excl. VAT.
 - **Scale**: up to 400 companies — CZK 7,990/month (CZK 79,900/year) or EUR 529/month (EUR 5,290/year), excl. VAT.
-- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Offer for the first 5 agencies that carry on after the trial: 3 months at half price and a personal setup, money back if it isn't useful within 30 days of the first payment.
+- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Offer for the first 5 agencies: the first month free, then 3 months at half price and a personal setup.
 
 ## Key Pages (English)
 - [Home](https://talentradar.eu/en/): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.
@@ -68,25 +68,25 @@
 
 ## Frequently Asked Questions (English)
 ### Who runs TalentRadar, and who sees our data?
-TalentRadar is run by its founder, Kryštof Pejša, who is also the controller of personal data. Every agency has its own separate database and sees only its own data. The app and its database run in the EU, the server in the Netherlands and the database in Ireland. Who helps us run the website and the app, what goes to the AI and how long we keep the data is set out in our privacy policy.
+TalentRadar is run by its founder, Kryštof Pejša, who is also the controller of personal data. Every agency has its own separate database and sees only its own data. Your company list is seen by you and me, so that I can set up your radar. I don’t pass it on to anyone or use it for anything else. The app and its database run in the EU, the server in the Netherlands and the database in Ireland. Who helps us run the website and the app, what goes to the AI and how long we keep the data is set out in our privacy policy.
 
 ### We don’t have an ATS. Is that a problem?
 Not at all. Watching companies and roles needs no ATS. If you want one, every plan includes Radar + ATS: candidates, contacts, jobs, pipeline and placements. It’s deliberately simple, built for small agencies.
 
-### Is reading career pages OK?
+### Where do you read the roles from?
 We read only pages that companies publish for job seekers themselves, and public ATS APIs. We don’t read LinkedIn: you open the search link yourself.
 
 ### Do I have to change my ATS?
-No. TalentRadar runs next to it and nothing moves. A list of companies from your CRM or a spreadsheet is enough. You download the new roles as a file to import into Bullhorn or Vincere, or as a generic CSV. There’s no direct connection to a specific ATS yet; you download the new roles as a file, or we send them over the API and webhooks.
+No. TalentRadar runs next to it and nothing moves. A list of companies from your CRM or a spreadsheet is enough. There’s no direct connection to a specific ATS yet; you download the new roles as a file for Bullhorn, Vincere or a generic CSV, and on Agency Pro and Scale also over the API and webhooks.
 
 ### Which systems does TalentRadar work with?
 It reads roles from Jobs.cz and Teamio, from company ATS (Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Phenom, Jibe, SuccessFactors, Oracle Recruiting, Eightfold) and from ordinary career pages. Out of it you get Excel, a generic CSV and an import file for Bullhorn and Vincere. You can also take the data over the API and webhooks (Agency Pro and Scale). We connect unusual career sites to order on the Scale plan.
 
 ### What if a company fills or withdraws a role?
-When the ad disappears from the site, the next scan notices, the one after confirms it, and TalentRadar archives the role. A careers page that’s briefly down won’t wipe your list. If the company posts the role again, it comes back with its history and notes.
+When the ad disappears from the site, TalentRadar archives the role only once two scans in a row have missed it and the second day after it was last seen has come (seen on Monday, archived on Wednesday at the earliest). A careers page that’s briefly down won’t wipe your list. A role you’re already working on stays, with a warning. If the company posts the role again, it comes back with its history and notes.
 
 ### How does the trial work, and what happens after 14 days?
-The trial lasts 14 days, with no credit card, the features of Agency Pro and up to 150 companies. Within 48 hours of sending your list it’s fully working; companies whose career page can’t be found automatically, I look up by hand. Three days before the end I’ll get in touch. If you want to carry on, you pick a plan and I send you an invoice. The trial never turns into a paid plan by itself.
+The trial lasts 14 days, with no credit card, the features of Agency Pro and up to 150 companies. It’s fully working within 48 hours. Whatever doesn’t connect by itself, I look up personally. Three days before the trial ends, I’ll get in touch. If you want to carry on, you pick a plan and I send you an invoice. The trial never turns into a paid plan by itself.
 
 ### Do you store our candidates?
 No. When you search for a candidate you only paste the profile, and once you’ve searched it’s gone. Before anything goes to the AI (Google’s Gemini via its paid API, which doesn’t use the data for training) we take out the name, e-mail, phone and links. Candidates are stored only if you add them yourself in Radar + ATS.
@@ -95,7 +95,7 @@ No. When you search for a candidate you only paste the profile, and once you’v
 By invoice, monthly or yearly. Card payment isn’t available yet. Czech and Slovak agencies are invoiced in koruna, Irish agencies in euro. Invoices are due within 14 days.
 
 ### What happens after the trial?
-Three days before the end you get an e-mail. If you want to carry on, click “I want to continue” in the app, pick a plan and I send you an invoice. If not, you pay nothing.
+Three days before the trial ends, I’ll get in touch. If you want to carry on, click “I want to continue” in the app, pick a plan and I send you an invoice. If not, you pay nothing.
 
 ### Can I change plan or cancel?
 Yes, there’s no commitment. Just write to me and I switch your plan. An upgrade applies straight away and you pay only the difference; a downgrade applies from the next period. Cancel a monthly plan by e-mail before the end of the paid month.
@@ -162,25 +162,25 @@ No. TalentRadar runs alongside any ATS (Bullhorn, Vincere, Datacruit, Recruitis,
 
 ## Časté dotazy (Czech)
 ### Kdo TalentRadar provozuje a kdo vidí naše data?
-TalentRadar provozuje jeho zakladatel Kryštof Pejša, který je i správcem osobních údajů. Každá agentura má vlastní oddělenou databázi a vidí jen svá data. Aplikace i databáze běží v EU, server v Nizozemsku a databáze v Irsku. Kdo nám pomáhá s provozem webu a aplikace, kam jde text do AI a jak dlouho údaje uchováváme, najdete v zásadách ochrany osobních údajů.
+TalentRadar provozuje jeho zakladatel Kryštof Pejša, který je i správcem osobních údajů. Každá agentura má vlastní oddělenou databázi a vidí jen svá data. Váš seznam firem vidíte vy a já, abych vám radar nastavil. Nikomu ho nepředávám a nepoužívám k ničemu jinému. Aplikace i databáze běží v EU, server v Nizozemsku a databáze v Irsku. Kdo nám pomáhá s provozem webu a aplikace, kam jde text do AI a jak dlouho údaje uchováváme, najdete v zásadách ochrany osobních údajů.
 
 ### Nemáme ATS. Nevadí?
 Nevadí. Hlídání firem a pozic ATS nepotřebuje. Kdo chce, má v ceně každého tarifu režim Radar + ATS: kandidáty, kontakty, zakázky, pipeline a umístění. Je záměrně jednoduchý, pro malé agentury.
 
-### Je čtení kariérních webů v pořádku?
+### Odkud pozice čtete?
 Čteme jen stránky, které firmy samy zveřejňují pro uchazeče, a veřejná API ATS. LinkedIn nečteme: odkaz na hledání si otevřete sami.
 
 ### Musím kvůli TalentRadaru měnit ATS?
-Ne. TalentRadar běží vedle něj a nic se nestěhuje. Stačí seznam firem z CRM nebo z Excelu. Nové pozice si stáhnete jako soubor pro import do Bullhornu nebo Vincere, nebo jako obecné CSV. Přímé napojení na konkrétní ATS zatím nemáme; nové pozice si stáhnete jako soubor, nebo je pošleme přes API a webhooky.
+Ne. TalentRadar běží vedle něj a nic se nestěhuje. Stačí seznam firem z CRM nebo z Excelu. Přímé napojení na konkrétní ATS zatím nemáme; nové pozice si stáhnete jako soubor pro Bullhorn, Vincere nebo obecné CSV, v Agency Pro a Scale i přes API a webhooky.
 
 ### Se kterými systémy TalentRadar umí pracovat?
 Pozice čte z Jobs.cz a Teamia, z ATS firem (Greenhouse, Lever, Workable, Ashby, SmartRecruiters, Workday, Personio, BambooHR, Teamtailor, Recruitee, Pinpoint, HireHive, Phenom, Jibe, SuccessFactors, Oracle Recruiting, Eightfold) i z běžných kariérních webů. Ven dává Excel, obecné CSV a soubor pro import do Bullhornu a Vincere. Data můžete brát i přes API a webhooky (Agency Pro a Scale). Neobvyklé kariérní weby napojíme na míru v tarifu Scale.
 
 ### Co když firma pozici obsadí nebo stáhne?
-Když inzerát z webu zmizí, nejbližší sken si toho všimne, další to potvrdí a TalentRadar pozici archivuje. Krátký výpadek webu vám tak seznam nesmaže. Když firma pozici vypíše znovu, vrátí se i s historií a poznámkami.
+Když inzerát z webu zmizí, TalentRadar pozici archivuje, až chybí ve dvou skenech po sobě a nejdřív druhý den po dni, kdy byla na webu naposledy (viděná v pondělí, archivovaná nejdřív ve středu). Krátký výpadek webu vám tak seznam nesmaže. Pozice, na které už pracujete, zůstane s upozorněním. Když firma pozici vypíše znovu, vrátí se i s historií a poznámkami.
 
 ### Jak funguje zkouška a co po 14 dnech?
-Zkouška trvá 14 dní, bez platební karty, s funkcemi Agency Pro a až 150 firmami. Do 48 hodin od odeslání seznamu funguje naplno; firmy, u kterých se kariérní stránku nepodaří najít automaticky, dohledám ručně. Tři dny před koncem se vám ozvu. Když chcete pokračovat, vyberete tarif a pošlu vám fakturu. Sama se zkouška nezpoplatní.
+Zkouška trvá 14 dní, bez platební karty, s funkcemi Agency Pro a až 150 firmami. Do 48 hodin funguje naplno. Co se nenapojí samo, dohledám osobně. Tři dny před koncem zkoušky se vám ozvu. Když chcete pokračovat, vyberete tarif a pošlu vám fakturu. Sama se zkouška nezpoplatní.
 
 ### Ukládáte naše kandidáty?
 Ne. Při hledání pro kandidáta profil jen vložíte a po hledání zmizí. Než cokoli půjde do AI (Gemini od Googlu přes placené API, které data nepoužívá k trénování), odstraníme z něj jméno, e-mail, telefon a odkazy. Kandidáty ukládáte jen vy sami, když používáte režim Radar + ATS.
@@ -189,7 +189,7 @@ Ne. Při hledání pro kandidáta profil jen vložíte a po hledání zmizí. Ne
 Fakturou, měsíčně nebo ročně. Kartou zatím platit nejde. Fakturu vystavuji v korunách, irským agenturám v eurech. Splatnost je 14 dní.
 
 ### Co se stane po zkoušce?
-Tři dny před koncem vám přijde e-mail. Když chcete pokračovat, kliknete v aplikaci na „Chci pokračovat“, vyberete tarif a pošlu vám fakturu. Když ne, nic neplatíte.
+Tři dny před koncem zkoušky se vám ozvu. Když chcete pokračovat, kliknete v aplikaci na „Chci pokračovat“, vyberete tarif a pošlu vám fakturu. Když ne, nic neplatíte.
 
 ### Můžu změnit tarif nebo skončit?
 Ano, tarify jsou bez závazku. Stačí mi napsat a tarif přepnu. Vyšší tarif platí hned a doplatíte jen rozdíl, nižší od dalšího období. Měsíční tarif zrušíte e-mailem do konce zaplaceného měsíce.

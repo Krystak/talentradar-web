@@ -98,10 +98,13 @@ test("Czech no-break spaces never reach an attribute, <title>, a meta tag or JSO
   assert.equal(nbspCsHtml("<svg><title>a v b</title><desc>o u</desc></svg><p>a v</p>"), "<svg><title>a v b</title><desc>o u</desc></svg><p>a v</p>");
 });
 
-test("the Czech footer keeps the English slogan, as the English one does (Kryštof 22. 10., DESIGN_PRAVIDLA §2)", () => {
-  for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html"]) {
-    assert.match(String(built().get(path)), /<p class="site-footer__slogan" lang="en">Spend time closing, <span>not searching\.<\/span><\/p>/, path);
+test("the footer has no English slogan in either language and says what the product does, not 'every open role' (lead, opravy po testu person 18. 11.)", () => {
+  for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html", "public/en/pricing.html"]) {
+    const html = String(built().get(path));
+    assert.doesNotMatch(html, /site-footer__slogan|Spend time closing/, path);
+    assert.doesNotMatch(html.match(/<footer[\s\S]*<\/footer>/)[0], /Všechny otevřené pozice|Every open role/i, path);
   }
+  assert.match(String(built().get("public/index.html")).replace(/\u00a0/g, " "), /<p class="d-only">Hlídání náboru u vašich firem, vedle vašeho ATS\. Vzniklo v personální agentuře\.<\/p>/);
 });
 
 test("texts site.js writes into a Czech page carry the no-break spaces too (as characters in the JSON, not entities)", () => {

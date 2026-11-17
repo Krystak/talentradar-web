@@ -14,7 +14,8 @@
  *                      articles are post:<id>); {{url:page@en}} in another language
  *   {{icon:name}}      a Material Symbols icon from src/icons/name.svg (sprite on the page)
  *   {{chart:id}}       a chart from src/data/charts/id.json, inline SVG + data table
- *   {{price:tier}}     monthly list price in the page's currency; {{price:tier:year}}, {{price:tier:year_list}}
+ *   {{price:tier}}     monthly list price in the page's currency; {{price:tier:year}}, {{price:tier:year_list}},
+ *                      {{price:tier:half}} (the pilot of the first 5 agencies: half the monthly price)
  *   {{asset:path}}     /path?v=<content hash> for CSS and JS
  *   {{content:name}}   src/content/name.<lang>.html
  *   {{blog:list}}      article list; {{blog:latest}} the three newest
@@ -191,22 +192,24 @@ function lookup(dict, key) {
   return typeof v === "string" ? v : undefined;
 }
 
+// whole numbers as they are; an amount with a fraction (half of €289) always with two decimals
+const fraction = (n) => (Number.isInteger(n) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const NUMBER = {
-  cs: (n) => n.toLocaleString("cs-CZ").replace(/\s/g, " "),
-  en: (n) => n.toLocaleString("en-GB"),
+  cs: (n) => n.toLocaleString("cs-CZ", fraction(n)).replace(/\s/g, " "),
+  en: (n) => n.toLocaleString("en-GB", fraction(n)),
 };
 const MONEY = {
   CZK: { cs: (n) => `${NUMBER.cs(n)} Kč`, en: (n) => `CZK ${NUMBER.en(n)}` },
   EUR: { cs: (n) => `${NUMBER.cs(n)} €`, en: (n) => `€${NUMBER.en(n)}` },
 };
 
-/** A tier's price in a page's currency: monthly, "year" (10 months) or "year_list" (12). */
+/** A tier's price in a page's currency: monthly, "year" (10 months), "year_list" (12) or "half" (the pilot's monthly price). */
 export function price(site, lang, tierId, kind) {
   const tier = site.plans.tiers.find((t) => t.id === tierId);
   if (!tier) throw new Error(`Unknown tier ${tierId}`);
   const currency = site.plans.currency[lang];
   const monthly = tier.price[currency];
-  const amount = kind === "year" ? monthly * site.plans.yearly_paid_months : kind === "year_list" ? monthly * 12 : monthly;
+  const amount = kind === "year" ? monthly * site.plans.yearly_paid_months : kind === "year_list" ? monthly * 12 : kind === "half" ? monthly / 2 : monthly;
   return MONEY[currency][lang](amount);
 }
 
@@ -1143,7 +1146,8 @@ function breadcrumbJsonLd(items) {
 
 function faqItemsFor(site, ctx, kind) {
   if (kind === "home") {
-    return [7, 2, 8, 1, 3, 4, 5, 6].map((n) => ({
+    // the six questions of the home page, in its order (version B)
+    return [1, 8, 4, 7, 9, 10].map((n) => ({
       q: text(site, ctx, `faq_q${n}`),
       a: n === 7 ? render(site, text(site, ctx, "faq_a7_html"), ctx, ctx.where || "faq") : text(site, ctx, `faq_a${n}`),
     }));
@@ -1267,6 +1271,10 @@ function llmsBaseLines(site, all, urlOf) {
     .map((p) => p.lang.cs)
     .sort((a, b) => b.published.localeCompare(a.published) || a.id.localeCompare(b.id));
   const link = (id, lang) => `${origin}${urlOf(id, lang)}`;
+  // the pilot of the first 5 agencies, as the home page and /cenik say it (offer_body_html): half of Agency Pro for 3 months
+  const pro = plans.tiers.find((t) => t.id === "pro");
+  const half = (n) => (n / 2).toLocaleString("en-GB", Number.isInteger(n / 2) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const pilotLine = `- Pilot for the first 5 agencies: Agency Pro (up to ${pro.companies} companies, unlimited users) at half price for the first 3 months — CZK ${half(pro.price.CZK)} or EUR ${half(pro.price.EUR)}/month instead of CZK ${pro.price.CZK.toLocaleString("en-GB")} or EUR ${pro.price.EUR.toLocaleString("en-GB")}. Paid by invoice from day one; money back if it is not useful within 30 days; then monthly, no commitment.`;
 
   return {
     origin,
@@ -1298,10 +1306,11 @@ function llmsBaseLines(site, all, urlOf) {
       "",
       "## Pricing (Monthly, No Commitment; Yearly = 10 Months for 12)",
       ...tierLines,
-      "- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Launch offer for the first 5 agencies: first month free, then 3 months at 50% off.",
+      pilotLine,
+      "- Once the five pilot places are taken: a 14-day free trial, no credit card, up to 150 companies (Agency Pro features).",
       "",
       "## Key Pages (English)",
-      `- [Home](${link("home", "en")}): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.`,
+      `- [Home](${link("home", "en")}): For agency owners: new roles at your clients, three reasons to call, how the 48-hour overview works, the pilot offer, FAQ, and the client-list form.`,
       `- [Pricing](${link("pricing", "en")}): Solo Scout, Agency Pro, and Scale tiers in EUR/CZK with monthly and yearly billing.`,
       `- [Comparison](${link("post:ways-to-see-who-is-hiring-compared", "en")}): Five ways to spot who is hiring, real DIY vs tool costs, and six tools compared.`,
       `- [App Preview](${link("demo", "en")}): Short captioned clips from the public TalentRadar demo.`,
@@ -1310,7 +1319,7 @@ function llmsBaseLines(site, all, urlOf) {
       `- [Full AI Context (llms-full.txt)](${origin}/llms-full.txt): Complete bilingual product specs, all FAQs, and article Q&As in Markdown.`,
       "",
       "## Key Pages (Czech)",
-      `- [Domů](${link("home", "cs")}): Přehled funkce radaru, data z veřejného dema, časté dotazy a zkušební přístup zdarma.`,
+      `- [Domů](${link("home", "cs")}): Pro majitele agentur: nové pozice u vašich klientů, tři důvody zavolat, jak probíhá přehled do 48 hodin, nabídka pilotu, časté dotazy a formulář pro seznam klientů.`,
       `- [Ceník](${link("pricing", "cs")}): Tarify Solo Scout, Agency Pro a Scale v CZK bez DPH.`,
       `- [Srovnání](${link("post:ways-to-see-who-is-hiring-compared", "cs")}): Pět cest jak zjistit, kdo nabírá, rozpočet vlastní stavby s AI a srovnání šesti nástrojů s cenami.`,
       `- [Ukázky](${link("demo", "cs")}): Krátké ukázky z veřejného dema aplikace.`,

@@ -20,6 +20,17 @@ const SLUGS = { "the-4-day-latency-gap": "prvni-dny-po-vypsani-pozice", "anatomy
 
 const built = (overrides) => buildSite(loadSite(overrides));
 const html = (files, path) => String(files.get(path));
+/**
+ * Version B "Klienti" (17. 11. 2026) took the proof strip, the chapters, the charts and V6 off the home page; version A
+ * keeps them. withHomeA puts them back after the hero (tests/home-a.fixture.html), so the tests of how the build makes
+ * them still hold; the tests of version B's own sections are under "Version B" below.
+ */
+const HOME_A = readFileSync(new URL("./home-a.fixture.html", import.meta.url), "utf8");
+const withHomeA = (site) => {
+  site.templates = { ...site.templates, "pages/home": site.templates["pages/home"].replace("<!-- 2. Three reasons", `${HOME_A}\n<!-- 2. Three reasons`) };
+  return site;
+};
+const builtA = (overrides) => buildSite(withHomeA(loadSite(overrides)));
 
 // ── Build ───────────────────────────────────────────────────────────────────
 
@@ -195,13 +206,13 @@ test("a page that is not there gets the 404 page of its language, with status 40
 
 test("the Czech home page is Czech in plain HTML; the English one English", () => {
   const cs = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
-  assert.match(cs, /<title>TalentRadar: všechny otevřené pozice vašich firem<\/title>/);
-  assert.match(cs, /<h1[^>]*>.*ATS řídí zakázky, které máte\./);
+  assert.match(cs, /<title>TalentRadar: nové pozice u vašich klientů<\/title>/);
+  assert.match(cs, /<h1[^>]*>.*Nová pozice u.vašeho klienta\?/);
   assert.match(cs, /Každá agentura má vlastní oddělenou databázi/);
   const en = readFileSync(new URL("../public/en/index.html", import.meta.url), "utf8");
   assert.match(en, /<html lang="en"/);
   assert.match(en, /<meta name="description" content="TalentRadar watches/);
-  assert.match(en, /<h1[^>]*>.*Your ATS runs the jobs you already have\./);
+  assert.match(en, /<h1[^>]*>.*A new role at your client\?/);
 });
 
 // ── The text map: variables, Kryštof's placeholders, prices ─────────────────
@@ -245,21 +256,26 @@ test("the demo numbers come from src/data/demo-stats.json and the chart data, fo
   assert.equal(cs["c2.share_45"], "27");
   assert.equal(cs["c2.n_45"], "109");
   assert.equal(cs["c3.jobscz_companies"], "55");
-  const html = String(built().get("public/index.html")).replace(/\u00a0/g, " ");
+  const html = String(builtA().get("public/index.html")).replace(/\u00a0/g, " ");
   assert.match(html, /1 438/);
   assert.doesNotMatch(html, /1 394|1 382/);
   assert.match(html, /53 ze 100/);
   assert.match(html, /otevřených pozic u 99 českých firem/);
   assert.match(html, /Veřejné demo TalentRadaru po skenu 3\. 11\. 2026 v 6:01: hlídá 100 českých firem, 99 z nich má otevřené pozice\./);
-  assert.match(String(built().get("public/en/index.html")).replace(/\u00a0/g, " "), /public demo after the scan of 3 Nov 2026 at 6:01: it watches 100 Czech companies, 99 of them have open roles\./);
+  assert.match(String(builtA().get("public/en/index.html")).replace(/\u00a0/g, " "), /public demo after the scan of 3 Nov 2026 at 6:01: it watches 100 Czech companies, 99 of them have open roles\./);
   assert.match(html, /Co radar vidí u 100 českých firem/);
+  // version B says one number of the demo, in the second of the three reasons, and llms.txt keeps the rest
+  const b = String(built().get("public/index.html")).replace(/\u00a0/g, " ");
+  assert.match(b, /Ve veřejném demu je takových 27 % pozic s datem zveřejnění\./);
+  assert.doesNotMatch(b, /1 438|53 ze 100|Co radar vidí/);
+  assert.match(String(built().get("public/llms.txt")), /1438 open roles total/);
 });
 
 test("one base for every demo number: the proof strip = roles in chart 3 = the total under chart 2", () => {
   const site = loadSite();
   const roles = site.charts["zdroje-pozic"].rows.reduce((a, r) => a + r.roles, 0);
   assert.equal(site.demoStats.open_positions, roles, "a visitor who adds up chart 3 gets the proof strip's number");
-  const html = String(built().get("public/index.html"));
+  const html = String(builtA().get("public/index.html"));
   const strip = html.slice(html.indexOf('class="proof"'), html.indexOf("</ul>", html.indexOf('class="proof"')));
   assert.match(strip.replace(/\u00a0/g, " "), /1 438/);
   // the under-chart sentence and the strip are one day: nothing on the page says another
@@ -273,7 +289,7 @@ test("one base for every demo number: the proof strip = roles in chart 3 = the t
 test("the companies with a new role in 7 days are an exact number from demo-stats.json, the same on every width (lead, etapa 4a)", () => {
   const site = loadSite();
   site.demoStats = { ...site.demoStats, companies_new_7d: 37 };
-  const files = buildSite(site);
+  const files = buildSite(withHomeA(site));
   assert.match(String(files.get("public/index.html")), /<li><strong class="proof__n">37 ze 100<\/strong>/);
   assert.match(String(files.get("public/en/index.html")), /<li><strong class="proof__n">37 of 100<\/strong>/);
   assert.doesNotMatch(String(files.get("public/index.html")), /Víc než polovina/);
@@ -358,7 +374,7 @@ test("demo-stats: the charts of one moment; the day of the data left out of char
 
 test("chart 1 with more than six days: the date under a column on two lines, so neighbours never touch; with six, one", () => {
   const under = (site) => {
-    const html = String(buildSite(site).get("public/index.html"));
+    const html = String(buildSite(withHomeA(site)).get("public/index.html"));
     return html.slice(html.indexOf('id="ch-nove-pozice-po-dnech"'), html.indexOf("</figure>", html.indexOf('id="ch-nove-pozice-po-dnech"')));
   };
   const site = loadSite();
@@ -493,7 +509,7 @@ test("Czech plural of a chart unit: 1 / 2–4 / 5+ (English: 1 / more)", () => {
   assert.equal(plural("cs", 0, forms), "otevřených pozic");
   assert.equal(plural("en", 1, "open role|open roles|open roles"), "open role");
   assert.equal(plural("en", 41, "open role|open roles|open roles"), "open roles");
-  assert.match(String(built().get("public/index.html")), /366\+: 1 otevřená pozice/);
+  assert.match(String(builtA().get("public/index.html")), /366\+: 1 otevřená pozice/);
 });
 
 test("the recording date fills the captions once media sets it; until then the sentence is left out", () => {
@@ -506,10 +522,13 @@ test("the recording date fills the captions once media sets it; until then the s
     if (clip.mobile) delete clip.mobile.clip_date;
     for (const own of Object.values(clip.by_lang || {})) delete own.clip_date;
   }
-  const before = String(buildSite(site).get("public/index.html"));
-  assert.doesNotMatch(before, /Natočeno/);
+  const before = buildSite(site);
+  for (const path of ["public/index.html", "public/demo.html"]) assert.doesNotMatch(String(before.get(path)), /Natočeno/, path);
   site.media.clip_date = "2026-11-02";
-  assert.match(String(buildSite(site).get("public/index.html")), /Natočeno 2\.\u00a011\.\u00a02026\./);
+  const after = buildSite(site);
+  // the chapters' caption on /demo, the hero's line on the home page
+  assert.match(String(after.get("public/demo.html")), /Natočeno 2\.\u00a011\.\u00a02026\./);
+  assert.match(String(after.get("public/index.html")), /hero__caption"><span class="d-only">Natočeno 2\.\u00a011\.\u00a02026 ve/);
 });
 
 test("the trial form takes files up to 5 MB, as the page says", () => {
@@ -571,7 +590,7 @@ test("without site.js the extra charts stay reachable: the summary hides only af
     // (hiding the summary's own marker, ::-webkit-details-marker, leaves the summary there)
     if (/display:\s*none/.test(m[2]) && !/::/.test(m[1])) assert.match(m[1], /is-synced/, `hidden by: ${m[1].trim()}`);
   }
-  const html = String(built().get("public/index.html"));
+  const html = String(builtA().get("public/index.html"));
   assert.match(html, /<details class="charts__more" data-charts-more>\s*<summary>Další data z[  ]dema \(2 grafy\)<\/summary>/);
 });
 
@@ -583,7 +602,7 @@ test("chart 2: the 45+ count is every band of 45 days and more, 366+ included, a
   const over45 = rows.filter((r) => from(r) >= 45).reduce((a, r) => a + r.roles, 0);
   assert.equal(hi, over45);
   assert.equal(siteVars(site, "cs")["c2.n_45"], String(over45));
-  const html = String(built().get("public/index.html"));
+  const html = String(builtA().get("public/index.html"));
   const fig = html.slice(html.indexOf('id="ch-stari-pozic"'), html.indexOf("</figure>", html.indexOf('id="ch-stari-pozic"')));
   // base: the y of M; top: the y the rounded corner reaches (Q x top)
   const heights = [...fig.matchAll(/class="chart__bar" d="M[\d.]+ ([\d.]+)V[\d.]+Q[\d.]+ ([\d.]+) /g)].map((m) => Number(m[1]) - Number(m[2]));
@@ -611,7 +630,8 @@ test("a chapter tab carries its whole clip, and the phone video gets the phone c
     sources: [{ src: "/video/v3.{lang}.webm", type: "video/webm" }, { src: "/video/v3.{lang}.mp4", type: "video/mp4" }],
     mobile: { poster: "/video/v3-mobile.{lang}.webp", sources: [{ src: "/video/v3-mobile.{lang}.webm", type: "video/webm" }, { src: "/video/v3-mobile.{lang}.mp4", type: "video/mp4" }] },
   };
-  const html = String(buildSite(site).get("public/index.html"));
+  // the chapters are on /demo (version B took them off the home page)
+  const html = String(buildSite(site).get("public/demo.html"));
   const unq = (s) => s.replace(/&quot;/g, '"').replace(/&amp;/g, "&");
   const clip = JSON.parse(unq(html.match(/id="tab-2"[^>]*data-clip="([^"]+)"/)[1]));
   assert.deepEqual(clipFor(clip, false).sources.map((s) => s.src), ["/video/v3.cs.webm", "/video/v3.cs.mp4"]);
@@ -623,12 +643,30 @@ test("a chapter tab carries its whole clip, and the phone video gets the phone c
   assert.deepEqual(clipFor(tab0, true).sources, clipFor(tab0, false).sources);
 });
 
-test("the recommended plan comes first in the page and is put in the middle only visually from 768 px", () => {
-  const html = String(built().get("public/index.html"));
-  const brief = html.slice(html.indexOf('class="plans plans--brief"'), html.indexOf("</ul>", html.indexOf('class="plans plans--brief"')));
-  assert.ok(brief.indexOf("plan--pick") < brief.indexOf("Solo Scout"), "Agency Pro before Solo Scout in the DOM");
+test("the offer on the home page (version B, in place of the pricing in brief): the pilot's prices from plans.json, the other plans, one button to the form", () => {
+  const site = loadSite();
+  const files = buildSite(site);
+  const norm = (s) => s.replace(/\u00a0/g, " ");
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const page = String(files.get(path));
+    const at = page.indexOf(`id="${site.i18n[lang].id_pricing}"`);
+    const offer = page.slice(at, page.indexOf("</section>", at));
+    assert.ok(at > 0 && offer.length > 100, path);
+    const text = norm(offer.replace(/<[^>]+>/g, " ").replace(/\s+/g, " "));
+    const p = (tier, kind) => norm(price(site, lang, tier, kind));
+    assert.ok(text.includes(lang === "cs" ? `za ${p("pro", "half")} měsíčně první 3 měsíce místo ${p("pro")}` : `for ${p("pro", "half")} a month for the first 3 months instead of ${p("pro")}`), `${path}: ${text}`);
+    assert.ok(text.includes(`Solo Scout ${p("solo")}`) && text.includes(`Scale ${p("scale")}`), path);
+    assert.equal((offer.match(/class="btn btn-primary"/g) || []).length, 1, path);
+    assert.match(offer, new RegExp(`<a class="btn btn-primary" href="#${site.i18n[lang].id_trial}">`), path);
+    assert.match(offer, new RegExp(`href="${lang === "cs" ? "/cenik" : "/en/pricing"}"`), path);
+    assert.doesNotMatch(offer, /plans--brief|\{\{price/, path);
+  }
+  assert.equal(price(site, "cs", "pro", "half").replace(/\u00a0/g, " "), "1 995 Kč");
+  assert.equal(price(site, "en", "pro", "half"), "€144.50");
+  assert.equal(price(site, "en", "solo", "half"), "€59.50");
+  // the recommended plan of the pricing page still comes first on a phone
   const css = readFileSync(new URL("../public/css/site.css", import.meta.url), "utf8");
-  assert.match(css, /@media \(min-width: 768px\) \{\s*\.plans--brief > li:nth-child\(1\) \{ order: 2; \}/);
+  assert.match(css, /\.plans--page > li:nth-child\(2\) \{ order: -1; \}/);
 });
 
 test("the contrast check fails on a token pair it cannot read instead of skipping it", () => {
@@ -692,8 +730,8 @@ test("home, pricing, demo and blog index emit valid linked Knowledge Graph JSON-
   const files = buildSite(site);
 
   for (const [path, lang, faqCount, isHome] of [
-    ["public/index.html", "cs", 8, true],
-    ["public/en/index.html", "en", 8, true],
+    ["public/index.html", "cs", 6, true],
+    ["public/en/index.html", "en", 6, true],
     ["public/cenik.html", "cs", 5, false],
     ["public/en/pricing.html", "en", 5, false],
   ]) {
@@ -799,8 +837,10 @@ test("home comparison section and full comparison blog article meet content, sch
     ["public/en/index.html", enArticleUrl],
   ]) {
     const html = String(files.get(homePath));
-    assert.ok(html.includes(articleUrl), `${homePath}: links to ${articleUrl}`);
-    assert.match(html, /class="cmp-table cmp-table--compact"/, `${homePath}: compact comparison table`);
+    // version B: no table on the home page; the short "own AI agent?" section links to the article that has it
+    const agent = html.slice(html.indexOf('aria-labelledby="agent-title"'), html.indexOf("</section>", html.indexOf('aria-labelledby="agent-title"')));
+    assert.ok(agent.includes(`href="${articleUrl}"`), `${homePath}: the agent section links to ${articleUrl}`);
+    assert.doesNotMatch(html, /class="cmp-table/, `${homePath}: no comparison table on home`);
     assert.doesNotMatch(html, /class="cmp-ways-cards"/, `${homePath}: no tall mobile cards on home`);
     // Home page must only mention categories & generic examples (Visualping, Distill), no direct competitor brands
     for (const competitor of ["Saleskit", "Recruit Signals", "Vente AI", "Paiger", "TheirStack", "PredictLeads"]) {
@@ -863,4 +903,101 @@ test("home comparison section and full comparison blog article meet content, sch
 
   const full = String(files.get("public/llms-full.txt"));
   assert.ok(full.includes("Teamio"), "llms-full.txt includes comparison FAQ");
+});
+
+// ── Version B "Klienti" (lead, 17. 11. 2026: docs/marketing/audit-2026-11/03-landing-texty.md) ──
+
+test("version B: the home page in its order, one main step to the list of clients, nothing of the sections it took off", () => {
+  const files = built();
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const t = loadSite().i18n[lang];
+    const html = String(files.get(path));
+    const main = html.slice(html.indexOf('<main id="main">'), html.indexOf("</main>"));
+    const order = ['aria-labelledby="hero-title"', `id="${t.id_reasons}"`, `id="${t.id_how}"`, `id="${t.id_agent}"`, `id="${t.id_pricing}"`, `id="${t.id_story}"`, `id="${t.id_faq}"`, `<h2 id="${t.id_trial}">`];
+    const at = order.map((s) => main.indexOf(s));
+    assert.ok(at.every((n) => n > 0), `${path}: ${order.filter((_, i) => at[i] < 0)}`);
+    assert.deepEqual([...at].sort((a, b) => a - b), at, `${path}: hero, reasons, steps, agent, offer, story, FAQ, form`);
+    assert.equal((main.match(/<section\b/g) || []).length, 8, path);
+    // taken off: the proof strip and its numbers, the charts, the chapters, the ATS switch and V6, the table, the blog row
+    assert.doesNotMatch(main, /class="proof|class="chart|data-chapters|data-ats-toggle|video--ats|video--how|cmp-table|post-list|plans--brief|data-faq-more/, path);
+    // the hero: one button to the form on the page, the demo without signing up as a link; the video under it on a phone
+    const hero = main.slice(0, main.indexOf("</section>"));
+    assert.equal((hero.match(/class="btn /g) || []).length, 1, path);
+    assert.ok(hero.includes(`<a class="btn btn-primary" href="#${t.id_trial}">${t.hero_cta_primary}</a>`), path);
+    assert.ok(hero.includes(`<a class="text-link" href="https://app.talentradar.eu/?demo=showcase">`), path);
+    assert.ok(hero.indexOf("hero__cta") < hero.indexOf("hero__media"), `${path}: the video after the button`);
+    // the top bar and the bottom bar of a phone send the list too
+    assert.ok(html.includes(`<a class="btn btn-primary btn--nav" href="${lang === "cs" ? "/" : "/en/"}#${t.id_trial}">${t.nav_cta}</a>`), path);
+    assert.match(html.match(/<div class="action-bar[\s\S]*?<\/div>/)[0], new RegExp(`#${t.id_trial}">${t.bar_cta_primary}</a>`), path);
+  }
+  const t = loadSite().i18n;
+  assert.equal(t.cs.hero_cta_primary, "Poslat seznam klientů");
+  assert.equal(t.cs.nav_cta, "Poslat seznam klientů");
+  assert.equal(t.cs.bar_cta_primary, "Poslat seznam");
+  assert.equal(t.cs.trial_submit, "Poslat seznam");
+});
+
+test("version B: no page says the 2 hours, the ATS sentence or the sites whose terms forbid reading, in either language", () => {
+  const banned = [/do\s2\shodin/i, /během\s2\shodin/i, /within\s2\shours/i, /Přímé\snapojení\sna\sATS\szatím\snemáme/, /Výjimkou\sjsou\sweby/, /čtení\szakazují/, /no\sdirect\sATS\sconnection/i, /forbid\sautomated/i];
+  for (const [path, content] of built()) {
+    if (!/\.(html|txt|js)$/.test(path)) continue;
+    const text = String(content).replace(/ /g, " ");
+    for (const re of banned) assert.doesNotMatch(text, re, `${path}: ${re}`);
+  }
+});
+
+test("version B: the offer for the first 5 is the same words on the home page, /cenik and llms.txt; the old one is gone everywhere", () => {
+  const site = loadSite();
+  const files = built();
+  const words = (html, from, to) => html.slice(from, to).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  for (const [home, pricing, lang] of [["public/index.html", "public/cenik.html", "cs"], ["public/en/index.html", "public/en/pricing.html", "en"]]) {
+    const h = String(files.get(home));
+    const p = String(files.get(pricing));
+    const homeOffer = h.match(/<div class="promo measure">\s*<p class="lead">([\s\S]*?)<\/p>/)[1];
+    const pageOffer = p.match(/<div class="promo">[\s\S]*?<\/p>\s*<p>([\s\S]*?)<\/p>/)[1];
+    assert.equal(words(pageOffer, 0), words(homeOffer, 0), `${lang}: the same offer on both pages`);
+    assert.ok(p.includes(site.i18n[lang].pp_promo_label) && h.includes(site.i18n[lang].offer_h2), lang);
+    assert.equal(site.i18n[lang].pp_promo_label, site.i18n[lang].offer_h2);
+  }
+  for (const [path, content] of files) {
+    if (!/\.(html|txt)$/.test(path)) continue;
+    assert.doesNotMatch(String(content).replace(/ /g, " "), /první měsíc zdarma|měsíc zdarma|first month free|U kteréhokoli tarifu|On any plan/i, path);
+  }
+  assert.match(String(files.get("public/llms.txt")), /Pilot for the first 5 agencies: Agency Pro \(up to 150 companies, unlimited users\) at half price for the first 3 months — CZK 1,995 or EUR 144\.50\/month instead of CZK 3,990 or EUR 289\./);
+  // the short line of the articles' box says the same pilot
+  for (const lang of ["cs", "en"]) assert.match(site.i18n[lang].trial_promo, lang === "cs" ? /Pilot pro prvních 5 agentur: Agency Pro první 3 měsíce za polovinu/ : /Pilot for the first 5 agencies: Agency Pro at half price for the first 3 months/);
+});
+
+test("version B: the second reason's share comes from the chart data, not typed in", () => {
+  const site = loadSite();
+  const card = (s, path) => {
+    const html = String(buildSite(s).get(path)).replace(/ /g, " ");
+    const at = html.indexOf(`id="${s.i18n[path.includes("/en/") ? "en" : "cs"].id_data}"`);
+    return html.slice(at, html.indexOf("</div>", at));
+  };
+  assert.match(card(site, "public/index.html"), /Ve veřejném demu je takových 27 % pozic s datem zveřejnění\./);
+  assert.match(card(site, "public/en/index.html"), /In the public demo, 27% of roles with a posting date are like this\./);
+  site.charts = JSON.parse(JSON.stringify(site.charts));
+  for (const r of site.charts["stari-pozic"].rows) if (!r.highlight) r.roles *= 3;
+  assert.doesNotMatch(card(site, "public/index.html"), /27 %/);
+  assert.match(card(site, "public/index.html"), new RegExp(`takových ${siteVars(site, "cs")["c2.share_45"]} % pozic`));
+});
+
+test("version B: the form asks for the list of clients, the list open and the brief for an AI folded, the same fields sent", () => {
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const t = loadSite().i18n[lang];
+    const html = String(built().get(path));
+    assert.ok(html.includes(`<h2 id="${t.id_trial}">${t.trial_headline}</h2>`), path);
+    assert.match(html, /<details class="field field-acc" id="clients-acc" open>/, path);
+    assert.match(html, /<details class="ai-brief-acc">\s*<summary>/, path);
+    assert.doesNotMatch(html, /<details class="ai-brief-acc" open/, path);
+    assert.match(html, /<button type="submit" class="btn btn-primary" id="submit-btn">/, path);
+    assert.match(html, /<form class="form" id="demo-form" method="post" action="#[a-z]+" novalidate>/, path);
+    const i18n = JSON.parse(html.match(/<script type="application\/json" id="i18n">([\s\S]*?)<\/script>/)[1]);
+    assert.equal(`${i18n.form_state_success_title} ${i18n.form_state_success_foot}`.replace(/ /g, " "), lang === "cs"
+      ? "Hotovo. Do 48 hodin se vám ozvu s přehledem. Když bude něco nejasné, zavolám nebo napíšu."
+      : "Done. Within 48 hours I’ll get back to you with an overview. If anything is unclear, I’ll call or write.");
+  }
+  const css = readFileSync(new URL("../public/css/site.css", import.meta.url), "utf8");
+  assert.match(css, /\.ai-brief-acc > summary::after/);
 });

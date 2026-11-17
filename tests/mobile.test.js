@@ -11,6 +11,16 @@ import { buildSite, callHref, loadSite, nbspCs, nbspCsHtml } from "../build.mjs"
 
 const NBSP = " ";
 const built = (overrides) => buildSite(loadSite(overrides));
+/**
+ * Version B "Klienti" (17. 11. 2026) took the proof strip, the chapters, the charts and V6 off the home page; version A
+ * keeps them. withHomeA puts them back after the hero (tests/home-a.fixture.html), so the tests of the phone charts hold.
+ */
+const HOME_A = readFileSync(new URL("./home-a.fixture.html", import.meta.url), "utf8");
+const builtA = () => {
+  const site = loadSite();
+  site.templates = { ...site.templates, "pages/home": site.templates["pages/home"].replace("<!-- 2. Three reasons", `${HOME_A}\n<!-- 2. Three reasons`) };
+  return buildSite(site);
+};
 const css = () => readFileSync(new URL("../public/css/site.css", import.meta.url), "utf8");
 /** The text of an HTML page as a reader sees it: no tags, no script or style content, entities as they are. */
 const visibleText = (html) =>
@@ -90,7 +100,7 @@ test("Czech no-break spaces never reach an attribute, <title>, a meta tag or JSO
   }
   assert.ok(checked >= 9);
   // the text of the page still has them (the other test checks every line)
-  assert.match(String(built().get("public/index.html")), /otevřených 45 a víc dní/);
+  assert.match(String(built().get("public/index.html")), new RegExp(`Víte o${NBSP}ní druhý den ráno`));
   // nor does the page pass touch SVG names
   assert.equal(nbspCsHtml("<svg><title>a v b</title><desc>o u</desc></svg><p>a v</p>"), "<svg><title>a v b</title><desc>o u</desc></svg><p>a v</p>");
 });
@@ -113,7 +123,7 @@ test("texts site.js writes into a Czech page carry the no-break spaces too (as c
 });
 
 test("wide screens: under the age chart the caption and the 'why' read as one paragraph, without saying 45 days twice", () => {
-  const html = String(built().get("public/index.html")).split(" ").join(" ");
+  const html = String(builtA().get("public/index.html")).split(" ").join(" ");
   const start = html.indexOf('id="ch-stari-pozic"');
   const fig = html.slice(start, html.indexOf("</figure>", start));
   const caption = fig.match(/<p class="chart__caption">([\s\S]*?)<\/p>/)[1];
@@ -126,6 +136,7 @@ test("wide screens: under the age chart the caption and the 'why' read as one pa
   assert.match(fig, new RegExp(`Počítáme jen ${base} pozic, u kterých firma uvádí datum zveřejnění`));
   site.charts = JSON.parse(JSON.stringify(site.charts));
   site.charts["stari-pozic"].rows[0].roles += 10;
+  site.templates = { ...site.templates, "pages/home": site.templates["pages/home"].replace("<!-- 2. Three reasons", `${HOME_A}\n<!-- 2. Three reasons`) };
   assert.match(String(buildSite(site).get("public/index.html")).replace(/\u00a0/g, " "), new RegExp(`Počítáme jen ${base + 10} pozic`));
 });
 
@@ -146,14 +157,17 @@ test("'book a demo' goes to config.callUrl; while it is empty, to an e-mail with
   const home = String(empty.get("public/index.html"));
   const subject = encodeURIComponent("Krátký hovor o TalentRadaru");
   const mail = `mailto:krystof@talentradar.eu?subject=${subject}`;
-  assert.ok(home.includes(`href="${mail}">Domluvit 15minutovou ukázku</a>`), "hero, menu, story");
-  assert.ok(home.includes(`href="${mail}">Ukázka 15${NBSP}min</a>`), "the bottom bar");
+  // version B: the call is offered beside the form; the menu and the bottom bar offer the demo without signing up instead
+  assert.ok(home.includes(`href="${mail}">Chcete to radši projít spolu? Domluvte si 15minutovou ukázku.</a>`), "beside the form");
+  assert.ok(String(empty.get("public/cenik.html")).includes(`href="${mail}">Domluvit 15minutovou ukázku</a>`), "the pricing page");
+  const bar = home.match(/<div class="action-bar[\s\S]*?<\/div>/)[0];
+  assert.ok(bar.includes(`href="https://app.talentradar.eu/?demo=showcase">Ukázka</a>`), "the bottom bar");
   const en = String(empty.get("public/en/index.html"));
-  assert.ok(en.includes(`subject=${encodeURIComponent("A short call about TalentRadar")}">Book a 15-minute demo</a>`));
+  assert.ok(en.includes(`subject=${encodeURIComponent("A short call about TalentRadar")}">Rather go through it together? Book a 15-minute demo.</a>`));
 
   const url = "https://calendar.app.google/abc123";
   const set = built({ callUrl: url });
-  for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html", "public/blog/index.html"]) {
+  for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html", "public/en/pricing.html"]) {
     const page = String(set.get(path));
     assert.ok(page.includes(`href="${url}"`), path);
     assert.doesNotMatch(page, /subject=Kr%C3%A1tk%C3%BD|subject=A%20short%20call/, `${path}: no e-mail fallback left once callUrl is set`);
@@ -235,7 +249,7 @@ test("the tour on: /demo's chapters are a plain list until the tour has chapter 
 // ── The phone's charts and layout ──────────────────────────────────────────
 
 test("phone chart of the age of roles: one bar in the accent, 45+, the sum of every band from 45 days, with its text alternative and source", () => {
-  const html = String(built().get("public/index.html"));
+  const html = String(builtA().get("public/index.html"));
   // (no-break spaces read as plain ones here; the Czech rule has its own test)
   const start = html.indexOf('id="chm-stari-pozic"');
   const fig = html.slice(start, html.indexOf("</figure>", start)).split(NBSP).join(" ");
@@ -263,13 +277,23 @@ test("phone and wide layouts: .m-only shows only up to 767 px and .d-only only f
   for (const id of ["name", "email", "company", "file"]) assert.match(home, new RegExp(`<div class="field__error" id="${id}-error" hidden></div>`));
 });
 
-test("the founder's role reads lower case inside the signature and starts with a capital on its own line", () => {
+test("who is behind it (version B): on every width, the signature with e-mail and LinkedIn, four assurances, Dublin once", () => {
   const files = built();
-  const cs = String(files.get("public/index.html"));
-  assert.match(cs, /<strong>Kryštof Pejša<\/strong>, zakladatel TalentRadaru ·/);
-  assert.match(cs, /<strong>Kryštof Pejša<\/strong><span>zakladatel TalentRadaru<\/span>/);
-  assert.match(String(files.get("public/en/index.html")), /<strong>Kryštof Pejša<\/strong>, founder of TalentRadar ·/);
-  const css = String(files.get("public/css/site.css"));
-  assert.match(css, /\.trial-story__who span \{ display: block;/);
-  assert.match(css, /\.trial-story__who span::first-letter \{ text-transform: uppercase; \}/);
+  for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
+    const html = String(files.get(path));
+    const at = html.indexOf('aria-labelledby="story-title"');
+    const head = html.slice(html.lastIndexOf("<section", at), at);
+    const story = html.slice(at, html.indexOf("</section>", at));
+    assert.doesNotMatch(head, /d-only|m-only/, `${path}: shown on a phone too`);
+    assert.match(story, /<p class="story__sign"><strong>Kryštof Pejša<\/strong> · <a href="mailto:krystof@talentradar\.eu">krystof@talentradar\.eu<\/a> · <a href="https:\/\/www\.linkedin\.com\/in\/[^"]+" rel="noopener">LinkedIn<\/a><\/p>/, path);
+    assert.equal((story.match(/<li><svg class="ic"/g) || []).length, 4, `${path}: four assurances`);
+    assert.match(story, /<img class="story__photo" src="\/img\/krystof-416\.webp"/, path);
+    // Dublin and Ingenio: once in the founder's section, nowhere else in the page's main part
+    const main = html.slice(html.indexOf('<main id="main">'), html.indexOf("</main>")).replace(/<[^>]+>/g, " ");
+    assert.equal((main.match(/Dublin/g) || []).length, 1, `${path}: Dublin`);
+    assert.equal((main.match(/Ingenio/g) || []).length, 1, `${path}: Ingenio`);
+    assert.doesNotMatch(html, /class="trial-story|class="founder m-only/, path);
+  }
+  // a smaller photo on a phone
+  assert.match(css(), /\.story__photo \{ width: 6rem; height: 6rem; \}/);
 });

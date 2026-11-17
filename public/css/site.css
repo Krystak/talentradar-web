@@ -506,11 +506,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .ticks li + li { margin-top: 0; }
 .ticks li { display: flex; gap: var(--space-2); align-items: flex-start; text-align: left; }
 .ticks .ic { color: var(--c-accent); width: 1.1em; height: 1.1em; margin-top: 0.15em; flex: none; }
+/* whole sentences, one under the other (the founder's assurances) */
+.ticks--col { flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-5); }
 .hero__proof { margin-top: var(--space-5); padding: var(--space-3) var(--space-4); max-width: 34rem; background: var(--c-panel); border: 1px solid var(--c-border); border-left: 3px solid var(--c-accent); border-radius: var(--radius); }
 .hero__proof p { margin: 0; font-size: var(--fs-sm); line-height: 1.5; color: var(--c-text-2); }
 .hero__media { margin-top: 0; min-width: 0; }
 .hero__media .video { margin-inline: auto; max-width: var(--video-hero); }
 .hero__caption { text-align: left; margin: var(--space-3) 0 0; }
+/* version B: the link to the demo under the hero's one button */
+.hero__more { margin: var(--space-4) 0 0; }
 .tour .video--hero { max-width: 42rem; margin-inline: auto; }
 .tour .hero__caption { max-width: 42rem; margin-inline: auto; }
 @media (min-width: 1024px) {
@@ -762,6 +766,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
 /* the app's name for the mode, always with the sentence that explains it (lead, etapa 4a) */
 .split-card__mode { font-size: var(--fs-sm); line-height: 1.45; color: var(--c-muted); padding-top: var(--space-3); border-top: 1px solid var(--c-border); }
 .split-card p:last-child { margin-bottom: 0; }
+/* three reasons to call a client (version B): a column on a phone, three in a row from 900 px */
+@media (min-width: 900px) { .split-cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.reasons__note { margin: var(--space-5) 0 0; max-width: var(--measure); color: var(--c-text-2); }
 .systems { margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--c-border); }
 .ats-grid .systems { margin-top: var(--space-5); }
 .systems p { margin-bottom: var(--space-2); color: var(--c-text-2); }
@@ -885,6 +892,12 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .steps li + li { margin-top: 0; }
 .steps li { counter-increment: step; border: 1px solid var(--c-border); border-radius: var(--radius-sm); padding: var(--space-3); font-size: var(--fs-sm); color: var(--c-text-2); background: var(--c-bg); }
 .steps li::before { content: counter(step); display: block; font-weight: 700; color: var(--c-accent-text); }
+/* the three steps of the home page (version B): body-size text, the number in a ring as by the form */
+.steps--big { gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+.steps--big li { padding: var(--space-5); font-size: var(--fs-body); background: var(--c-panel); border-radius: var(--radius); }
+.steps--big li::before { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--c-accent); margin-bottom: var(--space-3); }
+.steps--big h3 { margin: 0 0 var(--space-2); }
+.steps--big p { margin: 0; }
 .success { border: 1.5px solid var(--c-ok); border-radius: var(--radius); background: rgba(52, 211, 153, 0.08); padding: var(--space-6); }
 .success h3 { display: flex; align-items: center; gap: var(--space-2); }
 .success h3 .ic { color: var(--c-ok); }
@@ -1110,18 +1123,18 @@ button, input, textarea, select { font: inherit; color: inherit; }
 @media (max-width: 767px) { .d-only { display: none !important; } }
 
 /* Folded rows (details) on a phone: a 56 px row with a +/− in a ring */
-.charts__more--m > summary, .systems-m > summary, .field-acc > summary, .trial__next > summary, .plan__more-f > summary {
+.charts__more--m > summary, .systems-m > summary, .field-acc > summary, .trial__next > summary, .plan__more-f > summary, .ai-brief-acc > summary {
   display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
   min-height: 56px; cursor: pointer; list-style: none; font-weight: 700; color: var(--c-text);
 }
 .charts__more--m > summary::-webkit-details-marker, .systems-m > summary::-webkit-details-marker, .field-acc > summary::-webkit-details-marker,
-.trial__next > summary::-webkit-details-marker, .plan__more-f > summary::-webkit-details-marker { display: none; }
-.charts__more--m > summary::after, .systems-m > summary::after, .field-acc > summary::after, .trial__next > summary::after, .plan__more-f > summary::after {
+.trial__next > summary::-webkit-details-marker, .plan__more-f > summary::-webkit-details-marker, .ai-brief-acc > summary::-webkit-details-marker { display: none; }
+.charts__more--m > summary::after, .systems-m > summary::after, .field-acc > summary::after, .trial__next > summary::after, .plan__more-f > summary::after, .ai-brief-acc > summary::after {
   content: "+"; flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
   border: 1px solid var(--c-border-strong); font-size: 1.25rem; font-weight: 500; line-height: 1;
 }
 .charts__more--m[open] > summary::after, .systems-m[open] > summary::after, .field-acc[open] > summary::after,
-.trial__next[open] > summary::after, .plan__more-f[open] > summary::after { content: "−"; }
+.trial__next[open] > summary::after, .plan__more-f[open] > summary::after, .ai-brief-acc[open] > summary::after { content: "−"; }
 
 /* Charts on a phone: HTML bars (build: renderPhoneChart) */
 .chart--m { padding: var(--space-4); }
@@ -1188,6 +1201,10 @@ button, input, textarea, select { font: inherit; color: inherit; }
 /* The company list in the form: optional, folded (all widths) */
 /* The first way to a list: the brief for the visitor's own AI. Text without JavaScript, behind a button with it */
 .ai-brief { padding-bottom: var(--space-4); margin-bottom: var(--space-3); border-bottom: 1px solid var(--c-border); }
+/* version B: the brief waits folded above the list, which is open */
+.ai-brief-acc { border-bottom: 1px solid var(--c-border); }
+.ai-brief-acc > summary { min-height: 48px; font-size: var(--fs-sm); }
+.ai-brief-acc .ai-brief { border-bottom: 0; margin-bottom: 0; }
 .ai-brief__title { font-weight: 700; color: var(--c-text); margin: 0 0 var(--space-2); }
 .ai-brief__lead { font-size: var(--fs-sm); line-height: 1.45; color: var(--c-text-2); margin: 0; }
 .ai-brief__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin-top: var(--space-3); }
@@ -1279,6 +1296,10 @@ video::cue { line-height: 1.5; }
   .video__start { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(13, 19, 32, 0.9); }
   .video__start:hover { background: rgba(13, 19, 32, 0.96); }
   .video figcaption { margin-top: var(--space-3); }
+
+  /* who is behind it (version B shows it on a phone too): a smaller photo above the text */
+  .story { gap: var(--space-4); }
+  .story__photo { width: 6rem; height: 6rem; }
 
   /* proof + the 45+ chart */
   .proof-block { margin-top: var(--space-5); }

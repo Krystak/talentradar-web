@@ -1,0 +1,123 @@
+<!-- tests only: the sections of the home page before version B "Klienti" (src/pages/home.html at 0c817b9: proof strip, "How it works" with
+     the chapters, Data, Next to your ATS with V6). Version A keeps them; their code stays in build.mjs, site.js and the CSS,
+     and these sections keep it tested. Put after the hero by withHomeA() in the tests. Ids that the page now has elsewhere are left out. -->
+<!-- 3. Proof strip (light); on a phone it also carries the 45+ chart and the other data behind one tap -->
+<section class="band band--light band--tight" id="{{t.id_proof}}" aria-label="{{t.proof_aria}}">
+  <div class="container">
+    <div class="proof-block">
+      <p class="kicker">{{t.proof_label}}</p>
+      <div class="proof-wrap">
+        <blockquote class="proof__story d-only">
+          <p>{{t.proof_story}}</p>
+          <footer>{{t.proof_story_by}}</footer>
+        </blockquote>
+        <ul class="proof" role="list">
+          <li><strong class="proof__n">{{t.proof_stat1_value}}</strong><span class="proof__l">{{t.proof_stat1_label}}</span></li>
+          <li class="d-only"><strong class="proof__n">{{t.proof_stat2_value}}</strong><span class="proof__l">{{t.proof_stat2_label}}</span></li>
+          <li><strong class="proof__n">{{t.proof_stat3_value}}</strong><span class="proof__l">{{t.proof_stat3_label}}</span></li>
+        </ul>
+      </div>
+      <p class="note proof__source">{{t.proof_source}}<span class="d-only"> <a href="{{config.demoUrl}}">{{t.proof_link}}</a></span></p>
+      <div class="proof__data m-only">
+        {{chart:stari-pozic:m}}
+        <details class="charts__more charts__more--m">
+          <summary>{{t.charts_more}}</summary>
+          <div class="charts__more-grid">
+            {{chart:nove-pozice-po-dnech:m}}
+            {{chart:zdroje-pozic:m}}
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. How it works: two paths, chapters over the video (dark) -->
+<section class="band" aria-labelledby="how-a-title">
+  <div class="container">
+    <div class="head-split">
+      <div>
+        <p class="kicker">{{t.how_kicker}}</p>
+        <h2 id="how-a-title">{{t.how_h2}}</h2>
+      </div>
+      <p>{{t.how_sub}}</p>
+    </div>
+    <div data-chapters>
+      {{chapters:tabs:how0,how2,how3}}
+      <div class="chapters-layout">
+      <div class="chapters-video">
+        {{chapters:video:how_clip_caption}}
+      </div>
+      <div>
+      <div class="chapter-panels">
+      {{chapters:panels}}
+      </div>
+      <p class="btn-row btn-row--stack section-cta"><a class="btn btn-secondary" href="{{config.demoUrl}}">{{t.how_cta}}</a> <span class="note d-only">{{t.how_cta_note}}</span></p>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Data (light; on a phone the 45+ chart is in the proof strip instead) -->
+<section class="band band--light d-only" aria-labelledby="data-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="kicker">{{t.data_kicker}}</p>
+      <h2 id="data-title">{{t.data_h2}}</h2>
+      <p>{{t.data_sub}}</p>
+    </div>
+    <!-- chart 2 (45+) leads; charts 1 and 3 are beside it from 760 px (all three in a row from 1 100 px) and behind one click on a phone -->
+    <div class="charts">
+      {{chart:stari-pozic}}
+      <details class="charts__more" data-charts-more>
+        <summary>{{t.charts_more}}</summary>
+        <div class="charts__more-grid">
+          {{chart:nove-pozice-po-dnech}}
+          {{chart:zdroje-pozic}}
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Next to your ATS (dark; light on a phone, where the data band above is not shown) -->
+<section class="band band--m-light" id="{{t.id_ats}}" aria-labelledby="ats-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="kicker">{{t.ats_kicker}}</p>
+      <h2 id="ats-title">{{t.ats_h2}}</h2>
+      <p>{{t.ats_sub}}</p>
+    </div>
+    <div class="ats-grid">
+      <div>
+      <div class="ats-toggle m-only" role="group" aria-label="{{t.ats_toggle_aria}}" data-ats-toggle hidden>
+        <button type="button" aria-pressed="true" data-ats="have">{{t.ats_have_tab}}</button>
+        <button type="button" aria-pressed="false" data-ats="none">{{t.ats_none_tab}}</button>
+      </div>
+      <div class="split-cards" data-ats-cards>
+        <div class="split-card" data-ats-card="have">
+          <h3>{{t.ats_have_tab}}</h3>
+          <p>{{t.ats_have_body}}</p>
+          <p class="split-card__mode">{{t.ats_have_mode}}</p>
+        </div>
+        <div class="split-card" data-ats-card="none">
+          <h3>{{t.ats_none_tab}}</h3>
+          <p>{{t.ats_none_body}}</p>
+          <p class="split-card__mode">{{t.ats_none_mode}}</p>
+        </div>
+      </div>
+      </div>
+      {{video:ats:ats_clip_alt:ats_clip_caption}}
+    </div>
+    <div class="systems d-only">
+      <p><strong>{{t.ats_strip_label}}</strong></p>
+      <p>{{t.ats_strip_list}} {{t.ats_strip_more}}</p>
+    </div>
+    <details class="systems-m m-only">
+      <summary>{{t.ats_strip_toggle}}</summary>
+      <p>{{t.ats_strip_label}}</p>
+      <p>{{t.ats_strip_list}} {{t.ats_strip_more}}</p>
+    </details>
+  </div>
+</section>

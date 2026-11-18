@@ -107,10 +107,24 @@ test("Czech no-break spaces never reach an attribute, <title>, a meta tag or JSO
 
 const lang = (path) => (path.includes("/en/") ? "en" : "cs");
 
-test("no English slogan in the footer, in either language (lead, 18. 11. 2026: rozhodnutí §9, after the persona test)", () => {
+test("the footer slogan is in the page's language: Czech pages the Czech one, English pages the English one, never both (Kryštof, 18. 11. 2026)", () => {
+  const CS = '<p class="site-footer__slogan">Každé ráno víte, <span>kdo z vašich klientů nabírá.</span></p>';
+  const EN = '<p class="site-footer__slogan">Spend time closing, <span>not searching.</span></p>';
+  const site = built();
+  let checked = 0;
+  for (const [path, body] of site) {
+    if (!path.endsWith(".html")) continue;
+    const html = String(body).replace(/\u00a0/g, " ");
+    if (!html.includes('class="site-footer"')) continue;
+    checked++;
+    // exactly one slogan, the page's own, with no lang attribute (the page is already in that language)
+    assert.equal(html.match(/class="site-footer__slogan"/g)?.length, 1, path);
+    assert.ok(html.includes(lang(path) === "cs" ? CS : EN), `${path}: slogan`);
+    assert.doesNotMatch(html, lang(path) === "cs" ? /Spend time closing/ : /Každé ráno víte/, path);
+  }
+  assert.ok(checked >= 9, `only ${checked} pages with a footer`);
   for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html", "public/en/pricing.html"]) {
-    const html = String(built().get(path)).replace(/\u00a0/g, " ");
-    assert.doesNotMatch(html, /site-footer__slogan|Spend time closing/, path);
+    const html = String(site.get(path)).replace(/\u00a0/g, " ");
     // the footer still says what it is, and in plain words, not "every open role"
     assert.match(html, lang(path) === "cs" ? /Hlídání náboru u vašich firem, vedle vašeho ATS\./ : /Keeps track of hiring at your companies, next to your ATS\./, path);
   }

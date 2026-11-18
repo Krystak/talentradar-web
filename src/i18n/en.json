@@ -130,6 +130,7 @@
   "footer_full_demo": "Full demo",
   "footer_gdpr": "Privacy policy",
   "footer_linkedin_company": "TalentRadar on LinkedIn",
+  "footer_slogan_html": "Spend time closing, <span>not searching.</span>",
   "form_err_company": "Please fill in your agency name.",
   "form_err_company_short": "Please enter the full agency name.",
   "form_err_email": "Please check the e-mail address; it should look like jane@agency.ie.",

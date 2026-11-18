@@ -1915,15 +1915,18 @@ test("from 1 024 px the line and the pause button lie over the bottom of the her
 test("the text under the hero: hero-a cues and proof copy without placeholders, IT demo focus in captions", () => {
   const { i18n } = loadSite();
   assert.equal(i18n.cs.cue_hero_1, "Na první pohled: kdo z vašich firem nově nabírá.");
+  assert.equal(i18n.cs.hero_sub, "TalentRadar dvakrát denně projde kariérní weby vašich klientů i firem, které chcete získat. Ráno v aplikaci vidíte nové pozice, důvod se ozvat a tip, komu zavolat. Pro personální agentury.");
+  assert.equal(i18n.en.hero_sub, "Twice a day, TalentRadar goes through the career pages of your clients and of the companies you want to win. In the morning the app shows the new roles, a reason to get in touch and a tip on who to call. For recruitment agencies.");
   assert.equal(i18n.en.cue_hero_1, "At a glance: which of your companies are hiring.");
   assert.equal(i18n.cs.cue_hero_2, "Váš klient vypsal novou pozici. Máte důvod zavolat.");
   assert.equal(i18n.en.cue_hero_2, "Your client posted a new role. A reason to call.");
   assert.equal(i18n.cs.cue_hero_3, "A tady je ten inzerát, přímo na webu firmy.");
   assert.equal(i18n.en.cue_hero_3, "And here's the posting, on the company's own site.");
   for (const lang of ["cs", "en"]) {
-    // (verze A, 17. 11. 2026: the subtitle names the sources, the companies' ATS among them, and says "next to your ATS")
+    // (verze A, 18. 11. 2026: the title says "clients", so the subtitle adds the companies you want to win at once;
+    // no "ATS" (the section about it is further down) and "a tip on who to call", not a promise of a verified contact)
     assert.doesNotMatch(String(i18n[lang].hero_sub), /\[ČÍSLO/i, `${lang} hero_sub`);
-    assert.match(String(i18n[lang].hero_sub), /Jobs\.cz/, `${lang} hero_sub`);
+    assert.doesNotMatch(String(i18n[lang].hero_sub), /\bATS\b|všechny|\bevery open\b|koho hledat|who to look for/i, `${lang} hero_sub`);
     assert.doesNotMatch(String(i18n[lang].hero_proof), /přes měsíc|over a month|\[ČÍSLO/i, `${lang} hero_proof`);
     for (const key of ["cue_hero_1", "cue_hero_2", "cue_hero_3", "hero_video_aria", "hero_video_poster_alt", "hero_video_caption", "hero_video_caption_m"]) {
       assert.doesNotMatch(String(i18n[lang][key]), /specializ|specialis|\bniche\b/i, `${lang} ${key}`);

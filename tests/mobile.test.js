@@ -98,12 +98,24 @@ test("Czech no-break spaces never reach an attribute, <title>, a meta tag or JSO
   assert.equal(nbspCsHtml("<svg><title>a v b</title><desc>o u</desc></svg><p>a v</p>"), "<svg><title>a v b</title><desc>o u</desc></svg><p>a v</p>");
 });
 
-test("the footer has no English slogan in either language and says what the product does, not 'every open role' (lead, opravy po testu person 18. 11.)", () => {
-  for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html", "public/en/pricing.html"]) {
-    const html = String(built().get(path));
-    assert.doesNotMatch(html, /site-footer__slogan|Spend time closing/, path);
-    assert.doesNotMatch(html.match(/<footer[\s\S]*<\/footer>/)[0], /Všechny otevřené pozice|Every open role/i, path);
+test("the footer slogan speaks the page's language: Czech pages the Czech one, English pages the English one, never both; no 'every open role' (Kryštof 18. 11.)", () => {
+  const sloganCs = 'Každé ráno víte, <span>kdo z vašich klientů nabírá.</span>';
+  const sloganEn = "Spend time closing, <span>not searching.</span>";
+  let pages = 0;
+  for (const [path, content] of built()) {
+    if (!path.endsWith(".html")) continue;
+    const html = String(content).replace(/\u00a0/g, " ");
+    const footer = (html.match(/<footer class="site-footer"[\s\S]*<\/footer>/) || [])[0];
+    if (!footer) continue;
+    pages++;
+    const en = path.startsWith("public/en/");
+    const slogans = footer.match(/<p class="site-footer__slogan"[^>]*>[\s\S]*?<\/p>/g) || [];
+    assert.deepEqual(slogans, [`<p class="site-footer__slogan">${en ? sloganEn : sloganCs}</p>`], path);
+    assert.doesNotMatch(html, en ? /Každé ráno víte, kdo z vašich klientů/ : /Spend time closing/, path);
+    assert.doesNotMatch(footer, /Všechny otevřené pozice|Every open role/i, path);
   }
+  for (const path of ["public/index.html", "public/en/index.html", "public/cenik.html", "public/en/pricing.html"]) assert.ok(built().has(path), path);
+  assert.ok(pages >= 4, `footers checked: ${pages}`);
   assert.match(String(built().get("public/index.html")).replace(/\u00a0/g, " "), /<p class="d-only">Hlídání náboru u vašich firem, vedle vašeho ATS\. Vzniklo v personální agentuře\.<\/p>/);
 });
 

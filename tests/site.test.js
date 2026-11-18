@@ -199,13 +199,24 @@ test("a page that is not there gets the 404 page of its language, with status 40
 
 test("the Czech home page is Czech in plain HTML; the English one English", () => {
   const cs = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
-  assert.match(cs, /<title>TalentRadar: každé ráno víte, kdo z vašich firem nabírá<\/title>/);
-  assert.match(cs, /<h1[^>]*>Každé ráno víte, kdo z\svašich firem nabírá\./);
+  assert.match(cs, /<title>TalentRadar: každé ráno víte, kdo z vašich klientů nabírá<\/title>/);
+  assert.match(cs, /<h1[^>]*>Každé ráno víte, kdo z\svašich klientů nabírá\./);
   assert.match(cs, /Každá agentura má vlastní oddělenou databázi/);
   const en = readFileSync(new URL("../public/en/index.html", import.meta.url), "utf8");
   assert.match(en, /<html lang="en"/);
   assert.match(en, /<meta name="description" content="Twice a day TalentRadar goes through/);
-  assert.match(en, /<h1[^>]*>Every morning, know which of your companies are hiring\./);
+  assert.match(en, /<h1[^>]*>Every morning, know which of your clients are hiring\./);
+  // the title and the slogan are one sentence; the description names clients and the companies you want to win, promises no "all"
+  assert.match(cs.replace(/\u00a0/g, " "), /<meta property="og:title" content="Každé ráno víte, kdo z vašich klientů nabírá\.">/);
+  assert.match(en, /<meta property="og:title" content="Every morning, know which of your clients are hiring\.">/);
+  for (const [html, said] of [[cs.replace(/\u00a0/g, " "), /klientů i firem, které chcete získat/], [en, /your clients and of the companies you want to win/]]) {
+    for (const name of ['name="description"', 'property="og:description"']) {
+      const content = html.match(new RegExp(`<meta ${name} content="([^"]+)">`))[1];
+      assert.match(content, said, name);
+      assert.doesNotMatch(content, /všechny|\ball\b|\bevery open\b/i, name);
+    }
+  }
+  assert.doesNotMatch(cs.match(/<meta name="description" content="([^"]+)">/)[1], /\bATS\b/);
 });
 
 // ── The text map: variables, Kryštof's placeholders, prices ─────────────────

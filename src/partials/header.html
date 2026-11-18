@@ -9,8 +9,6 @@
     <nav class="site-nav" id="site-nav" aria-label="{{t.nav_label}}">
       <ul>
         <li><a href="{{url:home}}#{{t.id_how}}">{{t.nav_how}}</a></li>
-        <li class="d-only"><a href="{{url:home}}#{{t.id_data}}">{{t.nav_data}}</a></li>
-        <li class="m-only"><a href="{{url:home}}#{{t.id_proof}}">{{t.nav_data}}</a></li>
         <li><a href="{{url:pricing}}">{{t.nav_pricing}}</a></li>
         <li><a href="{{url:blog}}">{{t.nav_blog}}</a></li>
         <li class="nav-mobile-only"><a href="{{url:demo}}">{{t.nav_tour}}</a></li>
@@ -21,7 +19,7 @@
       </div>
       <div class="site-nav__cta m-only">
         <a class="btn btn-primary" href="{{url:home}}#{{t.id_trial}}">{{t.hero_cta_primary}}</a>
-        <a class="btn btn-secondary" href="{{call:href}}">{{t.hero_cta_secondary}}</a>
+        <a class="btn btn-secondary" href="{{config.demoUrl}}">{{t.nav_demo}}</a>
       </div>
     </nav>
     <a class="btn btn-primary btn--nav" href="{{url:home}}#{{t.id_trial}}">{{t.nav_cta}}</a>

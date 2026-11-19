@@ -197,14 +197,43 @@ test("a page that is not there gets the 404 page of its language, with status 40
 
 // ── Pages without JavaScript ────────────────────────────────────────────────
 
+test("the category is said the same way on the home page, in the FAQ, the JSON-LD and llms.txt; the built-in ATS only as an add-on (19. 11. 2026)", () => {
+  const files = buildSite(loadSite());
+  const page = (p) => String(files.get(p));
+  const defEn = "TalentRadar is a recruitment business development platform that monitors company career pages and ATS job openings to help recruitment and headhunting agencies spot new hiring opportunities early. It is not a traditional ATS or job board.";
+  for (const [path, lang, def, q] of [
+    ["public/index.html", "cs", "TalentRadar je nástroj pro obchodní rozvoj a prospecting personálních a headhuntingových agentur, ne klasické ATS ani pracovní portál.", "Co přesně TalentRadar je?"],
+    ["public/en/index.html", "en", defEn, "What exactly is TalentRadar?"],
+  ]) {
+    const html = page(path).replace(/\u00a0/g, " ");
+    assert.ok(html.includes(def), `${path}: definition next to the ATS section`);
+    const ld = parseJsonLd(page(path));
+    const app = ld["@graph"].find((n) => n["@type"] === "SoftwareApplication");
+    assert.match(app.applicationSubCategory, lang === "cs" ? /Business development a monitoring kariérních stránek/ : /Recruitment business development and career page monitoring/);
+    assert.match(app.disambiguatingDescription, lang === "cs" ? /Není to klasické ATS/ : /Not a traditional ATS, job board or candidate database/);
+    const faq = ld["@graph"].find((n) => n["@type"] === "FAQPage");
+    assert.equal(faq.mainEntity[0].name, q, `${path}: the definition opens the FAQ`);
+    assert.doesNotMatch(html, /ATS v jednom|ATS in one|jednoduché ATS v ceně|simple ATS included/, `${path}: no "radar and ATS in one"`);
+    // one list of the companies' systems, not a copy for the phone and one for the computer
+    assert.equal(html.split("Jobs.cz a Teamio, Greenhouse").length + html.split("Jobs.cz and Teamio, Greenhouse").length - 2, 1, `${path}: systems listed once`);
+    assert.match(html, /<strong class="proof__n">[^<]+<\/strong> <span class="proof__l">/, `${path}: a space between the number and its label`);
+    assert.doesNotMatch(html, /<br><\/span>\s*(Napište|Write)/, `${path}: the call link and the e-mail are two paragraphs`);
+  }
+  const llms = page("public/llms.txt");
+  assert.ok(llms.startsWith(`# TalentRadar\n\n> ${defEn}\n\n## What TalentRadar Is (and Is Not)\n`), "llms.txt opens with the definition");
+  assert.match(llms, /not a replacement for a traditional ATS and not a job board/);
+  assert.match(llms, /only an optional add-on for small agencies/);
+  assert.ok(page("public/llms-full.txt").includes(`> ${defEn}`), "llms-full.txt has the same definition");
+});
+
 test("the Czech home page is Czech in plain HTML; the English one English", () => {
   const cs = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
-  assert.match(cs, /<title>TalentRadar: každé ráno víte, kdo z vašich klientů nabírá<\/title>/);
+  assert.match(cs, /<title>TalentRadar: monitoring kariérních stránek pro personální agentury<\/title>/);
   assert.match(cs, /<h1[^>]*>Každé ráno víte, kdo z\svašich klientů nabírá\./);
   assert.match(cs, /Každá agentura má vlastní oddělenou databázi/);
   const en = readFileSync(new URL("../public/en/index.html", import.meta.url), "utf8");
   assert.match(en, /<html lang="en"/);
-  assert.match(en, /<meta name="description" content="Twice a day TalentRadar goes through/);
+  assert.match(en, /<meta name="description" content="Recruitment business development platform for agencies, not an ATS or job board\./);
   assert.match(en, /<h1[^>]*>Every morning, know which of your clients are hiring\./);
   // the title and the slogan are one sentence; the description names clients and the companies you want to win, promises no "all"
   assert.match(cs.replace(/\u00a0/g, " "), /<meta property="og:title" content="Každé ráno víte, kdo z vašich klientů nabírá\.">/);
@@ -216,7 +245,9 @@ test("the Czech home page is Czech in plain HTML; the English one English", () =
       assert.doesNotMatch(content, /všechny|\ball\b|\bevery open\b/i, name);
     }
   }
-  assert.doesNotMatch(cs.match(/<meta name="description" content="([^"]+)">/)[1], /\bATS\b/);
+  // since 19. 11. 2026 the description names the category and says what it is not (Kryštof: for AI search engines)
+  assert.match(cs.match(/<meta name="description" content="([^"]+)">/)[1], /^Nástroj pro business development personálních agentur, ne ATS ani pracovní portál\./);
+  assert.match(en.match(/<meta name="description" content="([^"]+)">/)[1], /^Recruitment business development platform for agencies, not an ATS or job board\./);
 });
 
 // ── The text map: variables, Kryštof's placeholders, prices ─────────────────
@@ -711,8 +742,8 @@ test("home, pricing, demo and blog index emit valid linked Knowledge Graph JSON-
   const files = buildSite(site);
 
   for (const [path, lang, faqCount, isHome] of [
-    ["public/index.html", "cs", 8, true],
-    ["public/en/index.html", "en", 8, true],
+    ["public/index.html", "cs", 9, true],
+    ["public/en/index.html", "en", 9, true],
     ["public/cenik.html", "cs", 5, false],
     ["public/en/pricing.html", "en", 5, false],
   ]) {

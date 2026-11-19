@@ -1031,6 +1031,16 @@ const JS_KEYS = [
 
 const cleanLdText = (str) => plainSpaces(String(str).replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim());
 
+/** The category, said the same way on the home page, in the FAQ and in llms.txt. */
+const APP_CATEGORY = {
+  cs: "Business development a monitoring kariérních stránek pro personální a headhuntingové agentury",
+  en: "Recruitment business development and career page monitoring for recruitment agencies",
+};
+const APP_NOT = {
+  cs: "Není to klasické ATS, pracovní portál ani databáze kandidátů. Jednoduché ATS je jen volitelný doplněk pro malé agentury bez vlastního.",
+  en: "Not a traditional ATS, job board or candidate database. The simple built-in ATS is only an optional add-on for small agencies without one.",
+};
+
 const APP_FEATURES = {
   cs: [
     "Automatické sledování kariérních webů a ATS dvakrát denně (6:00 a 12:00)",
@@ -1039,7 +1049,7 @@ const APP_FEATURES = {
     "Ověřená automatická archivace zmizelých inzerátů",
     "Odhad hiring manažera a proklik na LinkedIn a Google X-Ray",
     "Export do Excelu, CSV, Bullhornu a Vincere",
-    "Vestavěný lehký režim Radar + ATS v ceně tarifu",
+    "Volitelné jednoduché ATS (režim Radar + ATS) pro agentury bez vlastního, ne náhrada ATS",
     "Párování anonymizovaného kandidáta na otevřené role",
   ],
   en: [
@@ -1049,7 +1059,7 @@ const APP_FEATURES = {
     "Verified automatic archival of disappeared job listings",
     "Hiring-manager estimation with one-click LinkedIn and Google X-Ray search",
     "Excel, CSV, Bullhorn, and Vincere export",
-    "Built-in lightweight Radar + ATS mode included in every plan",
+    "Optional simple built-in ATS (Radar + ATS mode) for agencies without one, not an ATS replacement",
     "Anonymous candidate-to-open-roles matching without storing CVs",
   ],
 };
@@ -1096,10 +1106,12 @@ function softwareAppJsonLd(site, r, page, ctx) {
     "@id": `${origin}/#software`,
     name: "TalentRadar",
     applicationCategory: "BusinessApplication",
+    applicationSubCategory: APP_CATEGORY[r.lang] || APP_CATEGORY.en,
     operatingSystem: "Web",
     url: `${origin}${ctx.url("home", r.lang)}`,
     inLanguage: r.lang,
     description: cleanLdText(page.description_raw),
+    disambiguatingDescription: APP_NOT[r.lang] || APP_NOT.en,
     featureList: APP_FEATURES[r.lang] || APP_FEATURES.en,
     provider: { "@id": `${origin}/#organization` },
     offers: {
@@ -1145,7 +1157,7 @@ function breadcrumbJsonLd(items) {
 
 function faqItemsFor(site, ctx, kind) {
   if (kind === "home") {
-    return [7, 2, 8, 1, 3, 4, 5, 6].map((n) => ({
+    return [0, 7, 2, 8, 1, 3, 4, 5, 6].map((n) => ({
       q: text(site, ctx, `faq_q${n}`),
       a: n === 7 ? render(site, text(site, ctx, "faq_a7_html"), ctx, ctx.where || "faq") : text(site, ctx, `faq_a${n}`),
     }));
@@ -1277,12 +1289,18 @@ function llmsBaseLines(site, all, urlOf) {
     lines: [
       "# TalentRadar",
       "",
-      "> B2B SaaS platform for recruitment agencies and executive search teams that automatically monitors client and prospect career pages twice a day, surfaces new roles before they reach job boards, flags roles open 45+ days, archives closed listings, and matches candidates to open roles.",
+      `> ${site.i18n.en.ats_sub}`,
+      "",
+      "## What TalentRadar Is (and Is Not)",
+      `- Category: ${APP_CATEGORY.en}. Built for business development and prospecting at recruitment and headhunting agencies.`,
+      "- It watches companies (an agency's clients and the companies it wants to win) and their new roles on career pages and company ATS. It is not a candidate database.",
+      "- It is not a replacement for a traditional ATS and not a job board: agencies keep their own ATS and use TalentRadar next to it (Radar-only mode).",
+      "- A simple built-in ATS (Radar + ATS mode) is only an optional add-on for small agencies that have none.",
       "",
       "## What Problem It Solves",
       "- Employers publish new roles on their own career page or ATS first; job boards and LinkedIn receive them hours or days later via feeds or paid promotion.",
       "- TalentRadar checks every tracked company's career page twice daily (06:00 and 12:00 in the agency's timezone), so consultants reach hiring managers during the golden window before inboxes fill up.",
-      "- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export) or as a lightweight built-in ATS (Radar + ATS mode included in every plan).",
+      "- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export). Small agencies without an ATS can switch on the optional simple built-in ATS (Radar + ATS mode, included in every plan).",
       "- Tracks real posting dates (from the company ATS or first-seen timestamp) to highlight roles open 30+ and 45+ days, and automatically archives disappeared roles after verification to eliminate ghost-job waste.",
       "- Estimates likely hiring managers from the job posting, links directly to LinkedIn and Google X-Ray search, and drafts outreach messages in each consultant's style.",
       "",

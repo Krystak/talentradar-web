@@ -130,7 +130,7 @@
       </div>
       <div>
         <ul class="proof proof--one" role="list">
-          <li><strong class="proof__n">{{t.proof_value}}</strong><span class="proof__l">{{t.proof_value_label}}</span></li>
+          <li><strong class="proof__n">{{t.proof_value}}</strong> <span class="proof__l">{{t.proof_value_label}}</span></li>
         </ul>
         <p class="note proof__source">{{t.proof_source}}</p>
         <p class="proof__link"><a class="text-link" href="{{config.demoUrl}}">{{t.proof_link}}</a></p>
@@ -168,13 +168,10 @@
       </div>
       {{video:ats:ats_clip_alt:ats_clip_caption}}
     </div>
-    <div class="systems d-only">
-      <p><strong>{{t.ats_strip_label}}</strong></p>
-      <p>{{t.ats_strip_list}} {{t.ats_strip_more}}</p>
-    </div>
-    <details class="systems-m m-only">
+    <!-- one list for every screen: open on a computer (summary hidden), folded on a phone (site.js) -->
+    <details class="systems systems-m" open data-systems>
       <summary>{{t.ats_strip_toggle}}</summary>
-      <p>{{t.ats_strip_label}}</p>
+      <p><strong>{{t.ats_strip_label}}</strong></p>
       <p>{{t.ats_strip_list}} {{t.ats_strip_more}}</p>
     </details>
   </div>
@@ -240,6 +237,7 @@
       <h2 id="faq-title">{{t.faq_h2}}</h2>
     </div>
     <div class="faq">
+      <details><summary>{{t.faq_q0}}</summary><div><p>{{t.faq_a0}}</p></div></details>
       <details><summary>{{t.faq_q7}}</summary><div><p>{{t.faq_a7_html}}</p>{{operator:faq}}</div></details>
       <details><summary>{{t.faq_q2}}</summary><div><p>{{t.faq_a2}}</p></div></details>
       <details><summary>{{t.faq_q8}}</summary><div><p>{{t.faq_a8}}</p></div></details>

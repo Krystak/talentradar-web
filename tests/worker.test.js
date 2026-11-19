@@ -544,7 +544,7 @@ test("/cs and /cs/ move to the Czech home page at /, which is Czech without Java
   const html = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
   assert.match(html, /<html lang="cs"/);
   assert.match(html, /<link rel="canonical" href="https:\/\/talentradar\.eu\/">/);
-  assert.match(html, /<meta name="description" content="TalentRadar dvakrát denně projde/);
+  assert.match(html, /<meta name="description" content="Nástroj pro business development personálních agentur/);
   assert.match(html, /hreflang="cs" href="https:\/\/talentradar\.eu\/"/);
   assert.doesNotMatch(html, /<meta name="description" content="Twice a day TalentRadar/);
 

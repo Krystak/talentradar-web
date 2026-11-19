@@ -1,11 +1,17 @@
 # TalentRadar
 
-> B2B SaaS platform for recruitment agencies and executive search teams that automatically monitors client and prospect career pages twice a day, surfaces new roles before they reach job boards, flags roles open 45+ days, archives closed listings, and matches candidates to open roles.
+> TalentRadar is a recruitment business development platform that monitors company career pages and ATS job openings to help recruitment and headhunting agencies spot new hiring opportunities early. It is not a traditional ATS or job board.
+
+## What TalentRadar Is (and Is Not)
+- Category: Recruitment business development and career page monitoring for recruitment agencies. Built for business development and prospecting at recruitment and headhunting agencies.
+- It watches companies (an agency's clients and the companies it wants to win) and their new roles on career pages and company ATS. It is not a candidate database.
+- It is not a replacement for a traditional ATS and not a job board: agencies keep their own ATS and use TalentRadar next to it (Radar-only mode).
+- A simple built-in ATS (Radar + ATS mode) is only an optional add-on for small agencies that have none.
 
 ## What Problem It Solves
 - Employers publish new roles on their own career page or ATS first; job boards and LinkedIn receive them hours or days later via feeds or paid promotion.
 - TalentRadar checks every tracked company's career page twice daily (06:00 and 12:00 in the agency's timezone), so consultants reach hiring managers during the golden window before inboxes fill up.
-- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export) or as a lightweight built-in ATS (Radar + ATS mode included in every plan).
+- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export). Small agencies without an ATS can switch on the optional simple built-in ATS (Radar + ATS mode, included in every plan).
 - Tracks real posting dates (from the company ATS or first-seen timestamp) to highlight roles open 30+ and 45+ days, and automatically archives disappeared roles after verification to eliminate ghost-job waste.
 - Estimates likely hiring managers from the job posting, links directly to LinkedIn and Google X-Ray search, and drafts outreach messages in each consultant's style.
 

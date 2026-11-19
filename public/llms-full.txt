@@ -1,11 +1,17 @@
 # TalentRadar
 
-> B2B SaaS platform for recruitment agencies and executive search teams that automatically monitors client and prospect career pages twice a day, surfaces new roles before they reach job boards, flags roles open 45+ days, archives closed listings, and matches candidates to open roles.
+> TalentRadar is a recruitment business development platform that monitors company career pages and ATS job openings to help recruitment and headhunting agencies spot new hiring opportunities early. It is not a traditional ATS or job board.
+
+## What TalentRadar Is (and Is Not)
+- Category: Recruitment business development and career page monitoring for recruitment agencies. Built for business development and prospecting at recruitment and headhunting agencies.
+- It watches companies (an agency's clients and the companies it wants to win) and their new roles on career pages and company ATS. It is not a candidate database.
+- It is not a replacement for a traditional ATS and not a job board: agencies keep their own ATS and use TalentRadar next to it (Radar-only mode).
+- A simple built-in ATS (Radar + ATS mode) is only an optional add-on for small agencies that have none.
 
 ## What Problem It Solves
 - Employers publish new roles on their own career page or ATS first; job boards and LinkedIn receive them hours or days later via feeds or paid promotion.
 - TalentRadar checks every tracked company's career page twice daily (06:00 and 12:00 in the agency's timezone), so consultants reach hiring managers during the golden window before inboxes fill up.
-- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export) or as a lightweight built-in ATS (Radar + ATS mode included in every plan).
+- Works alongside any existing ATS (Radar-only mode with Excel, CSV, Bullhorn, and Vincere export). Small agencies without an ATS can switch on the optional simple built-in ATS (Radar + ATS mode, included in every plan).
 - Tracks real posting dates (from the company ATS or first-seen timestamp) to highlight roles open 30+ and 45+ days, and automatically archives disappeared roles after verification to eliminate ghost-job waste.
 - Estimates likely hiring managers from the job posting, links directly to LinkedIn and Google X-Ray search, and drafts outreach messages in each consultant's style.
 
@@ -67,11 +73,14 @@
 - Live Public Demo: https://app.talentradar.eu/?demo=showcase
 
 ## Frequently Asked Questions (English)
+### What exactly is TalentRadar?
+TalentRadar is a recruitment business development platform that monitors company career pages and ATS job openings to help recruitment and headhunting agencies spot new hiring opportunities early. It is not a traditional ATS or job board. It watches companies and their new roles, not a candidate database. The simple built-in ATS is only an optional add-on for small agencies that don’t have one.
+
 ### Who runs TalentRadar, and who sees our data?
 TalentRadar is run by its founder, Kryštof Pejša, who is also the controller of personal data. Every agency has its own separate database and sees only its own data. Your company list is seen by you and me, so that I can set up your radar. I don’t pass it on to anyone or use it for anything else. The app and its database run in the EU, the server in the Netherlands and the database in Ireland. Who helps us run the website and the app, what goes to the AI and how long we keep the data is set out in our privacy policy.
 
 ### We don’t have an ATS. Is that a problem?
-Not at all. Watching companies and roles needs no ATS. If you want one, every plan includes Radar + ATS: candidates, contacts, jobs, pipeline and placements. It’s deliberately simple, built for small agencies.
+Not at all. The radar needs no ATS. If you have none, every plan lets you switch on the optional Radar + ATS mode: candidates, contacts, jobs, pipeline and placements. It’s deliberately simple, built for small agencies, and doesn’t replace a full ATS.
 
 ### Where do you read the roles from?
 We read only pages that companies publish for job seekers themselves, and public ATS APIs. We don’t read LinkedIn: you open the search link yourself.
@@ -161,11 +170,14 @@ Checking every tracked company twice a day—such as 06:00 and 12:00 in your tim
 No. TalentRadar runs alongside any ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio, or spreadsheets) in Radar-only mode with Excel, CSV, and import-ready files. Agencies without an ATS can use the built-in Radar + ATS mode included in every plan.
 
 ## Časté dotazy (Czech)
+### Co přesně TalentRadar je?
+Nástroj pro obchodní rozvoj (business development) a prospecting personálních a headhuntingových agentur. Dvakrát denně hlídá kariérní stránky a ATS firem, které si určíte, a ukáže, kde se otevřela nová pozice, tedy příležitost na zakázku. Není to klasické ATS, pracovní portál ani databáze kandidátů. Jednoduché ATS v něm je jen volitelný doplněk pro malé agentury, které žádné nemají.
+
 ### Kdo TalentRadar provozuje a kdo vidí naše data?
 TalentRadar provozuje jeho zakladatel Kryštof Pejša, který je i správcem osobních údajů. Každá agentura má vlastní oddělenou databázi a vidí jen svá data. Váš seznam firem vidíte vy a já, abych vám radar nastavil. Nikomu ho nepředávám a nepoužívám k ničemu jinému. Aplikace i databáze běží v EU, server v Nizozemsku a databáze v Irsku. Kdo nám pomáhá s provozem webu a aplikace, kam jde text do AI a jak dlouho údaje uchováváme, najdete v zásadách ochrany osobních údajů.
 
 ### Nemáme ATS. Nevadí?
-Nevadí. Hlídání firem a pozic ATS nepotřebuje. Kdo chce, má v ceně každého tarifu režim Radar + ATS: kandidáty, kontakty, zakázky, pipeline a umístění. Je záměrně jednoduchý, pro malé agentury.
+Nevadí. Radar žádné ATS nepotřebuje. Kdo ho nemá, může si v kterémkoli tarifu zapnout volitelný režim Radar + ATS: kandidáty, kontakty, zakázky, pipeline a umístění. Je záměrně jednoduchý, pro malé agentury, a plnohodnotné ATS nenahrazuje.
 
 ### Odkud pozice čtete?
 Čteme jen stránky, které firmy samy zveřejňují pro uchazeče, a veřejná API ATS. LinkedIn nečteme: odkaz na hledání si otevřete sami.

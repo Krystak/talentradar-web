@@ -739,6 +739,15 @@ const pageLoaded = new Promise((resolve) => {
   show("have");
 })();
 
+/* ── Systems we read roles from: one list, open on a computer, folded on a phone ── */
+(function systemsList() {
+  const list = document.querySelector("[data-systems]");
+  if (!list) return;
+  const sync = () => { list.open = !phone.matches; };
+  sync();
+  onMediaChange(phone, sync);
+})();
+
 /* ── FAQ on a phone: the first four questions, the rest behind one tap ── */
 (function faqMore() {
   const more = document.querySelector("[data-faq-more]");

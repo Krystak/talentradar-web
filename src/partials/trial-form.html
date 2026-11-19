@@ -95,10 +95,8 @@
         </ol>
         <p class="form__fine">{{t.trial_step_fallback}}</p>
       </details>
-      <p class="trial__contact">
-        <span class="d-only"><a href="{{call:href}}">{{t.trial_call}}</a><br></span>
-        {{t.trial_contact_prefix}} <a href="mailto:{{config.email}}">{{config.email}}</a>
-      </p>
+      <p class="trial__contact d-only"><a href="{{call:href}}">{{t.trial_call}}</a></p>
+      <p class="trial__contact">{{t.trial_contact_prefix}} <a href="mailto:{{config.email}}">{{config.email}}</a></p>
     </div>
     </div>
   </div>

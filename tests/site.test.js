@@ -886,29 +886,43 @@ test("home comparison section and full comparison blog article meet content, sch
 
 // ── Verze A after the persona test and the fact check (lead, opravy 18. 11. 2026) ─────────────────
 
-test("the offer for the first 5 is the app's (core/plans.py): one sentence on the home page, /cenik, the form, the articles, meta and llms.txt", () => {
+test("the launch offer (R5, 19. 11. 2026): one sentence on the home page, /cenik, the form, the articles, meta and llms.txt; gone from the new year", () => {
   const files = built();
-  const text = (path) => html(files, path).replace(/ /g, " ");
-  const CS = "Prvních 5 agentur: první měsíc zdarma, pak 3 měsíce za polovinu a osobní zavedení.";
-  const EN = "The first 5 agencies: the first month free, then 3 months at half price and a personal setup.";
+  const text = (path) => html(files, path).replace(/\u00a0/g, " ");
+  const CS = "Do konce roku: zaregistrujte se do 31. 12. 2026 a TalentRadar máte zdarma až do 31. 1. 2027. Čím dřív začnete, tím déle.";
+  const EN = "Until the end of the year: sign up by 31 December 2026 and TalentRadar is free until 31 January 2027. The sooner you start, the longer it’s free.";
   const { i18n } = loadSite();
   for (const key of ["trial_promo", "pricing_promo", "pp_promo_text"]) {
-    assert.equal(i18n.cs[key], CS, key);
+    assert.equal(i18n.cs[key].replace(/\u00a0/g, " "), CS, key);
     assert.equal(i18n.en[key], EN, key);
   }
   for (const [path, sentence] of [["public/index.html", CS], ["public/cenik.html", CS], ["public/blog/prvni-dny-po-vypsani-pozice.html", CS], ["public/en/index.html", EN], ["public/en/pricing.html", EN]]) {
     assert.ok(text(path).includes(sentence), path);
   }
-  assert.match(text("public/cenik.html"), new RegExp(`<meta name="description" content="[^"]*${CS.replace(/\./g, "\\.")}">`));
-  assert.ok(text("public/llms.txt").includes("Offer for the first 5 agencies: the first month free, then 3 months at half price and a personal setup."));
-  // what the app does not do, or pressure, goes everywhere; the 14 days after the five places only on /cenik
+  // every box with the offer hides itself from 1. 1. 2027 00:00 Prague (base.html sets offer-over)
+  assert.match(text("public/index.html"), /Date\.now\(\) >= Date\.UTC\(2026, 11, 31, 23\) \? " offer-over"/);
+  assert.match(String(files.get("public/css/site.css")), /\.offer-over \.offer-on\s*\{\s*display:\s*none/);
+  for (const [path, body] of files) {
+    if (!/\.html$/.test(path)) continue;
+    const t = String(body).replace(/\u00a0/g, " ");
+    for (const sentence of [CS, EN]) {
+      let at = t.indexOf(sentence);
+      while (at !== -1) {
+        const tag = t.slice(t.lastIndexOf("<", at - 1) - 200, at);
+        assert.ok(/class="[^"]*offer-on/.test(tag) || /<meta/.test(t.slice(t.lastIndexOf("<", at), at)), `${path}: offer outside .offer-on`);
+        at = t.indexOf(sentence, at + 1);
+      }
+    }
+  }
+  assert.match(text("public/cenik.html"), /<meta name="description" content="[^"]*Při registraci do 31\. 12\. 2026 zdarma až do 31\. 1\. 2027\.">/);
+  assert.ok(text("public/llms.txt").includes("Launch offer: sign up by 31 December 2026 and it is free until 31 January 2027."));
+  // the old offer for the first five is gone everywhere
   for (const [path, body] of files) {
     if (!/\.(html|txt)$/.test(path)) continue;
-    const t = String(body).replace(/ /g, " ");
-    assert.doesNotMatch(t, /proto jen pět|jen pět míst|only five|peníze vrátím|money back|které po zkoušce pokračují|that carry on after the trial|platíte od prvního dne/i, path);
-    if (!/public\/(cenik|en\/pricing)\.html$/.test(path)) assert.doesNotMatch(t, /Až se 5 míst zaplní|Once the 5 places are taken/, path);
+    const t = String(body).replace(/\u00a0/g, " ");
+    assert.doesNotMatch(t, /Prvních 5 agentur|first 5 agencies|Až se 5 míst zaplní|Once the 5 places are taken|3 měsíce za polovinu|3 months at half price/, path);
+    assert.doesNotMatch(t, /proto jen pět|jen pět míst|only five|peníze vrátím|money back|platíte od prvního dne/i, path);
   }
-  assert.ok(text("public/cenik.html").includes("Až se 5 míst zaplní, platí 14 dní zdarma."));
 });
 
 test("the hero: the three safeguards, then that a few target companies are enough to try it", () => {

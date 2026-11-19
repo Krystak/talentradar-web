@@ -485,7 +485,10 @@
 .story__sign { color: var(--c-text) !important; }
 /* on a phone too since verze A: a smaller face over the text */
 @media (max-width: 767px) { .story__photo { width: 6rem; height: 6rem; } }
-/* the offer for the first 5 (verze A): one framed box under the plans, how you pay under it */
+/* the launch offer (until 31. 12. 2026): hidden from the new year by the class set in base.html */
+.offer-over .offer-on { display: none !important; }
+
+/* the launch offer box (verze A): one framed box under the plans, how you pay under it */
 .pricing-offer { max-width: var(--measure); margin-top: var(--space-5); }
 .pricing-offer p { margin: 0; }
 .pricing-pay { margin-top: var(--space-3); font-size: var(--fs-sm); }

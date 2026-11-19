@@ -23,7 +23,7 @@
 - **Solo Scout**: up to 50 companies — CZK 1,990/month (CZK 19,900/year) or EUR 119/month (EUR 1,190/year), excl. VAT.
 - **Agency Pro**: up to 150 companies — CZK 3,990/month (CZK 39,900/year) or EUR 289/month (EUR 2,890/year), excl. VAT.
 - **Scale**: up to 400 companies — CZK 7,990/month (CZK 79,900/year) or EUR 529/month (EUR 5,290/year), excl. VAT.
-- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Offer for the first 5 agencies: the first month free, then 3 months at half price and a personal setup.
+- Free trial: 14 days free, no credit card, up to 150 companies (Agency Pro features). Launch offer: sign up by 31 December 2026 and it is free until 31 January 2027.
 
 ## Key Pages (English)
 - [Home](https://talentradar.eu/en/): Overview, live demo statistics, supported ATS list, FAQ, and free trial sign-up.
@@ -85,8 +85,8 @@ It reads roles from Jobs.cz and Teamio, from company ATS (Greenhouse, Lever, Wor
 ### What if a company fills or withdraws a role?
 When the ad disappears from the site, TalentRadar archives the role only once two scans in a row have missed it and the second day after it was last seen has come (seen on Monday, archived on Wednesday at the earliest). A careers page that’s briefly down won’t wipe your list. A role you’re already working on stays, with a warning. If the company posts the role again, it comes back with its history and notes.
 
-### How does the trial work, and what happens after 14 days?
-The trial lasts 14 days, with no credit card, the features of Agency Pro and up to 150 companies. It’s fully working within 48 hours. Whatever doesn’t connect by itself, I look up personally. Three days before the trial ends, I’ll get in touch. If you want to carry on, you pick a plan and I send you an invoice. The trial never turns into a paid plan by itself.
+### How does the trial work, and what happens after it?
+The trial lasts 14 days (until 31 January 2027 if you sign up by 31 December 2026), with no credit card, the features of Agency Pro and up to 150 companies. It’s fully working within 48 hours. Whatever doesn’t connect by itself, I look up personally. Three days before the trial ends, I’ll get in touch. If you want to carry on, you pick a plan and I send you an invoice. The trial never turns into a paid plan by itself.
 
 ### Do you store our candidates?
 No. When you search for a candidate you only paste the profile, and once you’ve searched it’s gone. Before anything goes to the AI (Google’s Gemini via its paid API, which doesn’t use the data for training) we take out the name, e-mail, phone and links. Candidates are stored only if you add them yourself in Radar + ATS.
@@ -179,8 +179,8 @@ Pozice čte z Jobs.cz a Teamia, z ATS firem (Greenhouse, Lever, Workable, Ashby,
 ### Co když firma pozici obsadí nebo stáhne?
 Když inzerát z webu zmizí, TalentRadar pozici archivuje, až chybí ve dvou skenech po sobě a nejdřív druhý den po dni, kdy byla na webu naposledy (viděná v pondělí, archivovaná nejdřív ve středu). Krátký výpadek webu vám tak seznam nesmaže. Pozice, na které už pracujete, zůstane s upozorněním. Když firma pozici vypíše znovu, vrátí se i s historií a poznámkami.
 
-### Jak funguje zkouška a co po 14 dnech?
-Zkouška trvá 14 dní, bez platební karty, s funkcemi Agency Pro a až 150 firmami. Do 48 hodin funguje naplno. Co se nenapojí samo, dohledám osobně. Tři dny před koncem zkoušky se vám ozvu. Když chcete pokračovat, vyberete tarif a pošlu vám fakturu. Sama se zkouška nezpoplatní.
+### Jak funguje zkouška a co po ní?
+Zkouška trvá 14 dní, při registraci do 31. 12. 2026 až do 31. 1. 2027, bez platební karty, s funkcemi Agency Pro a až 150 firmami. Do 48 hodin funguje naplno. Co se nenapojí samo, dohledám osobně. Tři dny před koncem zkoušky se vám ozvu. Když chcete pokračovat, vyberete tarif a pošlu vám fakturu. Sama se zkouška nezpoplatní.
 
 ### Ukládáte naše kandidáty?
 Ne. Při hledání pro kandidáta profil jen vložíte a po hledání zmizí. Než cokoli půjde do AI (Gemini od Googlu přes placené API, které data nepoužívá k trénování), odstraníme z něj jméno, e-mail, telefon a odkazy. Kandidáty ukládáte jen vy sami, když používáte režim Radar + ATS.

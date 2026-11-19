@@ -1272,7 +1272,7 @@ test("the articles' box says the offer as the form does", () => {
   for (const [path, lang, slugs] of [["public/blog/", "cs", ["prvni-dny-po-vypsani-pozice", "dlouho-otevrene-pozice", "kolik-stoji-mrtve-inzeraty", "jak-automaticky-sledovat-karierni-stranky-firem", "nastroje-na-sledovani-kariernich-stranek-firem"]], ["public/en/blog/", "en", ["the-4-day-latency-gap", "anatomy-of-stale-roles", "hidden-cost-of-dead-vacancies", "how-to-monitor-client-career-pages", "best-career-page-monitoring-tools-for-agencies"]]]) {
     for (const slug of slugs) {
       const box = String(files.get(`${path}${slug}.html`)).match(/<div class="article-cta">[\s\S]*?<\/span>/)[0].replace(/ /g, " ");
-      assert.ok(box.includes(i18n[lang].trial_promo), `${slug}: ${box}`);
+      assert.ok(box.includes(i18n[lang].trial_promo.replace(/\u00a0/g, " ")), `${slug}: ${box}`);
     }
   }
 });

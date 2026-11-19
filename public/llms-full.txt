@@ -140,7 +140,7 @@ Plans cover up to 50 companies on Solo Scout, 150 companies on Agency Pro, or 40
 Automated scans run twice daily at 06:00 and 12:00 in your agency's local timezone. The morning scan surfaces postings added the previous afternoon or overnight, while the midday scan catches morning updates.
 
 ### How do spotted CEE vacancies fit into our agency's existing ATS?
-In Radar-only mode, TalentRadar runs alongside your existing ATS (Datacruit, Recruitis, Teamio, Bullhorn, Vincere, or spreadsheets) with exports to Excel, generic CSV, and import-ready files for Bullhorn and Vincere. Teams without an ATS can use the built-in Radar + ATS mode included in every plan.
+In Radar-only mode, TalentRadar runs alongside your existing ATS (Datacruit, Recruitis, Teamio, Bullhorn, Vincere, or spreadsheets) with exports to Excel, generic CSV, and import-ready files for Bullhorn and Vincere. TalentRadar is a business development tool for agencies, not an ATS replacement. Agencies without an ATS can switch on the optional simple Radar + ATS mode in any plan.
 
 ### How much does tracking a company portfolio in Czechia and Europe cost?
 Plans start at €119 (or CZK 1,990) per month excl. VAT with no commitment, and annual billing gives you 12 months for the price of 10. Every agency can run a 14-day free trial watching up to 150 companies with no credit card required.
@@ -167,7 +167,7 @@ Generic monitors alert you when raw HTML or pixels change, which breaks on dynam
 Checking every tracked company twice a day—such as 06:00 and 12:00 in your timezone—captures new roles the same day they go live without overloading employer websites.
 
 ### Do I need to replace my current ATS to monitor client career pages?
-No. TalentRadar runs alongside any ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio, or spreadsheets) in Radar-only mode with Excel, CSV, and import-ready files. Agencies without an ATS can use the built-in Radar + ATS mode included in every plan.
+No. TalentRadar runs alongside any ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio, or spreadsheets) in Radar-only mode with Excel, CSV, and import-ready files. TalentRadar is a business development tool for agencies, not an ATS replacement. Agencies without an ATS can switch on the optional simple Radar + ATS mode in any plan.
 
 ## Časté dotazy (Czech)
 ### Co přesně TalentRadar je?
@@ -237,7 +237,7 @@ Podle tarifu sledujete až 50 firem v Solo Scout, 150 firem v Agency Pro nebo 40
 Automatické skeny běží u všech sledovaných firem dvakrát denně v 6:00 a ve 12:00 vašeho místního času. Ranní přehled zachytí pozice přidané předchozí odpoledne a přes noc, polední kontrola pak doplní dopolední novinky.
 
 ### Jak zapojíme nalezené pozice do vlastního ATS agentury?
-V režimu Jen radar funguje TalentRadar vedle vašeho stávajícího ATS (Datacruit, Recruitis, Teamio, Bullhorn, Vincere nebo tabulka) s exportem do Excelu, CSV a importních souborů pro Bullhorn a Vincere. Pokud agentura vlastní ATS nepoužívá, může rovnou využít vestavěný režim Radar + ATS v ceně tarifu.
+V režimu Jen radar funguje TalentRadar vedle vašeho stávajícího ATS (Datacruit, Recruitis, Teamio, Bullhorn, Vincere nebo tabulka) s exportem do Excelu, CSV a importních souborů pro Bullhorn a Vincere. TalentRadar je nástroj pro obchodní rozvoj agentur, ne náhrada ATS. Agentury, které žádné ATS nemají, si mohou v kterémkoli tarifu zapnout volitelný jednoduchý režim Radar + ATS.
 
 ### Kolik stojí sledování portfolia firem v ČR a Evropě a jak funguje zkouška?
 Tarify začínají od 1 990 Kč (nebo 119 €) měsíčně bez DPH a bez závazku, při roční platbě uhradíte 10 měsíců z 12. Každá agentura si může nástroj nejprve otestovat ve 14denní zkoušce zdarma pro až 150 firem bez zadání platební karty.
@@ -264,4 +264,4 @@ Obecné monitory hlídají změnu HTML nebo pixelů na stránce, ale nerozliší
 Pro BD a nábor stačí kontrola dvakrát denně, například v 6:00 a ve 12:00. Umožní to zachytit nové pozice v den vypsání ještě před návalem přihlášek a konkurence a zároveň to nezatěžuje veřejné weby firem.
 
 ### Musím kvůli sledování kariérních webů měnit stávající ATS?
-Ne. TalentRadar funguje v režimu Jen radar vedle vašeho stávajícího ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio nebo tabulka) s exportem do CSV a Excelu. Pokud agentura vlastní ATS nemá, může použít vestavěný režim Radar + ATS v ceně každého tarifu.
+Ne. TalentRadar funguje v režimu Jen radar vedle vašeho stávajícího ATS (Bullhorn, Vincere, Datacruit, Recruitis, Teamio nebo tabulka) s exportem do CSV a Excelu. TalentRadar je nástroj pro obchodní rozvoj agentur, ne náhrada ATS. Agentury, které žádné ATS nemají, si mohou v kterémkoli tarifu zapnout volitelný jednoduchý režim Radar + ATS.

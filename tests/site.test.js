@@ -224,6 +224,11 @@ test("the category is said the same way on the home page, in the FAQ, the JSON-L
   assert.match(llms, /not a replacement for a traditional ATS and not a job board/);
   assert.match(llms, /only an optional add-on for small agencies/);
   assert.ok(page("public/llms-full.txt").includes(`> ${defEn}`), "llms-full.txt has the same definition");
+  // the articles and the privacy page call the built-in ATS an optional add-on too, never "included" or "lightweight"
+  for (const [path, body] of files) {
+    if (!/^public\/(en\/)?(blog\/|gdpr)/.test(path) || !path.endsWith(".html")) continue;
+    assert.doesNotMatch(String(body), /lehké ATS|lightweight ATS|vestavěný režim Radar \+ ATS|built-in Radar \+ ATS|Radar \+ ATS (mode )?\((v ceně|included)/, path);
+  }
 });
 
 test("the Czech home page is Czech in plain HTML; the English one English", () => {

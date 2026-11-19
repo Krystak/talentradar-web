@@ -27,6 +27,25 @@
   <script>document.documentElement.className = "js";</script>
   <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script>
+    /* Cloudflare Web Analytics, inserted here instead of by Cloudflare so the owner's browsers can be left out:
+       ?nemerit=1 sets the cookie tr_owner on this browser (not counted from then on), ?merit=1 removes it. */
+    (function () {
+      var d = document, q = location.search, owner = "tr_owner=1";
+      var flag = /[?&](ne)?merit=1(&|$)/.exec(q);
+      if (flag) {
+        d.cookie = flag[1] ? owner + "; max-age=315360000; path=/; secure; samesite=lax" : "tr_owner=; max-age=0; path=/";
+        history.replaceState(null, "", location.pathname + location.hash);
+        setTimeout(function () { alert(flag[1] ? "Tento prohlížeč se do návštěvnosti webu nepočítá." : "Tento prohlížeč se do návštěvnosti webu zase počítá."); }, 300);
+      }
+      if ((" " + d.cookie).indexOf(" " + owner) !== -1) return;
+      var s = d.createElement("script");
+      s.defer = true;
+      s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+      s.setAttribute("data-cf-beacon", '{"token": "faea8660cd944aaeacf8717ccae6eb43"}');
+      d.head.appendChild(s);
+    })();
+  </script>
   <link rel="stylesheet" href="/css/site.css?v=f1a0d7ff57">
   <script type="module" src="/js/site.js?v=533751d556"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">

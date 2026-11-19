@@ -129,15 +129,15 @@
       "cues": [
         {
           "at": 0,
-          "key": "cue_call_1"
+          "key": "cue_long_1"
         },
         {
           "at": 5,
-          "key": "cue_call_2"
+          "key": "cue_long_2"
         },
         {
           "at": 10,
-          "key": "cue_call_3"
+          "key": "cue_long_3"
         }
       ]
     },

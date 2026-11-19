@@ -43,8 +43,8 @@ const tourSite = (edit = () => {}) => withTour(siteWith(edit));
  * plays the wide cut whole, mobile null), the frozen set (tests/media-set.fixture.json) has them for hero and how1–3.
  */
 const FIXTURE_CLIPS = JSON.parse(readFileSync(new URL("./media-set.fixture.json", import.meta.url), "utf8")).clips;
-// how1 ("Ráno: co je nového") is off the site for good since 12. 11. 2026: the chapters that take them are how2 and how3
-const withPhones = (m, ids = ["hero", "how2", "how3"]) => { for (const id of ids) m.clips[id].mobile = copy(FIXTURE_CLIPS[id].mobile); };
+// how1 ("Ráno: co je nového") is off the site for good since 12. 11. 2026: the chapters that take them are how0, how2, how3
+const withPhones = (m, ids = ["hero", "how0", "how2", "how3"]) => { for (const id of ids) m.clips[id].mobile = copy(FIXTURE_CLIPS[id === "how0" ? "how1" : id].mobile); };
 
 // ── media.json ──────────────────────────────────────────────────────────────
 
@@ -61,9 +61,9 @@ test("media.json: every clip has WebM + MP4 and a poster, the phone cut is 4:5, 
   }
   assert.equal(clips.how4, undefined, "three chapters, how0, how2, how3");
   assert.equal(clips.how1, undefined, "\"Ráno: co je nového\" is gone for good (12. 11. 2026), its row too");
-  // V3 hero has a dedicated 4:5 phone cut; chapters play their wide cut on a phone
-  assert.ok(clips.hero.mobile, "hero has a phone cut");
-  for (const id of ["how0", "how2", "how3"]) assert.equal(clips[id].mobile, null, `${id}: no phone cut`);
+  // hero, how0 and how2 have dedicated 4:5 phone cuts; how3 still plays its wide cut on a phone
+  for (const id of ["hero", "how0", "how2"]) assert.ok(clips[id].mobile, `${id} has a phone cut`);
+  assert.equal(clips.how3.mobile, null, "how3: no phone cut");
   // a phone cut, where there is one (here or in the frozen set), is 4:5, ends with an MP4 for every screen, its poster is -mobile
   const phoneCuts = [...Object.entries(clips), ...Object.entries(FIXTURE_CLIPS).map(([id, c]) => [`fixture ${id}`, c])].filter(([, c]) => c.mobile);
   assert.ok(phoneCuts.length >= 4, "the frozen set has the phone cuts to hold the rule to");
@@ -98,7 +98,15 @@ test("the tour's subtitles follow the page's language, not the browser's (WebKit
 // ── The dates ───────────────────────────────────────────────────────────────
 
 test("V6 keeps its own recording date when the other clips get a new one, and loses the sentence without one", () => {
-  const files = buildSite(siteWith((m) => { m.clip_date = "2026-11-03"; m.clips.ats.clip_date = "2026-11-01"; }));
+  const files = buildSite(siteWith((m) => {
+    m.clip_date = "2026-11-03";
+    delete m.clips.how0.clip_date;
+    delete m.clips.how0.mobile.clip_date;
+    delete m.clips.how2.clip_date;
+    delete m.clips.how2.mobile.clip_date;
+    delete m.clips.how3.clip_date;
+    m.clips.ats.clip_date = "2026-11-01";
+  }));
   const cs = page(files, "public/index.html");
   assert.match(cs, /Natočeno v.testovacím workspace 1\. 11\. 2026\./);
   assert.match(cs, /Natočeno 3\. 11\. 2026\./);
@@ -1380,9 +1388,10 @@ test("two chapters on the home page since verze A (New roles, Whom to call), thr
     assert.equal(t.how_ch1_body, undefined);
     assert.equal(t.how_ch4_body, undefined);
   }
-  assert.match(site.i18n.cs.how_ch0_body, /ve vašem oboru/);
-  assert.match(site.i18n.cs.how_ch0_body, /nejspíš sama neobsazuje/);
-  assert.match(site.i18n.en.how_ch0_body, /in your field/);
+  assert.match(site.i18n.cs.how_ch0_body, /firmě samotné nejde/);
+  assert.match(site.i18n.cs.how_ch0_body, /nové pozice od posledního skenu/);
+  assert.match(site.i18n.en.how_ch0_body, /has not filled it on its own/);
+  assert.match(site.i18n.en.how_ch0_body, /new roles since the last scan/);
   assert.doesNotMatch(`${site.i18n.cs.how_ch0_body} ${site.i18n.cs.how_ch0_body_m} ${site.i18n.cs.how_ch2_body} ${site.i18n.cs.how_ch3_body}`, /\brol[eíi]\b|mandát/);
   assert.match(css, /\.chapters \{ display: grid; grid-template-columns: repeat\(3,/);
   assert.match(css, /\.chapters--2 \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); \}/);
@@ -1468,38 +1477,40 @@ test("the HTML of the section as committed: the tabs as they were written by han
     assert.ok(how.startsWith(`<div data-chapters>\n      <ul class="chapters chapters--2" role="tablist" aria-label="${t.how_chapters_aria}">\n        ${tab(0, true)}`), path);
     assert.ok(how.includes(`</li>\n        ${tab(2, false)}`) && !how.includes(tab(3, false)), path);
     assert.equal(tabsOf(how).length, 2, path);
-    assert.match(how, /<\/button><\/li>\n      <\/ul>\n      <div class="chapters-layout">\n      <div class="chapters-video">\n        <figure class="video video--how0" /, path);
+    assert.match(how, /<\/button><\/li>\n      <\/ul>\n      <div class="chapters-layout">\n      <div class="chapters-video">\n        <figure class="video video--how0 video--has-mobile" /, path);
     assert.match(how, /<div class="chapter-panels">\n      <div class="chapter-panel" role="tabpanel" id="chapter-0" aria-labelledby="tab-0">\n        <h3>[^<]+<\/h3>\n        <p><span class="d-only">[^<]+<\/span><span class="m-only">[^<]+<\/span><\/p>\n      <\/div>\n      <div class="chapter-panel" role="tabpanel" id="chapter-2" aria-labelledby="tab-2" data-js-hidden>\n        <h3>[^<]+<\/h3>\n        <p>[^<]+<\/p>\n      <\/div>\n      <\/div>\n      $/, path);
   }
 });
 
-test("how0 on (as committed): the home page's two chapters (verze A), how0 first and selected, its clip in the figure and how2 to follow, release wants its files", () => {
+test("how0 on (as committed): the home page's two chapters (verze A), how0 first and selected, its clip in the figure with its 4:5 phone cut and how2 to follow, release wants its files", () => {
   assert.equal(loadSite().media.clips.how0.off, undefined, "chapter 1 is on the site since 12. 11. 2026");
-  const files = buildSite(siteWith(v5On));
-  // as committed no chapter has a phone cut: one screen, the wide cut, on a phone too; with the others' phone cuts
-  // (the frozen set's), how0 alone has none and the phone's screen plays its wide cut whole (video--phone-wide)
-  const phoneFiles = buildSite(siteWith((m) => { v5On(m); withPhones(m, ["how2", "how3"]); }));
+  const files = buildSite(loadSite());
+  // as committed how0 and how2 each have their own 4:5 phone cut; if a chapter lacks one (e.g. how0.mobile = null while others keep theirs), the phone's screen plays its wide cut whole (video--phone-wide)
+  const wideHow0Files = buildSite(siteWith((m) => { v5On(m); m.clips.how0.mobile = null; }));
   for (const [path, lang] of [["public/index.html", "cs"], ["public/en/index.html", "en"]]) {
     const plain = howSection(page(files, path)).match(/<figure class="video video--how0[^"]*"[^>]*>[\s\S]*?<\/figure>/)[0];
-    assert.match(plain, /^<figure class="video video--how0" data-autoplay data-tap-phone>/, path);
-    assert.doesNotMatch(plain, /video--mobile|video--phone-wide/, path);
+    assert.match(plain, /^<figure class="video video--how0 video--has-mobile" data-autoplay data-tap-phone>/, path);
+    assert.doesNotMatch(plain, /video--phone-wide/, path);
     assert.match(plain, new RegExp(`<div class="frame__screen video--desktop" style="--poster:url\\(/video/databaze\\.${lang}\\.1600\\.webp\\?v=[0-9a-f]+\\)">`));
-    for (const t of tabsOf(howSection(page(files, path)))) assert.equal(t.clip.mobile, null, `${path} ${t.clip.id}`);
-    for (const html of [page(files, path), page(phoneFiles, path)]) {
+    assert.match(plain, new RegExp(`<div class="frame__screen video--mobile" style="--poster:url\\(/video/databaze-mobile\\.${lang}\\.1080\\.webp\\?v=[0-9a-f]+\\)">`));
+    for (const t of tabsOf(howSection(page(files, path)))) assert.ok(t.clip.mobile, `${path} ${t.clip.id}`);
+    for (const html of [page(files, path), page(wideHow0Files, path)]) {
     const how = howSection(html);
     const tabs = tabsOf(how);
     assert.deepEqual(tabs.map((t) => [t.n, t.controls, t.selected, t.tabindex, t.clip.id]), [["0", "0", true, false, "how0"], ["2", "2", false, true, "how2"]], path);
     assert.match(how, /<ul class="chapters chapters--2" role="tablist"/, path);
-    assert.match(how, new RegExp(`id="tab-0"[^>]*>${loadSite().i18n[lang].how_ch0_tab}</button>`), path);
+    assert.match(how, new RegExp(`id="tab-0"[^>]*>${loadSite().i18n[lang].how_ch0_tab.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "[\\s\\u00a0]+")}</button>`), path);
     // the figure: chapter 1 in the HTML, the other's lines and captions to follow
     const fig = how.match(/<figure class="video video--how0[^"]*"[^>]*>[\s\S]*?<\/figure>/)[0];
-    if (html === page(phoneFiles, path)) {
+    if (html === page(wideHow0Files, path)) {
       assert.match(fig, /^<figure class="video video--how0 video--has-mobile video--phone-wide" data-autoplay data-tap-phone>/, path);
       assert.match(fig, new RegExp(`<div class="frame__screen video--mobile" style="--poster:url\\(/video/databaze\\.${lang}\\.1600\\.webp\\?v=[0-9a-f]+\\)"><video [^>]*><source src="/video/databaze\\.${lang}\\.1600\\.60\\.mp4`));
-      assert.ok(tabs[1].clip.mobile, "the others' phone cuts in their tabs");
+      assert.equal(tabs[0].clip.mobile, null);
+    } else {
+      assert.ok(tabs[0].clip.mobile, "how0's phone cut in its tab");
     }
+    assert.ok(tabs[1].clip.mobile, "how2's phone cut in its tab");
     assert.match(fig, new RegExp(`<div class="frame__screen video--desktop" style="--poster:url\\(/video/databaze\\.${lang}\\.1600\\.webp\\?v=[0-9a-f]+\\)">`));
-    assert.equal(tabs[0].clip.mobile, null);
     for (const id of ["how0", "how2"]) assert.match(fig, new RegExp(`class="video__cue-line[^"]*" data-cues="${id}"`), `${path} ${id}`);
     assert.doesNotMatch(fig, /data-cues="how1"|data-cues="how3"/, path);
     assert.match(fig, /<span class="video__cue-line is-on" data-cues="how0" data-at="0">/);
@@ -1563,7 +1574,8 @@ test("V5 on and off in the release check: its files missing are an error only wh
 test("media:use: with V5 off a set without it goes on; with V5 on its files are required, checked and put in place", () => {
   const s = sandbox();
   try {
-    const how0 = { ...copy(loadSite().media.clips.how0), off: true };
+    const how0 = { ...copy(loadSite().media.clips.how0), clip_date: "2026-11-01", off: true };
+    how0.mobile.clip_date = "2026-11-01";
     const write = (m) => writeFileSync(join(s.root, "src/data/media.json"), JSON.stringify(m));
     const off = { ...copy(s.media), clips: { how0, ...copy(s.media.clips) } };
     write(off);
@@ -1859,40 +1871,43 @@ test("a clip with its own day says it under its own figure; release wants a date
   assert.ok(!none.some((e) => e.includes("the caption of the how0 video")));
 });
 
-test("chapter 1's words say what the clip shows: the lines of the plan's table, and in the description nothing the clip does not show (plan 12. 11. 2026, 2–3)", () => {
+test("chapter 1's words say what the clip shows: 45+ opportunities and clients, nothing the clip does not show", () => {
   const { i18n, media } = loadSite();
-  assert.deepEqual(media.clips.how0.cues.map((c) => [c.at, c.key]), [[0, "cue_db_1"], [2.6, "cue_db_2"], [5, "cue_db_3"], [7.4, "cue_db_4"], [13.7, "cue_db_5"], [19.15, "cue_db_6"], [23.65, "cue_db_1"]]);   // zkouska 12. 11. vecer: 45+ od nejkratsi a detail projede zalozky Prehled, Uprava, Zdroj, Historie (Krystof: „kazdemu venovat 2 sekundy“)
+  assert.deepEqual(media.clips.how0.cues.map((c) => [c.at, c.key]), [[0, "cue_45_1"], [3.85, "cue_45_2"], [8.5, "cue_45_1"]]);
   const lines = {
-    cs: ["Kolik je otevřeno a kolik přibylo.", "Nejdřív vaši klienti.", "Pak firmy, které chcete získat.", "Co visí 45 a víc dní.", "A u každé pozice detail.", "Odkud pozice je a od kdy je venku."],
-    en: ["How many are open, how many are new.", "Your clients first.", "Then the companies you want to win.", "What has been open for 45 days or more.", "And the detail of every role.", "Where the role comes from and since when."],
+    cs: ["143 pozic visí přes 45 dní. 22 z nich u vašich klientů.", "Firma je sama neobsadila. Dobrý důvod se ozvat."],
+    en: ["143 roles open for over 45 days. 22 of them at your clients.", "The company has not filled it alone. A good reason to call."],
   };
   for (const lang of ["cs", "en"]) {
-    assert.deepEqual([1, 2, 3, 4, 5, 6].map((n) => i18n[lang][`cue_db_${n}`]), lines[lang], lang);
-    assert.equal(i18n[lang].cue_db_7, undefined, lang);
-    // "By company" and the roles set aside are not in the clip, only in the text beside it; nor the posting, the hero's
-    assert.doesNotMatch(i18n[lang].how_clip0_alt, /\bAI\b|podle firem|by company|odlož|stranou|set aside|inzerát|posting|řazení|sort/i, lang);
-    assert.match(i18n[lang].how_clip0_alt, lang === "cs" ? /klient[\s\S]*prospekt[\s\S]*45[\s\S]*detail/ : /client[\s\S]*prospect[\s\S]*45[\s\S]*detail/, lang);
+    assert.deepEqual([1, 2].map((n) => i18n[lang][`cue_45_${n}`]), lines[lang], lang);
+    assert.equal(i18n[lang].cue_db_1, undefined, lang);
+    assert.doesNotMatch(i18n[lang].how_clip0_alt, /\bAI\b|podle firem|by company|odlož|stranou|set aside|inzerát|posting|řazení|sort|detail/i, lang);
+    assert.match(i18n[lang].how_clip0_alt, lang === "cs" ? /Příležitosti[\s\S]*45[\s\S]*klient/ : /Opportunities[\s\S]*45[\s\S]*client/, lang);
   }
-  assert.equal(i18n.cs.how_ch0_tab, "Nové pozice");
-  assert.equal(i18n.en.how_ch0_tab, "New roles");
+  assert.equal(i18n.cs.how_ch0_tab, "Co visí 45 dní");
+  assert.equal(i18n.en.how_ch0_tab, "Open 45+ days");
 });
 
-test("the description of chapters 2 and 3 says what the Czech clips show: no draft in V3, the order by rules in V4 (cut sheets V3, V4)", () => {
+test("the description of chapters 2 and 3 says what the clips show: long without contact in N3, rules in V4", () => {
   const { cs, en } = loadSite().i18n;
-  assert.doesNotMatch(cs.how_clip2_alt, /návrh|zpráv/i);
-  assert.match(cs.how_clip2_alt, /LinkedIn/);
-  // 12. 11. 2026 (revize): EN říkalo „the first line of a draft“, klip V3 žádný návrh neukazuje
-  assert.doesNotMatch(en.how_clip2_alt, /draft|message/i);
-  assert.match(en.how_clip2_alt, /LinkedIn/);
+  assert.doesNotMatch(cs.how_clip2_alt, /návrh|zpráv|LinkedIn/i);
+  assert.match(cs.how_clip2_alt, /dlouho nejednali[\s\S]*obsadili jste tu[\s\S]*odhad/);
+  assert.doesNotMatch(en.how_clip2_alt, /draft|message|LinkedIn/i);
+  assert.match(en.how_clip2_alt, /not spoken to[\s\S]*placed here before[\s\S]*estimat/);
   assert.match(cs.how_clip3_alt, /podle pravidel/);
   assert.doesNotMatch(cs.how_clip3_alt, /\bAI\b/);
 });
 
-test("what chapters 2 and 3 say about the estimate and the AI matches the clips: by the role's title, and rules only in the demo", () => {
+test("what chapters 2 and 3 say about the estimate and the AI matches the clips: by the role's title with last contact note, and rules only in the demo", () => {
   const { cs, en } = loadSite().i18n;
-  assert.match(cs.how_ch2_body, /Podle názvu pozice odhadneme/);
-  assert.match(en.how_ch2_body, /From the role’s title we estimate/);
-  assert.doesNotMatch(cs.how_ch2_body, /Z inzerátu/);
+  assert.match(cs.how_ch2_body, /datum posledního kontaktu/);
+  assert.match(cs.how_ch2_body, /Podle názvu pozice odhadne/);
+  assert.match(cs.how_ch2_body, /ne kontakt z databáze/);
+  assert.match(en.how_ch2_body, /last-contact date/);
+  assert.match(en.how_ch2_body, /From the role’s title it estimates/);
+  assert.match(en.how_ch2_body, /not a contact from your database/);
+  assert.doesNotMatch(cs.how_ch2_body, /Z inzerátu|LinkedIn/);
+  assert.doesNotMatch(en.how_ch2_body, /LinkedIn|draft/i);
   assert.match(cs.how_ch3_body, /V ukázce řadí jen pravidla, bez AI\.$/);
   assert.match(en.how_ch3_body, /In the demo only rules do the ranking, no AI\.$/);
 });
@@ -1932,7 +1947,7 @@ test("the text under the hero: hero-a cues and proof copy without placeholders, 
       assert.doesNotMatch(String(i18n[lang][key]), /specializ|specialis|\bniche\b/i, `${lang} ${key}`);
     }
   }
-  for (const [lang, said] of [["cs", /ve vašem oboru/], ["en", /in your field/]]) assert.match(i18n[lang].how_ch0_body, said, lang);
+  for (const [lang, said] of [["cs", /firmě samotné nejde/], ["en", /has not filled it on its own/]]) assert.match(i18n[lang].how_ch0_body, said, lang);
   for (const [lang, broad] of [["cs", /zaměřená na IT a software|IT agentura/], ["en", /IT and software|IT agency/]]) {
     for (const key of ["hero_video_caption", "hero_video_caption_m"]) {
       assert.doesNotMatch(i18n[lang][key], /\b100\b/, `${lang} ${key}`);
@@ -1962,10 +1977,12 @@ test("a phone does not fetch the wide cut's poster, nor the other way round: a l
     }
   }
   assert.match(home.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0], /<div class="frame__screen video--mobile" style="--poster:url\(\/video\/hero-mobile\./);
-  // chapters (without a phone cut) show the one screen there is, the wide cut with its own poster (no 4:5 screen, no class that hides it)
+  // how0 now has its own 4:5 phone cut too, while ats stays on the single wide cut
   const how0 = home.match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
-  assert.match(how0, /^<figure class="video video--how0"[^>]*>/);
-  assert.doesNotMatch(how0, /video--mobile|how0-mobile/);
+  assert.match(how0, /^<figure class="video video--how0 video--has-mobile"[^>]*>/);
+  assert.match(how0, /<div class="frame__screen video--mobile" style="--poster:url\(\/video\/databaze-mobile\./);
+  const ats = home.match(/<figure class="video video--ats[\s\S]*?<\/figure>/)[0];
+  assert.doesNotMatch(ats, /video--mobile/);
   assert.match(page(buildSite(tourSite()), "public/demo.html"), /<video[^>]*\sposter="\/video\/tour\.cs\./);
   assert.match(String(files.get("public/css/site.css")), /\.frame__screen \{ position: relative; background: #0B111D var\(--poster, none\) center \/ 100% 100% no-repeat; \}/);
   const js = String(files.get("public/js/site.js"));
@@ -2011,7 +2028,7 @@ test("a line for one screen only: it takes no room on the other, and a phone wit
   assert.doesNotMatch(plain, /m-first"/);
 });
 
-test("the hero-a hero has its own 4:5 phone cut and 2026-11-14 date while chapters stay on their wide 2026-11-12 cut", () => {
+test("hero-a keeps its 4:5 phone cut and 2026-11-14 date, chapters how0 and how2 have their 4:5 phone cuts and 2026-11-19 date, how3 stays on its wide 2026-11-12 cut", () => {
   const { hero, ...rest } = loadSite().media.clips;
   assert.ok(hero.mobile);
   assert.equal(hero.mobile.width / hero.mobile.height, 4 / 5);
@@ -2021,11 +2038,16 @@ test("the hero-a hero has its own 4:5 phone cut and 2026-11-14 date while chapte
   for (const cue of hero.cues) {
     assert.equal(typeof cue.at, "number", `${cue.key}: desktop time`);
   }
-  for (const id of ["how0", "how2", "how3"]) {
-    assert.equal(rest[id].mobile, null, id);
-    assert.equal(rest[id].by_lang, undefined, `${id}: the English cut is today's`);
-    for (const cue of rest[id].cues) assert.equal(cue.at_mobile, undefined, `${id} ${cue.key}`);
+  for (const id of ["how0", "how2"]) {
+    assert.ok(rest[id].mobile, id);
+    assert.equal(rest[id].mobile.width / rest[id].mobile.height, 4 / 5, id);
+    assert.equal(rest[id].clip_date, "2026-11-19", id);
+    assert.equal(rest[id].mobile.clip_date, "2026-11-19", id);
+    assert.equal(rest[id].by_lang, undefined, `${id}: both languages updated together`);
   }
+  assert.equal(rest.how3.mobile, null, "how3");
+  assert.equal(rest.how3.by_lang, undefined, "how3: the English cut is today's");
+  for (const cue of rest.how3.cues) assert.equal(cue.at_mobile, undefined, `how3 ${cue.key}`);
   const files = buildSite(loadSite());
   for (const [path, date] of [["public/index.html", /Natočeno 14\.\s*11\.\s*2026 /], ["public/en/index.html", /[Rr]ecorded 14\s*Nov\s*2026\b/]]) {
     const html = page(files, path);
@@ -2238,9 +2260,14 @@ test("the tour off: /demo plays the home page's hero with its lines and dated ca
     assert.deepEqual(tabsOf(chapters).slice(0, 2), tabsOf(howSection(home)), path);
     assert.deepEqual(tabsOf(chapters).map((t) => t.clip.id), ["how0", "how2", "how3"], path);
     const figOf = (h) => h.match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
-    const withoutHow3 = (f) => f.replace(/<span class="video__cue-line[^"]*" data-cues="how3"[^>]*>[^<]*<\/span>/g, "").replace(/<div class="video-steps__set" data-cues="how3"[\s\S]*?<\/div>/, "");
+    const withoutHow3 = (f) => f
+      .replace(/<span class="video__cue-line[^"]*" data-cues="how3"[^>]*>[^<]*<\/span>/g, "")
+      .replace(/<div class="video-steps__set" data-cues="how3"[\s\S]*?<\/div>/, "")
+      .replace(/<figcaption><span class="video__captions">[\s\S]*?<\/span><\/figcaption>/, "<figcaption></figcaption>");
     assert.notEqual(figOf(chapters), figOf(home), path);
-    assert.equal(withoutHow3(figOf(chapters)), figOf(home), path);
+    assert.equal(withoutHow3(figOf(chapters)), figOf(home).replace(/<figcaption>[\s\S]*?<\/figcaption>/, "<figcaption></figcaption>"), path);
+    assert.match(figOf(chapters), /data-cues="how0"[^>]*>[^<]*19\.\s*11\.\s*2026|19\sNov\s2026/, path);
+    assert.match(figOf(chapters), /data-cues="how3"[^>]*>[^<]*12\.\s*11\.\s*2026|12\sNov\s2026/, path);
     assert.equal((chapters.match(/role="tabpanel"/g) || []).length, 3, path);
     assert.ok(main.indexOf("video--hero") < main.indexOf("<div data-chapters>"), "the hero first");
     // what the page says: no tour, no two minutes, no chapters with times, in the head neither
@@ -2296,13 +2323,23 @@ test("the tour off: media:use takes a set without the tour and without tour.chap
   } finally { s.done(); }
 });
 
-test("V3's new line waits for its times: cue_call_li in both languages, next to the other lines of V3", () => {
+test("N2 and N3 cues exist in both languages without old cue_db_ or cue_call_ keys", () => {
   const { cs, en } = loadSite().i18n;
-  assert.equal(cs.cue_call_li, "Hledání na LinkedInu jedním klikem.");
-  assert.equal(en.cue_call_li, "One click to a LinkedIn search.");
+  assert.equal(cs.cue_45_1, "143 pozic visí přes 45 dní. 22 z nich u vašich klientů.");
+  assert.equal(cs.cue_45_2, "Firma je sama neobsadila. Dobrý důvod se ozvat.");
+  assert.equal(en.cue_45_1, "143 roles open for over 45 days. 22 of them at your clients.");
+  assert.equal(en.cue_45_2, "The company has not filled it alone. A good reason to call.");
+  assert.equal(cs.cue_long_1, "Sedmnáct měsíců jste nemluvili. Teď nabírají.");
+  assert.equal(cs.cue_long_2, "Tady jste už jednou obsadili.");
+  assert.equal(cs.cue_long_3, "Tip, komu zavolat. Je to odhad podle názvu pozice.");
+  assert.equal(en.cue_long_1, "Seventeen months without a word. Now they are hiring.");
+  assert.equal(en.cue_long_2, "You have placed here before.");
+  assert.equal(en.cue_long_3, "A tip on who to call. It is an estimate from the role title.");
   for (const t of [cs, en]) {
     const keys = Object.keys(t);
-    assert.equal(keys.indexOf("cue_call_li"), keys.indexOf("cue_call_3") + 1);
-    assert.ok(t.cue_call_li.length <= 60);
+    for (const k of keys) assert.doesNotMatch(k, /^cue_(db|call)_/, k);
+    for (const k of ["cue_45_1", "cue_45_2", "cue_long_1", "cue_long_2", "cue_long_3"]) {
+      assert.ok(t[k].length <= 64, `${k}: ${t[k].length}`);
+    }
   }
 });

@@ -1007,3 +1007,19 @@ test("the home page names Dublin and Ingenio at most twice (hero, founder) and i
     assert.match(page, /<section class="band band--light" id="data"/, path);
   }
 });
+
+test("Web Analytics: every page loads the beacon itself, except in a browser with the owner's cookie (?nemerit=1)", () => {
+  const files = built();
+  const { config } = loadSite();
+  assert.match(config.webAnalyticsToken, /^[a-f0-9]{32}$/);
+  let pages = 0;
+  for (const [path, body] of files) {
+    if (!/\.html$/.test(path)) continue;
+    pages += 1;
+    const t = String(body);
+    assert.ok(t.includes(`'{"token": "${config.webAnalyticsToken}"}'`), `${path}: beacon token`);
+    assert.ok(t.includes('(" " + d.cookie).indexOf(" " + owner) !== -1) return;'), `${path}: owner check`);
+    assert.ok(t.includes("/[?&](ne)?merit=1(&|$)/"), `${path}: secret link`);
+  }
+  assert.ok(pages > 20, `pages: ${pages}`);
+});

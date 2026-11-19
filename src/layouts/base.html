@@ -23,6 +23,25 @@
   <meta name="theme-color" content="#131B2C">
   <script>document.documentElement.className = "js" + (Date.now() >= Date.UTC(2026, 11, 31, 23) ? " offer-over" : "");</script>
   {{page.preloads}}
+  <script>
+    /* Cloudflare Web Analytics, inserted here instead of by Cloudflare so the owner's browsers can be left out:
+       ?nemerit=1 sets the cookie tr_owner on this browser (not counted from then on), ?merit=1 removes it. */
+    (function () {
+      var d = document, q = location.search, owner = "tr_owner=1";
+      var flag = /[?&](ne)?merit=1(&|$)/.exec(q);
+      if (flag) {
+        d.cookie = flag[1] ? owner + "; max-age=315360000; path=/; secure; samesite=lax" : "tr_owner=; max-age=0; path=/";
+        history.replaceState(null, "", location.pathname + location.hash);
+        setTimeout(function () { alert(flag[1] ? "Tento prohlížeč se do návštěvnosti webu nepočítá." : "Tento prohlížeč se do návštěvnosti webu zase počítá."); }, 300);
+      }
+      if ((" " + d.cookie).indexOf(" " + owner) !== -1) return;
+      var s = d.createElement("script");
+      s.defer = true;
+      s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+      s.setAttribute("data-cf-beacon", '{"token": "{{config.webAnalyticsToken}}"}');
+      d.head.appendChild(s);
+    })();
+  </script>
   <link rel="stylesheet" href="{{asset:css/site.css}}">
   <script type="module" src="{{asset:js/site.js}}"></script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">

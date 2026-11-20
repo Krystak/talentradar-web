@@ -1318,7 +1318,7 @@ test("the line under a video: the words from the text map and the times from med
   assert.deepEqual(lines.map((m) => (m[2] === "none" ? null : Number(m[2]))), site.media.clips.hero.cues.map((c) => c.at));
   assert.deepEqual(lines.map((m) => !!m[1]), lines.map((_, i) => i === 0), "the first sentence is the one without JavaScript");
   const changed = hero(home((m) => { m.clips.hero.cues = [{ at: 1.5, key: "cue_hero_2" }]; }));
-  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">Váš klient vypsal novou pozici\. Máte důvod zavolat\.<\/span>/);
+  assert.match(changed, /<span class="video__cue-line is-on" data-cues="hero" data-at="1\.5">GoodData vypsala novou pozici\. Máte důvod zavolat\.<\/span>/);
   assert.equal((changed.match(/video__cue-line/g) || []).length, 1);
   // every chapter's sentences are in its one figure (as committed the first chapter's, how0), so the line has one height for all
   // of them: the home page's two (verze A), /demo's three
@@ -1328,12 +1328,12 @@ test("the line under a video: the words from the text map and the times from med
   const demoHow = String(buildSite(siteWith(() => {})).get("public/demo.html")).match(/<figure class="video video--how0[\s\S]*?<\/figure>/)[0];
   for (const id of ["how0", "how2", "how3"]) assert.match(demoHow, new RegExp(`data-cues="${id}"`), `/demo ${id}`);
   assert.doesNotMatch(how, /data-cues="how1"/, "\"Ráno: co je nového\" is gone (12. 11. 2026)");
-  // all the words exist in both languages; 60 characters is the rule, the hero's first sentence from the approved table has 61
+  // all the words exist in both languages; 60 characters is the rule, cue_ats_3 from the 18. 11. prompt has 63
   for (const [id, clip] of Object.entries(site.media.clips)) {
     for (const cue of clip.cues || []) {
       for (const lang of ["cs", "en"]) {
         assert.ok(site.i18n[lang][cue.key], `${id} ${cue.key} ${lang}`);
-        assert.ok(site.i18n[lang][cue.key].length <= 61, `${lang} ${cue.key}: ${site.i18n[lang][cue.key].length} characters`);
+        assert.ok(site.i18n[lang][cue.key].length <= 63, `${lang} ${cue.key}: ${site.i18n[lang][cue.key].length} characters`);
       }
     }
   }
@@ -1929,14 +1929,14 @@ test("from 1 024 px the line and the pause button lie over the bottom of the her
 
 test("the text under the hero: hero-a cues and proof copy without placeholders, IT demo focus in captions", () => {
   const { i18n } = loadSite();
-  assert.equal(i18n.cs.cue_hero_1, "Na první pohled: kdo z vašich firem nově nabírá.");
+  assert.equal(i18n.cs.cue_hero_1, "Dnes ráno: kdo z vašich klientů vypsal pozici.");
   assert.equal(i18n.cs.hero_sub, "TalentRadar dvakrát denně projde kariérní weby vašich klientů i firem, které chcete získat. Ráno v aplikaci vidíte nové pozice, důvod se ozvat a tip, komu zavolat. Pro personální agentury.");
   assert.equal(i18n.en.hero_sub, "Twice a day, TalentRadar goes through the career pages of your clients and of the companies you want to win. In the morning the app shows the new roles, a reason to get in touch and a tip on who to call. For recruitment agencies.");
-  assert.equal(i18n.en.cue_hero_1, "At a glance: which of your companies are hiring.");
-  assert.equal(i18n.cs.cue_hero_2, "Váš klient vypsal novou pozici. Máte důvod zavolat.");
-  assert.equal(i18n.en.cue_hero_2, "Your client posted a new role. A reason to call.");
-  assert.equal(i18n.cs.cue_hero_3, "A tady je ten inzerát, přímo na webu firmy.");
-  assert.equal(i18n.en.cue_hero_3, "And here's the posting, on the company's own site.");
+  assert.equal(i18n.en.cue_hero_1, "This morning: which of your clients posted a role.");
+  assert.equal(i18n.cs.cue_hero_2, "GoodData vypsala novou pozici. Máte důvod zavolat.");
+  assert.equal(i18n.en.cue_hero_2, "GoodData posted a new role. A reason to call.");
+  assert.equal(i18n.cs.cue_hero_3, "Tady je ten inzerát, přímo na jejich webu.");
+  assert.equal(i18n.en.cue_hero_3, "Here is the posting, on their own site.");
   for (const lang of ["cs", "en"]) {
     // (verze A, 18. 11. 2026: the title says "clients", so the subtitle adds the companies you want to win at once;
     // no "ATS" (the section about it is further down) and "a tip on who to call", not a promise of a verified contact)
@@ -2028,13 +2028,19 @@ test("a line for one screen only: it takes no room on the other, and a phone wit
   assert.doesNotMatch(plain, /m-first"/);
 });
 
-test("hero-a keeps its 4:5 phone cut and 2026-11-14 date, chapters how0 and how2 have their 4:5 phone cuts and 2026-11-19 date, how3 stays on its wide 2026-11-12 cut", () => {
+test("hero-a keeps its 4:5 phone cut and 2026-11-20 date, chapters how0 and how2 have their 4:5 phone cuts and 2026-11-19 date, how3 stays on its wide 2026-11-12 cut", () => {
   const { hero, ...rest } = loadSite().media.clips;
   assert.ok(hero.mobile);
   assert.equal(hero.mobile.width / hero.mobile.height, 4 / 5);
   assert.equal(hero.waits, undefined);
-  assert.equal(hero.clip_date, "2026-11-14");
-  assert.equal(hero.mobile.clip_date, "2026-11-14");
+  assert.equal(hero.clip_date, "2026-11-20");
+  assert.equal(hero.mobile.clip_date, "2026-11-20");
+  assert.deepEqual(hero.cues.map((c) => [c.at, c.at_mobile, c.key]), [
+    [0, 0, "cue_hero_1"],
+    [3.8, 3.8, "cue_hero_2"],
+    [7.7, 7.7, "cue_hero_3"],
+    [11.4, 11.4, "cue_hero_1"],
+  ]);
   for (const cue of hero.cues) {
     assert.equal(typeof cue.at, "number", `${cue.key}: desktop time`);
   }
@@ -2049,7 +2055,7 @@ test("hero-a keeps its 4:5 phone cut and 2026-11-14 date, chapters how0 and how2
   assert.equal(rest.how3.by_lang, undefined, "how3: the English cut is today's");
   for (const cue of rest.how3.cues) assert.equal(cue.at_mobile, undefined, `how3 ${cue.key}`);
   const files = buildSite(loadSite());
-  for (const [path, date] of [["public/index.html", /Natočeno 14\.\s*11\.\s*2026 /], ["public/en/index.html", /[Rr]ecorded 14\s*Nov\s*2026\b/]]) {
+  for (const [path, date] of [["public/index.html", /Natočeno 20\.\s*11\.\s*2026 /], ["public/en/index.html", /[Rr]ecorded 20\s*Nov\s*2026\b/]]) {
     const html = page(files, path);
     const fig = html.match(/<figure class="video video--hero[\s\S]*?<\/figure>/)[0];
     assert.match(fig, /class="video video--hero video--has-mobile"/, path);
@@ -2062,7 +2068,7 @@ test("hero-a keeps its 4:5 phone cut and 2026-11-14 date, chapters how0 and how2
   // the date of a phone cut that has its own is that one (the frozen set's phone cut, a day of its own)
   const own = buildSite(siteWith((m) => { withPhones(m, ["hero"]); m.clips.hero.mobile.clip_date = "2026-11-03"; }));
   const m = page(own, "public/index.html").match(/hero__caption"><span class="d-only">([\s\S]*?)<\/span><span class="m-only">([\s\S]*?)<\/span>/);
-  assert.match(m[1], /Natočeno 14\.\s*11\.\s*2026 /);
+  assert.match(m[1], /Natočeno 20\.\s*11\.\s*2026 /);
   assert.match(m[2], /Natočeno 3\. 11\. 2026 /);
 });
 
@@ -2342,4 +2348,19 @@ test("N2 and N3 cues exist in both languages without old cue_db_ or cue_call_ ke
       assert.ok(t[k].length <= 64, `${k}: ${t[k].length}`);
     }
   }
+});
+
+test("ats (Vedle ATS) clip has three cues matching its import, radar and export scenes in both languages", () => {
+  const { media, i18n } = loadSite();
+  assert.deepEqual(media.clips.ats.cues.map((c) => [c.at, c.key]), [
+    [0, "cue_ats_1"],
+    [11.15, "cue_ats_2"],
+    [15.35, "cue_ats_3"],
+  ]);
+  assert.equal(i18n.cs.cue_ats_1, "Seznam firem nahrajete z Excelu nebo CSV.");
+  assert.equal(i18n.cs.cue_ats_2, "Firmy jsou v radaru. Nic se nestěhuje.");
+  assert.equal(i18n.cs.cue_ats_3, "Nové pozice si stáhnete jako Excel nebo soubor pro svůj systém.");
+  assert.equal(i18n.en.cue_ats_1, "Upload your company list from Excel or CSV.");
+  assert.equal(i18n.en.cue_ats_2, "The companies are on the radar. Nothing moves.");
+  assert.equal(i18n.en.cue_ats_3, "Download new roles as Excel or a file for your system.");
 });
